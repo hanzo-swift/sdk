@@ -1,0 +1,19 @@
+# ConsoleScoreConfig
+
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**id** | **String** |  | [optional] 
+**name** | **String** |  | [optional] 
+**dataType** | **String** |  | [optional] 
+**categories** | [ConsoleCreateScoreConfigRequestCategoriesInner] |  | [optional] 
+**minValue** | **Double** |  | [optional] 
+**maxValue** | **Double** |  | [optional] 
+**description** | **String** |  | [optional] 
+**isArchived** | **Bool** |  | [optional] 
+**createdAt** | **Date** |  | [optional] 
+**updatedAt** | **Date** |  | [optional] 
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

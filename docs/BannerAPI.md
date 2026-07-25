@@ -1,0 +1,53 @@
+# BannerAPI
+
+All URIs are relative to *https://api.hanzo.ai*
+
+Method | HTTP request | Description
+------------- | ------------- | -------------
+[**chatGetBanner**](BannerAPI.md#chatgetbanner) | **GET** /v1/chat/banner | Get server announcement banner
+
+
+# **chatGetBanner**
+```swift
+    open class func chatGetBanner(completion: @escaping (_ data: AnyCodable?, _ error: Error?) -> Void)
+```
+
+Get server announcement banner
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import Hanzo
+
+
+// Get server announcement banner
+BannerAPI.chatGetBanner() { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+**AnyCodable**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+

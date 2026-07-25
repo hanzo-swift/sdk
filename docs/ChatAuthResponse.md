@@ -1,0 +1,12 @@
+# ChatAuthResponse
+
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**token** | **String** |  | [optional] 
+**refreshToken** | **String** |  | [optional] 
+**user** | [**ChatUser**](ChatUser.md) |  | [optional] 
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+
