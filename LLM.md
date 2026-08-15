@@ -55,13 +55,20 @@ Four facts, each measured on this document rather than guessed:
   so the package has **no dependencies**, where swift5 makes every consumer take
   Flight-School AnyCodable.
 - **Four model renames.** `Result`, `Task`, `Sequence` and `Stream` are names
-  Swift's own modules own. `Result` and `Task` are build failures inside the
-  client: the generated transport writes `Result<URLRequest, Error>` and
-  `Task.checkCancellation()`, and a module-level struct of that name wins lookup
-  over Swift's. `Sequence` and `Stream` compile here and break the consumer —
-  after `import Hanzo` their unqualified use is ambiguous. `Model<Name>` is what
-  the java, kotlin, ruby and php rows already say. `File` is deliberately NOT
-  mapped: Swift has no `File`.
+  Swift's own modules own, and each failure was measured by declaring a struct
+  of that name beside the code that uses Swift's:
+  - `Result`, `Task` — build failures *inside* the client. The transport writes
+    `Result<URLRequest, Error>` and `Task.checkCancellation()`, and the module's
+    own struct wins lookup: *cannot specialize non-generic type 'Result'*, *type
+    'Task' has no member 'checkCancellation'*.
+  - `Sequence` — builds here, breaks the *consumer*, silently: the client's
+    struct wins over the STDLIB protocol in their file, so their `T: Sequence`
+    fails with *constrained to non-protocol, non-class type*.
+  - `Stream` — ties with Foundation's class instead: *'Stream' is ambiguous for
+    type lookup in this context*.
+
+  `Model<Name>` is what the java, kotlin, ruby and php rows already say. `File`
+  is deliberately NOT mapped: Swift has no `File`.
 - **Two property renames.** `o11y.GettableAgentCheckIn` publishes
   `integration_config` beside `integrationConfig` and `removed_at` beside
   `removedAt` so older agents keep working. Swift camel-cases both spellings of
