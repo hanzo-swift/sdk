@@ -6,757 +6,89 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class DocumentsAPI {
 
     /**
-     Cancel a submitted document (docstatus 1→2)
+     Handles DELETE /v1/documents — a JSON array of file_ids.
      
-     - parameter doctype: (path)  
-     - parameter name: (path)  
-     - returns: FrameworkDocument
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func frameworkCancelDocument(doctype: String, name: String) async throws -> FrameworkDocument {
-        return try await frameworkCancelDocumentWithRequestBuilder(doctype: doctype, name: name).execute().body
-    }
-
-    /**
-     Cancel a submitted document (docstatus 1→2)
-     - POST /v1/framework/{doctype}/{name}/cancel
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter doctype: (path)  
-     - parameter name: (path)  
-     - returns: RequestBuilder<FrameworkDocument> 
-     */
-    open class func frameworkCancelDocumentWithRequestBuilder(doctype: String, name: String) -> RequestBuilder<FrameworkDocument> {
-        var localVariablePath = "/v1/framework/{doctype}/{name}/cancel"
-        let doctypePreEscape = "\(APIHelper.mapValueToPathItem(doctype))"
-        let doctypePostEscape = doctypePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{doctype}", with: doctypePostEscape, options: .literal, range: nil)
-        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
-        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<FrameworkDocument>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Create a document
-     
-     - parameter doctype: (path)  
-     - parameter frameworkDocument: (body)  
-     - returns: FrameworkDocument
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func frameworkCreateDocument(doctype: String, frameworkDocument: FrameworkDocument) async throws -> FrameworkDocument {
-        return try await frameworkCreateDocumentWithRequestBuilder(doctype: doctype, frameworkDocument: frameworkDocument).execute().body
-    }
-
-    /**
-     Create a document
-     - POST /v1/framework/{doctype}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter doctype: (path)  
-     - parameter frameworkDocument: (body)  
-     - returns: RequestBuilder<FrameworkDocument> 
-     */
-    open class func frameworkCreateDocumentWithRequestBuilder(doctype: String, frameworkDocument: FrameworkDocument) -> RequestBuilder<FrameworkDocument> {
-        var localVariablePath = "/v1/framework/{doctype}"
-        let doctypePreEscape = "\(APIHelper.mapValueToPathItem(doctype))"
-        let doctypePostEscape = doctypePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{doctype}", with: doctypePostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: frameworkDocument)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<FrameworkDocument>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Delete a document
-     
-     - parameter doctype: (path)  
-     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func frameworkDeleteDocument(doctype: String, name: String) async throws {
-        return try await frameworkDeleteDocumentWithRequestBuilder(doctype: doctype, name: name).execute().body
+    open class func deleteDocuments(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteDocumentsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Delete a document
-     - DELETE /v1/framework/{doctype}/{name}
+     Handles DELETE /v1/documents — a JSON array of file_ids.
+     - DELETE /v1/documents
+     - Handles DELETE /v1/documents — a JSON array of file_ids.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter doctype: (path)  
-     - parameter name: (path)  
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func frameworkDeleteDocumentWithRequestBuilder(doctype: String, name: String) -> RequestBuilder<Void> {
-        var localVariablePath = "/v1/framework/{doctype}/{name}"
-        let doctypePreEscape = "\(APIHelper.mapValueToPathItem(doctype))"
-        let doctypePostEscape = doctypePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{doctype}", with: doctypePostEscape, options: .literal, range: nil)
-        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
-        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func deleteDocumentsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/documents"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = HanzoAPI.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Get a document
+     Handles GET /v1/documents/:file_id/context — every chunk of a file, as LangChain Documents (used when RAG_USE_FULL_CONTEXT is on).
      
-     - parameter doctype: (path)  
-     - parameter name: (path)  
-     - returns: FrameworkDocument
+     - parameter fileId: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func frameworkGetDocument(doctype: String, name: String) async throws -> FrameworkDocument {
-        return try await frameworkGetDocumentWithRequestBuilder(doctype: doctype, name: name).execute().body
+    open class func getDocumentsByFileIdContext(fileId: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getDocumentsByFileIdContextWithRequestBuilder(fileId: fileId, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Get a document
-     - GET /v1/framework/{doctype}/{name}
+     Handles GET /v1/documents/:file_id/context — every chunk of a file, as LangChain Documents (used when RAG_USE_FULL_CONTEXT is on).
+     - GET /v1/documents/{file_id}/context
+     - Handles GET /v1/documents/:file_id/context — every chunk of a file, as LangChain Documents (used when RAG_USE_FULL_CONTEXT is on).
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter doctype: (path)  
-     - parameter name: (path)  
-     - returns: RequestBuilder<FrameworkDocument> 
+       - name: bearer
+     - parameter fileId: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func frameworkGetDocumentWithRequestBuilder(doctype: String, name: String) -> RequestBuilder<FrameworkDocument> {
-        var localVariablePath = "/v1/framework/{doctype}/{name}"
-        let doctypePreEscape = "\(APIHelper.mapValueToPathItem(doctype))"
-        let doctypePostEscape = doctypePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{doctype}", with: doctypePostEscape, options: .literal, range: nil)
-        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
-        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func getDocumentsByFileIdContextWithRequestBuilder(fileId: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/documents/{file_id}/context"
+        let fileIdPreEscape = "\(APIHelper.mapValueToPathItem(fileId))"
+        let fileIdPostEscape = fileIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{file_id}", with: fileIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<FrameworkDocument>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     List documents of a DocType
-     
-     - parameter doctype: (path)  
-     - parameter filters: (query) &#39;JSON object of field→value filters (declared fields, name, or docstatus)&#39; (optional)
-     - parameter fields: (query) Comma list or JSON array of field names to project (optional)
-     - parameter orderBy: (query) field [asc|desc] (optional)
-     - parameter limit: (query)  (optional, default to 100)
-     - returns: FrameworkListDocuments200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func frameworkListDocuments(doctype: String, filters: String? = nil, fields: String? = nil, orderBy: String? = nil, limit: Int? = nil) async throws -> FrameworkListDocuments200Response {
-        return try await frameworkListDocumentsWithRequestBuilder(doctype: doctype, filters: filters, fields: fields, orderBy: orderBy, limit: limit).execute().body
-    }
-
-    /**
-     List documents of a DocType
-     - GET /v1/framework/{doctype}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter doctype: (path)  
-     - parameter filters: (query) &#39;JSON object of field→value filters (declared fields, name, or docstatus)&#39; (optional)
-     - parameter fields: (query) Comma list or JSON array of field names to project (optional)
-     - parameter orderBy: (query) field [asc|desc] (optional)
-     - parameter limit: (query)  (optional, default to 100)
-     - returns: RequestBuilder<FrameworkListDocuments200Response> 
-     */
-    open class func frameworkListDocumentsWithRequestBuilder(doctype: String, filters: String? = nil, fields: String? = nil, orderBy: String? = nil, limit: Int? = nil) -> RequestBuilder<FrameworkListDocuments200Response> {
-        var localVariablePath = "/v1/framework/{doctype}"
-        let doctypePreEscape = "\(APIHelper.mapValueToPathItem(doctype))"
-        let doctypePostEscape = doctypePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{doctype}", with: doctypePostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "filters": (wrappedValue: filters?.encodeToJSON(), isExplode: true),
-            "fields": (wrappedValue: fields?.encodeToJSON(), isExplode: true),
-            "order_by": (wrappedValue: orderBy?.encodeToJSON(), isExplode: true),
-            "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<FrameworkListDocuments200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Submit a document (docstatus 0→1)
-     
-     - parameter doctype: (path)  
-     - parameter name: (path)  
-     - returns: FrameworkDocument
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func frameworkSubmitDocument(doctype: String, name: String) async throws -> FrameworkDocument {
-        return try await frameworkSubmitDocumentWithRequestBuilder(doctype: doctype, name: name).execute().body
-    }
-
-    /**
-     Submit a document (docstatus 0→1)
-     - POST /v1/framework/{doctype}/{name}/submit
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter doctype: (path)  
-     - parameter name: (path)  
-     - returns: RequestBuilder<FrameworkDocument> 
-     */
-    open class func frameworkSubmitDocumentWithRequestBuilder(doctype: String, name: String) -> RequestBuilder<FrameworkDocument> {
-        var localVariablePath = "/v1/framework/{doctype}/{name}/submit"
-        let doctypePreEscape = "\(APIHelper.mapValueToPathItem(doctype))"
-        let doctypePostEscape = doctypePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{doctype}", with: doctypePostEscape, options: .literal, range: nil)
-        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
-        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<FrameworkDocument>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Update a draft document
-     
-     - parameter doctype: (path)  
-     - parameter name: (path)  
-     - parameter frameworkDocument: (body)  
-     - returns: FrameworkDocument
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func frameworkUpdateDocument(doctype: String, name: String, frameworkDocument: FrameworkDocument) async throws -> FrameworkDocument {
-        return try await frameworkUpdateDocumentWithRequestBuilder(doctype: doctype, name: name, frameworkDocument: frameworkDocument).execute().body
-    }
-
-    /**
-     Update a draft document
-     - PUT /v1/framework/{doctype}/{name}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter doctype: (path)  
-     - parameter name: (path)  
-     - parameter frameworkDocument: (body)  
-     - returns: RequestBuilder<FrameworkDocument> 
-     */
-    open class func frameworkUpdateDocumentWithRequestBuilder(doctype: String, name: String, frameworkDocument: FrameworkDocument) -> RequestBuilder<FrameworkDocument> {
-        var localVariablePath = "/v1/framework/{doctype}/{name}"
-        let doctypePreEscape = "\(APIHelper.mapValueToPathItem(doctype))"
-        let doctypePostEscape = doctypePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{doctype}", with: doctypePostEscape, options: .literal, range: nil)
-        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
-        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: frameworkDocument)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<FrameworkDocument>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Add or replace documents
-     
-     - parameter indexUid: (path) Unique index identifier 
-     - parameter requestBody: (body)  
-     - parameter primaryKey: (query) Primary key field name (optional)
-     - returns: SearchSummarizedTaskView
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func searchAddOrReplaceDocuments(indexUid: String, requestBody: [AnyCodable], primaryKey: String? = nil) async throws -> SearchSummarizedTaskView {
-        return try await searchAddOrReplaceDocumentsWithRequestBuilder(indexUid: indexUid, requestBody: requestBody, primaryKey: primaryKey).execute().body
-    }
-
-    /**
-     Add or replace documents
-     - POST /v1/search/indexes/{indexUid}/documents
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter indexUid: (path) Unique index identifier 
-     - parameter requestBody: (body)  
-     - parameter primaryKey: (query) Primary key field name (optional)
-     - returns: RequestBuilder<SearchSummarizedTaskView> 
-     */
-    open class func searchAddOrReplaceDocumentsWithRequestBuilder(indexUid: String, requestBody: [AnyCodable], primaryKey: String? = nil) -> RequestBuilder<SearchSummarizedTaskView> {
-        var localVariablePath = "/v1/search/indexes/{indexUid}/documents"
-        let indexUidPreEscape = "\(APIHelper.mapValueToPathItem(indexUid))"
-        let indexUidPostEscape = indexUidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{indexUid}", with: indexUidPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: requestBody)
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "primaryKey": (wrappedValue: primaryKey?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<SearchSummarizedTaskView>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Add or update documents (partial)
-     
-     - parameter indexUid: (path) Unique index identifier 
-     - parameter requestBody: (body)  
-     - parameter primaryKey: (query)  (optional)
-     - returns: SearchSummarizedTaskView
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func searchAddOrUpdateDocuments(indexUid: String, requestBody: [AnyCodable], primaryKey: String? = nil) async throws -> SearchSummarizedTaskView {
-        return try await searchAddOrUpdateDocumentsWithRequestBuilder(indexUid: indexUid, requestBody: requestBody, primaryKey: primaryKey).execute().body
-    }
-
-    /**
-     Add or update documents (partial)
-     - PUT /v1/search/indexes/{indexUid}/documents
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter indexUid: (path) Unique index identifier 
-     - parameter requestBody: (body)  
-     - parameter primaryKey: (query)  (optional)
-     - returns: RequestBuilder<SearchSummarizedTaskView> 
-     */
-    open class func searchAddOrUpdateDocumentsWithRequestBuilder(indexUid: String, requestBody: [AnyCodable], primaryKey: String? = nil) -> RequestBuilder<SearchSummarizedTaskView> {
-        var localVariablePath = "/v1/search/indexes/{indexUid}/documents"
-        let indexUidPreEscape = "\(APIHelper.mapValueToPathItem(indexUid))"
-        let indexUidPostEscape = indexUidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{indexUid}", with: indexUidPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: requestBody)
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "primaryKey": (wrappedValue: primaryKey?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<SearchSummarizedTaskView>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Delete all documents in the index
-     
-     - parameter indexUid: (path) Unique index identifier 
-     - returns: SearchSummarizedTaskView
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func searchDeleteAllDocuments(indexUid: String) async throws -> SearchSummarizedTaskView {
-        return try await searchDeleteAllDocumentsWithRequestBuilder(indexUid: indexUid).execute().body
-    }
-
-    /**
-     Delete all documents in the index
-     - DELETE /v1/search/indexes/{indexUid}/documents
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter indexUid: (path) Unique index identifier 
-     - returns: RequestBuilder<SearchSummarizedTaskView> 
-     */
-    open class func searchDeleteAllDocumentsWithRequestBuilder(indexUid: String) -> RequestBuilder<SearchSummarizedTaskView> {
-        var localVariablePath = "/v1/search/indexes/{indexUid}/documents"
-        let indexUidPreEscape = "\(APIHelper.mapValueToPathItem(indexUid))"
-        let indexUidPostEscape = indexUidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{indexUid}", with: indexUidPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<SearchSummarizedTaskView>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Delete a single document
-     
-     - parameter indexUid: (path) Unique index identifier 
-     - parameter documentId: (path)  
-     - returns: SearchSummarizedTaskView
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func searchDeleteDocument(indexUid: String, documentId: String) async throws -> SearchSummarizedTaskView {
-        return try await searchDeleteDocumentWithRequestBuilder(indexUid: indexUid, documentId: documentId).execute().body
-    }
-
-    /**
-     Delete a single document
-     - DELETE /v1/search/indexes/{indexUid}/documents/{documentId}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter indexUid: (path) Unique index identifier 
-     - parameter documentId: (path)  
-     - returns: RequestBuilder<SearchSummarizedTaskView> 
-     */
-    open class func searchDeleteDocumentWithRequestBuilder(indexUid: String, documentId: String) -> RequestBuilder<SearchSummarizedTaskView> {
-        var localVariablePath = "/v1/search/indexes/{indexUid}/documents/{documentId}"
-        let indexUidPreEscape = "\(APIHelper.mapValueToPathItem(indexUid))"
-        let indexUidPostEscape = indexUidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{indexUid}", with: indexUidPostEscape, options: .literal, range: nil)
-        let documentIdPreEscape = "\(APIHelper.mapValueToPathItem(documentId))"
-        let documentIdPostEscape = documentIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{documentId}", with: documentIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<SearchSummarizedTaskView>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Delete documents by IDs
-     
-     - parameter indexUid: (path) Unique index identifier 
-     - parameter requestBody: (body)  
-     - returns: SearchSummarizedTaskView
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func searchDeleteDocumentsBatch(indexUid: String, requestBody: [String]) async throws -> SearchSummarizedTaskView {
-        return try await searchDeleteDocumentsBatchWithRequestBuilder(indexUid: indexUid, requestBody: requestBody).execute().body
-    }
-
-    /**
-     Delete documents by IDs
-     - POST /v1/search/indexes/{indexUid}/documents/delete-batch
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter indexUid: (path) Unique index identifier 
-     - parameter requestBody: (body)  
-     - returns: RequestBuilder<SearchSummarizedTaskView> 
-     */
-    open class func searchDeleteDocumentsBatchWithRequestBuilder(indexUid: String, requestBody: [String]) -> RequestBuilder<SearchSummarizedTaskView> {
-        var localVariablePath = "/v1/search/indexes/{indexUid}/documents/delete-batch"
-        let indexUidPreEscape = "\(APIHelper.mapValueToPathItem(indexUid))"
-        let indexUidPostEscape = indexUidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{indexUid}", with: indexUidPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: requestBody)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<SearchSummarizedTaskView>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Delete documents by filter
-     
-     - parameter indexUid: (path) Unique index identifier 
-     - parameter searchDeleteDocumentsByFilterRequest: (body)  
-     - returns: SearchSummarizedTaskView
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func searchDeleteDocumentsByFilter(indexUid: String, searchDeleteDocumentsByFilterRequest: SearchDeleteDocumentsByFilterRequest) async throws -> SearchSummarizedTaskView {
-        return try await searchDeleteDocumentsByFilterWithRequestBuilder(indexUid: indexUid, searchDeleteDocumentsByFilterRequest: searchDeleteDocumentsByFilterRequest).execute().body
-    }
-
-    /**
-     Delete documents by filter
-     - POST /v1/search/indexes/{indexUid}/documents/delete
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter indexUid: (path) Unique index identifier 
-     - parameter searchDeleteDocumentsByFilterRequest: (body)  
-     - returns: RequestBuilder<SearchSummarizedTaskView> 
-     */
-    open class func searchDeleteDocumentsByFilterWithRequestBuilder(indexUid: String, searchDeleteDocumentsByFilterRequest: SearchDeleteDocumentsByFilterRequest) -> RequestBuilder<SearchSummarizedTaskView> {
-        var localVariablePath = "/v1/search/indexes/{indexUid}/documents/delete"
-        let indexUidPreEscape = "\(APIHelper.mapValueToPathItem(indexUid))"
-        let indexUidPostEscape = indexUidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{indexUid}", with: indexUidPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: searchDeleteDocumentsByFilterRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<SearchSummarizedTaskView>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Edit documents using a function
-     
-     - parameter indexUid: (path) Unique index identifier 
-     - parameter searchEditDocumentsByFunctionRequest: (body)  
-     - returns: SearchSummarizedTaskView
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func searchEditDocumentsByFunction(indexUid: String, searchEditDocumentsByFunctionRequest: SearchEditDocumentsByFunctionRequest) async throws -> SearchSummarizedTaskView {
-        return try await searchEditDocumentsByFunctionWithRequestBuilder(indexUid: indexUid, searchEditDocumentsByFunctionRequest: searchEditDocumentsByFunctionRequest).execute().body
-    }
-
-    /**
-     Edit documents using a function
-     - POST /v1/search/indexes/{indexUid}/documents/edit
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter indexUid: (path) Unique index identifier 
-     - parameter searchEditDocumentsByFunctionRequest: (body)  
-     - returns: RequestBuilder<SearchSummarizedTaskView> 
-     */
-    open class func searchEditDocumentsByFunctionWithRequestBuilder(indexUid: String, searchEditDocumentsByFunctionRequest: SearchEditDocumentsByFunctionRequest) -> RequestBuilder<SearchSummarizedTaskView> {
-        var localVariablePath = "/v1/search/indexes/{indexUid}/documents/edit"
-        let indexUidPreEscape = "\(APIHelper.mapValueToPathItem(indexUid))"
-        let indexUidPostEscape = indexUidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{indexUid}", with: indexUidPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: searchEditDocumentsByFunctionRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<SearchSummarizedTaskView>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get a single document
-     
-     - parameter indexUid: (path) Unique index identifier 
-     - parameter documentId: (path)  
-     - parameter fields: (query)  (optional)
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func searchGetDocument(indexUid: String, documentId: String, fields: String? = nil) async throws -> AnyCodable {
-        return try await searchGetDocumentWithRequestBuilder(indexUid: indexUid, documentId: documentId, fields: fields).execute().body
-    }
-
-    /**
-     Get a single document
-     - GET /v1/search/indexes/{indexUid}/documents/{documentId}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter indexUid: (path) Unique index identifier 
-     - parameter documentId: (path)  
-     - parameter fields: (query)  (optional)
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func searchGetDocumentWithRequestBuilder(indexUid: String, documentId: String, fields: String? = nil) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/search/indexes/{indexUid}/documents/{documentId}"
-        let indexUidPreEscape = "\(APIHelper.mapValueToPathItem(indexUid))"
-        let indexUidPostEscape = indexUidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{indexUid}", with: indexUidPostEscape, options: .literal, range: nil)
-        let documentIdPreEscape = "\(APIHelper.mapValueToPathItem(documentId))"
-        let documentIdPostEscape = documentIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{documentId}", with: documentIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "fields": (wrappedValue: fields?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Browse documents
-     
-     - parameter indexUid: (path) Unique index identifier 
-     - parameter offset: (query)  (optional, default to 0)
-     - parameter limit: (query)  (optional, default to 20)
-     - parameter fields: (query) Comma-separated fields to return (optional)
-     - parameter filter: (query)  (optional)
-     - returns: SearchPaginatedDocuments
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func searchGetDocuments(indexUid: String, offset: Int? = nil, limit: Int? = nil, fields: String? = nil, filter: String? = nil) async throws -> SearchPaginatedDocuments {
-        return try await searchGetDocumentsWithRequestBuilder(indexUid: indexUid, offset: offset, limit: limit, fields: fields, filter: filter).execute().body
-    }
-
-    /**
-     Browse documents
-     - GET /v1/search/indexes/{indexUid}/documents
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter indexUid: (path) Unique index identifier 
-     - parameter offset: (query)  (optional, default to 0)
-     - parameter limit: (query)  (optional, default to 20)
-     - parameter fields: (query) Comma-separated fields to return (optional)
-     - parameter filter: (query)  (optional)
-     - returns: RequestBuilder<SearchPaginatedDocuments> 
-     */
-    open class func searchGetDocumentsWithRequestBuilder(indexUid: String, offset: Int? = nil, limit: Int? = nil, fields: String? = nil, filter: String? = nil) -> RequestBuilder<SearchPaginatedDocuments> {
-        var localVariablePath = "/v1/search/indexes/{indexUid}/documents"
-        let indexUidPreEscape = "\(APIHelper.mapValueToPathItem(indexUid))"
-        let indexUidPostEscape = indexUidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{indexUid}", with: indexUidPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "offset": (wrappedValue: offset?.encodeToJSON(), isExplode: true),
-            "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
-            "fields": (wrappedValue: fields?.encodeToJSON(), isExplode: true),
-            "filter": (wrappedValue: filter?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<SearchPaginatedDocuments>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

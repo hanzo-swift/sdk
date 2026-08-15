@@ -6,75 +6,388 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class FlagsAPI {
 
     /**
-     Get feature flags and configuration
+     Removes one flag definition by key and records the deletion in the change log.
      
-     - returns: AnyCodable
+     - parameter key: (path) Key is the flag key to act on, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: DeletedOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func autoGetFlags() async throws -> AnyCodable {
-        return try await autoGetFlagsWithRequestBuilder().execute().body
+    open class func deleteFlagsDefsByKey(key: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> DeletedOut {
+        return try await deleteFlagsDefsByKeyWithRequestBuilder(key: key, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Get feature flags and configuration
-     - GET /v1/auto/flags
-     - returns: RequestBuilder<AnyCodable> 
+     Removes one flag definition by key and records the deletion in the change log.
+     - DELETE /v1/flags/defs/{key}
+     - Removes one flag definition by key and records the deletion in the change log. A key the caller's store does not hold is a 404.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter key: (path) Key is the flag key to act on, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<DeletedOut> 
      */
-    open class func autoGetFlagsWithRequestBuilder() -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/auto/flags"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func deleteFlagsDefsByKeyWithRequestBuilder(key: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<DeletedOut> {
+        var localVariablePath = "/v1/flags/defs/{key}"
+        let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
+        let keyPostEscape = keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{key}", with: keyPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<DeletedOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Get feature flags and configuration
+     Returns the caller's flag change log newest-first: every create, update and delete, with the actor and the time.
      
-     - returns: AnyCodable
+     - parameter limit: (query) Limit caps the rows returned. 1–500; anything else takes the default 100. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ActivityOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func flowGetFlags() async throws -> AnyCodable {
-        return try await flowGetFlagsWithRequestBuilder().execute().body
+    open class func getFlagsActivity(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ActivityOut {
+        return try await getFlagsActivityWithRequestBuilder(limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Get feature flags and configuration
-     - GET /v1/flow/flags
-     - returns: RequestBuilder<AnyCodable> 
+     Returns the caller's flag change log newest-first: every create, update and delete, with the actor and the time.
+     - GET /v1/flags/activity
+     - Returns the caller's flag change log newest-first: every create, update and delete, with the actor and the time.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter limit: (query) Limit caps the rows returned. 1–500; anything else takes the default 100. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ActivityOut> 
      */
-    open class func flowGetFlagsWithRequestBuilder() -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/flow/flags"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func getFlagsActivityWithRequestBuilder(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ActivityOut> {
+        let localVariablePath = "/v1/flags/activity"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ActivityOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns every flag definition in the caller's (org, project) store, by key, with its version and who last changed it.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: DefsOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getFlagsDefs(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> DefsOut {
+        return try await getFlagsDefsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns every flag definition in the caller's (org, project) store, by key, with its version and who last changed it.
+     - GET /v1/flags/defs
+     - Returns every flag definition in the caller's (org, project) store, by key, with its version and who last changed it.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<DefsOut> 
+     */
+    open class func getFlagsDefsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<DefsOut> {
+        let localVariablePath = "/v1/flags/defs"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<DefsOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns one flag definition by key, or 404 when the caller's store has none under that key.
+     
+     - parameter key: (path) Key is the flag key to act on, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: DefRow
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getFlagsDefsByKey(key: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> DefRow {
+        return try await getFlagsDefsByKeyWithRequestBuilder(key: key, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns one flag definition by key, or 404 when the caller's store has none under that key.
+     - GET /v1/flags/defs/{key}
+     - Returns one flag definition by key, or 404 when the caller's store has none under that key.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter key: (path) Key is the flag key to act on, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<DefRow> 
+     */
+    open class func getFlagsDefsByKeyWithRequestBuilder(key: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<DefRow> {
+        var localVariablePath = "/v1/flags/defs/{key}"
+        let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
+        let keyPostEscape = keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{key}", with: keyPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<DefRow>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Health reports that the flag engine is serving.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: HealthOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getFlagsHealth(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> HealthOut {
+        return try await getFlagsHealthWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Health reports that the flag engine is serving.
+     - GET /v1/flags/health
+     - Health reports that the flag engine is serving. It is not gated: liveness must be probe-able without a token.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<HealthOut> 
+     */
+    open class func getFlagsHealthWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<HealthOut> {
+        let localVariablePath = "/v1/flags/health"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<HealthOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Reports whether ONE host is currently gated by the launch waitlist.
+     
+     - parameter host: (query) Host is the host to resolve, e.g. \&quot;chat.hanzo.ai\&quot;. Defaults to the request&#39;s own Host header when omitted, which is what lets a guard running on the governed host ask about itself with no argument. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: WaitlistModeView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getFlagsWaitlist(host: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> WaitlistModeView {
+        return try await getFlagsWaitlistWithRequestBuilder(host: host, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Reports whether ONE host is currently gated by the launch waitlist.
+     - GET /v1/flags/waitlist
+     - Reports whether ONE host is currently gated by the launch waitlist. It resolves the host to the service that governs it and reads that service's waitlist switch, so a guard sitting in front of a hosted surface can decide in one call whether to show the waitlist or the product. It answers for the ONE host asked about and never enumerates the registry, which is why it needs no credential. It FAILS OPEN: an unregistered host, an unmounted registry and a store fault all answer known=false with mode=false, so a request is never gated pre-boot or on a registry fault.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter host: (query) Host is the host to resolve, e.g. \&quot;chat.hanzo.ai\&quot;. Defaults to the request&#39;s own Host header when omitted, which is what lets a guard running on the governed host ask about itself with no argument. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<WaitlistModeView> 
+     */
+    open class func getFlagsWaitlistWithRequestBuilder(host: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<WaitlistModeView> {
+        let localVariablePath = "/v1/flags/waitlist"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "host": (wrappedValue: host?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<WaitlistModeView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Evaluate runs the caller's flag definitions for one identity and returns the flag verdict: which flags are on (or which variant), their payloads, and whether any definition failed to compute.
+     
+     - parameter evaluateIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: JSONValue
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postFlags(evaluateIn: EvaluateIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> JSONValue {
+        return try await postFlagsWithRequestBuilder(evaluateIn: evaluateIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Evaluate runs the caller's flag definitions for one identity and returns the flag verdict: which flags are on (or which variant), their payloads, and whether any definition failed to compute.
+     - POST /v1/flags
+     - Evaluate runs the caller's flag definitions for one identity and returns the flag verdict: which flags are on (or which variant), their payloads, and whether any definition failed to compute. Evaluation is in-process over the caller's own (org, project) definitions — no network hop, no shared KV — so a tenant can only ever evaluate its own flags.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter evaluateIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<JSONValue> 
+     */
+    open class func postFlagsWithRequestBuilder(evaluateIn: EvaluateIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<JSONValue> {
+        let localVariablePath = "/v1/flags"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: evaluateIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<JSONValue>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Evaluate runs the caller's flag definitions for one identity and returns the flag verdict: which flags are on (or which variant), their payloads, and whether any definition failed to compute.
+     
+     - parameter evaluateIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: JSONValue
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postFlagsDecide(evaluateIn: EvaluateIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> JSONValue {
+        return try await postFlagsDecideWithRequestBuilder(evaluateIn: evaluateIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Evaluate runs the caller's flag definitions for one identity and returns the flag verdict: which flags are on (or which variant), their payloads, and whether any definition failed to compute.
+     - POST /v1/flags/decide
+     - Evaluate runs the caller's flag definitions for one identity and returns the flag verdict: which flags are on (or which variant), their payloads, and whether any definition failed to compute. Evaluation is in-process over the caller's own (org, project) definitions — no network hop, no shared KV — so a tenant can only ever evaluate its own flags.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter evaluateIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<JSONValue> 
+     */
+    open class func postFlagsDecideWithRequestBuilder(evaluateIn: EvaluateIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<JSONValue> {
+        let localVariablePath = "/v1/flags/decide"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: evaluateIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<JSONValue>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Creates or replaces the flag definition at the path's key and returns the stored row.
+     
+     - parameter key: (path) Key is the flag key to write, from the path. 
+     - parameter body: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: DefRow
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func putFlagsDefsByKey(key: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> DefRow {
+        return try await putFlagsDefsByKeyWithRequestBuilder(key: key, body: body, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Creates or replaces the flag definition at the path's key and returns the stored row.
+     - PUT /v1/flags/defs/{key}
+     - Creates or replaces the flag definition at the path's key and returns the stored row. The BODY IS THE DEFINITION DOCUMENT — the flag-definition JSON object the evaluator consumes — and it is stored verbatim except that its \"key\" is forced to the key in the URL, so a document can never be filed under a name other than the one it was addressed by. Every write bumps the version and appends to the change log under the caller's identity.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter key: (path) Key is the flag key to write, from the path. 
+     - parameter body: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<DefRow> 
+     */
+    open class func putFlagsDefsByKeyWithRequestBuilder(key: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<DefRow> {
+        var localVariablePath = "/v1/flags/defs/{key}"
+        let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
+        let keyPostEscape = keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{key}", with: keyPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<DefRow>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

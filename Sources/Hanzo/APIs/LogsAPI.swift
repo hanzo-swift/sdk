@@ -6,338 +6,123 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class LogsAPI {
 
     /**
-     * enum for parameter level
-     */
-    public enum Level_edgeGetFunctionLogs: String, CaseIterable {
-        case info = "info"
-        case warn = "warn"
-        case error = "error"
-        case debug = "debug"
-    }
-
-    /**
-     Get function logs
+     How many log records this deployment holds for your org
      
-     - parameter slug: (path)  
-     - parameter since: (query) Return logs after this timestamp (optional)
-     - parameter until: (query)  (optional)
-     - parameter level: (query)  (optional)
-     - parameter limit: (query)  (optional, default to 100)
-     - returns: [EdgeLogEntry]
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func edgeGetFunctionLogs(slug: String, since: Date? = nil, until: Date? = nil, level: Level_edgeGetFunctionLogs? = nil, limit: Int? = nil) async throws -> [EdgeLogEntry] {
-        return try await edgeGetFunctionLogsWithRequestBuilder(slug: slug, since: since, until: until, level: level, limit: limit).execute().body
+    open class func getLogsHealth(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getLogsHealthWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Get function logs
-     - GET /v1/edge/functions/{slug}/logs
-     - Returns function execution logs. Supports SSE streaming via Accept: text/event-stream header for live tailing. 
+     How many log records this deployment holds for your org
+     - GET /v1/logs/health
+     - Reports the native log store's live state for the calling tenant: the subsystem version and `records`, the count actually held right now rather than a constant. Not a dependency probe — the store is in-process, so this answers 200 whenever the process is up.  The tenant is the gateway-minted `X-Org-Id` header, falling back to the deployment brand and then `default`.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter slug: (path)  
-     - parameter since: (query) Return logs after this timestamp (optional)
-     - parameter until: (query)  (optional)
-     - parameter level: (query)  (optional)
-     - parameter limit: (query)  (optional, default to 100)
-     - returns: RequestBuilder<[EdgeLogEntry]> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func edgeGetFunctionLogsWithRequestBuilder(slug: String, since: Date? = nil, until: Date? = nil, level: Level_edgeGetFunctionLogs? = nil, limit: Int? = nil) -> RequestBuilder<[EdgeLogEntry]> {
-        var localVariablePath = "/v1/edge/functions/{slug}/logs"
-        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
-        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "since": (wrappedValue: since?.encodeToJSON(), isExplode: true),
-            "until": (wrappedValue: until?.encodeToJSON(), isExplode: true),
-            "level": (wrappedValue: level?.encodeToJSON(), isExplode: true),
-            "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<[EdgeLogEntry]>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Live org-scoped log stream for a product
-     
-     - parameter product: (query) Console product slug. Must match &#x60;^[a-z0-9][a-z0-9._-]{0,62}$&#x60;. 
-     - parameter sinceNs: (query) Nanosecond cursor from the prior response&#39;s &#x60;nextCursor&#x60;; 0/absent starts a fresh window. (optional)
-     - parameter window: (query) Initial look-back window in seconds when no cursor is supplied (default 900, max 86400). (optional, default to 900)
-     - parameter limit: (query) Max lines returned (default 200, max 1000). (optional, default to 200)
-     - returns: ObserveLogsResponse
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func observeGetLogs(product: String, sinceNs: Int64? = nil, window: Int? = nil, limit: Int? = nil) async throws -> ObserveLogsResponse {
-        return try await observeGetLogsWithRequestBuilder(product: product, sinceNs: sinceNs, window: window, limit: limit).execute().body
-    }
-
-    /**
-     Live org-scoped log stream for a product
-     - GET /v1/o11y/logs
-     - Returns a live, org-scoped log stream for a product. The admin org (`IAM_ADMIN_ORG`) receives the product's raw infra stdout stream (`view: infra`); every other org receives its OWN request log stream derived from org-tagged spans (`view: request`). Live-tail by polling with `sinceNs` set to the prior response's `nextCursor`; absent a cursor, the last `window` seconds are returned. Every query is LIMIT-bounded. 
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter product: (query) Console product slug. Must match &#x60;^[a-z0-9][a-z0-9._-]{0,62}$&#x60;. 
-     - parameter sinceNs: (query) Nanosecond cursor from the prior response&#39;s &#x60;nextCursor&#x60;; 0/absent starts a fresh window. (optional)
-     - parameter window: (query) Initial look-back window in seconds when no cursor is supplied (default 900, max 86400). (optional, default to 900)
-     - parameter limit: (query) Max lines returned (default 200, max 1000). (optional, default to 200)
-     - returns: RequestBuilder<ObserveLogsResponse> 
-     */
-    open class func observeGetLogsWithRequestBuilder(product: String, sinceNs: Int64? = nil, window: Int? = nil, limit: Int? = nil) -> RequestBuilder<ObserveLogsResponse> {
-        let localVariablePath = "/v1/o11y/logs"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "product": (wrappedValue: product.encodeToJSON(), isExplode: true),
-            "sinceNs": (wrappedValue: sinceNs?.encodeToJSON(), isExplode: true),
-            "window": (wrappedValue: window?.encodeToJSON(), isExplode: true),
-            "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ObserveLogsResponse>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get container logs
-     
-     - parameter orgId: (path)  
-     - parameter projectId: (path)  
-     - parameter envId: (path)  
-     - parameter containerId: (path)  
-     - parameter tail: (query)  (optional, default to 100)
-     - parameter follow: (query)  (optional, default to false)
-     - returns: String
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func paasGetContainerLogs(orgId: String, projectId: String, envId: String, containerId: String, tail: Int? = nil, follow: Bool? = nil) async throws -> String {
-        return try await paasGetContainerLogsWithRequestBuilder(orgId: orgId, projectId: projectId, envId: envId, containerId: containerId, tail: tail, follow: follow).execute().body
-    }
-
-    /**
-     Get container logs
-     - GET /v1/paas/org/{orgId}/project/{projectId}/env/{envId}/containers/{containerId}/logs
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter orgId: (path)  
-     - parameter projectId: (path)  
-     - parameter envId: (path)  
-     - parameter containerId: (path)  
-     - parameter tail: (query)  (optional, default to 100)
-     - parameter follow: (query)  (optional, default to false)
-     - returns: RequestBuilder<String> 
-     */
-    open class func paasGetContainerLogsWithRequestBuilder(orgId: String, projectId: String, envId: String, containerId: String, tail: Int? = nil, follow: Bool? = nil) -> RequestBuilder<String> {
-        var localVariablePath = "/v1/paas/org/{orgId}/project/{projectId}/env/{envId}/containers/{containerId}/logs"
-        let orgIdPreEscape = "\(APIHelper.mapValueToPathItem(orgId))"
-        let orgIdPostEscape = orgIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{orgId}", with: orgIdPostEscape, options: .literal, range: nil)
-        let projectIdPreEscape = "\(APIHelper.mapValueToPathItem(projectId))"
-        let projectIdPostEscape = projectIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{projectId}", with: projectIdPostEscape, options: .literal, range: nil)
-        let envIdPreEscape = "\(APIHelper.mapValueToPathItem(envId))"
-        let envIdPostEscape = envIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{envId}", with: envIdPostEscape, options: .literal, range: nil)
-        let containerIdPreEscape = "\(APIHelper.mapValueToPathItem(containerId))"
-        let containerIdPostEscape = containerIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{containerId}", with: containerIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "tail": (wrappedValue: tail?.encodeToJSON(), isExplode: true),
-            "follow": (wrappedValue: follow?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<String>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get stderr log configuration
-     
-     - returns: SearchGetStderrLogs200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func searchGetStderrLogs() async throws -> SearchGetStderrLogs200Response {
-        return try await searchGetStderrLogsWithRequestBuilder().execute().body
-    }
-
-    /**
-     Get stderr log configuration
-     - GET /v1/search/logs/stderr
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<SearchGetStderrLogs200Response> 
-     */
-    open class func searchGetStderrLogsWithRequestBuilder() -> RequestBuilder<SearchGetStderrLogs200Response> {
-        let localVariablePath = "/v1/search/logs/stderr"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func getLogsHealthWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/logs/health"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<SearchGetStderrLogs200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Reset stderr log level to default
+     Search your org's logs by label, time and substring
      
-     - returns: SearchGetStderrLogs200Response
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func searchResetStderrLogs() async throws -> SearchGetStderrLogs200Response {
-        return try await searchResetStderrLogsWithRequestBuilder().execute().body
+    open class func getLogsQuery(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getLogsQueryWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Reset stderr log level to default
-     - DELETE /v1/search/logs/stderr
+     Search your org's logs by label, time and substring
+     - GET /v1/logs/query
+     - Answers `{count, records}`, newest first. `match` is the same `k=v,k2=v2` superset label matcher the metrics query uses; `contains` is a case-insensitive substring test against the record body; `start` and `end` are nanosecond bounds.  A bound that is absent, empty or unparseable becomes 0, which means UNBOUNDED — a malformed `start` widens the search rather than failing it. `limit` caps the page and defaults to 100 when absent or non-positive, so an unfiltered read is never the whole ring.  The tenant is the gateway-minted `X-Org-Id` header, falling back to the deployment brand and then `default`, so a search can only reach the org the edge asserted.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<SearchGetStderrLogs200Response> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func searchResetStderrLogsWithRequestBuilder() -> RequestBuilder<SearchGetStderrLogs200Response> {
-        let localVariablePath = "/v1/search/logs/stderr"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func getLogsQueryWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/logs/query"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<SearchGetStderrLogs200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Stream logs
+     Append structured log records for your org
      
-     - parameter searchStreamLogsRequest: (body)  
-     - returns: String
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func searchStreamLogs(searchStreamLogsRequest: SearchStreamLogsRequest) async throws -> String {
-        return try await searchStreamLogsWithRequestBuilder(searchStreamLogsRequest: searchStreamLogsRequest).execute().body
+    open class func postLogsWrite(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postLogsWriteWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Stream logs
-     - POST /v1/search/logs/stream
+     Append structured log records for your org
+     - POST /v1/logs/write
+     - Takes `{records:[{t, level, body, labels}]}`, appends each one, and answers `{written}`. Bodies are stored verbatim; `labels` are the indexed dimensions a query filters on, so what you do not label you can only find by substring.  `t` is NANOSECONDS since the Unix epoch. A record sent without one is stored at 0 and then falls outside any query carrying a lower bound — the usual reason a successful write does not read back. Retention is a bounded ring, 1048576 records per org, oldest evicted first. No record is validated or rejected, so `written` is the number of records SENT; only a body that does not decode at all is 400.  The tenant is the gateway-minted `X-Org-Id` header, falling back to the deployment brand and then `default`; each org's records live in its own WAL-durable store.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter searchStreamLogsRequest: (body)  
-     - returns: RequestBuilder<String> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func searchStreamLogsWithRequestBuilder(searchStreamLogsRequest: SearchStreamLogsRequest) -> RequestBuilder<String> {
-        let localVariablePath = "/v1/search/logs/stream"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: searchStreamLogsRequest)
+    open class func postLogsWriteWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/logs/write"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<String>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Update stderr log level
-     
-     - parameter searchUpdateStderrLogsRequest: (body)  
-     - returns: SearchGetStderrLogs200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func searchUpdateStderrLogs(searchUpdateStderrLogsRequest: SearchUpdateStderrLogsRequest) async throws -> SearchGetStderrLogs200Response {
-        return try await searchUpdateStderrLogsWithRequestBuilder(searchUpdateStderrLogsRequest: searchUpdateStderrLogsRequest).execute().body
-    }
-
-    /**
-     Update stderr log level
-     - PUT /v1/search/logs/stderr
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter searchUpdateStderrLogsRequest: (body)  
-     - returns: RequestBuilder<SearchGetStderrLogs200Response> 
-     */
-    open class func searchUpdateStderrLogsWithRequestBuilder(searchUpdateStderrLogsRequest: SearchUpdateStderrLogsRequest) -> RequestBuilder<SearchGetStderrLogs200Response> {
-        let localVariablePath = "/v1/search/logs/stderr"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: searchUpdateStderrLogsRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<SearchGetStderrLogs200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

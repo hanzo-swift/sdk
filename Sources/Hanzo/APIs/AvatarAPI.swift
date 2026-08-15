@@ -6,208 +6,99 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class AvatarAPI {
 
     /**
-     Upload assistant avatar (v2)
+     Fetch a profile photo
      
-     - parameter assistantId: (path)  
-     - parameter file: (form)  (optional)
-     - parameter metadata: (form)  (optional)
-     - returns: AnyCodable
+     - parameter org: (path)  
+     - parameter user: (path)  
+     - parameter digest: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatPostAssistantsV2AvatarByassistantId(assistantId: String, file: URL? = nil, metadata: String? = nil) async throws -> AnyCodable {
-        return try await chatPostAssistantsV2AvatarByassistantIdWithRequestBuilder(assistantId: assistantId, file: file, metadata: metadata).execute().body
+    open class func getAvatarByOrgByUserByDigest(org: String, user: String, digest: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getAvatarByOrgByUserByDigestWithRequestBuilder(org: org, user: user, digest: digest, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Upload assistant avatar (v2)
-     - POST /v1/chat/assistants/v2/avatar/{assistant_id}
+     Fetch a profile photo
+     - GET /v1/avatar/{org}/{user}/{digest}
+     - Streams a profile photo's raw BYTES. This is the address stored on the user's IAM record and rendered directly by an `<img>`, so it takes no credentials — the 64-hex content digest in the path is the capability, and it can only be produced by someone who already has the image.  The Content-Type is derived from the stored bytes and the response carries nosniff, so only a real raster image is ever served and only under its true type. Anything else — a miss, a malformed path, an object that is not an image — is one 404, and a hit caches for a year because the address is the content.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter assistantId: (path)  
-     - parameter file: (form)  (optional)
-     - parameter metadata: (form)  (optional)
-     - returns: RequestBuilder<AnyCodable> 
+       - name: bearer
+     - parameter org: (path)  
+     - parameter user: (path)  
+     - parameter digest: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func chatPostAssistantsV2AvatarByassistantIdWithRequestBuilder(assistantId: String, file: URL? = nil, metadata: String? = nil) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/chat/assistants/v2/avatar/{assistant_id}"
-        let assistantIdPreEscape = "\(APIHelper.mapValueToPathItem(assistantId))"
-        let assistantIdPostEscape = assistantIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{assistant_id}", with: assistantIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableFormParams: [String: Any?] = [
-            "file": file?.encodeToJSON(),
-            "metadata": metadata?.encodeToJSON(),
-        ]
-
-        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
-        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
+    open class func getAvatarByOrgByUserByDigestWithRequestBuilder(org: String, user: String, digest: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/avatar/{org}/{user}/{digest}"
+        let orgPreEscape = "\(APIHelper.mapValueToPathItem(org))"
+        let orgPostEscape = orgPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{org}", with: orgPostEscape, options: .literal, range: nil)
+        let userPreEscape = "\(APIHelper.mapValueToPathItem(user))"
+        let userPostEscape = userPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{user}", with: userPostEscape, options: .literal, range: nil)
+        let digestPreEscape = "\(APIHelper.mapValueToPathItem(digest))"
+        let digestPostEscape = digestPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{digest}", with: digestPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "multipart/form-data",
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Upload agent avatar
+     Set your profile photo
      
-     - parameter agentId: (path)  
-     - parameter file: (form)  
-     - parameter metadata: (form)  (optional)
-     - returns: AnyCodable
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatPostFilesImagesAgentsByagentIdAvatar(agentId: String, file: URL, metadata: String? = nil) async throws -> AnyCodable {
-        return try await chatPostFilesImagesAgentsByagentIdAvatarWithRequestBuilder(agentId: agentId, file: file, metadata: metadata).execute().body
+    open class func postAvatar(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAvatarWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Upload agent avatar
-     - POST /v1/chat/files/images/agents/{agent_id}/avatar
+     Set your profile photo
+     - POST /v1/avatar
+     - Stores one image as the signed-in user's profile photo and answers the URL it is served from, which is also written to the user's IAM record — so every surface that already renders `avatar` picks it up with no further call.  The body is a multipart form with a `file` part. The format is decided by the BYTES, never the filename or the part's Content-Type: png, jpeg, gif and webp are accepted and everything else is refused with 415, so an SVG cannot be stored as a picture and later served as a program. Over 8 MiB is 413; empty is 400.  The photo is addressed by the sha256 of its bytes, so setting a new one yields a new URL rather than a stale cache of the old face. The caller is taken from the validated identity ONLY — there is no way to name a different subject — so this always sets your own photo, and a caller with no organization yet is refused.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter agentId: (path)  
-     - parameter file: (form)  
-     - parameter metadata: (form)  (optional)
-     - returns: RequestBuilder<AnyCodable> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func chatPostFilesImagesAgentsByagentIdAvatarWithRequestBuilder(agentId: String, file: URL, metadata: String? = nil) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/chat/files/images/agents/{agent_id}/avatar"
-        let agentIdPreEscape = "\(APIHelper.mapValueToPathItem(agentId))"
-        let agentIdPostEscape = agentIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{agent_id}", with: agentIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableFormParams: [String: Any?] = [
-            "file": file.encodeToJSON(),
-            "metadata": metadata?.encodeToJSON(),
-        ]
-
-        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
-        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
+    open class func postAvatarWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/avatar"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "multipart/form-data",
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Upload assistant avatar (v1)
-     
-     - parameter assistantId: (path)  
-     - parameter file: (form)  
-     - parameter metadata: (form)  (optional)
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatPostFilesImagesAssistantsByassistantIdAvatar(assistantId: String, file: URL, metadata: String? = nil) async throws -> AnyCodable {
-        return try await chatPostFilesImagesAssistantsByassistantIdAvatarWithRequestBuilder(assistantId: assistantId, file: file, metadata: metadata).execute().body
-    }
-
-    /**
-     Upload assistant avatar (v1)
-     - POST /v1/chat/files/images/assistants/{assistant_id}/avatar
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter assistantId: (path)  
-     - parameter file: (form)  
-     - parameter metadata: (form)  (optional)
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func chatPostFilesImagesAssistantsByassistantIdAvatarWithRequestBuilder(assistantId: String, file: URL, metadata: String? = nil) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/chat/files/images/assistants/{assistant_id}/avatar"
-        let assistantIdPreEscape = "\(APIHelper.mapValueToPathItem(assistantId))"
-        let assistantIdPostEscape = assistantIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{assistant_id}", with: assistantIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableFormParams: [String: Any?] = [
-            "file": file.encodeToJSON(),
-            "metadata": metadata?.encodeToJSON(),
-        ]
-
-        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
-        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "multipart/form-data",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Upload user avatar
-     
-     - parameter file: (form)  
-     - parameter manual: (form)  (optional)
-     - returns: ChatPostFilesImagesAvatar200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatPostFilesImagesAvatar(file: URL, manual: String? = nil) async throws -> ChatPostFilesImagesAvatar200Response {
-        return try await chatPostFilesImagesAvatarWithRequestBuilder(file: file, manual: manual).execute().body
-    }
-
-    /**
-     Upload user avatar
-     - POST /v1/chat/files/images/avatar
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter file: (form)  
-     - parameter manual: (form)  (optional)
-     - returns: RequestBuilder<ChatPostFilesImagesAvatar200Response> 
-     */
-    open class func chatPostFilesImagesAvatarWithRequestBuilder(file: URL, manual: String? = nil) -> RequestBuilder<ChatPostFilesImagesAvatar200Response> {
-        let localVariablePath = "/v1/chat/files/images/avatar"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableFormParams: [String: Any?] = [
-            "file": file.encodeToJSON(),
-            "manual": manual?.encodeToJSON(),
-        ]
-
-        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
-        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "multipart/form-data",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ChatPostFilesImagesAvatar200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

@@ -6,117 +6,360 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class CatalogAPI {
 
     /**
-     Read-only starter prompt library
+     Remove a catalog entry
      
-     - returns: PromptsPromptCatalog200Response
+     - parameter wildcard1: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func promptsPromptCatalog() async throws -> PromptsPromptCatalog200Response {
-        return try await promptsPromptCatalogWithRequestBuilder().execute().body
+    open class func deleteCatalogEntriesByWildcard1(wildcard1: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteCatalogEntriesByWildcard1WithRequestBuilder(wildcard1: wildcard1, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Read-only starter prompt library
-     - GET /v1/prompts/catalog
+     Remove a catalog entry
+     - DELETE /v1/catalog/entries/{wildcard1}
+     - Deletes the entry with the addressed slug and answers 204. The slug is matched as a trailing wildcard, not a single segment, because a model slug contains a slash. PLATFORM admin only — an org-level admin is refused 403 — and an unknown slug is 404, so the call is safe to repeat but not silently idempotent.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<PromptsPromptCatalog200Response> 
+       - name: bearer
+     - parameter wildcard1: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func promptsPromptCatalogWithRequestBuilder() -> RequestBuilder<PromptsPromptCatalog200Response> {
-        let localVariablePath = "/v1/prompts/catalog"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func deleteCatalogEntriesByWildcard1WithRequestBuilder(wildcard1: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/catalog/entries/{wildcard1}"
+        let wildcard1PreEscape = "\(APIHelper.mapValueToPathItem(wildcard1))"
+        let wildcard1PostEscape = wildcard1PreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{wildcard1}", with: wildcard1PostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PromptsPromptCatalog200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     List the global compute region catalog
+     Browse searches AND browses the cross-org catalog: every project, app and site the fleet has built, whichever org built it.
      
-     - returns: AnyCodable
+     - parameter q: (query) Q is the free-text query the lexical index scores relevance on. Empty is a browse rather than a search — the same request either way. (optional)
+     - parameter org: (query) Org narrows to one builder org: hanzo | lux | zoo. Case-insensitive. (optional)
+     - parameter kind: (query) Kind narrows to repo | site. Case-insensitive. (optional)
+     - parameter origin: (query) Origin narrows to what a row IS to you: template | community | third-party | product. This is the axis the two hanzo.app lanes are cut on. (optional)
+     - parameter archetype: (query) Archetype narrows to one project archetype. Case-insensitive. (optional)
+     - parameter language: (query) Language narrows to one implementation language. Case-insensitive. (optional)
+     - parameter template: (query) Template narrows a lane to ONE lineage: the id of the parent everything returned was forked from. (optional)
+     - parameter forkable: (query) Forkable is tri-state: \&quot;true\&quot; selects the forkable rows, \&quot;false\&quot; selects the rest, and anything else — including absent — applies no filter at all. (optional)
+     - parameter limit: (query) Limit caps the page at 200, default 50. A value that is not a non-negative integer falls back to the default. (optional)
+     - parameter offset: (query) Offset is where the page starts, default 0, with the same tolerance. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: CatalogPage
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func visorListRegions() async throws -> AnyCodable {
-        return try await visorListRegionsWithRequestBuilder().execute().body
+    open class func getCatalog(q: String? = nil, org: String? = nil, kind: String? = nil, origin: String? = nil, archetype: String? = nil, language: String? = nil, template: String? = nil, forkable: String? = nil, limit: String? = nil, offset: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CatalogPage {
+        return try await getCatalogWithRequestBuilder(q: q, org: org, kind: kind, origin: origin, archetype: archetype, language: language, template: template, forkable: forkable, limit: limit, offset: offset, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     List the global compute region catalog
-     - GET /v1/compute/regions
+     Browse searches AND browses the cross-org catalog: every project, app and site the fleet has built, whichever org built it.
+     - GET /v1/catalog
+     - Browse searches AND browses the cross-org catalog: every project, app and site the fleet has built, whichever org built it.  It reads TWO corpora and returns them as one page — the published, world-readable catalog that every caller sees, plus the caller's OWN org's private entries when the request carries a validated principal. Each row says which it came from in `scope`, so a client can warn before sharing a link. An anonymous caller simply gets the published one; no filter can ever widen a caller into another tenant's corpus, because the query that would return it is never run for them.  A request with no q is a browse rather than a search, and both answer the same shape: the page, the total before paging, and the facet counts over the whole matching set.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<AnyCodable> 
+       - name: bearer
+     - parameter q: (query) Q is the free-text query the lexical index scores relevance on. Empty is a browse rather than a search — the same request either way. (optional)
+     - parameter org: (query) Org narrows to one builder org: hanzo | lux | zoo. Case-insensitive. (optional)
+     - parameter kind: (query) Kind narrows to repo | site. Case-insensitive. (optional)
+     - parameter origin: (query) Origin narrows to what a row IS to you: template | community | third-party | product. This is the axis the two hanzo.app lanes are cut on. (optional)
+     - parameter archetype: (query) Archetype narrows to one project archetype. Case-insensitive. (optional)
+     - parameter language: (query) Language narrows to one implementation language. Case-insensitive. (optional)
+     - parameter template: (query) Template narrows a lane to ONE lineage: the id of the parent everything returned was forked from. (optional)
+     - parameter forkable: (query) Forkable is tri-state: \&quot;true\&quot; selects the forkable rows, \&quot;false\&quot; selects the rest, and anything else — including absent — applies no filter at all. (optional)
+     - parameter limit: (query) Limit caps the page at 200, default 50. A value that is not a non-negative integer falls back to the default. (optional)
+     - parameter offset: (query) Offset is where the page starts, default 0, with the same tolerance. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<CatalogPage> 
      */
-    open class func visorListRegionsWithRequestBuilder() -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/compute/regions"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func getCatalogWithRequestBuilder(q: String? = nil, org: String? = nil, kind: String? = nil, origin: String? = nil, archetype: String? = nil, language: String? = nil, template: String? = nil, forkable: String? = nil, limit: String? = nil, offset: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CatalogPage> {
+        let localVariablePath = "/v1/catalog"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "q": (wrappedValue: q?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "org": (wrappedValue: org?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "kind": (wrappedValue: kind?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "origin": (wrappedValue: origin?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "archetype": (wrappedValue: archetype?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "language": (wrappedValue: language?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "template": (wrappedValue: template?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "forkable": (wrappedValue: forkable?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "offset": (wrappedValue: offset?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CatalogPage>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     List the global compute size catalog
+     The raw catalog entries, including the unpublished ones
      
-     - returns: AnyCodable
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func visorListSizes() async throws -> AnyCodable {
-        return try await visorListSizesWithRequestBuilder().execute().body
+    open class func getCatalogEntries(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getCatalogEntriesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     List the global compute size catalog
-     - GET /v1/compute/sizes
+     The raw catalog entries, including the unpublished ones
+     - GET /v1/catalog/entries
+     - Returns every catalog row as stored — the admin view, which unlike the public projection includes entries that are not published. It is cross-tenant platform data, so the gate is a PLATFORM admin: an org-level admin is refused 403 no matter how privileged they are inside their own org, enforced by the handler itself and not only by the route's token middleware.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<AnyCodable> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func visorListSizesWithRequestBuilder() -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/compute/sizes"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func getCatalogEntriesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/catalog/entries"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Add a catalog entry
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postCatalogEntries(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postCatalogEntriesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Add a catalog entry
+     - POST /v1/catalog/entries
+     - Creates a catalog row from the body and answers it at 201. The slug is required and is the globally-unique catalog key, so a second entry claiming a slug already in use is refused 409 rather than shadowing the first. PLATFORM admin only — this is cross-tenant pricing and packaging data, and an org-level admin is refused 403.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postCatalogEntriesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/catalog/entries"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Land a syncer's view of the model catalog: upstream costs and machine facts
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postCatalogModels(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postCatalogModelsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Land a syncer's view of the model catalog: upstream costs and machine facts
+     - POST /v1/catalog/models
+     - Takes a batch of model rows and upserts each one's upstream COST and machine-observable facts, answering what was created and changed. It deliberately touches nothing a human owns — not the retail price, not the markup, not the entitlement tier — so a sync can never overwrite an administrator's pricing decision. The gate is a PLATFORM principal rather than a platform ADMIN, because the caller is normally a scheduled job holding the internal service token, which carries platform scope but no admin claim.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postCatalogModelsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/catalog/models"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Refresh the model catalog by reading the upstream provider
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postCatalogModelsRefresh(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postCatalogModelsRefreshWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Refresh the model catalog by reading the upstream provider
+     - POST /v1/catalog/models/refresh
+     - Pulls the upstream model list and lands it through the same upsert the push door uses, so the rule that a sync owns cost and an administrator owns price holds no matter which door a row came through. It takes no body — the upstream is READ rather than told. If that upstream cannot be read the call answers 502 and writes NOTHING: a sync that cannot see its source must never conclude the source is empty, because that conclusion would withdraw every model on sale. The gate is a PLATFORM principal so the scheduled job's service token qualifies.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postCatalogModelsRefreshWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/catalog/models/refresh"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Seed the embedded catalog, without disturbing edits already made
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postCatalogSeed(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postCatalogSeedWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Seed the embedded catalog, without disturbing edits already made
+     - POST /v1/catalog/seed
+     - Upserts the shipped catalog seed and answers how many entries it created. It is idempotent and non-destructive — an entry an administrator has since edited is left alone — so it is safe to run against a live catalog to fill in what is missing. PLATFORM admin only; an org-level admin is refused 403.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postCatalogSeedWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/catalog/seed"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Replace a catalog entry, keeping its slug
+     
+     - parameter wildcard1: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func putCatalogEntriesByWildcard1(wildcard1: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putCatalogEntriesByWildcard1WithRequestBuilder(wildcard1: wildcard1, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Replace a catalog entry, keeping its slug
+     - PUT /v1/catalog/entries/{wildcard1}
+     - Loads the addressed entry, applies the body over it and answers the stored result. The slug is the entry's IDENTITY and is re-stamped from the path after decoding, so a slug in the body is ignored and a rename is impossible through this address. The slug is matched as a trailing wildcard rather than one path segment because a model's slug IS its callable id and those contain a slash — a segment parameter would stop at it and leave most catalog rows unaddressable. PLATFORM admin only; an unknown slug is 404.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter wildcard1: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func putCatalogEntriesByWildcard1WithRequestBuilder(wildcard1: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/catalog/entries/{wildcard1}"
+        let wildcard1PreEscape = "\(APIHelper.mapValueToPathItem(wildcard1))"
+        let wildcard1PostEscape = wildcard1PreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{wildcard1}", with: wildcard1PostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

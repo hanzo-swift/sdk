@@ -6,47 +6,1577 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class MarketingAPI {
 
     /**
-     Create marketing campaign
+     Removes one of the caller org's audiences and answers 204.
      
-     - parameter body: (body)  
-     - returns: AnyCodable
+     - parameter id: (path) ID is the audience id from the path, as returned by create. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func commerceCreateMarketingCampaign(body: AnyCodable) async throws -> AnyCodable {
-        return try await commerceCreateMarketingCampaignWithRequestBuilder(body: body).execute().body
+    open class func deleteMarketingAudiencesById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteMarketingAudiencesByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Create marketing campaign
-     - POST /v1/commerce/marketing
+     Removes one of the caller org's audiences and answers 204.
+     - DELETE /v1/marketing/audiences/{id}
+     - Removes one of the caller org's audiences and answers 204. It deletes the saved filter only — no customer, event or enrollment is touched.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter body: (body)  
-     - returns: RequestBuilder<AnyCodable> 
+       - name: bearer
+     - parameter id: (path) ID is the audience id from the path, as returned by create. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func commerceCreateMarketingCampaignWithRequestBuilder(body: AnyCodable) -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/commerce/marketing"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+    open class func deleteMarketingAudiencesByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/marketing/audiences/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Removes one of the caller org's posts and answers 204.
+     
+     - parameter id: (path) ID is the post id from the path, as returned by create. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deleteMarketingCalendarById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteMarketingCalendarByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Removes one of the caller org's posts and answers 204.
+     - DELETE /v1/marketing/calendar/{id}
+     - Removes one of the caller org's posts and answers 204. A post already published is deleted from the calendar only — nothing is retracted from the network it went out on.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the post id from the path, as returned by create. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func deleteMarketingCalendarByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/marketing/calendar/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Removes one of the caller org's campaigns and answers 204.
+     
+     - parameter id: (path) ID is the campaign id from the path, as returned by create. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deleteMarketingCampaignsById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteMarketingCampaignsByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Removes one of the caller org's campaigns and answers 204.
+     - DELETE /v1/marketing/campaigns/{id}
+     - Removes one of the caller org's campaigns and answers 204. A campaign belonging to another org reads as not found and is left untouched.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the campaign id from the path, as returned by create. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func deleteMarketingCampaignsByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/marketing/campaigns/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Re-subscribes an address on one channel and answers 204.
+     
+     - parameter channel: (query) Channel is the surface opted out of: email, sms, social, meta, google or tiktok. Empty means email. Opting out of one leaves the others reachable. (optional)
+     - parameter address: (query) Address is the recipient, normalized (lower-cased, trimmed) so an opt-out cannot be slipped past on a case or whitespace difference. Required. (optional)
+     - parameter reason: (query) Reason is a free-text note, capped at 1024 bytes. The public one-click endpoint records \&quot;one-click unsubscribe\&quot;. (optional)
+     - parameter createdAt: (query) CreatedAt is unix seconds, server-assigned. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deleteMarketingSuppressions(channel: String? = nil, address: String? = nil, reason: String? = nil, createdAt: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteMarketingSuppressionsWithRequestBuilder(channel: channel, address: address, reason: reason, createdAt: createdAt, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Re-subscribes an address on one channel and answers 204.
+     - DELETE /v1/marketing/suppressions
+     - Re-subscribes an address on one channel and answers 204. An address that is not on the list reads as not found.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter channel: (query) Channel is the surface opted out of: email, sms, social, meta, google or tiktok. Empty means email. Opting out of one leaves the others reachable. (optional)
+     - parameter address: (query) Address is the recipient, normalized (lower-cased, trimmed) so an opt-out cannot be slipped past on a case or whitespace difference. Required. (optional)
+     - parameter reason: (query) Reason is a free-text note, capped at 1024 bytes. The public one-click endpoint records \&quot;one-click unsubscribe\&quot;. (optional)
+     - parameter createdAt: (query) CreatedAt is unix seconds, server-assigned. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func deleteMarketingSuppressionsWithRequestBuilder(channel: String? = nil, address: String? = nil, reason: String? = nil, createdAt: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/marketing/suppressions"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "channel": (wrappedValue: channel?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "address": (wrappedValue: address?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "reason": (wrappedValue: reason?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "createdAt": (wrappedValue: createdAt?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns the org's saved audiences, most recently updated first.
+     
+     - parameter limit: (query) Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AudienceList
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getMarketingAudiences(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AudienceList {
+        return try await getMarketingAudiencesWithRequestBuilder(limit: limit, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns the org's saved audiences, most recently updated first.
+     - GET /v1/marketing/audiences
+     - Returns the org's saved audiences, most recently updated first.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter limit: (query) Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AudienceList> 
+     */
+    open class func getMarketingAudiencesWithRequestBuilder(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AudienceList> {
+        let localVariablePath = "/v1/marketing/audiences"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AudienceList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns one of the caller org's saved audiences.
+     
+     - parameter id: (path) ID is the audience id from the path, as returned by create. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Audience
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getMarketingAudiencesById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Audience {
+        return try await getMarketingAudiencesByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns one of the caller org's saved audiences.
+     - GET /v1/marketing/audiences/{id}
+     - Returns one of the caller org's saved audiences. An audience belonging to another org reads as not found.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the audience id from the path, as returned by create. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Audience> 
+     */
+    open class func getMarketingAudiencesByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Audience> {
+        var localVariablePath = "/v1/marketing/audiences/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Audience>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Evaluates the cohort LIVE — the same resolution an enrollment would run — and reports how big it is and how many real mailboxes it reaches.
+     
+     - parameter id: (path) ID is the audience id from the path, as returned by create. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AudiencePreview
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getMarketingAudiencesByIdPreview(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AudiencePreview {
+        return try await getMarketingAudiencesByIdPreviewWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Evaluates the cohort LIVE — the same resolution an enrollment would run — and reports how big it is and how many real mailboxes it reaches.
+     - GET /v1/marketing/audiences/{id}/preview
+     - Evaluates the cohort LIVE — the same resolution an enrollment would run — and reports how big it is and how many real mailboxes it reaches. It is the honest answer to \"is this send worth making\": a cohort of 500 that mails 3 says so, in deliverable and unmatched. Nothing is sent.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the audience id from the path, as returned by create. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AudiencePreview> 
+     */
+    open class func getMarketingAudiencesByIdPreviewWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AudiencePreview> {
+        var localVariablePath = "/v1/marketing/audiences/{id}/preview"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AudiencePreview>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns the org's calendar, soonest scheduled first, optionally narrowed to one status.
+     
+     - parameter status: (query) Status keeps only posts in that state (draft, scheduled, published, failed, canceled). Empty means every post. (optional)
+     - parameter limit: (query) Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: PostList
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getMarketingCalendar(status: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostList {
+        return try await getMarketingCalendarWithRequestBuilder(status: status, limit: limit, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns the org's calendar, soonest scheduled first, optionally narrowed to one status.
+     - GET /v1/marketing/calendar
+     - Returns the org's calendar, soonest scheduled first, optionally narrowed to one status.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter status: (query) Status keeps only posts in that state (draft, scheduled, published, failed, canceled). Empty means every post. (optional)
+     - parameter limit: (query) Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<PostList> 
+     */
+    open class func getMarketingCalendarWithRequestBuilder(status: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostList> {
+        let localVariablePath = "/v1/marketing/calendar"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "status": (wrappedValue: status?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<PostList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns one of the caller org's posts, including the exact error behind a failed publish.
+     
+     - parameter id: (path) ID is the post id from the path, as returned by create. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: CalendarPost
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getMarketingCalendarById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CalendarPost {
+        return try await getMarketingCalendarByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns one of the caller org's posts, including the exact error behind a failed publish.
+     - GET /v1/marketing/calendar/{id}
+     - Returns one of the caller org's posts, including the exact error behind a failed publish. A post belonging to another org reads as not found.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the post id from the path, as returned by create. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<CalendarPost> 
+     */
+    open class func getMarketingCalendarByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CalendarPost> {
+        var localVariablePath = "/v1/marketing/calendar/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<CalendarPost>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns the org's campaigns, most recently updated first, optionally narrowed to one lifecycle status.
+     
+     - parameter status: (query) Status keeps only campaigns in that lifecycle state (draft, scheduled, active, paused, completed). Empty means every campaign. (optional)
+     - parameter limit: (query) Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: CampaignList
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getMarketingCampaigns(status: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CampaignList {
+        return try await getMarketingCampaignsWithRequestBuilder(status: status, limit: limit, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns the org's campaigns, most recently updated first, optionally narrowed to one lifecycle status.
+     - GET /v1/marketing/campaigns
+     - Returns the org's campaigns, most recently updated first, optionally narrowed to one lifecycle status.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter status: (query) Status keeps only campaigns in that lifecycle state (draft, scheduled, active, paused, completed). Empty means every campaign. (optional)
+     - parameter limit: (query) Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<CampaignList> 
+     */
+    open class func getMarketingCampaignsWithRequestBuilder(status: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CampaignList> {
+        let localVariablePath = "/v1/marketing/campaigns"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "status": (wrappedValue: status?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<CampaignList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns one of the caller org's campaigns.
+     
+     - parameter id: (path) ID is the campaign id from the path, as returned by create. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Campaign
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getMarketingCampaignsById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Campaign {
+        return try await getMarketingCampaignsByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns one of the caller org's campaigns.
+     - GET /v1/marketing/campaigns/{id}
+     - Returns one of the caller org's campaigns. A campaign belonging to another org reads as not found.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the campaign id from the path, as returned by create. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Campaign> 
+     */
+    open class func getMarketingCampaignsByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Campaign> {
+        var localVariablePath = "/v1/marketing/campaigns/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Campaign>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns every promo the deployment offers with its live counters: how many orgs have redeemed it and how many redemptions remain under the cap.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: PromoList
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getMarketingPromos(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PromoList {
+        return try await getMarketingPromosWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns every promo the deployment offers with its live counters: how many orgs have redeemed it and how many redemptions remain under the cap.
+     - GET /v1/marketing/promos
+     - Returns every promo the deployment offers with its live counters: how many orgs have redeemed it and how many redemptions remain under the cap. The promos are fleet-wide, not per-org — only the counters move.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<PromoList> 
+     */
+    open class func getMarketingPromosWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PromoList> {
+        let localVariablePath = "/v1/marketing/promos"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<PromoList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Prices a promo against a plan and seat count.
+     
+     - parameter code: (path) Code is the promo code from the path. 
+     - parameter plan: (query) Plan is the plan being priced: pro, max or team. Anything else (including the free Developer plan) has no list price and so nothing to discount. (optional)
+     - parameter seats: (query) Seats is the Team seat count; 0 means 1, and it is ignored for the single-seat plans. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Quote
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getMarketingPromosByCodeEligibility(code: String, plan: String? = nil, seats: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Quote {
+        return try await getMarketingPromosByCodeEligibilityWithRequestBuilder(code: code, plan: plan, seats: seats, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Prices a promo against a plan and seat count.
+     - GET /v1/marketing/promos/{code}/eligibility
+     - Prices a promo against a plan and seat count. It is PURE: nothing is redeemed, credited or counted, so it is safe to call from a pricing page on every keystroke. An inactive promo or an exhausted cap quotes ineligible with the reason rather than erroring.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter code: (path) Code is the promo code from the path. 
+     - parameter plan: (query) Plan is the plan being priced: pro, max or team. Anything else (including the free Developer plan) has no list price and so nothing to discount. (optional)
+     - parameter seats: (query) Seats is the Team seat count; 0 means 1, and it is ignored for the single-seat plans. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Quote> 
+     */
+    open class func getMarketingPromosByCodeEligibilityWithRequestBuilder(code: String, plan: String? = nil, seats: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Quote> {
+        var localVariablePath = "/v1/marketing/promos/{code}/eligibility"
+        let codePreEscape = "\(APIHelper.mapValueToPathItem(code))"
+        let codePostEscape = codePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{code}", with: codePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "plan": (wrappedValue: plan?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "seats": (wrappedValue: seats?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Quote>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns the caller org's OWN redemption of a promo — an org-scoped read, so it can never surface another tenant's.
+     
+     - parameter code: (path) Code is the promo code from the path, e.g. \&quot;first1000\&quot;. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Redemption
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getMarketingPromosByCodeRedemption(code: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Redemption {
+        return try await getMarketingPromosByCodeRedemptionWithRequestBuilder(code: code, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns the caller org's OWN redemption of a promo — an org-scoped read, so it can never surface another tenant's.
+     - GET /v1/marketing/promos/{code}/redemption
+     - Returns the caller org's OWN redemption of a promo — an org-scoped read, so it can never surface another tenant's. Not found when this org has not redeemed it.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter code: (path) Code is the promo code from the path, e.g. \&quot;first1000\&quot;. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Redemption> 
+     */
+    open class func getMarketingPromosByCodeRedemptionWithRequestBuilder(code: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Redemption> {
+        var localVariablePath = "/v1/marketing/promos/{code}/redemption"
+        let codePreEscape = "\(APIHelper.mapValueToPathItem(code))"
+        let codePostEscape = codePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{code}", with: codePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Redemption>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns the org's drip sequences, most recently updated first.
+     
+     - parameter limit: (query) Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: SequenceList
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getMarketingSequences(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SequenceList {
+        return try await getMarketingSequencesWithRequestBuilder(limit: limit, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns the org's drip sequences, most recently updated first.
+     - GET /v1/marketing/sequences
+     - Returns the org's drip sequences, most recently updated first.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter limit: (query) Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<SequenceList> 
+     */
+    open class func getMarketingSequencesWithRequestBuilder(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SequenceList> {
+        let localVariablePath = "/v1/marketing/sequences"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<SequenceList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns one of the caller org's sequences together with its steps in send order.
+     
+     - parameter id: (path) ID is the sequence id from the path, as returned by create. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: SequenceView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getMarketingSequencesById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SequenceView {
+        return try await getMarketingSequencesByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns one of the caller org's sequences together with its steps in send order.
+     - GET /v1/marketing/sequences/{id}
+     - Returns one of the caller org's sequences together with its steps in send order. A sequence belonging to another org reads as not found.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the sequence id from the path, as returned by create. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<SequenceView> 
+     */
+    open class func getMarketingSequencesByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SequenceView> {
+        var localVariablePath = "/v1/marketing/sequences/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<SequenceView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns who is walking one sequence, most recently enrolled first, with each walk's current step and next due time.
+     
+     - parameter id: (path) ID is the sequence id from the path. 
+     - parameter limit: (query) Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: EnrollmentList
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getMarketingSequencesByIdEnrollments(id: String, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> EnrollmentList {
+        return try await getMarketingSequencesByIdEnrollmentsWithRequestBuilder(id: id, limit: limit, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns who is walking one sequence, most recently enrolled first, with each walk's current step and next due time.
+     - GET /v1/marketing/sequences/{id}/enrollments
+     - Returns who is walking one sequence, most recently enrolled first, with each walk's current step and next due time.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the sequence id from the path. 
+     - parameter limit: (query) Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<EnrollmentList> 
+     */
+    open class func getMarketingSequencesByIdEnrollmentsWithRequestBuilder(id: String, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<EnrollmentList> {
+        var localVariablePath = "/v1/marketing/sequences/{id}/enrollments"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<EnrollmentList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns one sequence's steps in send order.
+     
+     - parameter id: (path) ID is the sequence id from the path, as returned by create. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: StepList
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getMarketingSequencesByIdSteps(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> StepList {
+        return try await getMarketingSequencesByIdStepsWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns one sequence's steps in send order.
+     - GET /v1/marketing/sequences/{id}/steps
+     - Returns one sequence's steps in send order.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the sequence id from the path, as returned by create. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<StepList> 
+     */
+    open class func getMarketingSequencesByIdStepsWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<StepList> {
+        var localVariablePath = "/v1/marketing/sequences/{id}/steps"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<StepList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Rolls up the caller org's campaigns: how many there are, how many are active, and the summed budget and spend in cents.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Summary
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getMarketingSummary(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Summary {
+        return try await getMarketingSummaryWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Rolls up the caller org's campaigns: how many there are, how many are active, and the summed budget and spend in cents.
+     - GET /v1/marketing/summary
+     - Rolls up the caller org's campaigns: how many there are, how many are active, and the summed budget and spend in cents.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Summary> 
+     */
+    open class func getMarketingSummaryWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Summary> {
+        let localVariablePath = "/v1/marketing/summary"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Summary>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns the org's opt-out list, newest first — everyone the send gate will refuse to deliver to.
+     
+     - parameter limit: (query) Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: SuppressionList
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getMarketingSuppressions(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SuppressionList {
+        return try await getMarketingSuppressionsWithRequestBuilder(limit: limit, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns the org's opt-out list, newest first — everyone the send gate will refuse to deliver to.
+     - GET /v1/marketing/suppressions
+     - Returns the org's opt-out list, newest first — everyone the send gate will refuse to deliver to.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter limit: (query) Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<SuppressionList> 
+     */
+    open class func getMarketingSuppressionsWithRequestBuilder(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SuppressionList> {
+        let localVariablePath = "/v1/marketing/suppressions"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<SuppressionList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Is the PUBLIC one-click endpoint (no principal): a recipient clicks the signed link in an email footer.
+     
+     - parameter org: (query) Org is the org the link was minted for. (optional)
+     - parameter channel: (query) Channel is the surface to opt out of. (optional)
+     - parameter address: (query) Address is the recipient to opt out. (optional)
+     - parameter token: (query) Token is the HMAC over (org, channel, address). It is the ONLY authority here — there is no principal — so it binds the request to one tuple and nothing else. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Unsubscribed
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getMarketingUnsubscribe(org: String? = nil, channel: String? = nil, address: String? = nil, token: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Unsubscribed {
+        return try await getMarketingUnsubscribeWithRequestBuilder(org: org, channel: channel, address: address, token: token, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Is the PUBLIC one-click endpoint (no principal): a recipient clicks the signed link in an email footer.
+     - GET /v1/marketing/unsubscribe
+     - Is the PUBLIC one-click endpoint (no principal): a recipient clicks the signed link in an email footer. The token binds (org, channel, address), so a caller can only opt OUT exactly the tuple it was minted for — never another address and never another org. An invalid token is refused, and a deployment with no KMS-sealed key refuses rather than accepting anything.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter org: (query) Org is the org the link was minted for. (optional)
+     - parameter channel: (query) Channel is the surface to opt out of. (optional)
+     - parameter address: (query) Address is the recipient to opt out. (optional)
+     - parameter token: (query) Token is the HMAC over (org, channel, address). It is the ONLY authority here — there is no principal — so it binds the request to one tuple and nothing else. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Unsubscribed> 
+     */
+    open class func getMarketingUnsubscribeWithRequestBuilder(org: String? = nil, channel: String? = nil, address: String? = nil, token: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Unsubscribed> {
+        let localVariablePath = "/v1/marketing/unsubscribe"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "org": (wrappedValue: org?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "channel": (wrappedValue: channel?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "address": (wrappedValue: address?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "token": (wrappedValue: token?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Unsubscribed>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Saves a cohort filter for the caller's org.
+     
+     - parameter audience: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Audience
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postMarketingAudiences(audience: Audience, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Audience {
+        return try await postMarketingAudiencesWithRequestBuilder(audience: audience, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Saves a cohort filter for the caller's org.
+     - POST /v1/marketing/audiences
+     - Saves a cohort filter for the caller's org. Name is required. Omitting event saves the WHOLE-ORG audience — every mailable customer — which needs no analytics warehouse; naming one narrows that roster to the customers who fired it within windowDays.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter audience: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Audience> 
+     */
+    open class func postMarketingAudiencesWithRequestBuilder(audience: Audience, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Audience> {
+        let localVariablePath = "/v1/marketing/audiences"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: audience, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Audience>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Adds a post to the content calendar.
+     
+     - parameter calendarPost: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: CalendarPost
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postMarketingCalendar(calendarPost: CalendarPost, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CalendarPost {
+        return try await postMarketingCalendarWithRequestBuilder(calendarPost: calendarPost, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Adds a post to the content calendar.
+     - POST /v1/marketing/calendar
+     - Adds a post to the content calendar. Channel and body are required. A scheduledAt in the future makes the post \"scheduled\" and the durable sweep publishes it when it comes due — claimed once, so a post publishes at most once; without one it stays a draft.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter calendarPost: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<CalendarPost> 
+     */
+    open class func postMarketingCalendarWithRequestBuilder(calendarPost: CalendarPost, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CalendarPost> {
+        let localVariablePath = "/v1/marketing/calendar"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: calendarPost, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<CalendarPost>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Publishes a post NOW, synchronously, whatever its schedule.
+     
+     - parameter id: (path) ID is the post id from the path, as returned by create. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: CalendarPost
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postMarketingCalendarByIdPublish(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CalendarPost {
+        return try await postMarketingCalendarByIdPublishWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Publishes a post NOW, synchronously, whatever its schedule.
+     - POST /v1/marketing/calendar/{id}/publish
+     - Publishes a post NOW, synchronously, whatever its schedule. No social connector is wired today, so every channel answers an honest 501 naming the seam a real one would plug into, and the post is recorded failed with that exact reason — never a faked \"published\".
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the post id from the path, as returned by create. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<CalendarPost> 
+     */
+    open class func postMarketingCalendarByIdPublishWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CalendarPost> {
+        var localVariablePath = "/v1/marketing/calendar/{id}/publish"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<CalendarPost>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Registers a campaign in the caller's org.
+     
+     - parameter campaign: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Campaign
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postMarketingCampaigns(campaign: Campaign, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Campaign {
+        return try await postMarketingCampaignsWithRequestBuilder(campaign: campaign, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Registers a campaign in the caller's org.
+     - POST /v1/marketing/campaigns
+     - Registers a campaign in the caller's org. Name is required; channel defaults to email and status to draft, and a future scheduledAt with no explicit status makes the campaign \"scheduled\". Budget and spend are cents and are clamped to >= 0. The id, createdAt and updatedAt of the input are ignored — the server assigns them.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter campaign: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Campaign> 
+     */
+    open class func postMarketingCampaignsWithRequestBuilder(campaign: Campaign, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Campaign> {
+        let localVariablePath = "/v1/marketing/campaigns"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: campaign, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Campaign>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Sets a campaign's send time and moves it to \"scheduled\".
+     
+     - parameter id: (path) ID is the campaign id from the path. 
+     - parameter scheduleInput: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Campaign
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postMarketingCampaignsByIdSchedule(id: String, scheduleInput: ScheduleInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Campaign {
+        return try await postMarketingCampaignsByIdScheduleWithRequestBuilder(id: id, scheduleInput: scheduleInput, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Sets a campaign's send time and moves it to \"scheduled\".
+     - POST /v1/marketing/campaigns/{id}/schedule
+     - Sets a campaign's send time and moves it to \"scheduled\". A scheduledAt of 0 clears the schedule and returns it to \"draft\".
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the campaign id from the path. 
+     - parameter scheduleInput: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Campaign> 
+     */
+    open class func postMarketingCampaignsByIdScheduleWithRequestBuilder(id: String, scheduleInput: ScheduleInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Campaign> {
+        var localVariablePath = "/v1/marketing/campaigns/{id}/schedule"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: scheduleInput, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Campaign>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Records the caller org's claim on a promo.
+     
+     - parameter code: (path) Code is the promo code from the path. 
+     - parameter redeemInput: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RedeemResult
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postMarketingPromosByCodeRedeem(code: String, redeemInput: RedeemInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RedeemResult {
+        return try await postMarketingPromosByCodeRedeemWithRequestBuilder(code: code, redeemInput: redeemInput, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Records the caller org's claim on a promo.
+     - POST /v1/marketing/promos/{code}/redeem
+     - Records the caller org's claim on a promo. NOTHING IS CREDITED: the redemption is a row, and credit into an org is an admin decision made on the admin surface against an auditable ledger.  The plan is DERIVED from the org's live ACTIVE/TRIALING paid subscription and can never be named by the caller — an org with no qualifying subscription is refused, and so is one whose subscription cannot be read. The seat count is the single-seat floor (claimSeats), so the recorded figure has no input that can inflate it.  Guards run under one lock so the cap cannot be raced past: the fleet-wide redemption cap, one redemption per org, one per payment instrument (REQUIRED), and the per-redemption ceiling.  It is IDEMPOTENT: an org that already redeemed gets its original redemption back with alreadyRedeemed true.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter code: (path) Code is the promo code from the path. 
+     - parameter redeemInput: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<RedeemResult> 
+     */
+    open class func postMarketingPromosByCodeRedeemWithRequestBuilder(code: String, redeemInput: RedeemInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RedeemResult> {
+        var localVariablePath = "/v1/marketing/promos/{code}/redeem"
+        let codePreEscape = "\(APIHelper.mapValueToPathItem(code))"
+        let codePostEscape = codePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{code}", with: codePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: redeemInput, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<RedeemResult>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Registers a drip sequence in the caller's org.
+     
+     - parameter modelSequence: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ModelSequence
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postMarketingSequences(modelSequence: ModelSequence, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ModelSequence {
+        return try await postMarketingSequencesWithRequestBuilder(modelSequence: modelSequence, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Registers a drip sequence in the caller's org.
+     - POST /v1/marketing/sequences
+     - Registers a drip sequence in the caller's org. Name is required; status defaults to draft, and a sequence must be ACTIVE before it will accept enrollments. The id, createdAt and updatedAt of the input are ignored — the server assigns them.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter modelSequence: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ModelSequence> 
+     */
+    open class func postMarketingSequencesWithRequestBuilder(modelSequence: ModelSequence, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ModelSequence> {
+        let localVariablePath = "/v1/marketing/sequences"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: modelSequence, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ModelSequence>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Adds one contact or a whole audience to a sequence and schedules the first step for each.
+     
+     - parameter id: (path) ID is the sequence id from the path. 
+     - parameter enrollInput: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: EnrollResult
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postMarketingSequencesByIdEnroll(id: String, enrollInput: EnrollInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> EnrollResult {
+        return try await postMarketingSequencesByIdEnrollWithRequestBuilder(id: id, enrollInput: enrollInput, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Adds one contact or a whole audience to a sequence and schedules the first step for each.
+     - POST /v1/marketing/sequences/{id}/enroll
+     - Adds one contact or a whole audience to a sequence and schedules the first step for each. The sequence must be ACTIVE (a draft sends nothing), and the request must name exactly one of address or audienceId.  Enrolling is ALL this does: the message itself is sent later by the drip engine, through the suppression gate, so an opted-out customer can be enrolled here and still never be mailed. Re-posting is safe — an address this sequence already took is counted in alreadyEnrolled and never double-dripped — which is what makes retrying a partially-applied announcement a resume rather than a second send.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the sequence id from the path. 
+     - parameter enrollInput: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<EnrollResult> 
+     */
+    open class func postMarketingSequencesByIdEnrollWithRequestBuilder(id: String, enrollInput: EnrollInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<EnrollResult> {
+        var localVariablePath = "/v1/marketing/sequences/{id}/enroll"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: enrollInput, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<EnrollResult>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Stops one walk mid-sequence and answers 204: no further step is sent, and steps already delivered are not recalled.
+     
+     - parameter id: (path) ID is the sequence id from the path. 
+     - parameter eid: (path) EID is the enrollment id from the path, as returned by a single-address enroll. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postMarketingSequencesByIdEnrollmentsByEidCancel(id: String, eid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postMarketingSequencesByIdEnrollmentsByEidCancelWithRequestBuilder(id: id, eid: eid, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Stops one walk mid-sequence and answers 204: no further step is sent, and steps already delivered are not recalled.
+     - POST /v1/marketing/sequences/{id}/enrollments/{eid}/cancel
+     - Stops one walk mid-sequence and answers 204: no further step is sent, and steps already delivered are not recalled. Only an ACTIVE enrollment can be canceled — one already completed or canceled reads as not found.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the sequence id from the path. 
+     - parameter eid: (path) EID is the enrollment id from the path, as returned by a single-address enroll. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postMarketingSequencesByIdEnrollmentsByEidCancelWithRequestBuilder(id: String, eid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/marketing/sequences/{id}/enrollments/{eid}/cancel"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let eidPreEscape = "\(APIHelper.mapValueToPathItem(eid))"
+        let eidPostEscape = eidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{eid}", with: eidPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Flips draft/active/archived — the activation gate for sending, since only an active sequence accepts enrollments.
+     
+     - parameter id: (path) ID is the sequence id from the path. 
+     - parameter sequenceStatus: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: SequenceStatus
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postMarketingSequencesByIdStatus(id: String, sequenceStatus: SequenceStatus, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SequenceStatus {
+        return try await postMarketingSequencesByIdStatusWithRequestBuilder(id: id, sequenceStatus: sequenceStatus, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Flips draft/active/archived — the activation gate for sending, since only an active sequence accepts enrollments.
+     - POST /v1/marketing/sequences/{id}/status
+     - Flips draft/active/archived — the activation gate for sending, since only an active sequence accepts enrollments. It does not touch enrollments already walking: archiving stops new ones, not in-flight ones.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the sequence id from the path. 
+     - parameter sequenceStatus: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<SequenceStatus> 
+     */
+    open class func postMarketingSequencesByIdStatusWithRequestBuilder(id: String, sequenceStatus: SequenceStatus, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SequenceStatus> {
+        var localVariablePath = "/v1/marketing/sequences/{id}/status"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: sequenceStatus, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<SequenceStatus>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Appends a message to the END of a sequence: the new step's idx is one past the last, so steps arrive in the order they are added.
+     
+     - parameter id: (path) SequenceID is the sequence id from the path (the route&#39;s :id). 
+     - parameter stepInput: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Step
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postMarketingSequencesByIdSteps(id: String, stepInput: StepInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Step {
+        return try await postMarketingSequencesByIdStepsWithRequestBuilder(id: id, stepInput: stepInput, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Appends a message to the END of a sequence: the new step's idx is one past the last, so steps arrive in the order they are added.
+     - POST /v1/marketing/sequences/{id}/steps
+     - Appends a message to the END of a sequence: the new step's idx is one past the last, so steps arrive in the order they are added. Body is required and delaySeconds must be >= 0. Adding a step does not disturb enrollments already walking — one that has passed this index simply never sees it.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) SequenceID is the sequence id from the path (the route&#39;s :id). 
+     - parameter stepInput: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Step> 
+     */
+    open class func postMarketingSequencesByIdStepsWithRequestBuilder(id: String, stepInput: StepInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Step> {
+        var localVariablePath = "/v1/marketing/sequences/{id}/steps"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: stepInput, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Step>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Records an opt-out for the org (admin / self-service management).
+     
+     - parameter suppression: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Suppression
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postMarketingSuppressions(suppression: Suppression, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Suppression {
+        return try await postMarketingSuppressionsWithRequestBuilder(suppression: suppression, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Records an opt-out for the org (admin / self-service management).
+     - POST /v1/marketing/suppressions
+     - Records an opt-out for the org (admin / self-service management). Address is required; channel defaults to email. It is idempotent: re-suppressing the same tuple keeps the original record rather than erroring. From here on the ONE send gate refuses that recipient on that channel.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter suppression: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Suppression> 
+     */
+    open class func postMarketingSuppressionsWithRequestBuilder(suppression: Suppression, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Suppression> {
+        let localVariablePath = "/v1/marketing/suppressions"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: suppression, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Suppression>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Replaces a post's editable fields.
+     
+     - parameter id: (path) ID is the server-assigned post id (\&quot;cal_\&quot; + 128 random bits). 
+     - parameter calendarPost: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: CalendarPost
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func putMarketingCalendarById(id: String, calendarPost: CalendarPost, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CalendarPost {
+        return try await putMarketingCalendarByIdWithRequestBuilder(id: id, calendarPost: calendarPost, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Replaces a post's editable fields.
+     - PUT /v1/marketing/calendar/{id}
+     - Replaces a post's editable fields. It is a full write, not a patch, and it RESETS the lifecycle from the schedule: a scheduledAt makes the post \"scheduled\" again and none makes it a draft — so editing a failed post requeues it rather than leaving it stuck.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the server-assigned post id (\&quot;cal_\&quot; + 128 random bits). 
+     - parameter calendarPost: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<CalendarPost> 
+     */
+    open class func putMarketingCalendarByIdWithRequestBuilder(id: String, calendarPost: CalendarPost, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CalendarPost> {
+        var localVariablePath = "/v1/marketing/calendar/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: calendarPost, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<CalendarPost>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Replaces a campaign's editable fields.
+     
+     - parameter id: (path) ID is the server-assigned campaign id (\&quot;camp_\&quot; + 128 random bits). 
+     - parameter campaign: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Campaign
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func putMarketingCampaignsById(id: String, campaign: Campaign, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Campaign {
+        return try await putMarketingCampaignsByIdWithRequestBuilder(id: id, campaign: campaign, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Replaces a campaign's editable fields.
+     - PUT /v1/marketing/campaigns/{id}
+     - Replaces a campaign's editable fields. It is a full write, not a patch: every field takes the value in the body, and an omitted one is cleared. The id comes from the path — the body cannot retarget another campaign — and createdAt is never rewritten.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the server-assigned campaign id (\&quot;camp_\&quot; + 128 random bits). 
+     - parameter campaign: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Campaign> 
+     */
+    open class func putMarketingCampaignsByIdWithRequestBuilder(id: String, campaign: Campaign, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Campaign> {
+        var localVariablePath = "/v1/marketing/campaigns/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: campaign, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Campaign>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

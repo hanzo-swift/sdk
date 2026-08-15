@@ -6,85 +6,86 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class ExecAPI {
 
     /**
-     Execute code in a sandboxed session
+     Run a code snippet in a sandboxed interpreter
      
-     - parameter execExecRequest: (body)  
-     - returns: ExecExecResult
+     - parameter codeRun: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: CodeResult
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func execExecCode(execExecRequest: ExecExecRequest) async throws -> ExecExecResult {
-        return try await execExecCodeWithRequestBuilder(execExecRequest: execExecRequest).execute().body
+    open class func postExec(codeRun: CodeRun, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CodeResult {
+        return try await postExecWithRequestBuilder(codeRun: codeRun, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Execute code in a sandboxed session
+     Run a code snippet in a sandboxed interpreter
      - POST /v1/exec
+     - Executes a program in a throwaway sandbox and answers with what it printed and what it left behind.  `lang` names one of the thirteen the sandbox image carries — py, js, ts, bash, r, php, go, rs, c, cpp, java, d, f90 — and `code` is the whole program, not a fragment: a compiled language is compiled and then run, an interpreted one is interpreted, and `args` becomes the program's own argv either way. Nothing is installed for you; the image is the environment.  A PROGRAM THAT FAILS IS A SUCCESSFUL CALL. A non-zero exit answers 200 with the diagnostics on `stderr`, because \"the code threw\" and \"the interpreter is down\" are different facts a caller renders differently. Only the second is an error status.  Runs are stateful through `session_id`. Omit it and the run gets a fresh sandbox whose id comes back on the answer; pass that id again and the next run sees the same filesystem, so a program can write a file one call and read it the next. `files` names bytes already uploaded to a session (POST /v1/upload), copied in before the program starts. `files` on the ANSWER is what the program created or changed, by comparison against a marker taken at start — so it is the run's real output, not a listing of the directory — and each is fetched from GET /v1/download/{session}/{name}.  The tenant is the caller's, never the body's, at every door. A typed op is also an MCP tool and an op-plane op; MCP's tools/call invokes it directly, with no route and therefore no middleware, so nothing there could have checked a credential. tenantOf refuses a context carrying neither a validated principal nor exec's own admission marker, so those doors fail closed without a second gate to keep in step.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter execExecRequest: (body)  
-     - returns: RequestBuilder<ExecExecResult> 
+       - name: bearer
+     - parameter codeRun: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<CodeResult> 
      */
-    open class func execExecCodeWithRequestBuilder(execExecRequest: ExecExecRequest) -> RequestBuilder<ExecExecResult> {
+    open class func postExecWithRequestBuilder(codeRun: CodeRun, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CodeResult> {
         let localVariablePath = "/v1/exec"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: execExecRequest)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: codeRun, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<ExecExecResult>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CodeResult>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Programmatic code execution (sibling of /v1/exec, same executor contract)
+     Programmatic tool calling (not served here)
      
-     - parameter execExecRequest: (body)  
-     - returns: ExecExecResult
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func execExecProgrammatic(execExecRequest: ExecExecRequest) async throws -> ExecExecResult {
-        return try await execExecProgrammaticWithRequestBuilder(execExecRequest: execExecRequest).execute().body
+    open class func postExecProgrammatic(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postExecProgrammaticWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Programmatic code execution (sibling of /v1/exec, same executor contract)
+     Programmatic tool calling (not served here)
      - POST /v1/exec/programmatic
+     - Answers 501. This address belongs to a DIFFERENT protocol from /v1/exec: the server suspends a program on each tool call, returns the pending calls with a continuation token, and resumes when the client posts results back. Serving it means implementing suspension and resumption, so it refuses in the open rather than answering with a shape the caller's parser cannot read.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter execExecRequest: (body)  
-     - returns: RequestBuilder<ExecExecResult> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func execExecProgrammaticWithRequestBuilder(execExecRequest: ExecExecRequest) -> RequestBuilder<ExecExecResult> {
+    open class func postExecProgrammaticWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/exec/programmatic"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: execExecRequest)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<ExecExecResult>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

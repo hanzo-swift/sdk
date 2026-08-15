@@ -6,33 +6,29 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
-/** Per-org RED series (rate, errors, latency) for a product plus the org LLM usage rollup. A non-admin sees only its own org attribution; a validated SuperAdmin sees the whole product. Usage is always the caller org. */
-public struct O11yMetricsResponse: Codable, JSONEncodable, Hashable {
+public struct O11yMetricsResponse: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var product: String?
-    public var range: O11yMetricsResponseRange?
+    public var range: O11yAvailabilityResponseRange?
     public var series: O11yMetricsResponseSeries?
-    public var usage: O11yMetricsResponseUsage?
     public var summary: O11yMetricsResponseSummary?
+    public var usage: O11yMetricsResponseUsage?
 
-    public init(product: String? = nil, range: O11yMetricsResponseRange? = nil, series: O11yMetricsResponseSeries? = nil, usage: O11yMetricsResponseUsage? = nil, summary: O11yMetricsResponseSummary? = nil) {
+    public init(product: String? = nil, range: O11yAvailabilityResponseRange? = nil, series: O11yMetricsResponseSeries? = nil, summary: O11yMetricsResponseSummary? = nil, usage: O11yMetricsResponseUsage? = nil) {
         self.product = product
         self.range = range
         self.series = series
-        self.usage = usage
         self.summary = summary
+        self.usage = usage
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case product
         case range
         case series
-        case usage
         case summary
+        case usage
     }
 
     // Encodable protocol methods
@@ -42,8 +38,8 @@ public struct O11yMetricsResponse: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(product, forKey: .product)
         try container.encodeIfPresent(range, forKey: .range)
         try container.encodeIfPresent(series, forKey: .series)
-        try container.encodeIfPresent(usage, forKey: .usage)
         try container.encodeIfPresent(summary, forKey: .summary)
+        try container.encodeIfPresent(usage, forKey: .usage)
     }
 }
 

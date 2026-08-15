@@ -6,56 +6,35 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
-public struct RegistryProject: Codable, JSONEncodable, Hashable {
+public struct RegistryProject: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var projectId: Int?
-    public var name: String?
-    /** Whether the project is publicly accessible */
-    public var _public: Bool?
-    public var ownerId: Int?
-    public var repoCount: Int?
-    public var metadata: RegistryProjectMetadata?
-    public var creationTime: Date?
-    public var updateTime: Date?
+    /** Images is how many of the org's repositories the OCI catalog holds. */
+    public var images: Int?
+    /** Packages is how many of the org's packages the npm registry reports. */
+    public var packages: Int?
+    /** Project is the namespace: the org's slug, which prefixes its image names and scopes its npm packages. */
+    public var project: String?
 
-    public init(projectId: Int? = nil, name: String? = nil, _public: Bool? = nil, ownerId: Int? = nil, repoCount: Int? = nil, metadata: RegistryProjectMetadata? = nil, creationTime: Date? = nil, updateTime: Date? = nil) {
-        self.projectId = projectId
-        self.name = name
-        self._public = _public
-        self.ownerId = ownerId
-        self.repoCount = repoCount
-        self.metadata = metadata
-        self.creationTime = creationTime
-        self.updateTime = updateTime
+    public init(images: Int? = nil, packages: Int? = nil, project: String? = nil) {
+        self.images = images
+        self.packages = packages
+        self.project = project
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case projectId = "project_id"
-        case name
-        case _public = "public"
-        case ownerId = "owner_id"
-        case repoCount = "repo_count"
-        case metadata
-        case creationTime = "creation_time"
-        case updateTime = "update_time"
+        case images
+        case packages
+        case project
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(projectId, forKey: .projectId)
-        try container.encodeIfPresent(name, forKey: .name)
-        try container.encodeIfPresent(_public, forKey: ._public)
-        try container.encodeIfPresent(ownerId, forKey: .ownerId)
-        try container.encodeIfPresent(repoCount, forKey: .repoCount)
-        try container.encodeIfPresent(metadata, forKey: .metadata)
-        try container.encodeIfPresent(creationTime, forKey: .creationTime)
-        try container.encodeIfPresent(updateTime, forKey: .updateTime)
+        try container.encodeIfPresent(images, forKey: .images)
+        try container.encodeIfPresent(packages, forKey: .packages)
+        try container.encodeIfPresent(project, forKey: .project)
     }
 }
 

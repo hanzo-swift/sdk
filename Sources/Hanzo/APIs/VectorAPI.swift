@@ -6,202 +6,256 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class VectorAPI {
 
     /**
-     Get aggregate vector statistics
+     Deletes one vector collection from the shared backend and removes its metadata row.
      
-     - returns: ProductVectorStats
+     - parameter name: (path) Name is the resource&#39;s org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func productGetVectorStats() async throws -> ProductVectorStats {
-        return try await productGetVectorStatsWithRequestBuilder().execute().body
+    open class func deleteVectorByName(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteVectorByNameWithRequestBuilder(name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Get aggregate vector statistics
-     - GET /v1/vector/stats
-     - Returns totals aggregated across all Qdrant collections: collection count, vector count, and storage bytes. If the upstream is unreachable, returns HTTP 200 with all counters zeroed. Authenticated with the opaque vector service key. 
+     Deletes one vector collection from the shared backend and removes its metadata row.
+     - DELETE /v1/vector/{name}
+     - Deletes one vector collection from the shared backend and removes its metadata row. Answers 204 with no body; a second call is a 404.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<ProductVectorStats> 
+       - name: bearer
+     - parameter name: (path) Name is the resource&#39;s org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func productGetVectorStatsWithRequestBuilder() -> RequestBuilder<ProductVectorStats> {
-        let localVariablePath = "/v1/vector/stats"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func deleteVectorByNameWithRequestBuilder(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/vector/{name}"
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<ProductVectorStats>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Provision a vector resource
+     Lists the caller org's vector collections.
      
-     - parameter provisioningCreateRequest: (body)  
-     - returns: ProvisioningCreateResponse
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: [ProvisionedSummary]
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func provisioningCreateVector(provisioningCreateRequest: ProvisioningCreateRequest) async throws -> ProvisioningCreateResponse {
-        return try await provisioningCreateVectorWithRequestBuilder(provisioningCreateRequest: provisioningCreateRequest).execute().body
+    open class func getVector(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> [ProvisionedSummary] {
+        return try await getVectorWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Provision a vector resource
-     - POST /v1/vector
+     Lists the caller org's vector collections.
+     - GET /v1/vector
+     - Lists the caller org's vector collections. A collection is a logical resource inside an already-live shared backend, so every one of them is reached through the public gateway rather than at an instance of its own.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter provisioningCreateRequest: (body)  
-     - returns: RequestBuilder<ProvisioningCreateResponse> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<[ProvisionedSummary]> 
      */
-    open class func provisioningCreateVectorWithRequestBuilder(provisioningCreateRequest: ProvisioningCreateRequest) -> RequestBuilder<ProvisioningCreateResponse> {
+    open class func getVectorWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<[ProvisionedSummary]> {
         let localVariablePath = "/v1/vector"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: provisioningCreateRequest)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<[ProvisionedSummary]>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns one vector collection's metadata.
+     
+     - parameter name: (path) Name is the resource&#39;s org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProvisionedResource
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getVectorByName(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProvisionedResource {
+        return try await getVectorByNameWithRequestBuilder(name: name, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns one vector collection's metadata.
+     - GET /v1/vector/{name}
+     - Returns one vector collection's metadata. It carries the collection's status and the gateway address it is reached at, and no username: the backend authenticates with a shared, out-of-band key rather than a per-collection credential, so there is no per-resource user to report.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter name: (path) Name is the resource&#39;s org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProvisionedResource> 
+     */
+    open class func getVectorByNameWithRequestBuilder(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProvisionedResource> {
+        var localVariablePath = "/v1/vector/{name}"
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ProvisionedResource>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Lists the vector collections with their size and geometry.
+     
+     - parameter authorization: (header) Authorization carries the surface&#39;s bearer key (&#x60;Bearer &lt;key&gt;&#x60;); the bare key is accepted too. Search and vector are two surfaces with two keys. It is not &#x60;validate:\&quot;required\&quot;&#x60; on purpose: requireKey answers absence itself, so an unconfigured surface 503s and a missing bearer 401s — a validation refusal would rewrite both statuses. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: VectorCollectionList
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getVectorCollections(authorization: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> VectorCollectionList {
+        return try await getVectorCollectionsWithRequestBuilder(authorization: authorization, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Lists the vector collections with their size and geometry.
+     - GET /v1/vector/collections
+     - Lists the vector collections with their size and geometry.  It reads the in-cluster Qdrant service: the collection list, then each collection's detail for its point count, vector dimension and distance metric. Per-collection detail is best-effort — one collection that fails to describe itself keeps its name and defaults (dimension 0, cosine) rather than blanking the whole panel — and an unreachable Qdrant answers 200 with an EMPTY list.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter authorization: (header) Authorization carries the surface&#39;s bearer key (&#x60;Bearer &lt;key&gt;&#x60;); the bare key is accepted too. Search and vector are two surfaces with two keys. It is not &#x60;validate:\&quot;required\&quot;&#x60; on purpose: requireKey answers absence itself, so an unconfigured surface 503s and a missing bearer 401s — a validation refusal would rewrite both statuses. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<VectorCollectionList> 
+     */
+    open class func getVectorCollectionsWithRequestBuilder(authorization: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<VectorCollectionList> {
+        let localVariablePath = "/v1/vector/collections"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Authorization": authorization?.asParameter(codableHelper: apiConfiguration.codableHelper),
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<VectorCollectionList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Totals the collections, vectors and storage across the vector store.
+     
+     - parameter authorization: (header) Authorization carries the surface&#39;s bearer key (&#x60;Bearer &lt;key&gt;&#x60;); the bare key is accepted too. Search and vector are two surfaces with two keys. It is not &#x60;validate:\&quot;required\&quot;&#x60; on purpose: requireKey answers absence itself, so an unconfigured surface 503s and a missing bearer 401s — a validation refusal would rewrite both statuses. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: VectorStats
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getVectorStats(authorization: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> VectorStats {
+        return try await getVectorStatsWithRequestBuilder(authorization: authorization, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Totals the collections, vectors and storage across the vector store.
+     - GET /v1/vector/stats
+     - Totals the collections, vectors and storage across the vector store.  Every figure is summed from the same per-collection detail GET /v1/vector/collections returns, so the two panels can never disagree. An unreachable Qdrant answers 200 with all zeros rather than an error.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter authorization: (header) Authorization carries the surface&#39;s bearer key (&#x60;Bearer &lt;key&gt;&#x60;); the bare key is accepted too. Search and vector are two surfaces with two keys. It is not &#x60;validate:\&quot;required\&quot;&#x60; on purpose: requireKey answers absence itself, so an unconfigured surface 503s and a missing bearer 401s — a validation refusal would rewrite both statuses. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<VectorStats> 
+     */
+    open class func getVectorStatsWithRequestBuilder(authorization: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<VectorStats> {
+        let localVariablePath = "/v1/vector/stats"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Authorization": authorization?.asParameter(codableHelper: apiConfiguration.codableHelper),
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<VectorStats>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Provision a vector collection for your org
+     
+     - parameter provisionRequest: (body)  (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProvisionResult
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postVector(provisionRequest: ProvisionRequest? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProvisionResult {
+        return try await postVectorWithRequestBuilder(provisionRequest: provisionRequest, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Provision a vector collection for your org
+     - POST /v1/vector
+     - Creates a vector collection inside the already-running shared vector backend and answers with the endpoint that reaches it.  `name` is the org-unique slug every physical name derives from, and must match ^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$. `instance` optionally BINDS the add-on to one of your app instances: the DSN is injected into that instance's addons secret as <KIND>_URL, switching the app off its built-in store and onto this one. Omit it and the connection string is yours to wire.  THE CREDENTIAL COMES BACK ONCE. The connection string and password are in this response and nowhere else — every read beside it omits the password — so a caller that does not keep them has to provision again. Where KMS is configured the password is sealed there and only a reference is persisted; where it is not, it is returned this once and stored nowhere. It is never held in plaintext.  Scoped to the caller's validated org (403 without one), which also namespaces the physical resource under a fixed-width hash, so two tenants can never fold onto one backend resource — a residual collision fails closed with 409 rather than silently sharing. A name already taken in your org is 409; an invalid name or instance slug is 400; a backend that refuses the create is 502. Where a later step fails after the backend resource already exists, it is torn back down rather than left orphaned.  Billing is gated BEFORE anything is created: an unfunded org — or, in the fail-closed default, an unreachable meter — gets the fleet-wide 402/503 and nothing is provisioned. The fee is per-kind and set by the deployment.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter provisionRequest: (body)  (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProvisionResult> 
+     */
+    open class func postVectorWithRequestBuilder(provisionRequest: ProvisionRequest? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProvisionResult> {
+        let localVariablePath = "/v1/vector"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: provisionRequest, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<ProvisioningCreateResponse>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ProvisionResult>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Deprovision a vector resource
-     
-     - parameter name: (path) The user-supplied resource name (slug). Lowercased and trimmed server-side; must match &#x60;^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$&#x60;.  
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func provisioningDeleteVector(name: String) async throws {
-        return try await provisioningDeleteVectorWithRequestBuilder(name: name).execute().body
-    }
-
-    /**
-     Deprovision a vector resource
-     - DELETE /v1/vector/{name}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter name: (path) The user-supplied resource name (slug). Lowercased and trimmed server-side; must match &#x60;^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$&#x60;.  
-     - returns: RequestBuilder<Void> 
-     */
-    open class func provisioningDeleteVectorWithRequestBuilder(name: String) -> RequestBuilder<Void> {
-        var localVariablePath = "/v1/vector/{name}"
-        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
-        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = HanzoAPI.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get one vector resource
-     
-     - parameter name: (path) The user-supplied resource name (slug). Lowercased and trimmed server-side; must match &#x60;^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$&#x60;.  
-     - returns: ProvisioningGetResponse
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func provisioningGetVector(name: String) async throws -> ProvisioningGetResponse {
-        return try await provisioningGetVectorWithRequestBuilder(name: name).execute().body
-    }
-
-    /**
-     Get one vector resource
-     - GET /v1/vector/{name}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter name: (path) The user-supplied resource name (slug). Lowercased and trimmed server-side; must match &#x60;^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$&#x60;.  
-     - returns: RequestBuilder<ProvisioningGetResponse> 
-     */
-    open class func provisioningGetVectorWithRequestBuilder(name: String) -> RequestBuilder<ProvisioningGetResponse> {
-        var localVariablePath = "/v1/vector/{name}"
-        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
-        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ProvisioningGetResponse>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     List vector resources for the caller's org
-     
-     - returns: [ProvisioningListItem]
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func provisioningListVector() async throws -> [ProvisioningListItem] {
-        return try await provisioningListVectorWithRequestBuilder().execute().body
-    }
-
-    /**
-     List vector resources for the caller's org
-     - GET /v1/vector
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<[ProvisioningListItem]> 
-     */
-    open class func provisioningListVectorWithRequestBuilder() -> RequestBuilder<[ProvisioningListItem]> {
-        let localVariablePath = "/v1/vector"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<[ProvisioningListItem]>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

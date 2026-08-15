@@ -6,47 +6,45 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class UploadAPI {
 
     /**
-     Generate a presigned upload URL
+     Upload a file into an execution session
      
-     - parameter botGetUploadUrlRequest: (body)  
-     - returns: BotGetUploadUrl200Response
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func botGetUploadUrl(botGetUploadUrlRequest: BotGetUploadUrlRequest) async throws -> BotGetUploadUrl200Response {
-        return try await botGetUploadUrlWithRequestBuilder(botGetUploadUrlRequest: botGetUploadUrlRequest).execute().body
+    open class func postUpload(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postUploadWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Generate a presigned upload URL
-     - POST /v1/bot/upload/url
+     Upload a file into an execution session
+     - POST /v1/upload
+     - Takes a multipart upload and writes the file into the session's sandbox, so a later run can read it. Answers the session id and the identifier the file is addressed by; `session_id` in the form joins an existing session instead of opening one.  The body is multipart/form-data, which is why this is not a typed operation: every non-empty typed body is decoded as JSON.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter botGetUploadUrlRequest: (body)  
-     - returns: RequestBuilder<BotGetUploadUrl200Response> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func botGetUploadUrlWithRequestBuilder(botGetUploadUrlRequest: BotGetUploadUrlRequest) -> RequestBuilder<BotGetUploadUrl200Response> {
-        let localVariablePath = "/v1/bot/upload/url"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: botGetUploadUrlRequest)
+    open class func postUploadWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/upload"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<BotGetUploadUrl200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

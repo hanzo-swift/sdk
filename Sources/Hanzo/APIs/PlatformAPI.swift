@@ -6,249 +6,2293 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class PlatformAPI {
 
     /**
-     Get platform settings
+     Deletes an application and tears down what it runs.
      
-     - parameter id: (path)  
-     - returns: AnyCodable
+     - parameter project: (path) Project is the project the application lives under, from the path. 
+     - parameter app: (path) App is the application&#39;s slug, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func autoGetPlatform(id: String) async throws -> AnyCodable {
-        return try await autoGetPlatformWithRequestBuilder(id: id).execute().body
+    open class func deletePlatformProjectsByProjectAppsByApp(project: String, app: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deletePlatformProjectsByProjectAppsByAppWithRequestBuilder(project: project, app: app, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Get platform settings
-     - GET /v1/auto/platforms/{id}
+     Deletes an application and tears down what it runs.
+     - DELETE /v1/platform/projects/{project}/apps/{app}
+     - Deletes an application and tears down what it runs.  It removes the application record and tears down what it owns in the org's tenant namespace — its operator Service CR and its KMSSecret — then answers 204. An app this org and project do not have is 404, never a silent success.  Teardown is best-effort by design: a cluster that refuses or is unreachable does not block the delete, so the record cannot be left orphaned behind a broken cluster; the failure is logged for operators and the orphan reaper reconciles it. Requires a validated principal; 403 without one.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter id: (path)  
-     - returns: RequestBuilder<AnyCodable> 
+       - name: bearer
+     - parameter project: (path) Project is the project the application lives under, from the path. 
+     - parameter app: (path) App is the application&#39;s slug, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func autoGetPlatformWithRequestBuilder(id: String) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/auto/platforms/{id}"
-        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
-        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func deletePlatformProjectsByProjectAppsByAppWithRequestBuilder(project: String, app: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/platform/projects/{project}/apps/{app}"
+        let projectPreEscape = "\(APIHelper.mapValueToPathItem(project))"
+        let projectPostEscape = projectPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{project}", with: projectPostEscape, options: .literal, range: nil)
+        let appPreEscape = "\(APIHelper.mapValueToPathItem(app))"
+        let appPostEscape = appPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{app}", with: appPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Update platform settings
+     Detaches a hostname and releases the claim.
      
-     - parameter id: (path)  
-     - parameter autoUpdatePlatformRequest: (body)  
-     - returns: AnyCodable
+     - parameter project: (path) Project is the project the application lives under, from the path. 
+     - parameter app: (path) App is the application&#39;s slug, from the path. 
+     - parameter host: (path) Host is the hostname, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func autoUpdatePlatform(id: String, autoUpdatePlatformRequest: AutoUpdatePlatformRequest) async throws -> AnyCodable {
-        return try await autoUpdatePlatformWithRequestBuilder(id: id, autoUpdatePlatformRequest: autoUpdatePlatformRequest).execute().body
+    open class func deletePlatformProjectsByProjectAppsByAppDomainsByHost(project: String, app: String, host: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deletePlatformProjectsByProjectAppsByAppDomainsByHostWithRequestBuilder(project: project, app: app, host: host, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Update platform settings
-     - POST /v1/auto/platforms/{id}
+     Detaches a hostname and releases the claim.
+     - DELETE /v1/platform/projects/{project}/apps/{app}/domains/{host}
+     - Detaches a hostname and releases the claim.  It drops the host from the app's ingress and releases any custom claim on it, so the name becomes claimable again — by this org or any other. Answers 204.  The default host is permanent and cannot be removed: that is 400, not 404. A host that is neither attached nor claimed here is 404. Requires a validated principal; 403 without one.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter id: (path)  
-     - parameter autoUpdatePlatformRequest: (body)  
-     - returns: RequestBuilder<AnyCodable> 
+       - name: bearer
+     - parameter project: (path) Project is the project the application lives under, from the path. 
+     - parameter app: (path) App is the application&#39;s slug, from the path. 
+     - parameter host: (path) Host is the hostname, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func autoUpdatePlatformWithRequestBuilder(id: String, autoUpdatePlatformRequest: AutoUpdatePlatformRequest) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/auto/platforms/{id}"
-        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
-        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: autoUpdatePlatformRequest)
+    open class func deletePlatformProjectsByProjectAppsByAppDomainsByHostWithRequestBuilder(project: String, app: String, host: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/platform/projects/{project}/apps/{app}/domains/{host}"
+        let projectPreEscape = "\(APIHelper.mapValueToPathItem(project))"
+        let projectPostEscape = projectPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{project}", with: projectPostEscape, options: .literal, range: nil)
+        let appPreEscape = "\(APIHelper.mapValueToPathItem(app))"
+        let appPostEscape = appPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{app}", with: appPostEscape, options: .literal, range: nil)
+        let hostPreEscape = "\(APIHelper.mapValueToPathItem(host))"
+        let hostPostEscape = hostPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{host}", with: hostPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Deletes a project and takes its site off the internet.
+     
+     - parameter slug: (path) Slug is the project to act on, from the path. It is unique within the caller&#39;s org and nowhere else, so another tenant&#39;s slug is a 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deletePlatformSitesBySlug(slug: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deletePlatformSitesBySlugWithRequestBuilder(slug: slug, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Deletes a project and takes its site off the internet.
+     - DELETE /v1/platform/sites/{slug}
+     - Deletes a project and takes its site off the internet.  The metadata delete is authoritative and everything after it is best-effort, in this order: the public `<slug>` subdomain binding is released so the slug is free to reclaim, the release rows are dropped so a reclaimed slug never inherits the previous owner's rollback menu, the git source is retired on every copy it has so a reclaimed slug never adopts a repository left behind (visibility.go), the S3 origin is purged under BOTH `<org>/<slug>/` and the site's sibling release space, and the edge cache-tag is flushed. A failure in any of those is logged and the delete still answers 204 — resurrecting a project because a purge missed would be worse than a leaked prefix.  Scope: a validated principal is required (403 without one) and the project is resolved within that principal's org, so another tenant's slug is a 404 and nothing of theirs is touched.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter slug: (path) Slug is the project to act on, from the path. It is unique within the caller&#39;s org and nowhere else, so another tenant&#39;s slug is a 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func deletePlatformSitesBySlugWithRequestBuilder(slug: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/platform/sites/{slug}"
+        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
+        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Gives a custom hostname back, so the name is free to reuse.
+     
+     - parameter slug: (path) Slug is the project the host is attached to, from the path. 
+     - parameter host: (path) Host is the custom hostname, from the path. It is cleaned to its canonical form (lowercased, trailing dot dropped) before anything is looked up. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deletePlatformSitesBySlugDomainsByHost(slug: String, host: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deletePlatformSitesBySlugDomainsByHostWithRequestBuilder(slug: slug, host: host, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Gives a custom hostname back, so the name is free to reuse.
+     - DELETE /v1/platform/sites/{slug}/domains/{host}
+     - Gives a custom hostname back, so the name is free to reuse.  A claim is FIRST-COME and global, so an add-only surface was not ownership but a leak: a customer who mistyped a domain, or claimed one they later moved elsewhere, could neither reuse it nor let anyone else. This is the third writer that closes it. The release is scoped to (host, org, slug), so it can only ever drop THIS tenant's own claim, and it is IDEMPOTENT: releasing a host we do not hold is a clean 204, never a 404 that would let a caller probe which hosts other tenants hold. The edge cache-tag is flushed, since the host stops routing here.  Scope: a validated principal is required (403 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter slug: (path) Slug is the project the host is attached to, from the path. 
+     - parameter host: (path) Host is the custom hostname, from the path. It is cleaned to its canonical form (lowercased, trailing dot dropped) before anything is looked up. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func deletePlatformSitesBySlugDomainsByHostWithRequestBuilder(slug: String, host: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/platform/sites/{slug}/domains/{host}"
+        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
+        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+        let hostPreEscape = "\(APIHelper.mapValueToPathItem(host))"
+        let hostPostEscape = hostPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{host}", with: hostPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     What this organization has declared, and what CD did with it
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getPlatformApps(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getPlatformAppsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     What this organization has declared, and what CD did with it
+     - GET /v1/platform/apps
+     - Returns the declarations in the caller's own org directory, each joined with the Hanzo CD Application reconciling it — sync verdict, health, the universe commit last applied. `cd` is null for a declaration the delivery plane has no Application for, which is the normal state of one that exists only on a branch.  If the delivery plane cannot be read, the declarations are still returned and `cdUnavailable` says why. An unreadable plane never renders as \"nothing has been reconciled\".
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getPlatformAppsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/platform/apps"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     One declaration
+     
+     - parameter app: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getPlatformAppsByApp(app: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getPlatformAppsByAppWithRequestBuilder(app: app, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     One declaration
+     - GET /v1/platform/apps/{app}
+     - The values file for one app as git declares it: image repository and tag, hosts, replicas, and whether CD is automated on it. 404 when this organization declares no such app.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter app: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getPlatformAppsByAppWithRequestBuilder(app: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/platform/apps/{app}"
+        let appPreEscape = "\(APIHelper.mapValueToPathItem(app))"
+        let appPostEscape = appPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{app}", with: appPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     One app's reconciliation
+     
+     - parameter app: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getPlatformAppsByAppCd(app: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getPlatformAppsByAppCdWithRequestBuilder(app: app, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     One app's reconciliation
+     - GET /v1/platform/apps/{app}/cd
+     - The Hanzo CD Application for one declaration, on its own — the poll a deploy view makes while it waits, without re-reading the whole inventory. 404 while the declaration exists only on a branch, because the generator reads main.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter app: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getPlatformAppsByAppCdWithRequestBuilder(app: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/platform/apps/{app}/cd"
+        let appPreEscape = "\(APIHelper.mapValueToPathItem(app))"
+        let appPostEscape = appPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{app}", with: appPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The delivery plane
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getPlatformCd(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getPlatformCdWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The delivery plane
+     - GET /v1/platform/cd
+     - Every Hanzo CD Application this caller may observe, with its sync verdict, health, the universe revision last applied, and whether automation and self-heal are on. A SuperAdmin sees the fleet; an org admin sees only Applications whose destination namespace IS its own organization, and never a reserved one.  A cluster with no CD installed answers an empty plane. A plane that cannot be READ answers 503 and says why — the two are opposite facts and never share a shape.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getPlatformCdWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/platform/cd"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Continuous integration (not wired)
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getPlatformCi(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getPlatformCiWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Continuous integration (not wired)
+     - GET /v1/platform/ci
+     - Answers 501. The forge's Actions runs need a Forgejo API client and this deployment has none; an empty run list would be indistinguishable from a forge with no runs.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getPlatformCiWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/platform/ci"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns the platform's own service tier, and where it has drifted.
+     
+     - parameter env: (query) Env narrows to one lifecycle env: main, test or dev. (optional)
+     - parameter health: (query) Health narrows to one health colour: green, yellow or red. (optional)
+     - parameter org: (query) Org narrows to one image namespace. (optional)
+     - parameter drift: (query) Drift is &#x60;1&#x60; or &#x60;true&#x60; to show only rows that have actually drifted. It is a STRING and not a bool because those two spellings are exactly what the board has always accepted, and a bool would silently widen that to &#x60;?drift&#x60; alone and to &#x60;TRUE&#x60; — a behaviour change wearing a type change&#39;s clothes. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: DriftBoard
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getPlatformFleet(env: String? = nil, health: String? = nil, org: String? = nil, drift: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> DriftBoard {
+        return try await getPlatformFleetWithRequestBuilder(env: env, health: health, org: org, drift: drift, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns the platform's own service tier, and where it has drifted.
+     - GET /v1/platform/fleet
+     - Returns the platform's own service tier, and where it has drifted.  It returns the board for the services the PLATFORM itself runs — iam, kms, gateway and the rest — as `{apps, summary}`: per service its environment, health, phase, the image tag its CR DECLARES, the tag actually running, and the drift between them, plus a summary counting the board green, yellow and red.  This is not a customer surface. `/v1/platform/projects/:project/apps` is a tenant's apps; this is the tier those tenants run ON, which is why the two are named differently rather than sharing a prefix.  Admission is scoped at the SCAN, before any CR is read: a platform SuperAdmin observes the whole fleet, an org admin observes only their own org's namespaces, and an org that owns none gets an empty board — a non-super caller never even lists another org's services. Narrow further with `env`, `health`, `org`, or `drift=1` for only what has drifted.  It degrades honestly rather than failing whole: a namespace that does not exist is skipped, and a running-state read the caller cannot make leaves the running tag empty — an unknown, never a guess — while the declared, health and phase columns still render.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter env: (query) Env narrows to one lifecycle env: main, test or dev. (optional)
+     - parameter health: (query) Health narrows to one health colour: green, yellow or red. (optional)
+     - parameter org: (query) Org narrows to one image namespace. (optional)
+     - parameter drift: (query) Drift is &#x60;1&#x60; or &#x60;true&#x60; to show only rows that have actually drifted. It is a STRING and not a bool because those two spellings are exactly what the board has always accepted, and a bool would silently widen that to &#x60;?drift&#x60; alone and to &#x60;TRUE&#x60; — a behaviour change wearing a type change&#39;s clothes. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<DriftBoard> 
+     */
+    open class func getPlatformFleetWithRequestBuilder(env: String? = nil, health: String? = nil, org: String? = nil, drift: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<DriftBoard> {
+        let localVariablePath = "/v1/platform/fleet"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "env": (wrappedValue: env?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "health": (wrappedValue: health?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "org": (wrappedValue: org?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "drift": (wrappedValue: drift?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<DriftBoard>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns one platform service, resolved to production by default.
+     
+     - parameter app: (path) App is the service&#39;s CR name, from the path. It must be a DNS-1123 label. 
+     - parameter env: (query) Env narrows the scan to one lifecycle env: main, test or dev. Omitted, the namespaces are scanned in lifecycle order and the first match wins, so a bare name resolves to PRODUCTION. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AppView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getPlatformFleetByApp(app: String, env: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AppView {
+        return try await getPlatformFleetByAppWithRequestBuilder(app: app, env: env, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns one platform service, resolved to production by default.
+     - GET /v1/platform/fleet/{app}
+     - Returns one platform service, resolved to production by default.  It returns a single platform service by its CR name, with the same declared-versus-running and drift facts the board carries. The name must be a DNS-1123 label; anything else is 400.  Namespaces are scanned in lifecycle order — main, then test, then dev — and the first match wins, so a bare name resolves to PRODUCTION. The scan covers only the namespaces the caller is authorized for, so an org admin can never read a service outside their own org, and a name found in none of them is 404 rather than a leak.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter app: (path) App is the service&#39;s CR name, from the path. It must be a DNS-1123 label. 
+     - parameter env: (query) Env narrows the scan to one lifecycle env: main, test or dev. Omitted, the namespaces are scanned in lifecycle order and the first match wins, so a bare name resolves to PRODUCTION. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AppView> 
+     */
+    open class func getPlatformFleetByAppWithRequestBuilder(app: String, env: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AppView> {
+        var localVariablePath = "/v1/platform/fleet/{app}"
+        let appPreEscape = "\(APIHelper.mapValueToPathItem(app))"
+        let appPostEscape = appPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{app}", with: appPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "env": (wrappedValue: env?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AppView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Reports whether this control plane can actually deploy anything.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Readiness
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getPlatformHealth(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Readiness {
+        return try await getPlatformHealthWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Reports whether this control plane can actually deploy anything.
+     - GET /v1/platform/health
+     - Reports whether this control plane can actually deploy anything.  A real probe, not a status page. It answers 200 only when the metadata store is open AND the cluster is genuinely reachable — proved by LISTING the operator App CRD, which settles reachability and CRD presence in one bounded call, and which is the exact question every deploy depends on. Anything else is 503 carrying the real reason and whether the CRD was found.  A constructed cluster client proves nothing — it is built from a kubeconfig, not from a reachable apiserver — so this deliberately spends a round trip rather than reporting `ok` while every deploy fails. Not admin-gated: liveness has to be probe-able without a credential.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Readiness> 
+     */
+    open class func getPlatformHealthWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Readiness> {
+        let localVariablePath = "/v1/platform/health"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Readiness>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns your org's projects, each with how many apps live under it.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: [ProjectView]
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getPlatformProjects(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> [ProjectView] {
+        return try await getPlatformProjectsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns your org's projects, each with how many apps live under it.
+     - GET /v1/platform/projects
+     - Returns your org's projects, each with how many apps live under it.  It lists the caller org's projects with the number of platform applications in each. A project is IAM's resource — it is created and deleted at /v1/iam/projects, never here — so this is the ONE projection IAM cannot serve: the project plus what the platform has put under it.  Requires a validated principal; 403 without one, and the org comes from that validated identity rather than a request header. This is the console's first authenticated read, so a project store that is not yet initialised degrades to an EMPTY list rather than a 500 — a new org genuinely has zero projects — and the real cause is surfaced to operators instead of to the caller.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<[ProjectView]> 
+     */
+    open class func getPlatformProjectsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<[ProjectView]> {
+        let localVariablePath = "/v1/platform/projects"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<[ProjectView]>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns one project and its app count.
+     
+     - parameter project: (path) Project is the project&#39;s name, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProjectView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getPlatformProjectsByProject(project: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProjectView {
+        return try await getPlatformProjectsByProjectWithRequestBuilder(project: project, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns one project and its app count.
+     - GET /v1/platform/projects/{project}
+     - Returns one project and its app count.  It returns a single project of the caller's org with the number of platform applications under it. A project this org does not have is 404, which is also what another tenant's project looks like from here. Requires a validated principal; 403 without one.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter project: (path) Project is the project&#39;s name, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProjectView> 
+     */
+    open class func getPlatformProjectsByProjectWithRequestBuilder(project: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProjectView> {
+        var localVariablePath = "/v1/platform/projects/{project}"
+        let projectPreEscape = "\(APIHelper.mapValueToPathItem(project))"
+        let projectPostEscape = projectPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{project}", with: projectPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ProjectView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns the applications in one project, with what the cluster says about them.
+     
+     - parameter project: (path) Project is the project&#39;s name, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: [AppView]
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getPlatformProjectsByProjectApps(project: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> [AppView] {
+        return try await getPlatformProjectsByProjectAppsWithRequestBuilder(project: project, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns the applications in one project, with what the cluster says about them.
+     - GET /v1/platform/projects/{project}/apps
+     - Returns the applications in one project, with what the cluster says about them.  It lists the caller org's applications under one project. Each row carries the stored record and, for an app that is live or deploying, the LIVE phase and health read from its operator Service CR; an app with sealed env also carries its secret-sync state. Those cluster reads are best-effort — an unreachable cluster leaves those fields empty and never blocks the listing.  The project must exist in IAM for this org, or the answer is 404; the `default` project is implicit and always accepted, because it is part of what an org IS. Requires a validated principal; 403 without one.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter project: (path) Project is the project&#39;s name, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<[AppView]> 
+     */
+    open class func getPlatformProjectsByProjectAppsWithRequestBuilder(project: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<[AppView]> {
+        var localVariablePath = "/v1/platform/projects/{project}/apps"
+        let projectPreEscape = "\(APIHelper.mapValueToPathItem(project))"
+        let projectPostEscape = projectPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{project}", with: projectPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<[AppView]>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns one application, with its live phase, health and secret sync.
+     
+     - parameter project: (path) Project is the project the application lives under, from the path. 
+     - parameter app: (path) App is the application&#39;s slug, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AppView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getPlatformProjectsByProjectAppsByApp(project: String, app: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AppView {
+        return try await getPlatformProjectsByProjectAppsByAppWithRequestBuilder(project: project, app: app, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns one application, with its live phase, health and secret sync.
+     - GET /v1/platform/projects/{project}/apps/{app}
+     - Returns one application, with its live phase, health and secret sync.  It returns a single application of the caller's org together with what the cluster currently reports for it: the operator Service CR's phase and health, and whether its sealed env has synced. An app this org and project do not have is 404. Requires a validated principal; 403 without one.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter project: (path) Project is the project the application lives under, from the path. 
+     - parameter app: (path) App is the application&#39;s slug, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AppView> 
+     */
+    open class func getPlatformProjectsByProjectAppsByAppWithRequestBuilder(project: String, app: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AppView> {
+        var localVariablePath = "/v1/platform/projects/{project}/apps/{app}"
+        let projectPreEscape = "\(APIHelper.mapValueToPathItem(project))"
+        let projectPostEscape = projectPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{project}", with: projectPostEscape, options: .literal, range: nil)
+        let appPreEscape = "\(APIHelper.mapValueToPathItem(app))"
+        let appPostEscape = appPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{app}", with: appPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AppView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns an app's deployment history.
+     
+     - parameter project: (path) Project is the project the application lives under, from the path. 
+     - parameter app: (path) App is the application&#39;s slug, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: [DeploymentView]
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getPlatformProjectsByProjectAppsByAppDeployments(project: String, app: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> [DeploymentView] {
+        return try await getPlatformProjectsByProjectAppsByAppDeploymentsWithRequestBuilder(project: project, app: app, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns an app's deployment history.
+     - GET /v1/platform/projects/{project}/apps/{app}/deployments
+     - Returns an app's deployment history.  It lists every deployment recorded for one of the caller org's applications, newest version first, each with its version, status, source, commit and image. Failed and superseded attempts are included — that is the point of a history. Requires a validated principal; 403 without one.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter project: (path) Project is the project the application lives under, from the path. 
+     - parameter app: (path) App is the application&#39;s slug, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<[DeploymentView]> 
+     */
+    open class func getPlatformProjectsByProjectAppsByAppDeploymentsWithRequestBuilder(project: String, app: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<[DeploymentView]> {
+        var localVariablePath = "/v1/platform/projects/{project}/apps/{app}/deployments"
+        let projectPreEscape = "\(APIHelper.mapValueToPathItem(project))"
+        let projectPostEscape = projectPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{project}", with: projectPostEscape, options: .literal, range: nil)
+        let appPreEscape = "\(APIHelper.mapValueToPathItem(app))"
+        let appPostEscape = appPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{app}", with: appPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<[DeploymentView]>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns one deployment of one app.
+     
+     - parameter project: (path) Project is the project the application lives under, from the path. 
+     - parameter app: (path) App is the application&#39;s slug, from the path. 
+     - parameter id: (path) ID is the deployment&#39;s id, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: DeploymentView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getPlatformProjectsByProjectAppsByAppDeploymentsById(project: String, app: String, id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> DeploymentView {
+        return try await getPlatformProjectsByProjectAppsByAppDeploymentsByIdWithRequestBuilder(project: project, app: app, id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns one deployment of one app.
+     - GET /v1/platform/projects/{project}/apps/{app}/deployments/{id}
+     - Returns one deployment of one app.  It returns a single deployment by id, scoped to the named application of the caller's org — so an id belonging to another app or another tenant is 404, not a read. Requires a validated principal; 403 without one.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter project: (path) Project is the project the application lives under, from the path. 
+     - parameter app: (path) App is the application&#39;s slug, from the path. 
+     - parameter id: (path) ID is the deployment&#39;s id, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<DeploymentView> 
+     */
+    open class func getPlatformProjectsByProjectAppsByAppDeploymentsByIdWithRequestBuilder(project: String, app: String, id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<DeploymentView> {
+        var localVariablePath = "/v1/platform/projects/{project}/apps/{app}/deployments/{id}"
+        let projectPreEscape = "\(APIHelper.mapValueToPathItem(project))"
+        let projectPostEscape = projectPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{project}", with: projectPostEscape, options: .literal, range: nil)
+        let appPreEscape = "\(APIHelper.mapValueToPathItem(app))"
+        let appPostEscape = appPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{app}", with: appPostEscape, options: .literal, range: nil)
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<DeploymentView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns real logs for a deployment — the build's, then the app's.
+     
+     - parameter project: (path) Project is the project the application lives under, from the path. 
+     - parameter app: (path) App is the application&#39;s slug, from the path. 
+     - parameter id: (path) ID is the deployment&#39;s id, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: DeployLogs
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getPlatformProjectsByProjectAppsByAppDeploymentsByIdLogs(project: String, app: String, id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> DeployLogs {
+        return try await getPlatformProjectsByProjectAppsByAppDeploymentsByIdLogsWithRequestBuilder(project: project, app: app, id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns real logs for a deployment — the build's, then the app's.
+     - GET /v1/platform/projects/{project}/apps/{app}/deployments/{id}/logs
+     - Returns real logs for a deployment — the build's, then the app's.  It returns the deployment's recorded status timeline together with LIVE pod logs pulled from the cluster: the build pod's output while a git build is running, and the running app's output once it is deployed. The `source` field says which of the two the body is — `build`, `app` or `none` — so a console can label the pane honestly.  It never fabricates log content. When no pod exists yet, or the cluster is unreachable, it degrades to the recorded timeline and says so. Every cluster read is confined to the caller org's own namespaces and time-boxed. Requires a validated principal; 403 without one.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter project: (path) Project is the project the application lives under, from the path. 
+     - parameter app: (path) App is the application&#39;s slug, from the path. 
+     - parameter id: (path) ID is the deployment&#39;s id, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<DeployLogs> 
+     */
+    open class func getPlatformProjectsByProjectAppsByAppDeploymentsByIdLogsWithRequestBuilder(project: String, app: String, id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<DeployLogs> {
+        var localVariablePath = "/v1/platform/projects/{project}/apps/{app}/deployments/{id}/logs"
+        let projectPreEscape = "\(APIHelper.mapValueToPathItem(project))"
+        let projectPostEscape = projectPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{project}", with: projectPostEscape, options: .literal, range: nil)
+        let appPreEscape = "\(APIHelper.mapValueToPathItem(app))"
+        let appPostEscape = appPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{app}", with: appPostEscape, options: .literal, range: nil)
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<DeployLogs>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns every hostname this app answers on.
+     
+     - parameter project: (path) Project is the project the application lives under, from the path. 
+     - parameter app: (path) App is the application&#39;s slug, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: [DomainView]
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getPlatformProjectsByProjectAppsByAppDomains(project: String, app: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> [DomainView] {
+        return try await getPlatformProjectsByProjectAppsByAppDomainsWithRequestBuilder(project: project, app: app, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns every hostname this app answers on.
+     - GET /v1/platform/projects/{project}/apps/{app}/domains
+     - Returns every hostname this app answers on.  It lists the app's hosts: the permanent default host it was born with, any org-subtree hosts attached to it, and every custom host claimed for it with its verification state and, while pending, the DNS challenge records to publish. Live endpoint status for each host is observed from the cluster. Requires a validated principal; 403 without one.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter project: (path) Project is the project the application lives under, from the path. 
+     - parameter app: (path) App is the application&#39;s slug, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<[DomainView]> 
+     */
+    open class func getPlatformProjectsByProjectAppsByAppDomainsWithRequestBuilder(project: String, app: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<[DomainView]> {
+        var localVariablePath = "/v1/platform/projects/{project}/apps/{app}/domains"
+        let projectPreEscape = "\(APIHelper.mapValueToPathItem(project))"
+        let projectPostEscape = projectPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{project}", with: projectPostEscape, options: .literal, range: nil)
+        let appPreEscape = "\(APIHelper.mapValueToPathItem(app))"
+        let appPostEscape = appPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{app}", with: appPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<[DomainView]>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns every project your org owns.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: [ProjectsProject]
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getPlatformSites(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> [ProjectsProject] {
+        return try await getPlatformSitesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns every project your org owns.
+     - GET /v1/platform/sites
+     - Returns every project your org owns.  Each row carries the slug, name, framework, visibility, status and live URL — the same rows console and the builder render, because there is only one store behind both. It requires a validated principal (403 without one) and is keyed by that principal's org, so it never contains another tenant's project.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<[ProjectsProject]> 
+     */
+    open class func getPlatformSitesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<[ProjectsProject]> {
+        let localVariablePath = "/v1/platform/sites"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<[ProjectsProject]>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns one project of yours by slug — its settings, its live URL and the deployment currently serving it.
+     
+     - parameter slug: (path) Slug is the project to act on, from the path. It is unique within the caller&#39;s org and nowhere else, so another tenant&#39;s slug is a 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProjectsProject
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getPlatformSitesBySlug(slug: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProjectsProject {
+        return try await getPlatformSitesBySlugWithRequestBuilder(slug: slug, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns one project of yours by slug — its settings, its live URL and the deployment currently serving it.
+     - GET /v1/platform/sites/{slug}
+     - Returns one project of yours by slug — its settings, its live URL and the deployment currently serving it.  Scope: a validated principal is required (403 without one) and the lookup is keyed by (org, slug), so another tenant's slug is a 404 exactly like a nonexistent one.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter slug: (path) Slug is the project to act on, from the path. It is unique within the caller&#39;s org and nowhere else, so another tenant&#39;s slug is a 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProjectsProject> 
+     */
+    open class func getPlatformSitesBySlugWithRequestBuilder(slug: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProjectsProject> {
+        var localVariablePath = "/v1/platform/sites/{slug}"
+        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
+        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ProjectsProject>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns a project's deploy history, newest version first.
+     
+     - parameter slug: (path) Slug is the project to act on, from the path. It is unique within the caller&#39;s org and nowhere else, so another tenant&#39;s slug is a 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: [ProjectsDeployment]
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getPlatformSitesBySlugDeployments(slug: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> [ProjectsDeployment] {
+        return try await getPlatformSitesBySlugDeploymentsWithRequestBuilder(slug: slug, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns a project's deploy history, newest version first.
+     - GET /v1/platform/sites/{slug}/deployments
+     - Returns a project's deploy history, newest version first.  Every deploy of the project is a row — uploads, generated sites, and git/CI builds alike — carrying its version, status, source, commit, live URL, file count and byte count. The short-lived upload grant a queued git deployment was handed is NOT replayed here: it exists only on the 202 that minted it, so a grant cannot outlive its build by being fetched again.  Scope: a validated principal is required (403 without one) and the project is resolved within that principal's org, so another tenant's slug is a 404.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter slug: (path) Slug is the project to act on, from the path. It is unique within the caller&#39;s org and nowhere else, so another tenant&#39;s slug is a 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<[ProjectsDeployment]> 
+     */
+    open class func getPlatformSitesBySlugDeploymentsWithRequestBuilder(slug: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<[ProjectsDeployment]> {
+        var localVariablePath = "/v1/platform/sites/{slug}/deployments"
+        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
+        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<[ProjectsDeployment]>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns one deployment of a project by id.
+     
+     - parameter slug: (path) Slug is the project the deployment belongs to, from the path. 
+     - parameter id: (path) ID is the deployment id, from the path. A deployment of another project — or of another tenant&#39;s project — is not found. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProjectsDeployment
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getPlatformSitesBySlugDeploymentsById(slug: String, id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProjectsDeployment {
+        return try await getPlatformSitesBySlugDeploymentsByIdWithRequestBuilder(slug: slug, id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns one deployment of a project by id.
+     - GET /v1/platform/sites/{slug}/deployments/{id}
+     - Returns one deployment of a project by id.  It is how a console follows a build: the status (`queued`, `uploading`, `live`, `error`), the message a failure left, and the URL and prefix it went live at. Like the history, it never replays the upload grant.  Scope: a validated principal is required (403 without one). Both the project and the deployment are resolved within that principal's org, so a deployment of another project — or of another tenant — is a 404.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter slug: (path) Slug is the project the deployment belongs to, from the path. 
+     - parameter id: (path) ID is the deployment id, from the path. A deployment of another project — or of another tenant&#39;s project — is not found. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProjectsDeployment> 
+     */
+    open class func getPlatformSitesBySlugDeploymentsByIdWithRequestBuilder(slug: String, id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProjectsDeployment> {
+        var localVariablePath = "/v1/platform/sites/{slug}/deployments/{id}"
+        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
+        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ProjectsDeployment>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns every custom hostname this site holds: the live ones, plus any pending claim with the DNS records it still owes.
+     
+     - parameter slug: (path) Slug is the project to act on, from the path. It is unique within the caller&#39;s org and nowhere else, so another tenant&#39;s slug is a 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProjectsDomains
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getPlatformSitesBySlugDomains(slug: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProjectsDomains {
+        return try await getPlatformSitesBySlugDomainsWithRequestBuilder(slug: slug, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns every custom hostname this site holds: the live ones, plus any pending claim with the DNS records it still owes.
+     - GET /v1/platform/sites/{slug}/domains
+     - Returns every custom hostname this site holds: the live ones, plus any pending claim with the DNS records it still owes.  `domains` is the routing answer — the hosts that are verified right now — while `claims` is the full panel, one row per host, each saying whether it is live or pending and, if pending, exactly what to publish.  Scope: a validated principal is required (403 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter slug: (path) Slug is the project to act on, from the path. It is unique within the caller&#39;s org and nowhere else, so another tenant&#39;s slug is a 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProjectsDomains> 
+     */
+    open class func getPlatformSitesBySlugDomainsWithRequestBuilder(slug: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProjectsDomains> {
+        var localVariablePath = "/v1/platform/sites/{slug}/domains"
+        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
+        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ProjectsDomains>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns a site's releases newest-first, marking the active one — the rollback menu.
+     
+     - parameter slug: (path) Slug is the project to act on, from the path. It is unique within the caller&#39;s org and nowhere else, so another tenant&#39;s slug is a 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: [ProjectsRelease]
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getPlatformSitesBySlugReleases(slug: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> [ProjectsRelease] {
+        return try await getPlatformSitesBySlugReleasesWithRequestBuilder(slug: slug, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns a site's releases newest-first, marking the active one — the rollback menu.
+     - GET /v1/platform/sites/{slug}/releases
+     - Returns a site's releases newest-first, marking the active one — the rollback menu.  Each row carries the release id to activate, the source it was promoted from, its object and byte counts, and the URL if it is the one serving. Retention bounds the list, so it is the set that can actually still be rolled back to, not a full history.  Scope: a validated principal is required (403 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter slug: (path) Slug is the project to act on, from the path. It is unique within the caller&#39;s org and nowhere else, so another tenant&#39;s slug is a 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<[ProjectsRelease]> 
+     */
+    open class func getPlatformSitesBySlugReleasesWithRequestBuilder(slug: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<[ProjectsRelease]> {
+        var localVariablePath = "/v1/platform/sites/{slug}/releases"
+        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
+        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<[ProjectsRelease]>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Changes a project's settings, and only the settings you send.
+     
+     - parameter slug: (path) Slug is the project to update, from the path. The URL is the addressing authority — a &#x60;slug&#x60; in the body cannot move the write to another project. 
+     - parameter projectsUpdate: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProjectsProject
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func patchPlatformSitesBySlug(slug: String, projectsUpdate: ProjectsUpdate, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProjectsProject {
+        return try await patchPlatformSitesBySlugWithRequestBuilder(slug: slug, projectsUpdate: projectsUpdate, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Changes a project's settings, and only the settings you send.
+     - PATCH /v1/platform/sites/{slug}
+     - Changes a project's settings, and only the settings you send.  Every field is optional and absent means \"leave it\": `name` may not be blanked, `framework` must stay a known build hint, and `cacheControl` is capped at 256 characters with no newlines (it becomes a response header). `visibility` flips public/private under the same rule as create — public is free, private needs a funded org. `upstream` and `license` are free-text credit for third-party work, and sending \"\" clears one. Changing anything reconciles the project's canonical git repo, so a visibility change reaches the source and not just the listing.  `hidden`/`hiddenReason` are platform MODERATION and are ignored unless the caller is a platform admin; they remove a project from the public catalogue without touching the publisher's own visibility choice, so un-hiding restores exactly what they asked for.  Scope: a validated principal is required (403 without one) and the project is resolved within that principal's org, so another tenant's slug is a 404.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter slug: (path) Slug is the project to update, from the path. The URL is the addressing authority — a &#x60;slug&#x60; in the body cannot move the write to another project. 
+     - parameter projectsUpdate: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProjectsProject> 
+     */
+    open class func patchPlatformSitesBySlugWithRequestBuilder(slug: String, projectsUpdate: ProjectsUpdate, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProjectsProject> {
+        var localVariablePath = "/v1/platform/sites/{slug}"
+        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
+        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: projectsUpdate, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ProjectsProject>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Get platform analytics data
+     Deploy an app through cd.hanzo.ai
      
-     - returns: AnyCodable
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func flowGetAnalytics() async throws -> AnyCodable {
-        return try await flowGetAnalyticsWithRequestBuilder().execute().body
+    open class func postPlatformApps(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postPlatformAppsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Get platform analytics data
-     - GET /v1/flow/analytics
+     Deploy an app through cd.hanzo.ai
+     - POST /v1/platform/apps
+     - Builds a git repository into an image and writes the declaration that names it — a values file in `hanzoai/universe` under `charts/app/values/<namespace>/<name>.yaml`, which the `fleet` ApplicationSet renders as one Application. That file IS the deployment: nothing else has to be applied.  `mode` decides whether anything can go live. The default, `branch`, pushes to `deploy/<namespace>/<name>/<tag>` and returns a review URL; the generator reads main, so a branch declaration deploys NOTHING and merging the review is the deliberate act. `commit` writes main, and proves the image is pullable first — a declaration naming an image the registry cannot serve is an ImagePullBackOff with no rollback path.  Omit `tag` to build; give it to declare an image an earlier call already built, which is how a green build is released without rebuilding it.  An org is its name: the values DIRECTORY, the destination NAMESPACE and the AppProject FENCE are all `<org>`, and the image is `<registry>/<org>/<app>`. None of them is a request field — the directory decides what CD admits the sync under and the repository decides what the cluster pulls, so a caller who could name either could reach outside its own org.  `org` is an ACT-AS, not a placement field: it defaults to the caller's own, and naming another requires SuperAdmin. So does naming a RESERVED org — the platform's own namespace family (the brands and their environments, the control and delivery planes, `admin`) — even when it is the caller's own, because an IAM org named `kube-system` does not own Kubernetes. Both refuse rather than downgrade, so an escape attempt is never indistinguishable from a normal request.  A host outside the caller's org subtree is refused: claim and verify a custom domain first.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<AnyCodable> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func flowGetAnalyticsWithRequestBuilder() -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/flow/analytics"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func postPlatformAppsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/platform/apps"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Get platform settings
+     Rolls a platform service's pods, in a named environment.
      
-     - parameter id: (path)  
-     - returns: FlowPlatform
+     - parameter app: (path) App is the service&#39;s CR name, from the path. It must be a DNS-1123 label. 
+     - parameter restartRef: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Restarted
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func flowGetPlatform(id: String) async throws -> FlowPlatform {
-        return try await flowGetPlatformWithRequestBuilder(id: id).execute().body
+    open class func postPlatformFleetByAppDeploy(app: String, restartRef: RestartRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Restarted {
+        return try await postPlatformFleetByAppDeployWithRequestBuilder(app: app, restartRef: restartRef, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Get platform settings
-     - GET /v1/flow/platforms/{id}
+     Rolls a platform service's pods, in a named environment.
+     - POST /v1/platform/fleet/{app}/deploy
+     - Rolls a platform service's pods, in a named environment.  It triggers a rolling restart of one platform service's Deployment by stamping a fresh restart annotation, and answers 202 with the app, the namespace, the environment and the timestamp. It restarts pods; it does NOT change the image — a version change is the release path, not this.  SuperAdmin ONLY, and deliberately narrower than the read gate beside it. The only namespaces this board touches are the platform's own tier, so a restart here recycles a SHARED service every tenant depends on. A brand-org admin is a customer-org admin, not a platform operator: observing the board is bounded and audited, and restarting production identity is not.  `?env=main|test|dev` is REQUIRED — a bare call does not default to production, which is what closes the fat-finger and confused-deputy hazard — and any other value is 400. A service with no Deployment to restart in that environment is 404.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter id: (path)  
-     - returns: RequestBuilder<FlowPlatform> 
+       - name: bearer
+     - parameter app: (path) App is the service&#39;s CR name, from the path. It must be a DNS-1123 label. 
+     - parameter restartRef: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Restarted> 
      */
-    open class func flowGetPlatformWithRequestBuilder(id: String) -> RequestBuilder<FlowPlatform> {
-        var localVariablePath = "/v1/flow/platforms/{id}"
-        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
-        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func postPlatformFleetByAppDeployWithRequestBuilder(app: String, restartRef: RestartRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Restarted> {
+        var localVariablePath = "/v1/platform/fleet/{app}/deploy"
+        let appPreEscape = "\(APIHelper.mapValueToPathItem(app))"
+        let appPostEscape = appPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{app}", with: appPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: restartRef, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<FlowPlatform>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get worker queue metrics (EE)
-     
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func flowGetQueueMetrics() async throws -> AnyCodable {
-        return try await flowGetQueueMetricsWithRequestBuilder().execute().body
-    }
-
-    /**
-     Get worker queue metrics (EE)
-     - GET /v1/flow/queue-metrics
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func flowGetQueueMetricsWithRequestBuilder() -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/flow/queue-metrics"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Update platform settings
-     
-     - parameter id: (path)  
-     - parameter flowUpdatePlatformRequest: (body)  
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func flowUpdatePlatform(id: String, flowUpdatePlatformRequest: FlowUpdatePlatformRequest) async throws -> AnyCodable {
-        return try await flowUpdatePlatformWithRequestBuilder(id: id, flowUpdatePlatformRequest: flowUpdatePlatformRequest).execute().body
-    }
-
-    /**
-     Update platform settings
-     - POST /v1/flow/platforms/{id}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter id: (path)  
-     - parameter flowUpdatePlatformRequest: (body)  
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func flowUpdatePlatformWithRequestBuilder(id: String, flowUpdatePlatformRequest: FlowUpdatePlatformRequest) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/flow/platforms/{id}"
-        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
-        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: flowUpdatePlatformRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Restarted>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Creates an application from a git repo or a container image.
+     
+     - parameter project: (path) Project is the project to create the application under, from the path. 
+     - parameter createAppReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AppView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postPlatformProjectsByProjectApps(project: String, createAppReq: CreateAppReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AppView {
+        return try await postPlatformProjectsByProjectAppsWithRequestBuilder(project: project, createAppReq: createAppReq, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Creates an application from a git repo or a container image.
+     - POST /v1/platform/projects/{project}/apps
+     - Creates an application from a git repo or a container image.  It registers a new application under one of the caller org's projects and answers 201 with it. Creating does NOT deploy: the app lands in `draft` and nothing reaches the cluster until /deploy.  `source` is `git` — which requires `repo.url` — or `image`, which requires `image.repository`; anything else is 400. A git app builds with zero-config `pack` by default and may opt into `dockerfile`; an image app never builds. The repo URL and Dockerfile path are validated here against the SAME allowlist the privileged build enforces, so an unsafe source is refused before it is ever persisted.  The `slug` is the app's identity in the cluster: given or derived from `name`, it must match `^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$`, and a slug already used in this project is 409. `replicas` and `storageGb` are clamped to the deployment's limits rather than refused.  Env keys must match `^[A-Za-z_][A-Za-z0-9_]*$`. A variable marked `secret: true` is SEALED into KMS and its plaintext is never written to the database — and if KMS is unavailable the create fails 503 rather than falling back to storing a secret in the clear.  The app is seeded with its canonical default host, so it has a working HTTPS URL the moment it deploys. A bare custom domain cannot be attached here — it has to go through add-domain and DNS verification first. Requires a validated principal; 403 without one, and every cluster object it will later create lands in that org's own `tenant-<org>` namespace.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter project: (path) Project is the project to create the application under, from the path. 
+     - parameter createAppReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AppView> 
+     */
+    open class func postPlatformProjectsByProjectAppsWithRequestBuilder(project: String, createAppReq: CreateAppReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AppView> {
+        var localVariablePath = "/v1/platform/projects/{project}/apps"
+        let projectPreEscape = "\(APIHelper.mapValueToPathItem(project))"
+        let projectPostEscape = projectPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{project}", with: projectPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: createAppReq, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AppView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Deploys the app — building it first if it comes from git.
+     
+     - parameter project: (path) Project is the project the application lives under, from the path. 
+     - parameter app: (path) App is the application&#39;s slug, from the path. 
+     - parameter deployReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: DeploymentView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postPlatformProjectsByProjectAppsByAppDeploy(project: String, app: String, deployReq: DeployReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> DeploymentView {
+        return try await postPlatformProjectsByProjectAppsByAppDeployWithRequestBuilder(project: project, app: app, deployReq: deployReq, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Deploys the app — building it first if it comes from git.
+     - POST /v1/platform/projects/{project}/apps/{app}/deploy
+     - Deploys the app — building it first if it comes from git.  It starts a new, monotonically versioned deployment of the app and answers 202 with the deployment record. A 202 is an ACCEPTED deployment, not a live one.  An IMAGE app deploys the tag you name (falling back to the app's tag, then `latest`) by writing its operator Service CR; the operator reconciles it to running. A GIT app launches an in-cluster BuildKit Job at `commit` — or the app's branch — and comes back in `building`; the Service CR is applied later, by the reconciler, once the Job succeeds. The reconciler is restart-safe, so a build in flight survives a cloud restart.  Deploys are bounded per org: over the concurrent-deploy cap is 429 and NOTHING is recorded, so a rejected deploy leaves no phantom in the history. An unreachable cluster is 503 but still records an honest `error` deployment, because a deploy that was attempted and failed must not be indistinguishable from one never made. Every other failure is likewise recorded in its real terminal state.  This is metered work: a git build is billed to the org's ledger in wall-clock build minutes once the Job finishes, and the running deployment is billed for its compute per tick for as long as it stays live. Requires a validated principal; 403 without one, and everything is written into that org's own `tenant-<org>` namespace.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter project: (path) Project is the project the application lives under, from the path. 
+     - parameter app: (path) App is the application&#39;s slug, from the path. 
+     - parameter deployReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<DeploymentView> 
+     */
+    open class func postPlatformProjectsByProjectAppsByAppDeployWithRequestBuilder(project: String, app: String, deployReq: DeployReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<DeploymentView> {
+        var localVariablePath = "/v1/platform/projects/{project}/apps/{app}/deploy"
+        let projectPreEscape = "\(APIHelper.mapValueToPathItem(project))"
+        let projectPostEscape = projectPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{project}", with: projectPostEscape, options: .literal, range: nil)
+        let appPreEscape = "\(APIHelper.mapValueToPathItem(app))"
+        let appPostEscape = appPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{app}", with: appPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: deployReq, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<DeploymentView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Attaches a hostname — instantly if you already own it, otherwise with a DNS challenge.
+     
+     - parameter project: (path) Project is the project the application lives under, from the path. 
+     - parameter app: (path) App is the application&#39;s slug, from the path. 
+     - parameter addDomainReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: DomainView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postPlatformProjectsByProjectAppsByAppDomains(project: String, app: String, addDomainReq: AddDomainReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> DomainView {
+        return try await postPlatformProjectsByProjectAppsByAppDomainsWithRequestBuilder(project: project, app: app, addDomainReq: addDomainReq, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Attaches a hostname — instantly if you already own it, otherwise with a DNS challenge.
+     - POST /v1/platform/projects/{project}/apps/{app}/domains
+     - Attaches a hostname — instantly if you already own it, otherwise with a DNS challenge.  It attaches `host` to the app, and which of two things happens depends on who owns the name. A host inside the caller org's own subtree is structurally owned, so it goes ACTIVE immediately and answers 201. A bring-your-own host is claimed as PENDING and answers the DNS challenge records to publish; it is NOT rendered into the app's ingress until /verify passes.  Claims are globally unique. A host already claimed by another organization is 409, and so is one claimed by a different app in your own; re-adding this app's OWN claim is idempotent and answers its current state at 200. The default host is always attached and re-adding it is 409. A host under the platform's shared apex that is not the caller's own subtree is 403 — it belongs to whoever owns that subtree and can never be grabbed through the custom path.  `host` must be a valid DNS hostname; anything else is 400. Requires a validated principal; 403 without one.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter project: (path) Project is the project the application lives under, from the path. 
+     - parameter app: (path) App is the application&#39;s slug, from the path. 
+     - parameter addDomainReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<DomainView> 
+     */
+    open class func postPlatformProjectsByProjectAppsByAppDomainsWithRequestBuilder(project: String, app: String, addDomainReq: AddDomainReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<DomainView> {
+        var localVariablePath = "/v1/platform/projects/{project}/apps/{app}/domains"
+        let projectPreEscape = "\(APIHelper.mapValueToPathItem(project))"
+        let projectPostEscape = projectPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{project}", with: projectPostEscape, options: .literal, range: nil)
+        let appPreEscape = "\(APIHelper.mapValueToPathItem(app))"
+        let appPostEscape = appPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{app}", with: appPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: addDomainReq, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<DomainView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Checks a custom domain's DNS and turns it on if it passes.
+     
+     - parameter project: (path) Project is the project the application lives under, from the path. 
+     - parameter app: (path) App is the application&#39;s slug, from the path. 
+     - parameter host: (path) Host is the hostname, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: DomainView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postPlatformProjectsByProjectAppsByAppDomainsByHostVerify(project: String, app: String, host: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> DomainView {
+        return try await postPlatformProjectsByProjectAppsByAppDomainsByHostVerifyWithRequestBuilder(project: project, app: app, host: host, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Checks a custom domain's DNS and turns it on if it passes.
+     - POST /v1/platform/projects/{project}/apps/{app}/domains/{host}/verify
+     - Checks a custom domain's DNS and turns it on if it passes.  It runs the DNS challenge check for a pending custom host and, when it passes, marks the host verified and renders it into the app's ingress so it starts serving.  A check that RAN and did not pass is not an error: it answers 200 with the host still pending and the reason in `detail`, so a console can show the operator what DNS is actually returning. An already-verified host answers as-is without re-checking. A host not claimed by this app is 404. Requires a validated principal; 403 without one.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter project: (path) Project is the project the application lives under, from the path. 
+     - parameter app: (path) App is the application&#39;s slug, from the path. 
+     - parameter host: (path) Host is the hostname, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<DomainView> 
+     */
+    open class func postPlatformProjectsByProjectAppsByAppDomainsByHostVerifyWithRequestBuilder(project: String, app: String, host: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<DomainView> {
+        var localVariablePath = "/v1/platform/projects/{project}/apps/{app}/domains/{host}/verify"
+        let projectPreEscape = "\(APIHelper.mapValueToPathItem(project))"
+        let projectPostEscape = projectPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{project}", with: projectPostEscape, options: .literal, range: nil)
+        let appPreEscape = "\(APIHelper.mapValueToPathItem(app))"
+        let appPostEscape = appPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{app}", with: appPostEscape, options: .literal, range: nil)
+        let hostPreEscape = "\(APIHelper.mapValueToPathItem(host))"
+        let hostPostEscape = hostPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{host}", with: hostPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<DomainView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Puts a branch on its own URL.
+     
+     - parameter project: (path) Project is the project the parent application lives under, from the path. 
+     - parameter app: (path) App is the parent application&#39;s slug, from the path. 
+     - parameter previewReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: PreviewView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postPlatformProjectsByProjectAppsByAppPreview(project: String, app: String, previewReq: PreviewReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PreviewView {
+        return try await postPlatformProjectsByProjectAppsByAppPreviewWithRequestBuilder(project: project, app: app, previewReq: previewReq, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Puts a branch on its own URL.
+     - POST /v1/platform/projects/{project}/apps/{app}/preview
+     - Puts a branch on its own URL.  It deploys an already-built `image` to a per-branch preview and answers its URL, the branch, the preview's slug and the deployment. The preview is a FIRST-CLASS application named `<app>-<branch>` in the same project and tenant namespace, with its own default host — so it is completely isolated from production while reusing the same deploy mechanic. Re-previewing a branch converges that same target in place rather than stacking another one.  It carries NO environment variables, deliberately: a preview never inherits production's secrets. It also does not build — `image` is required and must already exist, and `branch` defaults to the parent app's. A branch that does not resolve to a valid slug distinct from the parent's is 400. Requires a validated principal; 403 without one.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter project: (path) Project is the project the parent application lives under, from the path. 
+     - parameter app: (path) App is the parent application&#39;s slug, from the path. 
+     - parameter previewReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<PreviewView> 
+     */
+    open class func postPlatformProjectsByProjectAppsByAppPreviewWithRequestBuilder(project: String, app: String, previewReq: PreviewReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PreviewView> {
+        var localVariablePath = "/v1/platform/projects/{project}/apps/{app}/preview"
+        let projectPreEscape = "\(APIHelper.mapValueToPathItem(project))"
+        let projectPostEscape = projectPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{project}", with: projectPostEscape, options: .literal, range: nil)
+        let appPreEscape = "\(APIHelper.mapValueToPathItem(app))"
+        let appPostEscape = appPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{app}", with: appPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: previewReq, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<PreviewView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Promotes an already-built release to the app.
+     
+     - parameter project: (path) Project is the project the application lives under, from the path. 
+     - parameter app: (path) App is the application&#39;s slug, from the path. 
+     - parameter promoteReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: DeploymentView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postPlatformProjectsByProjectAppsByAppPromote(project: String, app: String, promoteReq: PromoteReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> DeploymentView {
+        return try await postPlatformProjectsByProjectAppsByAppPromoteWithRequestBuilder(project: project, app: app, promoteReq: promoteReq, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Promotes an already-built release to the app.
+     - POST /v1/platform/projects/{project}/apps/{app}/promote
+     - Promotes an already-built release to the app.  It redeploys an image that already exists — named either by `deploymentId`, which promotes that deployment's exact built image, or by `tag`, resolved the same way a deploy resolves one. One of the two is required; neither is 400.  Promotion never builds. A deployment that carries no built image cannot be promoted and is 400, and a deployment id outside this app is 404. It runs through the same deploy core as everything else, so it takes a NEW version number and is subject to the same per-org concurrency cap. Requires a validated principal; 403 without one.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter project: (path) Project is the project the application lives under, from the path. 
+     - parameter app: (path) App is the application&#39;s slug, from the path. 
+     - parameter promoteReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<DeploymentView> 
+     */
+    open class func postPlatformProjectsByProjectAppsByAppPromoteWithRequestBuilder(project: String, app: String, promoteReq: PromoteReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<DeploymentView> {
+        var localVariablePath = "/v1/platform/projects/{project}/apps/{app}/promote"
+        let projectPreEscape = "\(APIHelper.mapValueToPathItem(project))"
+        let projectPostEscape = projectPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{project}", with: projectPostEscape, options: .literal, range: nil)
+        let appPreEscape = "\(APIHelper.mapValueToPathItem(app))"
+        let appPostEscape = appPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{app}", with: appPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: promoteReq, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<DeploymentView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Goes back to the previous release.
+     
+     - parameter project: (path) Project is the project the application lives under, from the path. 
+     - parameter app: (path) App is the application&#39;s slug, from the path. 
+     - parameter rollbackReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: DeploymentView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postPlatformProjectsByProjectAppsByAppRollback(project: String, app: String, rollbackReq: RollbackReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> DeploymentView {
+        return try await postPlatformProjectsByProjectAppsByAppRollbackWithRequestBuilder(project: project, app: app, rollbackReq: rollbackReq, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Goes back to the previous release.
+     - POST /v1/platform/projects/{project}/apps/{app}/rollback
+     - Goes back to the previous release.  It redeploys a prior image: the one named by `deploymentId`, or — with no body — the newest earlier deployment that carries a real built image and did not error, skipping the release currently live. An app with nothing earlier to return to is 400.  A rollback is a deploy of an old image, not a rewind: it takes a NEW version number and appends to the history rather than erasing what came after. Both lookups are scoped to this app and org, so another tenant's image can never be rolled in. Requires a validated principal; 403 without one.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter project: (path) Project is the project the application lives under, from the path. 
+     - parameter app: (path) App is the application&#39;s slug, from the path. 
+     - parameter rollbackReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<DeploymentView> 
+     */
+    open class func postPlatformProjectsByProjectAppsByAppRollbackWithRequestBuilder(project: String, app: String, rollbackReq: RollbackReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<DeploymentView> {
+        var localVariablePath = "/v1/platform/projects/{project}/apps/{app}/rollback"
+        let projectPreEscape = "\(APIHelper.mapValueToPathItem(project))"
+        let projectPostEscape = projectPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{project}", with: projectPostEscape, options: .literal, range: nil)
+        let appPreEscape = "\(APIHelper.mapValueToPathItem(app))"
+        let appPostEscape = appPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{app}", with: appPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: rollbackReq, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<DeploymentView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Starts a stopped app back up.
+     
+     - parameter project: (path) Project is the project the application lives under, from the path. 
+     - parameter app: (path) App is the application&#39;s slug, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AppView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postPlatformProjectsByProjectAppsByAppStart(project: String, app: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AppView {
+        return try await postPlatformProjectsByProjectAppsByAppStartWithRequestBuilder(project: project, app: app, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Starts a stopped app back up.
+     - POST /v1/platform/projects/{project}/apps/{app}/start
+     - Starts a stopped app back up.  It scales the app's Service back to its configured replica count and marks it live, answering the updated application. It does not redeploy: the image already on the Service CR is what comes back.  The billing watermark is reset to now as part of starting, so the org is charged for THIS live span and never for the gap the app spent stopped. An app with no Service CR is 404, an unreachable cluster is 503, and a cluster that refuses the scale is 502. Requires a validated principal; 403 without one.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter project: (path) Project is the project the application lives under, from the path. 
+     - parameter app: (path) App is the application&#39;s slug, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AppView> 
+     */
+    open class func postPlatformProjectsByProjectAppsByAppStartWithRequestBuilder(project: String, app: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AppView> {
+        var localVariablePath = "/v1/platform/projects/{project}/apps/{app}/start"
+        let projectPreEscape = "\(APIHelper.mapValueToPathItem(project))"
+        let projectPostEscape = projectPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{project}", with: projectPostEscape, options: .literal, range: nil)
+        let appPreEscape = "\(APIHelper.mapValueToPathItem(app))"
+        let appPostEscape = appPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{app}", with: appPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AppView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Stops an app without deleting it.
+     
+     - parameter project: (path) Project is the project the application lives under, from the path. 
+     - parameter app: (path) App is the application&#39;s slug, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AppView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postPlatformProjectsByProjectAppsByAppStop(project: String, app: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AppView {
+        return try await postPlatformProjectsByProjectAppsByAppStopWithRequestBuilder(project: project, app: app, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Stops an app without deleting it.
+     - POST /v1/platform/projects/{project}/apps/{app}/stop
+     - Stops an app without deleting it.  It scales the app's Service to zero replicas and marks it stopped, answering the updated application. Nothing else is removed — the record, its env, its domains and its deployment history all survive, and /start brings it back at the same replica count.  An app that is not deployed has no Service CR to scale and is 404. An unreachable cluster is 503 and a cluster that refuses the scale is 502. Because the pods stop, so does the compute metering. Requires a validated principal; 403 without one.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter project: (path) Project is the project the application lives under, from the path. 
+     - parameter app: (path) App is the application&#39;s slug, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AppView> 
+     */
+    open class func postPlatformProjectsByProjectAppsByAppStopWithRequestBuilder(project: String, app: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AppView> {
+        var localVariablePath = "/v1/platform/projects/{project}/apps/{app}/stop"
+        let projectPreEscape = "\(APIHelper.mapValueToPathItem(project))"
+        let projectPostEscape = projectPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{project}", with: projectPostEscape, options: .literal, range: nil)
+        let appPreEscape = "\(APIHelper.mapValueToPathItem(app))"
+        let appPostEscape = appPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{app}", with: appPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AppView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Creates a project — the handle a site is deployed and served under — and answers 201 with it in `draft`.
+     
+     - parameter projectsCreate: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProjectsProject
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postPlatformSites(projectsCreate: ProjectsCreate, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProjectsProject {
+        return try await postPlatformSitesWithRequestBuilder(projectsCreate: projectsCreate, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Creates a project — the handle a site is deployed and served under — and answers 201 with it in `draft`.
+     - POST /v1/platform/sites
+     - Creates a project — the handle a site is deployed and served under — and answers 201 with it in `draft`.  `name` is required; `slug` is derived from the name when omitted and is the identifier that matters — it becomes the S3 key segment, the public host `<slug>.hanzo.app`, and the handle every later call addresses, so it must match `^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$` and may not be a reserved label such as `api` or `admin`. `framework` is a build hint from a closed set, defaulting to `static`; it never gates a deploy, it only tells CI how to build a linked repo.  Two defaults are worth knowing: the analytics beacon is ON unless `analytics` is explicitly false, and `visibility` is `public` unless asked otherwise. Publishing publicly is free; PRIVATE is the paid feature, and an unfunded org asking for it is refused rather than quietly published as public. Creation also provisions the project's data space and a canonical git repo, both best-effort — neither can fail the create.  Scope: a validated principal is required (403 without one) and the project is created in THAT principal's org. The slug is unique per org, so a slug already used in the caller's own org is a 409 while the same slug in another org is irrelevant.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter projectsCreate: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProjectsProject> 
+     */
+    open class func postPlatformSitesWithRequestBuilder(projectsCreate: ProjectsCreate, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProjectsProject> {
+        let localVariablePath = "/v1/platform/sites"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: projectsCreate, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ProjectsProject>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Upload a built site as one archive and serve it
+     
+     - parameter slug: (path)  
+     - parameter body: (body)  (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProjectsDeployment
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postPlatformSitesBySlugDeploy(slug: String, body: URL? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProjectsDeployment {
+        return try await postPlatformSitesBySlugDeployWithRequestBuilder(slug: slug, body: body, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Upload a built site as one archive and serve it
+     - POST /v1/platform/sites/{slug}/deploy
+     - Takes a built site live at `https://<slug>.hanzo.app` in one call. The body is the site itself — a `zip` or `tar.gz` holding `index.html` at its root (or a single wrapper directory that does), sent raw or as a multipart file part. It is unpacked to the site's own storage prefix and served immediately, answering the finished deployment.  It is bounded by the edge body limit (16 MiB by default), and that bound is the whole reason the other path exists: an oversized POST is refused by the server BEFORE any handler runs and surfaces as an opaque `400 Error when parsing request` that reads like a malformed payload rather than a size cap. A site too large for one archive opens a deployment with `POST /v1/sites/{slug}/deployments` instead and writes its files straight to storage against the scoped grant that answers with — no body limit, and no bytes through this API at all.  Billing is fail-closed and fails FIRST: the hosting gate runs before anything is parsed or uploaded, so an unfunded org is 402 and an unreachable commerce is 503 with nothing written. The debit lands only on success — a failed upload is never billed and never flips the live site — and a redeploy answers the SAME URL, because slug and apex are stable.  Scope: a validated principal is required (403 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404. Object storage must be configured (503); an archive that does not walk is a 400 and one over the size cap is a 413.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter slug: (path)  
+     - parameter body: (body)  (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProjectsDeployment> 
+     */
+    open class func postPlatformSitesBySlugDeployWithRequestBuilder(slug: String, body: URL? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProjectsDeployment> {
+        var localVariablePath = "/v1/platform/sites/{slug}/deploy"
+        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
+        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = ["body": body]
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/octet-stream",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ProjectsDeployment>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Opens a deployment and hands back a short-lived, prefix-scoped grant to write its bytes straight to object storage.
+     
+     - parameter slug: (path) Slug is the site to deploy, from the path. 
+     - parameter projectsDeployStart: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProjectsDeployment
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postPlatformSitesBySlugDeployments(slug: String, projectsDeployStart: ProjectsDeployStart, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProjectsDeployment {
+        return try await postPlatformSitesBySlugDeploymentsWithRequestBuilder(slug: slug, projectsDeployStart: projectsDeployStart, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Opens a deployment and hands back a short-lived, prefix-scoped grant to write its bytes straight to object storage.
+     - POST /v1/platform/sites/{slug}/deployments
+     - Opens a deployment and hands back a short-lived, prefix-scoped grant to write its bytes straight to object storage. Answers 202.  This is the path for a site too large to send as one archive: a real export is hundreds of megabytes against a 16 MiB body limit, so the bytes deliberately do NOT pass through the API. The answer carries `bucket`, `prefix` and `upload` — a presigned POST policy that S3 itself confines to this site's prefix (starts-with `<org>/<slug>/`), expires in 30 minutes and bounds each object. So a build writes its own files and holds no standing bucket credential; there is nothing to rotate and nothing that leaks between tenants. Never guess the prefix — it is server-derived, and a guessed one lands where nothing is served.  The deployment is `queued` until POST .../deployments/{id}/complete flips it live (or error). That completion is also where DELETION happens: the grant authorizes writes only, so a build cannot remove a file, and cloud reconciles the prefix against the `keys` manifest the completion carries. A build that dies before completing leaves the deployment queued rather than a half-live site.  The grant is on the 202 and NOWHERE else — it is never stored and never replayed on a later read, so it cannot outlive the build it was minted for. A deployment whose grant could not be minted is still created and still completable; it simply carries no `upload`, and a caller with no other way to write should treat that as the failure it is.  Billing: the hosting gate runs BEFORE anything is created (402 unfunded, 503 commerce unreachable), and the debit lands on the completion that goes live — never on a queued or failed build.  Scope: a validated principal is required (403 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter slug: (path) Slug is the site to deploy, from the path. 
+     - parameter projectsDeployStart: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProjectsDeployment> 
+     */
+    open class func postPlatformSitesBySlugDeploymentsWithRequestBuilder(slug: String, projectsDeployStart: ProjectsDeployStart, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProjectsDeployment> {
+        var localVariablePath = "/v1/platform/sites/{slug}/deployments"
+        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
+        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: projectsDeployStart, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ProjectsDeployment>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     CompleteDeployment is the CI completion hook that flips a queued git deployment to live (or error) once CI has synced the built site to S3.
+     
+     - parameter slug: (path) Slug is the project the deployment belongs to, from the path. 
+     - parameter id: (path) ID is the queued deployment to complete, from the path. 
+     - parameter projectsComplete: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProjectsDeployment
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postPlatformSitesBySlugDeploymentsByIdComplete(slug: String, id: String, projectsComplete: ProjectsComplete, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProjectsDeployment {
+        return try await postPlatformSitesBySlugDeploymentsByIdCompleteWithRequestBuilder(slug: slug, id: id, projectsComplete: projectsComplete, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     CompleteDeployment is the CI completion hook that flips a queued git deployment to live (or error) once CI has synced the built site to S3.
+     - POST /v1/platform/sites/{slug}/deployments/{id}/complete
+     - CompleteDeployment is the CI completion hook that flips a queued git deployment to live (or error) once CI has synced the built site to S3.  `status` must be `live` or `error`. On a LIVE completion the public host is claimed FIRST, so the deployment reports the URL it actually OWNS — a CI-supplied `liveUrl` is a hint that can refine that URL but can never assert a subdomain another tenant holds. `keys` is the manifest CI just uploaded, relative to the deployment prefix: cloud reconciles the prefix against it so a page deleted from the build actually stops serving. Omit `keys` and nothing is deleted — the prefix only grows. Reconciliation runs only on a live completion (pruning against a failed build's manifest would delete the site the last good build is still serving) and is best-effort, so a stale leftover never turns a successful deploy into a 500. A live completion is also the one billable moment on the git path; an error completion bills nothing.  Scope: a validated principal is required (403 without one). CI authenticates with an org-scoped token through the gateway, so the deployment is resolved within that principal's org and another tenant's slug or deployment id is a 404.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter slug: (path) Slug is the project the deployment belongs to, from the path. 
+     - parameter id: (path) ID is the queued deployment to complete, from the path. 
+     - parameter projectsComplete: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProjectsDeployment> 
+     */
+    open class func postPlatformSitesBySlugDeploymentsByIdCompleteWithRequestBuilder(slug: String, id: String, projectsComplete: ProjectsComplete, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProjectsDeployment> {
+        var localVariablePath = "/v1/platform/sites/{slug}/deployments/{id}/complete"
+        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
+        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: projectsComplete, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ProjectsDeployment>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Attaches one or more CUSTOM public hostnames to this org's site.
+     
+     - parameter slug: (path) Slug is the site the hosts attach to, from the path. 
+     - parameter projectsDomainsBind: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProjectsBoundDomains
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postPlatformSitesBySlugDomains(slug: String, projectsDomainsBind: ProjectsDomainsBind, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProjectsBoundDomains {
+        return try await postPlatformSitesBySlugDomainsWithRequestBuilder(slug: slug, projectsDomainsBind: projectsDomainsBind, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Attaches one or more CUSTOM public hostnames to this org's site.
+     - POST /v1/platform/sites/{slug}/domains
+     - Attaches one or more CUSTOM public hostnames to this org's site.  Binding a host you do not own would let you shadow it at the edge, so which outcome you get depends on whether ownership is already established: a SuperAdmin vouches (the operator manages the customer's DNS, so its bind IS the proof) and binds VERIFIED immediately; every other caller, INCLUDING an admin of the deployment's own brand org, has the host CLAIMED as pending and gets the DNS challenge back in `bound[].records`. A pending claim HOLDS the name so nobody else can take it, but it does not route until POST .../domains/{host}/verify proves control.  A hostname we operate is refused to a non-vouched caller (those are assigned by the platform, never claimed), a host another site already holds is a 409, and a name the platform holds is a 400 for EVERY caller — a vouch skips the ownership proof, never the host table's own invariant. Claims and binds are idempotent for the same (org, slug), and re-claiming returns the SAME token rather than invalidating a record the customer has already published. The edge cache-tag is flushed afterwards so a newly-verified host serves the current build immediately.  Scope: a validated principal is required (403 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter slug: (path) Slug is the site the hosts attach to, from the path. 
+     - parameter projectsDomainsBind: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProjectsBoundDomains> 
+     */
+    open class func postPlatformSitesBySlugDomainsWithRequestBuilder(slug: String, projectsDomainsBind: ProjectsDomainsBind, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProjectsBoundDomains> {
+        var localVariablePath = "/v1/platform/sites/{slug}/domains"
+        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
+        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: projectsDomainsBind, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ProjectsBoundDomains>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Checks the DNS challenge for a pending custom hostname and, when it passes, promotes the host so it begins routing at the edge.
+     
+     - parameter slug: (path) Slug is the project the host is attached to, from the path. 
+     - parameter host: (path) Host is the custom hostname, from the path. It is cleaned to its canonical form (lowercased, trailing dot dropped) before anything is looked up. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProjectsDomain
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postPlatformSitesBySlugDomainsByHostVerify(slug: String, host: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProjectsDomain {
+        return try await postPlatformSitesBySlugDomainsByHostVerifyWithRequestBuilder(slug: slug, host: host, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Checks the DNS challenge for a pending custom hostname and, when it passes, promotes the host so it begins routing at the edge.
+     - POST /v1/platform/sites/{slug}/domains/{host}/verify
+     - Checks the DNS challenge for a pending custom hostname and, when it passes, promotes the host so it begins routing at the edge.  It answers 200 either way, with the host's honest current state: verified once the TXT record is found, still pending — with the records to publish and the resolver's own explanation in `detail` — when it is not. A not-yet is not an error: the check ran, DNS simply has not propagated, and the customer retries. An already-verified host is returned unchanged without re-resolving. On a successful promotion the edge cache-tag is flushed, since the host routes as of that moment.  Scope: a validated principal is required (403 without one). Both the site and the claim are resolved within that principal's org, so a host claimed by another tenant is \"not claimed by this site\".
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter slug: (path) Slug is the project the host is attached to, from the path. 
+     - parameter host: (path) Host is the custom hostname, from the path. It is cleaned to its canonical form (lowercased, trailing dot dropped) before anything is looked up. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProjectsDomain> 
+     */
+    open class func postPlatformSitesBySlugDomainsByHostVerifyWithRequestBuilder(slug: String, host: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProjectsDomain> {
+        var localVariablePath = "/v1/platform/sites/{slug}/domains/{host}/verify"
+        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
+        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+        let hostPreEscape = "\(APIHelper.mapValueToPathItem(host))"
+        let hostPostEscape = hostPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{host}", with: hostPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ProjectsDomain>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Promotes a build output into a new release AND goes live with it — create+activate in one call, which is the 99% path.
+     
+     - parameter slug: (path) Slug is the site to publish, from the path. 
+     - parameter projectsPublish: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProjectsRelease
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postPlatformSitesBySlugPublish(slug: String, projectsPublish: ProjectsPublish, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProjectsRelease {
+        return try await postPlatformSitesBySlugPublishWithRequestBuilder(slug: slug, projectsPublish: projectsPublish, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Promotes a build output into a new release AND goes live with it — create+activate in one call, which is the 99% path.
+     - POST /v1/platform/sites/{slug}/publish
+     - Promotes a build output into a new release AND goes live with it — create+activate in one call, which is the 99% path.  It is exactly the two halves in sequence with no extra semantics, so the staged flow and the one-shot flow can never drift apart: `source` is promoted under the same org-relative rule and the same guards CreateRelease applies, then the site's pointer is flipped to it, the public host is claimed and the edge is purged. Idempotent on unchanged bytes — same manifest, same release id, no copy — and billed once, after the release exists.  Scope: a validated principal is required (403 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter slug: (path) Slug is the site to publish, from the path. 
+     - parameter projectsPublish: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProjectsRelease> 
+     */
+    open class func postPlatformSitesBySlugPublishWithRequestBuilder(slug: String, projectsPublish: ProjectsPublish, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProjectsRelease> {
+        var localVariablePath = "/v1/platform/sites/{slug}/publish"
+        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
+        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: projectsPublish, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ProjectsRelease>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Flushes the site's edge cache without redeploying anything.
+     
+     - parameter slug: (path) Slug is the project to act on, from the path. It is unique within the caller&#39;s org and nowhere else, so another tenant&#39;s slug is a 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProjectsProject
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postPlatformSitesBySlugPurge(slug: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProjectsProject {
+        return try await postPlatformSitesBySlugPurgeWithRequestBuilder(slug: slug, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Flushes the site's edge cache without redeploying anything.
+     - POST /v1/platform/sites/{slug}/purge
+     - Flushes the site's edge cache without redeploying anything.  It invalidates the edge cache-tag `site-<org>-<slug>` and stamps `lastPurgeAt` (unix seconds), and it NEVER writes or deletes the S3 origin — the live build keeps serving; only stale copies held at the edge drop, so the next request re-fetches the current artifact from origin. Idempotent, and an edge that is unconfigured or failing is not fatal: `lastPurgeAt` is still stamped and the answer is still the updated project.  Scope: a validated principal is required (403 without one) and the project is resolved within that principal's org, so another tenant's slug is a 404.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter slug: (path) Slug is the project to act on, from the path. It is unique within the caller&#39;s org and nowhere else, so another tenant&#39;s slug is a 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProjectsProject> 
+     */
+    open class func postPlatformSitesBySlugPurgeWithRequestBuilder(slug: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProjectsProject> {
+        var localVariablePath = "/v1/platform/sites/{slug}/purge"
+        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
+        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ProjectsProject>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Promotes a build output into a new immutable release WITHOUT serving it — the staged half of publishing, for when you want to check a release before it goes live.
+     
+     - parameter slug: (path) Slug is the site to publish, from the path. 
+     - parameter projectsPublish: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProjectsRelease
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postPlatformSitesBySlugReleases(slug: String, projectsPublish: ProjectsPublish, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProjectsRelease {
+        return try await postPlatformSitesBySlugReleasesWithRequestBuilder(slug: slug, projectsPublish: projectsPublish, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Promotes a build output into a new immutable release WITHOUT serving it — the staged half of publishing, for when you want to check a release before it goes live.
+     - POST /v1/platform/sites/{slug}/releases
+     - Promotes a build output into a new immutable release WITHOUT serving it — the staged half of publishing, for when you want to check a release before it goes live. Answers 201.  `source` is a path RELATIVE to your org's own storage space: the org segment is prepended server-side from the validated principal and the bucket is never in the request at all, so a server-side copy can only ever reach bytes your org already owns. The prefix is listed, content-addressed (SHA-256 over the sorted manifest of key/size/etag), and copied into an immutable `<org>/.releases/<slug>/<id>/` prefix; the row is written LAST, so a partial copy is unreachable rather than merely unlikely. Re-publishing an unchanged source is idempotent BY CONSTRUCTION — same bytes, same id, no copy at all.  The source must contain index.html at its root and stay under the same file and byte caps an artifact deploy does (413 past them); a source that changes mid-copy is a 409 and the release is abandoned. Each publish also reclaims releases past the retention depth, so a site's release space stays bounded. This is the billable half — the hosting gate runs before any copy, and the debit lands once the release exists.  Scope: a validated principal is required (403 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter slug: (path) Slug is the site to publish, from the path. 
+     - parameter projectsPublish: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProjectsRelease> 
+     */
+    open class func postPlatformSitesBySlugReleasesWithRequestBuilder(slug: String, projectsPublish: ProjectsPublish, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProjectsRelease> {
+        var localVariablePath = "/v1/platform/sites/{slug}/releases"
+        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
+        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: projectsPublish, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ProjectsRelease>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Points the site at an existing release — the go-live, and equally the ROLLBACK.
+     
+     - parameter slug: (path) Slug is the site the release belongs to, from the path. 
+     - parameter release: (path) Release is the content-addressed release id (\&quot;rel_\&quot; + 32 hex chars), from the path. Anything that is not that shape is not found, rather than being interpolated into a storage prefix. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProjectsRelease
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postPlatformSitesBySlugReleasesByReleaseActivate(slug: String, release: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProjectsRelease {
+        return try await postPlatformSitesBySlugReleasesByReleaseActivateWithRequestBuilder(slug: slug, release: release, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Points the site at an existing release — the go-live, and equally the ROLLBACK.
+     - POST /v1/platform/sites/{slug}/releases/{release}/activate
+     - Points the site at an existing release — the go-live, and equally the ROLLBACK.  Aim it at an older release and the site serves that one again: releases are immutable and retained to the retention depth, so nothing is rebuilt or re-copied and the flip is one atomic statement. Before the flip, two conditions run in the order that gives each its own honest answer — the ROW says whether this release exists for this tenant at all (404, with no signal about a foreign id), and only then do the BYTES say whether it can still serve (410 GONE when retention has reclaimed them; that rollback target is not coming back, so publish again). Going live also claims the public host and purges the edge, so the release is reachable and no cached predecessor is served. NOT billed: no new content is produced, only a pointer moved.  Scope: a validated principal is required (403 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter slug: (path) Slug is the site the release belongs to, from the path. 
+     - parameter release: (path) Release is the content-addressed release id (\&quot;rel_\&quot; + 32 hex chars), from the path. Anything that is not that shape is not found, rather than being interpolated into a storage prefix. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProjectsRelease> 
+     */
+    open class func postPlatformSitesBySlugReleasesByReleaseActivateWithRequestBuilder(slug: String, release: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProjectsRelease> {
+        var localVariablePath = "/v1/platform/sites/{slug}/releases/{release}/activate"
+        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
+        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+        let releasePreEscape = "\(APIHelper.mapValueToPathItem(release))"
+        let releasePostEscape = releasePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{release}", with: releasePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ProjectsRelease>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Replaces an app's environment variables.
+     
+     - parameter project: (path) Project is the project the application lives under, from the path. 
+     - parameter app: (path) App is the application&#39;s slug, from the path. 
+     - parameter setEnvReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AppView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func putPlatformProjectsByProjectAppsByAppEnv(project: String, app: String, setEnvReq: SetEnvReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AppView {
+        return try await putPlatformProjectsByProjectAppsByAppEnvWithRequestBuilder(project: project, app: app, setEnvReq: setEnvReq, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Replaces an app's environment variables.
+     - PUT /v1/platform/projects/{project}/apps/{app}/env
+     - Replaces an app's environment variables.  It writes the app's whole environment set and answers the updated application. This is the one post-create write path for env, and it REPLACES rather than merges: a variable absent from the body is gone, and a secret dropped from the set leaves the app's Secret on its next deploy.  Keys must match `^[A-Za-z_][A-Za-z0-9_]*$`. A value marked `secret: true` is sealed into KMS and blanked in the database, so plaintext is never persisted — and the write fails 503 if KMS is unavailable rather than storing one in the clear.  The rule worth knowing: this does not restart anything. Once the app has been deployed the secret sync is re-declared immediately so the operator re-materialises the Secret, but RUNNING pods keep the environment they started with until their next deploy or restart. Requires a validated principal; 403 without one.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter project: (path) Project is the project the application lives under, from the path. 
+     - parameter app: (path) App is the application&#39;s slug, from the path. 
+     - parameter setEnvReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AppView> 
+     */
+    open class func putPlatformProjectsByProjectAppsByAppEnvWithRequestBuilder(project: String, app: String, setEnvReq: SetEnvReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AppView> {
+        var localVariablePath = "/v1/platform/projects/{project}/apps/{app}/env"
+        let projectPreEscape = "\(APIHelper.mapValueToPathItem(project))"
+        let projectPostEscape = projectPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{project}", with: projectPostEscape, options: .literal, range: nil)
+        let appPreEscape = "\(APIHelper.mapValueToPathItem(app))"
+        let appPostEscape = appPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{app}", with: appPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: setEnvReq, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AppView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

@@ -6,772 +6,474 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class FunctionsAPI {
 
     /**
-     Create function
+     Removes one of the caller org's functions and answers 204.
      
-     - parameter edgeFunctionCreate: (body)  
-     - returns: EdgeFunction
+     - parameter name: (path) Name is the function the URL names. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: JSONValue
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func edgeCreateFunction(edgeFunctionCreate: EdgeFunctionCreate) async throws -> EdgeFunction {
-        return try await edgeCreateFunctionWithRequestBuilder(edgeFunctionCreate: edgeFunctionCreate).execute().body
+    open class func deleteFunctionsByName(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> JSONValue {
+        return try await deleteFunctionsByNameWithRequestBuilder(name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Create function
-     - POST /v1/edge/functions
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter edgeFunctionCreate: (body)  
-     - returns: RequestBuilder<EdgeFunction> 
-     */
-    open class func edgeCreateFunctionWithRequestBuilder(edgeFunctionCreate: EdgeFunctionCreate) -> RequestBuilder<EdgeFunction> {
-        let localVariablePath = "/v1/edge/functions"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: edgeFunctionCreate)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<EdgeFunction>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Delete function
-     
-     - parameter slug: (path)  
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func edgeDeleteFunction(slug: String) async throws -> AnyCodable {
-        return try await edgeDeleteFunctionWithRequestBuilder(slug: slug).execute().body
-    }
-
-    /**
-     Delete function
-     - DELETE /v1/edge/functions/{slug}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter slug: (path)  
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func edgeDeleteFunctionWithRequestBuilder(slug: String) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/edge/functions/{slug}"
-        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
-        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Deploy function
-     
-     - parameter slug: (path)  
-     - parameter body: (body)  
-     - returns: EdgeFunction
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func edgeDeployFunction(slug: String, body: URL) async throws -> EdgeFunction {
-        return try await edgeDeployFunctionWithRequestBuilder(slug: slug, body: body).execute().body
-    }
-
-    /**
-     Deploy function
-     - POST /v1/edge/functions/{slug}/deploy
-     - Deploy function source code. Upload a tarball or zip containing the function source. Creates a new version on success. 
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter slug: (path)  
-     - parameter body: (body)  
-     - returns: RequestBuilder<EdgeFunction> 
-     */
-    open class func edgeDeployFunctionWithRequestBuilder(slug: String, body: URL) -> RequestBuilder<EdgeFunction> {
-        var localVariablePath = "/v1/edge/functions/{slug}/deploy"
-        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
-        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = ["body": body]
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/octet-stream",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<EdgeFunction>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get function
-     
-     - parameter slug: (path)  
-     - returns: EdgeFunction
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func edgeGetFunction(slug: String) async throws -> EdgeFunction {
-        return try await edgeGetFunctionWithRequestBuilder(slug: slug).execute().body
-    }
-
-    /**
-     Get function
-     - GET /v1/edge/functions/{slug}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter slug: (path)  
-     - returns: RequestBuilder<EdgeFunction> 
-     */
-    open class func edgeGetFunctionWithRequestBuilder(slug: String) -> RequestBuilder<EdgeFunction> {
-        var localVariablePath = "/v1/edge/functions/{slug}"
-        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
-        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<EdgeFunction>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     * enum for parameter granularity
-     */
-    public enum Granularity_edgeGetFunctionMetrics: String, CaseIterable {
-        case minute = "minute"
-        case hour = "hour"
-        case day = "day"
-    }
-
-    /**
-     Get function metrics
-     
-     - parameter slug: (path)  
-     - parameter from: (query)  (optional)
-     - parameter to: (query)  (optional)
-     - parameter granularity: (query)  (optional, default to .hour)
-     - returns: [EdgeFunctionMetrics]
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func edgeGetFunctionMetrics(slug: String, from: Date? = nil, to: Date? = nil, granularity: Granularity_edgeGetFunctionMetrics? = nil) async throws -> [EdgeFunctionMetrics] {
-        return try await edgeGetFunctionMetricsWithRequestBuilder(slug: slug, from: from, to: to, granularity: granularity).execute().body
-    }
-
-    /**
-     Get function metrics
-     - GET /v1/edge/functions/{slug}/metrics
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter slug: (path)  
-     - parameter from: (query)  (optional)
-     - parameter to: (query)  (optional)
-     - parameter granularity: (query)  (optional, default to .hour)
-     - returns: RequestBuilder<[EdgeFunctionMetrics]> 
-     */
-    open class func edgeGetFunctionMetricsWithRequestBuilder(slug: String, from: Date? = nil, to: Date? = nil, granularity: Granularity_edgeGetFunctionMetrics? = nil) -> RequestBuilder<[EdgeFunctionMetrics]> {
-        var localVariablePath = "/v1/edge/functions/{slug}/metrics"
-        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
-        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "from": (wrappedValue: from?.encodeToJSON(), isExplode: true),
-            "to": (wrappedValue: to?.encodeToJSON(), isExplode: true),
-            "granularity": (wrappedValue: granularity?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<[EdgeFunctionMetrics]>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Invoke function
-     
-     - parameter slug: (path)  
-     - parameter requestBody: (body)  (optional)
-     - returns: [String: AnyCodable]
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func edgeInvokeFunction(slug: String, requestBody: [String: AnyCodable]? = nil) async throws -> [String: AnyCodable] {
-        return try await edgeInvokeFunctionWithRequestBuilder(slug: slug, requestBody: requestBody).execute().body
-    }
-
-    /**
-     Invoke function
-     - POST /v1/edge/functions/{slug}/invoke
-     - Invoke an edge function directly. The request body is passed through to the function handler. 
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter slug: (path)  
-     - parameter requestBody: (body)  (optional)
-     - returns: RequestBuilder<[String: AnyCodable]> 
-     */
-    open class func edgeInvokeFunctionWithRequestBuilder(slug: String, requestBody: [String: AnyCodable]? = nil) -> RequestBuilder<[String: AnyCodable]> {
-        var localVariablePath = "/v1/edge/functions/{slug}/invoke"
-        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
-        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: requestBody)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<[String: AnyCodable]>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     * enum for parameter status
-     */
-    public enum Status_edgeListFunctions: String, CaseIterable {
-        case active = "active"
-        case inactive = "inactive"
-        case deploying = "deploying"
-        case failed = "failed"
-    }
-
-    /**
-     List functions
-     
-     - parameter page: (query)  (optional, default to 1)
-     - parameter pageSize: (query)  (optional, default to 20)
-     - parameter status: (query)  (optional)
-     - returns: [EdgeFunction]
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func edgeListFunctions(page: Int? = nil, pageSize: Int? = nil, status: Status_edgeListFunctions? = nil) async throws -> [EdgeFunction] {
-        return try await edgeListFunctionsWithRequestBuilder(page: page, pageSize: pageSize, status: status).execute().body
-    }
-
-    /**
-     List functions
-     - GET /v1/edge/functions
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter page: (query)  (optional, default to 1)
-     - parameter pageSize: (query)  (optional, default to 20)
-     - parameter status: (query)  (optional)
-     - returns: RequestBuilder<[EdgeFunction]> 
-     */
-    open class func edgeListFunctionsWithRequestBuilder(page: Int? = nil, pageSize: Int? = nil, status: Status_edgeListFunctions? = nil) -> RequestBuilder<[EdgeFunction]> {
-        let localVariablePath = "/v1/edge/functions"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
-            "page_size": (wrappedValue: pageSize?.encodeToJSON(), isExplode: true),
-            "status": (wrappedValue: status?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<[EdgeFunction]>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Update function
-     
-     - parameter slug: (path)  
-     - parameter edgeFunctionUpdate: (body)  
-     - returns: EdgeFunction
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func edgeUpdateFunction(slug: String, edgeFunctionUpdate: EdgeFunctionUpdate) async throws -> EdgeFunction {
-        return try await edgeUpdateFunctionWithRequestBuilder(slug: slug, edgeFunctionUpdate: edgeFunctionUpdate).execute().body
-    }
-
-    /**
-     Update function
-     - PUT /v1/edge/functions/{slug}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter slug: (path)  
-     - parameter edgeFunctionUpdate: (body)  
-     - returns: RequestBuilder<EdgeFunction> 
-     */
-    open class func edgeUpdateFunctionWithRequestBuilder(slug: String, edgeFunctionUpdate: EdgeFunctionUpdate) -> RequestBuilder<EdgeFunction> {
-        var localVariablePath = "/v1/edge/functions/{slug}"
-        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
-        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: edgeFunctionUpdate)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<EdgeFunction>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Create a function
-     
-     - parameter functionsCreateFunctionRequest: (body)  
-     - returns: FunctionsFunction
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func functionsCreateFunction(functionsCreateFunctionRequest: FunctionsCreateFunctionRequest) async throws -> FunctionsFunction {
-        return try await functionsCreateFunctionWithRequestBuilder(functionsCreateFunctionRequest: functionsCreateFunctionRequest).execute().body
-    }
-
-    /**
-     Create a function
-     - POST /v1/functions
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter functionsCreateFunctionRequest: (body)  
-     - returns: RequestBuilder<FunctionsFunction> 
-     */
-    open class func functionsCreateFunctionWithRequestBuilder(functionsCreateFunctionRequest: FunctionsCreateFunctionRequest) -> RequestBuilder<FunctionsFunction> {
-        let localVariablePath = "/v1/functions"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: functionsCreateFunctionRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<FunctionsFunction>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Delete a function
-     
-     - parameter name: (path)  
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func functionsDeleteFunction(name: String) async throws {
-        return try await functionsDeleteFunctionWithRequestBuilder(name: name).execute().body
-    }
-
-    /**
-     Delete a function
+     Removes one of the caller org's functions and answers 204.
      - DELETE /v1/functions/{name}
+     - Removes one of the caller org's functions and answers 204.  A name this org does not hold is 404 — never a silent success — and a name belonging to another tenant is the same 404, because the delete is predicated on the validated org.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter name: (path)  
-     - returns: RequestBuilder<Void> 
+       - name: bearer
+     - parameter name: (path) Name is the function the URL names. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<JSONValue> 
      */
-    open class func functionsDeleteFunctionWithRequestBuilder(name: String) -> RequestBuilder<Void> {
+    open class func deleteFunctionsByNameWithRequestBuilder(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<JSONValue> {
         var localVariablePath = "/v1/functions/{name}"
         let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = HanzoAPI.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<JSONValue>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Get a function (with triggers, recent invocations, secrets)
+     Is every serverless function the caller's org has published, each with its real 7-day rollup.
      
-     - parameter name: (path)  
-     - returns: FunctionsFunctionDetail
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: FnList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func functionsGetFunction(name: String) async throws -> FunctionsFunctionDetail {
-        return try await functionsGetFunctionWithRequestBuilder(name: name).execute().body
+    open class func getFunctions(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> FnList {
+        return try await getFunctionsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Get a function (with triggers, recent invocations, secrets)
-     - GET /v1/functions/{name}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter name: (path)  
-     - returns: RequestBuilder<FunctionsFunctionDetail> 
-     */
-    open class func functionsGetFunctionWithRequestBuilder(name: String) -> RequestBuilder<FunctionsFunctionDetail> {
-        var localVariablePath = "/v1/functions/{name}"
-        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
-        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<FunctionsFunctionDetail>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get the latest invocation logs
-     
-     - parameter name: (path)  
-     - returns: FunctionsGetFunctionLogs200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func functionsGetFunctionLogs(name: String) async throws -> FunctionsGetFunctionLogs200Response {
-        return try await functionsGetFunctionLogsWithRequestBuilder(name: name).execute().body
-    }
-
-    /**
-     Get the latest invocation logs
-     - GET /v1/functions/{name}/logs
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter name: (path)  
-     - returns: RequestBuilder<FunctionsGetFunctionLogs200Response> 
-     */
-    open class func functionsGetFunctionLogsWithRequestBuilder(name: String) -> RequestBuilder<FunctionsGetFunctionLogs200Response> {
-        var localVariablePath = "/v1/functions/{name}/logs"
-        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
-        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<FunctionsGetFunctionLogs200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Invoke a function (metered compute)
-     
-     - parameter name: (path)  
-     - parameter functionsInvokeRequest: (body)  (optional)
-     - returns: FunctionsInvocation
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func functionsInvokeFunction(name: String, functionsInvokeRequest: FunctionsInvokeRequest? = nil) async throws -> FunctionsInvocation {
-        return try await functionsInvokeFunctionWithRequestBuilder(name: name, functionsInvokeRequest: functionsInvokeRequest).execute().body
-    }
-
-    /**
-     Invoke a function (metered compute)
-     - POST /v1/functions/{name}/invoke
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter name: (path)  
-     - parameter functionsInvokeRequest: (body)  (optional)
-     - returns: RequestBuilder<FunctionsInvocation> 
-     */
-    open class func functionsInvokeFunctionWithRequestBuilder(name: String, functionsInvokeRequest: FunctionsInvokeRequest? = nil) -> RequestBuilder<FunctionsInvocation> {
-        var localVariablePath = "/v1/functions/{name}/invoke"
-        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
-        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: functionsInvokeRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<FunctionsInvocation>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     List deployed functions
-     
-     - returns: FunctionsListFunctions200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func functionsListDeployments() async throws -> FunctionsListFunctions200Response {
-        return try await functionsListDeploymentsWithRequestBuilder().execute().body
-    }
-
-    /**
-     List deployed functions
-     - GET /v1/functions/deployments
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<FunctionsListFunctions200Response> 
-     */
-    open class func functionsListDeploymentsWithRequestBuilder() -> RequestBuilder<FunctionsListFunctions200Response> {
-        let localVariablePath = "/v1/functions/deployments"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<FunctionsListFunctions200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     List function secrets (names only)
-     
-     - returns: FunctionsListFunctionSecrets200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func functionsListFunctionSecrets() async throws -> FunctionsListFunctionSecrets200Response {
-        return try await functionsListFunctionSecretsWithRequestBuilder().execute().body
-    }
-
-    /**
-     List function secrets (names only)
-     - GET /v1/functions/secrets
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<FunctionsListFunctionSecrets200Response> 
-     */
-    open class func functionsListFunctionSecretsWithRequestBuilder() -> RequestBuilder<FunctionsListFunctionSecrets200Response> {
-        let localVariablePath = "/v1/functions/secrets"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<FunctionsListFunctionSecrets200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     List functions
-     
-     - returns: FunctionsListFunctions200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func functionsListFunctions() async throws -> FunctionsListFunctions200Response {
-        return try await functionsListFunctionsWithRequestBuilder().execute().body
-    }
-
-    /**
-     List functions
+     Is every serverless function the caller's org has published, each with its real 7-day rollup.
      - GET /v1/functions
+     - Is every serverless function the caller's org has published, each with its real 7-day rollup.  A row carries the function's runtime, resource limits, deployment target and its invoke endpoint, plus envCount — how many secrets it mounts. The rollup fields are ABSENT rather than zero when the function has not run in the window, so a console renders \"—\" instead of a fabricated 0.  Requires a validated principal; the listing is scoped to its org.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<FunctionsListFunctions200Response> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<FnList> 
      */
-    open class func functionsListFunctionsWithRequestBuilder() -> RequestBuilder<FunctionsListFunctions200Response> {
+    open class func getFunctionsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<FnList> {
         let localVariablePath = "/v1/functions"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<FunctionsListFunctions200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<FnList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     List a function's invocations
+     Is one function with everything a detail page needs in one round-trip: its definition, its 7-day rollup, its trigger, its twenty most recent invocations and the NAMES of the secrets it mounts.
      
-     - parameter name: (path)  
-     - parameter limit: (query)  (optional)
-     - returns: FunctionsListInvocations200Response
+     - parameter name: (path) Name is the function the URL names. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: FunctionDetail
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func functionsListInvocations(name: String, limit: Int? = nil) async throws -> FunctionsListInvocations200Response {
-        return try await functionsListInvocationsWithRequestBuilder(name: name, limit: limit).execute().body
+    open class func getFunctionsByName(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> FunctionDetail {
+        return try await getFunctionsByNameWithRequestBuilder(name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     List a function's invocations
-     - GET /v1/functions/{name}/invocations
+     Is one function with everything a detail page needs in one round-trip: its definition, its 7-day rollup, its trigger, its twenty most recent invocations and the NAMES of the secrets it mounts.
+     - GET /v1/functions/{name}
+     - Is one function with everything a detail page needs in one round-trip: its definition, its 7-day rollup, its trigger, its twenty most recent invocations and the NAMES of the secrets it mounts.  Secret values are never read or returned. A name the caller's org does not hold is 404, which is also what another tenant's function looks like from here.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter name: (path)  
-     - parameter limit: (query)  (optional)
-     - returns: RequestBuilder<FunctionsListInvocations200Response> 
+       - name: bearer
+     - parameter name: (path) Name is the function the URL names. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<FunctionDetail> 
      */
-    open class func functionsListInvocationsWithRequestBuilder(name: String, limit: Int? = nil) -> RequestBuilder<FunctionsListInvocations200Response> {
+    open class func getFunctionsByNameWithRequestBuilder(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<FunctionDetail> {
+        var localVariablePath = "/v1/functions/{name}"
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<FunctionDetail>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Is one function's past runs, newest first — each with its status, HTTP code, method, time and duration.
+     
+     - parameter name: (path) Name is the function the URL names. 
+     - parameter limit: (query) Limit caps the page, defaulting to 100. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: InvocationList
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getFunctionsByNameInvocations(name: String, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> InvocationList {
+        return try await getFunctionsByNameInvocationsWithRequestBuilder(name: name, limit: limit, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Is one function's past runs, newest first — each with its status, HTTP code, method, time and duration.
+     - GET /v1/functions/{name}/invocations
+     - Is one function's past runs, newest first — each with its status, HTTP code, method, time and duration.  These are real recorded rows, not a projection: an invocation appears here only once it actually ran. Requires a validated principal; the read is scoped to its org.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter name: (path) Name is the function the URL names. 
+     - parameter limit: (query) Limit caps the page, defaulting to 100. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<InvocationList> 
+     */
+    open class func getFunctionsByNameInvocationsWithRequestBuilder(name: String, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<InvocationList> {
         var localVariablePath = "/v1/functions/{name}/invocations"
         let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ])
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<FunctionsListInvocations200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<InvocationList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     List triggers across functions
+     Is the output of a function's most recent run — its error text when that run failed, else what it printed.
      
-     - returns: FunctionsListTriggers200Response
+     - parameter name: (path) Name is the function the URL names. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: LogLines
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func functionsListTriggers() async throws -> FunctionsListTriggers200Response {
-        return try await functionsListTriggersWithRequestBuilder().execute().body
+    open class func getFunctionsByNameLogs(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> LogLines {
+        return try await getFunctionsByNameLogsWithRequestBuilder(name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     List triggers across functions
-     - GET /v1/functions/triggers
+     Is the output of a function's most recent run — its error text when that run failed, else what it printed.
+     - GET /v1/functions/{name}/logs
+     - Is the output of a function's most recent run — its error text when that run failed, else what it printed.  It is the LAST run only, and it is empty when the function has never run. There is no log retention behind this beyond the recorded invocation itself.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<FunctionsListTriggers200Response> 
+       - name: bearer
+     - parameter name: (path) Name is the function the URL names. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<LogLines> 
      */
-    open class func functionsListTriggersWithRequestBuilder() -> RequestBuilder<FunctionsListTriggers200Response> {
-        let localVariablePath = "/v1/functions/triggers"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func getFunctionsByNameLogsWithRequestBuilder(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<LogLines> {
+        var localVariablePath = "/v1/functions/{name}/logs"
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<FunctionsListTriggers200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<LogLines>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Is what is live right now — each function's current record IS its live deployment, so this is the deployment inventory.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: FnList
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getFunctionsDeployments(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> FnList {
+        return try await getFunctionsDeploymentsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Is what is live right now — each function's current record IS its live deployment, so this is the deployment inventory.
+     - GET /v1/functions/deployments
+     - Is what is live right now — each function's current record IS its live deployment, so this is the deployment inventory.  There is no deployment history behind it: a function has one record, and publishing replaces it. The 7-day rollup is deliberately absent here, because this read is about what is deployed rather than about how it has performed.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<FnList> 
+     */
+    open class func getFunctionsDeploymentsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<FnList> {
+        let localVariablePath = "/v1/functions/deployments"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<FnList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Is the org's serverless dashboard over a window: a per-function invocation costLine and how those invocations ended.
+     
+     - parameter range: (query) Range is 1H, 6H, 24H (the default), 7D or 30D. Anything else falls back to 24H rather than failing. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Usage
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getFunctionsMetrics(range: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Usage {
+        return try await getFunctionsMetricsWithRequestBuilder(range: range, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Is the org's serverless dashboard over a window: a per-function invocation costLine and how those invocations ended.
+     - GET /v1/functions/metrics
+     - Is the org's serverless dashboard over a window: a per-function invocation costLine and how those invocations ended.  Every point is a REAL count of rows that fell in that bucket — nothing is interpolated or invented, so an empty window draws a flat line rather than a fabricated one.  costCents is null and stays null: there is no per-invocation cost source to read, and reporting a number computed some other way would be a guess presented as a measurement. Requires a validated principal; the read is scoped to its org.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter range: (query) Range is 1H, 6H, 24H (the default), 7D or 30D. Anything else falls back to 24H rather than failing. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Usage> 
+     */
+    open class func getFunctionsMetricsWithRequestBuilder(range: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Usage> {
+        let localVariablePath = "/v1/functions/metrics"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "range": (wrappedValue: range?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Usage>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Is the NAMES of the secrets the caller org's functions mount.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: SecretList
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getFunctionsSecrets(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SecretList {
+        return try await getFunctionsSecretsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Is the NAMES of the secrets the caller org's functions mount.
+     - GET /v1/functions/secrets
+     - Is the NAMES of the secrets the caller org's functions mount.  Values are NEVER read or returned — this surface knows which names a function asks for and nothing about what is behind them, which is what makes it safe to list at all. One row per distinct (namespace, name).
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<SecretList> 
+     */
+    open class func getFunctionsSecretsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SecretList> {
+        let localVariablePath = "/v1/functions/secrets"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<SecretList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Is what calls the caller org's functions — one row per function.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: TriggerList
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getFunctionsTriggers(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> TriggerList {
+        return try await getFunctionsTriggersWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Is what calls the caller org's functions — one row per function.
+     - GET /v1/functions/triggers
+     - Is what calls the caller org's functions — one row per function.  Every function has exactly one trigger today, its HTTP invoke endpoint, so this is the function list read as \"how is each of these reached\".
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<TriggerList> 
+     */
+    open class func getFunctionsTriggersWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<TriggerList> {
+        let localVariablePath = "/v1/functions/triggers"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<TriggerList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Publishes a serverless function under the caller's org and answers 201 with it.
+     
+     - parameter definition: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: FunctionView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postFunctions(definition: Definition, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> FunctionView {
+        return try await postFunctionsWithRequestBuilder(definition: definition, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Publishes a serverless function under the caller's org and answers 201 with it.
+     - POST /v1/functions
+     - Publishes a serverless function under the caller's org and answers 201 with it.  The name is the key and is claimed once; the names that would shadow a collection route are reserved. runtime and environment are the same field — either spelling is accepted — and default to node.  Bounds are clamped rather than refused where a clamp is honest: a timeout above the 900-second ceiling becomes the ceiling instead of silently reverting to the 30-second default, and an omitted memory limit becomes 256Mi. target=fleet runs on the org's own GPU fleet and supports runtime=python only.  Requires a validated principal; the function is owned by that principal's org.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter definition: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<FunctionView> 
+     */
+    open class func postFunctionsWithRequestBuilder(definition: Definition, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<FunctionView> {
+        let localVariablePath = "/v1/functions"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: definition, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<FunctionView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Runs a function and records a REAL invocation.
+     
+     - parameter name: (path)  
+     - parameter invokeReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: InvocationView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postFunctionsByNameInvoke(name: String, invokeReq: InvokeReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> InvocationView {
+        return try await postFunctionsByNameInvokeWithRequestBuilder(name: name, invokeReq: invokeReq, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Runs a function and records a REAL invocation.
+     - POST /v1/functions/{name}/invoke
+     - Runs a function and records a REAL invocation.  The answer is the invocation record whatever happened to it: 200 when the org's code ran clean, 502 when it ran and failed, 503 when this deployment has no sandbox to run code in. The record IS the evidence, so it rides the failure rather than being replaced by an error envelope.  Billing is two-part and both parts are prepaid-then-metered on the one shared meter: a flat per-invocation request fee, gated BEFORE any sandbox compute runs so an unfunded org gets 402 and nothing executes, and a usage-native GB-seconds compute debit taken after the run. Either is independently free when its fee is zero, so an operator can bill by request alone, by compute alone, or by both — and a zero request fee removes the balance gate with it.  A TRANSPORT failure is not charged: the sandbox being unreachable ran no billable compute. Code that ran and exited non-zero IS charged — that is a successful invocation of a failing program, not a billing failure.  When the sandbox is not configured on this deployment, a non-fleet function fails closed before anything is recorded — no execution and no fabricated output. Scoped to the caller's org; requires a validated principal.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter name: (path)  
+     - parameter invokeReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<InvocationView> 
+     */
+    open class func postFunctionsByNameInvokeWithRequestBuilder(name: String, invokeReq: InvokeReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<InvocationView> {
+        var localVariablePath = "/v1/functions/{name}/invoke"
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: invokeReq, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<InvocationView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

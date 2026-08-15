@@ -6,70 +6,198 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class AnalyticsAPI {
 
     /**
-     * enum for parameter granularity
-     */
-    public enum Granularity_dnsGetZoneAnalytics: String, CaseIterable {
-        case hour = "hour"
-        case day = "day"
-        case week = "week"
-    }
-
-    /**
-     Get query analytics
+     Health reports whether the event plane can take a write and the warehouse can answer a read.
      
-     - parameter zone: (path)  
-     - parameter from: (query)  (optional)
-     - parameter to: (query)  (optional)
-     - parameter granularity: (query)  (optional, default to .day)
-     - returns: DnsQueryAnalytics
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: HealthReport
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func dnsGetZoneAnalytics(zone: String, from: Date? = nil, to: Date? = nil, granularity: Granularity_dnsGetZoneAnalytics? = nil) async throws -> DnsQueryAnalytics {
-        return try await dnsGetZoneAnalyticsWithRequestBuilder(zone: zone, from: from, to: to, granularity: granularity).execute().body
+    open class func getAnalyticsHealth(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> HealthReport {
+        return try await getAnalyticsHealthWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Get query analytics
-     - GET /v1/dns/zones/{zone}/analytics
+     Health reports whether the event plane can take a write and the warehouse can answer a read.
+     - GET /v1/analytics/health
+     - Health reports whether the event plane can take a write and the warehouse can answer a read.  It reports the analytics subsystem's own liveness in BOTH directions: plane is the event plane it WRITES (the bus and the JetStream stream every accepted event is published to, both named in the report), and datastore is the warehouse it READS, with each read lens's table reported as it is provisioned (the LLM usage ledger and the product-event table).  EITHER ONE DOWN IS A 503, and the report says WHICH — they are probed independently and never collapse into a single bit. This endpoint used to report the read half only, and answered 200/ok while every POST /v1/event failed on a stream that could not bind: a total ingest outage behind a green probe. A readiness gate here now gates on the write path too.  plane.ready IS A REAL PROBE and walks the ingest path itself — the same connection and the same stream a publish uses — so it cannot answer ready while a publish would 503. plane.reason carries the plane's own error text when it is false.  datastore IS NOT PROBED WITH A QUERY. It is the state of the process's own shared client — established, and not since closed — so a warehouse accepting connections and failing reads still reports true. Degraded CARRIES the report (status, the failing half, reason) as its body rather than an error envelope, so a gate reads the cause off the same object it got at 200.  A MISSING LENS TABLE IS NOT A FAILURE and never moves the status: a lens reported available:false answers honest-empty rather than erroring, so a fresh deployment whose collector has not emitted yet is legitimately 200 with the product-event lens unavailable. The lens block is reported whenever the warehouse is REACHABLE — including on a report degraded by the plane, where the tables genuinely were probed — and is absent only when the warehouse is not, having nothing to say about tables it could not reach.  Unauthenticated on purpose — liveness has to be probe-able — and it reads NO tenant data: table existence and stream presence only, never a row and never an event.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter zone: (path)  
-     - parameter from: (query)  (optional)
-     - parameter to: (query)  (optional)
-     - parameter granularity: (query)  (optional, default to .day)
-     - returns: RequestBuilder<DnsQueryAnalytics> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<HealthReport> 
      */
-    open class func dnsGetZoneAnalyticsWithRequestBuilder(zone: String, from: Date? = nil, to: Date? = nil, granularity: Granularity_dnsGetZoneAnalytics? = nil) -> RequestBuilder<DnsQueryAnalytics> {
-        var localVariablePath = "/v1/dns/zones/{zone}/analytics"
-        let zonePreEscape = "\(APIHelper.mapValueToPathItem(zone))"
-        let zonePostEscape = zonePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{zone}", with: zonePostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func getAnalyticsHealthWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<HealthReport> {
+        let localVariablePath = "/v1/analytics/health"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "from": (wrappedValue: from?.encodeToJSON(), isExplode: true),
-            "to": (wrappedValue: to?.encodeToJSON(), isExplode: true),
-            "granularity": (wrappedValue: granularity?.encodeToJSON(), isExplode: true),
-        ])
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<DnsQueryAnalytics>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<HealthReport>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Overview returns the caller org's analytics KPIs for one time window.
+     
+     - parameter range: (query) Range is a relative window: a count and a unit — 24h, 7d, 90d, any &lt;N&gt;h or &lt;N&gt;d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400. (optional)
+     - parameter start: (query) Start is the inclusive lower bound of a custom window, RFC3339. Requires end. (optional)
+     - parameter end: (query) End is the exclusive upper bound of a custom window, RFC3339. Requires start. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Overview
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAnalyticsOverview(range: String? = nil, start: String? = nil, end: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Overview {
+        return try await getAnalyticsOverviewWithRequestBuilder(range: range, start: start, end: end, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Overview returns the caller org's analytics KPIs for one time window.
+     - GET /v1/analytics/overview
+     - Overview returns the caller org's analytics KPIs for one time window. Three lenses over one warehouse: llm is the live per-org LLM usage ledger (requests, tokens, spend, models, providers, errors) and is always real; web (pageviews, visitors, sessions) and commerce (orders, revenue, AOV) read the product-event table and report available=false rather than fabricating zeros when it holds nothing yet.  The org is the validated principal's — never a parameter — so a caller can only ever read its own tenant. 403 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter range: (query) Range is a relative window: a count and a unit — 24h, 7d, 90d, any &lt;N&gt;h or &lt;N&gt;d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400. (optional)
+     - parameter start: (query) Start is the inclusive lower bound of a custom window, RFC3339. Requires end. (optional)
+     - parameter end: (query) End is the exclusive upper bound of a custom window, RFC3339. Requires start. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Overview> 
+     */
+    open class func getAnalyticsOverviewWithRequestBuilder(range: String? = nil, start: String? = nil, end: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Overview> {
+        let localVariablePath = "/v1/analytics/overview"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "range": (wrappedValue: range?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "start": (wrappedValue: start?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "end": (wrappedValue: end?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Overview>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Timeseries returns the caller org's LLM usage over time as an evenly-spaced series.
+     
+     - parameter range: (query) Range is a relative window: a count and a unit — 24h, 7d, 90d, any &lt;N&gt;h or &lt;N&gt;d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400. (optional)
+     - parameter start: (query) Start is the inclusive lower bound of a custom window, RFC3339. Requires end. (optional)
+     - parameter end: (query) End is the exclusive upper bound of a custom window, RFC3339. Requires start. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Timeseries
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAnalyticsTimeseries(range: String? = nil, start: String? = nil, end: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Timeseries {
+        return try await getAnalyticsTimeseriesWithRequestBuilder(range: range, start: start, end: end, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Timeseries returns the caller org's LLM usage over time as an evenly-spaced series.
+     - GET /v1/analytics/timeseries
+     - Timeseries returns the caller org's LLM usage over time as an evenly-spaced series. One point per hour or per day — the bucket the window implies, 24h giving hours and 7d/30d giving days — carrying requests, total tokens and spend in cents. Empty buckets are filled with zeros so a client charts a continuous line.  The org is the validated principal's — never a parameter. 403 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter range: (query) Range is a relative window: a count and a unit — 24h, 7d, 90d, any &lt;N&gt;h or &lt;N&gt;d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400. (optional)
+     - parameter start: (query) Start is the inclusive lower bound of a custom window, RFC3339. Requires end. (optional)
+     - parameter end: (query) End is the exclusive upper bound of a custom window, RFC3339. Requires start. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Timeseries> 
+     */
+    open class func getAnalyticsTimeseriesWithRequestBuilder(range: String? = nil, start: String? = nil, end: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Timeseries> {
+        let localVariablePath = "/v1/analytics/timeseries"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "range": (wrappedValue: range?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "start": (wrappedValue: start?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "end": (wrappedValue: end?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Timeseries>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Top returns the caller org's ranked lenses for one window, five of them at once.
+     
+     - parameter range: (query) Range is a relative window: a count and a unit — 24h, 7d, 90d, any &lt;N&gt;h or &lt;N&gt;d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400. (optional)
+     - parameter start: (query) Start is the inclusive lower bound of a custom window, RFC3339. Requires end. (optional)
+     - parameter end: (query) End is the exclusive upper bound of a custom window, RFC3339. Requires start. (optional)
+     - parameter limit: (query) Limit bounds every ranked lens in the response. Default 10, maximum 100; a value at or below zero, or one that is not a number, takes the default. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Top
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAnalyticsTop(range: String? = nil, start: String? = nil, end: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Top {
+        return try await getAnalyticsTopWithRequestBuilder(range: range, start: start, end: end, limit: limit, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Top returns the caller org's ranked lenses for one window, five of them at once.
+     - GET /v1/analytics/top
+     - Top returns the caller org's ranked lenses for one window, five of them at once. models ranks LLM models by spend and is always real; products ranks commerce orders by revenue; topPages ranks requested paths, topReferrers the external referrer domains (\"(direct)\" for a missing or same-origin one) and topSources the utm_source campaigns (\"(none)\" when absent), each by pageviews. Every lens carries each row's share of the in-window total, so a top-N honestly shows the long tail.  The four event lenses report available=false rather than fabricating zeros when the product-event table holds nothing yet. The org is the validated principal's — never a parameter. 403 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter range: (query) Range is a relative window: a count and a unit — 24h, 7d, 90d, any &lt;N&gt;h or &lt;N&gt;d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400. (optional)
+     - parameter start: (query) Start is the inclusive lower bound of a custom window, RFC3339. Requires end. (optional)
+     - parameter end: (query) End is the exclusive upper bound of a custom window, RFC3339. Requires start. (optional)
+     - parameter limit: (query) Limit bounds every ranked lens in the response. Default 10, maximum 100; a value at or below zero, or one that is not a number, takes the default. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Top> 
+     */
+    open class func getAnalyticsTopWithRequestBuilder(range: String? = nil, start: String? = nil, end: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Top> {
+        let localVariablePath = "/v1/analytics/top"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "range": (wrappedValue: range?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "start": (wrappedValue: start?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "end": (wrappedValue: end?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Top>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

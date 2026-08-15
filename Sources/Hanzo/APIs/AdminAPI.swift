@@ -6,838 +6,3808 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class AdminAPI {
 
     /**
-     Approve an affiliate and mint its code
+     Is the fleet AI board: LLM generations over gen_ai spans (count, cost, avg/p95 latency, per-model), per-model usage from the live cloud_usage ledger, and the eval plane (traces, scores, score names, runs, and the average-score trend).
      
-     - parameter id: (path) The affiliate id (e.g. &#x60;aff_&lt;hex&gt;&#x60;). 
-     - parameter affiliatesApproveRequest: (body)  (optional)
-     - returns: AffiliatesAdminAffiliateEnvelope
+     - parameter range: (query) Range is the lower time bound: 24h, 7d or 30d. Anything else reads as the board&#39;s own default. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AimetricsOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func affiliatesAdminApproveAffiliate(id: String, affiliatesApproveRequest: AffiliatesApproveRequest? = nil) async throws -> AffiliatesAdminAffiliateEnvelope {
-        return try await affiliatesAdminApproveAffiliateWithRequestBuilder(id: id, affiliatesApproveRequest: affiliatesApproveRequest).execute().body
+    open class func adminAIMetrics(range: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AimetricsOut {
+        return try await adminAIMetricsWithRequestBuilder(range: range, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Approve an affiliate and mint its code
-     - POST /v1/admin/affiliates/{id}/approve
-     - Approves the affiliate and mints its code. The body may carry an explicit `code` override; else the requested vanity code; else a derived slug. Global-admin only. 
+     Is the fleet AI board: LLM generations over gen_ai spans (count, cost, avg/p95 latency, per-model), per-model usage from the live cloud_usage ledger, and the eval plane (traces, scores, score names, runs, and the average-score trend).
+     - GET /v1/admin/aimetrics
+     - Is the fleet AI board: LLM generations over gen_ai spans (count, cost, avg/p95 latency, per-model), per-model usage from the live cloud_usage ledger, and the eval plane (traces, scores, score names, runs, and the average-score trend).  Every signal degrades INDEPENDENTLY — a table that is absent or errors contributes its zero value and the read still succeeds. Generation latency is a SEPARATE query from generations and cost on purpose: a duration/attribute mismatch there must not zero the two numbers that did read.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter id: (path) The affiliate id (e.g. &#x60;aff_&lt;hex&gt;&#x60;). 
-     - parameter affiliatesApproveRequest: (body)  (optional)
-     - returns: RequestBuilder<AffiliatesAdminAffiliateEnvelope> 
+       - name: bearer
+     - parameter range: (query) Range is the lower time bound: 24h, 7d or 30d. Anything else reads as the board&#39;s own default. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AimetricsOut> 
      */
-    open class func affiliatesAdminApproveAffiliateWithRequestBuilder(id: String, affiliatesApproveRequest: AffiliatesApproveRequest? = nil) -> RequestBuilder<AffiliatesAdminAffiliateEnvelope> {
+    open class func adminAIMetricsWithRequestBuilder(range: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AimetricsOut> {
+        let localVariablePath = "/v1/admin/aimetrics"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "range": (wrappedValue: range?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AimetricsOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Is the SaaS product-analytics board over the caller's tenant window: active customers, new and churned, retention, MRR, ARPU, the usage trend and the top customers by spend — every number folded from the commerce ledger, not sampled.
+     
+     - parameter range: (query) Range is the lower time bound: 24h, 7d or 30d. Anything else reads as the board&#39;s own default. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AnalyticsOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminAnalytics(range: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AnalyticsOut {
+        return try await adminAnalyticsWithRequestBuilder(range: range, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Is the SaaS product-analytics board over the caller's tenant window: active customers, new and churned, retention, MRR, ARPU, the usage trend and the top customers by spend — every number folded from the commerce ledger, not sampled.
+     - GET /v1/admin/analytics
+     - Is the SaaS product-analytics board over the caller's tenant window: active customers, new and churned, retention, MRR, ARPU, the usage trend and the top customers by spend — every number folded from the commerce ledger, not sampled.  The window is the caller's, not the fleet's: a SuperAdmin gets every org, a white-label admin only their own subtree (core.ScopedOrgs, the one scope predicate).  sources[] carries each upstream's freshness so a partial read is VISIBLE rather than silently low: a ledger that answered for only some orgs marks commerce-ledger degraded instead of publishing an undercount as healthy.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter range: (query) Range is the lower time bound: 24h, 7d or 30d. Anything else reads as the board&#39;s own default. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AnalyticsOut> 
+     */
+    open class func adminAnalyticsWithRequestBuilder(range: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AnalyticsOut> {
+        let localVariablePath = "/v1/admin/analytics"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "range": (wrappedValue: range?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AnalyticsOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Lists IAM applications for one owner org, forwarded VERBATIM from IAM's get-applications.
+     
+     - parameter owner: (query) Owner is the org whose rows to read. Defaults to the admin org, which owns the platform&#39;s roles and applications. (optional)
+     - parameter p: (query) Page is the 1-based page number. Forwarded only when set — IAM applies its own default otherwise. (optional)
+     - parameter pageSize: (query) PageSize is rows per page. Forwarded only when set. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamRowsOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminApplications(owner: String? = nil, p: String? = nil, pageSize: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamRowsOut {
+        return try await adminApplicationsWithRequestBuilder(owner: owner, p: p, pageSize: pageSize, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Lists IAM applications for one owner org, forwarded VERBATIM from IAM's get-applications.
+     - GET /v1/admin/applications
+     - Lists IAM applications for one owner org, forwarded VERBATIM from IAM's get-applications. These are the platform's OIDC clients — the console reads clientId off each row.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter owner: (query) Owner is the org whose rows to read. Defaults to the admin org, which owns the platform&#39;s roles and applications. (optional)
+     - parameter p: (query) Page is the 1-based page number. Forwarded only when set — IAM applies its own default otherwise. (optional)
+     - parameter pageSize: (query) PageSize is rows per page. Forwarded only when set. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamRowsOut> 
+     */
+    open class func adminApplicationsWithRequestBuilder(owner: String? = nil, p: String? = nil, pageSize: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamRowsOut> {
+        let localVariablePath = "/v1/admin/applications"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "owner": (wrappedValue: owner?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "p": (wrappedValue: p?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "pageSize": (wrappedValue: pageSize?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamRowsOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Reads cloud's tamper-evident audit trail, newest first, with the chain's live integrity attached so a listing can be badged as verified.
+     
+     - parameter org: (query) Org restricts the trail to one tenant. (optional)
+     - parameter sub: (query) Sub restricts it to one actor (the validated subject that made the request). (optional)
+     - parameter action: (query) Action restricts it to one action name, e.g. \&quot;admin.waitlist.grant\&quot;. (optional)
+     - parameter resource: (query) Resource restricts it to one resource kind, e.g. \&quot;credit-grant\&quot;. (optional)
+     - parameter resourceId: (query) ResourceID restricts it to one resource instance. (optional)
+     - parameter result: (query) Result restricts it to \&quot;success\&quot; or \&quot;error\&quot;. (optional)
+     - parameter since: (query) Since is the inclusive lower time bound, RFC3339. An unparseable value is ignored rather than refused — one malformed filter must not hide the trail. (optional)
+     - parameter until: (query) Until is the upper time bound, RFC3339, with the same tolerance. (optional)
+     - parameter pageSize: (query) PageSize is rows per page, default 100. (optional)
+     - parameter p: (query) Page is the 1-based page number, driving the offset. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RecordsOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminAudit(org: String? = nil, sub: String? = nil, action: String? = nil, resource: String? = nil, resourceId: String? = nil, result: String? = nil, since: String? = nil, until: String? = nil, pageSize: String? = nil, p: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RecordsOut {
+        return try await adminAuditWithRequestBuilder(org: org, sub: sub, action: action, resource: resource, resourceId: resourceId, result: result, since: since, until: until, pageSize: pageSize, p: p, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Reads cloud's tamper-evident audit trail, newest first, with the chain's live integrity attached so a listing can be badged as verified.
+     - GET /v1/admin/audit
+     - Reads cloud's tamper-evident audit trail, newest first, with the chain's live integrity attached so a listing can be badged as verified.  When cloud has no local store configured it falls back to forwarding IAM's own get-records trail verbatim — a DIFFERENT trail, federated so the endpoint never regresses to an empty list. Those rows carry no integrity of ours, so the field is null there.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter org: (query) Org restricts the trail to one tenant. (optional)
+     - parameter sub: (query) Sub restricts it to one actor (the validated subject that made the request). (optional)
+     - parameter action: (query) Action restricts it to one action name, e.g. \&quot;admin.waitlist.grant\&quot;. (optional)
+     - parameter resource: (query) Resource restricts it to one resource kind, e.g. \&quot;credit-grant\&quot;. (optional)
+     - parameter resourceId: (query) ResourceID restricts it to one resource instance. (optional)
+     - parameter result: (query) Result restricts it to \&quot;success\&quot; or \&quot;error\&quot;. (optional)
+     - parameter since: (query) Since is the inclusive lower time bound, RFC3339. An unparseable value is ignored rather than refused — one malformed filter must not hide the trail. (optional)
+     - parameter until: (query) Until is the upper time bound, RFC3339, with the same tolerance. (optional)
+     - parameter pageSize: (query) PageSize is rows per page, default 100. (optional)
+     - parameter p: (query) Page is the 1-based page number, driving the offset. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<RecordsOut> 
+     */
+    open class func adminAuditWithRequestBuilder(org: String? = nil, sub: String? = nil, action: String? = nil, resource: String? = nil, resourceId: String? = nil, result: String? = nil, since: String? = nil, until: String? = nil, pageSize: String? = nil, p: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RecordsOut> {
+        let localVariablePath = "/v1/admin/audit"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "org": (wrappedValue: org?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "sub": (wrappedValue: sub?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "action": (wrappedValue: action?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "resource": (wrappedValue: resource?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "resourceId": (wrappedValue: resourceId?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "result": (wrappedValue: result?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "since": (wrappedValue: since?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "until": (wrappedValue: until?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "pageSize": (wrappedValue: pageSize?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "p": (wrappedValue: p?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<RecordsOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Walks the WHOLE hash chain and reports whether it is intact: how many records were checked, the head hash to pin externally against tail-truncation, and — when the chain is broken — the seq of the first bad record and why.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: VerifyOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminAuditVerify(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> VerifyOut {
+        return try await adminAuditVerifyWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Walks the WHOLE hash chain and reports whether it is intact: how many records were checked, the head hash to pin externally against tail-truncation, and — when the chain is broken — the seq of the first bad record and why.
+     - GET /v1/admin/audit/verify
+     - Walks the WHOLE hash chain and reports whether it is intact: how many records were checked, the head hash to pin externally against tail-truncation, and — when the chain is broken — the seq of the first bad record and why.  brokenAt is -1 exactly when ok is true. An unconfigured store is an honest failure here rather than a fabricated pass.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<VerifyOut> 
+     */
+    open class func adminAuditVerifyWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<VerifyOut> {
+        let localVariablePath = "/v1/admin/audit/verify"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<VerifyOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Lists the tenant Base instances in the caller's window — a SuperAdmin sees every tenant's, anyone else only their own subtree's.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: BasesOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminBases(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> BasesOut {
+        return try await adminBasesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Lists the tenant Base instances in the caller's window — a SuperAdmin sees every tenant's, anyone else only their own subtree's.
+     - GET /v1/admin/bases
+     - Lists the tenant Base instances in the caller's window — a SuperAdmin sees every tenant's, anyone else only their own subtree's.  The scope is enforced TWICE: the upstream is asked for the caller's org, AND every row it returns is re-checked against the resolved scope. An upstream that ignored the filter therefore degrades to empty, never to a cross-tenant leak.  The Base engine is being embedded into cloud; until it lands this proxies BASE_ADMIN_URL and, when that is unset, answers 200 with an empty list and msg saying so — the honest not-yet state, never fabricated instances.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<BasesOut> 
+     */
+    open class func adminBasesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<BasesOut> {
+        let localVariablePath = "/v1/admin/bases"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<BasesOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Reads one org's usage caps: its spend alerts plus the derived period spend, over/warn state and reset time.
+     
+     - parameter org: (query) Org is the tenant to act on. Required for a SuperAdmin — they must name their target; ignored for a white-label admin, who always acts on their own org. (optional)
+     - parameter id: (query) ID is the cap to edit or remove, from the path. Unused by the list and create ops. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RawOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminCaps(org: String? = nil, id: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RawOut {
+        return try await adminCapsWithRequestBuilder(org: org, id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Reads one org's usage caps: its spend alerts plus the derived period spend, over/warn state and reset time.
+     - GET /v1/admin/caps
+     - Reads one org's usage caps: its spend alerts plus the derived period spend, over/warn state and reset time.  These are the SAME rows the customer edits in their own console — a platform override and a customer budget are one model, not two.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter org: (query) Org is the tenant to act on. Required for a SuperAdmin — they must name their target; ignored for a white-label admin, who always acts on their own org. (optional)
+     - parameter id: (query) ID is the cap to edit or remove, from the path. Unused by the list and create ops. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<RawOut> 
+     */
+    open class func adminCapsWithRequestBuilder(org: String? = nil, id: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RawOut> {
+        let localVariablePath = "/v1/admin/caps"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "org": (wrappedValue: org?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "id": (wrappedValue: id?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<RawOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Rolls the fleet's compute usage up to one row per (org, app, project, kind): how many distinct machines ran in the window, how many are still active, what they billed, and when each group last emitted an event.
+     
+     - parameter kind: (query) Kind narrows to one workload class (bot | machine | cluster | nodepool | container | function | …). An OPEN spectrum matched as a plain string, lowercased to the warehouse&#39;s convention; empty means every kind. (optional)
+     - parameter org: (query) Org narrows to one tenant. Empty means every tenant — this board is cross-tenant by nature. (optional)
+     - parameter range: (query) Range is the lower time bound: 24h, 7d or 30d. Anything else reads as 30d. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ComputeOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminCompute(kind: String? = nil, org: String? = nil, range: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ComputeOut {
+        return try await adminComputeWithRequestBuilder(kind: kind, org: org, range: range, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Rolls the fleet's compute usage up to one row per (org, app, project, kind): how many distinct machines ran in the window, how many are still active, what they billed, and when each group last emitted an event.
+     - GET /v1/admin/compute
+     - Rolls the fleet's compute usage up to one row per (org, app, project, kind): how many distinct machines ran in the window, how many are still active, what they billed, and when each group last emitted an event. The console folds these into its org → app → project tree.  A machine counts as ACTIVE when its LATEST lifecycle event is not a terminal one (stop/destroy/terminate/delete/off/shutdown/expire and their past tenses) — the same fold the console applies, done in the warehouse so the count is over every machine and not just the page.  Honest-empty when the warehouse is not connected or hanzo.compute_usage is not provisioned yet: an empty list, never a fabricated fleet.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter kind: (query) Kind narrows to one workload class (bot | machine | cluster | nodepool | container | function | …). An OPEN spectrum matched as a plain string, lowercased to the warehouse&#39;s convention; empty means every kind. (optional)
+     - parameter org: (query) Org narrows to one tenant. Empty means every tenant — this board is cross-tenant by nature. (optional)
+     - parameter range: (query) Range is the lower time bound: 24h, 7d or 30d. Anything else reads as 30d. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ComputeOut> 
+     */
+    open class func adminComputeWithRequestBuilder(kind: String? = nil, org: String? = nil, range: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ComputeOut> {
+        let localVariablePath = "/v1/admin/compute"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "kind": (wrappedValue: kind?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "org": (wrappedValue: org?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "range": (wrappedValue: range?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ComputeOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Marks one cluster node unschedulable — or schedulable again — and can drain the pods already on it.
+     
+     - parameter id: (path) ID is the node&#39;s droplet id, from the path. 
+     - parameter cordonIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: MutationOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminCordonNode(id: String, cordonIn: CordonIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> MutationOut {
+        return try await adminCordonNodeWithRequestBuilder(id: id, cordonIn: cordonIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Marks one cluster node unschedulable — or schedulable again — and can drain the pods already on it.
+     - POST /v1/admin/infra/nodes/{id}/cordon
+     - Marks one cluster node unschedulable — or schedulable again — and can drain the pods already on it.  It is the ONE infra change that does not go through the run discipline, because there is no destructive verdict to check: cordoning is reversible and evicting respects the cluster's own PodDisruptionBudgets. It reads the cached board for the same reason. The outcome is audited either way, and the result reports how many pods were evicted.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the node&#39;s droplet id, from the path. 
+     - parameter cordonIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<MutationOut> 
+     */
+    open class func adminCordonNodeWithRequestBuilder(id: String, cordonIn: CordonIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<MutationOut> {
+        var localVariablePath = "/v1/admin/infra/nodes/{id}/cordon"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: cordonIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<MutationOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Sets a usage cap on one org — a platform override of a customer budget, written to the customer's own spend-alert rows.
+     
+     - parameter capIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RawOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminCreateCap(capIn: CapIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RawOut {
+        return try await adminCreateCapWithRequestBuilder(capIn: capIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Sets a usage cap on one org — a platform override of a customer budget, written to the customer's own spend-alert rows.
+     - POST /v1/admin/caps
+     - Sets a usage cap on one org — a platform override of a customer budget, written to the customer's own spend-alert rows. The body is commerce's spend-alert contract, forwarded byte-for-byte.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter capIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<RawOut> 
+     */
+    open class func adminCreateCapWithRequestBuilder(capIn: CapIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RawOut> {
+        let localVariablePath = "/v1/admin/caps"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: capIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<RawOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Answers GET /v1/admin/customers/:org.
+     
+     - parameter org: (path) Org is the tenant slug from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: CustomerDetailOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminCustomer(org: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CustomerDetailOut {
+        return try await adminCustomerWithRequestBuilder(org: org, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Answers GET /v1/admin/customers/:org.
+     - GET /v1/admin/customers/{org}
+     - Answers GET /v1/admin/customers/:org.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter org: (path) Org is the tenant slug from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<CustomerDetailOut> 
+     */
+    open class func adminCustomerWithRequestBuilder(org: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CustomerDetailOut> {
+        var localVariablePath = "/v1/admin/customers/{org}"
+        let orgPreEscape = "\(APIHelper.mapValueToPathItem(org))"
+        let orgPostEscape = orgPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{org}", with: orgPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<CustomerDetailOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Lists every customer org at a glance, sorted by slug: owner email, plan, suspend status, member count, balance, month-to-date spend and MRR.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: CustomersOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminCustomers(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CustomersOut {
+        return try await adminCustomersWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Lists every customer org at a glance, sorted by slug: owner email, plan, suspend status, member count, balance, month-to-date spend and MRR.
+     - GET /v1/admin/customers
+     - Lists every customer org at a glance, sorted by slug: owner email, plan, suspend status, member count, balance, month-to-date spend and MRR.  Each row costs one IAM read plus the org's money reads, fanned out under a fixed concurrency ceiling so a large fleet cannot stampede the upstreams. Every read is best-effort per row: an upstream miss degrades THAT field to its honest zero rather than failing the fleet.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<CustomersOut> 
+     */
+    open class func adminCustomersWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CustomersOut> {
+        let localVariablePath = "/v1/admin/customers"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<CustomersOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Removes one cap by id, lifting the ceiling entirely.
+     
+     - parameter id: (path) ID is the cap to edit or remove, from the path. Unused by the list and create ops. 
+     - parameter org: (query) Org is the tenant to act on. Required for a SuperAdmin — they must name their target; ignored for a white-label admin, who always acts on their own org. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RawOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminDeleteCap(id: String, org: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RawOut {
+        return try await adminDeleteCapWithRequestBuilder(id: id, org: org, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Removes one cap by id, lifting the ceiling entirely.
+     - DELETE /v1/admin/caps/{id}
+     - Removes one cap by id, lifting the ceiling entirely.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the cap to edit or remove, from the path. Unused by the list and create ops. 
+     - parameter org: (query) Org is the tenant to act on. Required for a SuperAdmin — they must name their target; ignored for a white-label admin, who always acts on their own org. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<RawOut> 
+     */
+    open class func adminDeleteCapWithRequestBuilder(id: String, org: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RawOut> {
+        var localVariablePath = "/v1/admin/caps/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "org": (wrappedValue: org?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<RawOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Destroys a droplet the board has just proven is NOT a DOKS node.
+     
+     - parameter id: (path) ID is the DO droplet id, from the path. Numeric. 
+     - parameter size: (query) Size is the target DigitalOcean size slug on resize, e.g. \&quot;s-4vcpu-8gb\&quot;. (optional)
+     - parameter disk: (query) Disk requests a PERMANENT resize that grows the disk. DO can never resize such a droplet down again, so it defaults false — a CPU/RAM-only change, reversible. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: MutationOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminDeleteDroplet(id: String, size: String? = nil, disk: Bool? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> MutationOut {
+        return try await adminDeleteDropletWithRequestBuilder(id: id, size: size, disk: disk, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Destroys a droplet the board has just proven is NOT a DOKS node.
+     - DELETE /v1/admin/infra/droplets/{id}
+     - Destroys a droplet the board has just proven is NOT a DOKS node. There is no snapshot-first undo for a droplet the way there is for a volume: the local disk goes with it.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the DO droplet id, from the path. Numeric. 
+     - parameter size: (query) Size is the target DigitalOcean size slug on resize, e.g. \&quot;s-4vcpu-8gb\&quot;. (optional)
+     - parameter disk: (query) Disk requests a PERMANENT resize that grows the disk. DO can never resize such a droplet down again, so it defaults false — a CPU/RAM-only change, reversible. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<MutationOut> 
+     */
+    open class func adminDeleteDropletWithRequestBuilder(id: String, size: String? = nil, disk: Bool? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<MutationOut> {
+        var localVariablePath = "/v1/admin/infra/droplets/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "size": (wrappedValue: size?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "disk": (wrappedValue: disk?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<MutationOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Destroys a load balancer the board has just proven no live type=LoadBalancer Service in any cluster targets.
+     
+     - parameter id: (path) ID is the DO load balancer id, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: MutationOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminDeleteLoadBalancer(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> MutationOut {
+        return try await adminDeleteLoadBalancerWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Destroys a load balancer the board has just proven no live type=LoadBalancer Service in any cluster targets.
+     - DELETE /v1/admin/infra/loadbalancers/{id}
+     - Destroys a load balancer the board has just proven no live type=LoadBalancer Service in any cluster targets.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the DO load balancer id, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<MutationOut> 
+     */
+    open class func adminDeleteLoadBalancerWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<MutationOut> {
+        var localVariablePath = "/v1/admin/infra/loadbalancers/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<MutationOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Destroys a volume the board has just proven no PersistentVolume in any cluster references.
+     
+     - parameter id: (path) ID is the DO volume id, from the path. 
+     - parameter snapshot: (query) Snapshot is the snapshot-first switch on DELETE. Anything other than the literal \&quot;false\&quot; snapshots before destroying — the snapshot IS the undo, so waiving it is deliberate and explicit. (optional)
+     - parameter name: (query) Name is the snapshot name on the snapshot action. Blank gets a deterministic \&quot;&lt;volume&gt;-predelete-&lt;unix&gt;\&quot; so the undo is findable in the DO console. (optional)
+     - parameter sizeGiB: (query) SizeGiB is the target size on the resize action. A volume only ever grows — ExpandTo is the verdict that refuses a shrink, so this is not validated here. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: MutationOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminDeleteVolume(id: String, snapshot: String? = nil, name: String? = nil, sizeGiB: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> MutationOut {
+        return try await adminDeleteVolumeWithRequestBuilder(id: id, snapshot: snapshot, name: name, sizeGiB: sizeGiB, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Destroys a volume the board has just proven no PersistentVolume in any cluster references.
+     - DELETE /v1/admin/infra/volumes/{id}
+     - Destroys a volume the board has just proven no PersistentVolume in any cluster references. Irreversible, so it snapshots first unless explicitly waived — the snapshot IS the undo.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the DO volume id, from the path. 
+     - parameter snapshot: (query) Snapshot is the snapshot-first switch on DELETE. Anything other than the literal \&quot;false\&quot; snapshots before destroying — the snapshot IS the undo, so waiving it is deliberate and explicit. (optional)
+     - parameter name: (query) Name is the snapshot name on the snapshot action. Blank gets a deterministic \&quot;&lt;volume&gt;-predelete-&lt;unix&gt;\&quot; so the undo is findable in the DO console. (optional)
+     - parameter sizeGiB: (query) SizeGiB is the target size on the resize action. A volume only ever grows — ExpandTo is the verdict that refuses a shrink, so this is not validated here. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<MutationOut> 
+     */
+    open class func adminDeleteVolumeWithRequestBuilder(id: String, snapshot: String? = nil, name: String? = nil, sizeGiB: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<MutationOut> {
+        var localVariablePath = "/v1/admin/infra/volumes/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "snapshot": (wrappedValue: snapshot?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "name": (wrappedValue: name?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "sizeGiB": (wrappedValue: sizeGiB?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<MutationOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Stops the plugin.
+     
+     - parameter name: (path) Name is the app, from the path. 
+     - parameter nameIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ActionOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminDisablePlugin(name: String, nameIn: NameIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ActionOut {
+        return try await adminDisablePluginWithRequestBuilder(name: name, nameIn: nameIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Stops the plugin.
+     - POST /v1/admin/plugins/{name}/disable
+     - Stops the plugin. Its routes STAY REGISTERED and answer 503 — not 404.  That is zip's choice and this keeps it. Removing the routes would mutate the route table, and re-adding them on enable would grow it without bound across repeated cycles, which is the invariant that makes reloads flat in memory. It is also the better answer: 404 says \"no such API\" and a client may cache it and stop retrying, while 503 says \"this API exists and is down right now\", which is true and retryable. Which of the two 503s this is — deliberate stop or crash — is what the status's disabled flag reports.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter name: (path) Name is the app, from the path. 
+     - parameter nameIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ActionOut> 
+     */
+    open class func adminDisablePluginWithRequestBuilder(name: String, nameIn: NameIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ActionOut> {
+        var localVariablePath = "/v1/admin/plugins/{name}/disable"
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: nameIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ActionOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Brings a stopped or disabled plugin back on the artifact it already has: the zero Plugin names no new artifact, so Reload reuses the loaded spec and clears the disabled flag.
+     
+     - parameter name: (path) Name is the app, from the path. 
+     - parameter nameIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ActionOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminEnablePlugin(name: String, nameIn: NameIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ActionOut {
+        return try await adminEnablePluginWithRequestBuilder(name: name, nameIn: nameIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Brings a stopped or disabled plugin back on the artifact it already has: the zero Plugin names no new artifact, so Reload reuses the loaded spec and clears the disabled flag.
+     - POST /v1/admin/plugins/{name}/enable
+     - Brings a stopped or disabled plugin back on the artifact it already has: the zero Plugin names no new artifact, so Reload reuses the loaded spec and clears the disabled flag. Named for what an operator means by it.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter name: (path) Name is the app, from the path. 
+     - parameter nameIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ActionOut> 
+     */
+    open class func adminEnablePluginWithRequestBuilder(name: String, nameIn: NameIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ActionOut> {
+        var localVariablePath = "/v1/admin/plugins/{name}/enable"
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: nameIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ActionOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Answers GET /v1/admin/finance.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: FinanceOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminFinance(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> FinanceOut {
+        return try await adminFinanceWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Answers GET /v1/admin/finance.
+     - GET /v1/admin/finance
+     - Answers GET /v1/admin/finance. It reads the multi-vendor COGS from commerce /v1/costs, the DO promo-credit/burn-down treasury view, and the fleet commerce revenue, then hands them to ComputeFinance. SuperAdmin only.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<FinanceOut> 
+     */
+    open class func adminFinanceWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<FinanceOut> {
+        let localVariablePath = "/v1/admin/finance"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<FinanceOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Carries ONE org's current commerce prepaid balance into the native finance wallet — the one-time cutover between the two ledgers.
+     
+     - parameter backfillIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: BackfillOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminFinanceBackfill(backfillIn: BackfillIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> BackfillOut {
+        return try await adminFinanceBackfillWithRequestBuilder(backfillIn: backfillIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Carries ONE org's current commerce prepaid balance into the native finance wallet — the one-time cutover between the two ledgers.
+     - POST /v1/admin/finance/backfill
+     - Carries ONE org's current commerce prepaid balance into the native finance wallet — the one-time cutover between the two ledgers.  It is IDEMPOTENT: the deposit uses the fixed ref \"backfill:<org>\", so re-running it credits the wallet at most once. Safe to retry.  The pre-migration balance is read from the CO-RESIDENT commerce ledger, not over HTTP: the admin HTTP client dials an unroutable in-process address and would read $0, and a phantom zero would silently carry nothing while reporting success. When commerce is not co-resident this fails rather than migrating nothing.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter backfillIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<BackfillOut> 
+     */
+    open class func adminFinanceBackfillWithRequestBuilder(backfillIn: BackfillIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<BackfillOut> {
+        let localVariablePath = "/v1/admin/finance/backfill"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: backfillIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<BackfillOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Reads the platform control-plane board: every runtime launch/release switch (waitlist, public signup, subsystem activation, gateway limits, network ids) with its LIVE value and where that value came from — a stored definition or the compiled-in default.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: FlagsOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminFlags(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> FlagsOut {
+        return try await adminFlagsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Reads the platform control-plane board: every runtime launch/release switch (waitlist, public signup, subsystem activation, gateway limits, network ids) with its LIVE value and where that value came from — a stored definition or the compiled-in default.
+     - GET /v1/admin/flags
+     - Reads the platform control-plane board: every runtime launch/release switch (waitlist, public signup, subsystem activation, gateway limits, network ids) with its LIVE value and where that value came from — a stored definition or the compiled-in default.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<FlagsOut> 
+     */
+    open class func adminFlagsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<FlagsOut> {
+        let localVariablePath = "/v1/admin/flags"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<FlagsOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Issues a staff credit grant to the org named in the path — a comp, refund or promo — through the ONE credit-write path core.ApplyGrant, which validates the amount against the per-grant cap, checks the org exists, moves the money and records the tamper-evident audit row.
+     
+     - parameter org: (path) Org is the tenant to credit. Required. 
+     - parameter grantIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: GrantOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminGrantCredit(org: String, grantIn: GrantIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GrantOut {
+        return try await adminGrantCreditWithRequestBuilder(org: org, grantIn: grantIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Issues a staff credit grant to the org named in the path — a comp, refund or promo — through the ONE credit-write path core.ApplyGrant, which validates the amount against the per-grant cap, checks the org exists, moves the money and records the tamper-evident audit row.
+     - POST /v1/admin/customers/{org}/credit
+     - Issues a staff credit grant to the org named in the path — a comp, refund or promo — through the ONE credit-write path core.ApplyGrant, which validates the amount against the per-grant cap, checks the org exists, moves the money and records the tamper-evident audit row.  The credit lands on the account account.Payer resolves, NOT necessarily the org: name a member of a pooled org and the pool is credited. The receipt echoes the subject so the caller can see which.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter org: (path) Org is the tenant to credit. Required. 
+     - parameter grantIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<GrantOut> 
+     */
+    open class func adminGrantCreditWithRequestBuilder(org: String, grantIn: GrantIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GrantOut> {
+        var localVariablePath = "/v1/admin/customers/{org}/credit"
+        let orgPreEscape = "\(APIHelper.mapValueToPathItem(org))"
+        let orgPostEscape = orgPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{org}", with: orgPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: grantIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<GrantOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Reads the credit-grant ledger across ALL orgs, newest first — who granted what to whom, when, and from which money bucket.
+     
+     - parameter org: (query) Org filters by the ACTOR&#39;s org (the staff org that issued the grant), which is rarely what a reader wants — the target org is a row field, not a filter. (optional)
+     - parameter result: (query) Result filters by outcome: \&quot;success\&quot; or \&quot;error\&quot;. Empty returns both, which is the point of this view — a refused grant is as interesting as a granted one. (optional)
+     - parameter limit: (query) Limit caps the rows returned. Default 200. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: GrantsOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminGrants(org: String? = nil, result: String? = nil, limit: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GrantsOut {
+        return try await adminGrantsWithRequestBuilder(org: org, result: result, limit: limit, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Reads the credit-grant ledger across ALL orgs, newest first — who granted what to whom, when, and from which money bucket.
+     - GET /v1/admin/grants
+     - Reads the credit-grant ledger across ALL orgs, newest first — who granted what to whom, when, and from which money bucket.  It is a PROJECTION of the tamper-evident audit trail, not a second store: every grant is written there as action \"admin.customer.credit\", so this view cannot drift from what actually happened, and FAILED grants appear too.  A deployment with no local audit store has no history to project, and says so with an empty list and a msg rather than an error.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter org: (query) Org filters by the ACTOR&#39;s org (the staff org that issued the grant), which is rarely what a reader wants — the target org is a row field, not a filter. (optional)
+     - parameter result: (query) Result filters by outcome: \&quot;success\&quot; or \&quot;error\&quot;. Empty returns both, which is the point of this view — a refused grant is as interesting as a granted one. (optional)
+     - parameter limit: (query) Limit caps the rows returned. Default 200. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<GrantsOut> 
+     */
+    open class func adminGrantsWithRequestBuilder(org: String? = nil, result: String? = nil, limit: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GrantsOut> {
+        let localVariablePath = "/v1/admin/grants"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "org": (wrappedValue: org?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "result": (wrappedValue: result?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<GrantsOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Serves the whole DigitalOcean infrastructure board: droplets, volumes, DOKS clusters and load balancers, each cross-referenced against every cluster's live Kubernetes state so the board can say what is safe to destroy and what is not.
+     
+     - parameter refresh: (query) Refresh, when present, forces a full re-scan instead of serving the cached snapshot. Every MUTATION re-scans regardless — this is only for the reader. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ReadOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminInfra(refresh: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ReadOut {
+        return try await adminInfraWithRequestBuilder(refresh: refresh, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Serves the whole DigitalOcean infrastructure board: droplets, volumes, DOKS clusters and load balancers, each cross-referenced against every cluster's live Kubernetes state so the board can say what is safe to destroy and what is not.
+     - GET /v1/admin/infra
+     - Serves the whole DigitalOcean infrastructure board: droplets, volumes, DOKS clusters and load balancers, each cross-referenced against every cluster's live Kubernetes state so the board can say what is safe to destroy and what is not.  It is cached for up to a minute because one read is a fan-out over the DO API plus a full pod/PV listing per cluster. Staleness is never load-bearing: every MUTATION re-scans from scratch and ignores this cache.  Only an unusable DO account is a hard failure. A partial read still produces a board, with the failing source named in sources[] — except for clusters and volumes, which the safety verdict depends on; without those the analysis degrades rather than classifying anything it cannot prove.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter refresh: (query) Refresh, when present, forces a full re-scan instead of serving the cached snapshot. Every MUTATION re-scans regardless — this is only for the reader. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ReadOut> 
+     */
+    open class func adminInfraWithRequestBuilder(refresh: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ReadOut> {
+        let localVariablePath = "/v1/admin/infra"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "refresh": (wrappedValue: refresh?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ReadOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Answers GET /v1/admin/invoices.
+     
+     - parameter status: (query) Status filters on the invoice&#39;s LATEST lifecycle status (paid, open, void, …), matched case-insensitively. (optional)
+     - parameter org: (query) Org filters to one tenant, matched exactly. (optional)
+     - parameter limit: (query) Limit caps the rows returned. total still reports the full match count. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: InvoicesOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminInvoices(status: String? = nil, org: String? = nil, limit: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> InvoicesOut {
+        return try await adminInvoicesWithRequestBuilder(status: status, org: org, limit: limit, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Answers GET /v1/admin/invoices.
+     - GET /v1/admin/invoices
+     - Answers GET /v1/admin/invoices.   GET /v1/admin/invoices?org=&status=&limit=
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter status: (query) Status filters on the invoice&#39;s LATEST lifecycle status (paid, open, void, …), matched case-insensitively. (optional)
+     - parameter org: (query) Org filters to one tenant, matched exactly. (optional)
+     - parameter limit: (query) Limit caps the rows returned. total still reports the full match count. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<InvoicesOut> 
+     */
+    open class func adminInvoicesWithRequestBuilder(status: String? = nil, org: String? = nil, limit: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<InvoicesOut> {
+        let localVariablePath = "/v1/admin/invoices"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "status": (wrappedValue: status?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "org": (wrappedValue: org?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<InvoicesOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Issues a credit grant to any org from the operator Grants view, with the target named in the body.
+     
+     - parameter grantIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: GrantOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminIssueGrant(grantIn: GrantIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GrantOut {
+        return try await adminIssueGrantWithRequestBuilder(grantIn: grantIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Issues a credit grant to any org from the operator Grants view, with the target named in the body.
+     - POST /v1/admin/grants
+     - Issues a credit grant to any org from the operator Grants view, with the target named in the body. It funnels through the SAME core.ApplyGrant that POST /v1/admin/customers/:org/credit uses, so there is exactly ONE credit-write path and one audit trail behind both.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter grantIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<GrantOut> 
+     */
+    open class func adminIssueGrantWithRequestBuilder(grantIn: GrantIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GrantOut> {
+        let localVariablePath = "/v1/admin/grants"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: grantIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<GrantOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Answers with the validated operator identity — who the console is signed in as, which tier they are, and how wide their tenant window is.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: MeOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminMe(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> MeOut {
+        return try await adminMeWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Answers with the validated operator identity — who the console is signed in as, which tier they are, and how wide their tenant window is.
+     - GET /v1/admin/me
+     - Answers with the validated operator identity — who the console is signed in as, which tier they are, and how wide their tenant window is. The fields come from the sanitized identity headers the gate just read, so they are authoritative and never client-forgeable; nothing is looked up.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<MeOut> 
+     */
+    open class func adminMeWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<MeOut> {
+        let localVariablePath = "/v1/admin/me"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<MeOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Answers GET /v1/admin/metrics by aggregating commerce.events directly (fleet-wide, no per-org fan-out).
+     
+     - parameter window: (query) Window is the movement window the new/churned MRR and the recent feed are measured over. Anything unrecognised falls back to the board default. (optional)
+     - parameter limit: (query) Limit caps the top-customers table. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: MetricsOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminMetrics(window: String? = nil, limit: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> MetricsOut {
+        return try await adminMetricsWithRequestBuilder(window: window, limit: limit, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Answers GET /v1/admin/metrics by aggregating commerce.events directly (fleet-wide, no per-org fan-out).
+     - GET /v1/admin/metrics
+     - Answers GET /v1/admin/metrics by aggregating commerce.events directly (fleet-wide, no per-org fan-out). SuperAdmin only.   GET /v1/admin/metrics?window=30d&limit=20
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter window: (query) Window is the movement window the new/churned MRR and the recent feed are measured over. Anything unrecognised falls back to the board default. (optional)
+     - parameter limit: (query) Limit caps the top-customers table. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<MetricsOut> 
+     */
+    open class func adminMetricsWithRequestBuilder(window: String? = nil, limit: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<MetricsOut> {
+        let localVariablePath = "/v1/admin/metrics"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "window": (wrappedValue: window?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<MetricsOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     moneyBoardHandler answers GET /v1/admin/money.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: MoneyOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminMoney(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> MoneyOut {
+        return try await adminMoneyWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     moneyBoardHandler answers GET /v1/admin/money.
+     - GET /v1/admin/money
+     - moneyBoardHandler answers GET /v1/admin/money.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<MoneyOut> 
+     */
+    open class func adminMoneyWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<MoneyOut> {
+        let localVariablePath = "/v1/admin/money"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<MoneyOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Is the fleet-wide observability board: LLM usage (requests, tokens, cost, errors, top orgs, top models), trace RED metrics (count, p50/p95/p99 latency in ms, error rate, top services), fleet log volume, and the O11yAI generation rollup — all aggregated across EVERY tenant, with no org filter applied.
+     
+     - parameter range: (query) Range is the lower time bound: 24h, 7d or 30d. Anything else reads as the board&#39;s own default. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: O11yOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminO11y(range: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yOut {
+        return try await adminO11yWithRequestBuilder(range: range, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Is the fleet-wide observability board: LLM usage (requests, tokens, cost, errors, top orgs, top models), trace RED metrics (count, p50/p95/p99 latency in ms, error rate, top services), fleet log volume, and the O11yAI generation rollup — all aggregated across EVERY tenant, with no org filter applied.
+     - GET /v1/admin/o11y
+     - Is the fleet-wide observability board: LLM usage (requests, tokens, cost, errors, top orgs, top models), trace RED metrics (count, p50/p95/p99 latency in ms, error rate, top services), fleet log volume, and the O11yAI generation rollup — all aggregated across EVERY tenant, with no org filter applied.  Every signal degrades INDEPENDENTLY. A table that is absent or errors contributes its zero value and the read still succeeds, so the board renders exactly what the warehouse holds rather than failing whole because one of four sources is missing. Same when the warehouse is not connected at all: the zero board, never a fabricated fleet.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter range: (query) Range is the lower time bound: 24h, 7d or 30d. Anything else reads as the board&#39;s own default. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<O11yOut> 
+     */
+    open class func adminO11yWithRequestBuilder(range: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yOut> {
+        let localVariablePath = "/v1/admin/o11y"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "range": (wrappedValue: range?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<O11yOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Lists the tenant directory one row per org, sorted by slug: member count and the org's month-to-date spend and credit balance, read live from IAM and commerce.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: OrgsOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminOrgs(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> OrgsOut {
+        return try await adminOrgsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Lists the tenant directory one row per org, sorted by slug: member count and the org's month-to-date spend and credit balance, read live from IAM and commerce.
+     - GET /v1/admin/orgs
+     - Lists the tenant directory one row per org, sorted by slug: member count and the org's month-to-date spend and credit balance, read live from IAM and commerce.  The rows are the caller's tenant window, not the fleet: a SuperAdmin gets every org, a white-label admin only their own subtree. A per-org read that fails degrades THAT row to an honest zero — this panel carries no sources[] channel to report freshness on, so the alternative would be a fleet total that silently reads healthy.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<OrgsOut> 
+     */
+    open class func adminOrgsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<OrgsOut> {
+        let localVariablePath = "/v1/admin/orgs"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<OrgsOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Is the Platform Overview tiles: how many orgs and users are in the caller's tenant window, the fleet workload counts, and month-to-date spend and credits.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: OverviewOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminOverview(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> OverviewOut {
+        return try await adminOverviewWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Is the Platform Overview tiles: how many orgs and users are in the caller's tenant window, the fleet workload counts, and month-to-date spend and credits.
+     - GET /v1/admin/overview
+     - Is the Platform Overview tiles: how many orgs and users are in the caller's tenant window, the fleet workload counts, and month-to-date spend and credits.  It ALWAYS answers 200 — a tile board that fails as a whole because one upstream is down is useless. Instead every upstream reports itself in sources[]: ok, degraded, or not-configured. A commerce read that failed for ANY org marks that source degraded, because the spend/credits totals are then an undercount and must not read healthy.  The AI tiles — 30-day spend and tokens — come from the AI ledger (ledger.go), the plane that owns \"what was served\". They used to come from the money plane with the token counter hardcoded to zero, so the board read $0.00 and 0 tokens over a month in which the fleet served fifteen thousand requests. Credits still come from commerce, which owns the wallet.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<OverviewOut> 
+     */
+    open class func adminOverviewWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<OverviewOut> {
+        let localVariablePath = "/v1/admin/overview"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<OverviewOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Reports what each host is actually running: every loaded plugin with its version, pid, uptime, reload and restart counts, and its measured CPU, RSS, thread and fd cost — read from the kernel, which is only answerable at all because a plugin is a process.
+     
+     - parameter scope: (query) Scope \&quot;host\&quot; answers for THIS host only. Default \&quot;fleet\&quot; fans out to every live peer. A peer answers a host-scoped read, which is what stops the fan-out recursing. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ListOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminPlugins(scope: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ListOut {
+        return try await adminPluginsWithRequestBuilder(scope: scope, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Reports what each host is actually running: every loaded plugin with its version, pid, uptime, reload and restart counts, and its measured CPU, RSS, thread and fd cost — read from the kernel, which is only answerable at all because a plugin is a process.
+     - GET /v1/admin/plugins
+     - Reports what each host is actually running: every loaded plugin with its version, pid, uptime, reload and restart counts, and its measured CPU, RSS, thread and fd cost — read from the kernel, which is only answerable at all because a plugin is a process.  Reading this from deployment config would answer what was INTENDED. Only the process knows what is TRUE, and during a rolling upgrade the two disagree on purpose.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter scope: (query) Scope \&quot;host\&quot; answers for THIS host only. Default \&quot;fleet\&quot; fans out to every live peer. A peer answers a host-scoped read, which is what stops the fan-out recursing. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ListOut> 
+     */
+    open class func adminPluginsWithRequestBuilder(scope: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ListOut> {
+        let localVariablePath = "/v1/admin/plugins"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "scope": (wrappedValue: scope?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ListOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Lists the fleet workload registry: every operator App CR across the platform namespaces with its declared vs running image tag, reconciled health/phase and drift verdict.
+     
+     - parameter kind: (query) Kind matches the operator App CR&#39;s declared spec.role (sql|kv|generic|ingress). (optional)
+     - parameter tier: (query) Tier matches the derived infra grouping (cloud|data|edge|daemon|paas|app). (optional)
+     - parameter env: (query) Env matches the lifecycle namespace (main|test|dev). (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProductsOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminProducts(kind: String? = nil, tier: String? = nil, env: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProductsOut {
+        return try await adminProductsWithRequestBuilder(kind: kind, tier: tier, env: env, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Lists the fleet workload registry: every operator App CR across the platform namespaces with its declared vs running image tag, reconciled health/phase and drift verdict.
+     - GET /v1/admin/products
+     - Lists the fleet workload registry: every operator App CR across the platform namespaces with its declared vs running image tag, reconciled health/phase and drift verdict. Optionally narrowed by kind, tier or env, each an exact match.  The rows are the SAME observation /v1/platform/fleet renders — read through the in-process platform seam, not a second k8s client — so the two boards can never disagree about what the fleet is. A PaaS plane that is not co-resident yields an honestly empty registry, never a fabricated row.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter kind: (query) Kind matches the operator App CR&#39;s declared spec.role (sql|kv|generic|ingress). (optional)
+     - parameter tier: (query) Tier matches the derived infra grouping (cloud|data|edge|daemon|paas|app). (optional)
+     - parameter env: (query) Env matches the lifecycle namespace (main|test|dev). (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProductsOut> 
+     */
+    open class func adminProductsWithRequestBuilder(kind: String? = nil, tier: String? = nil, env: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProductsOut> {
+        let localVariablePath = "/v1/admin/products"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "kind": (wrappedValue: kind?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "tier": (wrappedValue: tier?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "env": (wrappedValue: env?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ProductsOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Reads the current platform plan promo — the singleton discount offer, e.g.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RawOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminPromo(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RawOut {
+        return try await adminPromoWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Reads the current platform plan promo — the singleton discount offer, e.g.
+     - GET /v1/admin/promos
+     - Reads the current platform plan promo — the singleton discount offer, e.g. the 50%-off launch promo. Commerce stores it in the reserved platform namespace, so the org sent with the read is the admin org and the service token is what passes commerce's own platform-admin gate.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<RawOut> 
+     */
+    open class func adminPromoWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RawOut> {
+        let localVariablePath = "/v1/admin/promos"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<RawOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Serves GET /v1/admin/providers/credit — the per-provider upstream credit ledger.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProvidersCreditOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminProvidersCredit(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProvidersCreditOut {
+        return try await adminProvidersCreditWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Serves GET /v1/admin/providers/credit — the per-provider upstream credit ledger.
+     - GET /v1/admin/providers/credit
+     - Serves GET /v1/admin/providers/credit — the per-provider upstream credit ledger. SuperAdmin-guarded (see Routes).
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProvidersCreditOut> 
+     */
+    open class func adminProvidersCreditWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProvidersCreditOut> {
+        let localVariablePath = "/v1/admin/providers/credit"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ProvidersCreditOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Restores access for every member of the org, undoing a suspend.
+     
+     - parameter org: (path) Org is the tenant slug from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AccessOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminReactivateCustomer(org: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AccessOut {
+        return try await adminReactivateCustomerWithRequestBuilder(org: org, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Restores access for every member of the org, undoing a suspend.
+     - POST /v1/admin/customers/{org}/reactivate
+     - Restores access for every member of the org, undoing a suspend. It reports the same per-user breakdown.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter org: (path) Org is the tenant slug from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AccessOut> 
+     */
+    open class func adminReactivateCustomerWithRequestBuilder(org: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AccessOut> {
+        var localVariablePath = "/v1/admin/customers/{org}/reactivate"
+        let orgPreEscape = "\(APIHelper.mapValueToPathItem(org))"
+        let orgPostEscape = orgPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{org}", with: orgPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AccessOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Swaps a plugin for another build without dropping a request.
+     
+     - parameter name: (path) Name is the app, from the path. It must be one the manifest declares. 
+     - parameter reloadIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ActionOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminReloadPlugin(name: String, reloadIn: ReloadIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ActionOut {
+        return try await adminReloadPluginWithRequestBuilder(name: name, reloadIn: reloadIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Swaps a plugin for another build without dropping a request.
+     - POST /v1/admin/plugins/{name}/reload
+     - Swaps a plugin for another build without dropping a request. The replacement is started and proven to be LISTENING before any traffic moves to it, so a bad build leaves the old one serving and returns an error rather than a hole; the old process then drains before it is killed.  With a version or url+sum it pins; naming a digest this host has run before is the rollback, and costs no network because the digest IS the cache key. With neither it restarts what is already loaded.  Fleet scope applies it to one host at a time and STOPS at the first failure, so a build that cannot come up reaches exactly one host.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter name: (path) Name is the app, from the path. It must be one the manifest declares. 
+     - parameter reloadIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ActionOut> 
+     */
+    open class func adminReloadPluginWithRequestBuilder(name: String, reloadIn: ReloadIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ActionOut> {
+        var localVariablePath = "/v1/admin/plugins/{name}/reload"
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: reloadIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ActionOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Changes a droplet's plan.
+     
+     - parameter id: (path) ID is the DO droplet id, from the path. Numeric. 
+     - parameter dropletIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: MutationOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminResizeDroplet(id: String, dropletIn: DropletIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> MutationOut {
+        return try await adminResizeDropletWithRequestBuilder(id: id, dropletIn: dropletIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Changes a droplet's plan.
+     - POST /v1/admin/infra/droplets/{id}/resize
+     - Changes a droplet's plan. Same refusal as delete and for the same reason: a DOKS node's size is the node pool's to declare.  disk=true is a PERMANENT resize — the disk grows and DO can never resize the droplet DOWN again. disk=false (the default) changes CPU/RAM only and is reversible. DO requires the droplet to be powered off and applies the change asynchronously, so the response carries the action to poll, not a completed change.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the DO droplet id, from the path. Numeric. 
+     - parameter dropletIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<MutationOut> 
+     */
+    open class func adminResizeDropletWithRequestBuilder(id: String, dropletIn: DropletIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<MutationOut> {
+        var localVariablePath = "/v1/admin/infra/droplets/{id}/resize"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: dropletIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<MutationOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Grows a volume.
+     
+     - parameter id: (path) ID is the DO volume id, from the path. 
+     - parameter volumeIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: MutationOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminResizeVolume(id: String, volumeIn: VolumeIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> MutationOut {
+        return try await adminResizeVolumeWithRequestBuilder(id: id, volumeIn: volumeIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Grows a volume.
+     - POST /v1/admin/infra/volumes/{id}/resize
+     - Grows a volume. GROW ONLY — see Volume.ExpandTo for why the other direction is a data migration this board deliberately refuses to run.  The MECHANISM follows the volume's owner, because there is exactly one way to grow each kind completely. A volume a PVC claims is grown by patching the claim: the CSI driver then resizes the DigitalOcean device AND grows the filesystem on it, leaving claim, PV, device and filesystem all agreeing. Calling DigitalOcean directly for that volume would grow the device while the PV kept declaring the old capacity and the filesystem never grew at all. One operation, one correct mechanism per owner — not two ways to do it.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the DO volume id, from the path. 
+     - parameter volumeIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<MutationOut> 
+     */
+    open class func adminResizeVolumeWithRequestBuilder(id: String, volumeIn: VolumeIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<MutationOut> {
+        var localVariablePath = "/v1/admin/infra/volumes/{id}/resize"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: volumeIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<MutationOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Is the fleet money board: total prepaid balances held, total realized spend, MRR, ARPU, a per-customer table sorted highest-revenue first, and a real 30-day spend trend from the usage ledger.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RevenueOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminRevenue(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RevenueOut {
+        return try await adminRevenueWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Is the fleet money board: total prepaid balances held, total realized spend, MRR, ARPU, a per-customer table sorted highest-revenue first, and a real 30-day spend trend from the usage ledger.
+     - GET /v1/admin/revenue
+     - Is the fleet money board: total prepaid balances held, total realized spend, MRR, ARPU, a per-customer table sorted highest-revenue first, and a real 30-day spend trend from the usage ledger.  ORTHOGONAL to /v1/admin/finance, which is the COGS/margin view of what WE pay vendors. This is the customer side: what each customer holds, spends and subscribes to.  arpu divides realized spend by PAYING customers, not by all of them — a fleet of free signups must not deflate the number. A customer counts as paying when it has spend or MRR.  An org whose money did not read degrades to honest zeros and marks the commerce source degraded in sources[], so a partial fleet read is visible instead of quietly low.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<RevenueOut> 
+     */
+    open class func adminRevenueWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RevenueOut> {
+        let localVariablePath = "/v1/admin/revenue"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<RevenueOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Lists IAM roles for one owner org, forwarded VERBATIM from IAM's get-roles.
+     
+     - parameter owner: (query) Owner is the org whose rows to read. Defaults to the admin org, which owns the platform&#39;s roles and applications. (optional)
+     - parameter p: (query) Page is the 1-based page number. Forwarded only when set — IAM applies its own default otherwise. (optional)
+     - parameter pageSize: (query) PageSize is rows per page. Forwarded only when set. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamRowsOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminRoles(owner: String? = nil, p: String? = nil, pageSize: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamRowsOut {
+        return try await adminRolesWithRequestBuilder(owner: owner, p: p, pageSize: pageSize, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Lists IAM roles for one owner org, forwarded VERBATIM from IAM's get-roles.
+     - GET /v1/admin/roles
+     - Lists IAM roles for one owner org, forwarded VERBATIM from IAM's get-roles.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter owner: (query) Owner is the org whose rows to read. Defaults to the admin org, which owns the platform&#39;s roles and applications. (optional)
+     - parameter p: (query) Page is the 1-based page number. Forwarded only when set — IAM applies its own default otherwise. (optional)
+     - parameter pageSize: (query) PageSize is rows per page. Forwarded only when set. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamRowsOut> 
+     */
+    open class func adminRolesWithRequestBuilder(owner: String? = nil, p: String? = nil, pageSize: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamRowsOut> {
+        let localVariablePath = "/v1/admin/roles"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "owner": (wrappedValue: owner?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "p": (wrappedValue: p?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "pageSize": (wrappedValue: pageSize?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamRowsOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Sets a node pool's node count — the ONE correct way to change how many nodes a DOKS cluster has.
+     
+     - parameter id: (path) ID is the DOKS cluster id, from the path. 
+     - parameter pool: (path) Pool is the node pool, from the path. Its DO id or its name — both are unique within a cluster, and an operator reads the name off the board. 
+     - parameter scaleIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: MutationOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminScaleNodePool(id: String, pool: String, scaleIn: ScaleIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> MutationOut {
+        return try await adminScaleNodePoolWithRequestBuilder(id: id, pool: pool, scaleIn: scaleIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Sets a node pool's node count — the ONE correct way to change how many nodes a DOKS cluster has.
+     - POST /v1/admin/infra/clusters/{id}/nodepools/{pool}/scale
+     - Sets a node pool's node count — the ONE correct way to change how many nodes a DOKS cluster has.  The response states what the board could NOT prove: DOKS picks which nodes a shrink removes, so no particular pod is shown to survive one. See NodePool.ScaleTo.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the DOKS cluster id, from the path. 
+     - parameter pool: (path) Pool is the node pool, from the path. Its DO id or its name — both are unique within a cluster, and an operator reads the name off the board. 
+     - parameter scaleIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<MutationOut> 
+     */
+    open class func adminScaleNodePoolWithRequestBuilder(id: String, pool: String, scaleIn: ScaleIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<MutationOut> {
+        var localVariablePath = "/v1/admin/infra/clusters/{id}/nodepools/{pool}/scale"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let poolPreEscape = "\(APIHelper.mapValueToPathItem(pool))"
+        let poolPostEscape = poolPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{pool}", with: poolPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: scaleIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<MutationOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Reads the launch board: every hosted service in the registry with its LIVE waitlist mode, evaluated through the flag engine.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ServicesOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminServices(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ServicesOut {
+        return try await adminServicesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Reads the launch board: every hosted service in the registry with its LIVE waitlist mode, evaluated through the flag engine.
+     - GET /v1/admin/services
+     - Reads the launch board: every hosted service in the registry with its LIVE waitlist mode, evaluated through the flag engine. This is the \"remove the waitlist one service at a time\" view.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ServicesOut> 
+     */
+    open class func adminServicesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ServicesOut> {
+        let localVariablePath = "/v1/admin/services"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ServicesOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Stores or overwrites ONE platform switch's definition and answers with the whole board as it now stands.
+     
+     - parameter key: (path) Key is the switch to write, taken from the path (e.g. \&quot;waitlist.chat\&quot;). 
+     - parameter setFlagIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: FlagsOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminSetFlag(key: String, setFlagIn: SetFlagIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> FlagsOut {
+        return try await adminSetFlagWithRequestBuilder(key: key, setFlagIn: setFlagIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Stores or overwrites ONE platform switch's definition and answers with the whole board as it now stands.
+     - PUT /v1/admin/flags/{key}
+     - Stores or overwrites ONE platform switch's definition and answers with the whole board as it now stands. The flip is hot: this pod applies it immediately and peers converge within one evaluation TTL (15s by default), with no redeploy.  The body reaches the flag engine BYTE-FOR-BYTE — it is the engine's definition format, not this layer's, so a field the engine understands and admin does not must still arrive intact. setFlagIn names the two fields that matter for documentation; it is not a filter.  The write is recorded in the store's activity log against the caller's email.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter key: (path) Key is the switch to write, taken from the path (e.g. \&quot;waitlist.chat\&quot;). 
+     - parameter setFlagIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<FlagsOut> 
+     */
+    open class func adminSetFlagWithRequestBuilder(key: String, setFlagIn: SetFlagIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<FlagsOut> {
+        var localVariablePath = "/v1/admin/flags/{key}"
+        let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
+        let keyPostEscape = keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{key}", with: keyPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: setFlagIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<FlagsOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Upserts the platform plan promo — the ONE place the offer is configured.
+     
+     - parameter promoIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RawOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminSetPromo(promoIn: PromoIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RawOut {
+        return try await adminSetPromoWithRequestBuilder(promoIn: promoIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Upserts the platform plan promo — the ONE place the offer is configured.
+     - PUT /v1/admin/promos
+     - Upserts the platform plan promo — the ONE place the offer is configured.  The body is commerce's own promo contract and is forwarded BYTE-FOR-BYTE, so no field commerce accepts is dropped in transit. promoIn names its documented fields.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter promoIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<RawOut> 
+     */
+    open class func adminSetPromoWithRequestBuilder(promoIn: PromoIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RawOut> {
+        let localVariablePath = "/v1/admin/promos"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: promoIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<RawOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Flips ONE service's waitlist switch — the launch lever.
+     
+     - parameter service: (path) Service is the slug to flip, taken from the path. 
+     - parameter serviceModeIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ServiceOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminSetServiceMode(service: String, serviceModeIn: ServiceModeIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ServiceOut {
+        return try await adminSetServiceModeWithRequestBuilder(service: service, serviceModeIn: serviceModeIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Flips ONE service's waitlist switch — the launch lever.
+     - POST /v1/admin/services/{service}/mode
+     - Flips ONE service's waitlist switch — the launch lever. Hot: it takes effect on this pod immediately and on peers within one evaluation TTL, with no redeploy. An unknown service is a 404, not a silent create; onboarding goes through upsertService.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter service: (path) Service is the slug to flip, taken from the path. 
+     - parameter serviceModeIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ServiceOut> 
+     */
+    open class func adminSetServiceModeWithRequestBuilder(service: String, serviceModeIn: ServiceModeIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ServiceOut> {
+        var localVariablePath = "/v1/admin/services/{service}/mode"
+        let servicePreEscape = "\(APIHelper.mapValueToPathItem(service))"
+        let servicePostEscape = servicePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{service}", with: servicePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: serviceModeIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ServiceOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Takes a point-in-time snapshot of one volume — the undo a delete relies on, available on its own so an operator can take one before any risky change.
+     
+     - parameter id: (path) ID is the DO volume id, from the path. 
+     - parameter volumeIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: VolumeSnapshotOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminSnapshotVolume(id: String, volumeIn: VolumeIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> VolumeSnapshotOut {
+        return try await adminSnapshotVolumeWithRequestBuilder(id: id, volumeIn: volumeIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Takes a point-in-time snapshot of one volume — the undo a delete relies on, available on its own so an operator can take one before any risky change.
+     - POST /v1/admin/infra/volumes/{id}/snapshot
+     - Takes a point-in-time snapshot of one volume — the undo a delete relies on, available on its own so an operator can take one before any risky change.  It re-scans the board first (never the cache) so the volume it snapshots is one that exists right now, and audits the outcome either way.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the DO volume id, from the path. 
+     - parameter volumeIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<VolumeSnapshotOut> 
+     */
+    open class func adminSnapshotVolumeWithRequestBuilder(id: String, volumeIn: VolumeIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<VolumeSnapshotOut> {
+        var localVariablePath = "/v1/admin/infra/volumes/{id}/snapshot"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: volumeIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<VolumeSnapshotOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Answers GET /v1/admin/subscriptions.
+     
+     - parameter status: (query) Status filters on the subscription&#39;s LATEST lifecycle status (active, trialing, canceled, …), matched case-insensitively. (optional)
+     - parameter org: (query) Org filters to one tenant, matched exactly. (optional)
+     - parameter limit: (query) Limit caps the rows returned. total still reports the full match count. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: SubscriptionsOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminSubscriptions(status: String? = nil, org: String? = nil, limit: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SubscriptionsOut {
+        return try await adminSubscriptionsWithRequestBuilder(status: status, org: org, limit: limit, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Answers GET /v1/admin/subscriptions.
+     - GET /v1/admin/subscriptions
+     - Answers GET /v1/admin/subscriptions.   GET /v1/admin/subscriptions?org=&status=&limit=
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter status: (query) Status filters on the subscription&#39;s LATEST lifecycle status (active, trialing, canceled, …), matched case-insensitively. (optional)
+     - parameter org: (query) Org filters to one tenant, matched exactly. (optional)
+     - parameter limit: (query) Limit caps the rows returned. total still reports the full match count. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<SubscriptionsOut> 
+     */
+    open class func adminSubscriptionsWithRequestBuilder(status: String? = nil, org: String? = nil, limit: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SubscriptionsOut> {
+        let localVariablePath = "/v1/admin/subscriptions"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "status": (wrappedValue: status?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "org": (wrappedValue: org?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<SubscriptionsOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     subsystems answers GET /v1/admin/subsystems.
+     
+     - parameter range: (query) Range bounds the telemetry window: 24h, 7d or 30d. Anything else, including empty, resolves to the default through the same o11yRange the o11y board uses. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: SubsystemsOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminSubsystems(range: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SubsystemsOut {
+        return try await adminSubsystemsWithRequestBuilder(range: range, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     subsystems answers GET /v1/admin/subsystems.
+     - GET /v1/admin/subsystems
+     - subsystems answers GET /v1/admin/subsystems. ?range=24h|7d|30d bounds the telemetry window (default 30d) — the same enum, and the same helpers, as the o11y board.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter range: (query) Range bounds the telemetry window: 24h, 7d or 30d. Anything else, including empty, resolves to the default through the same o11yRange the o11y board uses. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<SubsystemsOut> 
+     */
+    open class func adminSubsystemsWithRequestBuilder(range: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SubsystemsOut> {
+        let localVariablePath = "/v1/admin/subsystems"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "range": (wrappedValue: range?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<SubsystemsOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Cuts off every member of the org: IAM refuses a forbidden user at login AND at token issuance, so a suspended customer can neither sign in nor mint a fresh token.
+     
+     - parameter org: (path) Org is the tenant slug from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AccessOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminSuspendCustomer(org: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AccessOut {
+        return try await adminSuspendCustomerWithRequestBuilder(org: org, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Cuts off every member of the org: IAM refuses a forbidden user at login AND at token issuance, so a suspended customer can neither sign in nor mint a fresh token.
+     - POST /v1/admin/customers/{org}/suspend
+     - Cuts off every member of the org: IAM refuses a forbidden user at login AND at token issuance, so a suspended customer can neither sign in nor mint a fresh token. Fully reversible with ReactivateCustomer.  The result names every user updated and every user that was NOT — a partial failure leaves the org in a mixed state and says so instead of reporting a clean success.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter org: (path) Org is the tenant slug from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AccessOut> 
+     */
+    open class func adminSuspendCustomerWithRequestBuilder(org: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AccessOut> {
+        var localVariablePath = "/v1/admin/customers/{org}/suspend"
+        let orgPreEscape = "\(APIHelper.mapValueToPathItem(org))"
+        let orgPostEscape = orgPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{org}", with: orgPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AccessOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Answers the operator's \"Sync now\" button.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: SyncOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminSync(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SyncOut {
+        return try await adminSyncWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Answers the operator's \"Sync now\" button.
+     - POST /v1/admin/sync
+     - Answers the operator's \"Sync now\" button. There is nothing to kick: admin aggregates LIVE on every read, so the button is just a re-read. It acknowledges honestly with started:true rather than pretending a batch job was queued.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<SyncOut> 
+     */
+    open class func adminSyncWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SyncOut> {
+        let localVariablePath = "/v1/admin/sync"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<SyncOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Edits one cap by id — raise or lower the ceiling, flip enforcement.
+     
+     - parameter id: (path) ID is the cap to edit or remove, from the path. Unused by the list and create ops. 
+     - parameter capIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RawOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminUpdateCap(id: String, capIn: CapIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RawOut {
+        return try await adminUpdateCapWithRequestBuilder(id: id, capIn: capIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Edits one cap by id — raise or lower the ceiling, flip enforcement.
+     - PATCH /v1/admin/caps/{id}
+     - Edits one cap by id — raise or lower the ceiling, flip enforcement. The body is commerce's spend-alert patch contract, forwarded byte-for-byte.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the cap to edit or remove, from the path. Unused by the list and create ops. 
+     - parameter capIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<RawOut> 
+     */
+    open class func adminUpdateCapWithRequestBuilder(id: String, capIn: CapIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RawOut> {
+        var localVariablePath = "/v1/admin/caps/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: capIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<RawOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Onboards a hosted service, or edits one, so a new host comes under the launch gate WITHOUT a redeploy.
+     
+     - parameter serviceInput: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ServiceOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminUpsertService(serviceInput: ServiceInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ServiceOut {
+        return try await adminUpsertServiceWithRequestBuilder(serviceInput: serviceInput, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Onboards a hosted service, or edits one, so a new host comes under the launch gate WITHOUT a redeploy.
+     - POST /v1/admin/services
+     - Onboards a hosted service, or edits one, so a new host comes under the launch gate WITHOUT a redeploy. Re-registering an existing service PRESERVES its live switch — editing the hosts of a service that is already open must not silently close it again.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter serviceInput: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ServiceOut> 
+     */
+    open class func adminUpsertServiceWithRequestBuilder(serviceInput: ServiceInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ServiceOut> {
+        let localVariablePath = "/v1/admin/services"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: serviceInput, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ServiceOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns the trailing 30 days of AI usage: one org's when org names one, else the whole fleet's — the spend, the tokens and the requests, the daily curve behind them, and the split by model.
+     
+     - parameter org: (query) Org reads ONE tenant&#39;s trailing-30-day total instead of the fleet sum. Honoured for a SuperAdmin only — a white-label admin always reads their own org.  The window is the one core.OrgMoney returns, and it is what the operator board beside this already labelled (\&quot;Daily, last 30 days\&quot;). The wire used to say month-to-date while that UI said 30 days; they agree now. This comment is REGENERATED into plugin/admin/openapi.json and openapi.yaml as the ?org parameter description, so a stale word here ships as a contradiction inside one spec file — which is the drift this whole change set exists to remove. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: UsageOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminUsage(org: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> UsageOut {
+        return try await adminUsageWithRequestBuilder(org: org, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns the trailing 30 days of AI usage: one org's when org names one, else the whole fleet's — the spend, the tokens and the requests, the daily curve behind them, and the split by model.
+     - GET /v1/admin/usage
+     - Returns the trailing 30 days of AI usage: one org's when org names one, else the whole fleet's — the spend, the tokens and the requests, the daily curve behind them, and the split by model.  It reads the AI ledger (ledger.go), which is the plane that owns this question. It used to ask the commerce billing API instead, once per org, and answer with a hardcoded empty series, zero tokens and zero requests, on the reasoning that a trend and a split were \"not derivable from the commerce billing API\". They are not — but the question was never commerce's. hanzo.cloud_usage carries a row per served request, so all three fall out of the same window the totals do.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter org: (query) Org reads ONE tenant&#39;s trailing-30-day total instead of the fleet sum. Honoured for a SuperAdmin only — a white-label admin always reads their own org.  The window is the one core.OrgMoney returns, and it is what the operator board beside this already labelled (\&quot;Daily, last 30 days\&quot;). The wire used to say month-to-date while that UI said 30 days; they agree now. This comment is REGENERATED into plugin/admin/openapi.json and openapi.yaml as the ?org parameter description, so a stale word here ships as a contradiction inside one spec file — which is the drift this whole change set exists to remove. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<UsageOut> 
+     */
+    open class func adminUsageWithRequestBuilder(org: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<UsageOut> {
+        let localVariablePath = "/v1/admin/usage"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "org": (wrappedValue: org?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<UsageOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Splits our upstream AI usage by how it was FUNDED: one row per (provider, model) over the window, tagged credit (provider grant still remaining), paid (grant exhausted) or paid_only (no grant at all).
+     
+     - parameter from: (query) From is the inclusive start of the window. Unparseable or absent, together with To, falls back to the last 30 days. (optional)
+     - parameter to: (query) To is the exclusive end of the window. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: UsageFundingOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminUsageFunding(from: String? = nil, to: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> UsageFundingOut {
+        return try await adminUsageFundingWithRequestBuilder(from: from, to: to, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Splits our upstream AI usage by how it was FUNDED: one row per (provider, model) over the window, tagged credit (provider grant still remaining), paid (grant exhausted) or paid_only (no grant at all).
+     - GET /v1/admin/usage/funding
+     - Splits our upstream AI usage by how it was FUNDED: one row per (provider, model) over the window, tagged credit (provider grant still remaining), paid (grant exhausted) or paid_only (no grant at all).  The class is resolved at the PROVIDER level from the credit ledger, not per call — the per-call split, and the `byo` class, arrive when the metering write stamps a funding column on cloud_usage and this can GROUP BY it directly. Until then a provider with remaining grant reports all of its usage as credit, which is right in aggregate and approximate at the boundary where a grant runs out mid-window.  An unparseable window falls back to the last 30 days rather than refusing: this is a dashboard read, and a typo in a date must not blank the board.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter from: (query) From is the inclusive start of the window. Unparseable or absent, together with To, falls back to the last 30 days. (optional)
+     - parameter to: (query) To is the exclusive end of the window. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<UsageFundingOut> 
+     */
+    open class func adminUsageFundingWithRequestBuilder(from: String? = nil, to: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<UsageFundingOut> {
+        let localVariablePath = "/v1/admin/usage/funding"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "from": (wrappedValue: from?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "to": (wrappedValue: to?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<UsageFundingOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Lists the user directory across the caller's tenant window, one page at a time.
+     
+     - parameter org: (query) Org narrows the directory to ONE tenant. Honoured for a SuperAdmin only — a white-label admin is pinned to their own org and this is ignored. (optional)
+     - parameter q: (query) Query is a free-text filter, matched by IAM as a \&quot;contains\&quot; over the user name. (optional)
+     - parameter p: (query) Page is the 1-based page number. Defaults to \&quot;1\&quot;; IAM returns zero rows AND a zero total when it is unset, so this layer never leaves it empty. (optional)
+     - parameter pageSize: (query) PageSize is rows per page. Defaults to \&quot;200\&quot;, the shared admin page size. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: UsersOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminUsers(org: String? = nil, q: String? = nil, p: String? = nil, pageSize: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> UsersOut {
+        return try await adminUsersWithRequestBuilder(org: org, q: q, p: p, pageSize: pageSize, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Lists the user directory across the caller's tenant window, one page at a time.
+     - GET /v1/admin/users
+     - Lists the user directory across the caller's tenant window, one page at a time. total is IAM's REAL total, so the console can page through it.  A SuperAdmin may aim the read at one tenant with org; a white-label admin cannot — for them the owner is hard-pinned to their own org and org is ignored, which is what keeps the directory from becoming a cross-tenant read.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter org: (query) Org narrows the directory to ONE tenant. Honoured for a SuperAdmin only — a white-label admin is pinned to their own org and this is ignored. (optional)
+     - parameter q: (query) Query is a free-text filter, matched by IAM as a \&quot;contains\&quot; over the user name. (optional)
+     - parameter p: (query) Page is the 1-based page number. Defaults to \&quot;1\&quot;; IAM returns zero rows AND a zero total when it is unset, so this layer never leaves it empty. (optional)
+     - parameter pageSize: (query) PageSize is rows per page. Defaults to \&quot;200\&quot;, the shared admin page size. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<UsersOut> 
+     */
+    open class func adminUsersWithRequestBuilder(org: String? = nil, q: String? = nil, p: String? = nil, pageSize: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<UsersOut> {
+        let localVariablePath = "/v1/admin/users"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "org": (wrappedValue: org?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "q": (wrappedValue: q?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "p": (wrappedValue: p?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "pageSize": (wrappedValue: pageSize?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<UsersOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns the realtime block-storage board: the DigitalOcean volume fleet (count, capacity, monthly list cost, per-volume region and attachment) plus the analytics datastore's OWN fill, read from its system.disks.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: VolumesOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminVolumes(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> VolumesOut {
+        return try await adminVolumesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns the realtime block-storage board: the DigitalOcean volume fleet (count, capacity, monthly list cost, per-volume region and attachment) plus the analytics datastore's OWN fill, read from its system.disks.
+     - GET /v1/admin/volumes
+     - Returns the realtime block-storage board: the DigitalOcean volume fleet (count, capacity, monthly list cost, per-volume region and attachment) plus the analytics datastore's OWN fill, read from its system.disks.  A volume's usedGiB and pct are null, always: DO exposes capacity and attachment but no fill, so the console renders \"—\" rather than a number nobody measured. The datastore card is the one real fill here, and it is the number to scale on.  The two sources degrade independently — a DO outage still returns the datastore fill, and a disconnected datastore still returns the DO fleet.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<VolumesOut> 
+     */
+    open class func adminVolumesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<VolumesOut> {
+        let localVariablePath = "/v1/admin/volumes"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<VolumesOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Reads one waitlist's leaderboard from the Hanzo waitlist engine — position, points and referral standing per entry — proxied server-authed with the engine secret, never a client credential.
+     
+     - parameter waitlist: (query) Waitlist is the waitlist slug to read (e.g. \&quot;chat\&quot;). The engine decides what an empty slug means. (optional)
+     - parameter page: (query) Page is the 1-based page number. (optional)
+     - parameter pageSize: (query) PageSize is entries per page. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RawOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminWaitlist(waitlist: String? = nil, page: String? = nil, pageSize: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RawOut {
+        return try await adminWaitlistWithRequestBuilder(waitlist: waitlist, page: page, pageSize: pageSize, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Reads one waitlist's leaderboard from the Hanzo waitlist engine — position, points and referral standing per entry — proxied server-authed with the engine secret, never a client credential.
+     - GET /v1/admin/waitlist
+     - Reads one waitlist's leaderboard from the Hanzo waitlist engine — position, points and referral standing per entry — proxied server-authed with the engine secret, never a client credential.  The engine's payload is forwarded VERBATIM as data; the console normalizes it. When the engine is not configured on this deployment the read still succeeds, with an empty object and a msg saying so, so the panel shows an honest not-wired state instead of an error the operator would chase.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter waitlist: (query) Waitlist is the waitlist slug to read (e.g. \&quot;chat\&quot;). The engine decides what an empty slug means. (optional)
+     - parameter page: (query) Page is the 1-based page number. (optional)
+     - parameter pageSize: (query) PageSize is entries per page. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<RawOut> 
+     */
+    open class func adminWaitlistWithRequestBuilder(waitlist: String? = nil, page: String? = nil, pageSize: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RawOut> {
+        let localVariablePath = "/v1/admin/waitlist"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "waitlist": (wrappedValue: waitlist?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "page": (wrappedValue: page?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "pageSize": (wrappedValue: pageSize?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<RawOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Grants a user waitlist points, moving them up toward the access cutoff.
+     
+     - parameter waitlistBoostRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RawOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func adminWaitlistBoost(waitlistBoostRequest: WaitlistBoostRequest, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RawOut {
+        return try await adminWaitlistBoostWithRequestBuilder(waitlistBoostRequest: waitlistBoostRequest, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Grants a user waitlist points, moving them up toward the access cutoff.
+     - POST /v1/admin/waitlist/boost
+     - Grants a user waitlist points, moving them up toward the access cutoff. This is the access lever: the cutoff itself does not move, the person does.  It funnels through the engine's verified grant seam (POST /v1/waitlist/award with source=\"grant\" — the ONE path that honours an explicit points amount) and writes a tamper-evident audit row either way, so a FAILED grant is recorded too. The reason field goes only to that row.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter waitlistBoostRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<RawOut> 
+     */
+    open class func adminWaitlistBoostWithRequestBuilder(waitlistBoostRequest: WaitlistBoostRequest, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RawOut> {
+        let localVariablePath = "/v1/admin/waitlist/boost"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: waitlistBoostRequest, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<RawOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Lists every affiliate across the fleet with its ORG exposed, plus a fleet summary of lifetime accrued, still-pending and paid commission in integer cents.
+     
+     - parameter limit: (query) Limit caps the rows returned. Absent or non-positive means the default of 500; anything above 1000 is clamped to 1000. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: DirectoryOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAdminAffiliates(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> DirectoryOut {
+        return try await getAdminAffiliatesWithRequestBuilder(limit: limit, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Lists every affiliate across the fleet with its ORG exposed, plus a fleet summary of lifetime accrued, still-pending and paid commission in integer cents.
+     - GET /v1/admin/affiliates
+     - Lists every affiliate across the fleet with its ORG exposed, plus a fleet summary of lifetime accrued, still-pending and paid commission in integer cents.  PLATFORM SUDO ONLY, and a non-admin is refused outright. This is the cross-tenant view and it names orgs — exactly what the partner-facing leaderboard refuses to do. There is deliberately no org-scoped variant of this read; a partner sees its own standing through its own dashboard. Bounded per request.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter limit: (query) Limit caps the rows returned. Absent or non-positive means the default of 500; anything above 1000 is clamped to 1000. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<DirectoryOut> 
+     */
+    open class func getAdminAffiliatesWithRequestBuilder(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<DirectoryOut> {
+        let localVariablePath = "/v1/admin/affiliates"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<DirectoryOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns the platform's whole author program — every org's author record, not the caller's — with each one's repository and deploy counts and a fleet roll-up of the money accrued, pending and paid.
+     
+     - parameter limit: (query) Limit bounds the page. 0 or less means the default of 500; anything above 1000 is clamped to 1000. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AdminBook
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAdminAuthors(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AdminBook {
+        return try await getAdminAuthorsWithRequestBuilder(limit: limit, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns the platform's whole author program — every org's author record, not the caller's — with each one's repository and deploy counts and a fleet roll-up of the money accrued, pending and paid.
+     - GET /v1/admin/authors
+     - Returns the platform's whole author program — every org's author record, not the caller's — with each one's repository and deploy counts and a fleet roll-up of the money accrued, pending and paid.  It is a Hanzo platform operation: a caller who is not a SuperAdmin gets 403. It exposes the owning org of each author, which no tenant-facing read ever does.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter limit: (query) Limit bounds the page. 0 or less means the default of 500; anything above 1000 is clamped to 1000. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AdminBook> 
+     */
+    open class func getAdminAuthorsWithRequestBuilder(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AdminBook> {
+        let localVariablePath = "/v1/admin/authors"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AdminBook>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns the audit trail behind ONE author's royalty — the same payload the author reads at /v1/authors/basis, from the same builder, so support sees exactly what the author sees rather than a parallel view free to drift.
+     
+     - parameter id: (path) ID is the author record&#39;s handle, from the path. 
+     - parameter period: (query) Period is the UTC accrual month, YYYY-MM. Empty means every period; any other shape is refused with 400. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: BasisResult
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAdminAuthorsByIdBasis(id: String, period: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> BasisResult {
+        return try await getAdminAuthorsByIdBasisWithRequestBuilder(id: id, period: period, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns the audit trail behind ONE author's royalty — the same payload the author reads at /v1/authors/basis, from the same builder, so support sees exactly what the author sees rather than a parallel view free to drift.
+     - GET /v1/admin/authors/{id}/basis
+     - Returns the audit trail behind ONE author's royalty — the same payload the author reads at /v1/authors/basis, from the same builder, so support sees exactly what the author sees rather than a parallel view free to drift.  The data object carries: id, status, asOf, shareBps, platformShareBps, defaultShareBps, shareSource, settlesTo, method (the formula, the rate card and the sizing), ledger (every row with its spend, the share applied then, the platform's matching half, whether it satisfies the formula and the attribution edges that explain it), reconciliation (does the ledger foot to the balance) and window (what slice was actually returned) — plus period when one was requested.  A Hanzo platform operation: a caller who is not a SuperAdmin gets 403.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the author record&#39;s handle, from the path. 
+     - parameter period: (query) Period is the UTC accrual month, YYYY-MM. Empty means every period; any other shape is refused with 400. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<BasisResult> 
+     */
+    open class func getAdminAuthorsByIdBasisWithRequestBuilder(id: String, period: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<BasisResult> {
+        var localVariablePath = "/v1/admin/authors/{id}/basis"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "period": (wrappedValue: period?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<BasisResult>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns the full model and provider catalog annotated with each entry's enablement state, for the operator console.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AdminCatalogOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAdminCatalog(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AdminCatalogOut {
+        return try await getAdminCatalogWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns the full model and provider catalog annotated with each entry's enablement state, for the operator console.
+     - GET /v1/admin/catalog
+     - Returns the full model and provider catalog annotated with each entry's enablement state, for the operator console. Nothing is hidden: this is the admin's view of what exists and what is currently off, in beta or generally available. SuperAdmin only; every other caller is refused.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AdminCatalogOut> 
+     */
+    open class func getAdminCatalogWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AdminCatalogOut> {
+        let localVariablePath = "/v1/admin/catalog"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AdminCatalogOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns every item an operator has set an enablement state on — its global state (off, beta or ga) and the orgs granted its beta.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AdminEnablementBoard
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAdminEnablement(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AdminEnablementBoard {
+        return try await getAdminEnablementWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns every item an operator has set an enablement state on — its global state (off, beta or ga) and the orgs granted its beta.
+     - GET /v1/admin/enablement
+     - Returns every item an operator has set an enablement state on — its global state (off, beta or ga) and the orgs granted its beta. An item nobody has touched is absent, because an untouched item is generally available; the console composes the candidate list from the live catalog. SuperAdmin only; every other caller is refused.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AdminEnablementBoard> 
+     */
+    open class func getAdminEnablementWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AdminEnablementBoard> {
+        let localVariablePath = "/v1/admin/enablement"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AdminEnablementBoard>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Answers the referral board: the top referrers by lifetime commission, the funnel conversion rate (referred orgs that have actually produced commission, over all referred orgs), and the accrual LIABILITY the platform owes, broken out by upline level.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ReferralsOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAdminReferrals(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ReferralsOut {
+        return try await getAdminReferralsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Answers the referral board: the top referrers by lifetime commission, the funnel conversion rate (referred orgs that have actually produced commission, over all referred orgs), and the accrual LIABILITY the platform owes, broken out by upline level.
+     - GET /v1/admin/referrals
+     - Answers the referral board: the top referrers by lifetime commission, the funnel conversion rate (referred orgs that have actually produced commission, over all referred orgs), and the accrual LIABILITY the platform owes, broken out by upline level.  Read the liability figure carefully — it is commission accrued and NOT yet paid, so it is money owed, not money spent, and the per-level split says how much of it comes from direct referrals versus the second and third levels.  PLATFORM SUDO ONLY, cross-tenant, and it names orgs. It reads the SAME single attribution spine the accrual itself walks, so the board and the ledger cannot disagree. Amounts are integer cents.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ReferralsOut> 
+     */
+    open class func getAdminReferralsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ReferralsOut> {
+        let localVariablePath = "/v1/admin/referrals"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ReferralsOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns every referral edge in the directory with a fleet summary.
+     
+     - parameter limit: (query) Limit is how many referrals to return, as a decimal string in the &#x60;?limit&#x3D;&#x60; query. Absent, unparseable or non-positive means 500; over 1000 is clamped to 1000. It is a string rather than a number because the parse that has always served this route trims surrounding whitespace, and one parse rule is better than two. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AdminBonusesEnvelope
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAdminReferralsBonuses(limit: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AdminBonusesEnvelope {
+        return try await getAdminReferralsBonusesWithRequestBuilder(limit: limit, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns every referral edge in the directory with a fleet summary.
+     - GET /v1/admin/referrals/bonuses
+     - Returns every referral edge in the directory with a fleet summary.  SuperAdmin only, fail-closed. This is the ATTRIBUTION directory — who referred whom and whether that referee became a customer. It carries no amounts because this package issues none. The cross-tenant referral ANALYTICS board (top referrers, conversion) is a different surface, GET /v1/admin/referrals, owned by the affiliates subsystem over the shared attribution spine.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter limit: (query) Limit is how many referrals to return, as a decimal string in the &#x60;?limit&#x3D;&#x60; query. Absent, unparseable or non-positive means 500; over 1000 is clamped to 1000. It is a string rather than a number because the parse that has always served this route trims surrounding whitespace, and one parse rule is better than two. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AdminBonusesEnvelope> 
+     */
+    open class func getAdminReferralsBonusesWithRequestBuilder(limit: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AdminBonusesEnvelope> {
+        let localVariablePath = "/v1/admin/referrals/bonuses"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AdminBonusesEnvelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns the whole treasury board for a SuperAdmin: the reserve fund report, the recent double-entry journal, and the Hanzo L1 anchor status of the ledger root.
+     
+     - parameter limit: (query) Limit caps the journal entries returned. Out of range or unparseable takes the default. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AdminReportOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAdminTreasury(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AdminReportOut {
+        return try await getAdminTreasuryWithRequestBuilder(limit: limit, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns the whole treasury board for a SuperAdmin: the reserve fund report, the recent double-entry journal, and the Hanzo L1 anchor status of the ledger root.
+     - GET /v1/admin/treasury
+     - Returns the whole treasury board for a SuperAdmin: the reserve fund report, the recent double-entry journal, and the Hanzo L1 anchor status of the ledger root. ?limit= bounds the journal page.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter limit: (query) Limit caps the journal entries returned. Out of range or unparseable takes the default. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AdminReportOut> 
+     */
+    open class func getAdminTreasuryWithRequestBuilder(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AdminReportOut> {
+        let localVariablePath = "/v1/admin/treasury"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AdminReportOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Turn one model off, into beta for named orgs, or generally available
+     
+     - parameter wildcard1: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func patchAdminCatalogModelsByWildcard1(wildcard1: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAdminCatalogModelsByWildcard1WithRequestBuilder(wildcard1: wildcard1, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Turn one model off, into beta for named orgs, or generally available
+     - PATCH /v1/admin/catalog/models/{wildcard1}
+     - Sets one model's availability overlay — and the price overrides applied on top of the catalog — then answers the new effective overlay, so a console needs no second read. The model id is the whole remaining path, so a slashed id like `acme/some-model-1` addresses intact.  SuperAdmin only; every other caller is 403, decided before the body is read. The overlay is PLATFORM-WIDE — this is the catalog every org prices against, not a per-org setting — and `betaOrgs` is what narrows a beta to named orgs.  Only the fields the patch names change; an entry with no overlay yet starts from the catalog default, which is enabled. `state` is the coherent tri-state setter (`off`|`beta`|`ga`) and the low-level `enabled`/`beta` flags are applied AFTER it, so they win where both are sent; anything else in `state` is 400. A field sent as an explicit `null` arrives indistinguishable from an absent one, so null does not clear anything.  The rule worth reading twice: a disabled entry that still carries beta orgs IS a beta — `{\"enabled\":false,\"betaOrgs\":[\"acme\"]}` leaves acme seeing the model. Only an explicit `off` (or `beta:false`) with an empty list is the absolute kill switch that a user's own beta opt-in can never re-open.  `overrides` is an RFC 7386 merge patch, stored and echoed back verbatim; it must be a JSON object or null — an array or a scalar is refused — and is bounded in size and nesting depth. An uninitialised overlay store answers 503.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter wildcard1: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func patchAdminCatalogModelsByWildcard1WithRequestBuilder(wildcard1: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/admin/catalog/models/{wildcard1}"
+        let wildcard1PreEscape = "\(APIHelper.mapValueToPathItem(wildcard1))"
+        let wildcard1PostEscape = wildcard1PreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{wildcard1}", with: wildcard1PostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Sets one provider's availability overlay.
+     
+     - parameter name: (path) Name is the provider the overlay belongs to, from the URL. 
+     - parameter providerPatchIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Overlay
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func patchAdminCatalogProvidersByName(name: String, providerPatchIn: ProviderPatchIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Overlay {
+        return try await patchAdminCatalogProvidersByNameWithRequestBuilder(name: name, providerPatchIn: providerPatchIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Sets one provider's availability overlay.
+     - PATCH /v1/admin/catalog/providers/{name}
+     - Sets one provider's availability overlay.  The overlay decides whether a provider is off, in beta for named orgs, or generally available, and carries the price overrides applied on top of the catalog. Only the fields the patch names change; every other field keeps the value it had, and an absent overlay starts from the catalog default (enabled). Answers the new effective overlay, so a console needs no second read.  SuperAdmin only.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter name: (path) Name is the provider the overlay belongs to, from the URL. 
+     - parameter providerPatchIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Overlay> 
+     */
+    open class func patchAdminCatalogProvidersByNameWithRequestBuilder(name: String, providerPatchIn: ProviderPatchIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Overlay> {
+        var localVariablePath = "/v1/admin/catalog/providers/{name}"
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: providerPatchIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Overlay>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Approves an affiliate and MINTS its referral code — the moment the partner has a working share link and starts accruing.
+     
+     - parameter id: (path) ID is the affiliate to approve, from the path. 
+     - parameter approval: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AffiliateOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAdminAffiliatesByIdApprove(id: String, approval: Approval, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AffiliateOut {
+        return try await postAdminAffiliatesByIdApproveWithRequestBuilder(id: id, approval: approval, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Approves an affiliate and MINTS its referral code — the moment the partner has a working share link and starts accruing.
+     - POST /v1/admin/affiliates/{id}/approve
+     - Approves an affiliate and MINTS its referral code — the moment the partner has a working share link and starts accruing.  The code is taken from the body if one is given, else the vanity code the applicant requested, else a slug derived for them. Codes are ONE global namespace, so a taken code is a 409 and nothing is approved. The minted code is also mirrored as a link row so click tracking is uniform across every code the affiliate holds; that mirror is best-effort and its failure never fails the approval.  Approval is what makes an affiliate eligible: before it, attribution against its code does not resolve and no sweep accrues to it. PLATFORM SUDO ONLY. Audited.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the affiliate to approve, from the path. 
+     - parameter approval: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AffiliateOut> 
+     */
+    open class func postAdminAffiliatesByIdApproveWithRequestBuilder(id: String, approval: Approval, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AffiliateOut> {
         var localVariablePath = "/v1/admin/affiliates/{id}/approve"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: affiliatesApproveRequest)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: approval, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AffiliatesAdminAffiliateEnvelope>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<AffiliateOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     List all affiliates
+     Pays out accrued commission and answers the payout row with the affiliate's updated balances.
      
-     - parameter limit: (query) Max rows to return (default 500, max 1000). (optional, default to 500)
-     - returns: AffiliatesAdminListEnvelope
+     - parameter id: (path) ID is the affiliate to pay, from the path. 
+     - parameter disbursal: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: PayoutOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func affiliatesAdminListAffiliates(limit: Int? = nil) async throws -> AffiliatesAdminListEnvelope {
-        return try await affiliatesAdminListAffiliatesWithRequestBuilder(limit: limit).execute().body
+    open class func postAdminAffiliatesByIdPayout(id: String, disbursal: Disbursal, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PayoutOut {
+        return try await postAdminAffiliatesByIdPayoutWithRequestBuilder(id: id, disbursal: disbursal, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     List all affiliates
-     - GET /v1/admin/affiliates
-     - Returns every affiliate (org exposed) plus a fleet summary. Global-admin only. Wrapped in the admin `{ status, msg, data }` envelope. 
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter limit: (query) Max rows to return (default 500, max 1000). (optional, default to 500)
-     - returns: RequestBuilder<AffiliatesAdminListEnvelope> 
-     */
-    open class func affiliatesAdminListAffiliatesWithRequestBuilder(limit: Int? = nil) -> RequestBuilder<AffiliatesAdminListEnvelope> {
-        let localVariablePath = "/v1/admin/affiliates"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AffiliatesAdminListEnvelope>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Record a payout
-     
-     - parameter id: (path) The affiliate id (e.g. &#x60;aff_&lt;hex&gt;&#x60;). 
-     - parameter affiliatesPayoutRequest: (body)  
-     - returns: AffiliatesAdminPayoutEnvelope
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func affiliatesAdminPayoutAffiliate(id: String, affiliatesPayoutRequest: AffiliatesPayoutRequest) async throws -> AffiliatesAdminPayoutEnvelope {
-        return try await affiliatesAdminPayoutAffiliateWithRequestBuilder(id: id, affiliatesPayoutRequest: affiliatesPayoutRequest).execute().body
-    }
-
-    /**
-     Record a payout
+     Pays out accrued commission and answers the payout row with the affiliate's updated balances.
      - POST /v1/admin/affiliates/{id}/payout
-     - Records a payout of accrued commission. A `credits` method issues a commerce grant into the affiliate's wallet; a cash method (wire/paypal/…) is record-only. The amount can never exceed pending (accrued − paid), reserved atomically before any grant. Global-admin only. 
+     - Pays out accrued commission and answers the payout row with the affiliate's updated balances.  The amount is reserved atomically against the affiliate's PENDING commission — accrued minus paid — so a payout can never exceed what is owed. The METHOD decides whether money actually moves: `credits` issues a commerce grant into the affiliate ORG's own wallet, tagged so the ledger can tell an affiliate payout apart from an admin or referral grant; every other method — wire, paypal and the rest — is RECORD-ONLY: the payout row and the balances move, the cash is disbursed out of band.  The amount is integer cents and must be positive. PLATFORM SUDO ONLY. Audited.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter id: (path) The affiliate id (e.g. &#x60;aff_&lt;hex&gt;&#x60;). 
-     - parameter affiliatesPayoutRequest: (body)  
-     - returns: RequestBuilder<AffiliatesAdminPayoutEnvelope> 
+       - name: bearer
+     - parameter id: (path) ID is the affiliate to pay, from the path. 
+     - parameter disbursal: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<PayoutOut> 
      */
-    open class func affiliatesAdminPayoutAffiliateWithRequestBuilder(id: String, affiliatesPayoutRequest: AffiliatesPayoutRequest) -> RequestBuilder<AffiliatesAdminPayoutEnvelope> {
+    open class func postAdminAffiliatesByIdPayoutWithRequestBuilder(id: String, disbursal: Disbursal, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PayoutOut> {
         var localVariablePath = "/v1/admin/affiliates/{id}/payout"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: affiliatesPayoutRequest)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: disbursal, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AffiliatesAdminPayoutEnvelope>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<PayoutOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Suspend an affiliate
+     Sets one affiliate's DIRECT commission rate, in basis points of Hanzo's margin.
      
-     - parameter id: (path) The affiliate id (e.g. &#x60;aff_&lt;hex&gt;&#x60;). 
-     - returns: AffiliatesAdminAffiliateEnvelope
+     - parameter id: (path) ID is the affiliate whose direct rate moves, from the path. 
+     - parameter rateSet: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AffiliateOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func affiliatesAdminSuspendAffiliate(id: String) async throws -> AffiliatesAdminAffiliateEnvelope {
-        return try await affiliatesAdminSuspendAffiliateWithRequestBuilder(id: id).execute().body
+    open class func postAdminAffiliatesByIdRate(id: String, rateSet: RateSet, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AffiliateOut {
+        return try await postAdminAffiliatesByIdRateWithRequestBuilder(id: id, rateSet: rateSet, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Suspend an affiliate
-     - POST /v1/admin/affiliates/{id}/suspend
-     - Suspends the affiliate. Global-admin only.
+     Sets one affiliate's DIRECT commission rate, in basis points of Hanzo's margin.
+     - POST /v1/admin/affiliates/{id}/rate
+     - Sets one affiliate's DIRECT commission rate, in basis points of Hanzo's margin.  The rate is CAPPED so that the direct rate plus the platform-wide second- and third-level rates can never exceed the whole margin — the structural guarantee that everything paid on one source event stays inside the margin actually earned. The cap is resolved from the rates in force at the moment of the call and quoted in the refusal, because those switches move; a hardcoded bound would start lying the moment somebody edits the schedule.  Only the direct level is per-affiliate. The second and third levels are platform switches and are not settable here. The change applies to FUTURE accruals — commission already latched for a period is not recomputed. PLATFORM SUDO ONLY. Audited.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter id: (path) The affiliate id (e.g. &#x60;aff_&lt;hex&gt;&#x60;). 
-     - returns: RequestBuilder<AffiliatesAdminAffiliateEnvelope> 
+       - name: bearer
+     - parameter id: (path) ID is the affiliate whose direct rate moves, from the path. 
+     - parameter rateSet: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AffiliateOut> 
      */
-    open class func affiliatesAdminSuspendAffiliateWithRequestBuilder(id: String) -> RequestBuilder<AffiliatesAdminAffiliateEnvelope> {
+    open class func postAdminAffiliatesByIdRateWithRequestBuilder(id: String, rateSet: RateSet, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AffiliateOut> {
+        var localVariablePath = "/v1/admin/affiliates/{id}/rate"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: rateSet, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AffiliateOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Suspends an affiliate: it stops accruing on the next sweep, and its code stops resolving for new attributions.
+     
+     - parameter id: (path) ID is the affiliate&#39;s server-minted handle, \&quot;aff_\&quot;-prefixed. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AffiliateOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAdminAffiliatesByIdSuspend(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AffiliateOut {
+        return try await postAdminAffiliatesByIdSuspendWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Suspends an affiliate: it stops accruing on the next sweep, and its code stops resolving for new attributions.
+     - POST /v1/admin/affiliates/{id}/suspend
+     - Suspends an affiliate: it stops accruing on the next sweep, and its code stops resolving for new attributions.  It CLAWS NOTHING BACK. Commission already accrued stays accrued and stays payable, and existing attribution edges are left standing — suspension ends earning, it does not unwind history. PLATFORM SUDO ONLY. Audited.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the affiliate&#39;s server-minted handle, \&quot;aff_\&quot;-prefixed. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AffiliateOut> 
+     */
+    open class func postAdminAffiliatesByIdSuspendWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AffiliateOut> {
         var localVariablePath = "/v1/admin/affiliates/{id}/suspend"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AffiliatesAdminAffiliateEnvelope>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<AffiliateOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Run the accrual sweep
+     Runs the accrual: for each referred org it reads that org's metered spend for the current period and accrues commission to every affiliate up its referral chain, then answers how many sources were swept and how many NEW accruals landed.
      
-     - returns: AffiliatesAdminSweepEnvelope
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AccrualsOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func affiliatesAdminSweepAffiliates() async throws -> AffiliatesAdminSweepEnvelope {
-        return try await affiliatesAdminSweepAffiliatesWithRequestBuilder().execute().body
+    open class func postAdminAffiliatesSweep(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AccrualsOut {
+        return try await postAdminAffiliatesSweepWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Run the accrual sweep
+     Runs the accrual: for each referred org it reads that org's metered spend for the current period and accrues commission to every affiliate up its referral chain, then answers how many sources were swept and how many NEW accruals landed.
      - POST /v1/admin/affiliates/sweep
-     - The periodic accrual path (cron/o11y hits it, or an operator on demand). It folds over every approved affiliate's referred orgs and accrues this period's commission, at-most-once per period. Global-admin only. 
+     - Runs the accrual: for each referred org it reads that org's metered spend for the current period and accrues commission to every affiliate up its referral chain, then answers how many sources were swept and how many NEW accruals landed.  This is the cron path, and it is LATCHED at most once per affiliate, source org and period — so re-running it inside the same period accrues nothing further. Safe to retry, and safe to run by hand beside the schedule.  Commission is a rate of Hanzo's MARGIN on that spend, never of the customer's gross bill, so every level's share summed over one source event stays within the margin actually earned and the customer's charge is untouched. Nothing accrues past the third upline level, and only an APPROVED affiliate accrues at all.  The same spend read drives the OSS author royalty — one read, both programs — so the answer reports royalties accrued alongside. PLATFORM SUDO ONLY. Bounded per run; a source whose spend cannot be read is skipped and picked up next time, never half-accrued.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<AffiliatesAdminSweepEnvelope> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AccrualsOut> 
      */
-    open class func affiliatesAdminSweepAffiliatesWithRequestBuilder() -> RequestBuilder<AffiliatesAdminSweepEnvelope> {
+    open class func postAdminAffiliatesSweepWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AccrualsOut> {
         let localVariablePath = "/v1/admin/affiliates/sweep"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AffiliatesAdminSweepEnvelope>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<AccrualsOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     List all users (admin only)
+     Admits one author to EARNING, optionally on a negotiated royalty share.
      
-     - parameter page: (query)  (optional)
-     - parameter pageSize: (query)  (optional)
-     - parameter orderBy: (query)  (optional)
-     - parameter search: (query)  (optional)
-     - returns: [AnalyticsAdminListUsers200ResponseInner]
+     - parameter id: (path) ID is the author to approve, from the path. 
+     - parameter approveRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AuthorResult
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func analyticsAdminListUsers(page: Int? = nil, pageSize: Int? = nil, orderBy: String? = nil, search: String? = nil) async throws -> [AnalyticsAdminListUsers200ResponseInner] {
-        return try await analyticsAdminListUsersWithRequestBuilder(page: page, pageSize: pageSize, orderBy: orderBy, search: search).execute().body
+    open class func postAdminAuthorsByIdApprove(id: String, approveRequest: ApproveRequest, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AuthorResult {
+        return try await postAdminAuthorsByIdApproveWithRequestBuilder(id: id, approveRequest: approveRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     List all users (admin only)
-     - GET /v1/analytics/admin/users
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter page: (query)  (optional)
-     - parameter pageSize: (query)  (optional)
-     - parameter orderBy: (query)  (optional)
-     - parameter search: (query)  (optional)
-     - returns: RequestBuilder<[AnalyticsAdminListUsers200ResponseInner]> 
-     */
-    open class func analyticsAdminListUsersWithRequestBuilder(page: Int? = nil, pageSize: Int? = nil, orderBy: String? = nil, search: String? = nil) -> RequestBuilder<[AnalyticsAdminListUsers200ResponseInner]> {
-        let localVariablePath = "/v1/analytics/admin/users"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
-            "pageSize": (wrappedValue: pageSize?.encodeToJSON(), isExplode: true),
-            "orderBy": (wrappedValue: orderBy?.encodeToJSON(), isExplode: true),
-            "search": (wrappedValue: search?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<[AnalyticsAdminListUsers200ResponseInner]>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     List all websites for a user (admin only)
-     
-     - parameter userId: (query)  
-     - parameter includeOwnedTeams: (query)  (optional)
-     - parameter includeAllTeams: (query)  (optional)
-     - parameter page: (query)  (optional)
-     - parameter pageSize: (query)  (optional)
-     - parameter orderBy: (query)  (optional)
-     - parameter search: (query)  (optional)
-     - returns: [AnalyticsWebsite]
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func analyticsAdminListWebsites(userId: UUID, includeOwnedTeams: String? = nil, includeAllTeams: String? = nil, page: Int? = nil, pageSize: Int? = nil, orderBy: String? = nil, search: String? = nil) async throws -> [AnalyticsWebsite] {
-        return try await analyticsAdminListWebsitesWithRequestBuilder(userId: userId, includeOwnedTeams: includeOwnedTeams, includeAllTeams: includeAllTeams, page: page, pageSize: pageSize, orderBy: orderBy, search: search).execute().body
-    }
-
-    /**
-     List all websites for a user (admin only)
-     - GET /v1/analytics/admin/websites
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter userId: (query)  
-     - parameter includeOwnedTeams: (query)  (optional)
-     - parameter includeAllTeams: (query)  (optional)
-     - parameter page: (query)  (optional)
-     - parameter pageSize: (query)  (optional)
-     - parameter orderBy: (query)  (optional)
-     - parameter search: (query)  (optional)
-     - returns: RequestBuilder<[AnalyticsWebsite]> 
-     */
-    open class func analyticsAdminListWebsitesWithRequestBuilder(userId: UUID, includeOwnedTeams: String? = nil, includeAllTeams: String? = nil, page: Int? = nil, pageSize: Int? = nil, orderBy: String? = nil, search: String? = nil) -> RequestBuilder<[AnalyticsWebsite]> {
-        let localVariablePath = "/v1/analytics/admin/websites"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "userId": (wrappedValue: userId.encodeToJSON(), isExplode: true),
-            "includeOwnedTeams": (wrappedValue: includeOwnedTeams?.encodeToJSON(), isExplode: true),
-            "includeAllTeams": (wrappedValue: includeAllTeams?.encodeToJSON(), isExplode: true),
-            "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
-            "pageSize": (wrappedValue: pageSize?.encodeToJSON(), isExplode: true),
-            "orderBy": (wrappedValue: orderBy?.encodeToJSON(), isExplode: true),
-            "search": (wrappedValue: search?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<[AnalyticsWebsite]>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Approve an author
-     
-     - parameter id: (path) Author id (e.g. aut_...). 
-     - parameter authorsApproveRequest: (body)  (optional)
-     - returns: AuthorsAdminAuthorEnvelope
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func authorsAdminApproveAuthor(id: String, authorsApproveRequest: AuthorsApproveRequest? = nil) async throws -> AuthorsAdminAuthorEnvelope {
-        return try await authorsAdminApproveAuthorWithRequestBuilder(id: id, authorsApproveRequest: authorsApproveRequest).execute().body
-    }
-
-    /**
-     Approve an author
+     Admits one author to EARNING, optionally on a negotiated royalty share.
      - POST /v1/admin/authors/{id}/approve
-     - Admits an author to earning. An optional `{shareBps}` body overrides the royalty share (0–10000 basis points). Global-admin only. 
+     - Admits one author to EARNING, optionally on a negotiated royalty share. Until this runs, a connected author accrues nothing however many verified repositories they have.  A share override applies from here forward only — existing ledger rows keep the share that was applied when they were written, because a rate change must never rewrite what was already owed.  A Hanzo platform operation: a caller who is not a SuperAdmin gets 403.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter id: (path) Author id (e.g. aut_...). 
-     - parameter authorsApproveRequest: (body)  (optional)
-     - returns: RequestBuilder<AuthorsAdminAuthorEnvelope> 
+       - name: bearer
+     - parameter id: (path) ID is the author to approve, from the path. 
+     - parameter approveRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AuthorResult> 
      */
-    open class func authorsAdminApproveAuthorWithRequestBuilder(id: String, authorsApproveRequest: AuthorsApproveRequest? = nil) -> RequestBuilder<AuthorsAdminAuthorEnvelope> {
+    open class func postAdminAuthorsByIdApproveWithRequestBuilder(id: String, approveRequest: ApproveRequest, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AuthorResult> {
         var localVariablePath = "/v1/admin/authors/{id}/approve"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: authorsApproveRequest)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: approveRequest, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AuthorsAdminAuthorEnvelope>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<AuthorResult>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     List all authors
+     Records a payout of accrued royalty and settles it.
      
-     - parameter limit: (query) Max rows (default 500, capped at 1000). (optional, default to 500)
-     - returns: AuthorsAdminListEnvelope
+     - parameter id: (path) ID is the author to pay, from the path. 
+     - parameter payoutRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: PayoutResult
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func authorsAdminListAuthors(limit: Int? = nil) async throws -> AuthorsAdminListEnvelope {
-        return try await authorsAdminListAuthorsWithRequestBuilder(limit: limit).execute().body
+    open class func postAdminAuthorsByIdPayout(id: String, payoutRequest: PayoutRequest, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PayoutResult {
+        return try await postAdminAuthorsByIdPayoutWithRequestBuilder(id: id, payoutRequest: payoutRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     List all authors
-     - GET /v1/admin/authors
-     - Every author (org exposed) plus a fleet summary. Global-admin only.
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter limit: (query) Max rows (default 500, capped at 1000). (optional, default to 500)
-     - returns: RequestBuilder<AuthorsAdminListEnvelope> 
-     */
-    open class func authorsAdminListAuthorsWithRequestBuilder(limit: Int? = nil) -> RequestBuilder<AuthorsAdminListEnvelope> {
-        let localVariablePath = "/v1/admin/authors"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AuthorsAdminListEnvelope>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Record a payout
-     
-     - parameter id: (path) Author id (e.g. aut_...). 
-     - parameter authorsPayoutRequest: (body)  
-     - returns: AuthorsAdminPayoutEnvelope
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func authorsAdminPayoutAuthor(id: String, authorsPayoutRequest: AuthorsPayoutRequest) async throws -> AuthorsAdminPayoutEnvelope {
-        return try await authorsAdminPayoutAuthorWithRequestBuilder(id: id, authorsPayoutRequest: authorsPayoutRequest).execute().body
-    }
-
-    /**
-     Record a payout
+     Records a payout of accrued royalty and settles it.
      - POST /v1/admin/authors/{id}/payout
-     - Records a payout of accrued royalty. A `credits` method issues a commerce grant into the author's wallet; a cash method (wire, paypal, check, …) is record-only. The amount can never exceed pending (accrued − paid), reserved atomically before any grant. Global-admin only. 
+     - Records a payout of accrued royalty and settles it.  The amount is RESERVED against the author's pending royalty atomically before anything is paid, so a payout can never exceed what is owed even under concurrent calls. An external author's payout is then BACKED against the platform reserve fund — a second, independent guard — and refused with 402 if the reserve cannot cover it, with the reservation voided. A \"credits\" method issues the actual wallet grant after both guards; a cash method is record-only. A first-party (treasury) author's royalty is realized into Hanzo's own reserve instead of an external wallet, and every payout row discloses which of the three it was.  A Hanzo platform operation: a caller who is not a SuperAdmin gets 403.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter id: (path) Author id (e.g. aut_...). 
-     - parameter authorsPayoutRequest: (body)  
-     - returns: RequestBuilder<AuthorsAdminPayoutEnvelope> 
+       - name: bearer
+     - parameter id: (path) ID is the author to pay, from the path. 
+     - parameter payoutRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<PayoutResult> 
      */
-    open class func authorsAdminPayoutAuthorWithRequestBuilder(id: String, authorsPayoutRequest: AuthorsPayoutRequest) -> RequestBuilder<AuthorsAdminPayoutEnvelope> {
+    open class func postAdminAuthorsByIdPayoutWithRequestBuilder(id: String, payoutRequest: PayoutRequest, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PayoutResult> {
         var localVariablePath = "/v1/admin/authors/{id}/payout"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: authorsPayoutRequest)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: payoutRequest, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AuthorsAdminPayoutEnvelope>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<PayoutResult>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Suspend an author
+     Stops one author earning.
      
-     - parameter id: (path) Author id (e.g. aut_...). 
-     - returns: AuthorsAdminAuthorEnvelope
+     - parameter id: (path) ID is the author record&#39;s handle, \&quot;aut_\&quot;-prefixed. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AuthorResult
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func authorsAdminSuspendAuthor(id: String) async throws -> AuthorsAdminAuthorEnvelope {
-        return try await authorsAdminSuspendAuthorWithRequestBuilder(id: id).execute().body
+    open class func postAdminAuthorsByIdSuspend(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AuthorResult {
+        return try await postAdminAuthorsByIdSuspendWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Suspend an author
+     Stops one author earning.
      - POST /v1/admin/authors/{id}/suspend
-     - Suspends an author. Global-admin only.
+     - Stops one author earning. Their record, verified claims and ledger are untouched — suspension halts future accrual, it does not erase what was already owed, and it does not delete the evidence behind it.  A Hanzo platform operation: a caller who is not a SuperAdmin gets 403.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter id: (path) Author id (e.g. aut_...). 
-     - returns: RequestBuilder<AuthorsAdminAuthorEnvelope> 
+       - name: bearer
+     - parameter id: (path) ID is the author record&#39;s handle, \&quot;aut_\&quot;-prefixed. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AuthorResult> 
      */
-    open class func authorsAdminSuspendAuthorWithRequestBuilder(id: String) -> RequestBuilder<AuthorsAdminAuthorEnvelope> {
+    open class func postAdminAuthorsByIdSuspendWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AuthorResult> {
         var localVariablePath = "/v1/admin/authors/{id}/suspend"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AuthorsAdminAuthorEnvelope>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<AuthorResult>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Run accrual sweep
+     Runs the accrual sweep across every approved author: for each of their deploying orgs it computes this period's royalty from that org's metered spend and latches it at most once per period.
      
-     - returns: AuthorsAdminSweepEnvelope
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AuthorSweepResult
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func authorsAdminSweepAuthors() async throws -> AuthorsAdminSweepEnvelope {
-        return try await authorsAdminSweepAuthorsWithRequestBuilder().execute().body
+    open class func postAdminAuthorsSweep(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AuthorSweepResult {
+        return try await postAdminAuthorsSweepWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Run accrual sweep
+     Runs the accrual sweep across every approved author: for each of their deploying orgs it computes this period's royalty from that org's metered spend and latches it at most once per period.
      - POST /v1/admin/authors/sweep
-     - The periodic accrual path. Folds over every approved author's distinct deploying orgs and accrues this period's royalty, at-most-once per period. Global-admin only. 
+     - Runs the accrual sweep across every approved author: for each of their deploying orgs it computes this period's royalty from that org's metered spend and latches it at most once per period.  It is an OVERRIDE, not the mechanism: a background scheduler runs the same sweep on its own, and every author's dashboard read sweeps their own accruals lazily. This is the manual trigger for an operator who needs the numbers now. It is idempotent — the per-period latch means running it twice accrues nothing the second time.  A Hanzo platform operation: a caller who is not a SuperAdmin gets 403.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<AuthorsAdminSweepEnvelope> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AuthorSweepResult> 
      */
-    open class func authorsAdminSweepAuthorsWithRequestBuilder() -> RequestBuilder<AuthorsAdminSweepEnvelope> {
+    open class func postAdminAuthorsSweepWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AuthorSweepResult> {
         let localVariablePath = "/v1/admin/authors/sweep"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AuthorsAdminSweepEnvelope>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<AuthorSweepResult>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Get server configuration
+     Qualify-checks every pending referral and advances the ones that now qualify.
      
-     - returns: KmsGetServerConfig200Response
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: SweepEnvelope
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kmsGetServerConfig() async throws -> KmsGetServerConfig200Response {
-        return try await kmsGetServerConfigWithRequestBuilder().execute().body
+    open class func postAdminReferralsSweep(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SweepEnvelope {
+        return try await postAdminReferralsSweepWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Get server configuration
-     - GET /v1/kms/admin/config
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<KmsGetServerConfig200Response> 
-     */
-    open class func kmsGetServerConfigWithRequestBuilder() -> RequestBuilder<KmsGetServerConfig200Response> {
-        let localVariablePath = "/v1/kms/admin/config"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<KmsGetServerConfig200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Update server configuration
-     
-     - parameter kmsUpdateServerConfigRequest: (body)  
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kmsUpdateServerConfig(kmsUpdateServerConfigRequest: KmsUpdateServerConfigRequest) async throws -> AnyCodable {
-        return try await kmsUpdateServerConfigWithRequestBuilder(kmsUpdateServerConfigRequest: kmsUpdateServerConfigRequest).execute().body
-    }
-
-    /**
-     Update server configuration
-     - PATCH /v1/kms/admin/config
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter kmsUpdateServerConfigRequest: (body)  
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func kmsUpdateServerConfigWithRequestBuilder(kmsUpdateServerConfigRequest: KmsUpdateServerConfigRequest) -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/kms/admin/config"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: kmsUpdateServerConfigRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     List every referral with a fleet summary (global-admin)
-     
-     - parameter limit: (query) Max rows to return. Defaults to 500 when absent/invalid/&lt;&#x3D;0; capped at 1000.  (optional, default to 500)
-     - returns: ReferralsAdminListEnvelope
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func referralsAdminListReferrals(limit: Int? = nil) async throws -> ReferralsAdminListEnvelope {
-        return try await referralsAdminListReferralsWithRequestBuilder(limit: limit).execute().body
-    }
-
-    /**
-     List every referral with a fleet summary (global-admin)
-     - GET /v1/admin/referrals
-     - Returns every referral (both orgs exposed) plus a fleet summary. Global-admin only. Wrapped in the `{ status, msg, data }` admin envelope. 
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter limit: (query) Max rows to return. Defaults to 500 when absent/invalid/&lt;&#x3D;0; capped at 1000.  (optional, default to 500)
-     - returns: RequestBuilder<ReferralsAdminListEnvelope> 
-     */
-    open class func referralsAdminListReferralsWithRequestBuilder(limit: Int? = nil) -> RequestBuilder<ReferralsAdminListEnvelope> {
-        let localVariablePath = "/v1/admin/referrals"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ReferralsAdminListEnvelope>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Qualify-check every pending referral (global-admin)
-     
-     - returns: ReferralsAdminSweepEnvelope
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func referralsAdminSweepReferrals() async throws -> ReferralsAdminSweepEnvelope {
-        return try await referralsAdminSweepReferralsWithRequestBuilder().execute().body
-    }
-
-    /**
-     Qualify-check every pending referral (global-admin)
+     Qualify-checks every pending referral and advances the ones that now qualify.
      - POST /v1/admin/referrals/sweep
-     - The periodic qualify path (cron/operator on demand). Qualify-checks every pending referral (bounded to 500 per sweep) and grants the ones that now qualify. Global-admin only. Returns counts in the admin envelope. 
+     - Qualify-checks every pending referral and advances the ones that now qualify.  SuperAdmin only, fail-closed. This is the cron path, and the ONLY path that advances a referral: a referee QUALIFIES once they have made metered spend — the honest signal that they actually used the product rather than merely signing up.  Qualifying moves NO money. It records that an attribution became a real customer; what is owed for that is an affiliate payable in commerce, settled by wire or to a connected wallet. One pass is bounded, so a large backlog drains over several runs instead of wedging one request, and the latch makes the transition at-most-once under a concurrent sweep.  It reads nothing from the caller — the counters it returns are the whole result.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<ReferralsAdminSweepEnvelope> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<SweepEnvelope> 
      */
-    open class func referralsAdminSweepReferralsWithRequestBuilder() -> RequestBuilder<ReferralsAdminSweepEnvelope> {
+    open class func postAdminReferralsSweepWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SweepEnvelope> {
         let localVariablePath = "/v1/admin/referrals/sweep"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<ReferralsAdminSweepEnvelope>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<SweepEnvelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Server information
+     Commits the current ledger root to Hanzo L1, making the books tamper-evident on chain, and returns the anchoring status.
      
-     - returns: S3AdminInfo200Response
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AnchorOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func s3AdminInfo() async throws -> S3AdminInfo200Response {
-        return try await s3AdminInfoWithRequestBuilder().execute().body
+    open class func postAdminTreasuryAnchor(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AnchorOut {
+        return try await postAdminTreasuryAnchorWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Server information
-     - GET /v1/s3/admin/info
-     - Returns server version, storage capacity, and cluster status.
+     Commits the current ledger root to Hanzo L1, making the books tamper-evident on chain, and returns the anchoring status.
+     - POST /v1/admin/treasury/anchor
+     - Commits the current ledger root to Hanzo L1, making the books tamper-evident on chain, and returns the anchoring status. When the chain path is wired it signs and submits the anchor transaction and records it; when it is not, it returns the root that WOULD be committed plus the exact remaining wiring step and records nothing false. A submit that fails still answers 200 with the anchor's own status set to \"error\" — the attempt is the product. SuperAdmin only.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<S3AdminInfo200Response> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AnchorOut> 
      */
-    open class func s3AdminInfoWithRequestBuilder() -> RequestBuilder<S3AdminInfo200Response> {
-        let localVariablePath = "/v1/s3/admin/info"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func postAdminTreasuryAnchorWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AnchorOut> {
+        let localVariablePath = "/v1/admin/treasury/anchor"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<S3AdminInfo200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<AnchorOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Storage usage
+     Sets the revenue-share basis points a sweep accrues into the reserve fund and returns the stored policy.
      
-     - returns: S3UsageInfo
+     - parameter policyRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: PolicyOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func s3AdminUsage() async throws -> S3UsageInfo {
-        return try await s3AdminUsageWithRequestBuilder().execute().body
+    open class func postAdminTreasuryPolicy(policyRequest: PolicyRequest, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PolicyOut {
+        return try await postAdminTreasuryPolicyWithRequestBuilder(policyRequest: policyRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Storage usage
-     - GET /v1/s3/admin/usage
-     - Returns aggregate storage usage across all buckets.
+     Sets the revenue-share basis points a sweep accrues into the reserve fund and returns the stored policy.
+     - POST /v1/admin/treasury/policy
+     - Sets the revenue-share basis points a sweep accrues into the reserve fund and returns the stored policy. 0–10000; the change is audited. SuperAdmin only.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<S3UsageInfo> 
+       - name: bearer
+     - parameter policyRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<PolicyOut> 
      */
-    open class func s3AdminUsageWithRequestBuilder() -> RequestBuilder<S3UsageInfo> {
-        let localVariablePath = "/v1/s3/admin/usage"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func postAdminTreasuryPolicyWithRequestBuilder(policyRequest: PolicyRequest, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PolicyOut> {
+        let localVariablePath = "/v1/admin/treasury/policy"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: policyRequest, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<S3UsageInfo>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Create a service account
-     
-     - parameter s3CreateServiceAccountRequest: (body)  
-     - returns: S3ServiceAccount
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func s3CreateServiceAccount(s3CreateServiceAccountRequest: S3CreateServiceAccountRequest) async throws -> S3ServiceAccount {
-        return try await s3CreateServiceAccountWithRequestBuilder(s3CreateServiceAccountRequest: s3CreateServiceAccountRequest).execute().body
-    }
-
-    /**
-     Create a service account
-     - POST /v1/s3/admin/service-accounts
-     - Create a service account with specific bucket access policies.
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter s3CreateServiceAccountRequest: (body)  
-     - returns: RequestBuilder<S3ServiceAccount> 
-     */
-    open class func s3CreateServiceAccountWithRequestBuilder(s3CreateServiceAccountRequest: S3CreateServiceAccountRequest) -> RequestBuilder<S3ServiceAccount> {
-        let localVariablePath = "/v1/s3/admin/service-accounts"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: s3CreateServiceAccountRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<S3ServiceAccount>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<PolicyOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     List service accounts
+     Injects bootstrap capital into the reserve fund so backed payouts can begin before the first revenue-share sweep, and returns the journal entry it wrote.
      
-     - returns: S3ListServiceAccounts200Response
+     - parameter seedRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: SeedOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func s3ListServiceAccounts() async throws -> S3ListServiceAccounts200Response {
-        return try await s3ListServiceAccountsWithRequestBuilder().execute().body
+    open class func postAdminTreasurySeed(seedRequest: SeedRequest, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SeedOut {
+        return try await postAdminTreasurySeedWithRequestBuilder(seedRequest: seedRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     List service accounts
-     - GET /v1/s3/admin/service-accounts
+     Injects bootstrap capital into the reserve fund so backed payouts can begin before the first revenue-share sweep, and returns the journal entry it wrote.
+     - POST /v1/admin/treasury/seed
+     - Injects bootstrap capital into the reserve fund so backed payouts can begin before the first revenue-share sweep, and returns the journal entry it wrote. A repeat of the same ref is at-most-once and reports created=false. SuperAdmin only.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<S3ListServiceAccounts200Response> 
+       - name: bearer
+     - parameter seedRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<SeedOut> 
      */
-    open class func s3ListServiceAccountsWithRequestBuilder() -> RequestBuilder<S3ListServiceAccounts200Response> {
-        let localVariablePath = "/v1/s3/admin/service-accounts"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func postAdminTreasurySeedWithRequestBuilder(seedRequest: SeedRequest, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SeedOut> {
+        let localVariablePath = "/v1/admin/treasury/seed"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: seedRequest, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<SeedOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Posts the revenue-share accrual for one period — revenue into the reserve fund, at the current policy's basis points — and returns what it moved.
+     
+     - parameter sweepRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: SweepOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAdminTreasurySweep(sweepRequest: SweepRequest, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SweepOut {
+        return try await postAdminTreasurySweepWithRequestBuilder(sweepRequest: sweepRequest, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Posts the revenue-share accrual for one period — revenue into the reserve fund, at the current policy's basis points — and returns what it moved.
+     - POST /v1/admin/treasury/sweep
+     - Posts the revenue-share accrual for one period — revenue into the reserve fund, at the current policy's basis points — and returns what it moved. It is idempotent per period: a re-run of a period already swept accrues nothing and reports created=false. SuperAdmin only.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter sweepRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<SweepOut> 
+     */
+    open class func postAdminTreasurySweepWithRequestBuilder(sweepRequest: SweepRequest, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SweepOut> {
+        let localVariablePath = "/v1/admin/treasury/sweep"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: sweepRequest, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<SweepOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Sets one item's global enablement state — off, beta or ga — and optionally replaces the list of orgs granted its beta.
+     
+     - parameter setEnablementBody: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AdminEnablementItem
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func putAdminEnablement(setEnablementBody: SetEnablementBody, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AdminEnablementItem {
+        return try await putAdminEnablementWithRequestBuilder(setEnablementBody: setEnablementBody, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Sets one item's global enablement state — off, beta or ga — and optionally replaces the list of orgs granted its beta.
+     - PUT /v1/admin/enablement
+     - Sets one item's global enablement state — off, beta or ga — and optionally replaces the list of orgs granted its beta. It is generic over kind, so the same call manages models, providers and product features through the one registry. `off` is an absolute kill switch: a self-service opt-in can never re-open it. SuperAdmin only; every other caller is refused.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter setEnablementBody: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AdminEnablementItem> 
+     */
+    open class func putAdminEnablementWithRequestBuilder(setEnablementBody: SetEnablementBody, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AdminEnablementItem> {
+        let localVariablePath = "/v1/admin/enablement"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: setEnablementBody, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AdminEnablementItem>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Installs the reserve's threshold MPC wallet as the signer for on-chain anchors, and returns its EVM address so an operator can fund it for gas.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: SignerOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func putAdminTreasuryAnchorSigner(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SignerOut {
+        return try await putAdminTreasuryAnchorSignerWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Installs the reserve's threshold MPC wallet as the signer for on-chain anchors, and returns its EVM address so an operator can fund it for gas.
+     - PUT /v1/admin/treasury/anchor/signer
+     - Installs the reserve's threshold MPC wallet as the signer for on-chain anchors, and returns its EVM address so an operator can fund it for gas. It provisions-or-resolves the caller org's treasury wallet on the deployed MPC ring and installs it, so every later anchor commits the ledger root SIGNED BY THE QUORUM WALLET instead of a lone KMS key. Idempotent — a repeat resolves the same wallet, which is why the address is a PUT. SuperAdmin only.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<SignerOut> 
+     */
+    open class func putAdminTreasuryAnchorSignerWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SignerOut> {
+        let localVariablePath = "/v1/admin/treasury/anchor/signer"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<S3ListServiceAccounts200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<SignerOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

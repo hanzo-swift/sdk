@@ -6,791 +6,1428 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class AgentsAPI {
 
     /**
-     Delete an agent
+     Removes an agent and every run recorded against it.
      
-     - parameter id: (path)  
-     - returns: AnyCodable
+     - parameter ref: (path) Ref is the agent&#39;s public id (the agent_… handle create and list return) or its org-unique name, from the path. Either resolves the same agent. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatDeleteAgentsByid(id: String) async throws -> AnyCodable {
-        return try await chatDeleteAgentsByidWithRequestBuilder(id: id).execute().body
+    open class func deleteAgentsByRef(ref: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteAgentsByRefWithRequestBuilder(ref: ref, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Delete an agent
-     - DELETE /v1/chat/agents/{id}
+     Removes an agent and every run recorded against it.
+     - DELETE /v1/agents/{ref}
+     - Removes an agent and every run recorded against it. Answers 204.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter id: (path)  
-     - returns: RequestBuilder<AnyCodable> 
+       - name: bearer
+     - parameter ref: (path) Ref is the agent&#39;s public id (the agent_… handle create and list return) or its org-unique name, from the path. Either resolves the same agent. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func chatDeleteAgentsByidWithRequestBuilder(id: String) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/chat/agents/{id}"
-        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
-        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func deleteAgentsByRefWithRequestBuilder(ref: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/agents/{ref}"
+        let refPreEscape = "\(APIHelper.mapValueToPathItem(ref))"
+        let refPostEscape = refPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{ref}", with: refPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     List agents
+     Deregisters one machine.
      
-     - parameter limit: (query)  (optional)
-     - parameter after: (query)  (optional)
-     - parameter sortBy: (query)  (optional)
-     - parameter sortDirection: (query)  (optional)
-     - returns: ChatAgentListResponse
+     - parameter id: (path) ID is the target to act on, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: TargetDeleted
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatGetAgents(limit: Int? = nil, after: String? = nil, sortBy: String? = nil, sortDirection: String? = nil) async throws -> ChatAgentListResponse {
-        return try await chatGetAgentsWithRequestBuilder(limit: limit, after: after, sortBy: sortBy, sortDirection: sortDirection).execute().body
+    open class func deleteAgentsTargetsById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> TargetDeleted {
+        return try await deleteAgentsTargetsByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     List agents
-     - GET /v1/chat/agents
+     Deregisters one machine.
+     - DELETE /v1/agents/targets/{id}
+     - Deregisters one machine. Only its owner, or an org admin, may remove it; an unknown id, a cross-org id and a machine owned by someone else all answer the same not-found, so a probe learns nothing about what exists.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter limit: (query)  (optional)
-     - parameter after: (query)  (optional)
-     - parameter sortBy: (query)  (optional)
-     - parameter sortDirection: (query)  (optional)
-     - returns: RequestBuilder<ChatAgentListResponse> 
+       - name: bearer
+     - parameter id: (path) ID is the target to act on, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<TargetDeleted> 
      */
-    open class func chatGetAgentsWithRequestBuilder(limit: Int? = nil, after: String? = nil, sortBy: String? = nil, sortDirection: String? = nil) -> RequestBuilder<ChatAgentListResponse> {
-        let localVariablePath = "/v1/chat/agents"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func deleteAgentsTargetsByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<TargetDeleted> {
+        var localVariablePath = "/v1/agents/targets/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<TargetDeleted>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns every agent defined in the caller's org, each with the number of runs recorded against it.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AgentList
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAgents(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AgentList {
+        return try await getAgentsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns every agent defined in the caller's org, each with the number of runs recorded against it.
+     - GET /v1/agents
+     - Returns every agent defined in the caller's org, each with the number of runs recorded against it.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AgentList> 
+     */
+    open class func getAgentsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AgentList> {
+        let localVariablePath = "/v1/agents"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AgentList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Serves the org-wide recent-activity feed.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ActivityFeed
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAgentsActivity(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ActivityFeed {
+        return try await getAgentsActivityWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Serves the org-wide recent-activity feed.
+     - GET /v1/agents/activity
+     - Serves the org-wide recent-activity feed. Events are REAL: each recorded run is an invoked (ok) or failed (error) event; each agent's own create/update timestamps are created/updated events. Merged, newest first, capped. Nothing is invented — an org with no agents and no runs gets [].
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ActivityFeed> 
+     */
+    open class func getAgentsActivityWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ActivityFeed> {
+        let localVariablePath = "/v1/agents/activity"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ActivityFeed>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns the public index of every published build, most recently updated first, so a gallery can link straight to the story behind each product.
+     
+     - parameter limit: (query) Limit caps the page. Absent, zero or over 500 reads as 100. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: BuildList
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAgentsBuilds(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> BuildList {
+        return try await getAgentsBuildsWithRequestBuilder(limit: limit, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns the public index of every published build, most recently updated first, so a gallery can link straight to the story behind each product.
+     - GET /v1/agents/builds
+     - Returns the public index of every published build, most recently updated first, so a gallery can link straight to the story behind each product. PUBLIC, no tenancy: publishing is the author's act, and only published root sessions appear here.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter limit: (query) Limit caps the page. Absent, zero or over 500 reads as 100. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<BuildList> 
+     */
+    open class func getAgentsBuildsWithRequestBuilder(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<BuildList> {
+        let localVariablePath = "/v1/agents/builds"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
-            "after": (wrappedValue: after?.encodeToJSON(), isExplode: true),
-            "sortBy": (wrappedValue: sortBy?.encodeToJSON(), isExplode: true),
-            "sortDirection": (wrappedValue: sortDirection?.encodeToJSON(), isExplode: true),
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ])
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<ChatAgentListResponse>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<BuildList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Get an agent (basic info)
+     Returns the readable build of one product: the agent session that produced it, turn by turn — the prompts, the reasoning, the commits each turn produced — plus the exact `git log` that re-derives every commit binding from git itself, so nothing here has to be taken on trust.
      
-     - parameter id: (path)  
-     - returns: ChatAgent
+     - parameter org: (path) Org is the org that published the build, from the path. 
+     - parameter project: (path) Project is the product&#39;s slug, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: BuildView
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatGetAgentsByid(id: String) async throws -> ChatAgent {
-        return try await chatGetAgentsByidWithRequestBuilder(id: id).execute().body
+    open class func getAgentsBuildsByOrgByProject(org: String, project: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> BuildView {
+        return try await getAgentsBuildsByOrgByProjectWithRequestBuilder(org: org, project: project, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Get an agent (basic info)
-     - GET /v1/chat/agents/{id}
+     Returns the readable build of one product: the agent session that produced it, turn by turn — the prompts, the reasoning, the commits each turn produced — plus the exact `git log` that re-derives every commit binding from git itself, so nothing here has to be taken on trust.
+     - GET /v1/agents/builds/{org}/{project}
+     - Returns the readable build of one product: the agent session that produced it, turn by turn — the prompts, the reasoning, the commits each turn produced — plus the exact `git log` that re-derives every commit binding from git itself, so nothing here has to be taken on trust.  PUBLIC, no tenancy: it answers only for a session its author explicitly published, which is what makes it safe to be anonymous. An unpublished session is invisible here no matter who asks; its owner reads it through the org-scoped /v1/agents/sessions routes, which need a validated principal.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter id: (path)  
-     - returns: RequestBuilder<ChatAgent> 
+       - name: bearer
+     - parameter org: (path) Org is the org that published the build, from the path. 
+     - parameter project: (path) Project is the product&#39;s slug, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<BuildView> 
      */
-    open class func chatGetAgentsByidWithRequestBuilder(id: String) -> RequestBuilder<ChatAgent> {
-        var localVariablePath = "/v1/chat/agents/{id}"
-        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
-        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func getAgentsBuildsByOrgByProjectWithRequestBuilder(org: String, project: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<BuildView> {
+        var localVariablePath = "/v1/agents/builds/{org}/{project}"
+        let orgPreEscape = "\(APIHelper.mapValueToPathItem(org))"
+        let orgPostEscape = orgPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{org}", with: orgPostEscape, options: .literal, range: nil)
+        let projectPreEscape = "\(APIHelper.mapValueToPathItem(project))"
+        let projectPostEscape = projectPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{project}", with: projectPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<ChatAgent>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<BuildView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Get agent with full configuration details
+     Returns one agent with its system prompt and its 20 most recent runs.
      
-     - parameter id: (path)  
-     - returns: ChatAgent
+     - parameter ref: (path) Ref is the agent&#39;s public id (the agent_… handle create and list return) or its org-unique name, from the path. Either resolves the same agent. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AgentDetail
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatGetAgentsByidExpanded(id: String) async throws -> ChatAgent {
-        return try await chatGetAgentsByidExpandedWithRequestBuilder(id: id).execute().body
+    open class func getAgentsByRef(ref: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AgentDetail {
+        return try await getAgentsByRefWithRequestBuilder(ref: ref, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Get agent with full configuration details
-     - GET /v1/chat/agents/{id}/expanded
-     - Returns complete agent data including sensitive config (EDIT permission required).
+     Returns one agent with its system prompt and its 20 most recent runs.
+     - GET /v1/agents/{ref}
+     - Returns one agent with its system prompt and its 20 most recent runs. The ref is the agent's public id or its org-unique name — a created agent is immediately gettable by whatever create handed back.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter id: (path)  
-     - returns: RequestBuilder<ChatAgent> 
+       - name: bearer
+     - parameter ref: (path) Ref is the agent&#39;s public id (the agent_… handle create and list return) or its org-unique name, from the path. Either resolves the same agent. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AgentDetail> 
      */
-    open class func chatGetAgentsByidExpandedWithRequestBuilder(id: String) -> RequestBuilder<ChatAgent> {
-        var localVariablePath = "/v1/chat/agents/{id}/expanded"
-        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
-        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func getAgentsByRefWithRequestBuilder(ref: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AgentDetail> {
+        var localVariablePath = "/v1/agents/{ref}"
+        let refPreEscape = "\(APIHelper.mapValueToPathItem(ref))"
+        let refPostEscape = refPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{ref}", with: refPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<ChatAgent>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<AgentDetail>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Get agent categories with counts
+     Returns one agent's execution history, newest first — each run's input, its output or its error, and how long it took.
      
-     - returns: AnyCodable
+     - parameter ref: (path) Ref is the agent&#39;s public id or its org-unique name, from the path. 
+     - parameter limit: (query) Limit caps how many runs come back, newest first. Absent, zero or out of range (1..200) reads as 50. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RunList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatGetAgentsCategories() async throws -> AnyCodable {
-        return try await chatGetAgentsCategoriesWithRequestBuilder().execute().body
+    open class func getAgentsByRefRuns(ref: String, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RunList {
+        return try await getAgentsByRefRunsWithRequestBuilder(ref: ref, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Get agent categories with counts
-     - GET /v1/chat/agents/categories
+     Returns one agent's execution history, newest first — each run's input, its output or its error, and how long it took.
+     - GET /v1/agents/{ref}/runs
+     - Returns one agent's execution history, newest first — each run's input, its output or its error, and how long it took. Every row is a run that actually happened.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<AnyCodable> 
+       - name: bearer
+     - parameter ref: (path) Ref is the agent&#39;s public id or its org-unique name, from the path. 
+     - parameter limit: (query) Limit caps how many runs come back, newest first. Absent, zero or out of range (1..200) reads as 50. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<RunList> 
      */
-    open class func chatGetAgentsCategoriesWithRequestBuilder() -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/chat/agents/categories"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get active generation job IDs
-     
-     - returns: ChatGetAgentsChatActive200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatGetAgentsChatActive() async throws -> ChatGetAgentsChatActive200Response {
-        return try await chatGetAgentsChatActiveWithRequestBuilder().execute().body
-    }
-
-    /**
-     Get active generation job IDs
-     - GET /v1/chat/agents/chat/active
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<ChatGetAgentsChatActive200Response> 
-     */
-    open class func chatGetAgentsChatActiveWithRequestBuilder() -> RequestBuilder<ChatGetAgentsChatActive200Response> {
-        let localVariablePath = "/v1/chat/agents/chat/active"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ChatGetAgentsChatActive200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Check generation status for a conversation
-     
-     - parameter conversationId: (path)  
-     - returns: ChatGetAgentsChatStatusByconversationid200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatGetAgentsChatStatusByconversationid(conversationId: String) async throws -> ChatGetAgentsChatStatusByconversationid200Response {
-        return try await chatGetAgentsChatStatusByconversationidWithRequestBuilder(conversationId: conversationId).execute().body
-    }
-
-    /**
-     Check generation status for a conversation
-     - GET /v1/chat/agents/chat/status/{conversationId}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter conversationId: (path)  
-     - returns: RequestBuilder<ChatGetAgentsChatStatusByconversationid200Response> 
-     */
-    open class func chatGetAgentsChatStatusByconversationidWithRequestBuilder(conversationId: String) -> RequestBuilder<ChatGetAgentsChatStatusByconversationid200Response> {
-        var localVariablePath = "/v1/chat/agents/chat/status/{conversationId}"
-        let conversationIdPreEscape = "\(APIHelper.mapValueToPathItem(conversationId))"
-        let conversationIdPostEscape = conversationIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{conversationId}", with: conversationIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ChatGetAgentsChatStatusByconversationid200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     * enum for parameter resume
-     */
-    public enum Resume_chatGetAgentsChatStreamBystreamid: String, CaseIterable {
-        case _true = "true"
-    }
-
-    /**
-     Subscribe to a generation stream
-     
-     - parameter streamId: (path)  
-     - parameter resume: (query)  (optional)
-     - returns: String
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatGetAgentsChatStreamBystreamid(streamId: String, resume: Resume_chatGetAgentsChatStreamBystreamid? = nil) async throws -> String {
-        return try await chatGetAgentsChatStreamBystreamidWithRequestBuilder(streamId: streamId, resume: resume).execute().body
-    }
-
-    /**
-     Subscribe to a generation stream
-     - GET /v1/chat/agents/chat/stream/{streamId}
-     - SSE endpoint for live or replay streaming of agent output.
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter streamId: (path)  
-     - parameter resume: (query)  (optional)
-     - returns: RequestBuilder<String> 
-     */
-    open class func chatGetAgentsChatStreamBystreamidWithRequestBuilder(streamId: String, resume: Resume_chatGetAgentsChatStreamBystreamid? = nil) -> RequestBuilder<String> {
-        var localVariablePath = "/v1/chat/agents/chat/stream/{streamId}"
-        let streamIdPreEscape = "\(APIHelper.mapValueToPathItem(streamId))"
-        let streamIdPostEscape = streamIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{streamId}", with: streamIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func getAgentsByRefRunsWithRequestBuilder(ref: String, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RunList> {
+        var localVariablePath = "/v1/agents/{ref}/runs"
+        let refPreEscape = "\(APIHelper.mapValueToPathItem(ref))"
+        let refPostEscape = refPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{ref}", with: refPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "resume": (wrappedValue: resume?.encodeToJSON(), isExplode: true),
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ])
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<String>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<RunList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     List available agent tools
+     Serves the invocations-over-time histogram for the org's Agents dashboard.
      
-     - returns: [ChatTool]
+     - parameter range: (query) Range is the window to bucket: 24H, 7D or 30D. Anything else reads as 30D. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: MetricsView
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatGetAgentsTools() async throws -> [ChatTool] {
-        return try await chatGetAgentsToolsWithRequestBuilder().execute().body
+    open class func getAgentsMetrics(range: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> MetricsView {
+        return try await getAgentsMetricsWithRequestBuilder(range: range, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     List available agent tools
-     - GET /v1/chat/agents/tools
+     Serves the invocations-over-time histogram for the org's Agents dashboard.
+     - GET /v1/agents/metrics
+     - Serves the invocations-over-time histogram for the org's Agents dashboard. Every point is a REAL count of recorded runs in that time bucket — one series line per agent that ran in the window. The Resource Usage rollup is all-null because this store meters no CPU/memory/storage/cost; the console renders those as \"—\" rather than a fabricated figure. No runs => empty series (an honest \"not connected / no activity yet\"), never a synthesized trend.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<[ChatTool]> 
+       - name: bearer
+     - parameter range: (query) Range is the window to bucket: 24H, 7D or 30D. Anything else reads as 30D. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<MetricsView> 
      */
-    open class func chatGetAgentsToolsWithRequestBuilder() -> RequestBuilder<[ChatTool]> {
-        let localVariablePath = "/v1/chat/agents/tools"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func getAgentsMetricsWithRequestBuilder(range: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<MetricsView> {
+        let localVariablePath = "/v1/agents/metrics"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "range": (wrappedValue: range?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<[ChatTool]>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<MetricsView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Verify tool authentication
+     Returns the org's agent runs across EVERY agent, newest first — what ran here, for whom, on which model, how long it took, and why it failed.
      
-     - parameter toolId: (path)  
-     - returns: ChatGetAgentsToolsBytoolidAuth200Response
+     - parameter limit: (query) Limit caps how many runs come back, newest first. Absent, zero or out of range (1..200) reads as 50. (optional)
+     - parameter status: (query) Status keeps only runs with this outcome (\&quot;ok\&quot; or \&quot;error\&quot;). Empty keeps both. It is the filter an operator reaches for first — \&quot;show me what broke\&quot; — and answering it here rather than by paging the whole history client-side is the difference between a usable feed and a download. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RunList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatGetAgentsToolsBytoolidAuth(toolId: String) async throws -> ChatGetAgentsToolsBytoolidAuth200Response {
-        return try await chatGetAgentsToolsBytoolidAuthWithRequestBuilder(toolId: toolId).execute().body
+    open class func getAgentsRuns(limit: Int? = nil, status: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RunList {
+        return try await getAgentsRunsWithRequestBuilder(limit: limit, status: status, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Verify tool authentication
-     - GET /v1/chat/agents/tools/{toolId}/auth
+     Returns the org's agent runs across EVERY agent, newest first — what ran here, for whom, on which model, how long it took, and why it failed.
+     - GET /v1/agents/runs
+     - Returns the org's agent runs across EVERY agent, newest first — what ran here, for whom, on which model, how long it took, and why it failed.  It is the feed the per-agent history could not be: an operator asking \"what is this tenant's agent plane doing\" does not start out knowing an agent ref, and answering by listing the agents and then paging each one's history is N+1 round trips to reconstruct one ordering the database already has (RunsSince, ordered by created_at over the org index).  The org is the CALLER's, resolved from identity by tenantStore — never a parameter. There is deliberately no org field on orgRunsQuery to forge: run history is the tenant's own record, and the only tenant this can answer for is the one asking.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter toolId: (path)  
-     - returns: RequestBuilder<ChatGetAgentsToolsBytoolidAuth200Response> 
+       - name: bearer
+     - parameter limit: (query) Limit caps how many runs come back, newest first. Absent, zero or out of range (1..200) reads as 50. (optional)
+     - parameter status: (query) Status keeps only runs with this outcome (\&quot;ok\&quot; or \&quot;error\&quot;). Empty keeps both. It is the filter an operator reaches for first — \&quot;show me what broke\&quot; — and answering it here rather than by paging the whole history client-side is the difference between a usable feed and a download. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<RunList> 
      */
-    open class func chatGetAgentsToolsBytoolidAuthWithRequestBuilder(toolId: String) -> RequestBuilder<ChatGetAgentsToolsBytoolidAuth200Response> {
-        var localVariablePath = "/v1/chat/agents/tools/{toolId}/auth"
-        let toolIdPreEscape = "\(APIHelper.mapValueToPathItem(toolId))"
-        let toolIdPostEscape = toolIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{toolId}", with: toolIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func getAgentsRunsWithRequestBuilder(limit: Int? = nil, status: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RunList> {
+        let localVariablePath = "/v1/agents/runs"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "status": (wrappedValue: status?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<ChatGetAgentsToolsBytoolidAuth200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<RunList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Get tool call history
+     Returns the caller org's live sessions, newest first — each with its event count, its direct-child count and a one-line preview of its latest event.
      
-     - returns: AnyCodable
+     - parameter root: (query) Root scopes the page to one subagent tree (its root session id). (optional)
+     - parameter parent: (query) Parent scopes the page to the direct children of one session. Ignored when root is set; with neither, only ROOT sessions come back. (optional)
+     - parameter status: (query) Status filters to running, paused, done or error. (optional)
+     - parameter project: (query) Project filters to the sessions tagged with one product slug. (optional)
+     - parameter limit: (query) Limit caps the page. Absent, zero or over 500 reads as 100. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: SessionList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatGetAgentsToolsCalls() async throws -> AnyCodable {
-        return try await chatGetAgentsToolsCallsWithRequestBuilder().execute().body
+    open class func getAgentsSessions(root: String? = nil, parent: String? = nil, status: String? = nil, project: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SessionList {
+        return try await getAgentsSessionsWithRequestBuilder(root: root, parent: parent, status: status, project: project, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Get tool call history
-     - GET /v1/chat/agents/tools/calls
+     Returns the caller org's live sessions, newest first — each with its event count, its direct-child count and a one-line preview of its latest event.
+     - GET /v1/agents/sessions
+     - Returns the caller org's live sessions, newest first — each with its event count, its direct-child count and a one-line preview of its latest event. With no filter it returns ROOT sessions only, so a dashboard shows one row per flow rather than one per subagent; ?root= or ?parent= descends.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<AnyCodable> 
+       - name: bearer
+     - parameter root: (query) Root scopes the page to one subagent tree (its root session id). (optional)
+     - parameter parent: (query) Parent scopes the page to the direct children of one session. Ignored when root is set; with neither, only ROOT sessions come back. (optional)
+     - parameter status: (query) Status filters to running, paused, done or error. (optional)
+     - parameter project: (query) Project filters to the sessions tagged with one product slug. (optional)
+     - parameter limit: (query) Limit caps the page. Absent, zero or over 500 reads as 100. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<SessionList> 
      */
-    open class func chatGetAgentsToolsCallsWithRequestBuilder() -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/chat/agents/tools/calls"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func getAgentsSessionsWithRequestBuilder(root: String? = nil, parent: String? = nil, status: String? = nil, project: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SessionList> {
+        let localVariablePath = "/v1/agents/sessions"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "root": (wrappedValue: root?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "parent": (wrappedValue: parent?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "status": (wrappedValue: status?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "project": (wrappedValue: project?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<SessionList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Update an agent
+     Returns one session with its direct child sessions and its 50 most recent events, oldest of those first.
      
-     - parameter id: (path)  
-     - parameter chatAgentCreateParams: (body)  
-     - returns: ChatAgent
+     - parameter id: (path) ID is the session to act on, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: SessionDetail
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatPatchAgentsByid(id: String, chatAgentCreateParams: ChatAgentCreateParams) async throws -> ChatAgent {
-        return try await chatPatchAgentsByidWithRequestBuilder(id: id, chatAgentCreateParams: chatAgentCreateParams).execute().body
+    open class func getAgentsSessionsById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SessionDetail {
+        return try await getAgentsSessionsByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Update an agent
-     - PATCH /v1/chat/agents/{id}
+     Returns one session with its direct child sessions and its 50 most recent events, oldest of those first.
+     - GET /v1/agents/sessions/{id}
+     - Returns one session with its direct child sessions and its 50 most recent events, oldest of those first.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter id: (path)  
-     - parameter chatAgentCreateParams: (body)  
-     - returns: RequestBuilder<ChatAgent> 
+       - name: bearer
+     - parameter id: (path) ID is the session to act on, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<SessionDetail> 
      */
-    open class func chatPatchAgentsByidWithRequestBuilder(id: String, chatAgentCreateParams: ChatAgentCreateParams) -> RequestBuilder<ChatAgent> {
-        var localVariablePath = "/v1/chat/agents/{id}"
+    open class func getAgentsSessionsByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SessionDetail> {
+        var localVariablePath = "/v1/agents/sessions/{id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: chatAgentCreateParams)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ChatAgent>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Create an agent
-     
-     - parameter chatAgentCreateParams: (body)  
-     - returns: ChatAgent
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatPostAgents(chatAgentCreateParams: ChatAgentCreateParams) async throws -> ChatAgent {
-        return try await chatPostAgentsWithRequestBuilder(chatAgentCreateParams: chatAgentCreateParams).execute().body
-    }
-
-    /**
-     Create an agent
-     - POST /v1/chat/agents
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter chatAgentCreateParams: (body)  
-     - returns: RequestBuilder<ChatAgent> 
-     */
-    open class func chatPostAgentsWithRequestBuilder(chatAgentCreateParams: ChatAgentCreateParams) -> RequestBuilder<ChatAgent> {
-        let localVariablePath = "/v1/chat/agents"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: chatAgentCreateParams)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ChatAgent>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Duplicate an agent
-     
-     - parameter id: (path)  
-     - returns: ChatAgent
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatPostAgentsByidDuplicate(id: String) async throws -> ChatAgent {
-        return try await chatPostAgentsByidDuplicateWithRequestBuilder(id: id).execute().body
-    }
-
-    /**
-     Duplicate an agent
-     - POST /v1/chat/agents/{id}/duplicate
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter id: (path)  
-     - returns: RequestBuilder<ChatAgent> 
-     */
-    open class func chatPostAgentsByidDuplicateWithRequestBuilder(id: String) -> RequestBuilder<ChatAgent> {
-        var localVariablePath = "/v1/chat/agents/{id}/duplicate"
-        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
-        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<ChatAgent>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<SessionDetail>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Revert agent to a previous version
+     Returns the steering commands (pause/resume/stop/message) recorded against the caller's own session that are newer than the cursor, oldest first, with the cursor to poll from next.
      
-     - parameter id: (path)  
-     - parameter chatPostAgentsByidRevertRequest: (body)  
-     - returns: AnyCodable
+     - parameter id: (path) ID is the session whose commands are being drained, from the path. 
+     - parameter after: (query) After is the last seq this poller applied; only commands newer than it come back. Absent or negative reads as 0, which drains from the beginning. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ControlDrain
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatPostAgentsByidRevert(id: String, chatPostAgentsByidRevertRequest: ChatPostAgentsByidRevertRequest) async throws -> AnyCodable {
-        return try await chatPostAgentsByidRevertWithRequestBuilder(id: id, chatPostAgentsByidRevertRequest: chatPostAgentsByidRevertRequest).execute().body
+    open class func getAgentsSessionsByIdControl(id: String, after: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ControlDrain {
+        return try await getAgentsSessionsByIdControlWithRequestBuilder(id: id, after: after, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Revert agent to a previous version
-     - POST /v1/chat/agents/{id}/revert
+     Returns the steering commands (pause/resume/stop/message) recorded against the caller's own session that are newer than the cursor, oldest first, with the cursor to poll from next.
+     - GET /v1/agents/sessions/{id}/control
+     - Returns the steering commands (pause/resume/stop/message) recorded against the caller's own session that are newer than the cursor, oldest first, with the cursor to poll from next. It is how a locally started `hanzo code` session — which is not task-backed, so nothing forwards its commands to an execution engine — consumes what the dashboard posted. Read-only and bounded at 200 per poll, so a steady poll is cheap and an applied command is never redelivered.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter id: (path)  
-     - parameter chatPostAgentsByidRevertRequest: (body)  
-     - returns: RequestBuilder<AnyCodable> 
+       - name: bearer
+     - parameter id: (path) ID is the session whose commands are being drained, from the path. 
+     - parameter after: (query) After is the last seq this poller applied; only commands newer than it come back. Absent or negative reads as 0, which drains from the beginning. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ControlDrain> 
      */
-    open class func chatPostAgentsByidRevertWithRequestBuilder(id: String, chatPostAgentsByidRevertRequest: ChatPostAgentsByidRevertRequest) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/chat/agents/{id}/revert"
+    open class func getAgentsSessionsByIdControlWithRequestBuilder(id: String, after: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ControlDrain> {
+        var localVariablePath = "/v1/agents/sessions/{id}/control"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: chatPostAgentsByidRevertRequest)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "after": (wrappedValue: after?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ControlDrain>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Chat with an agent
+     Returns the subagent-flow graph rooted at this session: the session, its children, their children, each node carrying its own event count.
      
-     - parameter chatAgentChatRequest: (body)  
-     - returns: String
+     - parameter id: (path) ID is the session to act on, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: TreeNode
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatPostAgentsChat(chatAgentChatRequest: ChatAgentChatRequest) async throws -> String {
-        return try await chatPostAgentsChatWithRequestBuilder(chatAgentChatRequest: chatAgentChatRequest).execute().body
+    open class func getAgentsSessionsByIdTree(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> TreeNode {
+        return try await getAgentsSessionsByIdTreeWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Chat with an agent
-     - POST /v1/chat/agents/chat
-     - Send a message to an agent and receive a streaming SSE response.
+     Returns the subagent-flow graph rooted at this session: the session, its children, their children, each node carrying its own event count.
+     - GET /v1/agents/sessions/{id}/tree
+     - Returns the subagent-flow graph rooted at this session: the session, its children, their children, each node carrying its own event count. One indexed read pulls the whole flow (every node of a flow shares a root id), so the shape is assembled in memory rather than by walking the store per node.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter chatAgentChatRequest: (body)  
-     - returns: RequestBuilder<String> 
+       - name: bearer
+     - parameter id: (path) ID is the session to act on, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<TreeNode> 
      */
-    open class func chatPostAgentsChatWithRequestBuilder(chatAgentChatRequest: ChatAgentChatRequest) -> RequestBuilder<String> {
-        let localVariablePath = "/v1/chat/agents/chat"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: chatAgentChatRequest)
+    open class func getAgentsSessionsByIdTreeWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<TreeNode> {
+        var localVariablePath = "/v1/agents/sessions/{id}/tree"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<String>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<TreeNode>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Abort an ongoing agent generation
+     Live session and event updates for the caller's org, as Server-Sent Events.
      
-     - parameter chatPostAgentsChatAbortRequest: (body)  
-     - returns: ChatPostAgentsChatAbort200Response
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatPostAgentsChatAbort(chatPostAgentsChatAbortRequest: ChatPostAgentsChatAbortRequest) async throws -> ChatPostAgentsChatAbort200Response {
-        return try await chatPostAgentsChatAbortWithRequestBuilder(chatPostAgentsChatAbortRequest: chatPostAgentsChatAbortRequest).execute().body
+    open class func getAgentsSessionsStream(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getAgentsSessionsStreamWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Abort an ongoing agent generation
-     - POST /v1/chat/agents/chat/abort
+     Live session and event updates for the caller's org, as Server-Sent Events.
+     - GET /v1/agents/sessions/stream
+     - Holds the connection open as text/event-stream and pushes a frame each time the org's registry moves: an `event: session` frame carrying the same session shape the list and detail reads answer with (a registration, an update, or a login-manager revoke tearing a session down), and an `event: event` frame carrying one appended turn. Optional ?root=<session id> narrows the feed to a single subagent tree.  Requires a validated principal carrying an org; 403 without one. Org-scoped fail-closed: the bus filters on tenant before it fans out, so a subscriber only ever receives its own org's updates, and ?root= narrows that further but can never widen it.  Delivery is best-effort and the GET reads remain the source of truth. A subscriber that falls more than 256 frames behind is DROPPED — its channel is closed and the stream ends — so one stuck dashboard can never back-pressure a session write; the client reconnects and re-reads the session endpoints to resynchronise. A `: ping` comment every 25 seconds holds the connection open through proxies and is how a departed client is noticed.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter chatPostAgentsChatAbortRequest: (body)  
-     - returns: RequestBuilder<ChatPostAgentsChatAbort200Response> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func chatPostAgentsChatAbortWithRequestBuilder(chatPostAgentsChatAbortRequest: ChatPostAgentsChatAbortRequest) -> RequestBuilder<ChatPostAgentsChatAbort200Response> {
-        let localVariablePath = "/v1/chat/agents/chat/abort"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: chatPostAgentsChatAbortRequest)
+    open class func getAgentsSessionsStreamWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/agents/sessions/stream"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<ChatPostAgentsChatAbort200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Chat with an ephemeral agent
+     Returns every machine registered to the caller's org, newest first, each with its live session load.
      
-     - parameter endpoint: (path)  
-     - parameter chatAgentChatRequest: (body)  
-     - returns: String
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: TargetList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatPostAgentsChatByendpoint(endpoint: String, chatAgentChatRequest: ChatAgentChatRequest) async throws -> String {
-        return try await chatPostAgentsChatByendpointWithRequestBuilder(endpoint: endpoint, chatAgentChatRequest: chatAgentChatRequest).execute().body
+    open class func getAgentsTargets(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> TargetList {
+        return try await getAgentsTargetsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Chat with an ephemeral agent
-     - POST /v1/chat/agents/chat/{endpoint}
+     Returns every machine registered to the caller's org, newest first, each with its live session load.
+     - GET /v1/agents/targets
+     - Returns every machine registered to the caller's org, newest first, each with its live session load.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter endpoint: (path)  
-     - parameter chatAgentChatRequest: (body)  
-     - returns: RequestBuilder<String> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<TargetList> 
      */
-    open class func chatPostAgentsChatByendpointWithRequestBuilder(endpoint: String, chatAgentChatRequest: ChatAgentChatRequest) -> RequestBuilder<String> {
-        var localVariablePath = "/v1/chat/agents/chat/{endpoint}"
-        let endpointPreEscape = "\(APIHelper.mapValueToPathItem(endpoint))"
-        let endpointPostEscape = endpointPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{endpoint}", with: endpointPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: chatAgentChatRequest)
+    open class func getAgentsTargetsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<TargetList> {
+        let localVariablePath = "/v1/agents/targets"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<String>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<TargetList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Execute a tool call
+     Returns one registered machine, with its live session load.
      
-     - parameter toolId: (path)  
-     - parameter body: (body)  
-     - returns: AnyCodable
+     - parameter id: (path) ID is the target to act on, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: TargetView
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatPostAgentsToolsBytoolidCall(toolId: String, body: AnyCodable) async throws -> AnyCodable {
-        return try await chatPostAgentsToolsBytoolidCallWithRequestBuilder(toolId: toolId, body: body).execute().body
+    open class func getAgentsTargetsById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> TargetView {
+        return try await getAgentsTargetsByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Execute a tool call
-     - POST /v1/chat/agents/tools/{toolId}/call
+     Returns one registered machine, with its live session load.
+     - GET /v1/agents/targets/{id}
+     - Returns one registered machine, with its live session load.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter toolId: (path)  
-     - parameter body: (body)  
-     - returns: RequestBuilder<AnyCodable> 
+       - name: bearer
+     - parameter id: (path) ID is the target to act on, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<TargetView> 
      */
-    open class func chatPostAgentsToolsBytoolidCallWithRequestBuilder(toolId: String, body: AnyCodable) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/chat/agents/tools/{toolId}/call"
-        let toolIdPreEscape = "\(APIHelper.mapValueToPathItem(toolId))"
-        let toolIdPostEscape = toolIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{toolId}", with: toolIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+    open class func getAgentsTargetsByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<TargetView> {
+        var localVariablePath = "/v1/agents/targets/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<TargetView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Changes an agent in place.
+     
+     - parameter ref: (path) Ref is the agent to update — its public id or org-unique name, from the path. 
+     - parameter updateAgentIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AgentView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func patchAgentsByRef(ref: String, updateAgentIn: UpdateAgentIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AgentView {
+        return try await patchAgentsByRefWithRequestBuilder(ref: ref, updateAgentIn: updateAgentIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Changes an agent in place.
+     - PATCH /v1/agents/{ref}
+     - Changes an agent in place. Every field is optional; a field the request omits keeps its stored value. The resulting mode+schedule are re-validated together, so a partial update can never leave a long-running agent without the cron the scheduler needs to fire it, and a transition INTO long-running counts against the per-org cap on scheduled agents.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter ref: (path) Ref is the agent to update — its public id or org-unique name, from the path. 
+     - parameter updateAgentIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AgentView> 
+     */
+    open class func patchAgentsByRefWithRequestBuilder(ref: String, updateAgentIn: UpdateAgentIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AgentView> {
+        var localVariablePath = "/v1/agents/{ref}"
+        let refPreEscape = "\(APIHelper.mapValueToPathItem(ref))"
+        let refPostEscape = refPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{ref}", with: refPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: updateAgentIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<AgentView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Updates a session's surface-owned truth: its status, its title, the run-target it is dispatched to, and the product it built plus whether that build's story is public.
+     
+     - parameter id: (path) ID is the session to update, from the path. 
+     - parameter patchSessionIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: SessionView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func patchAgentsSessionsById(id: String, patchSessionIn: PatchSessionIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SessionView {
+        return try await patchAgentsSessionsByIdWithRequestBuilder(id: id, patchSessionIn: patchSessionIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Updates a session's surface-owned truth: its status, its title, the run-target it is dispatched to, and the product it built plus whether that build's story is public.
+     - PATCH /v1/agents/sessions/{id}
+     - Updates a session's surface-owned truth: its status, its title, the run-target it is dispatched to, and the product it built plus whether that build's story is public. A FINISHED session stays finished — reopening a done/error run would fabricate liveness — and publishing is refused unless the session names the project it built, because the public build route is keyed on (org, project).
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the session to update, from the path. 
+     - parameter patchSessionIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<SessionView> 
+     */
+    open class func patchAgentsSessionsByIdWithRequestBuilder(id: String, patchSessionIn: PatchSessionIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SessionView> {
+        var localVariablePath = "/v1/agents/sessions/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: patchSessionIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<SessionView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Updates one machine in place.
+     
+     - parameter id: (path) ID is the target to update, from the path. 
+     - parameter patchTargetIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: TargetView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func patchAgentsTargetsById(id: String, patchTargetIn: PatchTargetIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> TargetView {
+        return try await patchAgentsTargetsByIdWithRequestBuilder(id: id, patchTargetIn: patchTargetIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Updates one machine in place.
+     - PATCH /v1/agents/targets/{id}
+     - Updates one machine in place. Every field is optional; a field the request omits is left alone. A metrics patch IS a heartbeat — the server stamps its own clock, so a client can neither forge nor backdate staleness.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the target to update, from the path. 
+     - parameter patchTargetIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<TargetView> 
+     */
+    open class func patchAgentsTargetsByIdWithRequestBuilder(id: String, patchTargetIn: PatchTargetIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<TargetView> {
+        var localVariablePath = "/v1/agents/targets/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: patchTargetIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<TargetView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Defines an agent in the caller's org: a model, a system prompt (instructions) and a set of tool names.
+     
+     - parameter createAgentIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AgentView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAgents(createAgentIn: CreateAgentIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AgentView {
+        return try await postAgentsWithRequestBuilder(createAgentIn: createAgentIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Defines an agent in the caller's org: a model, a system prompt (instructions) and a set of tool names.
+     - POST /v1/agents
+     - Defines an agent in the caller's org: a model, a system prompt (instructions) and a set of tool names. The name must be unique in the org and match ^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$. An omitted model takes the deployment's configured default; a named one is checked against the gateway's served catalog, so a model this deployment never serves is refused here rather than failing at run time. A long-running agent must carry a 5-field cron schedule (the scheduler would otherwise never fire it) and counts against a per-org cap on scheduled agents.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter createAgentIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AgentView> 
+     */
+    open class func postAgentsWithRequestBuilder(createAgentIn: CreateAgentIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AgentView> {
+        let localVariablePath = "/v1/agents"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: createAgentIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AgentView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Run one of your org's agents and get the recorded run back.
+     
+     - parameter ref: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAgentsByRefRun(ref: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAgentsByRefRunWithRequestBuilder(ref: ref, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Run one of your org's agents and get the recorded run back.
+     - POST /v1/agents/{ref}/run
+     - Composes the agent's stored instructions with the caller's `input`, executes one real chat completion through the same in-process AI client the rest of the console uses, and answers with the run that was recorded: its id, status, model, output, duration and error. Every run this returns reflects an execution that actually happened — a model failure is recorded and reported, never hidden and never fabricated. A transient upstream failure (429, 5xx, empty choices) is retried up to three times with jittered backoff, and a configured failover model is tried before the run is called an error.  `ref` is the agent's public `agent_…` id or its org-unique name; either resolves the same agent, and it must belong to the caller's org, so an agent in another tenant is a 404 exactly like one that does not exist. A validated principal is required and the check is made twice on purpose: this route MOVES MONEY, so the debit's principal requirement is asserted where the money moves rather than inherited from the tenant lookup.  The org's balance is authorized BEFORE any inference, so an unfunded tenant gets 402 and no free compute, and a billing plane that cannot answer gets 503 rather than a free run. The flat per-run fee is an operator knob; setting it to zero makes runs free and removes the balance gate with them. Only a SUCCESSFUL run is billed, attributed to the model actually used — a failover run bills the model it fell over to, not the one it started on. A deployment with no inference wired answers 503 before any of this.  THE RULE A READER GETS WRONG: a failed run is a 502 whose body is the RUN, not an error envelope. The execution happened, the run was persisted to this agent's history, and its `error` field is the product — so a client that treats every non-2xx as an opaque failure throws away the only account of what went wrong. Each run also opens a root session in the live session registry, best-effort: a bookkeeping failure there never fails the run, because the run and its billing already happened.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter ref: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAgentsByRefRunWithRequestBuilder(ref: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/agents/{ref}/run"
+        let refPreEscape = "\(APIHelper.mapValueToPathItem(ref))"
+        let refPostEscape = refPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{ref}", with: refPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Opens a live agent session in the caller's org — the row every surface (the CLI's outer agent, hanzo.bot, the console, chat) hangs its activity off.
+     
+     - parameter registerReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: SessionView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAgentsSessions(registerReq: RegisterReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SessionView {
+        return try await postAgentsSessionsWithRequestBuilder(registerReq: registerReq, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Opens a live agent session in the caller's org — the row every surface (the CLI's outer agent, hanzo.bot, the console, chat) hangs its activity off.
+     - POST /v1/agents/sessions
+     - Opens a live agent session in the caller's org — the row every surface (the CLI's outer agent, hanzo.bot, the console, chat) hangs its activity off. A session with a parentSessionId becomes a subagent of that session and inherits its root, so one flow is one tree; without one it is itself a root. Registering with a terminal status records a session that has already finished.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter registerReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<SessionView> 
+     */
+    open class func postAgentsSessionsWithRequestBuilder(registerReq: RegisterReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SessionView> {
+        let localVariablePath = "/v1/agents/sessions"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: registerReq, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<SessionView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Append one turn to a session's ordered log.
+     
+     - parameter id: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAgentsSessionsByIdEvents(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAgentsSessionsByIdEventsWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Append one turn to a session's ordered log.
+     - POST /v1/agents/sessions/{id}/events
+     - Records a message, tool-call, spawn, log, status or control turn against the session and answers 201 with the stored event, including the monotonic `seq` the store assigned — the cursor every reader pages from. The same turn is fanned out live to every stream subscriber watching that session's tree.  Requires a validated principal carrying an org, and the session must already exist IN THAT ORG: an id belonging to another tenant is a 404 exactly like one that does not exist, so the log can never be written across a tenant boundary. `actor` defaults to the calling principal when the body names none. `kind` must be one of the six above, and `payload` must be valid JSON of at most 64 KiB.  The payload is scanned for credentials BEFORE it is stored, and a hit REFUSES the write with 422 rather than redacting it: {status, code: \"secret_in_transcript\", error, findings:[…]}, each finding naming the rule, severity, line, a masked preview and a SHA-256 fingerprint the author can match against the value they rotate. The detected value itself appears nowhere in that body, because it was never stored. That in-band findings array is the reason this operation cannot be typed.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAgentsSessionsByIdEventsWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/agents/sessions/{id}/events"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Send text into a running session.
+     
+     - parameter id: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAgentsSessionsByIdMessage(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAgentsSessionsByIdMessageWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Send text into a running session.
+     - POST /v1/agents/sessions/{id}/message
+     - Records `message` as a durable control event carrying the caller's text and answers 200 with {command, event, forwarded} — this is how a dashboard steers an agent mid-run. It is the one command with a required body: a `message` (up to 16 KiB) or a `payload`, and 400 with neither. The credential scan that guards an appended turn covers `payload` here; `message` is bounded but not scanned.   Requires a validated principal carrying an org, and the session must exist IN THAT ORG — a foreign id is a 404, so no tenant can steer another's agents. A FINISHED session (done or error) refuses every command with 409: a run that has ended cannot be steered.  THE COMMAND IS AN INTENT, NOT A STATE CHANGE. Nothing here writes the session's status. A 200 means the command was durably recorded and delivered, never that the agent has actually paused, resumed or stopped; the status becomes paused, done or error only when the surface running the agent reports it back through a session update. That surface learns of the command in one of two ways: a task-backed session (one carrying a workflow id, with a tasks backend wired) has it forwarded to the durable-execution engine, and `forwarded` says so; everything else is record-only, and the running surface — a locally started `hanzo code` session, for one — drains it by polling the session's control endpoint. Today that is every session: the only controller wired forwards nothing, so `forwarded` is false and polling is how a command arrives. If a forward is attempted and fails, the answer is 502 stating that the command was recorded but not forwarded: the intent is never lost.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAgentsSessionsByIdMessageWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/agents/sessions/{id}/message"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Ask a running session to pause.
+     
+     - parameter id: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAgentsSessionsByIdPause(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAgentsSessionsByIdPauseWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Ask a running session to pause.
+     - POST /v1/agents/sessions/{id}/pause
+     - Records `pause` as a durable control event on the session and answers 200 with {command, event, forwarded} — the stored event carries the `seq` that orders it against every other turn.   Requires a validated principal carrying an org, and the session must exist IN THAT ORG — a foreign id is a 404, so no tenant can steer another's agents. A FINISHED session (done or error) refuses every command with 409: a run that has ended cannot be steered.  THE COMMAND IS AN INTENT, NOT A STATE CHANGE. Nothing here writes the session's status. A 200 means the command was durably recorded and delivered, never that the agent has actually paused, resumed or stopped; the status becomes paused, done or error only when the surface running the agent reports it back through a session update. That surface learns of the command in one of two ways: a task-backed session (one carrying a workflow id, with a tasks backend wired) has it forwarded to the durable-execution engine, and `forwarded` says so; everything else is record-only, and the running surface — a locally started `hanzo code` session, for one — drains it by polling the session's control endpoint. Today that is every session: the only controller wired forwards nothing, so `forwarded` is false and polling is how a command arrives. If a forward is attempted and fails, the answer is 502 stating that the command was recorded but not forwarded: the intent is never lost.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAgentsSessionsByIdPauseWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/agents/sessions/{id}/pause"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Ask a paused session to carry on.
+     
+     - parameter id: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAgentsSessionsByIdResume(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAgentsSessionsByIdResumeWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Ask a paused session to carry on.
+     - POST /v1/agents/sessions/{id}/resume
+     - Records `resume` as a durable control event on the session and answers 200 with {command, event, forwarded}. The session is NOT required to be paused first: the only status this refuses is a finished one, because the live status is the running surface's to report rather than this endpoint's to enforce.   Requires a validated principal carrying an org, and the session must exist IN THAT ORG — a foreign id is a 404, so no tenant can steer another's agents. A FINISHED session (done or error) refuses every command with 409: a run that has ended cannot be steered.  THE COMMAND IS AN INTENT, NOT A STATE CHANGE. Nothing here writes the session's status. A 200 means the command was durably recorded and delivered, never that the agent has actually paused, resumed or stopped; the status becomes paused, done or error only when the surface running the agent reports it back through a session update. That surface learns of the command in one of two ways: a task-backed session (one carrying a workflow id, with a tasks backend wired) has it forwarded to the durable-execution engine, and `forwarded` says so; everything else is record-only, and the running surface — a locally started `hanzo code` session, for one — drains it by polling the session's control endpoint. Today that is every session: the only controller wired forwards nothing, so `forwarded` is false and polling is how a command arrives. If a forward is attempted and fails, the answer is 502 stating that the command was recorded but not forwarded: the intent is never lost.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAgentsSessionsByIdResumeWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/agents/sessions/{id}/resume"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Ask a session to stop for good.
+     
+     - parameter id: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAgentsSessionsByIdStop(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAgentsSessionsByIdStopWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Ask a session to stop for good.
+     - POST /v1/agents/sessions/{id}/stop
+     - Records `stop` as a durable control event on the session and answers 200 with {command, event, forwarded}. Stop is the one command that CANCELS a task-backed session's durable workflow instead of signalling it — pause, resume and message are cooperative signals the workflow decides how to act on, while this tears it down, with the request's `message` recorded as the cancellation reason (a default stands in when none is given).   Requires a validated principal carrying an org, and the session must exist IN THAT ORG — a foreign id is a 404, so no tenant can steer another's agents. A FINISHED session (done or error) refuses every command with 409: a run that has ended cannot be steered.  THE COMMAND IS AN INTENT, NOT A STATE CHANGE. Nothing here writes the session's status. A 200 means the command was durably recorded and delivered, never that the agent has actually paused, resumed or stopped; the status becomes paused, done or error only when the surface running the agent reports it back through a session update. That surface learns of the command in one of two ways: a task-backed session (one carrying a workflow id, with a tasks backend wired) has it forwarded to the durable-execution engine, and `forwarded` says so; everything else is record-only, and the running surface — a locally started `hanzo code` session, for one — drains it by polling the session's control endpoint. Today that is every session: the only controller wired forwards nothing, so `forwarded` is false and polling is how a command arrives. If a forward is attempted and fails, the answer is 502 stating that the command was recorded but not forwarded: the intent is never lost.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAgentsSessionsByIdStopWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/agents/sessions/{id}/stop"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Registers a machine as an agent target, or re-links one that is already registered.
+     
+     - parameter targetReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: TargetView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAgentsTargets(targetReq: TargetReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> TargetView {
+        return try await postAgentsTargetsWithRequestBuilder(targetReq: targetReq, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Registers a machine as an agent target, or re-links one that is already registered.
+     - POST /v1/agents/targets
+     - Registers a machine as an agent target, or re-links one that is already registered. Re-linking is idempotent and keyed on org+host+owner, so a machine that reconnects refreshes its own row rather than piling up duplicates; it answers 200, while a first registration answers 201.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter targetReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<TargetView> 
+     */
+    open class func postAgentsTargetsWithRequestBuilder(targetReq: TargetReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<TargetView> {
+        let localVariablePath = "/v1/agents/targets"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: targetReq, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<TargetView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     ClaimRoutedRun is the machine's long poll for work: it authenticates the daemon, stamps the liveness the dispatch gate reads (the poll IS the proof a runner is listening), and waits up to 25 seconds for the next run addressed to THIS machine.
+     
+     - parameter id: (path) ID is the target to act on, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RoutedRunOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAgentsTargetsByIdClaim(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RoutedRunOut {
+        return try await postAgentsTargetsByIdClaimWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     ClaimRoutedRun is the machine's long poll for work: it authenticates the daemon, stamps the liveness the dispatch gate reads (the poll IS the proof a runner is listening), and waits up to 25 seconds for the next run addressed to THIS machine.
+     - POST /v1/agents/targets/{id}/claim
+     - ClaimRoutedRun is the machine's long poll for work: it authenticates the daemon, stamps the liveness the dispatch gate reads (the poll IS the proof a runner is listening), and waits up to 25 seconds for the next run addressed to THIS machine. It answers the run when one arrives and 204 with no body when the window elapses, on which the daemon re-polls immediately.  TWO independent proofs are required and both fail closed to the same 403: the caller must own this machine (or be an org admin) AND present its claim key in X-Target-Key. A run offered to one machine is unreachable from another's claim.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the target to act on, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<RoutedRunOut> 
+     */
+    open class func postAgentsTargetsByIdClaimWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RoutedRunOut> {
+        var localVariablePath = "/v1/agents/targets/{id}/claim"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<RoutedRunOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Mints (or rotates) the claim key a `hanzo code --serve` daemon presents to claim work for this machine, and returns it ONCE: only its SHA-256 hash is stored.
+     
+     - parameter id: (path) ID is the target to act on, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ClaimKeyOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAgentsTargetsByIdKey(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ClaimKeyOut {
+        return try await postAgentsTargetsByIdKeyWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Mints (or rotates) the claim key a `hanzo code --serve` daemon presents to claim work for this machine, and returns it ONCE: only its SHA-256 hash is stored.
+     - POST /v1/agents/targets/{id}/key
+     - Mints (or rotates) the claim key a `hanzo code --serve` daemon presents to claim work for this machine, and returns it ONCE: only its SHA-256 hash is stored. Rotating supersedes any prior daemon, so only the machine's owner — or an org admin — may call it; every other caller gets the same not-found an unknown id gets, and learns nothing about what exists.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the target to act on, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ClaimKeyOut> 
+     */
+    open class func postAgentsTargetsByIdKeyWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ClaimKeyOut> {
+        var localVariablePath = "/v1/agents/targets/{id}/key"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ClaimKeyOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Completes a claimed run: it delivers the terminal result to the run's durable owner, which is what lets that workflow finish.
+     
+     - parameter id: (path) ID is the machine reporting, from the path. 
+     - parameter runId: (path) RunID is the routed run being completed, from the path. 
+     - parameter reportRunIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ReportOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAgentsTargetsByIdRunsByRunidReport(id: String, runId: String, reportRunIn: ReportRunIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ReportOut {
+        return try await postAgentsTargetsByIdRunsByRunidReportWithRequestBuilder(id: id, runId: runId, reportRunIn: reportRunIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Completes a claimed run: it delivers the terminal result to the run's durable owner, which is what lets that workflow finish.
+     - POST /v1/agents/targets/{id}/runs/{runId}/report
+     - Completes a claimed run: it delivers the terminal result to the run's durable owner, which is what lets that workflow finish. Scoped to (org, target, run) and claim-key authenticated, so a machine can only ever report a run it legitimately holds. Idempotent — a report for an unknown or already-finished run answers delivered:false rather than failing, because the session's terminal state was already set by the machine's own stream.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the machine reporting, from the path. 
+     - parameter runId: (path) RunID is the routed run being completed, from the path. 
+     - parameter reportRunIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ReportOut> 
+     */
+    open class func postAgentsTargetsByIdRunsByRunidReportWithRequestBuilder(id: String, runId: String, reportRunIn: ReportRunIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ReportOut> {
+        var localVariablePath = "/v1/agents/targets/{id}/runs/{runId}/report"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let runIdPreEscape = "\(APIHelper.mapValueToPathItem(runId))"
+        let runIdPostEscape = runIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{runId}", with: runIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: reportRunIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ReportOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

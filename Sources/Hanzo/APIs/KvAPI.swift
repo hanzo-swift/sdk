@@ -6,165 +6,174 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class KvAPI {
 
     /**
-     Provision a key-value resource
+     DropKV deprovisions one Hanzo KV store.
      
-     - parameter provisioningCreateRequest: (body)  
-     - returns: ProvisioningCreateResponse
+     - parameter name: (path) Name is the resource&#39;s org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func provisioningCreateKv(provisioningCreateRequest: ProvisioningCreateRequest) async throws -> ProvisioningCreateResponse {
-        return try await provisioningCreateKvWithRequestBuilder(provisioningCreateRequest: provisioningCreateRequest).execute().body
+    open class func deleteKvByName(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteKvByNameWithRequestBuilder(name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Provision a key-value resource
-     - POST /v1/kv
+     DropKV deprovisions one Hanzo KV store.
+     - DELETE /v1/kv/{name}
+     - DropKV deprovisions one Hanzo KV store. It reverts any app instance bound to it back to Base BEFORE tearing down the org's dedicated Valkey instance, then deletes the sealed credential and removes the metadata row. Answers 204 with no body; a second call is a 404.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter provisioningCreateRequest: (body)  
-     - returns: RequestBuilder<ProvisioningCreateResponse> 
+       - name: bearer
+     - parameter name: (path) Name is the resource&#39;s org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func provisioningCreateKvWithRequestBuilder(provisioningCreateRequest: ProvisioningCreateRequest) -> RequestBuilder<ProvisioningCreateResponse> {
-        let localVariablePath = "/v1/kv"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: provisioningCreateRequest)
+    open class func deleteKvByNameWithRequestBuilder(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/kv/{name}"
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     ListKV lists the caller org's Hanzo KV stores.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: [ProvisionedSummary]
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getKv(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> [ProvisionedSummary] {
+        return try await getKvWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     ListKV lists the caller org's Hanzo KV stores.
+     - GET /v1/kv
+     - ListKV lists the caller org's Hanzo KV stores. Each one is a DEDICATED Valkey instance the org alone runs, so the host is that instance's own in-cluster Service and the port is 6379.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<[ProvisionedSummary]> 
+     */
+    open class func getKvWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<[ProvisionedSummary]> {
+        let localVariablePath = "/v1/kv"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<[ProvisionedSummary]>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     GetKV returns one Hanzo KV store's metadata.
+     
+     - parameter name: (path) Name is the resource&#39;s org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProvisionedResource
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getKvByName(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProvisionedResource {
+        return try await getKvByNameWithRequestBuilder(name: name, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     GetKV returns one Hanzo KV store's metadata.
+     - GET /v1/kv/{name}
+     - GetKV returns one Hanzo KV store's metadata. It carries the store's status, its instance address and the Valkey user it authenticates as (\"default\", the only user a requirepass instance has) — never the password. A still-booting instance reads \"provisioning\", reconciled from the operator's live view.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter name: (path) Name is the resource&#39;s org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProvisionedResource> 
+     */
+    open class func getKvByNameWithRequestBuilder(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProvisionedResource> {
+        var localVariablePath = "/v1/kv/{name}"
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ProvisionedResource>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Provision a key-value store for your org
+     
+     - parameter provisionRequest: (body)  (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProvisionResult
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postKv(provisionRequest: ProvisionRequest? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProvisionResult {
+        return try await postKvWithRequestBuilder(provisionRequest: provisionRequest, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Provision a key-value store for your org
+     - POST /v1/kv
+     - Launches your org's OWN key-value instance and answers with its `kv://` connection string. The instance is yours alone: a deployment in your own tenant namespace, so its admin credential is naturally scoped to you and no other tenant shares the process. Off-cluster, where there is no orchestrator to launch one, this fails closed with 503 rather than handing back a shared one.  `name` is the org-unique slug every physical name derives from, and must match ^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$. `instance` optionally BINDS the add-on to one of your app instances: the DSN is injected into that instance's addons secret as <KIND>_URL, switching the app off its built-in store and onto this one. Omit it and the connection string is yours to wire.  THE CREDENTIAL COMES BACK ONCE. The connection string and password are in this response and nowhere else — every read beside it omits the password — so a caller that does not keep them has to provision again. Where KMS is configured the password is sealed there and only a reference is persisted; where it is not, it is returned this once and stored nowhere. It is never held in plaintext.  Scoped to the caller's validated org (403 without one), which also namespaces the physical resource under a fixed-width hash, so two tenants can never fold onto one backend resource — a residual collision fails closed with 409 rather than silently sharing. A name already taken in your org is 409; an invalid name or instance slug is 400; a backend that refuses the create is 502. Where a later step fails after the backend resource already exists, it is torn back down rather than left orphaned.  Billing is gated BEFORE anything is created: an unfunded org — or, in the fail-closed default, an unreachable meter — gets the fleet-wide 402/503 and nothing is provisioned. The fee is per-kind and set by the deployment.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter provisionRequest: (body)  (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProvisionResult> 
+     */
+    open class func postKvWithRequestBuilder(provisionRequest: ProvisionRequest? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProvisionResult> {
+        let localVariablePath = "/v1/kv"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: provisionRequest, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<ProvisioningCreateResponse>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ProvisionResult>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Deprovision a key-value resource
-     
-     - parameter name: (path) The user-supplied resource name (slug). Lowercased and trimmed server-side; must match &#x60;^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$&#x60;.  
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func provisioningDeleteKv(name: String) async throws {
-        return try await provisioningDeleteKvWithRequestBuilder(name: name).execute().body
-    }
-
-    /**
-     Deprovision a key-value resource
-     - DELETE /v1/kv/{name}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter name: (path) The user-supplied resource name (slug). Lowercased and trimmed server-side; must match &#x60;^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$&#x60;.  
-     - returns: RequestBuilder<Void> 
-     */
-    open class func provisioningDeleteKvWithRequestBuilder(name: String) -> RequestBuilder<Void> {
-        var localVariablePath = "/v1/kv/{name}"
-        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
-        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = HanzoAPI.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get one key-value resource
-     
-     - parameter name: (path) The user-supplied resource name (slug). Lowercased and trimmed server-side; must match &#x60;^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$&#x60;.  
-     - returns: ProvisioningGetResponse
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func provisioningGetKv(name: String) async throws -> ProvisioningGetResponse {
-        return try await provisioningGetKvWithRequestBuilder(name: name).execute().body
-    }
-
-    /**
-     Get one key-value resource
-     - GET /v1/kv/{name}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter name: (path) The user-supplied resource name (slug). Lowercased and trimmed server-side; must match &#x60;^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$&#x60;.  
-     - returns: RequestBuilder<ProvisioningGetResponse> 
-     */
-    open class func provisioningGetKvWithRequestBuilder(name: String) -> RequestBuilder<ProvisioningGetResponse> {
-        var localVariablePath = "/v1/kv/{name}"
-        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
-        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ProvisioningGetResponse>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     List key-value resources for the caller's org
-     
-     - returns: [ProvisioningListItem]
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func provisioningListKv() async throws -> [ProvisioningListItem] {
-        return try await provisioningListKvWithRequestBuilder().execute().body
-    }
-
-    /**
-     List key-value resources for the caller's org
-     - GET /v1/kv
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<[ProvisioningListItem]> 
-     */
-    open class func provisioningListKvWithRequestBuilder() -> RequestBuilder<[ProvisioningListItem]> {
-        let localVariablePath = "/v1/kv"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<[ProvisioningListItem]>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

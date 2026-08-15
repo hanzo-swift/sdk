@@ -6,532 +6,228 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class CloudAPI {
 
     /**
-     Cloud VM plans, regions, and storage
+     Forgets one linked cloud account: it detaches every fleet cluster THIS account folded (its own names, in its own shard — a neighbour's cluster of the same name is untouched), deletes the sealed credential, and drops the index row.
      
-     - returns: PricingCloudResponse
+     - parameter provider: (path) Provider is the cloud the account belongs to: digitalocean, aws, gcp or azure. An unknown provider is not found. 
+     - parameter label: (path) Label is the org-chosen name of the account within that provider. Empty means \&quot;default\&quot;; anything outside 1–64 of [A-Za-z0-9._-] is refused. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: UnlinkedView
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func pricingGetCloud() async throws -> PricingCloudResponse {
-        return try await pricingGetCloudWithRequestBuilder().execute().body
+    open class func deleteCloudByProviderAccountsByLabel(provider: String, label: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> UnlinkedView {
+        return try await deleteCloudByProviderAccountsByLabelWithRequestBuilder(provider: provider, label: label, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Cloud VM plans, regions, and storage
-     - GET /v1/pricing/cloud
-     - Returns all cloud infrastructure pricing: VM plans, available deployment regions, and block storage rates. 
+     Forgets one linked cloud account: it detaches every fleet cluster THIS account folded (its own names, in its own shard — a neighbour's cluster of the same name is untouched), deletes the sealed credential, and drops the index row.
+     - DELETE /v1/cloud/{provider}/accounts/{label}
+     - Forgets one linked cloud account: it detaches every fleet cluster THIS account folded (its own names, in its own shard — a neighbour's cluster of the same name is untouched), deletes the sealed credential, and drops the index row.  It is idempotent and deliberately not an existence oracle: an account this org does not hold answers exactly the same as one it just removed. A cluster that fails to detach is logged and the unlink continues, so a dead provider cannot strand a credential. Requires org admin.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<PricingCloudResponse> 
+       - name: bearer
+     - parameter provider: (path) Provider is the cloud the account belongs to: digitalocean, aws, gcp or azure. An unknown provider is not found. 
+     - parameter label: (path) Label is the org-chosen name of the account within that provider. Empty means \&quot;default\&quot;; anything outside 1–64 of [A-Za-z0-9._-] is refused. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<UnlinkedView> 
      */
-    open class func pricingGetCloudWithRequestBuilder() -> RequestBuilder<PricingCloudResponse> {
-        let localVariablePath = "/v1/pricing/cloud"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func deleteCloudByProviderAccountsByLabelWithRequestBuilder(provider: String, label: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<UnlinkedView> {
+        var localVariablePath = "/v1/cloud/{provider}/accounts/{label}"
+        let providerPreEscape = "\(APIHelper.mapValueToPathItem(provider))"
+        let providerPostEscape = providerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{provider}", with: providerPostEscape, options: .literal, range: nil)
+        let labelPreEscape = "\(APIHelper.mapValueToPathItem(label))"
+        let labelPostEscape = labelPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{label}", with: labelPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PricingCloudResponse>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<UnlinkedView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Full pricing data
+     Returns the clouds this deployment can link and what linking each one needs — the DigitalOcean token, the AWS role and external id, the GCP credential JSON, the Azure app — plus whether the provider can be linked without storing any long-lived secret.
      
-     - returns: PricingFullPricingResponse
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProvidersView
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func pricingGetFullPricing() async throws -> PricingFullPricingResponse {
-        return try await pricingGetFullPricingWithRequestBuilder().execute().body
+    open class func getCloud(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProvidersView {
+        return try await getCloudWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Full pricing data
-     - GET /v1/pricing
-     - Returns the complete pricing dataset including all AI models, tools, infrastructure, and cloud plans. Large response (~500KB). 
+     Returns the clouds this deployment can link and what linking each one needs — the DigitalOcean token, the AWS role and external id, the GCP credential JSON, the Azure app — plus whether the provider can be linked without storing any long-lived secret.
+     - GET /v1/cloud
+     - Returns the clouds this deployment can link and what linking each one needs — the DigitalOcean token, the AWS role and external id, the GCP credential JSON, the Azure app — plus whether the provider can be linked without storing any long-lived secret. It is the catalog a \"connect a cloud\" screen renders; it reports no account and no credential.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<PricingFullPricingResponse> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProvidersView> 
      */
-    open class func pricingGetFullPricingWithRequestBuilder() -> RequestBuilder<PricingFullPricingResponse> {
-        let localVariablePath = "/v1/pricing"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func getCloudWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProvidersView> {
+        let localVariablePath = "/v1/cloud"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PricingFullPricingResponse>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ProvidersView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Block storage pricing
+     Lists the caller org's linked cloud accounts across every provider: which account each one is at the provider, which fleet clusters it folded, and when it was last discovered.
      
-     - returns: PricingBlockStoragePricing
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: CloudAccountsView
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func pricingGetStoragePricing() async throws -> PricingBlockStoragePricing {
-        return try await pricingGetStoragePricingWithRequestBuilder().execute().body
+    open class func getCloudAccounts(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CloudAccountsView {
+        return try await getCloudAccountsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Block storage pricing
-     - GET /v1/pricing/cloud/storage
-     - Returns per-GB/month pricing for block storage volumes.
+     Lists the caller org's linked cloud accounts across every provider: which account each one is at the provider, which fleet clusters it folded, and when it was last discovered.
+     - GET /v1/cloud/accounts
+     - Lists the caller org's linked cloud accounts across every provider: which account each one is at the provider, which fleet clusters it folded, and when it was last discovered. Metadata only — a sealed credential never appears in a response. Another org's accounts are not visible and not countable.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<PricingBlockStoragePricing> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<CloudAccountsView> 
      */
-    open class func pricingGetStoragePricingWithRequestBuilder() -> RequestBuilder<PricingBlockStoragePricing> {
-        let localVariablePath = "/v1/pricing/cloud/storage"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func getCloudAccountsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CloudAccountsView> {
+        let localVariablePath = "/v1/cloud/accounts"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PricingBlockStoragePricing>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CloudAccountsView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Cloud VM plans
+     Links one of the caller org's cloud accounts and folds the Kubernetes clusters it finds there into the ONE Hanzo fleet, so they appear at /v1/clusters and can run work like any managed or bring-your-own cluster.
      
-     - returns: PricingCloudPlansResponse
+     - parameter provider: (path) Provider is the cloud being linked, from the path: digitalocean, aws, gcp or azure. 
+     - parameter venueLinkRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AccountFoldView
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func pricingListCloudPlans() async throws -> PricingCloudPlansResponse {
-        return try await pricingListCloudPlansWithRequestBuilder().execute().body
+    open class func postCloudByProviderAccounts(provider: String, venueLinkRequest: VenueLinkRequest, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AccountFoldView {
+        return try await postCloudByProviderAccountsWithRequestBuilder(provider: provider, venueLinkRequest: venueLinkRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Cloud VM plans
-     - GET /v1/pricing/cloud/plans
-     - Returns available cloud VM plans with specs and pricing. Plans range from $5/mo (Starter) to $3,999/mo (Ultra). All prices include zero egress fees. 
+     Links one of the caller org's cloud accounts and folds the Kubernetes clusters it finds there into the ONE Hanzo fleet, so they appear at /v1/clusters and can run work like any managed or bring-your-own cluster.
+     - POST /v1/cloud/{provider}/accounts
+     - Links one of the caller org's cloud accounts and folds the Kubernetes clusters it finds there into the ONE Hanzo fleet, so they appear at /v1/clusters and can run work like any managed or bring-your-own cluster. Answers 201.  The credential is verified LIVE against the provider BEFORE anything is stored, so a bad one is refused and nothing is written; it is then sealed in the org's own KMS namespace and never appears in a response, the account index, or a log line. Discovery follows, and a cluster that fails to fold is reported as DATA in the clusters list rather than failing the link.  Re-linking a label that already exists re-seals its credential and re-folds it, so this is how a rotated token is replaced. Requires org admin.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<PricingCloudPlansResponse> 
+       - name: bearer
+     - parameter provider: (path) Provider is the cloud being linked, from the path: digitalocean, aws, gcp or azure. 
+     - parameter venueLinkRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AccountFoldView> 
      */
-    open class func pricingListCloudPlansWithRequestBuilder() -> RequestBuilder<PricingCloudPlansResponse> {
-        let localVariablePath = "/v1/pricing/cloud/plans"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func postCloudByProviderAccountsWithRequestBuilder(provider: String, venueLinkRequest: VenueLinkRequest, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AccountFoldView> {
+        var localVariablePath = "/v1/cloud/{provider}/accounts"
+        let providerPreEscape = "\(APIHelper.mapValueToPathItem(provider))"
+        let providerPostEscape = providerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{provider}", with: providerPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: venueLinkRequest, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PricingCloudPlansResponse>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<AccountFoldView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Available cloud regions
+     Re-discovers one already-linked cloud account and reconciles what it folded: kubeconfigs are refreshed, clusters that appeared since the last sync are folded, and clusters this account folded that the provider no longer returns are detached — only this account's own, in the fleet shard it was linked into.
      
-     - returns: PricingCloudRegionsResponse
+     - parameter provider: (path) Provider is the cloud the account belongs to: digitalocean, aws, gcp or azure. An unknown provider is not found. 
+     - parameter label: (path) Label is the org-chosen name of the account within that provider. Empty means \&quot;default\&quot;; anything outside 1–64 of [A-Za-z0-9._-] is refused. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AccountFoldView
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func pricingListCloudRegions() async throws -> PricingCloudRegionsResponse {
-        return try await pricingListCloudRegionsWithRequestBuilder().execute().body
+    open class func postCloudByProviderAccountsByLabelSync(provider: String, label: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AccountFoldView {
+        return try await postCloudByProviderAccountsByLabelSyncWithRequestBuilder(provider: provider, label: label, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Available cloud regions
-     - GET /v1/pricing/cloud/regions
-     - Returns deployment regions with availability status.
+     Re-discovers one already-linked cloud account and reconciles what it folded: kubeconfigs are refreshed, clusters that appeared since the last sync are folded, and clusters this account folded that the provider no longer returns are detached — only this account's own, in the fleet shard it was linked into.
+     - POST /v1/cloud/{provider}/accounts/{label}/sync
+     - Re-discovers one already-linked cloud account and reconciles what it folded: kubeconfigs are refreshed, clusters that appeared since the last sync are folded, and clusters this account folded that the provider no longer returns are detached — only this account's own, in the fleet shard it was linked into.  It is idempotent, it reads the credential already sealed at link time, and a discovery failure leaves the existing fold set alone rather than mass-detaching it. An account this org has not linked is not found. Requires org admin.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<PricingCloudRegionsResponse> 
+       - name: bearer
+     - parameter provider: (path) Provider is the cloud the account belongs to: digitalocean, aws, gcp or azure. An unknown provider is not found. 
+     - parameter label: (path) Label is the org-chosen name of the account within that provider. Empty means \&quot;default\&quot;; anything outside 1–64 of [A-Za-z0-9._-] is refused. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AccountFoldView> 
      */
-    open class func pricingListCloudRegionsWithRequestBuilder() -> RequestBuilder<PricingCloudRegionsResponse> {
-        let localVariablePath = "/v1/pricing/cloud/regions"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func postCloudByProviderAccountsByLabelSyncWithRequestBuilder(provider: String, label: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AccountFoldView> {
+        var localVariablePath = "/v1/cloud/{provider}/accounts/{label}/sync"
+        let providerPreEscape = "\(APIHelper.mapValueToPathItem(provider))"
+        let providerPostEscape = providerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{provider}", with: providerPostEscape, options: .literal, range: nil)
+        let labelPreEscape = "\(APIHelper.mapValueToPathItem(label))"
+        let labelPostEscape = labelPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{label}", with: labelPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PricingCloudRegionsResponse>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<AccountFoldView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     ADMIN. Web analytics aggregate — top pages/referrers/countries, live visitors (analytics.hanzo.ai). Requires an admin-org IAM bearer.
-     
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func worldWorldCloudAnalytics() async throws -> AnyCodable {
-        return try await worldWorldCloudAnalyticsWithRequestBuilder().execute().body
-    }
-
-    /**
-     ADMIN. Web analytics aggregate — top pages/referrers/countries, live visitors (analytics.hanzo.ai). Requires an admin-org IAM bearer.
-     - GET /v1/world/cloud/analytics
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func worldWorldCloudAnalyticsWithRequestBuilder() -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/world/cloud/analytics"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Public BYO-GPU map data — connected GPU workers by region (real counts when a service token is wired server-side, else demo-flagged). No auth.
-     
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func worldWorldCloudByoGpu() async throws -> AnyCodable {
-        return try await worldWorldCloudByoGpuWithRequestBuilder().execute().body
-    }
-
-    /**
-     Public BYO-GPU map data — connected GPU workers by region (real counts when a service token is wired server-side, else demo-flagged). No auth.
-     - GET /v1/world/cloud/byo-gpu
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func worldWorldCloudByoGpuWithRequestBuilder() -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/world/cloud/byo-gpu"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Public blockchain-network map data — per-network block height, peer count, live flag, and modeled node positions (positionsModeled:true; counts are real, geo is illustrative). No auth.
-     
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func worldWorldCloudChainNodes() async throws -> AnyCodable {
-        return try await worldWorldCloudChainNodesWithRequestBuilder().execute().body
-    }
-
-    /**
-     Public blockchain-network map data — per-network block height, peer count, live flag, and modeled node positions (positionsModeled:true; counts are real, geo is illustrative). No auth.
-     - GET /v1/world/cloud/chain-nodes
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func worldWorldCloudChainNodesWithRequestBuilder() -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/world/cloud/chain-nodes"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     ADMIN. Machines + GPUs grouped by provider/region (visor). Requires an admin-org IAM bearer; 401 without a token, 403 for non-admin.
-     
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func worldWorldCloudFleet() async throws -> AnyCodable {
-        return try await worldWorldCloudFleetWithRequestBuilder().execute().body
-    }
-
-    /**
-     ADMIN. Machines + GPUs grouped by provider/region (visor). Requires an admin-org IAM bearer; 401 without a token, 403 for non-admin.
-     - GET /v1/world/cloud/fleet
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func worldWorldCloudFleetWithRequestBuilder() -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/world/cloud/fleet"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     * enum for parameter range
-     */
-    public enum ModelRange_worldWorldCloudLlm: String, CaseIterable {
-        case _24h = "24h"
-        case _7d = "7d"
-        case _30d = "30d"
-    }
-
-    /**
-     ADMIN. Platform LLM observability — per-model/per-org usage, tokens, cost, errors, trace latency (cloud /v1/admin/o11y). Requires an admin-org IAM bearer.
-     
-     - parameter range: (query)  (optional, default to ._24h)
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func worldWorldCloudLlm(range: ModelRange_worldWorldCloudLlm? = nil) async throws -> AnyCodable {
-        return try await worldWorldCloudLlmWithRequestBuilder(range: range).execute().body
-    }
-
-    /**
-     ADMIN. Platform LLM observability — per-model/per-org usage, tokens, cost, errors, trace latency (cloud /v1/admin/o11y). Requires an admin-org IAM bearer.
-     - GET /v1/world/cloud/llm
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter range: (query)  (optional, default to ._24h)
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func worldWorldCloudLlmWithRequestBuilder(range: ModelRange_worldWorldCloudLlm? = nil) -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/world/cloud/llm"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "range": (wrappedValue: range?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Public served-model catalog + scale (from the gateway /v1/models). No auth.
-     
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func worldWorldCloudModels() async throws -> AnyCodable {
-        return try await worldWorldCloudModelsWithRequestBuilder().execute().body
-    }
-
-    /**
-     Public served-model catalog + scale (from the gateway /v1/models). No auth.
-     - GET /v1/world/cloud/models
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func worldWorldCloudModelsWithRequestBuilder() -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/world/cloud/models"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Public platform aggregate (SaaS variant). Anonymized counts; demo-flagged unless a service token is wired server-side.
-     
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func worldWorldCloudPulse() async throws -> AnyCodable {
-        return try await worldWorldCloudPulseWithRequestBuilder().execute().body
-    }
-
-    /**
-     Public platform aggregate (SaaS variant). Anonymized counts; demo-flagged unless a service token is wired server-side.
-     - GET /v1/world/cloud-pulse
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func worldWorldCloudPulseWithRequestBuilder() -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/world/cloud-pulse"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     ADMIN. Per-subsystem health + RED metrics (o11y). Requires an admin-org IAM bearer.
-     
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func worldWorldCloudServices() async throws -> AnyCodable {
-        return try await worldWorldCloudServicesWithRequestBuilder().execute().body
-    }
-
-    /**
-     ADMIN. Per-subsystem health + RED metrics (o11y). Requires an admin-org IAM bearer.
-     - GET /v1/world/cloud/services
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func worldWorldCloudServicesWithRequestBuilder() -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/world/cloud/services"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Public request-traffic arcs — country-level origin → nearest region, weight-normalized (real analytics when a service token is wired server-side, else demo-flagged). No auth.
-     
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func worldWorldCloudTraffic() async throws -> AnyCodable {
-        return try await worldWorldCloudTrafficWithRequestBuilder().execute().body
-    }
-
-    /**
-     Public request-traffic arcs — country-level origin → nearest region, weight-normalized (real analytics when a service token is wired server-side, else demo-flagged). No auth.
-     - GET /v1/world/cloud/traffic
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func worldWorldCloudTrafficWithRequestBuilder() -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/world/cloud/traffic"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

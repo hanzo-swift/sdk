@@ -6,207 +6,220 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class TemplatesAPI {
 
     /**
-     List flow templates
+     Deletes the caller org's OWN starter kit.
      
-     - returns: AnyCodable
+     - parameter slug: (path) Slug is the starter kit to act on, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func autoListTemplates() async throws -> AnyCodable {
-        return try await autoListTemplatesWithRequestBuilder().execute().body
+    open class func deleteTemplatesBySlug(slug: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteTemplatesBySlugWithRequestBuilder(slug: slug, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     List flow templates
-     - GET /v1/auto/templates
+     Deletes the caller org's OWN starter kit.
+     - DELETE /v1/templates/{slug}
+     - Deletes the caller org's OWN starter kit. A slug they do not own is a 404, never a delete: the DELETE binds org.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<AnyCodable> 
+       - name: bearer
+     - parameter slug: (path) Slug is the starter kit to act on, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func autoListTemplatesWithRequestBuilder() -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/auto/templates"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get a template by id
-     
-     - parameter id: (path)  
-     - returns: FlowTemplate
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func flowGetTemplate(id: String) async throws -> FlowTemplate {
-        return try await flowGetTemplateWithRequestBuilder(id: id).execute().body
-    }
-
-    /**
-     Get a template by id
-     - GET /v1/flow/templates/{id}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter id: (path)  
-     - returns: RequestBuilder<FlowTemplate> 
-     */
-    open class func flowGetTemplateWithRequestBuilder(id: String) -> RequestBuilder<FlowTemplate> {
-        var localVariablePath = "/v1/flow/templates/{id}"
-        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
-        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<FlowTemplate>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     List flow templates
-     
-     - parameter pieces: (query)  (optional)
-     - parameter tags: (query)  (optional)
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func flowListTemplates(pieces: [String]? = nil, tags: [String]? = nil) async throws -> AnyCodable {
-        return try await flowListTemplatesWithRequestBuilder(pieces: pieces, tags: tags).execute().body
-    }
-
-    /**
-     List flow templates
-     - GET /v1/flow/templates
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter pieces: (query)  (optional)
-     - parameter tags: (query)  (optional)
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func flowListTemplatesWithRequestBuilder(pieces: [String]? = nil, tags: [String]? = nil) -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/flow/templates"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "pieces": (wrappedValue: pieces?.encodeToJSON(), isExplode: true),
-            "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     One template by slug
-     
-     - parameter slug: (path)  
-     - returns: TemplatesTemplate
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func templatesGetTemplate(slug: String) async throws -> TemplatesTemplate {
-        return try await templatesGetTemplateWithRequestBuilder(slug: slug).execute().body
-    }
-
-    /**
-     One template by slug
-     - GET /v1/templates/{slug}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter slug: (path)  
-     - returns: RequestBuilder<TemplatesTemplate> 
-     */
-    open class func templatesGetTemplateWithRequestBuilder(slug: String) -> RequestBuilder<TemplatesTemplate> {
+    open class func deleteTemplatesBySlugWithRequestBuilder(slug: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/templates/{slug}"
         let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
         let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<TemplatesTemplate>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     List the starter-kit catalog
+     Lists the public starter-kit catalog plus, for a validated caller, that org's own private kits.
      
-     - returns: TemplatesListTemplates200Response
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: KitList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func templatesListTemplates() async throws -> TemplatesListTemplates200Response {
-        return try await templatesListTemplatesWithRequestBuilder().execute().body
+    open class func getTemplates(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> KitList {
+        return try await getTemplatesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     List the starter-kit catalog
+     Lists the public starter-kit catalog plus, for a validated caller, that org's own private kits.
      - GET /v1/templates
+     - Lists the public starter-kit catalog plus, for a validated caller, that org's own private kits. No request field can widen the scope: the org comes from the validated principal, so an anonymous or cross-org caller structurally sees the public catalog only.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<TemplatesListTemplates200Response> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<KitList> 
      */
-    open class func templatesListTemplatesWithRequestBuilder() -> RequestBuilder<TemplatesListTemplates200Response> {
+    open class func getTemplatesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<KitList> {
         let localVariablePath = "/v1/templates"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<TemplatesListTemplates200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<KitList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns one starter kit: the caller org's own by that slug, else the public catalog's.
+     
+     - parameter slug: (path) Slug is the starter kit to act on, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: StarterKit
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getTemplatesBySlug(slug: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> StarterKit {
+        return try await getTemplatesBySlugWithRequestBuilder(slug: slug, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns one starter kit: the caller org's own by that slug, else the public catalog's.
+     - GET /v1/templates/{slug}
+     - Returns one starter kit: the caller org's own by that slug, else the public catalog's. A slug another org owns reads as not found.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter slug: (path) Slug is the starter kit to act on, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<StarterKit> 
+     */
+    open class func getTemplatesBySlugWithRequestBuilder(slug: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<StarterKit> {
+        var localVariablePath = "/v1/templates/{slug}"
+        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
+        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<StarterKit>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Creates a starter kit PRIVATE to the caller's org and answers 201 with the stored kit.
+     
+     - parameter publishKitIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: StarterKit
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postTemplates(publishKitIn: PublishKitIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> StarterKit {
+        return try await postTemplatesWithRequestBuilder(publishKitIn: publishKitIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Creates a starter kit PRIVATE to the caller's org and answers 201 with the stored kit.
+     - POST /v1/templates
+     - Creates a starter kit PRIVATE to the caller's org and answers 201 with the stored kit. The owner is stamped by the server, so a body \"org\" is never trusted; publishing over a public-catalog slug is 409, so a slug still names exactly one kit.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter publishKitIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<StarterKit> 
+     */
+    open class func postTemplatesWithRequestBuilder(publishKitIn: PublishKitIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<StarterKit> {
+        let localVariablePath = "/v1/templates"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: publishKitIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<StarterKit>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Overwrites the caller org's OWN starter kit at the path slug, answering the stored kit.
+     
+     - parameter slug: (path) Slug is the kit to replace, from the path. 
+     - parameter replaceKitIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: StarterKit
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func putTemplatesBySlug(slug: String, replaceKitIn: ReplaceKitIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> StarterKit {
+        return try await putTemplatesBySlugWithRequestBuilder(slug: slug, replaceKitIn: replaceKitIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Overwrites the caller org's OWN starter kit at the path slug, answering the stored kit.
+     - PUT /v1/templates/{slug}
+     - Overwrites the caller org's OWN starter kit at the path slug, answering the stored kit. A slug they do not own is 404, never a create: the UPDATE binds org, so a PUT can never reach another org's kit.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter slug: (path) Slug is the kit to replace, from the path. 
+     - parameter replaceKitIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<StarterKit> 
+     */
+    open class func putTemplatesBySlugWithRequestBuilder(slug: String, replaceKitIn: ReplaceKitIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<StarterKit> {
+        var localVariablePath = "/v1/templates/{slug}"
+        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
+        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: replaceKitIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<StarterKit>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

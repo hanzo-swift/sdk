@@ -6,39 +6,36 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
-public struct O11yMetricsResponseSummary: Codable, JSONEncodable, Hashable {
+public struct O11yMetricsResponseSummary: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var requests: Int64?
-    public var errors: Int64?
     public var errorRate: Double?
+    public var errors: Int?
     public var p95Ms: Double?
+    public var requests: Int?
 
-    public init(requests: Int64? = nil, errors: Int64? = nil, errorRate: Double? = nil, p95Ms: Double? = nil) {
-        self.requests = requests
-        self.errors = errors
+    public init(errorRate: Double? = nil, errors: Int? = nil, p95Ms: Double? = nil, requests: Int? = nil) {
         self.errorRate = errorRate
+        self.errors = errors
         self.p95Ms = p95Ms
+        self.requests = requests
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case requests
-        case errors
         case errorRate
+        case errors
         case p95Ms
+        case requests
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(requests, forKey: .requests)
-        try container.encodeIfPresent(errors, forKey: .errors)
         try container.encodeIfPresent(errorRate, forKey: .errorRate)
+        try container.encodeIfPresent(errors, forKey: .errors)
         try container.encodeIfPresent(p95Ms, forKey: .p95Ms)
+        try container.encodeIfPresent(requests, forKey: .requests)
     }
 }
 

@@ -6,878 +6,130 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class KeysAPI {
 
     /**
-     * enum for parameter all
-     */
-    public enum All_chatDeleteKeys: String, CaseIterable {
-        case _true = "true"
-    }
-
-    /**
-     Delete all user keys
+     Revokes the caller's own API key of the requested class.
      
-     - parameter all: (query)  
-     - returns: Void
+     - parameter type: (query) Type is the key class to act on: \&quot;secret\&quot; (sk-, session-equivalent, belongs on a server) or \&quot;publishable\&quot; (pk-, org-identifying, safe in a browser bundle). Omitted means secret, which is what every existing caller means. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RevokedKey
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatDeleteKeys(all: All_chatDeleteKeys) async throws {
-        return try await chatDeleteKeysWithRequestBuilder(all: all).execute().body
+    open class func deleteKeys(type: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RevokedKey {
+        return try await deleteKeysWithRequestBuilder(type: type, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Delete all user keys
-     - DELETE /v1/chat/keys
+     Revokes the caller's own API key of the requested class.
+     - DELETE /v1/keys
+     - Revokes the caller's own API key of the requested class. The class is the same field mint takes — `?type=publishable`, defaulting to secret — so revoking the key that ships in a browser bundle does not sign its holder out of their own API: the other key keeps working.  Revoking is how a key is replaced when it does not need replacing; minting the same class again rotates it in one step. IAM drops the credential immediately, but the gateway caches keys for a few minutes, so a request that beat the cache expiry may still be served.  For callers written against the older shape, the class is also accepted in a JSON request body, read only when `?type=` is absent.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter all: (query)  
-     - returns: RequestBuilder<Void> 
+       - name: bearer
+     - parameter type: (query) Type is the key class to act on: \&quot;secret\&quot; (sk-, session-equivalent, belongs on a server) or \&quot;publishable\&quot; (pk-, org-identifying, safe in a browser bundle). Omitted means secret, which is what every existing caller means. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<RevokedKey> 
      */
-    open class func chatDeleteKeysWithRequestBuilder(all: All_chatDeleteKeys) -> RequestBuilder<Void> {
-        let localVariablePath = "/v1/chat/keys"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func deleteKeysWithRequestBuilder(type: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RevokedKey> {
+        let localVariablePath = "/v1/keys"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "all": (wrappedValue: all.encodeToJSON(), isExplode: true),
+            "type": (wrappedValue: type?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ])
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = HanzoAPI.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<RevokedKey>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Delete a user key by name
+     Returns the caller's own API keys — every type they hold, read AUTHORITATIVELY from IAM rather than from the session claim, which lags a key minted moments ago.
      
-     - parameter name: (path)  
-     - returns: Void
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ApiKeyList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatDeleteKeysByname(name: String) async throws {
-        return try await chatDeleteKeysBynameWithRequestBuilder(name: name).execute().body
+    open class func getKeys(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ApiKeyList {
+        return try await getKeysWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Delete a user key by name
-     - DELETE /v1/chat/keys/{name}
+     Returns the caller's own API keys — every type they hold, read AUTHORITATIVELY from IAM rather than from the session claim, which lags a key minted moments ago.
+     - GET /v1/keys
+     - Returns the caller's own API keys — every type they hold, read AUTHORITATIVELY from IAM rather than from the session claim, which lags a key minted moments ago. No secret material comes back: a secret key is represented by its prefix, and only a publishable key (public by construction) carries its full value.  A transient IAM read failure reports an empty set rather than a 5xx, so the page shows the honest empty state and never a fabricated key.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter name: (path)  
-     - returns: RequestBuilder<Void> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ApiKeyList> 
      */
-    open class func chatDeleteKeysBynameWithRequestBuilder(name: String) -> RequestBuilder<Void> {
-        var localVariablePath = "/v1/chat/keys/{name}"
-        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
-        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func getKeysWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ApiKeyList> {
+        let localVariablePath = "/v1/keys"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = HanzoAPI.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ApiKeyList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Get user key expiry info
+     Creates — or rotates — the caller's API key of the requested type and returns it ONCE.
      
-     - parameter name: (query)  (optional)
-     - returns: AnyCodable
+     - parameter keyTypeIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: MintedKey
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatGetKeys(name: String? = nil) async throws -> AnyCodable {
-        return try await chatGetKeysWithRequestBuilder(name: name).execute().body
+    open class func postKeys(keyTypeIn: KeyTypeIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> MintedKey {
+        return try await postKeysWithRequestBuilder(keyTypeIn: keyTypeIn, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Get user key expiry info
-     - GET /v1/chat/keys
+     Creates — or rotates — the caller's API key of the requested type and returns it ONCE.
+     - POST /v1/keys
+     - Creates — or rotates — the caller's API key of the requested type and returns it ONCE. A real IAM failure surfaces as 502, never a fabricated key.  Rotating is what creating means here: a user holds one key per type, so the endpoint is idempotent by (caller, type) and the superseded credential stops working. Two live secrets for one user would make \"revoke my key\" a lie.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter name: (query)  (optional)
-     - returns: RequestBuilder<AnyCodable> 
+       - name: bearer
+     - parameter keyTypeIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<MintedKey> 
      */
-    open class func chatGetKeysWithRequestBuilder(name: String? = nil) -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/chat/keys"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "name": (wrappedValue: name?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Create or update a user API key
-     
-     - parameter chatPutKeysRequest: (body)  
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatPutKeys(chatPutKeysRequest: ChatPutKeysRequest) async throws -> AnyCodable {
-        return try await chatPutKeysWithRequestBuilder(chatPutKeysRequest: chatPutKeysRequest).execute().body
-    }
-
-    /**
-     Create or update a user API key
-     - PUT /v1/chat/keys
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter chatPutKeysRequest: (body)  
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func chatPutKeysWithRequestBuilder(chatPutKeysRequest: ChatPutKeysRequest) -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/chat/keys"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: chatPutKeysRequest)
+    open class func postKeysWithRequestBuilder(keyTypeIn: KeyTypeIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<MintedKey> {
+        let localVariablePath = "/v1/keys"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: keyTypeIn, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<MintedKey>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Delete key
-     
-     - parameter gatewayDeleteKeyRequest: (body)  
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func gatewayDeleteKey(gatewayDeleteKeyRequest: GatewayDeleteKeyRequest) async throws -> AnyCodable {
-        return try await gatewayDeleteKeyWithRequestBuilder(gatewayDeleteKeyRequest: gatewayDeleteKeyRequest).execute().body
-    }
-
-    /**
-     Delete key
-     - POST /v1/gateway/key/delete
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter gatewayDeleteKeyRequest: (body)  
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func gatewayDeleteKeyWithRequestBuilder(gatewayDeleteKeyRequest: GatewayDeleteKeyRequest) -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/gateway/key/delete"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: gatewayDeleteKeyRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Generate API key
-     
-     - parameter gatewayGenerateKeyRequest: (body)  
-     - returns: GatewayKey
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func gatewayGenerateKey(gatewayGenerateKeyRequest: GatewayGenerateKeyRequest) async throws -> GatewayKey {
-        return try await gatewayGenerateKeyWithRequestBuilder(gatewayGenerateKeyRequest: gatewayGenerateKeyRequest).execute().body
-    }
-
-    /**
-     Generate API key
-     - POST /v1/gateway/key/generate
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter gatewayGenerateKeyRequest: (body)  
-     - returns: RequestBuilder<GatewayKey> 
-     */
-    open class func gatewayGenerateKeyWithRequestBuilder(gatewayGenerateKeyRequest: GatewayGenerateKeyRequest) -> RequestBuilder<GatewayKey> {
-        let localVariablePath = "/v1/gateway/key/generate"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: gatewayGenerateKeyRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<GatewayKey>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get key info
-     
-     - parameter key: (query)  (optional)
-     - returns: GatewayKey
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func gatewayGetKeyInfo(key: String? = nil) async throws -> GatewayKey {
-        return try await gatewayGetKeyInfoWithRequestBuilder(key: key).execute().body
-    }
-
-    /**
-     Get key info
-     - GET /v1/gateway/key/info
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter key: (query)  (optional)
-     - returns: RequestBuilder<GatewayKey> 
-     */
-    open class func gatewayGetKeyInfoWithRequestBuilder(key: String? = nil) -> RequestBuilder<GatewayKey> {
-        let localVariablePath = "/v1/gateway/key/info"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "key": (wrappedValue: key?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<GatewayKey>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Update key
-     
-     - parameter gatewayUpdateKeyRequest: (body)  
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func gatewayUpdateKey(gatewayUpdateKeyRequest: GatewayUpdateKeyRequest) async throws -> AnyCodable {
-        return try await gatewayUpdateKeyWithRequestBuilder(gatewayUpdateKeyRequest: gatewayUpdateKeyRequest).execute().body
-    }
-
-    /**
-     Update key
-     - POST /v1/gateway/key/update
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter gatewayUpdateKeyRequest: (body)  
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func gatewayUpdateKeyWithRequestBuilder(gatewayUpdateKeyRequest: GatewayUpdateKeyRequest) -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/gateway/key/update"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: gatewayUpdateKeyRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Batch get/set/delete
-     
-     - parameter kvBatchOperationRequest: (body)  
-     - returns: KvBatchOperation200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kvBatchOperation(kvBatchOperationRequest: KvBatchOperationRequest) async throws -> KvBatchOperation200Response {
-        return try await kvBatchOperationWithRequestBuilder(kvBatchOperationRequest: kvBatchOperationRequest).execute().body
-    }
-
-    /**
-     Batch get/set/delete
-     - POST /v1/kv/batch
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter kvBatchOperationRequest: (body)  
-     - returns: RequestBuilder<KvBatchOperation200Response> 
-     */
-    open class func kvBatchOperationWithRequestBuilder(kvBatchOperationRequest: KvBatchOperationRequest) -> RequestBuilder<KvBatchOperation200Response> {
-        let localVariablePath = "/v1/kv/batch"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: kvBatchOperationRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<KvBatchOperation200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Delete key
-     
-     - parameter key: (path)  
-     - parameter namespace: (query)  (optional)
-     - returns: KvDeleteKey200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kvDeleteKey(key: String, namespace: String? = nil) async throws -> KvDeleteKey200Response {
-        return try await kvDeleteKeyWithRequestBuilder(key: key, namespace: namespace).execute().body
-    }
-
-    /**
-     Delete key
-     - DELETE /v1/kv/keys/{key}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter key: (path)  
-     - parameter namespace: (query)  (optional)
-     - returns: RequestBuilder<KvDeleteKey200Response> 
-     */
-    open class func kvDeleteKeyWithRequestBuilder(key: String, namespace: String? = nil) -> RequestBuilder<KvDeleteKey200Response> {
-        var localVariablePath = "/v1/kv/keys/{key}"
-        let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
-        let keyPostEscape = keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{key}", with: keyPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "namespace": (wrappedValue: namespace?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<KvDeleteKey200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get key value
-     
-     - parameter key: (path)  
-     - parameter namespace: (query)  (optional)
-     - returns: KvKeyValue
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kvGetKey(key: String, namespace: String? = nil) async throws -> KvKeyValue {
-        return try await kvGetKeyWithRequestBuilder(key: key, namespace: namespace).execute().body
-    }
-
-    /**
-     Get key value
-     - GET /v1/kv/keys/{key}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter key: (path)  
-     - parameter namespace: (query)  (optional)
-     - returns: RequestBuilder<KvKeyValue> 
-     */
-    open class func kvGetKeyWithRequestBuilder(key: String, namespace: String? = nil) -> RequestBuilder<KvKeyValue> {
-        var localVariablePath = "/v1/kv/keys/{key}"
-        let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
-        let keyPostEscape = keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{key}", with: keyPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "namespace": (wrappedValue: namespace?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<KvKeyValue>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Increment numeric key
-     
-     - parameter key: (path)  
-     - parameter namespace: (query)  (optional)
-     - parameter kvIncrKeyRequest: (body)  (optional)
-     - returns: AnalyticsGetSessionStats200ResponseValue
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kvIncrKey(key: String, namespace: String? = nil, kvIncrKeyRequest: KvIncrKeyRequest? = nil) async throws -> AnalyticsGetSessionStats200ResponseValue {
-        return try await kvIncrKeyWithRequestBuilder(key: key, namespace: namespace, kvIncrKeyRequest: kvIncrKeyRequest).execute().body
-    }
-
-    /**
-     Increment numeric key
-     - POST /v1/kv/keys/{key}/incr
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter key: (path)  
-     - parameter namespace: (query)  (optional)
-     - parameter kvIncrKeyRequest: (body)  (optional)
-     - returns: RequestBuilder<AnalyticsGetSessionStats200ResponseValue> 
-     */
-    open class func kvIncrKeyWithRequestBuilder(key: String, namespace: String? = nil, kvIncrKeyRequest: KvIncrKeyRequest? = nil) -> RequestBuilder<AnalyticsGetSessionStats200ResponseValue> {
-        var localVariablePath = "/v1/kv/keys/{key}/incr"
-        let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
-        let keyPostEscape = keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{key}", with: keyPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: kvIncrKeyRequest)
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "namespace": (wrappedValue: namespace?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnalyticsGetSessionStats200ResponseValue>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     * enum for parameter type
-     */
-    public enum ModelType_kvScanKeys: String, CaseIterable {
-        case string = "string"
-        case hash = "hash"
-        case list = "list"
-        case _set = "set"
-        case zset = "zset"
-        case stream = "stream"
-    }
-
-    /**
-     Scan keys
-     
-     - parameter pattern: (query) Glob-style pattern (e.g. user:*, session:*) (optional, default to "*")
-     - parameter type: (query)  (optional)
-     - parameter cursor: (query)  (optional, default to "0")
-     - parameter count: (query)  (optional, default to 100)
-     - parameter namespace: (query)  (optional)
-     - returns: KvScanKeys200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kvScanKeys(pattern: String? = nil, type: ModelType_kvScanKeys? = nil, cursor: String? = nil, count: Int? = nil, namespace: String? = nil) async throws -> KvScanKeys200Response {
-        return try await kvScanKeysWithRequestBuilder(pattern: pattern, type: type, cursor: cursor, count: count, namespace: namespace).execute().body
-    }
-
-    /**
-     Scan keys
-     - GET /v1/kv/keys
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter pattern: (query) Glob-style pattern (e.g. user:*, session:*) (optional, default to "*")
-     - parameter type: (query)  (optional)
-     - parameter cursor: (query)  (optional, default to "0")
-     - parameter count: (query)  (optional, default to 100)
-     - parameter namespace: (query)  (optional)
-     - returns: RequestBuilder<KvScanKeys200Response> 
-     */
-    open class func kvScanKeysWithRequestBuilder(pattern: String? = nil, type: ModelType_kvScanKeys? = nil, cursor: String? = nil, count: Int? = nil, namespace: String? = nil) -> RequestBuilder<KvScanKeys200Response> {
-        let localVariablePath = "/v1/kv/keys"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "pattern": (wrappedValue: pattern?.encodeToJSON(), isExplode: true),
-            "type": (wrappedValue: type?.encodeToJSON(), isExplode: true),
-            "cursor": (wrappedValue: cursor?.encodeToJSON(), isExplode: true),
-            "count": (wrappedValue: count?.encodeToJSON(), isExplode: true),
-            "namespace": (wrappedValue: namespace?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<KvScanKeys200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Set key value
-     
-     - parameter key: (path)  
-     - parameter kvSetKeyRequest: (body)  
-     - parameter namespace: (query)  (optional)
-     - returns: KvKeyValue
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kvSetKey(key: String, kvSetKeyRequest: KvSetKeyRequest, namespace: String? = nil) async throws -> KvKeyValue {
-        return try await kvSetKeyWithRequestBuilder(key: key, kvSetKeyRequest: kvSetKeyRequest, namespace: namespace).execute().body
-    }
-
-    /**
-     Set key value
-     - PUT /v1/kv/keys/{key}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter key: (path)  
-     - parameter kvSetKeyRequest: (body)  
-     - parameter namespace: (query)  (optional)
-     - returns: RequestBuilder<KvKeyValue> 
-     */
-    open class func kvSetKeyWithRequestBuilder(key: String, kvSetKeyRequest: KvSetKeyRequest, namespace: String? = nil) -> RequestBuilder<KvKeyValue> {
-        var localVariablePath = "/v1/kv/keys/{key}"
-        let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
-        let keyPostEscape = keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{key}", with: keyPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: kvSetKeyRequest)
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "namespace": (wrappedValue: namespace?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<KvKeyValue>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Set key TTL
-     
-     - parameter key: (path)  
-     - parameter kvSetKeyTTLRequest: (body)  
-     - parameter namespace: (query)  (optional)
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kvSetKeyTTL(key: String, kvSetKeyTTLRequest: KvSetKeyTTLRequest, namespace: String? = nil) async throws -> AnyCodable {
-        return try await kvSetKeyTTLWithRequestBuilder(key: key, kvSetKeyTTLRequest: kvSetKeyTTLRequest, namespace: namespace).execute().body
-    }
-
-    /**
-     Set key TTL
-     - PUT /v1/kv/keys/{key}/ttl
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter key: (path)  
-     - parameter kvSetKeyTTLRequest: (body)  
-     - parameter namespace: (query)  (optional)
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func kvSetKeyTTLWithRequestBuilder(key: String, kvSetKeyTTLRequest: KvSetKeyTTLRequest, namespace: String? = nil) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/kv/keys/{key}/ttl"
-        let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
-        let keyPostEscape = keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{key}", with: keyPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: kvSetKeyTTLRequest)
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "namespace": (wrappedValue: namespace?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Create an API key
-     
-     - parameter searchCreateApiKey: (body)  
-     - returns: SearchKeyView
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func searchCreateKey(searchCreateApiKey: SearchCreateApiKey) async throws -> SearchKeyView {
-        return try await searchCreateKeyWithRequestBuilder(searchCreateApiKey: searchCreateApiKey).execute().body
-    }
-
-    /**
-     Create an API key
-     - POST /v1/search/keys
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter searchCreateApiKey: (body)  
-     - returns: RequestBuilder<SearchKeyView> 
-     */
-    open class func searchCreateKeyWithRequestBuilder(searchCreateApiKey: SearchCreateApiKey) -> RequestBuilder<SearchKeyView> {
-        let localVariablePath = "/v1/search/keys"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: searchCreateApiKey)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<SearchKeyView>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Delete an API key
-     
-     - parameter keyOrUid: (path)  
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func searchDeleteKey(keyOrUid: String) async throws {
-        return try await searchDeleteKeyWithRequestBuilder(keyOrUid: keyOrUid).execute().body
-    }
-
-    /**
-     Delete an API key
-     - DELETE /v1/search/keys/{keyOrUid}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter keyOrUid: (path)  
-     - returns: RequestBuilder<Void> 
-     */
-    open class func searchDeleteKeyWithRequestBuilder(keyOrUid: String) -> RequestBuilder<Void> {
-        var localVariablePath = "/v1/search/keys/{keyOrUid}"
-        let keyOrUidPreEscape = "\(APIHelper.mapValueToPathItem(keyOrUid))"
-        let keyOrUidPostEscape = keyOrUidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{keyOrUid}", with: keyOrUidPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = HanzoAPI.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get an API key
-     
-     - parameter keyOrUid: (path)  
-     - returns: SearchKeyView
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func searchGetKey(keyOrUid: String) async throws -> SearchKeyView {
-        return try await searchGetKeyWithRequestBuilder(keyOrUid: keyOrUid).execute().body
-    }
-
-    /**
-     Get an API key
-     - GET /v1/search/keys/{keyOrUid}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter keyOrUid: (path)  
-     - returns: RequestBuilder<SearchKeyView> 
-     */
-    open class func searchGetKeyWithRequestBuilder(keyOrUid: String) -> RequestBuilder<SearchKeyView> {
-        var localVariablePath = "/v1/search/keys/{keyOrUid}"
-        let keyOrUidPreEscape = "\(APIHelper.mapValueToPathItem(keyOrUid))"
-        let keyOrUidPostEscape = keyOrUidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{keyOrUid}", with: keyOrUidPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<SearchKeyView>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     List API keys
-     
-     - parameter offset: (query)  (optional, default to 0)
-     - parameter limit: (query)  (optional, default to 20)
-     - returns: SearchPaginatedKeys
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func searchListKeys(offset: Int? = nil, limit: Int? = nil) async throws -> SearchPaginatedKeys {
-        return try await searchListKeysWithRequestBuilder(offset: offset, limit: limit).execute().body
-    }
-
-    /**
-     List API keys
-     - GET /v1/search/keys
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter offset: (query)  (optional, default to 0)
-     - parameter limit: (query)  (optional, default to 20)
-     - returns: RequestBuilder<SearchPaginatedKeys> 
-     */
-    open class func searchListKeysWithRequestBuilder(offset: Int? = nil, limit: Int? = nil) -> RequestBuilder<SearchPaginatedKeys> {
-        let localVariablePath = "/v1/search/keys"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "offset": (wrappedValue: offset?.encodeToJSON(), isExplode: true),
-            "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<SearchPaginatedKeys>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Update an API key
-     
-     - parameter keyOrUid: (path)  
-     - parameter searchUpdateKeyRequest: (body)  
-     - returns: SearchKeyView
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func searchUpdateKey(keyOrUid: String, searchUpdateKeyRequest: SearchUpdateKeyRequest) async throws -> SearchKeyView {
-        return try await searchUpdateKeyWithRequestBuilder(keyOrUid: keyOrUid, searchUpdateKeyRequest: searchUpdateKeyRequest).execute().body
-    }
-
-    /**
-     Update an API key
-     - PATCH /v1/search/keys/{keyOrUid}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter keyOrUid: (path)  
-     - parameter searchUpdateKeyRequest: (body)  
-     - returns: RequestBuilder<SearchKeyView> 
-     */
-    open class func searchUpdateKeyWithRequestBuilder(keyOrUid: String, searchUpdateKeyRequest: SearchUpdateKeyRequest) -> RequestBuilder<SearchKeyView> {
-        var localVariablePath = "/v1/search/keys/{keyOrUid}"
-        let keyOrUidPreEscape = "\(APIHelper.mapValueToPathItem(keyOrUid))"
-        let keyOrUidPostEscape = keyOrUidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{keyOrUid}", with: keyOrUidPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: searchUpdateKeyRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<SearchKeyView>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

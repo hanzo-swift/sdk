@@ -6,524 +6,174 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class SkillsAPI {
 
     /**
-     Add a comment to a skill
+     Removes one of the caller org's authored skills.
      
-     - parameter slug: (path)  
-     - parameter botCreateSkillCommentRequest: (body)  
-     - returns: BotComment
+     - parameter id: (path) ID is the skill to remove, from the path. It is the skill&#39;s name. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: SkillDeleted
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func botCreateSkillComment(slug: String, botCreateSkillCommentRequest: BotCreateSkillCommentRequest) async throws -> BotComment {
-        return try await botCreateSkillCommentWithRequestBuilder(slug: slug, botCreateSkillCommentRequest: botCreateSkillCommentRequest).execute().body
+    open class func deleteSkillsById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SkillDeleted {
+        return try await deleteSkillsByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Add a comment to a skill
-     - POST /v1/bot/skills/{slug}/comments
+     Removes one of the caller org's authored skills.
+     - DELETE /v1/skills/{id}
+     - Removes one of the caller org's authored skills. Scoped to the caller's org, so an id belonging to another tenant is never reached. Removing what is not there is not an error — the caller's intent is \"gone\", and it is.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter slug: (path)  
-     - parameter botCreateSkillCommentRequest: (body)  
-     - returns: RequestBuilder<BotComment> 
+       - name: bearer
+     - parameter id: (path) ID is the skill to remove, from the path. It is the skill&#39;s name. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<SkillDeleted> 
      */
-    open class func botCreateSkillCommentWithRequestBuilder(slug: String, botCreateSkillCommentRequest: BotCreateSkillCommentRequest) -> RequestBuilder<BotComment> {
-        var localVariablePath = "/v1/bot/skills/{slug}/comments"
-        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
-        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: botCreateSkillCommentRequest)
+    open class func deleteSkillsByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SkillDeleted> {
+        var localVariablePath = "/v1/skills/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<SkillDeleted>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Lists the skills the caller's org can reach — the brand's embedded catalogue plus the org's own authored ones — with each one's activation flag.
+     
+     - parameter activated: (query) Activated keeps only the tools activated for the caller&#39;s org and project, and only when it is exactly the string \&quot;true\&quot;. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: SourceToolList
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getSkills(activated: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SourceToolList {
+        return try await getSkillsWithRequestBuilder(activated: activated, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Lists the skills the caller's org can reach — the brand's embedded catalogue plus the org's own authored ones — with each one's activation flag.
+     - GET /v1/skills
+     - Lists the skills the caller's org can reach — the brand's embedded catalogue plus the org's own authored ones — with each one's activation flag. A skill is discovery and activation metadata attached to an agent, never called directly, so every entry here is non-dispatchable. It is GET /v1/tools narrowed to one source, not a second store: a name a caller sees here is the same entry, with the same activation state, that discovery reports.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter activated: (query) Activated keeps only the tools activated for the caller&#39;s org and project, and only when it is exactly the string \&quot;true\&quot;. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<SourceToolList> 
+     */
+    open class func getSkillsWithRequestBuilder(activated: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SourceToolList> {
+        let localVariablePath = "/v1/skills"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "activated": (wrappedValue: activated?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<SourceToolList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Lists the caller org's OWN skills with their SKILL.md bodies.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: AuthoredSkillList
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getSkillsAuthored(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AuthoredSkillList {
+        return try await getSkillsAuthoredWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Lists the caller org's OWN skills with their SKILL.md bodies.
+     - GET /v1/skills/authored
+     - Lists the caller org's OWN skills with their SKILL.md bodies. GET /v1/skills is the registry view — the brand's catalogue plus this org's, with activation flags and no bodies; this is the EDITABLE set, so it carries the content that view omits and nothing the org did not write.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<AuthoredSkillList> 
+     */
+    open class func getSkillsAuthoredWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AuthoredSkillList> {
+        let localVariablePath = "/v1/skills/authored"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<AuthoredSkillList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Adds or revises one of the caller org's own skills, and answers 201 with the stored record.
+     
+     - parameter skillIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: SkillWritten
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postSkills(skillIn: SkillIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SkillWritten {
+        return try await postSkillsWithRequestBuilder(skillIn: skillIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Adds or revises one of the caller org's own skills, and answers 201 with the stored record.
+     - POST /v1/skills
+     - Adds or revises one of the caller org's own skills, and answers 201 with the stored record. The id is derived from the name, so writing the same name again REVISES that skill rather than accumulating near-duplicates that would then collide in the registry. An org's skills are private to it by construction — they live in a different store from the brand's embedded catalogue and have no path into the public gallery — and a brand skill always wins a name collision against an org's.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter skillIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<SkillWritten> 
+     */
+    open class func postSkillsWithRequestBuilder(skillIn: SkillIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SkillWritten> {
+        let localVariablePath = "/v1/skills"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: skillIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<BotComment>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<SkillWritten>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Soft-delete a skill (owner or admin only)
-     
-     - parameter slug: (path)  
-     - returns: AnalyticsHeartbeat200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func botDeleteSkill(slug: String) async throws -> AnalyticsHeartbeat200Response {
-        return try await botDeleteSkillWithRequestBuilder(slug: slug).execute().body
-    }
-
-    /**
-     Soft-delete a skill (owner or admin only)
-     - DELETE /v1/bot/skills/{slug}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter slug: (path)  
-     - returns: RequestBuilder<AnalyticsHeartbeat200Response> 
-     */
-    open class func botDeleteSkillWithRequestBuilder(slug: String) -> RequestBuilder<AnalyticsHeartbeat200Response> {
-        var localVariablePath = "/v1/bot/skills/{slug}"
-        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
-        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnalyticsHeartbeat200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Delete a comment (author or admin only)
-     
-     - parameter slug: (path)  
-     - parameter commentId: (path)  
-     - returns: AnalyticsHeartbeat200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func botDeleteSkillComment(slug: String, commentId: UUID) async throws -> AnalyticsHeartbeat200Response {
-        return try await botDeleteSkillCommentWithRequestBuilder(slug: slug, commentId: commentId).execute().body
-    }
-
-    /**
-     Delete a comment (author or admin only)
-     - DELETE /v1/bot/skills/{slug}/comments/{commentId}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter slug: (path)  
-     - parameter commentId: (path)  
-     - returns: RequestBuilder<AnalyticsHeartbeat200Response> 
-     */
-    open class func botDeleteSkillCommentWithRequestBuilder(slug: String, commentId: UUID) -> RequestBuilder<AnalyticsHeartbeat200Response> {
-        var localVariablePath = "/v1/bot/skills/{slug}/comments/{commentId}"
-        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
-        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
-        let commentIdPreEscape = "\(APIHelper.mapValueToPathItem(commentId))"
-        let commentIdPostEscape = commentIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{commentId}", with: commentIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnalyticsHeartbeat200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get skill details by slug
-     
-     - parameter slug: (path)  
-     - returns: BotSkill
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func botGetSkill(slug: String) async throws -> BotSkill {
-        return try await botGetSkillWithRequestBuilder(slug: slug).execute().body
-    }
-
-    /**
-     Get skill details by slug
-     - GET /v1/bot/skills/{slug}
-     - parameter slug: (path)  
-     - returns: RequestBuilder<BotSkill> 
-     */
-    open class func botGetSkillWithRequestBuilder(slug: String) -> RequestBuilder<BotSkill> {
-        var localVariablePath = "/v1/bot/skills/{slug}"
-        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
-        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<BotSkill>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
-    }
-
-    /**
-     Check if current user has starred this skill
-     
-     - parameter slug: (path)  
-     - returns: BotToggleSkillStar200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func botGetSkillStarStatus(slug: String) async throws -> BotToggleSkillStar200Response {
-        return try await botGetSkillStarStatusWithRequestBuilder(slug: slug).execute().body
-    }
-
-    /**
-     Check if current user has starred this skill
-     - GET /v1/bot/skills/{slug}/stars/me
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter slug: (path)  
-     - returns: RequestBuilder<BotToggleSkillStar200Response> 
-     */
-    open class func botGetSkillStarStatusWithRequestBuilder(slug: String) -> RequestBuilder<BotToggleSkillStar200Response> {
-        var localVariablePath = "/v1/bot/skills/{slug}/stars/me"
-        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
-        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<BotToggleSkillStar200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get file listing for a specific version
-     
-     - parameter slug: (path)  
-     - parameter version: (path)  
-     - returns: BotGetSkillVersionFiles200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func botGetSkillVersionFiles(slug: String, version: String) async throws -> BotGetSkillVersionFiles200Response {
-        return try await botGetSkillVersionFilesWithRequestBuilder(slug: slug, version: version).execute().body
-    }
-
-    /**
-     Get file listing for a specific version
-     - GET /v1/bot/skills/{slug}/versions/{version}/files
-     - parameter slug: (path)  
-     - parameter version: (path)  
-     - returns: RequestBuilder<BotGetSkillVersionFiles200Response> 
-     */
-    open class func botGetSkillVersionFilesWithRequestBuilder(slug: String, version: String) -> RequestBuilder<BotGetSkillVersionFiles200Response> {
-        var localVariablePath = "/v1/bot/skills/{slug}/versions/{version}/files"
-        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
-        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
-        let versionPreEscape = "\(APIHelper.mapValueToPathItem(version))"
-        let versionPostEscape = versionPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{version}", with: versionPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<BotGetSkillVersionFiles200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
-    }
-
-    /**
-     List comments on a skill
-     
-     - parameter slug: (path)  
-     - returns: BotListSkillComments200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func botListSkillComments(slug: String) async throws -> BotListSkillComments200Response {
-        return try await botListSkillCommentsWithRequestBuilder(slug: slug).execute().body
-    }
-
-    /**
-     List comments on a skill
-     - GET /v1/bot/skills/{slug}/comments
-     - parameter slug: (path)  
-     - returns: RequestBuilder<BotListSkillComments200Response> 
-     */
-    open class func botListSkillCommentsWithRequestBuilder(slug: String) -> RequestBuilder<BotListSkillComments200Response> {
-        var localVariablePath = "/v1/bot/skills/{slug}/comments"
-        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
-        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<BotListSkillComments200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
-    }
-
-    /**
-     List versions of a skill
-     
-     - parameter slug: (path)  
-     - parameter limit: (query)  (optional, default to 50)
-     - returns: BotListSkillVersions200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func botListSkillVersions(slug: String, limit: Int? = nil) async throws -> BotListSkillVersions200Response {
-        return try await botListSkillVersionsWithRequestBuilder(slug: slug, limit: limit).execute().body
-    }
-
-    /**
-     List versions of a skill
-     - GET /v1/bot/skills/{slug}/versions
-     - parameter slug: (path)  
-     - parameter limit: (query)  (optional, default to 50)
-     - returns: RequestBuilder<BotListSkillVersions200Response> 
-     */
-    open class func botListSkillVersionsWithRequestBuilder(slug: String, limit: Int? = nil) -> RequestBuilder<BotListSkillVersions200Response> {
-        var localVariablePath = "/v1/bot/skills/{slug}/versions"
-        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
-        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<BotListSkillVersions200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
-    }
-
-    /**
-     * enum for parameter sort
-     */
-    public enum Sort_botListSkills: String, CaseIterable {
-        case updated = "updated"
-        case downloads = "downloads"
-        case stars = "stars"
-        case created = "created"
-    }
-
-    /**
-     List published skills (paginated)
-     
-     - parameter sort: (query)  (optional, default to .updated)
-     - parameter limit: (query)  (optional, default to 50)
-     - parameter cursor: (query) Cursor for pagination (updatedAt ISO timestamp) (optional)
-     - parameter batch: (query) Filter by batch grouping key (optional)
-     - returns: BotListSkills200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func botListSkills(sort: Sort_botListSkills? = nil, limit: Int? = nil, cursor: Date? = nil, batch: String? = nil) async throws -> BotListSkills200Response {
-        return try await botListSkillsWithRequestBuilder(sort: sort, limit: limit, cursor: cursor, batch: batch).execute().body
-    }
-
-    /**
-     List published skills (paginated)
-     - GET /v1/bot/skills
-     - parameter sort: (query)  (optional, default to .updated)
-     - parameter limit: (query)  (optional, default to 50)
-     - parameter cursor: (query) Cursor for pagination (updatedAt ISO timestamp) (optional)
-     - parameter batch: (query) Filter by batch grouping key (optional)
-     - returns: RequestBuilder<BotListSkills200Response> 
-     */
-    open class func botListSkillsWithRequestBuilder(sort: Sort_botListSkills? = nil, limit: Int? = nil, cursor: Date? = nil, batch: String? = nil) -> RequestBuilder<BotListSkills200Response> {
-        let localVariablePath = "/v1/bot/skills"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "sort": (wrappedValue: sort?.encodeToJSON(), isExplode: true),
-            "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
-            "cursor": (wrappedValue: cursor?.encodeToJSON(), isExplode: true),
-            "batch": (wrappedValue: batch?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<BotListSkills200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
-    }
-
-    /**
-     Publish a new version of a skill (creates skill if new)
-     
-     - parameter slug: (path)  
-     - parameter botPublishSkillVersionRequest: (body)  
-     - returns: BotPublishSkillVersion200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func botPublishSkillVersion(slug: String, botPublishSkillVersionRequest: BotPublishSkillVersionRequest) async throws -> BotPublishSkillVersion200Response {
-        return try await botPublishSkillVersionWithRequestBuilder(slug: slug, botPublishSkillVersionRequest: botPublishSkillVersionRequest).execute().body
-    }
-
-    /**
-     Publish a new version of a skill (creates skill if new)
-     - POST /v1/bot/skills/{slug}/publish
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter slug: (path)  
-     - parameter botPublishSkillVersionRequest: (body)  
-     - returns: RequestBuilder<BotPublishSkillVersion200Response> 
-     */
-    open class func botPublishSkillVersionWithRequestBuilder(slug: String, botPublishSkillVersionRequest: BotPublishSkillVersionRequest) -> RequestBuilder<BotPublishSkillVersion200Response> {
-        var localVariablePath = "/v1/bot/skills/{slug}/publish"
-        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
-        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: botPublishSkillVersionRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<BotPublishSkillVersion200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Star or unstar a skill (toggle)
-     
-     - parameter slug: (path)  
-     - returns: BotToggleSkillStar200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func botToggleSkillStar(slug: String) async throws -> BotToggleSkillStar200Response {
-        return try await botToggleSkillStarWithRequestBuilder(slug: slug).execute().body
-    }
-
-    /**
-     Star or unstar a skill (toggle)
-     - POST /v1/bot/skills/{slug}/stars
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter slug: (path)  
-     - returns: RequestBuilder<BotToggleSkillStar200Response> 
-     */
-    open class func botToggleSkillStarWithRequestBuilder(slug: String) -> RequestBuilder<BotToggleSkillStar200Response> {
-        var localVariablePath = "/v1/bot/skills/{slug}/stars"
-        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
-        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<BotToggleSkillStar200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Restore a soft-deleted skill
-     
-     - parameter slug: (path)  
-     - returns: AnalyticsHeartbeat200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func botUndeleteSkill(slug: String) async throws -> AnalyticsHeartbeat200Response {
-        return try await botUndeleteSkillWithRequestBuilder(slug: slug).execute().body
-    }
-
-    /**
-     Restore a soft-deleted skill
-     - POST /v1/bot/skills/{slug}/undelete
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter slug: (path)  
-     - returns: RequestBuilder<AnalyticsHeartbeat200Response> 
-     */
-    open class func botUndeleteSkillWithRequestBuilder(slug: String) -> RequestBuilder<AnalyticsHeartbeat200Response> {
-        var localVariablePath = "/v1/bot/skills/{slug}/undelete"
-        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
-        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnalyticsHeartbeat200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

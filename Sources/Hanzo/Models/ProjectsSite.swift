@@ -6,46 +6,40 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
-/** A live site in the org&#39;s list — a live project at its canonical live URL. */
-public struct ProjectsSite: Codable, JSONEncodable, Hashable {
+public struct ProjectsSite: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var slug: String
-    /** Canonical live URL, https://<slug>.<apex>. */
-    public var url: String
-    public var name: String
-    /** Always \"live\" in this list. */
-    public var status: String
-    public var updatedAt: Int64
+    public var name: String?
+    public var slug: String?
+    public var status: String?
+    public var updatedAt: Int?
+    public var url: String?
 
-    public init(slug: String, url: String, name: String, status: String, updatedAt: Int64) {
-        self.slug = slug
-        self.url = url
+    public init(name: String? = nil, slug: String? = nil, status: String? = nil, updatedAt: Int? = nil, url: String? = nil) {
         self.name = name
+        self.slug = slug
         self.status = status
         self.updatedAt = updatedAt
+        self.url = url
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case slug
-        case url
         case name
+        case slug
         case status
         case updatedAt
+        case url
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(slug, forKey: .slug)
-        try container.encode(url, forKey: .url)
-        try container.encode(name, forKey: .name)
-        try container.encode(status, forKey: .status)
-        try container.encode(updatedAt, forKey: .updatedAt)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(slug, forKey: .slug)
+        try container.encodeIfPresent(status, forKey: .status)
+        try container.encodeIfPresent(updatedAt, forKey: .updatedAt)
+        try container.encodeIfPresent(url, forKey: .url)
     }
 }
 

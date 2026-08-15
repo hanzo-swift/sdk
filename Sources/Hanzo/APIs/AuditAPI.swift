@@ -6,176 +6,74 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class AuditAPI {
 
     /**
-     Query the tamper-evident audit trail
+     List reads the caller's OWN org audit trail, newest first, with the total the filter matched so a console can page it.
      
-     - parameter org: (query)  (optional)
-     - parameter sub: (query)  (optional)
-     - parameter action: (query)  (optional)
-     - parameter resource: (query)  (optional)
-     - parameter result: (query)  (optional)
-     - parameter since: (query)  (optional)
-     - parameter until: (query)  (optional)
-     - parameter pageSize: (query)  (optional, default to 100)
-     - parameter p: (query)  (optional, default to 1)
-     - returns: AdminAdminListAudit200Response
+     - parameter sub: (query) Sub narrows the trail to one actor — the validated subject that made the request. Blank means every actor in the org. (optional)
+     - parameter action: (query) Action narrows it to one action name, e.g. \&quot;machine.create\&quot;. (optional)
+     - parameter resource: (query) Resource narrows it to one resource TYPE, e.g. \&quot;apikey\&quot;. (optional)
+     - parameter resourceId: (query) ResourceID narrows it to one resource instance. (optional)
+     - parameter result: (query) Result narrows it to one outcome: \&quot;success\&quot;, \&quot;deny\&quot; or \&quot;error\&quot;. (optional)
+     - parameter since: (query) Since is the inclusive lower time bound, RFC3339. An unparseable value is ignored rather than refused — one malformed filter must not hide the trail. (optional)
+     - parameter until: (query) Until is the upper time bound, RFC3339, with the same tolerance. (optional)
+     - parameter pageSize: (query) PageSize is rows per page, default 100. A value that is not a positive integer falls back to the default. (optional)
+     - parameter p: (query) Page is the 1-based page number, driving the offset. Anything below 2 reads the first page. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: TrailPage
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func adminAdminListAudit(org: String? = nil, sub: String? = nil, action: String? = nil, resource: String? = nil, result: String? = nil, since: Date? = nil, until: Date? = nil, pageSize: Int? = nil, p: Int? = nil) async throws -> AdminAdminListAudit200Response {
-        return try await adminAdminListAuditWithRequestBuilder(org: org, sub: sub, action: action, resource: resource, result: result, since: since, until: until, pageSize: pageSize, p: p).execute().body
+    open class func getAudit(sub: String? = nil, action: String? = nil, resource: String? = nil, resourceId: String? = nil, result: String? = nil, since: String? = nil, until: String? = nil, pageSize: String? = nil, p: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> TrailPage {
+        return try await getAuditWithRequestBuilder(sub: sub, action: action, resource: resource, resourceId: resourceId, result: result, since: since, until: until, pageSize: pageSize, p: p, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Query the tamper-evident audit trail
-     - GET /v1/admin/audit
+     List reads the caller's OWN org audit trail, newest first, with the total the filter matched so a console can page it.
+     - GET /v1/audit
+     - List reads the caller's OWN org audit trail, newest first, with the total the filter matched so a console can page it.  Every filter is optional and applies WITHIN the caller's org — the org itself is the validated principal's and can never be widened by a request. Fails closed: an absent principal is a true \"not signed in\" (401), and a deployment with no local tamper-evident store answers an honest 501 rather than silently serving somebody else's trail.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter org: (query)  (optional)
-     - parameter sub: (query)  (optional)
-     - parameter action: (query)  (optional)
-     - parameter resource: (query)  (optional)
-     - parameter result: (query)  (optional)
-     - parameter since: (query)  (optional)
-     - parameter until: (query)  (optional)
-     - parameter pageSize: (query)  (optional, default to 100)
-     - parameter p: (query)  (optional, default to 1)
-     - returns: RequestBuilder<AdminAdminListAudit200Response> 
+       - name: bearer
+     - parameter sub: (query) Sub narrows the trail to one actor — the validated subject that made the request. Blank means every actor in the org. (optional)
+     - parameter action: (query) Action narrows it to one action name, e.g. \&quot;machine.create\&quot;. (optional)
+     - parameter resource: (query) Resource narrows it to one resource TYPE, e.g. \&quot;apikey\&quot;. (optional)
+     - parameter resourceId: (query) ResourceID narrows it to one resource instance. (optional)
+     - parameter result: (query) Result narrows it to one outcome: \&quot;success\&quot;, \&quot;deny\&quot; or \&quot;error\&quot;. (optional)
+     - parameter since: (query) Since is the inclusive lower time bound, RFC3339. An unparseable value is ignored rather than refused — one malformed filter must not hide the trail. (optional)
+     - parameter until: (query) Until is the upper time bound, RFC3339, with the same tolerance. (optional)
+     - parameter pageSize: (query) PageSize is rows per page, default 100. A value that is not a positive integer falls back to the default. (optional)
+     - parameter p: (query) Page is the 1-based page number, driving the offset. Anything below 2 reads the first page. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<TrailPage> 
      */
-    open class func adminAdminListAuditWithRequestBuilder(org: String? = nil, sub: String? = nil, action: String? = nil, resource: String? = nil, result: String? = nil, since: Date? = nil, until: Date? = nil, pageSize: Int? = nil, p: Int? = nil) -> RequestBuilder<AdminAdminListAudit200Response> {
-        let localVariablePath = "/v1/admin/audit"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func getAuditWithRequestBuilder(sub: String? = nil, action: String? = nil, resource: String? = nil, resourceId: String? = nil, result: String? = nil, since: String? = nil, until: String? = nil, pageSize: String? = nil, p: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<TrailPage> {
+        let localVariablePath = "/v1/audit"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "org": (wrappedValue: org?.encodeToJSON(), isExplode: true),
-            "sub": (wrappedValue: sub?.encodeToJSON(), isExplode: true),
-            "action": (wrappedValue: action?.encodeToJSON(), isExplode: true),
-            "resource": (wrappedValue: resource?.encodeToJSON(), isExplode: true),
-            "result": (wrappedValue: result?.encodeToJSON(), isExplode: true),
-            "since": (wrappedValue: since?.encodeToJSON(), isExplode: true),
-            "until": (wrappedValue: until?.encodeToJSON(), isExplode: true),
-            "pageSize": (wrappedValue: pageSize?.encodeToJSON(), isExplode: true),
-            "p": (wrappedValue: p?.encodeToJSON(), isExplode: true),
+            "sub": (wrappedValue: sub?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "action": (wrappedValue: action?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "resource": (wrappedValue: resource?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "resourceId": (wrappedValue: resourceId?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "result": (wrappedValue: result?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "since": (wrappedValue: since?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "until": (wrappedValue: until?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "pageSize": (wrappedValue: pageSize?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "p": (wrappedValue: p?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ])
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AdminAdminListAudit200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<TrailPage>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Verify audit-chain integrity
-     
-     - returns: AdminAdminVerifyAudit200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func adminAdminVerifyAudit() async throws -> AdminAdminVerifyAudit200Response {
-        return try await adminAdminVerifyAuditWithRequestBuilder().execute().body
-    }
-
-    /**
-     Verify audit-chain integrity
-     - GET /v1/admin/audit/verify
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<AdminAdminVerifyAudit200Response> 
-     */
-    open class func adminAdminVerifyAuditWithRequestBuilder() -> RequestBuilder<AdminAdminVerifyAudit200Response> {
-        let localVariablePath = "/v1/admin/audit/verify"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AdminAdminVerifyAudit200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     * enum for parameter result
-     */
-    public enum Result_guardGetAuditLog: String, CaseIterable {
-        case clean = "clean"
-        case redacted = "redacted"
-        case blocked = "blocked"
-    }
-
-    /**
-     Get audit log
-     
-     - parameter userId: (query) Filter by user ID (optional)
-     - parameter sessionId: (query) Filter by session ID (optional)
-     - parameter result: (query) Filter by result type (optional)
-     - parameter since: (query) Entries after this timestamp (optional)
-     - parameter until: (query) Entries before this timestamp (optional)
-     - parameter limit: (query)  (optional, default to 100)
-     - returns: GuardGetAuditLog200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func guardGetAuditLog(userId: String? = nil, sessionId: String? = nil, result: Result_guardGetAuditLog? = nil, since: Date? = nil, until: Date? = nil, limit: Int? = nil) async throws -> GuardGetAuditLog200Response {
-        return try await guardGetAuditLogWithRequestBuilder(userId: userId, sessionId: sessionId, result: result, since: since, until: until, limit: limit).execute().body
-    }
-
-    /**
-     Get audit log
-     - GET /v1/guard/audit
-     - Retrieve audit log entries in JSONL format.
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter userId: (query) Filter by user ID (optional)
-     - parameter sessionId: (query) Filter by session ID (optional)
-     - parameter result: (query) Filter by result type (optional)
-     - parameter since: (query) Entries after this timestamp (optional)
-     - parameter until: (query) Entries before this timestamp (optional)
-     - parameter limit: (query)  (optional, default to 100)
-     - returns: RequestBuilder<GuardGetAuditLog200Response> 
-     */
-    open class func guardGetAuditLogWithRequestBuilder(userId: String? = nil, sessionId: String? = nil, result: Result_guardGetAuditLog? = nil, since: Date? = nil, until: Date? = nil, limit: Int? = nil) -> RequestBuilder<GuardGetAuditLog200Response> {
-        let localVariablePath = "/v1/guard/audit"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "user_id": (wrappedValue: userId?.encodeToJSON(), isExplode: true),
-            "session_id": (wrappedValue: sessionId?.encodeToJSON(), isExplode: true),
-            "result": (wrappedValue: result?.encodeToJSON(), isExplode: true),
-            "since": (wrappedValue: since?.encodeToJSON(), isExplode: true),
-            "until": (wrappedValue: until?.encodeToJSON(), isExplode: true),
-            "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<GuardGetAuditLog200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

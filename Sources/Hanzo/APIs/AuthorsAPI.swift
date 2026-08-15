@@ -6,124 +6,212 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class AuthorsAPI {
 
     /**
-     Connect GitHub
+     Returns the caller's author-program dashboard: enrolment status, linked forge login, verified repositories and owner-wide claims, recorded deploys, accrued / pending / paid royalty, and the payout history.
      
-     - parameter authorsConnectRequest: (body)  (optional)
-     - returns: AuthorsConnectResponse
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: [String: JSONValue]
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func authorsConnectAuthor(authorsConnectRequest: AuthorsConnectRequest? = nil) async throws -> AuthorsConnectResponse {
-        return try await authorsConnectAuthorWithRequestBuilder(authorsConnectRequest: authorsConnectRequest).execute().body
+    open class func getAuthors(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> [String: JSONValue] {
+        return try await getAuthorsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Connect GitHub
-     - POST /v1/authors/connect
-     - Enrolls the caller's org as an author at status `connected`, idempotently. Links a GitHub login — from IAM's linked account (identity verified) when present, else the supplied `githubLogin` — and mints a stable verify code. Returns 201 when newly created, 200 when already connected. 
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter authorsConnectRequest: (body)  (optional)
-     - returns: RequestBuilder<AuthorsConnectResponse> 
-     */
-    open class func authorsConnectAuthorWithRequestBuilder(authorsConnectRequest: AuthorsConnectRequest? = nil) -> RequestBuilder<AuthorsConnectResponse> {
-        let localVariablePath = "/v1/authors/connect"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: authorsConnectRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AuthorsConnectResponse>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get my author program
-     
-     - returns: AuthorsGetMyAuthors200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func authorsGetMyAuthors() async throws -> AuthorsGetMyAuthors200Response {
-        return try await authorsGetMyAuthorsWithRequestBuilder().execute().body
-    }
-
-    /**
-     Get my author program
+     Returns the caller's author-program dashboard: enrolment status, linked forge login, verified repositories and owner-wide claims, recorded deploys, accrued / pending / paid royalty, and the payout history.
      - GET /v1/authors
-     - Returns the caller org's author dashboard. If the org has not connected, a \"not enrolled\" shape is returned (`isAuthor: false`) so the console shows the connect form. For an APPROVED author, an opportunistic accrual sweep runs first so the dashboard is self-updating. 
+     - Returns the caller's author-program dashboard: enrolment status, linked forge login, verified repositories and owner-wide claims, recorded deploys, accrued / pending / paid royalty, and the payout history.  It answers ONE OF TWO SHAPES from this address. An org that has never connected gets {\"isAuthor\": false, \"defaultShareBps\", \"badgeBase\"} — an honest \"not enrolled\" rather than a 404, so the console can render the connect form. An enrolled org gets the dashboard: isAuthor, id, status, githubLogin, verified, verifyCode, verifyFile, verifySnippet, shareBps, badgeBase, repos, orgs, deploys, accruedCents, pendingCents, paidCents, payouts and ledger.  For an APPROVED author this read ALSO runs the accrual sweep opportunistically, so the dashboard is self-updating. That is why the royalty AUDIT lives at its own address: an audit must not move the money it is auditing.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<AuthorsGetMyAuthors200Response> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<[String: JSONValue]> 
      */
-    open class func authorsGetMyAuthorsWithRequestBuilder() -> RequestBuilder<AuthorsGetMyAuthors200Response> {
+    open class func getAuthorsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<[String: JSONValue]> {
         let localVariablePath = "/v1/authors"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AuthorsGetMyAuthors200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<[String: JSONValue]>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Verify a repo
+     Returns the AUDIT TRAIL behind the caller's own royalty: every ledger row with the spend it was computed from, the share applied at the time, the platform's matching half, whether each row satisfies the formula, and the attribution edges that already existed when the row was written.
      
-     - parameter authorsVerifyRepoRequest: (body)  
-     - returns: AuthorsVerifyRepoResponse
+     - parameter period: (query) Period is the UTC accrual month, YYYY-MM. Empty means every period; any other shape is refused with 400, because the period is echoed back and used as a SQL filter and is only ever accepted in the one form the accrual latch mints. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: [String: JSONValue]
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func authorsVerifyRepo(authorsVerifyRepoRequest: AuthorsVerifyRepoRequest) async throws -> AuthorsVerifyRepoResponse {
-        return try await authorsVerifyRepoWithRequestBuilder(authorsVerifyRepoRequest: authorsVerifyRepoRequest).execute().body
+    open class func getAuthorsBasis(period: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> [String: JSONValue] {
+        return try await getAuthorsBasisWithRequestBuilder(period: period, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Verify a repo
-     - POST /v1/authors/repos/verify
-     - Verifies the caller owns a repo and records it as a verified author repo. Ownership is proven by an IAM-linked GitHub token (admin/push) OR a `hanzo.json` on the default branch carrying the author's verify code. The author must have connected first. Returns 201 when newly verified, 200 when already recorded. 
+     Returns the AUDIT TRAIL behind the caller's own royalty: every ledger row with the spend it was computed from, the share applied at the time, the platform's matching half, whether each row satisfies the formula, and the attribution edges that already existed when the row was written.
+     - GET /v1/authors/basis
+     - Returns the AUDIT TRAIL behind the caller's own royalty: every ledger row with the spend it was computed from, the share applied at the time, the platform's matching half, whether each row satisfies the formula, and the attribution edges that already existed when the row was written.  It answers ONE OF TWO SHAPES. An org that has never connected gets {\"isAuthor\": false, \"defaultShareBps\"} — never a 404, which would answer \"is this org an author?\" for anyone who asked. An enrolled org gets the basis: isAuthor, id, status, asOf, shareBps, platformShareBps, defaultShareBps, shareSource, settlesTo, method (the formula, the rate card and the sizing), ledger, reconciliation, window, and period when one was requested.  This read NEVER sweeps, and that is the point of it being a separate address from the dashboard: an audit must not move the money it is auditing, so calling it N times leaves the balances and the ledger byte-identical.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter authorsVerifyRepoRequest: (body)  
-     - returns: RequestBuilder<AuthorsVerifyRepoResponse> 
+       - name: bearer
+     - parameter period: (query) Period is the UTC accrual month, YYYY-MM. Empty means every period; any other shape is refused with 400, because the period is echoed back and used as a SQL filter and is only ever accepted in the one form the accrual latch mints. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<[String: JSONValue]> 
      */
-    open class func authorsVerifyRepoWithRequestBuilder(authorsVerifyRepoRequest: AuthorsVerifyRepoRequest) -> RequestBuilder<AuthorsVerifyRepoResponse> {
-        let localVariablePath = "/v1/authors/repos/verify"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: authorsVerifyRepoRequest)
+    open class func getAuthorsBasisWithRequestBuilder(period: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<[String: JSONValue]> {
+        let localVariablePath = "/v1/authors/basis"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "period": (wrappedValue: period?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<[String: JSONValue]>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Enrols the caller's org in the author program at status \"connected\" and returns its enrolment, including the verify code the file method needs.
+     
+     - parameter connectRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Enrolment
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAuthorsConnect(connectRequest: ConnectRequest, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Enrolment {
+        return try await postAuthorsConnectWithRequestBuilder(connectRequest: connectRequest, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Enrols the caller's org in the author program at status \"connected\" and returns its enrolment, including the verify code the file method needs.
+     - POST /v1/authors/connect
+     - Enrols the caller's org in the author program at status \"connected\" and returns its enrolment, including the verify code the file method needs. It is IDEMPOTENT: a second call returns the same enrolment rather than a conflict.  The forge login is taken from IAM's LINKED account for the provider when there is one — that is identity proof, not a claim — and only otherwise from the login in the body, which then has to be proven per repository. Connecting does not admit an org to earning: a platform reviewer approves that separately.  Answers 201 when it enrolled the org and 200 when it found an existing enrolment.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter connectRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Enrolment> 
+     */
+    open class func postAuthorsConnectWithRequestBuilder(connectRequest: ConnectRequest, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Enrolment> {
+        let localVariablePath = "/v1/authors/connect"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: connectRequest, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AuthorsVerifyRepoResponse>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Enrolment>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Records that the caller's org deployed a project built from a source repository, which is the edge that makes an author's work earn royalty.
+     
+     - parameter deployRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: DeployRecord
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAuthorsDeploysRecord(deployRequest: DeployRequest, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> DeployRecord {
+        return try await postAuthorsDeploysRecordWithRequestBuilder(deployRequest: deployRequest, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Records that the caller's org deployed a project built from a source repository, which is the edge that makes an author's work earn royalty.
+     - POST /v1/authors/deploys/record
+     - Records that the caller's org deployed a project built from a source repository, which is the edge that makes an author's work earn royalty.  It is deliberately NOT an error for a deploy to attribute to nobody: a project built from no repository, or from one no author has verified, answers {\"recorded\": false, \"reason\"} so a deploy pipeline can fire this on every deploy without branching. Attribution resolves per-repository first, then owner-wide, so a repository with its own claim always earns for its own author.  A deploy of a Hanzo-maintained template attributes to the platform treasury, and a self-deploy (the author's own org deploying its own repository) is recorded for provenance but excluded from accrual. The edge is idempotent per repository+project+org.  Answers 201 when it recorded a new edge and 200 otherwise.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter deployRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<DeployRecord> 
+     */
+    open class func postAuthorsDeploysRecordWithRequestBuilder(deployRequest: DeployRequest, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<DeployRecord> {
+        let localVariablePath = "/v1/authors/deploys/record"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: deployRequest, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<DeployRecord>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Proves that the caller owns a repository — or a whole OWNER — and records the claim, which is what makes deploys of that code earn royalty.
+     
+     - parameter verifyRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Claim
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAuthorsReposVerify(verifyRequest: VerifyRequest, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Claim {
+        return try await postAuthorsReposVerifyWithRequestBuilder(verifyRequest: verifyRequest, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Proves that the caller owns a repository — or a whole OWNER — and records the claim, which is what makes deploys of that code earn royalty.
+     - POST /v1/authors/repos/verify
+     - Proves that the caller owns a repository — or a whole OWNER — and records the claim, which is what makes deploys of that code earn royalty.  Ownership is proven the SAME two ways in both cases, tried in order: an IAM-linked forge token with admin or push permission, or a hanzo.json on the default branch carrying the author's verify code. Claiming an OWNER proves it against that owner's \".github\" control repository, and is exactly as strong as a per-repository claim — an owner the caller cannot prove is refused with 422, never assumed.  A per-repository claim wins over an owner-wide one, so a specifically-claimed repository always earns for its own author. A repository another author has already verified is a 409. The org must have connected first.  Answers 201 when it recorded a new claim and 200 when the claim already existed.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter verifyRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Claim> 
+     */
+    open class func postAuthorsReposVerifyWithRequestBuilder(verifyRequest: VerifyRequest, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Claim> {
+        let localVariablePath = "/v1/authors/repos/verify"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: verifyRequest, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Claim>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

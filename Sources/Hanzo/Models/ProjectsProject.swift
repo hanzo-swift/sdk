@@ -6,110 +6,127 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
-/** The org-scoped project — the slug-keyed record of a deployable site (the json shape console consumes). */
-public struct ProjectsProject: Codable, JSONEncodable, Hashable {
+public struct ProjectsProject: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public enum Framework: String, Codable, CaseIterable {
-        case _static = "static"
-        case vite = "vite"
-        case next = "next"
-        case react = "react"
-        case astro = "astro"
-        case svelte = "svelte"
-        case vue = "vue"
-        case remix = "remix"
-        case nuxt = "nuxt"
-        case unity = "unity"
-        case unreal = "unreal"
-        case godot = "godot"
-    }
-    public enum Status: String, Codable, CaseIterable {
-        case draft = "draft"
-        case building = "building"
-        case live = "live"
-        case error = "error"
-    }
-    public var id: String
-    public var org: String
-    public var slug: String
-    public var name: String
-    public var description: String?
-    public var repo: ProjectsRepoRef
-    /** Build hint. */
-    public var framework: Framework
-    /** Project lifecycle status. */
-    public var status: Status
-    /** Canonical live URL, https://<slug>.<apex>. Set once deployed. */
-    public var liveUrl: String?
-    /** S3-origin bucket holding the site. */
+    /** Analytics is the wired-by-default web-analytics flag (default true). It is the value the app's static-builder reads as deployment.analytics to inject the beacon. Space is the project's Base data space (\"<org>/<slug>\") a deployed site posts form/forum/data submissions to under /v1/base. */
+    public var analytics: Bool?
     public var bucket: String?
-    public var currentDeploymentId: String?
-    /** Per-project HTML/document Cache-Control policy applied at the S3 origin. */
+    /** Cache is the site's edge-cache state: the HTML/document Cache-Control policy in effect (TTL) and the last edge-purge time, so a console can show freshness. */
     public var cacheControl: String?
-    /** Unix time (seconds) of the last edge cache-tag purge. */
-    public var lastPurgeAt: Int64?
-    public var createdAt: Int64
-    public var updatedAt: Int64
+    public var createdAt: Int?
+    public var currentDeploymentId: String?
+    public var description: String?
+    /** ForkedFrom is the parent this project was forked from (\"<org>/<slug>\" of a published project, or a catalog template slug) — the attribution edge a gallery credits. */
+    public var forkedFrom: String?
+    public var framework: String?
+    public var hidden: Bool?
+    public var hiddenReason: String?
+    public var id: String?
+    /** Key is the project's publishable ingest key, minted at create. It is the value the injected beacon carries and the ONE thing that attributes this site's events; the static-builder reads it beside analytics.  Publishable means it belongs in a page's source: it names a write scope and mints no principal, so it is returned in full rather than masked. Masking it would only mean every caller needed a second endpoint to get the thing the page already ships. */
+    public var key: String?
+    public var lastPurgeAt: Int?
+    public var license: String?
+    public var liveUrl: String?
+    public var name: String?
+    public var org: String?
+    public var repo: ProjectsRepo?
+    public var slug: String?
+    public var space: String?
+    public var status: String?
+    /** Tags is the site's browser tag config: platform slug → non-secret pixel id (GA measurement, Meta pixel, …) — what track.js injects and the server CAPI reads, per site. Omitted when none are set. The API SECRET is never here (KMS). */
+    public var tags: [String: String]?
+    public var updatedAt: Int?
+    /** Upstream/License credit the third-party work this project was published from, and the terms it carries. Omitted when nothing is declared: an absent credit means \"nobody has said\", not \"there is nothing to say\". */
+    public var upstream: String?
+    /** Visibility is \"public\" or \"private\", and Hidden reports platform moderation. Both are always present (never omitempty) so a consumer can tell a real answer from \"this API is too old to say\" — and so a console never renders a project as public because a field was missing.  Authorship is deliberately absent: it is Org, above. */
+    public var visibility: String?
 
-    public init(id: String, org: String, slug: String, name: String, description: String? = nil, repo: ProjectsRepoRef, framework: Framework, status: Status, liveUrl: String? = nil, bucket: String? = nil, currentDeploymentId: String? = nil, cacheControl: String? = nil, lastPurgeAt: Int64? = nil, createdAt: Int64, updatedAt: Int64) {
-        self.id = id
-        self.org = org
-        self.slug = slug
-        self.name = name
-        self.description = description
-        self.repo = repo
-        self.framework = framework
-        self.status = status
-        self.liveUrl = liveUrl
+    public init(analytics: Bool? = nil, bucket: String? = nil, cacheControl: String? = nil, createdAt: Int? = nil, currentDeploymentId: String? = nil, description: String? = nil, forkedFrom: String? = nil, framework: String? = nil, hidden: Bool? = nil, hiddenReason: String? = nil, id: String? = nil, key: String? = nil, lastPurgeAt: Int? = nil, license: String? = nil, liveUrl: String? = nil, name: String? = nil, org: String? = nil, repo: ProjectsRepo? = nil, slug: String? = nil, space: String? = nil, status: String? = nil, tags: [String: String]? = nil, updatedAt: Int? = nil, upstream: String? = nil, visibility: String? = nil) {
+        self.analytics = analytics
         self.bucket = bucket
-        self.currentDeploymentId = currentDeploymentId
         self.cacheControl = cacheControl
-        self.lastPurgeAt = lastPurgeAt
         self.createdAt = createdAt
+        self.currentDeploymentId = currentDeploymentId
+        self.description = description
+        self.forkedFrom = forkedFrom
+        self.framework = framework
+        self.hidden = hidden
+        self.hiddenReason = hiddenReason
+        self.id = id
+        self.key = key
+        self.lastPurgeAt = lastPurgeAt
+        self.license = license
+        self.liveUrl = liveUrl
+        self.name = name
+        self.org = org
+        self.repo = repo
+        self.slug = slug
+        self.space = space
+        self.status = status
+        self.tags = tags
         self.updatedAt = updatedAt
+        self.upstream = upstream
+        self.visibility = visibility
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case id
-        case org
-        case slug
-        case name
-        case description
-        case repo
-        case framework
-        case status
-        case liveUrl
+        case analytics
         case bucket
-        case currentDeploymentId
         case cacheControl
-        case lastPurgeAt
         case createdAt
+        case currentDeploymentId
+        case description
+        case forkedFrom
+        case framework
+        case hidden
+        case hiddenReason
+        case id
+        case key
+        case lastPurgeAt
+        case license
+        case liveUrl
+        case name
+        case org
+        case repo
+        case slug
+        case space
+        case status
+        case tags
         case updatedAt
+        case upstream
+        case visibility
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(id, forKey: .id)
-        try container.encode(org, forKey: .org)
-        try container.encode(slug, forKey: .slug)
-        try container.encode(name, forKey: .name)
-        try container.encodeIfPresent(description, forKey: .description)
-        try container.encode(repo, forKey: .repo)
-        try container.encode(framework, forKey: .framework)
-        try container.encode(status, forKey: .status)
-        try container.encodeIfPresent(liveUrl, forKey: .liveUrl)
+        try container.encodeIfPresent(analytics, forKey: .analytics)
         try container.encodeIfPresent(bucket, forKey: .bucket)
-        try container.encodeIfPresent(currentDeploymentId, forKey: .currentDeploymentId)
         try container.encodeIfPresent(cacheControl, forKey: .cacheControl)
+        try container.encodeIfPresent(createdAt, forKey: .createdAt)
+        try container.encodeIfPresent(currentDeploymentId, forKey: .currentDeploymentId)
+        try container.encodeIfPresent(description, forKey: .description)
+        try container.encodeIfPresent(forkedFrom, forKey: .forkedFrom)
+        try container.encodeIfPresent(framework, forKey: .framework)
+        try container.encodeIfPresent(hidden, forKey: .hidden)
+        try container.encodeIfPresent(hiddenReason, forKey: .hiddenReason)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(key, forKey: .key)
         try container.encodeIfPresent(lastPurgeAt, forKey: .lastPurgeAt)
-        try container.encode(createdAt, forKey: .createdAt)
-        try container.encode(updatedAt, forKey: .updatedAt)
+        try container.encodeIfPresent(license, forKey: .license)
+        try container.encodeIfPresent(liveUrl, forKey: .liveUrl)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(org, forKey: .org)
+        try container.encodeIfPresent(repo, forKey: .repo)
+        try container.encodeIfPresent(slug, forKey: .slug)
+        try container.encodeIfPresent(space, forKey: .space)
+        try container.encodeIfPresent(status, forKey: .status)
+        try container.encodeIfPresent(tags, forKey: .tags)
+        try container.encodeIfPresent(updatedAt, forKey: .updatedAt)
+        try container.encodeIfPresent(upstream, forKey: .upstream)
+        try container.encodeIfPresent(visibility, forKey: .visibility)
     }
 }
 

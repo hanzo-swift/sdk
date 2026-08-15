@@ -6,47 +6,45 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class CompletionsAPI {
 
     /**
-     Create completion
+     Implements the OpenAI-compatible chat completions API
      
-     - parameter gatewayCreateCompletionRequest: (body)  
-     - returns: AnyCodable
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func gatewayCreateCompletion(gatewayCreateCompletionRequest: GatewayCreateCompletionRequest) async throws -> AnyCodable {
-        return try await gatewayCreateCompletionWithRequestBuilder(gatewayCreateCompletionRequest: gatewayCreateCompletionRequest).execute().body
+    open class func postCompletions(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postCompletionsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Create completion
-     - POST /v1/gateway/completions
+     Implements the OpenAI-compatible chat completions API
+     - POST /v1/completions
+     - Implements the OpenAI-compatible chat completions API
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter gatewayCreateCompletionRequest: (body)  
-     - returns: RequestBuilder<AnyCodable> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func gatewayCreateCompletionWithRequestBuilder(gatewayCreateCompletionRequest: GatewayCreateCompletionRequest) -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/gateway/completions"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: gatewayCreateCompletionRequest)
+    open class func postCompletionsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/completions"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

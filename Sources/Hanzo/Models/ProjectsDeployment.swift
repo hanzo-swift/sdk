@@ -6,99 +6,81 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
-/** One deployment of a project — a versioned deploy record. */
-public struct ProjectsDeployment: Codable, JSONEncodable, Hashable {
+public struct ProjectsDeployment: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public enum Status: String, Codable, CaseIterable {
-        case queued = "queued"
-        case building = "building"
-        case uploading = "uploading"
-        case live = "live"
-        case error = "error"
-    }
-    public enum Source: String, Codable, CaseIterable {
-        case upload = "upload"
-        case generated = "generated"
-        case deploy = "deploy"
-        case git = "git"
-    }
-    public var id: String
-    public var projectId: String
-    /** Monotonic per project, 1-based. */
-    public var version: Int
-    /** Deployment status. */
-    public var status: Status
-    /** How the artifact was produced. */
-    public var source: Source
-    public var commit: String?
-    /** Canonical live URL, https://<slug>.<apex>. */
-    public var liveUrl: String?
-    /** S3-origin bucket. */
     public var bucket: String?
-    /** S3-origin key prefix the site is served from (<org>/<slug>). */
-    public var _prefix: String?
-    public var files: Int
-    public var bytes: Int64
+    public var bytes: Int?
+    public var commit: String?
+    public var createdAt: Int?
+    public var files: Int?
+    public var id: String?
+    public var liveUrl: String?
     public var message: String?
-    public var createdAt: Int64
-    public var updatedAt: Int64
+    public var _prefix: String?
+    public var projectId: String?
+    public var source: String?
+    public var status: String?
+    public var updatedAt: Int?
+    /** Upload is the prefix-scoped, short-lived S3 write grant handed to CI with a queued git deployment, so it needs no bucket credential (grant.go). Present ONLY on the 202 that creates the deployment — it is never stored and never replayed on a later read, so a grant cannot outlive the build it was minted for by being fetched again. */
+    public var upload: ProjectsUploadGrant?
+    public var version: Int?
 
-    public init(id: String, projectId: String, version: Int, status: Status, source: Source, commit: String? = nil, liveUrl: String? = nil, bucket: String? = nil, _prefix: String? = nil, files: Int, bytes: Int64, message: String? = nil, createdAt: Int64, updatedAt: Int64) {
-        self.id = id
-        self.projectId = projectId
-        self.version = version
-        self.status = status
-        self.source = source
-        self.commit = commit
-        self.liveUrl = liveUrl
+    public init(bucket: String? = nil, bytes: Int? = nil, commit: String? = nil, createdAt: Int? = nil, files: Int? = nil, id: String? = nil, liveUrl: String? = nil, message: String? = nil, _prefix: String? = nil, projectId: String? = nil, source: String? = nil, status: String? = nil, updatedAt: Int? = nil, upload: ProjectsUploadGrant? = nil, version: Int? = nil) {
         self.bucket = bucket
-        self._prefix = _prefix
-        self.files = files
         self.bytes = bytes
-        self.message = message
+        self.commit = commit
         self.createdAt = createdAt
+        self.files = files
+        self.id = id
+        self.liveUrl = liveUrl
+        self.message = message
+        self._prefix = _prefix
+        self.projectId = projectId
+        self.source = source
+        self.status = status
         self.updatedAt = updatedAt
+        self.upload = upload
+        self.version = version
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case id
-        case projectId
-        case version
-        case status
-        case source
-        case commit
-        case liveUrl
         case bucket
-        case _prefix = "prefix"
-        case files
         case bytes
-        case message
+        case commit
         case createdAt
+        case files
+        case id
+        case liveUrl
+        case message
+        case _prefix = "prefix"
+        case projectId
+        case source
+        case status
         case updatedAt
+        case upload
+        case version
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(id, forKey: .id)
-        try container.encode(projectId, forKey: .projectId)
-        try container.encode(version, forKey: .version)
-        try container.encode(status, forKey: .status)
-        try container.encode(source, forKey: .source)
-        try container.encodeIfPresent(commit, forKey: .commit)
-        try container.encodeIfPresent(liveUrl, forKey: .liveUrl)
         try container.encodeIfPresent(bucket, forKey: .bucket)
-        try container.encodeIfPresent(_prefix, forKey: ._prefix)
-        try container.encode(files, forKey: .files)
-        try container.encode(bytes, forKey: .bytes)
+        try container.encodeIfPresent(bytes, forKey: .bytes)
+        try container.encodeIfPresent(commit, forKey: .commit)
+        try container.encodeIfPresent(createdAt, forKey: .createdAt)
+        try container.encodeIfPresent(files, forKey: .files)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(liveUrl, forKey: .liveUrl)
         try container.encodeIfPresent(message, forKey: .message)
-        try container.encode(createdAt, forKey: .createdAt)
-        try container.encode(updatedAt, forKey: .updatedAt)
+        try container.encodeIfPresent(_prefix, forKey: ._prefix)
+        try container.encodeIfPresent(projectId, forKey: .projectId)
+        try container.encodeIfPresent(source, forKey: .source)
+        try container.encodeIfPresent(status, forKey: .status)
+        try container.encodeIfPresent(updatedAt, forKey: .updatedAt)
+        try container.encodeIfPresent(upload, forKey: .upload)
+        try container.encodeIfPresent(version, forKey: .version)
     }
 }
 

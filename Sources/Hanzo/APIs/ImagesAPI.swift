@@ -6,52 +6,45 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class ImagesAPI {
 
     /**
-     Upload an image
+     Implements POST /v1/images/generations (OpenAI-compatible).
      
-     - parameter file: (form)  
-     - returns: AnyCodable
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatPostFilesImages(file: URL) async throws -> AnyCodable {
-        return try await chatPostFilesImagesWithRequestBuilder(file: file).execute().body
+    open class func postImagesGenerations(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postImagesGenerationsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Upload an image
-     - POST /v1/chat/files/images
+     Implements POST /v1/images/generations (OpenAI-compatible).
+     - POST /v1/images/generations
+     - Implements POST /v1/images/generations (OpenAI-compatible).  Body: {\"model\": \"...\", \"prompt\": \"...\", \"n\"?: int, \"size\"?: \"1024x1024\",   \"response_format\"?: \"url\"|\"b64_json\"}  It authenticates the caller, resolves the model to its upstream provider via the shared routing table (zen3-image* → do-ai fal diffusion), reserves the per-image budget, generates the image(s) through the do-ai async image client, records usage for billing, and returns the OpenAI images response.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter file: (form)  
-     - returns: RequestBuilder<AnyCodable> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func chatPostFilesImagesWithRequestBuilder(file: URL) -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/chat/files/images"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableFormParams: [String: Any?] = [
-            "file": file.encodeToJSON(),
-        ]
-
-        let localVariableNonNullParameters = APIHelper.rejectNil(localVariableFormParams)
-        let localVariableParameters = APIHelper.convertBoolToString(localVariableNonNullParameters)
+    open class func postImagesGenerationsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/images/generations"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "multipart/form-data",
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

@@ -6,599 +6,124 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class ClustersAPI {
 
     /**
-     Deregister cluster
+     Attaches a BYO cluster to the caller's org — the kubeconfig is validated, KMS-sealed and added to the fleet — and answers 201 with the cluster as it now appears on GET /v1/clusters.
      
-     - parameter id: (path)  
-     - returns: AnyCodable
+     - parameter clusterAttach: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ClusterView
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func engineDeleteCluster(id: UUID) async throws -> AnyCodable {
-        return try await engineDeleteClusterWithRequestBuilder(id: id).execute().body
+    open class func attachCluster(clusterAttach: ClusterAttach, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ClusterView {
+        return try await attachClusterWithRequestBuilder(clusterAttach: clusterAttach, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Deregister cluster
-     - DELETE /v1/engine/clusters/{id}
+     Attaches a BYO cluster to the caller's org — the kubeconfig is validated, KMS-sealed and added to the fleet — and answers 201 with the cluster as it now appears on GET /v1/clusters.
+     - POST /v1/clusters
+     - Attaches a BYO cluster to the caller's org — the kubeconfig is validated, KMS-sealed and added to the fleet — and answers 201 with the cluster as it now appears on GET /v1/clusters. Billed the nominal management fee: the customer brings the compute, Hanzo meters the management plane.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter id: (path)  
-     - returns: RequestBuilder<AnyCodable> 
+       - name: bearer
+     - parameter clusterAttach: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ClusterView> 
      */
-    open class func engineDeleteClusterWithRequestBuilder(id: UUID) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/engine/clusters/{id}"
-        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
-        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func attachClusterWithRequestBuilder(clusterAttach: ClusterAttach, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ClusterView> {
+        let localVariablePath = "/v1/clusters"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: clusterAttach, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get cluster
-     
-     - parameter id: (path)  
-     - returns: EngineCluster
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func engineGetCluster(id: UUID) async throws -> EngineCluster {
-        return try await engineGetClusterWithRequestBuilder(id: id).execute().body
-    }
-
-    /**
-     Get cluster
-     - GET /v1/engine/clusters/{id}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter id: (path)  
-     - returns: RequestBuilder<EngineCluster> 
-     */
-    open class func engineGetClusterWithRequestBuilder(id: UUID) -> RequestBuilder<EngineCluster> {
-        var localVariablePath = "/v1/engine/clusters/{id}"
-        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
-        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<EngineCluster>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     List cluster nodes
-     
-     - parameter id: (path)  
-     - returns: EngineListClusterNodes200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func engineListClusterNodes(id: UUID) async throws -> EngineListClusterNodes200Response {
-        return try await engineListClusterNodesWithRequestBuilder(id: id).execute().body
-    }
-
-    /**
-     List cluster nodes
-     - GET /v1/engine/clusters/{id}/nodes
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter id: (path)  
-     - returns: RequestBuilder<EngineListClusterNodes200Response> 
-     */
-    open class func engineListClusterNodesWithRequestBuilder(id: UUID) -> RequestBuilder<EngineListClusterNodes200Response> {
-        var localVariablePath = "/v1/engine/clusters/{id}/nodes"
-        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
-        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<EngineListClusterNodes200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     * enum for parameter status
-     */
-    public enum Status_engineListClusters: String, CaseIterable {
-        case online = "online"
-        case offline = "offline"
-        case degraded = "degraded"
-        case provisioning = "provisioning"
-    }
-
-    /**
-     List GPU clusters
-     
-     - parameter status: (query)  (optional)
-     - parameter provider: (query)  (optional)
-     - parameter page: (query)  (optional, default to 1)
-     - parameter pageSize: (query)  (optional, default to 20)
-     - returns: EngineListClusters200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func engineListClusters(status: Status_engineListClusters? = nil, provider: String? = nil, page: Int? = nil, pageSize: Int? = nil) async throws -> EngineListClusters200Response {
-        return try await engineListClustersWithRequestBuilder(status: status, provider: provider, page: page, pageSize: pageSize).execute().body
-    }
-
-    /**
-     List GPU clusters
-     - GET /v1/engine/clusters
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter status: (query)  (optional)
-     - parameter provider: (query)  (optional)
-     - parameter page: (query)  (optional, default to 1)
-     - parameter pageSize: (query)  (optional, default to 20)
-     - returns: RequestBuilder<EngineListClusters200Response> 
-     */
-    open class func engineListClustersWithRequestBuilder(status: Status_engineListClusters? = nil, provider: String? = nil, page: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<EngineListClusters200Response> {
-        let localVariablePath = "/v1/engine/clusters"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "status": (wrappedValue: status?.encodeToJSON(), isExplode: true),
-            "provider": (wrappedValue: provider?.encodeToJSON(), isExplode: true),
-            "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
-            "page_size": (wrappedValue: pageSize?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<EngineListClusters200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Register GPU cluster
-     
-     - parameter engineClusterCreate: (body)  
-     - returns: EngineCluster
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func engineRegisterCluster(engineClusterCreate: EngineClusterCreate) async throws -> EngineCluster {
-        return try await engineRegisterClusterWithRequestBuilder(engineClusterCreate: engineClusterCreate).execute().body
-    }
-
-    /**
-     Register GPU cluster
-     - POST /v1/engine/clusters
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter engineClusterCreate: (body)  
-     - returns: RequestBuilder<EngineCluster> 
-     */
-    open class func engineRegisterClusterWithRequestBuilder(engineClusterCreate: EngineClusterCreate) -> RequestBuilder<EngineCluster> {
-        let localVariablePath = "/v1/engine/clusters"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: engineClusterCreate)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<EngineCluster>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ClusterView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Update cluster
+     Adds a node pool to one of the caller org's clusters and answers 201 with the created pool.
      
-     - parameter id: (path)  
-     - parameter engineUpdateClusterRequest: (body)  
-     - returns: EngineCluster
+     - parameter clusterId: (path) ClusterID is the cluster to add the pool to, from the URL path. 
+     - parameter poolCreate: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: NodePoolView
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func engineUpdateCluster(id: UUID, engineUpdateClusterRequest: EngineUpdateClusterRequest) async throws -> EngineCluster {
-        return try await engineUpdateClusterWithRequestBuilder(id: id, engineUpdateClusterRequest: engineUpdateClusterRequest).execute().body
+    open class func createNodePool(clusterId: String, poolCreate: PoolCreate, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> NodePoolView {
+        return try await createNodePoolWithRequestBuilder(clusterId: clusterId, poolCreate: poolCreate, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Update cluster
-     - PUT /v1/engine/clusters/{id}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter id: (path)  
-     - parameter engineUpdateClusterRequest: (body)  
-     - returns: RequestBuilder<EngineCluster> 
-     */
-    open class func engineUpdateClusterWithRequestBuilder(id: UUID, engineUpdateClusterRequest: EngineUpdateClusterRequest) -> RequestBuilder<EngineCluster> {
-        var localVariablePath = "/v1/engine/clusters/{id}"
-        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
-        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: engineUpdateClusterRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<EngineCluster>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Create KV cluster
-     
-     - parameter kvClusterCreate: (body)  
-     - returns: KvCluster
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kvCreateCluster(kvClusterCreate: KvClusterCreate) async throws -> KvCluster {
-        return try await kvCreateClusterWithRequestBuilder(kvClusterCreate: kvClusterCreate).execute().body
-    }
-
-    /**
-     Create KV cluster
-     - POST /v1/kv/clusters
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter kvClusterCreate: (body)  
-     - returns: RequestBuilder<KvCluster> 
-     */
-    open class func kvCreateClusterWithRequestBuilder(kvClusterCreate: KvClusterCreate) -> RequestBuilder<KvCluster> {
-        let localVariablePath = "/v1/kv/clusters"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: kvClusterCreate)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<KvCluster>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Delete cluster
-     
-     - parameter id: (path)  
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kvDeleteCluster(id: UUID) async throws -> AnyCodable {
-        return try await kvDeleteClusterWithRequestBuilder(id: id).execute().body
-    }
-
-    /**
-     Delete cluster
-     - DELETE /v1/kv/clusters/{id}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter id: (path)  
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func kvDeleteClusterWithRequestBuilder(id: UUID) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/kv/clusters/{id}"
-        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
-        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get cluster
-     
-     - parameter id: (path)  
-     - returns: KvCluster
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kvGetCluster(id: UUID) async throws -> KvCluster {
-        return try await kvGetClusterWithRequestBuilder(id: id).execute().body
-    }
-
-    /**
-     Get cluster
-     - GET /v1/kv/clusters/{id}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter id: (path)  
-     - returns: RequestBuilder<KvCluster> 
-     */
-    open class func kvGetClusterWithRequestBuilder(id: UUID) -> RequestBuilder<KvCluster> {
-        var localVariablePath = "/v1/kv/clusters/{id}"
-        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
-        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<KvCluster>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get cluster stats
-     
-     - parameter id: (path)  
-     - returns: KvGetClusterStats200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kvGetClusterStats(id: UUID) async throws -> KvGetClusterStats200Response {
-        return try await kvGetClusterStatsWithRequestBuilder(id: id).execute().body
-    }
-
-    /**
-     Get cluster stats
-     - GET /v1/kv/clusters/{id}/stats
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter id: (path)  
-     - returns: RequestBuilder<KvGetClusterStats200Response> 
-     */
-    open class func kvGetClusterStatsWithRequestBuilder(id: UUID) -> RequestBuilder<KvGetClusterStats200Response> {
-        var localVariablePath = "/v1/kv/clusters/{id}/stats"
-        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
-        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<KvGetClusterStats200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     * enum for parameter status
-     */
-    public enum Status_kvListClusters: String, CaseIterable {
-        case provisioning = "provisioning"
-        case running = "running"
-        case degraded = "degraded"
-        case stopped = "stopped"
-    }
-
-    /**
-     List KV clusters
-     
-     - parameter status: (query)  (optional)
-     - returns: KvListClusters200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kvListClusters(status: Status_kvListClusters? = nil) async throws -> KvListClusters200Response {
-        return try await kvListClustersWithRequestBuilder(status: status).execute().body
-    }
-
-    /**
-     List KV clusters
-     - GET /v1/kv/clusters
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter status: (query)  (optional)
-     - returns: RequestBuilder<KvListClusters200Response> 
-     */
-    open class func kvListClustersWithRequestBuilder(status: Status_kvListClusters? = nil) -> RequestBuilder<KvListClusters200Response> {
-        let localVariablePath = "/v1/kv/clusters"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "status": (wrappedValue: status?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<KvListClusters200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Update cluster
-     
-     - parameter id: (path)  
-     - parameter kvUpdateClusterRequest: (body)  
-     - returns: KvCluster
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kvUpdateCluster(id: UUID, kvUpdateClusterRequest: KvUpdateClusterRequest) async throws -> KvCluster {
-        return try await kvUpdateClusterWithRequestBuilder(id: id, kvUpdateClusterRequest: kvUpdateClusterRequest).execute().body
-    }
-
-    /**
-     Update cluster
-     - PUT /v1/kv/clusters/{id}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter id: (path)  
-     - parameter kvUpdateClusterRequest: (body)  
-     - returns: RequestBuilder<KvCluster> 
-     */
-    open class func kvUpdateClusterWithRequestBuilder(id: UUID, kvUpdateClusterRequest: KvUpdateClusterRequest) -> RequestBuilder<KvCluster> {
-        var localVariablePath = "/v1/kv/clusters/{id}"
-        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
-        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: kvUpdateClusterRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<KvCluster>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Add a node pool to a cluster
-     
-     - parameter clusterId: (path)  
-     - parameter visorPoolRequest: (body)  
-     - returns: VisorNodePoolView
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func visorCreatePool(clusterId: String, visorPoolRequest: VisorPoolRequest) async throws -> VisorNodePoolView {
-        return try await visorCreatePoolWithRequestBuilder(clusterId: clusterId, visorPoolRequest: visorPoolRequest).execute().body
-    }
-
-    /**
-     Add a node pool to a cluster
+     Adds a node pool to one of the caller org's clusters and answers 201 with the created pool.
      - POST /v1/clusters/{clusterId}/pools
+     - Adds a node pool to one of the caller org's clusters and answers 201 with the created pool. Only the CreateNodePoolSpec fields are forwarded; owner/provider/clusterId ride in the query exactly as Visor expects them.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter clusterId: (path)  
-     - parameter visorPoolRequest: (body)  
-     - returns: RequestBuilder<VisorNodePoolView> 
+       - name: bearer
+     - parameter clusterId: (path) ClusterID is the cluster to add the pool to, from the URL path. 
+     - parameter poolCreate: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<NodePoolView> 
      */
-    open class func visorCreatePoolWithRequestBuilder(clusterId: String, visorPoolRequest: VisorPoolRequest) -> RequestBuilder<VisorNodePoolView> {
+    open class func createNodePoolWithRequestBuilder(clusterId: String, poolCreate: PoolCreate, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<NodePoolView> {
         var localVariablePath = "/v1/clusters/{clusterId}/pools"
         let clusterIdPreEscape = "\(APIHelper.mapValueToPathItem(clusterId))"
         let clusterIdPostEscape = clusterIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{clusterId}", with: clusterIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: visorPoolRequest)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: poolCreate, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<VisorNodePoolView>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<NodePoolView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Delete a node pool
+     Removes a node pool from one of the caller org's clusters.
      
-     - parameter clusterId: (path)  
+     - parameter clusterId: (path) ClusterID and PoolID address the pool, from the URL path. 
      - parameter poolId: (path)  
-     - parameter provider: (query)  
+     - parameter provider: (query) Provider is the cloud the cluster lives on, from ?provider&#x3D;. Required. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func visorDeletePool(clusterId: String, poolId: String, provider: String) async throws {
-        return try await visorDeletePoolWithRequestBuilder(clusterId: clusterId, poolId: poolId, provider: provider).execute().body
+    open class func deleteNodePool(clusterId: String, poolId: String, provider: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteNodePoolWithRequestBuilder(clusterId: clusterId, poolId: poolId, provider: provider, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Delete a node pool
+     Removes a node pool from one of the caller org's clusters.
      - DELETE /v1/clusters/{clusterId}/pools/{poolId}
+     - Removes a node pool from one of the caller org's clusters. The owner scopes the delete to the caller's tenant; provider+clusterId drive the provider-side removal. Answers 204.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter clusterId: (path)  
+       - name: bearer
+     - parameter clusterId: (path) ClusterID and PoolID address the pool, from the URL path. 
      - parameter poolId: (path)  
-     - parameter provider: (query)  
+     - parameter provider: (query) Provider is the cloud the cluster lives on, from ?provider&#x3D;. Required. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func visorDeletePoolWithRequestBuilder(clusterId: String, poolId: String, provider: String) -> RequestBuilder<Void> {
+    open class func deleteNodePoolWithRequestBuilder(clusterId: String, poolId: String, provider: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/clusters/{clusterId}/pools/{poolId}"
         let clusterIdPreEscape = "\(APIHelper.mapValueToPathItem(clusterId))"
         let clusterIdPostEscape = clusterIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -606,86 +131,136 @@ open class ClustersAPI {
         let poolIdPreEscape = "\(APIHelper.mapValueToPathItem(poolId))"
         let poolIdPostEscape = poolIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{poolId}", with: poolIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "provider": (wrappedValue: provider.encodeToJSON(), isExplode: true),
+            "provider": (wrappedValue: provider?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ])
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = HanzoAPI.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     List DOKS clusters (projected from node pools)
+     Removes a BYO cluster from the caller org's fleet.
      
-     - returns: VisorListClusters200Response
+     - parameter id: (path) ID is the cluster&#39;s fleet name (the &#x60;name&#x60; it was attached under), matched lower-cased. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ClusterDetached
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func visorListClusters() async throws -> VisorListClusters200Response {
-        return try await visorListClustersWithRequestBuilder().execute().body
+    open class func detachCluster(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ClusterDetached {
+        return try await detachClusterWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     List DOKS clusters (projected from node pools)
-     - GET /v1/clusters
+     Removes a BYO cluster from the caller org's fleet.
+     - DELETE /v1/clusters/{id}
+     - Removes a BYO cluster from the caller org's fleet. It only ever touches BYO clusters — a managed cluster's nodes are removed through the node-pool routes — and answers 404 when the name is not in this org's fleet.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<VisorListClusters200Response> 
+       - name: bearer
+     - parameter id: (path) ID is the cluster&#39;s fleet name (the &#x60;name&#x60; it was attached under), matched lower-cased. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ClusterDetached> 
      */
-    open class func visorListClustersWithRequestBuilder() -> RequestBuilder<VisorListClusters200Response> {
-        let localVariablePath = "/v1/clusters"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func detachClusterWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ClusterDetached> {
+        var localVariablePath = "/v1/clusters/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<VisorListClusters200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ClusterDetached>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Scale a node pool
+     Returns the caller org's clusters from both sources: the managed clusters projected from Visor's node pools, and the BYO clusters attached to the caller's project.
      
-     - parameter clusterId: (path)  
-     - parameter poolId: (path)  
-     - parameter visorScaleRequest: (body)  
-     - returns: VisorNodePoolView
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ClusterList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func visorScalePool(clusterId: String, poolId: String, visorScaleRequest: VisorScaleRequest) async throws -> VisorNodePoolView {
-        return try await visorScalePoolWithRequestBuilder(clusterId: clusterId, poolId: poolId, visorScaleRequest: visorScaleRequest).execute().body
+    open class func listClusters(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ClusterList {
+        return try await listClustersWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Scale a node pool
-     - POST /v1/clusters/{clusterId}/pools/{poolId}/scale
+     Returns the caller org's clusters from both sources: the managed clusters projected from Visor's node pools, and the BYO clusters attached to the caller's project.
+     - GET /v1/clusters
+     - Returns the caller org's clusters from both sources: the managed clusters projected from Visor's node pools, and the BYO clusters attached to the caller's project. A Visor outage costs the managed half only — the BYO half still lists, because a page that 502s on an optional provider is worse than a page that shows what it can.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter clusterId: (path)  
-     - parameter poolId: (path)  
-     - parameter visorScaleRequest: (body)  
-     - returns: RequestBuilder<VisorNodePoolView> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ClusterList> 
      */
-    open class func visorScalePoolWithRequestBuilder(clusterId: String, poolId: String, visorScaleRequest: VisorScaleRequest) -> RequestBuilder<VisorNodePoolView> {
+    open class func listClustersWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ClusterList> {
+        let localVariablePath = "/v1/clusters"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ClusterList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Resizes a node pool to an absolute node count and returns the pool as Visor reports it after the change.
+     
+     - parameter clusterId: (path) ClusterID and PoolID address the pool, from the URL path. 
+     - parameter poolId: (path)  
+     - parameter poolScale: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: NodePoolView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func scaleNodePool(clusterId: String, poolId: String, poolScale: PoolScale, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> NodePoolView {
+        return try await scaleNodePoolWithRequestBuilder(clusterId: clusterId, poolId: poolId, poolScale: poolScale, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Resizes a node pool to an absolute node count and returns the pool as Visor reports it after the change.
+     - POST /v1/clusters/{clusterId}/pools/{poolId}/scale
+     - Resizes a node pool to an absolute node count and returns the pool as Visor reports it after the change.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter clusterId: (path) ClusterID and PoolID address the pool, from the URL path. 
+     - parameter poolId: (path)  
+     - parameter poolScale: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<NodePoolView> 
+     */
+    open class func scaleNodePoolWithRequestBuilder(clusterId: String, poolId: String, poolScale: PoolScale, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<NodePoolView> {
         var localVariablePath = "/v1/clusters/{clusterId}/pools/{poolId}/scale"
         let clusterIdPreEscape = "\(APIHelper.mapValueToPathItem(clusterId))"
         let clusterIdPostEscape = clusterIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -693,19 +268,19 @@ open class ClustersAPI {
         let poolIdPreEscape = "\(APIHelper.mapValueToPathItem(poolId))"
         let poolIdPostEscape = poolIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{poolId}", with: poolIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: visorScaleRequest)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: poolScale, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<VisorNodePoolView>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<NodePoolView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

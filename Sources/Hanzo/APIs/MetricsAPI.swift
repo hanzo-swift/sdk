@@ -6,210 +6,162 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class MetricsAPI {
 
     /**
-     Get daily metrics
+     How many metric series this deployment holds for your org
      
-     - parameter page: (query)  (optional)
-     - parameter limit: (query)  (optional)
-     - parameter traceName: (query)  (optional)
-     - parameter userId: (query)  (optional)
-     - parameter tags: (query)  (optional)
-     - parameter fromTimestamp: (query)  (optional)
-     - parameter toTimestamp: (query)  (optional)
-     - parameter environment: (query)  (optional)
-     - returns: ConsoleGetDailyMetrics200Response
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func consoleGetDailyMetrics(page: Int? = nil, limit: Int? = nil, traceName: String? = nil, userId: String? = nil, tags: [String]? = nil, fromTimestamp: Date? = nil, toTimestamp: Date? = nil, environment: [String]? = nil) async throws -> ConsoleGetDailyMetrics200Response {
-        return try await consoleGetDailyMetricsWithRequestBuilder(page: page, limit: limit, traceName: traceName, userId: userId, tags: tags, fromTimestamp: fromTimestamp, toTimestamp: toTimestamp, environment: environment).execute().body
+    open class func getMetricsHealth(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getMetricsHealthWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Get daily metrics
-     - GET /v1/console/metrics/daily
+     How many metric series this deployment holds for your org
+     - GET /v1/metrics/health
+     - Reports the native metrics store's live state for the calling tenant: the subsystem version, the resolved `org`, and `series` — the number of distinct series actually held right now, read out of the store rather than a constant. It is not a dependency probe and has nothing downstream to fail on: the store is in-process, so this answers 200 whenever the process is up.  The tenant is the gateway-minted `X-Org-Id` header, falling back to the deployment brand and then `default`. This surface trusts the edge rather than re-deriving the org from a validated claim of its own, so it belongs behind the gateway and nowhere else.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter page: (query)  (optional)
-     - parameter limit: (query)  (optional)
-     - parameter traceName: (query)  (optional)
-     - parameter userId: (query)  (optional)
-     - parameter tags: (query)  (optional)
-     - parameter fromTimestamp: (query)  (optional)
-     - parameter toTimestamp: (query)  (optional)
-     - parameter environment: (query)  (optional)
-     - returns: RequestBuilder<ConsoleGetDailyMetrics200Response> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func consoleGetDailyMetricsWithRequestBuilder(page: Int? = nil, limit: Int? = nil, traceName: String? = nil, userId: String? = nil, tags: [String]? = nil, fromTimestamp: Date? = nil, toTimestamp: Date? = nil, environment: [String]? = nil) -> RequestBuilder<ConsoleGetDailyMetrics200Response> {
-        let localVariablePath = "/v1/console/metrics/daily"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func getMetricsHealthWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/metrics/health"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
-            "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
-            "traceName": (wrappedValue: traceName?.encodeToJSON(), isExplode: true),
-            "userId": (wrappedValue: userId?.encodeToJSON(), isExplode: true),
-            "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
-            "fromTimestamp": (wrappedValue: fromTimestamp?.encodeToJSON(), isExplode: true),
-            "toTimestamp": (wrappedValue: toTimestamp?.encodeToJSON(), isExplode: true),
-            "environment": (wrappedValue: environment?.encodeToJSON(), isExplode: true),
-        ])
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<ConsoleGetDailyMetrics200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Get metrics from the project
+     Read your org's series back over a time range
      
-     - parameter query: (query) JSON string containing the query parameters (view, dimensions, metrics, filters, timeDimension, fromTimestamp, toTimestamp) 
-     - returns: ConsoleGetMetrics200Response
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func consoleGetMetrics(query: String) async throws -> ConsoleGetMetrics200Response {
-        return try await consoleGetMetricsWithRequestBuilder(query: query).execute().body
+    open class func getMetricsQuery(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getMetricsQueryWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Get metrics from the project
-     - GET /v1/console/metrics
+     Read your org's series back over a time range
+     - GET /v1/metrics/query
+     - Answers `{count, series}`, where `count` is the number of matching SERIES and each series carries the samples that fall inside the window. `name` selects one series name, and an absent or empty `name` returns every series the org holds. `match` is a `k=v,k2=v2` label matcher applied as a SUPERSET test: a series matches when it carries all the named labels with those values, extra labels and all.  `start` and `end` are nanoseconds since the Unix epoch, and here is the rule worth knowing: a bound that is absent, empty or unparseable becomes 0, which this store reads as UNBOUNDED. A malformed `start` therefore silently widens the query instead of failing it. There is no limit parameter — the window and the matcher are the whole of what bounds the answer.  The tenant is the gateway-minted `X-Org-Id` header, falling back to the deployment brand and then `default`, so a query can only ever read the org the edge asserted.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter query: (query) JSON string containing the query parameters (view, dimensions, metrics, filters, timeDimension, fromTimestamp, toTimestamp) 
-     - returns: RequestBuilder<ConsoleGetMetrics200Response> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func consoleGetMetricsWithRequestBuilder(query: String) -> RequestBuilder<ConsoleGetMetrics200Response> {
-        let localVariablePath = "/v1/console/metrics"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func getMetricsQueryWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/metrics/query"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "query": (wrappedValue: query.encodeToJSON(), isExplode: true),
-        ])
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<ConsoleGetMetrics200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     * enum for parameter range
-     */
-    public enum ModelRange_functionsFunctionMetrics: String, CaseIterable {
-        case _24h = "24H"
-        case _7d = "7D"
-        case _30d = "30D"
-    }
-
-    /**
-     Invocation histogram + status breakdown
+     Ingest a MetricBatch — the same payload the ZAP transport carries
      
-     - parameter range: (query)  (optional, default to ._24h)
-     - returns: FunctionsMetrics
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func functionsFunctionMetrics(range: ModelRange_functionsFunctionMetrics? = nil) async throws -> FunctionsMetrics {
-        return try await functionsFunctionMetricsWithRequestBuilder(range: range).execute().body
+    open class func postMetricsBatch(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postMetricsBatchWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Invocation histogram + status breakdown
-     - GET /v1/functions/metrics
+     Ingest a MetricBatch — the same payload the ZAP transport carries
+     - POST /v1/metrics/batch
+     - Writes every sample in a luxfi/metric `MetricBatch` into the calling org's store and answers `{written}`: the number of SAMPLES stored, not families and not metrics. This is the exact wire shape the ZAP `MsgMetricBatch` transport carries, so the HTTP door and the optional ZAP push receiver share one code path and one meaning — the transport is an optimisation, never a different contract.  A counter or gauge lands as one sample. A histogram or summary contributes DERIVED `<name>_sum` and `<name>_count` series, so one metric can write more than one sample and `written` can exceed the number of metrics you sent. The batch's own `TimestampNs` stamps every sample it carries.  The tenant is the gateway-minted `X-Org-Id` header, falling back to the deployment brand and then `default`; each org gets its own store, WAL-durable under the deployment's data dir. A body that does not decode is 400.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter range: (query)  (optional, default to ._24h)
-     - returns: RequestBuilder<FunctionsMetrics> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func functionsFunctionMetricsWithRequestBuilder(range: ModelRange_functionsFunctionMetrics? = nil) -> RequestBuilder<FunctionsMetrics> {
-        let localVariablePath = "/v1/functions/metrics"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func postMetricsBatchWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/metrics/batch"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "range": (wrappedValue: range?.encodeToJSON(), isExplode: true),
-        ])
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<FunctionsMetrics>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Per-org RED metrics and LLM usage for a product
+     Append samples to your org's named, labelled series
      
-     - parameter product: (query) Console product slug. Must match &#x60;^[a-z0-9][a-z0-9._-]{0,62}$&#x60;. 
-     - parameter range: (query) Look-back range in seconds (default 3600, max 604800). (optional, default to 3600)
-     - parameter stepSec: (query) Explicit bucket width in seconds (clamped to [30, 3600]). Omit to auto-derive. (optional)
-     - returns: ObserveMetricsResponse
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func observeGetMetrics(product: String, range: Int? = nil, stepSec: Int? = nil) async throws -> ObserveMetricsResponse {
-        return try await observeGetMetricsWithRequestBuilder(product: product, range: range, stepSec: stepSec).execute().body
+    open class func postMetricsWrite(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postMetricsWriteWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Per-org RED metrics and LLM usage for a product
-     - GET /v1/o11y/metrics
-     - Returns REAL per-org RED (rate / errors / latency) series for a product from org-tagged request spans, plus the org's LLM usage (calls / tokens / cost) from the usage ledger. The bucket width is `stepSec` (explicit or derived as ~60 buckets across the range, clamped to [30, 3600]). Usage is a secondary signal — its absence never fails the response. 
+     Append samples to your org's named, labelled series
+     - POST /v1/metrics/write
+     - Takes `{series:[{name, labels, samples:[{t, v}]}]}`, appends every sample, creating each series on first write, and answers `{written}` — again counting SAMPLES, so three series of ten samples is 30.  A series is identified by its name PLUS its whole label set, so adding one label makes a different series rather than annotating an existing one. Timestamps `t` are NANOSECONDS since the Unix epoch; a sample sent without one is stored at 0 and is then excluded by any query that sets a lower bound, which is the usual reason a write that reported success does not read back. Retention is per series and bounded — past 65536 samples the oldest are evicted.  The tenant is the gateway-minted `X-Org-Id` header, falling back to the deployment brand and then `default`. A body that does not decode is 400; nothing else is validated or rejected.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter product: (query) Console product slug. Must match &#x60;^[a-z0-9][a-z0-9._-]{0,62}$&#x60;. 
-     - parameter range: (query) Look-back range in seconds (default 3600, max 604800). (optional, default to 3600)
-     - parameter stepSec: (query) Explicit bucket width in seconds (clamped to [30, 3600]). Omit to auto-derive. (optional)
-     - returns: RequestBuilder<ObserveMetricsResponse> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func observeGetMetricsWithRequestBuilder(product: String, range: Int? = nil, stepSec: Int? = nil) -> RequestBuilder<ObserveMetricsResponse> {
-        let localVariablePath = "/v1/o11y/metrics"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func postMetricsWriteWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/metrics/write"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "product": (wrappedValue: product.encodeToJSON(), isExplode: true),
-            "range": (wrappedValue: range?.encodeToJSON(), isExplode: true),
-            "stepSec": (wrappedValue: stepSec?.encodeToJSON(), isExplode: true),
-        ])
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<ObserveMetricsResponse>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

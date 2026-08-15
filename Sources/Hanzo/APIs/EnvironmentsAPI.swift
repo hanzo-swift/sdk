@@ -6,383 +6,45 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class EnvironmentsAPI {
 
     /**
-     Create an environment
+     Returns your deploy targets, and what is running on each.
      
-     - parameter projectId: (path)  
-     - parameter kmsCreateEnvironmentRequest: (body)  
-     - returns: KmsCreateEnvironment200Response
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: EnvironmentBoard
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kmsCreateEnvironment(projectId: UUID, kmsCreateEnvironmentRequest: KmsCreateEnvironmentRequest) async throws -> KmsCreateEnvironment200Response {
-        return try await kmsCreateEnvironmentWithRequestBuilder(projectId: projectId, kmsCreateEnvironmentRequest: kmsCreateEnvironmentRequest).execute().body
+    open class func getEnvironments(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> EnvironmentBoard {
+        return try await getEnvironmentsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Create an environment
-     - POST /v1/kms/projects/{projectId}/environments
+     Returns your deploy targets, and what is running on each.
+     - GET /v1/environments
+     - Returns your deploy targets, and what is running on each.  It returns the org's environments — the distinct deploy targets its applications name, `production` for anything that names none — each aggregating the apps that target it, a rolled-up status and when it last changed.  An environment is DERIVED, not stored: there is nothing to create or delete here, and an environment exists exactly as long as an app points at it. Requires a validated principal; 403 without one.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter projectId: (path)  
-     - parameter kmsCreateEnvironmentRequest: (body)  
-     - returns: RequestBuilder<KmsCreateEnvironment200Response> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<EnvironmentBoard> 
      */
-    open class func kmsCreateEnvironmentWithRequestBuilder(projectId: UUID, kmsCreateEnvironmentRequest: KmsCreateEnvironmentRequest) -> RequestBuilder<KmsCreateEnvironment200Response> {
-        var localVariablePath = "/v1/kms/projects/{projectId}/environments"
-        let projectIdPreEscape = "\(APIHelper.mapValueToPathItem(projectId))"
-        let projectIdPostEscape = projectIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{projectId}", with: projectIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: kmsCreateEnvironmentRequest)
+    open class func getEnvironmentsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<EnvironmentBoard> {
+        let localVariablePath = "/v1/environments"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<KmsCreateEnvironment200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Delete an environment
-     
-     - parameter projectId: (path)  
-     - parameter envId: (path)  
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kmsDeleteEnvironment(projectId: UUID, envId: UUID) async throws -> AnyCodable {
-        return try await kmsDeleteEnvironmentWithRequestBuilder(projectId: projectId, envId: envId).execute().body
-    }
-
-    /**
-     Delete an environment
-     - DELETE /v1/kms/projects/{projectId}/environments/{envId}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter projectId: (path)  
-     - parameter envId: (path)  
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func kmsDeleteEnvironmentWithRequestBuilder(projectId: UUID, envId: UUID) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/kms/projects/{projectId}/environments/{envId}"
-        let projectIdPreEscape = "\(APIHelper.mapValueToPathItem(projectId))"
-        let projectIdPostEscape = projectIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{projectId}", with: projectIdPostEscape, options: .literal, range: nil)
-        let envIdPreEscape = "\(APIHelper.mapValueToPathItem(envId))"
-        let envIdPostEscape = envIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{envId}", with: envIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<EnvironmentBoard>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     List project environments
-     
-     - parameter projectId: (path)  
-     - returns: KmsListEnvironments200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kmsListEnvironments(projectId: UUID) async throws -> KmsListEnvironments200Response {
-        return try await kmsListEnvironmentsWithRequestBuilder(projectId: projectId).execute().body
-    }
-
-    /**
-     List project environments
-     - GET /v1/kms/projects/{projectId}/environments
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter projectId: (path)  
-     - returns: RequestBuilder<KmsListEnvironments200Response> 
-     */
-    open class func kmsListEnvironmentsWithRequestBuilder(projectId: UUID) -> RequestBuilder<KmsListEnvironments200Response> {
-        var localVariablePath = "/v1/kms/projects/{projectId}/environments"
-        let projectIdPreEscape = "\(APIHelper.mapValueToPathItem(projectId))"
-        let projectIdPostEscape = projectIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{projectId}", with: projectIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<KmsListEnvironments200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Update an environment
-     
-     - parameter projectId: (path)  
-     - parameter envId: (path)  
-     - parameter kmsUpdateEnvironmentRequest: (body)  
-     - returns: KmsCreateEnvironment200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kmsUpdateEnvironment(projectId: UUID, envId: UUID, kmsUpdateEnvironmentRequest: KmsUpdateEnvironmentRequest) async throws -> KmsCreateEnvironment200Response {
-        return try await kmsUpdateEnvironmentWithRequestBuilder(projectId: projectId, envId: envId, kmsUpdateEnvironmentRequest: kmsUpdateEnvironmentRequest).execute().body
-    }
-
-    /**
-     Update an environment
-     - PATCH /v1/kms/projects/{projectId}/environments/{envId}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter projectId: (path)  
-     - parameter envId: (path)  
-     - parameter kmsUpdateEnvironmentRequest: (body)  
-     - returns: RequestBuilder<KmsCreateEnvironment200Response> 
-     */
-    open class func kmsUpdateEnvironmentWithRequestBuilder(projectId: UUID, envId: UUID, kmsUpdateEnvironmentRequest: KmsUpdateEnvironmentRequest) -> RequestBuilder<KmsCreateEnvironment200Response> {
-        var localVariablePath = "/v1/kms/projects/{projectId}/environments/{envId}"
-        let projectIdPreEscape = "\(APIHelper.mapValueToPathItem(projectId))"
-        let projectIdPostEscape = projectIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{projectId}", with: projectIdPostEscape, options: .literal, range: nil)
-        let envIdPreEscape = "\(APIHelper.mapValueToPathItem(envId))"
-        let envIdPostEscape = envIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{envId}", with: envIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: kmsUpdateEnvironmentRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<KmsCreateEnvironment200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Create environment
-     
-     - parameter orgId: (path)  
-     - parameter projectId: (path)  
-     - parameter autoCreateTableRequest: (body)  
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func paasCreateEnvironment(orgId: String, projectId: String, autoCreateTableRequest: AutoCreateTableRequest) async throws -> AnyCodable {
-        return try await paasCreateEnvironmentWithRequestBuilder(orgId: orgId, projectId: projectId, autoCreateTableRequest: autoCreateTableRequest).execute().body
-    }
-
-    /**
-     Create environment
-     - POST /v1/paas/org/{orgId}/project/{projectId}/env
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter orgId: (path)  
-     - parameter projectId: (path)  
-     - parameter autoCreateTableRequest: (body)  
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func paasCreateEnvironmentWithRequestBuilder(orgId: String, projectId: String, autoCreateTableRequest: AutoCreateTableRequest) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/paas/org/{orgId}/project/{projectId}/env"
-        let orgIdPreEscape = "\(APIHelper.mapValueToPathItem(orgId))"
-        let orgIdPostEscape = orgIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{orgId}", with: orgIdPostEscape, options: .literal, range: nil)
-        let projectIdPreEscape = "\(APIHelper.mapValueToPathItem(projectId))"
-        let projectIdPostEscape = projectIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{projectId}", with: projectIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: autoCreateTableRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Delete environment
-     
-     - parameter orgId: (path)  
-     - parameter projectId: (path)  
-     - parameter envId: (path)  
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func paasDeleteEnvironment(orgId: String, projectId: String, envId: String) async throws -> AnyCodable {
-        return try await paasDeleteEnvironmentWithRequestBuilder(orgId: orgId, projectId: projectId, envId: envId).execute().body
-    }
-
-    /**
-     Delete environment
-     - DELETE /v1/paas/org/{orgId}/project/{projectId}/env/{envId}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter orgId: (path)  
-     - parameter projectId: (path)  
-     - parameter envId: (path)  
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func paasDeleteEnvironmentWithRequestBuilder(orgId: String, projectId: String, envId: String) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/paas/org/{orgId}/project/{projectId}/env/{envId}"
-        let orgIdPreEscape = "\(APIHelper.mapValueToPathItem(orgId))"
-        let orgIdPostEscape = orgIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{orgId}", with: orgIdPostEscape, options: .literal, range: nil)
-        let projectIdPreEscape = "\(APIHelper.mapValueToPathItem(projectId))"
-        let projectIdPostEscape = projectIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{projectId}", with: projectIdPostEscape, options: .literal, range: nil)
-        let envIdPreEscape = "\(APIHelper.mapValueToPathItem(envId))"
-        let envIdPostEscape = envIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{envId}", with: envIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get environment
-     
-     - parameter orgId: (path)  
-     - parameter projectId: (path)  
-     - parameter envId: (path)  
-     - returns: PaasEnvironment
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func paasGetEnvironment(orgId: String, projectId: String, envId: String) async throws -> PaasEnvironment {
-        return try await paasGetEnvironmentWithRequestBuilder(orgId: orgId, projectId: projectId, envId: envId).execute().body
-    }
-
-    /**
-     Get environment
-     - GET /v1/paas/org/{orgId}/project/{projectId}/env/{envId}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter orgId: (path)  
-     - parameter projectId: (path)  
-     - parameter envId: (path)  
-     - returns: RequestBuilder<PaasEnvironment> 
-     */
-    open class func paasGetEnvironmentWithRequestBuilder(orgId: String, projectId: String, envId: String) -> RequestBuilder<PaasEnvironment> {
-        var localVariablePath = "/v1/paas/org/{orgId}/project/{projectId}/env/{envId}"
-        let orgIdPreEscape = "\(APIHelper.mapValueToPathItem(orgId))"
-        let orgIdPostEscape = orgIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{orgId}", with: orgIdPostEscape, options: .literal, range: nil)
-        let projectIdPreEscape = "\(APIHelper.mapValueToPathItem(projectId))"
-        let projectIdPostEscape = projectIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{projectId}", with: projectIdPostEscape, options: .literal, range: nil)
-        let envIdPreEscape = "\(APIHelper.mapValueToPathItem(envId))"
-        let envIdPostEscape = envIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{envId}", with: envIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<PaasEnvironment>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     List environments
-     
-     - parameter orgId: (path)  
-     - parameter projectId: (path)  
-     - returns: [PaasEnvironment]
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func paasListEnvironments(orgId: String, projectId: String) async throws -> [PaasEnvironment] {
-        return try await paasListEnvironmentsWithRequestBuilder(orgId: orgId, projectId: projectId).execute().body
-    }
-
-    /**
-     List environments
-     - GET /v1/paas/org/{orgId}/project/{projectId}/env
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter orgId: (path)  
-     - parameter projectId: (path)  
-     - returns: RequestBuilder<[PaasEnvironment]> 
-     */
-    open class func paasListEnvironmentsWithRequestBuilder(orgId: String, projectId: String) -> RequestBuilder<[PaasEnvironment]> {
-        var localVariablePath = "/v1/paas/org/{orgId}/project/{projectId}/env"
-        let orgIdPreEscape = "\(APIHelper.mapValueToPathItem(orgId))"
-        let orgIdPostEscape = orgIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{orgId}", with: orgIdPostEscape, options: .literal, range: nil)
-        let projectIdPreEscape = "\(APIHelper.mapValueToPathItem(projectId))"
-        let projectIdPostEscape = projectIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{projectId}", with: projectIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<[PaasEnvironment]>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

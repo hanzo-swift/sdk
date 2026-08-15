@@ -6,523 +6,84 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class MessagesAPI {
 
     /**
-     Delete a message
+     Implements the Anthropic Messages API.
      
-     - parameter conversationId: (path)  
-     - parameter messageId: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatDeleteMessagesByconversationidBymessageid(conversationId: String, messageId: String) async throws {
-        return try await chatDeleteMessagesByconversationidBymessageidWithRequestBuilder(conversationId: conversationId, messageId: messageId).execute().body
+    open class func postMessages(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postMessagesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Delete a message
-     - DELETE /v1/chat/messages/{conversationId}/{messageId}
+     Implements the Anthropic Messages API.
+     - POST /v1/messages
+     - Implements the Anthropic Messages API.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter conversationId: (path)  
-     - parameter messageId: (path)  
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func chatDeleteMessagesByconversationidBymessageidWithRequestBuilder(conversationId: String, messageId: String) -> RequestBuilder<Void> {
-        var localVariablePath = "/v1/chat/messages/{conversationId}/{messageId}"
-        let conversationIdPreEscape = "\(APIHelper.mapValueToPathItem(conversationId))"
-        let conversationIdPostEscape = conversationIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{conversationId}", with: conversationIdPostEscape, options: .literal, range: nil)
-        let messageIdPreEscape = "\(APIHelper.mapValueToPathItem(messageId))"
-        let messageIdPostEscape = messageIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{messageId}", with: messageIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func postMessagesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/messages"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = HanzoAPI.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Query messages
+     Implements POST /v1/messages/count_tokens.
      
-     - parameter conversationId: (query)  (optional)
-     - parameter messageId: (query)  (optional)
-     - parameter search: (query)  (optional)
-     - parameter cursor: (query)  (optional)
-     - parameter pageSize: (query)  (optional, default to 25)
-     - parameter sortBy: (query)  (optional, default to "createdAt")
-     - parameter sortDirection: (query)  (optional, default to "desc")
-     - returns: ChatGetMessages200Response
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatGetMessages(conversationId: String? = nil, messageId: String? = nil, search: String? = nil, cursor: String? = nil, pageSize: Int? = nil, sortBy: String? = nil, sortDirection: String? = nil) async throws -> ChatGetMessages200Response {
-        return try await chatGetMessagesWithRequestBuilder(conversationId: conversationId, messageId: messageId, search: search, cursor: cursor, pageSize: pageSize, sortBy: sortBy, sortDirection: sortDirection).execute().body
+    open class func postMessagesCountTokens(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postMessagesCountTokensWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Query messages
-     - GET /v1/chat/messages
-     - Search messages or retrieve by conversation/message ID.
+     Implements POST /v1/messages/count_tokens.
+     - POST /v1/messages/count_tokens
+     - Implements POST /v1/messages/count_tokens. Claude Code calls it before a request; it returns {\"input_tokens\": N} for the given model + messages + tools.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter conversationId: (query)  (optional)
-     - parameter messageId: (query)  (optional)
-     - parameter search: (query)  (optional)
-     - parameter cursor: (query)  (optional)
-     - parameter pageSize: (query)  (optional, default to 25)
-     - parameter sortBy: (query)  (optional, default to "createdAt")
-     - parameter sortDirection: (query)  (optional, default to "desc")
-     - returns: RequestBuilder<ChatGetMessages200Response> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func chatGetMessagesWithRequestBuilder(conversationId: String? = nil, messageId: String? = nil, search: String? = nil, cursor: String? = nil, pageSize: Int? = nil, sortBy: String? = nil, sortDirection: String? = nil) -> RequestBuilder<ChatGetMessages200Response> {
-        let localVariablePath = "/v1/chat/messages"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func postMessagesCountTokensWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/messages/count_tokens"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "conversationId": (wrappedValue: conversationId?.encodeToJSON(), isExplode: true),
-            "messageId": (wrappedValue: messageId?.encodeToJSON(), isExplode: true),
-            "search": (wrappedValue: search?.encodeToJSON(), isExplode: true),
-            "cursor": (wrappedValue: cursor?.encodeToJSON(), isExplode: true),
-            "pageSize": (wrappedValue: pageSize?.encodeToJSON(), isExplode: true),
-            "sortBy": (wrappedValue: sortBy?.encodeToJSON(), isExplode: true),
-            "sortDirection": (wrappedValue: sortDirection?.encodeToJSON(), isExplode: true),
-        ])
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<ChatGetMessages200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get all messages in a conversation
-     
-     - parameter conversationId: (path)  
-     - returns: [ChatMessage]
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatGetMessagesByconversationid(conversationId: String) async throws -> [ChatMessage] {
-        return try await chatGetMessagesByconversationidWithRequestBuilder(conversationId: conversationId).execute().body
-    }
-
-    /**
-     Get all messages in a conversation
-     - GET /v1/chat/messages/{conversationId}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter conversationId: (path)  
-     - returns: RequestBuilder<[ChatMessage]> 
-     */
-    open class func chatGetMessagesByconversationidWithRequestBuilder(conversationId: String) -> RequestBuilder<[ChatMessage]> {
-        var localVariablePath = "/v1/chat/messages/{conversationId}"
-        let conversationIdPreEscape = "\(APIHelper.mapValueToPathItem(conversationId))"
-        let conversationIdPostEscape = conversationIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{conversationId}", with: conversationIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<[ChatMessage]>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get a specific message
-     
-     - parameter conversationId: (path)  
-     - parameter messageId: (path)  
-     - returns: ChatMessage
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatGetMessagesByconversationidBymessageid(conversationId: String, messageId: String) async throws -> ChatMessage {
-        return try await chatGetMessagesByconversationidBymessageidWithRequestBuilder(conversationId: conversationId, messageId: messageId).execute().body
-    }
-
-    /**
-     Get a specific message
-     - GET /v1/chat/messages/{conversationId}/{messageId}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter conversationId: (path)  
-     - parameter messageId: (path)  
-     - returns: RequestBuilder<ChatMessage> 
-     */
-    open class func chatGetMessagesByconversationidBymessageidWithRequestBuilder(conversationId: String, messageId: String) -> RequestBuilder<ChatMessage> {
-        var localVariablePath = "/v1/chat/messages/{conversationId}/{messageId}"
-        let conversationIdPreEscape = "\(APIHelper.mapValueToPathItem(conversationId))"
-        let conversationIdPostEscape = conversationIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{conversationId}", with: conversationIdPostEscape, options: .literal, range: nil)
-        let messageIdPreEscape = "\(APIHelper.mapValueToPathItem(messageId))"
-        let messageIdPostEscape = messageIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{messageId}", with: messageIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ChatMessage>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Edit artifact content in a message
-     
-     - parameter messageId: (path)  
-     - parameter chatPostMessagesArtifactBymessageidRequest: (body)  
-     - returns: ChatPostMessagesArtifactBymessageid200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatPostMessagesArtifactBymessageid(messageId: String, chatPostMessagesArtifactBymessageidRequest: ChatPostMessagesArtifactBymessageidRequest) async throws -> ChatPostMessagesArtifactBymessageid200Response {
-        return try await chatPostMessagesArtifactBymessageidWithRequestBuilder(messageId: messageId, chatPostMessagesArtifactBymessageidRequest: chatPostMessagesArtifactBymessageidRequest).execute().body
-    }
-
-    /**
-     Edit artifact content in a message
-     - POST /v1/chat/messages/artifact/{messageId}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter messageId: (path)  
-     - parameter chatPostMessagesArtifactBymessageidRequest: (body)  
-     - returns: RequestBuilder<ChatPostMessagesArtifactBymessageid200Response> 
-     */
-    open class func chatPostMessagesArtifactBymessageidWithRequestBuilder(messageId: String, chatPostMessagesArtifactBymessageidRequest: ChatPostMessagesArtifactBymessageidRequest) -> RequestBuilder<ChatPostMessagesArtifactBymessageid200Response> {
-        var localVariablePath = "/v1/chat/messages/artifact/{messageId}"
-        let messageIdPreEscape = "\(APIHelper.mapValueToPathItem(messageId))"
-        let messageIdPostEscape = messageIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{messageId}", with: messageIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: chatPostMessagesArtifactBymessageidRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ChatPostMessagesArtifactBymessageid200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Create a branch message
-     
-     - parameter chatPostMessagesBranchRequest: (body)  
-     - returns: ChatMessage
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatPostMessagesBranch(chatPostMessagesBranchRequest: ChatPostMessagesBranchRequest) async throws -> ChatMessage {
-        return try await chatPostMessagesBranchWithRequestBuilder(chatPostMessagesBranchRequest: chatPostMessagesBranchRequest).execute().body
-    }
-
-    /**
-     Create a branch message
-     - POST /v1/chat/messages/branch
-     - Branch a specific agent's content from a parallel response message.
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter chatPostMessagesBranchRequest: (body)  
-     - returns: RequestBuilder<ChatMessage> 
-     */
-    open class func chatPostMessagesBranchWithRequestBuilder(chatPostMessagesBranchRequest: ChatPostMessagesBranchRequest) -> RequestBuilder<ChatMessage> {
-        let localVariablePath = "/v1/chat/messages/branch"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: chatPostMessagesBranchRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ChatMessage>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Save a message to a conversation
-     
-     - parameter conversationId: (path)  
-     - parameter chatMessage: (body)  
-     - returns: ChatMessage
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatPostMessagesByconversationid(conversationId: String, chatMessage: ChatMessage) async throws -> ChatMessage {
-        return try await chatPostMessagesByconversationidWithRequestBuilder(conversationId: conversationId, chatMessage: chatMessage).execute().body
-    }
-
-    /**
-     Save a message to a conversation
-     - POST /v1/chat/messages/{conversationId}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter conversationId: (path)  
-     - parameter chatMessage: (body)  
-     - returns: RequestBuilder<ChatMessage> 
-     */
-    open class func chatPostMessagesByconversationidWithRequestBuilder(conversationId: String, chatMessage: ChatMessage) -> RequestBuilder<ChatMessage> {
-        var localVariablePath = "/v1/chat/messages/{conversationId}"
-        let conversationIdPreEscape = "\(APIHelper.mapValueToPathItem(conversationId))"
-        let conversationIdPostEscape = conversationIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{conversationId}", with: conversationIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: chatMessage)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ChatMessage>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Update a message
-     
-     - parameter conversationId: (path)  
-     - parameter messageId: (path)  
-     - parameter chatPutMessagesByconversationidBymessageidRequest: (body)  
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatPutMessagesByconversationidBymessageid(conversationId: String, messageId: String, chatPutMessagesByconversationidBymessageidRequest: ChatPutMessagesByconversationidBymessageidRequest) async throws -> AnyCodable {
-        return try await chatPutMessagesByconversationidBymessageidWithRequestBuilder(conversationId: conversationId, messageId: messageId, chatPutMessagesByconversationidBymessageidRequest: chatPutMessagesByconversationidBymessageidRequest).execute().body
-    }
-
-    /**
-     Update a message
-     - PUT /v1/chat/messages/{conversationId}/{messageId}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter conversationId: (path)  
-     - parameter messageId: (path)  
-     - parameter chatPutMessagesByconversationidBymessageidRequest: (body)  
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func chatPutMessagesByconversationidBymessageidWithRequestBuilder(conversationId: String, messageId: String, chatPutMessagesByconversationidBymessageidRequest: ChatPutMessagesByconversationidBymessageidRequest) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/chat/messages/{conversationId}/{messageId}"
-        let conversationIdPreEscape = "\(APIHelper.mapValueToPathItem(conversationId))"
-        let conversationIdPostEscape = conversationIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{conversationId}", with: conversationIdPostEscape, options: .literal, range: nil)
-        let messageIdPreEscape = "\(APIHelper.mapValueToPathItem(messageId))"
-        let messageIdPostEscape = messageIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{messageId}", with: messageIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: chatPutMessagesByconversationidBymessageidRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Update message feedback
-     
-     - parameter conversationId: (path)  
-     - parameter messageId: (path)  
-     - parameter chatPutMessagesByconversationidBymessageidFeedbackRequest: (body)  
-     - returns: ChatPutMessagesByconversationidBymessageidFeedback200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatPutMessagesByconversationidBymessageidFeedback(conversationId: String, messageId: String, chatPutMessagesByconversationidBymessageidFeedbackRequest: ChatPutMessagesByconversationidBymessageidFeedbackRequest) async throws -> ChatPutMessagesByconversationidBymessageidFeedback200Response {
-        return try await chatPutMessagesByconversationidBymessageidFeedbackWithRequestBuilder(conversationId: conversationId, messageId: messageId, chatPutMessagesByconversationidBymessageidFeedbackRequest: chatPutMessagesByconversationidBymessageidFeedbackRequest).execute().body
-    }
-
-    /**
-     Update message feedback
-     - PUT /v1/chat/messages/{conversationId}/{messageId}/feedback
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter conversationId: (path)  
-     - parameter messageId: (path)  
-     - parameter chatPutMessagesByconversationidBymessageidFeedbackRequest: (body)  
-     - returns: RequestBuilder<ChatPutMessagesByconversationidBymessageidFeedback200Response> 
-     */
-    open class func chatPutMessagesByconversationidBymessageidFeedbackWithRequestBuilder(conversationId: String, messageId: String, chatPutMessagesByconversationidBymessageidFeedbackRequest: ChatPutMessagesByconversationidBymessageidFeedbackRequest) -> RequestBuilder<ChatPutMessagesByconversationidBymessageidFeedback200Response> {
-        var localVariablePath = "/v1/chat/messages/{conversationId}/{messageId}/feedback"
-        let conversationIdPreEscape = "\(APIHelper.mapValueToPathItem(conversationId))"
-        let conversationIdPostEscape = conversationIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{conversationId}", with: conversationIdPostEscape, options: .literal, range: nil)
-        let messageIdPreEscape = "\(APIHelper.mapValueToPathItem(messageId))"
-        let messageIdPostEscape = messageIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{messageId}", with: messageIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: chatPutMessagesByconversationidBymessageidFeedbackRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ChatPutMessagesByconversationidBymessageidFeedback200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Consume messages
-     
-     - parameter topic: (path)  
-     - parameter partition: (query) Partition to consume from (optional, default to 0)
-     - parameter offset: (query) Starting offset (earliest, latest, or numeric offset) (optional, default to "latest")
-     - parameter limit: (query) Maximum records to return (optional, default to 100)
-     - parameter timeout: (query) Long-poll timeout in milliseconds (optional, default to 5000)
-     - returns: StreamConsumeMessages200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func streamConsumeMessages(topic: String, partition: Int? = nil, offset: String? = nil, limit: Int? = nil, timeout: Int? = nil) async throws -> StreamConsumeMessages200Response {
-        return try await streamConsumeMessagesWithRequestBuilder(topic: topic, partition: partition, offset: offset, limit: limit, timeout: timeout).execute().body
-    }
-
-    /**
-     Consume messages
-     - GET /v1/stream/topics/{topic}/messages
-     - Consume messages from a topic partition via REST API. For persistent consumption, use the Kafka wire protocol with consumer groups. 
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter topic: (path)  
-     - parameter partition: (query) Partition to consume from (optional, default to 0)
-     - parameter offset: (query) Starting offset (earliest, latest, or numeric offset) (optional, default to "latest")
-     - parameter limit: (query) Maximum records to return (optional, default to 100)
-     - parameter timeout: (query) Long-poll timeout in milliseconds (optional, default to 5000)
-     - returns: RequestBuilder<StreamConsumeMessages200Response> 
-     */
-    open class func streamConsumeMessagesWithRequestBuilder(topic: String, partition: Int? = nil, offset: String? = nil, limit: Int? = nil, timeout: Int? = nil) -> RequestBuilder<StreamConsumeMessages200Response> {
-        var localVariablePath = "/v1/stream/topics/{topic}/messages"
-        let topicPreEscape = "\(APIHelper.mapValueToPathItem(topic))"
-        let topicPostEscape = topicPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{topic}", with: topicPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "partition": (wrappedValue: partition?.encodeToJSON(), isExplode: true),
-            "offset": (wrappedValue: offset?.encodeToJSON(), isExplode: true),
-            "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
-            "timeout": (wrappedValue: timeout?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<StreamConsumeMessages200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Produce messages
-     
-     - parameter topic: (path)  
-     - parameter streamProduceRequest: (body)  
-     - returns: StreamProduceResponse
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func streamProduceMessages(topic: String, streamProduceRequest: StreamProduceRequest) async throws -> StreamProduceResponse {
-        return try await streamProduceMessagesWithRequestBuilder(topic: topic, streamProduceRequest: streamProduceRequest).execute().body
-    }
-
-    /**
-     Produce messages
-     - POST /v1/stream/topics/{topic}/messages
-     - Produce one or more messages to a topic via REST API. For high throughput, use the Kafka wire protocol on port 9092. 
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter topic: (path)  
-     - parameter streamProduceRequest: (body)  
-     - returns: RequestBuilder<StreamProduceResponse> 
-     */
-    open class func streamProduceMessagesWithRequestBuilder(topic: String, streamProduceRequest: StreamProduceRequest) -> RequestBuilder<StreamProduceResponse> {
-        var localVariablePath = "/v1/stream/topics/{topic}/messages"
-        let topicPreEscape = "\(APIHelper.mapValueToPathItem(topic))"
-        let topicPostEscape = topicPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{topic}", with: topicPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: streamProduceRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<StreamProduceResponse>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

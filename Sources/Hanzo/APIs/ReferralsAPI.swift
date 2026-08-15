@@ -6,85 +6,86 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class ReferralsAPI {
 
     /**
-     Claim a referral from a ?ref code
+     Returns the caller's referral code, share link and the referrals they have made.
      
-     - parameter referralsClaimRequest: (body)  
-     - returns: ReferralsClaimResponse
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: MyReferrals
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func referralsClaimReferral(referralsClaimRequest: ReferralsClaimRequest) async throws -> ReferralsClaimResponse {
-        return try await referralsClaimReferralWithRequestBuilder(referralsClaimRequest: referralsClaimRequest).execute().body
+    open class func getReferrals(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> MyReferrals {
+        return try await getReferralsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Claim a referral from a ?ref code
-     - POST /v1/referrals/claim
-     - Records a referral. The REFEREE is the validated caller (never client- supplied); the referrer is resolved from the code. Idempotent (one per referee, first-touch wins); self-referral is blocked; an unknown code is rejected. Returns 201 when a new referral was created, 200 when it already existed. 
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter referralsClaimRequest: (body)  
-     - returns: RequestBuilder<ReferralsClaimResponse> 
-     */
-    open class func referralsClaimReferralWithRequestBuilder(referralsClaimRequest: ReferralsClaimRequest) -> RequestBuilder<ReferralsClaimResponse> {
-        let localVariablePath = "/v1/referrals/claim"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: referralsClaimRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ReferralsClaimResponse>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get my referral code, link, and referrals
-     
-     - returns: ReferralsMyReferralsResponse
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func referralsGetMyReferrals() async throws -> ReferralsMyReferralsResponse {
-        return try await referralsGetMyReferralsWithRequestBuilder().execute().body
-    }
-
-    /**
-     Get my referral code, link, and referrals
+     Returns the caller's referral code, share link and the referrals they have made.
      - GET /v1/referrals
-     - Returns the caller org's stable referral code and link, the referrals they have made (with per-referral status and credit earned), a status tally, and the total credit earned. Opportunistically runs the qualify check for the caller's own pending referees, so the page is self-updating. 
+     - Returns the caller's referral code, share link and the referrals they have made.  The code is a stable, deterministic function of the org, so the link in this response is the same one every time. Each row carries the referee and the status of that attribution.  IT IS A PURE READ. It advances no referral, grants nothing and deposits nothing — a GET reports state, it never changes it. Qualification is the admin sweep's job (POST /v1/admin/referrals/sweep). The one row this handler can write is the caller's OWN code-directory entry (EnsureCode), which materialises a value deriveCode already computes deterministically from the org id so the code has an O(1) reverse lookup; it carries no money, no referral state and no other tenant.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<ReferralsMyReferralsResponse> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<MyReferrals> 
      */
-    open class func referralsGetMyReferralsWithRequestBuilder() -> RequestBuilder<ReferralsMyReferralsResponse> {
+    open class func getReferralsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<MyReferrals> {
         let localVariablePath = "/v1/referrals"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<ReferralsMyReferralsResponse>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<MyReferrals>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Records that the caller's org signed up through a referral code.
+     
+     - parameter claimRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ClaimView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postReferralsClaim(claimRequest: ClaimRequest, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ClaimView {
+        return try await postReferralsClaimWithRequestBuilder(claimRequest: claimRequest, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Records that the caller's org signed up through a referral code.
+     - POST /v1/referrals/claim
+     - Records that the caller's org signed up through a referral code.  The REFEREE is the validated caller, never a client field, and the referrer is resolved from the code — so a caller can only ever attach THEMSELVES to someone else's code. Referring yourself is 400 and an unknown code is 404.  It is idempotent and first-touch: an org can be referred once, ever. A repeat call returns the referral already on file with created=false and 200, where the first call answers 201.  Recording a referral grants nothing, and neither does anything downstream of it: the edge later advances to qualified when the referee makes metered spend (POST /v1/admin/referrals/sweep), and that is the end of it. No credit is ever issued from this package.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter claimRequest: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ClaimView> 
+     */
+    open class func postReferralsClaimWithRequestBuilder(claimRequest: ClaimRequest, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ClaimView> {
+        let localVariablePath = "/v1/referrals/claim"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: claimRequest, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ClaimView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

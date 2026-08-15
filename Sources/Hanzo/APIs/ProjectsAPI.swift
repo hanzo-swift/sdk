@@ -6,1936 +6,729 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class ProjectsAPI {
 
     /**
-     Get a project by id
+     Deletes a project and takes its site off the internet.
      
-     - parameter id: (path)  
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func autoGetProject(id: String) async throws -> AnyCodable {
-        return try await autoGetProjectWithRequestBuilder(id: id).execute().body
-    }
-
-    /**
-     Get a project by id
-     - GET /v1/auto/projects/{id}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter id: (path)  
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func autoGetProjectWithRequestBuilder(id: String) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/auto/projects/{id}"
-        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
-        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     List projects
-     
-     - returns: [AutoProject]
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func autoListProjects() async throws -> [AutoProject] {
-        return try await autoListProjectsWithRequestBuilder().execute().body
-    }
-
-    /**
-     List projects
-     - GET /v1/auto/projects
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<[AutoProject]> 
-     */
-    open class func autoListProjectsWithRequestBuilder() -> RequestBuilder<[AutoProject]> {
-        let localVariablePath = "/v1/auto/projects"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<[AutoProject]>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Update project settings
-     
-     - parameter id: (path)  
-     - parameter autoUpdateAppConnectionRequest: (body)  
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func autoUpdateProject(id: String, autoUpdateAppConnectionRequest: AutoUpdateAppConnectionRequest) async throws -> AnyCodable {
-        return try await autoUpdateProjectWithRequestBuilder(id: id, autoUpdateAppConnectionRequest: autoUpdateAppConnectionRequest).execute().body
-    }
-
-    /**
-     Update project settings
-     - POST /v1/auto/projects/{id}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter id: (path)  
-     - parameter autoUpdateAppConnectionRequest: (body)  
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func autoUpdateProjectWithRequestBuilder(id: String, autoUpdateAppConnectionRequest: AutoUpdateAppConnectionRequest) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/auto/projects/{id}"
-        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
-        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: autoUpdateAppConnectionRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Create a new project (requires organization-scoped API key)
-     
-     - parameter consoleCreateProjectRequest: (body)  
-     - returns: ConsoleProject
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func consoleCreateProject(consoleCreateProjectRequest: ConsoleCreateProjectRequest) async throws -> ConsoleProject {
-        return try await consoleCreateProjectWithRequestBuilder(consoleCreateProjectRequest: consoleCreateProjectRequest).execute().body
-    }
-
-    /**
-     Create a new project (requires organization-scoped API key)
-     - POST /v1/console/projects
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter consoleCreateProjectRequest: (body)  
-     - returns: RequestBuilder<ConsoleProject> 
-     */
-    open class func consoleCreateProjectWithRequestBuilder(consoleCreateProjectRequest: ConsoleCreateProjectRequest) -> RequestBuilder<ConsoleProject> {
-        let localVariablePath = "/v1/console/projects"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: consoleCreateProjectRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ConsoleProject>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Create an API key for a project
-     
-     - parameter projectId: (path)  
-     - parameter consoleCreateProjectApiKeyRequest: (body)  
-     - returns: ConsoleCreateProjectApiKey200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func consoleCreateProjectApiKey(projectId: String, consoleCreateProjectApiKeyRequest: ConsoleCreateProjectApiKeyRequest) async throws -> ConsoleCreateProjectApiKey200Response {
-        return try await consoleCreateProjectApiKeyWithRequestBuilder(projectId: projectId, consoleCreateProjectApiKeyRequest: consoleCreateProjectApiKeyRequest).execute().body
-    }
-
-    /**
-     Create an API key for a project
-     - POST /v1/console/projects/{projectId}/apiKeys
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter projectId: (path)  
-     - parameter consoleCreateProjectApiKeyRequest: (body)  
-     - returns: RequestBuilder<ConsoleCreateProjectApiKey200Response> 
-     */
-    open class func consoleCreateProjectApiKeyWithRequestBuilder(projectId: String, consoleCreateProjectApiKeyRequest: ConsoleCreateProjectApiKeyRequest) -> RequestBuilder<ConsoleCreateProjectApiKey200Response> {
-        var localVariablePath = "/v1/console/projects/{projectId}/apiKeys"
-        let projectIdPreEscape = "\(APIHelper.mapValueToPathItem(projectId))"
-        let projectIdPostEscape = projectIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{projectId}", with: projectIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: consoleCreateProjectApiKeyRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ConsoleCreateProjectApiKey200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Delete a project (async)
-     
-     - parameter projectId: (path)  
-     - returns: ConsoleDeleteProject202Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func consoleDeleteProject(projectId: String) async throws -> ConsoleDeleteProject202Response {
-        return try await consoleDeleteProjectWithRequestBuilder(projectId: projectId).execute().body
-    }
-
-    /**
-     Delete a project (async)
-     - DELETE /v1/console/projects/{projectId}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter projectId: (path)  
-     - returns: RequestBuilder<ConsoleDeleteProject202Response> 
-     */
-    open class func consoleDeleteProjectWithRequestBuilder(projectId: String) -> RequestBuilder<ConsoleDeleteProject202Response> {
-        var localVariablePath = "/v1/console/projects/{projectId}"
-        let projectIdPreEscape = "\(APIHelper.mapValueToPathItem(projectId))"
-        let projectIdPostEscape = projectIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{projectId}", with: projectIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ConsoleDeleteProject202Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Delete a project API key
-     
-     - parameter projectId: (path)  
-     - parameter apiKeyId: (path)  
-     - returns: ConsoleDeleteProjectApiKey200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func consoleDeleteProjectApiKey(projectId: String, apiKeyId: String) async throws -> ConsoleDeleteProjectApiKey200Response {
-        return try await consoleDeleteProjectApiKeyWithRequestBuilder(projectId: projectId, apiKeyId: apiKeyId).execute().body
-    }
-
-    /**
-     Delete a project API key
-     - DELETE /v1/console/projects/{projectId}/apiKeys/{apiKeyId}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter projectId: (path)  
-     - parameter apiKeyId: (path)  
-     - returns: RequestBuilder<ConsoleDeleteProjectApiKey200Response> 
-     */
-    open class func consoleDeleteProjectApiKeyWithRequestBuilder(projectId: String, apiKeyId: String) -> RequestBuilder<ConsoleDeleteProjectApiKey200Response> {
-        var localVariablePath = "/v1/console/projects/{projectId}/apiKeys/{apiKeyId}"
-        let projectIdPreEscape = "\(APIHelper.mapValueToPathItem(projectId))"
-        let projectIdPostEscape = projectIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{projectId}", with: projectIdPostEscape, options: .literal, range: nil)
-        let apiKeyIdPreEscape = "\(APIHelper.mapValueToPathItem(apiKeyId))"
-        let apiKeyIdPostEscape = apiKeyIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{apiKeyId}", with: apiKeyIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ConsoleDeleteProjectApiKey200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get project associated with API key
-     
-     - returns: ConsoleGetProject200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func consoleGetProject() async throws -> ConsoleGetProject200Response {
-        return try await consoleGetProjectWithRequestBuilder().execute().body
-    }
-
-    /**
-     Get project associated with API key
-     - GET /v1/console/projects
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<ConsoleGetProject200Response> 
-     */
-    open class func consoleGetProjectWithRequestBuilder() -> RequestBuilder<ConsoleGetProject200Response> {
-        let localVariablePath = "/v1/console/projects"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ConsoleGetProject200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get a project by ID
-     
-     - parameter projectId: (path)  
-     - returns: ConsoleProject
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func consoleGetProjectById(projectId: String) async throws -> ConsoleProject {
-        return try await consoleGetProjectByIdWithRequestBuilder(projectId: projectId).execute().body
-    }
-
-    /**
-     Get a project by ID
-     - GET /v1/console/projects/{projectId}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter projectId: (path)  
-     - returns: RequestBuilder<ConsoleProject> 
-     */
-    open class func consoleGetProjectByIdWithRequestBuilder(projectId: String) -> RequestBuilder<ConsoleProject> {
-        var localVariablePath = "/v1/console/projects/{projectId}"
-        let projectIdPreEscape = "\(APIHelper.mapValueToPathItem(projectId))"
-        let projectIdPostEscape = projectIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{projectId}", with: projectIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ConsoleProject>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get all API keys for a project
-     
-     - parameter projectId: (path)  
-     - returns: ConsoleListOrganizationApiKeys200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func consoleListProjectApiKeys(projectId: String) async throws -> ConsoleListOrganizationApiKeys200Response {
-        return try await consoleListProjectApiKeysWithRequestBuilder(projectId: projectId).execute().body
-    }
-
-    /**
-     Get all API keys for a project
-     - GET /v1/console/projects/{projectId}/apiKeys
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter projectId: (path)  
-     - returns: RequestBuilder<ConsoleListOrganizationApiKeys200Response> 
-     */
-    open class func consoleListProjectApiKeysWithRequestBuilder(projectId: String) -> RequestBuilder<ConsoleListOrganizationApiKeys200Response> {
-        var localVariablePath = "/v1/console/projects/{projectId}/apiKeys"
-        let projectIdPreEscape = "\(APIHelper.mapValueToPathItem(projectId))"
-        let projectIdPostEscape = projectIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{projectId}", with: projectIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ConsoleListOrganizationApiKeys200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Update a project
-     
-     - parameter projectId: (path)  
-     - parameter consoleUpdateProjectRequest: (body)  
-     - returns: ConsoleProject
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func consoleUpdateProject(projectId: String, consoleUpdateProjectRequest: ConsoleUpdateProjectRequest) async throws -> ConsoleProject {
-        return try await consoleUpdateProjectWithRequestBuilder(projectId: projectId, consoleUpdateProjectRequest: consoleUpdateProjectRequest).execute().body
-    }
-
-    /**
-     Update a project
-     - PUT /v1/console/projects/{projectId}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter projectId: (path)  
-     - parameter consoleUpdateProjectRequest: (body)  
-     - returns: RequestBuilder<ConsoleProject> 
-     */
-    open class func consoleUpdateProjectWithRequestBuilder(projectId: String, consoleUpdateProjectRequest: ConsoleUpdateProjectRequest) -> RequestBuilder<ConsoleProject> {
-        var localVariablePath = "/v1/console/projects/{projectId}"
-        let projectIdPreEscape = "\(APIHelper.mapValueToPathItem(projectId))"
-        let projectIdPostEscape = projectIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{projectId}", with: projectIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: consoleUpdateProjectRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ConsoleProject>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Create project
-     
-     - parameter dbCreateProjectRequest: (body)  
-     - returns: DbCreateProject201Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func dbCreateProject(dbCreateProjectRequest: DbCreateProjectRequest) async throws -> DbCreateProject201Response {
-        return try await dbCreateProjectWithRequestBuilder(dbCreateProjectRequest: dbCreateProjectRequest).execute().body
-    }
-
-    /**
-     Create project
-     - POST /v1/db/projects
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter dbCreateProjectRequest: (body)  
-     - returns: RequestBuilder<DbCreateProject201Response> 
-     */
-    open class func dbCreateProjectWithRequestBuilder(dbCreateProjectRequest: DbCreateProjectRequest) -> RequestBuilder<DbCreateProject201Response> {
-        let localVariablePath = "/v1/db/projects"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: dbCreateProjectRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<DbCreateProject201Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Delete project
-     
-     - parameter id: (path)  
-     - returns: DbGetProject200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func dbDeleteProject(id: String) async throws -> DbGetProject200Response {
-        return try await dbDeleteProjectWithRequestBuilder(id: id).execute().body
-    }
-
-    /**
-     Delete project
-     - DELETE /v1/db/projects/{id}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter id: (path)  
-     - returns: RequestBuilder<DbGetProject200Response> 
-     */
-    open class func dbDeleteProjectWithRequestBuilder(id: String) -> RequestBuilder<DbGetProject200Response> {
-        var localVariablePath = "/v1/db/projects/{id}"
-        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
-        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<DbGetProject200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get connection URI
-     
-     - parameter id: (path)  
-     - parameter roleName: (query)  
-     - parameter branchId: (query)  (optional)
-     - parameter endpointId: (query)  (optional)
-     - parameter databaseName: (query)  (optional, default to "neondb")
-     - parameter pooled: (query)  (optional, default to true)
-     - returns: DbConnectionUri
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func dbGetConnectionUri(id: String, roleName: String, branchId: String? = nil, endpointId: String? = nil, databaseName: String? = nil, pooled: Bool? = nil) async throws -> DbConnectionUri {
-        return try await dbGetConnectionUriWithRequestBuilder(id: id, roleName: roleName, branchId: branchId, endpointId: endpointId, databaseName: databaseName, pooled: pooled).execute().body
-    }
-
-    /**
-     Get connection URI
-     - GET /v1/db/projects/{id}/connection_uri
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter id: (path)  
-     - parameter roleName: (query)  
-     - parameter branchId: (query)  (optional)
-     - parameter endpointId: (query)  (optional)
-     - parameter databaseName: (query)  (optional, default to "neondb")
-     - parameter pooled: (query)  (optional, default to true)
-     - returns: RequestBuilder<DbConnectionUri> 
-     */
-    open class func dbGetConnectionUriWithRequestBuilder(id: String, roleName: String, branchId: String? = nil, endpointId: String? = nil, databaseName: String? = nil, pooled: Bool? = nil) -> RequestBuilder<DbConnectionUri> {
-        var localVariablePath = "/v1/db/projects/{id}/connection_uri"
-        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
-        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "branch_id": (wrappedValue: branchId?.encodeToJSON(), isExplode: true),
-            "endpoint_id": (wrappedValue: endpointId?.encodeToJSON(), isExplode: true),
-            "database_name": (wrappedValue: databaseName?.encodeToJSON(), isExplode: true),
-            "role_name": (wrappedValue: roleName.encodeToJSON(), isExplode: true),
-            "pooled": (wrappedValue: pooled?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<DbConnectionUri>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get project
-     
-     - parameter id: (path)  
-     - returns: DbGetProject200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func dbGetProject(id: String) async throws -> DbGetProject200Response {
-        return try await dbGetProjectWithRequestBuilder(id: id).execute().body
-    }
-
-    /**
-     Get project
-     - GET /v1/db/projects/{id}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter id: (path)  
-     - returns: RequestBuilder<DbGetProject200Response> 
-     */
-    open class func dbGetProjectWithRequestBuilder(id: String) -> RequestBuilder<DbGetProject200Response> {
-        var localVariablePath = "/v1/db/projects/{id}"
-        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
-        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<DbGetProject200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     List projects
-     
-     - parameter cursor: (query)  (optional)
-     - parameter limit: (query)  (optional, default to 10)
-     - returns: DbListProjects200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func dbListProjects(cursor: String? = nil, limit: Int? = nil) async throws -> DbListProjects200Response {
-        return try await dbListProjectsWithRequestBuilder(cursor: cursor, limit: limit).execute().body
-    }
-
-    /**
-     List projects
-     - GET /v1/db/projects
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter cursor: (query)  (optional)
-     - parameter limit: (query)  (optional, default to 10)
-     - returns: RequestBuilder<DbListProjects200Response> 
-     */
-    open class func dbListProjectsWithRequestBuilder(cursor: String? = nil, limit: Int? = nil) -> RequestBuilder<DbListProjects200Response> {
-        let localVariablePath = "/v1/db/projects"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "cursor": (wrappedValue: cursor?.encodeToJSON(), isExplode: true),
-            "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<DbListProjects200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Update project
-     
-     - parameter id: (path)  
-     - parameter dbUpdateProjectRequest: (body)  
-     - returns: DbGetProject200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func dbUpdateProject(id: String, dbUpdateProjectRequest: DbUpdateProjectRequest) async throws -> DbGetProject200Response {
-        return try await dbUpdateProjectWithRequestBuilder(id: id, dbUpdateProjectRequest: dbUpdateProjectRequest).execute().body
-    }
-
-    /**
-     Update project
-     - PUT /v1/db/projects/{id}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter id: (path)  
-     - parameter dbUpdateProjectRequest: (body)  
-     - returns: RequestBuilder<DbGetProject200Response> 
-     */
-    open class func dbUpdateProjectWithRequestBuilder(id: String, dbUpdateProjectRequest: DbUpdateProjectRequest) -> RequestBuilder<DbGetProject200Response> {
-        var localVariablePath = "/v1/db/projects/{id}"
-        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
-        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: dbUpdateProjectRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<DbGetProject200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get a project by id
-     
-     - parameter id: (path)  
-     - returns: FlowProject
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func flowGetProject(id: String) async throws -> FlowProject {
-        return try await flowGetProjectWithRequestBuilder(id: id).execute().body
-    }
-
-    /**
-     Get a project by id
-     - GET /v1/flow/projects/{id}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter id: (path)  
-     - returns: RequestBuilder<FlowProject> 
-     */
-    open class func flowGetProjectWithRequestBuilder(id: String) -> RequestBuilder<FlowProject> {
-        var localVariablePath = "/v1/flow/projects/{id}"
-        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
-        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<FlowProject>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     List projects
-     
-     - returns: [FlowProject]
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func flowListProjects() async throws -> [FlowProject] {
-        return try await flowListProjectsWithRequestBuilder().execute().body
-    }
-
-    /**
-     List projects
-     - GET /v1/flow/projects
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<[FlowProject]> 
-     */
-    open class func flowListProjectsWithRequestBuilder() -> RequestBuilder<[FlowProject]> {
-        let localVariablePath = "/v1/flow/projects"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<[FlowProject]>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Update project settings
-     
-     - parameter id: (path)  
-     - parameter autoUpdateAppConnectionRequest: (body)  
-     - returns: FlowProject
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func flowUpdateProject(id: String, autoUpdateAppConnectionRequest: AutoUpdateAppConnectionRequest) async throws -> FlowProject {
-        return try await flowUpdateProjectWithRequestBuilder(id: id, autoUpdateAppConnectionRequest: autoUpdateAppConnectionRequest).execute().body
-    }
-
-    /**
-     Update project settings
-     - POST /v1/flow/projects/{id}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter id: (path)  
-     - parameter autoUpdateAppConnectionRequest: (body)  
-     - returns: RequestBuilder<FlowProject> 
-     */
-    open class func flowUpdateProjectWithRequestBuilder(id: String, autoUpdateAppConnectionRequest: AutoUpdateAppConnectionRequest) -> RequestBuilder<FlowProject> {
-        var localVariablePath = "/v1/flow/projects/{id}"
-        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
-        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: autoUpdateAppConnectionRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<FlowProject>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Create a project
-     
-     - parameter kmsCreateProjectRequest: (body)  
-     - returns: KmsCreateProject200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kmsCreateProject(kmsCreateProjectRequest: KmsCreateProjectRequest) async throws -> KmsCreateProject200Response {
-        return try await kmsCreateProjectWithRequestBuilder(kmsCreateProjectRequest: kmsCreateProjectRequest).execute().body
-    }
-
-    /**
-     Create a project
-     - POST /v1/kms/projects
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter kmsCreateProjectRequest: (body)  
-     - returns: RequestBuilder<KmsCreateProject200Response> 
-     */
-    open class func kmsCreateProjectWithRequestBuilder(kmsCreateProjectRequest: KmsCreateProjectRequest) -> RequestBuilder<KmsCreateProject200Response> {
-        let localVariablePath = "/v1/kms/projects"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: kmsCreateProjectRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<KmsCreateProject200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Delete a project
-     
-     - parameter projectId: (path)  
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kmsDeleteProject(projectId: UUID) async throws -> AnyCodable {
-        return try await kmsDeleteProjectWithRequestBuilder(projectId: projectId).execute().body
-    }
-
-    /**
-     Delete a project
-     - DELETE /v1/kms/projects/{projectId}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter projectId: (path)  
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func kmsDeleteProjectWithRequestBuilder(projectId: UUID) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/kms/projects/{projectId}"
-        let projectIdPreEscape = "\(APIHelper.mapValueToPathItem(projectId))"
-        let projectIdPostEscape = projectIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{projectId}", with: projectIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get a project by ID
-     
-     - parameter projectId: (path)  
-     - returns: KmsCreateProject200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kmsGetProject(projectId: UUID) async throws -> KmsCreateProject200Response {
-        return try await kmsGetProjectWithRequestBuilder(projectId: projectId).execute().body
-    }
-
-    /**
-     Get a project by ID
-     - GET /v1/kms/projects/{projectId}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter projectId: (path)  
-     - returns: RequestBuilder<KmsCreateProject200Response> 
-     */
-    open class func kmsGetProjectWithRequestBuilder(projectId: UUID) -> RequestBuilder<KmsCreateProject200Response> {
-        var localVariablePath = "/v1/kms/projects/{projectId}"
-        let projectIdPreEscape = "\(APIHelper.mapValueToPathItem(projectId))"
-        let projectIdPostEscape = projectIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{projectId}", with: projectIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<KmsCreateProject200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     List project members
-     
-     - parameter projectId: (path)  
-     - parameter includeGroupMembers: (query)  (optional, default to false)
-     - returns: KmsListProjectUsers200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kmsListProjectUsers(projectId: UUID, includeGroupMembers: Bool? = nil) async throws -> KmsListProjectUsers200Response {
-        return try await kmsListProjectUsersWithRequestBuilder(projectId: projectId, includeGroupMembers: includeGroupMembers).execute().body
-    }
-
-    /**
-     List project members
-     - GET /v1/kms/projects/{projectId}/users
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter projectId: (path)  
-     - parameter includeGroupMembers: (query)  (optional, default to false)
-     - returns: RequestBuilder<KmsListProjectUsers200Response> 
-     */
-    open class func kmsListProjectUsersWithRequestBuilder(projectId: UUID, includeGroupMembers: Bool? = nil) -> RequestBuilder<KmsListProjectUsers200Response> {
-        var localVariablePath = "/v1/kms/projects/{projectId}/users"
-        let projectIdPreEscape = "\(APIHelper.mapValueToPathItem(projectId))"
-        let projectIdPostEscape = projectIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{projectId}", with: projectIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "includeGroupMembers": (wrappedValue: includeGroupMembers?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<KmsListProjectUsers200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Update a project
-     
-     - parameter projectId: (path)  
-     - parameter kmsUpdateProjectRequest: (body)  
-     - returns: KmsCreateProject200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kmsUpdateProject(projectId: UUID, kmsUpdateProjectRequest: KmsUpdateProjectRequest) async throws -> KmsCreateProject200Response {
-        return try await kmsUpdateProjectWithRequestBuilder(projectId: projectId, kmsUpdateProjectRequest: kmsUpdateProjectRequest).execute().body
-    }
-
-    /**
-     Update a project
-     - PATCH /v1/kms/projects/{projectId}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter projectId: (path)  
-     - parameter kmsUpdateProjectRequest: (body)  
-     - returns: RequestBuilder<KmsCreateProject200Response> 
-     */
-    open class func kmsUpdateProjectWithRequestBuilder(projectId: UUID, kmsUpdateProjectRequest: KmsUpdateProjectRequest) -> RequestBuilder<KmsCreateProject200Response> {
-        var localVariablePath = "/v1/kms/projects/{projectId}"
-        let projectIdPreEscape = "\(APIHelper.mapValueToPathItem(projectId))"
-        let projectIdPostEscape = projectIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{projectId}", with: projectIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: kmsUpdateProjectRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<KmsCreateProject200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Create project
-     
-     - parameter orgId: (path)  
-     - parameter paasCreateOrganizationRequest: (body)  
-     - returns: PaasProject
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func paasCreateProject(orgId: String, paasCreateOrganizationRequest: PaasCreateOrganizationRequest) async throws -> PaasProject {
-        return try await paasCreateProjectWithRequestBuilder(orgId: orgId, paasCreateOrganizationRequest: paasCreateOrganizationRequest).execute().body
-    }
-
-    /**
-     Create project
-     - POST /v1/paas/org/{orgId}/project
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter orgId: (path)  
-     - parameter paasCreateOrganizationRequest: (body)  
-     - returns: RequestBuilder<PaasProject> 
-     */
-    open class func paasCreateProjectWithRequestBuilder(orgId: String, paasCreateOrganizationRequest: PaasCreateOrganizationRequest) -> RequestBuilder<PaasProject> {
-        var localVariablePath = "/v1/paas/org/{orgId}/project"
-        let orgIdPreEscape = "\(APIHelper.mapValueToPathItem(orgId))"
-        let orgIdPostEscape = orgIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{orgId}", with: orgIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: paasCreateOrganizationRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<PaasProject>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Delete project
-     
-     - parameter orgId: (path)  
-     - parameter projectId: (path)  
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func paasDeleteProject(orgId: String, projectId: String) async throws -> AnyCodable {
-        return try await paasDeleteProjectWithRequestBuilder(orgId: orgId, projectId: projectId).execute().body
-    }
-
-    /**
-     Delete project
-     - DELETE /v1/paas/org/{orgId}/project/{projectId}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter orgId: (path)  
-     - parameter projectId: (path)  
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func paasDeleteProjectWithRequestBuilder(orgId: String, projectId: String) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/paas/org/{orgId}/project/{projectId}"
-        let orgIdPreEscape = "\(APIHelper.mapValueToPathItem(orgId))"
-        let orgIdPostEscape = orgIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{orgId}", with: orgIdPostEscape, options: .literal, range: nil)
-        let projectIdPreEscape = "\(APIHelper.mapValueToPathItem(projectId))"
-        let projectIdPostEscape = projectIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{projectId}", with: projectIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get project
-     
-     - parameter orgId: (path)  
-     - parameter projectId: (path)  
-     - returns: PaasProject
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func paasGetProject(orgId: String, projectId: String) async throws -> PaasProject {
-        return try await paasGetProjectWithRequestBuilder(orgId: orgId, projectId: projectId).execute().body
-    }
-
-    /**
-     Get project
-     - GET /v1/paas/org/{orgId}/project/{projectId}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter orgId: (path)  
-     - parameter projectId: (path)  
-     - returns: RequestBuilder<PaasProject> 
-     */
-    open class func paasGetProjectWithRequestBuilder(orgId: String, projectId: String) -> RequestBuilder<PaasProject> {
-        var localVariablePath = "/v1/paas/org/{orgId}/project/{projectId}"
-        let orgIdPreEscape = "\(APIHelper.mapValueToPathItem(orgId))"
-        let orgIdPostEscape = orgIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{orgId}", with: orgIdPostEscape, options: .literal, range: nil)
-        let projectIdPreEscape = "\(APIHelper.mapValueToPathItem(projectId))"
-        let projectIdPostEscape = projectIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{projectId}", with: projectIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<PaasProject>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     List projects
-     
-     - parameter orgId: (path)  
-     - returns: [PaasProject]
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func paasListProjects(orgId: String) async throws -> [PaasProject] {
-        return try await paasListProjectsWithRequestBuilder(orgId: orgId).execute().body
-    }
-
-    /**
-     List projects
-     - GET /v1/paas/org/{orgId}/project
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter orgId: (path)  
-     - returns: RequestBuilder<[PaasProject]> 
-     */
-    open class func paasListProjectsWithRequestBuilder(orgId: String) -> RequestBuilder<[PaasProject]> {
-        var localVariablePath = "/v1/paas/org/{orgId}/project"
-        let orgIdPreEscape = "\(APIHelper.mapValueToPathItem(orgId))"
-        let orgIdPostEscape = orgIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{orgId}", with: orgIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<[PaasProject]>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Update project
-     
-     - parameter orgId: (path)  
-     - parameter projectId: (path)  
-     - parameter paasUpdateOrganizationRequest: (body)  
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func paasUpdateProject(orgId: String, projectId: String, paasUpdateOrganizationRequest: PaasUpdateOrganizationRequest) async throws -> AnyCodable {
-        return try await paasUpdateProjectWithRequestBuilder(orgId: orgId, projectId: projectId, paasUpdateOrganizationRequest: paasUpdateOrganizationRequest).execute().body
-    }
-
-    /**
-     Update project
-     - PUT /v1/paas/org/{orgId}/project/{projectId}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter orgId: (path)  
-     - parameter projectId: (path)  
-     - parameter paasUpdateOrganizationRequest: (body)  
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func paasUpdateProjectWithRequestBuilder(orgId: String, projectId: String, paasUpdateOrganizationRequest: PaasUpdateOrganizationRequest) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/paas/org/{orgId}/project/{projectId}"
-        let orgIdPreEscape = "\(APIHelper.mapValueToPathItem(orgId))"
-        let orgIdPostEscape = orgIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{orgId}", with: orgIdPostEscape, options: .literal, range: nil)
-        let projectIdPreEscape = "\(APIHelper.mapValueToPathItem(projectId))"
-        let projectIdPostEscape = projectIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{projectId}", with: projectIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: paasUpdateOrganizationRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Create a project
-     
-     - parameter projectsCreateProjectRequest: (body)  
-     - returns: ProjectsProject
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func projectsCreateProject(projectsCreateProjectRequest: ProjectsCreateProjectRequest) async throws -> ProjectsProject {
-        return try await projectsCreateProjectWithRequestBuilder(projectsCreateProjectRequest: projectsCreateProjectRequest).execute().body
-    }
-
-    /**
-     Create a project
-     - POST /v1/projects
-     - Create an org-scoped project. When `slug` is omitted it is derived from `name` (slugified). The slug must match `^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$`, must not be a reserved subdomain, and must be unique within the org. `framework` defaults to `static` and must be one of the known build hints. 
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter projectsCreateProjectRequest: (body)  
-     - returns: RequestBuilder<ProjectsProject> 
-     */
-    open class func projectsCreateProjectWithRequestBuilder(projectsCreateProjectRequest: ProjectsCreateProjectRequest) -> RequestBuilder<ProjectsProject> {
-        let localVariablePath = "/v1/projects"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: projectsCreateProjectRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ProjectsProject>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Delete a project
-     
-     - parameter slug: (path) Org-unique project handle (lowercased); also the S3-origin key segment and the subdomain label. 
+     - parameter slug: (path) Slug is the project to act on, from the path. It is unique within the caller&#39;s org and nowhere else, so another tenant&#39;s slug is a 404. 
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func projectsDeleteProject(slug: String) async throws {
-        return try await projectsDeleteProjectWithRequestBuilder(slug: slug).execute().body
+    open class func deleteProjectsBySlug(slug: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteProjectsBySlugWithRequestBuilder(slug: slug, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Delete a project
+     Deletes a project and takes its site off the internet.
      - DELETE /v1/projects/{slug}
-     - Delete the project and its deployment history, purge the S3 origin under `<org>/<slug>/`, release the subdomain binding, and flush the edge cache-tag `site-<org>-<slug>`. The metadata delete is authoritative; the S3-origin purge, host unbind, and edge flush are best-effort. 
+     - Deletes a project and takes its site off the internet.  The metadata delete is authoritative and everything after it is best-effort, in this order: the public `<slug>` subdomain binding is released so the slug is free to reclaim, the release rows are dropped so a reclaimed slug never inherits the previous owner's rollback menu, the git source is retired on every copy it has so a reclaimed slug never adopts a repository left behind (visibility.go), the S3 origin is purged under BOTH `<org>/<slug>/` and the site's sibling release space, and the edge cache-tag is flushed. A failure in any of those is logged and the delete still answers 204 — resurrecting a project because a purge missed would be worse than a leaked prefix.  Scope: a validated principal is required (403 without one) and the project is resolved within that principal's org, so another tenant's slug is a 404 and nothing of theirs is touched.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter slug: (path) Org-unique project handle (lowercased); also the S3-origin key segment and the subdomain label. 
+       - name: bearer
+     - parameter slug: (path) Slug is the project to act on, from the path. It is unique within the caller&#39;s org and nowhere else, so another tenant&#39;s slug is a 404. 
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func projectsDeleteProjectWithRequestBuilder(slug: String) -> RequestBuilder<Void> {
+    open class func deleteProjectsBySlugWithRequestBuilder(slug: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/projects/{slug}"
         let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
         let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = HanzoAPI.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Fork a starter template into a new project
+     Gives a custom hostname back, so the name is free to reuse.
      
-     - parameter projectsForkProjectRequest: (body)  
-     - returns: ProjectsProject
+     - parameter slug: (path) Slug is the project the host is attached to, from the path. 
+     - parameter host: (path) Host is the custom hostname, from the path. It is cleaned to its canonical form (lowercased, trailing dot dropped) before anything is looked up. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func projectsForkProject(projectsForkProjectRequest: ProjectsForkProjectRequest) async throws -> ProjectsProject {
-        return try await projectsForkProjectWithRequestBuilder(projectsForkProjectRequest: projectsForkProjectRequest).execute().body
+    open class func deleteProjectsBySlugDomainsByHost(slug: String, host: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteProjectsBySlugDomainsByHostWithRequestBuilder(slug: slug, host: host, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Fork a starter template into a new project
-     - POST /v1/projects/fork
-     - Create a project seeded from a starter-kit gallery template. `slug` is the template slug to fork (required); `name` defaults to the template title; `target` overrides the derived project slug. Funnels through the same create path, so slug/framework validation and conflict handling apply identically. 
+     Gives a custom hostname back, so the name is free to reuse.
+     - DELETE /v1/projects/{slug}/domains/{host}
+     - Gives a custom hostname back, so the name is free to reuse.  A claim is FIRST-COME and global, so an add-only surface was not ownership but a leak: a customer who mistyped a domain, or claimed one they later moved elsewhere, could neither reuse it nor let anyone else. This is the third writer that closes it. The release is scoped to (host, org, slug), so it can only ever drop THIS tenant's own claim, and it is IDEMPOTENT: releasing a host we do not hold is a clean 204, never a 404 that would let a caller probe which hosts other tenants hold. The edge cache-tag is flushed, since the host stops routing here.  Scope: a validated principal is required (403 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter projectsForkProjectRequest: (body)  
-     - returns: RequestBuilder<ProjectsProject> 
+       - name: bearer
+     - parameter slug: (path) Slug is the project the host is attached to, from the path. 
+     - parameter host: (path) Host is the custom hostname, from the path. It is cleaned to its canonical form (lowercased, trailing dot dropped) before anything is looked up. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func projectsForkProjectWithRequestBuilder(projectsForkProjectRequest: ProjectsForkProjectRequest) -> RequestBuilder<ProjectsProject> {
-        let localVariablePath = "/v1/projects/fork"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: projectsForkProjectRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ProjectsProject>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get a project
-     
-     - parameter slug: (path) Org-unique project handle (lowercased); also the S3-origin key segment and the subdomain label. 
-     - returns: ProjectsProject
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func projectsGetProject(slug: String) async throws -> ProjectsProject {
-        return try await projectsGetProjectWithRequestBuilder(slug: slug).execute().body
-    }
-
-    /**
-     Get a project
-     - GET /v1/projects/{slug}
-     - Read one org-scoped project by slug.
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter slug: (path) Org-unique project handle (lowercased); also the S3-origin key segment and the subdomain label. 
-     - returns: RequestBuilder<ProjectsProject> 
-     */
-    open class func projectsGetProjectWithRequestBuilder(slug: String) -> RequestBuilder<ProjectsProject> {
-        var localVariablePath = "/v1/projects/{slug}"
+    open class func deleteProjectsBySlugDomainsByHostWithRequestBuilder(slug: String, host: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/projects/{slug}/domains/{host}"
         let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
         let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let hostPreEscape = "\(APIHelper.mapValueToPathItem(host))"
+        let hostPostEscape = hostPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{host}", with: hostPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<ProjectsProject>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     List projects
+     Returns every project your org owns.
      
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: [ProjectsProject]
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func projectsListProjects() async throws -> [ProjectsProject] {
-        return try await projectsListProjectsWithRequestBuilder().execute().body
+    open class func getProjects(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> [ProjectsProject] {
+        return try await getProjectsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     List projects
+     Returns every project your org owns.
      - GET /v1/projects
-     - List every project for the caller's org, most-recently-updated first.
+     - Returns every project your org owns.  Each row carries the slug, name, framework, visibility, status and live URL — the same rows console and the builder render, because there is only one store behind both. It requires a validated principal (403 without one) and is keyed by that principal's org, so it never contains another tenant's project.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<[ProjectsProject]> 
      */
-    open class func projectsListProjectsWithRequestBuilder() -> RequestBuilder<[ProjectsProject]> {
+    open class func getProjectsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<[ProjectsProject]> {
         let localVariablePath = "/v1/projects"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<[ProjectsProject]>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<[ProjectsProject]>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Update a project
+     Returns one project of yours by slug — its settings, its live URL and the deployment currently serving it.
      
-     - parameter slug: (path) Org-unique project handle (lowercased); also the S3-origin key segment and the subdomain label. 
-     - parameter projectsUpdateProjectRequest: (body)  
+     - parameter slug: (path) Slug is the project to act on, from the path. It is unique within the caller&#39;s org and nowhere else, so another tenant&#39;s slug is a 404. 
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: ProjectsProject
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func projectsUpdateProject(slug: String, projectsUpdateProjectRequest: ProjectsUpdateProjectRequest) async throws -> ProjectsProject {
-        return try await projectsUpdateProjectWithRequestBuilder(slug: slug, projectsUpdateProjectRequest: projectsUpdateProjectRequest).execute().body
+    open class func getProjectsBySlug(slug: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProjectsProject {
+        return try await getProjectsBySlugWithRequestBuilder(slug: slug, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Update a project
-     - PATCH /v1/projects/{slug}
-     - Partial update; only supplied fields change. `name` may not be blanked. `framework` must remain a known build hint. `cacheControl` is capped at 256 chars and must not contain newlines. 
+     Returns one project of yours by slug — its settings, its live URL and the deployment currently serving it.
+     - GET /v1/projects/{slug}
+     - Returns one project of yours by slug — its settings, its live URL and the deployment currently serving it.  Scope: a validated principal is required (403 without one) and the lookup is keyed by (org, slug), so another tenant's slug is a 404 exactly like a nonexistent one.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter slug: (path) Org-unique project handle (lowercased); also the S3-origin key segment and the subdomain label. 
-     - parameter projectsUpdateProjectRequest: (body)  
+       - name: bearer
+     - parameter slug: (path) Slug is the project to act on, from the path. It is unique within the caller&#39;s org and nowhere else, so another tenant&#39;s slug is a 404. 
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ProjectsProject> 
      */
-    open class func projectsUpdateProjectWithRequestBuilder(slug: String, projectsUpdateProjectRequest: ProjectsUpdateProjectRequest) -> RequestBuilder<ProjectsProject> {
+    open class func getProjectsBySlugWithRequestBuilder(slug: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProjectsProject> {
         var localVariablePath = "/v1/projects/{slug}"
         let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
         let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: projectsUpdateProjectRequest)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ProjectsProject>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns a project's deploy history, newest version first.
+     
+     - parameter slug: (path) Slug is the project to act on, from the path. It is unique within the caller&#39;s org and nowhere else, so another tenant&#39;s slug is a 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: [ProjectsDeployment]
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getProjectsBySlugDeployments(slug: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> [ProjectsDeployment] {
+        return try await getProjectsBySlugDeploymentsWithRequestBuilder(slug: slug, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns a project's deploy history, newest version first.
+     - GET /v1/projects/{slug}/deployments
+     - Returns a project's deploy history, newest version first.  Every deploy of the project is a row — uploads, generated sites, and git/CI builds alike — carrying its version, status, source, commit, live URL, file count and byte count. The short-lived upload grant a queued git deployment was handed is NOT replayed here: it exists only on the 202 that minted it, so a grant cannot outlive its build by being fetched again.  Scope: a validated principal is required (403 without one) and the project is resolved within that principal's org, so another tenant's slug is a 404.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter slug: (path) Slug is the project to act on, from the path. It is unique within the caller&#39;s org and nowhere else, so another tenant&#39;s slug is a 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<[ProjectsDeployment]> 
+     */
+    open class func getProjectsBySlugDeploymentsWithRequestBuilder(slug: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<[ProjectsDeployment]> {
+        var localVariablePath = "/v1/projects/{slug}/deployments"
+        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
+        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<[ProjectsDeployment]>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns one deployment of a project by id.
+     
+     - parameter slug: (path) Slug is the project the deployment belongs to, from the path. 
+     - parameter id: (path) ID is the deployment id, from the path. A deployment of another project — or of another tenant&#39;s project — is not found. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProjectsDeployment
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getProjectsBySlugDeploymentsById(slug: String, id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProjectsDeployment {
+        return try await getProjectsBySlugDeploymentsByIdWithRequestBuilder(slug: slug, id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns one deployment of a project by id.
+     - GET /v1/projects/{slug}/deployments/{id}
+     - Returns one deployment of a project by id.  It is how a console follows a build: the status (`queued`, `uploading`, `live`, `error`), the message a failure left, and the URL and prefix it went live at. Like the history, it never replays the upload grant.  Scope: a validated principal is required (403 without one). Both the project and the deployment are resolved within that principal's org, so a deployment of another project — or of another tenant — is a 404.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter slug: (path) Slug is the project the deployment belongs to, from the path. 
+     - parameter id: (path) ID is the deployment id, from the path. A deployment of another project — or of another tenant&#39;s project — is not found. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProjectsDeployment> 
+     */
+    open class func getProjectsBySlugDeploymentsByIdWithRequestBuilder(slug: String, id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProjectsDeployment> {
+        var localVariablePath = "/v1/projects/{slug}/deployments/{id}"
+        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
+        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ProjectsDeployment>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns every custom hostname this site holds: the live ones, plus any pending claim with the DNS records it still owes.
+     
+     - parameter slug: (path) Slug is the project to act on, from the path. It is unique within the caller&#39;s org and nowhere else, so another tenant&#39;s slug is a 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProjectsDomains
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getProjectsBySlugDomains(slug: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProjectsDomains {
+        return try await getProjectsBySlugDomainsWithRequestBuilder(slug: slug, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns every custom hostname this site holds: the live ones, plus any pending claim with the DNS records it still owes.
+     - GET /v1/projects/{slug}/domains
+     - Returns every custom hostname this site holds: the live ones, plus any pending claim with the DNS records it still owes.  `domains` is the routing answer — the hosts that are verified right now — while `claims` is the full panel, one row per host, each saying whether it is live or pending and, if pending, exactly what to publish.  Scope: a validated principal is required (403 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter slug: (path) Slug is the project to act on, from the path. It is unique within the caller&#39;s org and nowhere else, so another tenant&#39;s slug is a 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProjectsDomains> 
+     */
+    open class func getProjectsBySlugDomainsWithRequestBuilder(slug: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProjectsDomains> {
+        var localVariablePath = "/v1/projects/{slug}/domains"
+        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
+        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ProjectsDomains>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Changes a project's settings, and only the settings you send.
+     
+     - parameter slug: (path) Slug is the project to update, from the path. The URL is the addressing authority — a &#x60;slug&#x60; in the body cannot move the write to another project. 
+     - parameter projectsUpdate: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProjectsProject
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func patchProjectsBySlug(slug: String, projectsUpdate: ProjectsUpdate, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProjectsProject {
+        return try await patchProjectsBySlugWithRequestBuilder(slug: slug, projectsUpdate: projectsUpdate, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Changes a project's settings, and only the settings you send.
+     - PATCH /v1/projects/{slug}
+     - Changes a project's settings, and only the settings you send.  Every field is optional and absent means \"leave it\": `name` may not be blanked, `framework` must stay a known build hint, and `cacheControl` is capped at 256 characters with no newlines (it becomes a response header). `visibility` flips public/private under the same rule as create — public is free, private needs a funded org. `upstream` and `license` are free-text credit for third-party work, and sending \"\" clears one. Changing anything reconciles the project's canonical git repo, so a visibility change reaches the source and not just the listing.  `hidden`/`hiddenReason` are platform MODERATION and are ignored unless the caller is a platform admin; they remove a project from the public catalogue without touching the publisher's own visibility choice, so un-hiding restores exactly what they asked for.  Scope: a validated principal is required (403 without one) and the project is resolved within that principal's org, so another tenant's slug is a 404.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter slug: (path) Slug is the project to update, from the path. The URL is the addressing authority — a &#x60;slug&#x60; in the body cannot move the write to another project. 
+     - parameter projectsUpdate: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProjectsProject> 
+     */
+    open class func patchProjectsBySlugWithRequestBuilder(slug: String, projectsUpdate: ProjectsUpdate, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProjectsProject> {
+        var localVariablePath = "/v1/projects/{slug}"
+        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
+        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: projectsUpdate, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<ProjectsProject>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ProjectsProject>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Create project
+     Creates a project — the handle a site is deployed and served under — and answers 201 with it in `draft`.
      
-     - parameter registryProjectCreate: (body)  
-     - returns: AnyCodable
+     - parameter projectsCreate: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProjectsProject
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func registryCreateProject(registryProjectCreate: RegistryProjectCreate) async throws -> AnyCodable {
-        return try await registryCreateProjectWithRequestBuilder(registryProjectCreate: registryProjectCreate).execute().body
+    open class func postProjects(projectsCreate: ProjectsCreate, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProjectsProject {
+        return try await postProjectsWithRequestBuilder(projectsCreate: projectsCreate, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Create project
-     - POST /v1/registry/projects
+     Creates a project — the handle a site is deployed and served under — and answers 201 with it in `draft`.
+     - POST /v1/projects
+     - Creates a project — the handle a site is deployed and served under — and answers 201 with it in `draft`.  `name` is required; `slug` is derived from the name when omitted and is the identifier that matters — it becomes the S3 key segment, the public host `<slug>.hanzo.app`, and the handle every later call addresses, so it must match `^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$` and may not be a reserved label such as `api` or `admin`. `framework` is a build hint from a closed set, defaulting to `static`; it never gates a deploy, it only tells CI how to build a linked repo.  Two defaults are worth knowing: the analytics beacon is ON unless `analytics` is explicitly false, and `visibility` is `public` unless asked otherwise. Publishing publicly is free; PRIVATE is the paid feature, and an unfunded org asking for it is refused rather than quietly published as public. Creation also provisions the project's data space and a canonical git repo, both best-effort — neither can fail the create.  Scope: a validated principal is required (403 without one) and the project is created in THAT principal's org. The slug is unique per org, so a slug already used in the caller's own org is a 409 while the same slug in another org is irrelevant.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - responseHeaders: [Location(String)]
-     - parameter registryProjectCreate: (body)  
-     - returns: RequestBuilder<AnyCodable> 
+       - name: bearer
+     - parameter projectsCreate: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProjectsProject> 
      */
-    open class func registryCreateProjectWithRequestBuilder(registryProjectCreate: RegistryProjectCreate) -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/registry/projects"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: registryProjectCreate)
+    open class func postProjectsWithRequestBuilder(projectsCreate: ProjectsCreate, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProjectsProject> {
+        let localVariablePath = "/v1/projects"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: projectsCreate, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ProjectsProject>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Delete project
+     Upload a built site as one archive and serve it
      
-     - parameter name: (path)  
-     - returns: AnyCodable
+     - parameter slug: (path)  
+     - parameter body: (body)  (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProjectsDeployment
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func registryDeleteProject(name: String) async throws -> AnyCodable {
-        return try await registryDeleteProjectWithRequestBuilder(name: name).execute().body
+    open class func postProjectsBySlugDeploy(slug: String, body: URL? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProjectsDeployment {
+        return try await postProjectsBySlugDeployWithRequestBuilder(slug: slug, body: body, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Delete project
-     - DELETE /v1/registry/projects/{name}
+     Upload a built site as one archive and serve it
+     - POST /v1/projects/{slug}/deploy
+     - Takes a built site live at `https://<slug>.hanzo.app` in one call. The body is the site itself — a `zip` or `tar.gz` holding `index.html` at its root (or a single wrapper directory that does), sent raw or as a multipart file part. It is unpacked to the site's own storage prefix and served immediately, answering the finished deployment.  It is bounded by the edge body limit (16 MiB by default), and that bound is the whole reason the other path exists: an oversized POST is refused by the server BEFORE any handler runs and surfaces as an opaque `400 Error when parsing request` that reads like a malformed payload rather than a size cap. A site too large for one archive opens a deployment with `POST /v1/sites/{slug}/deployments` instead and writes its files straight to storage against the scoped grant that answers with — no body limit, and no bytes through this API at all.  Billing is fail-closed and fails FIRST: the hosting gate runs before anything is parsed or uploaded, so an unfunded org is 402 and an unreachable commerce is 503 with nothing written. The debit lands only on success — a failed upload is never billed and never flips the live site — and a redeploy answers the SAME URL, because slug and apex are stable.  Scope: a validated principal is required (403 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404. Object storage must be configured (503); an archive that does not walk is a 400 and one over the size cap is a 413.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter name: (path)  
-     - returns: RequestBuilder<AnyCodable> 
+       - name: bearer
+     - parameter slug: (path)  
+     - parameter body: (body)  (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProjectsDeployment> 
      */
-    open class func registryDeleteProjectWithRequestBuilder(name: String) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/registry/projects/{name}"
-        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
-        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func postProjectsBySlugDeployWithRequestBuilder(slug: String, body: URL? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProjectsDeployment> {
+        var localVariablePath = "/v1/projects/{slug}/deploy"
+        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
+        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = ["body": body]
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/octet-stream",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ProjectsDeployment>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Get project
+     Opens a deployment and hands back a short-lived, prefix-scoped grant to write its bytes straight to object storage.
      
-     - parameter name: (path)  
-     - returns: RegistryProject
+     - parameter slug: (path) Slug is the site to deploy, from the path. 
+     - parameter projectsDeployStart: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProjectsDeployment
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func registryGetProject(name: String) async throws -> RegistryProject {
-        return try await registryGetProjectWithRequestBuilder(name: name).execute().body
+    open class func postProjectsBySlugDeployments(slug: String, projectsDeployStart: ProjectsDeployStart, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProjectsDeployment {
+        return try await postProjectsBySlugDeploymentsWithRequestBuilder(slug: slug, projectsDeployStart: projectsDeployStart, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Get project
-     - GET /v1/registry/projects/{name}
+     Opens a deployment and hands back a short-lived, prefix-scoped grant to write its bytes straight to object storage.
+     - POST /v1/projects/{slug}/deployments
+     - Opens a deployment and hands back a short-lived, prefix-scoped grant to write its bytes straight to object storage. Answers 202.  This is the path for a site too large to send as one archive: a real export is hundreds of megabytes against a 16 MiB body limit, so the bytes deliberately do NOT pass through the API. The answer carries `bucket`, `prefix` and `upload` — a presigned POST policy that S3 itself confines to this site's prefix (starts-with `<org>/<slug>/`), expires in 30 minutes and bounds each object. So a build writes its own files and holds no standing bucket credential; there is nothing to rotate and nothing that leaks between tenants. Never guess the prefix — it is server-derived, and a guessed one lands where nothing is served.  The deployment is `queued` until POST .../deployments/{id}/complete flips it live (or error). That completion is also where DELETION happens: the grant authorizes writes only, so a build cannot remove a file, and cloud reconciles the prefix against the `keys` manifest the completion carries. A build that dies before completing leaves the deployment queued rather than a half-live site.  The grant is on the 202 and NOWHERE else — it is never stored and never replayed on a later read, so it cannot outlive the build it was minted for. A deployment whose grant could not be minted is still created and still completable; it simply carries no `upload`, and a caller with no other way to write should treat that as the failure it is.  Billing: the hosting gate runs BEFORE anything is created (402 unfunded, 503 commerce unreachable), and the debit lands on the completion that goes live — never on a queued or failed build.  Scope: a validated principal is required (403 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter name: (path)  
-     - returns: RequestBuilder<RegistryProject> 
+       - name: bearer
+     - parameter slug: (path) Slug is the site to deploy, from the path. 
+     - parameter projectsDeployStart: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProjectsDeployment> 
      */
-    open class func registryGetProjectWithRequestBuilder(name: String) -> RequestBuilder<RegistryProject> {
-        var localVariablePath = "/v1/registry/projects/{name}"
-        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
-        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func postProjectsBySlugDeploymentsWithRequestBuilder(slug: String, projectsDeployStart: ProjectsDeployStart, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProjectsDeployment> {
+        var localVariablePath = "/v1/projects/{slug}/deployments"
+        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
+        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: projectsDeployStart, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<RegistryProject>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     List projects
-     
-     - parameter name: (query) Filter by project name (fuzzy match) (optional)
-     - parameter _public: (query) Filter by public/private (optional)
-     - parameter page: (query)  (optional, default to 1)
-     - parameter pageSize: (query)  (optional, default to 10)
-     - parameter sort: (query)  (optional, default to "creation_time")
-     - returns: [RegistryProject]
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func registryListProjects(name: String? = nil, _public: Bool? = nil, page: Int? = nil, pageSize: Int? = nil, sort: String? = nil) async throws -> [RegistryProject] {
-        return try await registryListProjectsWithRequestBuilder(name: name, _public: _public, page: page, pageSize: pageSize, sort: sort).execute().body
-    }
-
-    /**
-     List projects
-     - GET /v1/registry/projects
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - responseHeaders: [X-Total-Count(Int)]
-     - parameter name: (query) Filter by project name (fuzzy match) (optional)
-     - parameter _public: (query) Filter by public/private (optional)
-     - parameter page: (query)  (optional, default to 1)
-     - parameter pageSize: (query)  (optional, default to 10)
-     - parameter sort: (query)  (optional, default to "creation_time")
-     - returns: RequestBuilder<[RegistryProject]> 
-     */
-    open class func registryListProjectsWithRequestBuilder(name: String? = nil, _public: Bool? = nil, page: Int? = nil, pageSize: Int? = nil, sort: String? = nil) -> RequestBuilder<[RegistryProject]> {
-        let localVariablePath = "/v1/registry/projects"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "name": (wrappedValue: name?.encodeToJSON(), isExplode: true),
-            "public": (wrappedValue: _public?.encodeToJSON(), isExplode: true),
-            "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
-            "page_size": (wrappedValue: pageSize?.encodeToJSON(), isExplode: true),
-            "sort": (wrappedValue: sort?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<[RegistryProject]>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Update project
-     
-     - parameter name: (path)  
-     - parameter registryUpdateProjectRequest: (body)  
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func registryUpdateProject(name: String, registryUpdateProjectRequest: RegistryUpdateProjectRequest) async throws -> AnyCodable {
-        return try await registryUpdateProjectWithRequestBuilder(name: name, registryUpdateProjectRequest: registryUpdateProjectRequest).execute().body
-    }
-
-    /**
-     Update project
-     - PUT /v1/registry/projects/{name}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter name: (path)  
-     - parameter registryUpdateProjectRequest: (body)  
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func registryUpdateProjectWithRequestBuilder(name: String, registryUpdateProjectRequest: RegistryUpdateProjectRequest) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/registry/projects/{name}"
-        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
-        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: registryUpdateProjectRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ProjectsDeployment>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Create a project
+     CompleteDeployment is the CI completion hook that flips a queued git deployment to live (or error) once CI has synced the built site to S3.
      
-     - parameter trackerCreateProjectRequest: (body)  
-     - returns: TrackerProject
+     - parameter slug: (path) Slug is the project the deployment belongs to, from the path. 
+     - parameter id: (path) ID is the queued deployment to complete, from the path. 
+     - parameter projectsComplete: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProjectsDeployment
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func trackerCreateProject(trackerCreateProjectRequest: TrackerCreateProjectRequest) async throws -> TrackerProject {
-        return try await trackerCreateProjectWithRequestBuilder(trackerCreateProjectRequest: trackerCreateProjectRequest).execute().body
+    open class func postProjectsBySlugDeploymentsByIdComplete(slug: String, id: String, projectsComplete: ProjectsComplete, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProjectsDeployment {
+        return try await postProjectsBySlugDeploymentsByIdCompleteWithRequestBuilder(slug: slug, id: id, projectsComplete: projectsComplete, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Create a project
-     - POST /v1/tracker/projects
+     CompleteDeployment is the CI completion hook that flips a queued git deployment to live (or error) once CI has synced the built site to S3.
+     - POST /v1/projects/{slug}/deployments/{id}/complete
+     - CompleteDeployment is the CI completion hook that flips a queued git deployment to live (or error) once CI has synced the built site to S3.  `status` must be `live` or `error`. On a LIVE completion the public host is claimed FIRST, so the deployment reports the URL it actually OWNS — a CI-supplied `liveUrl` is a hint that can refine that URL but can never assert a subdomain another tenant holds. `keys` is the manifest CI just uploaded, relative to the deployment prefix: cloud reconciles the prefix against it so a page deleted from the build actually stops serving. Omit `keys` and nothing is deleted — the prefix only grows. Reconciliation runs only on a live completion (pruning against a failed build's manifest would delete the site the last good build is still serving) and is best-effort, so a stale leftover never turns a successful deploy into a 500. A live completion is also the one billable moment on the git path; an error completion bills nothing.  Scope: a validated principal is required (403 without one). CI authenticates with an org-scoped token through the gateway, so the deployment is resolved within that principal's org and another tenant's slug or deployment id is a 404.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter trackerCreateProjectRequest: (body)  
-     - returns: RequestBuilder<TrackerProject> 
+       - name: bearer
+     - parameter slug: (path) Slug is the project the deployment belongs to, from the path. 
+     - parameter id: (path) ID is the queued deployment to complete, from the path. 
+     - parameter projectsComplete: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProjectsDeployment> 
      */
-    open class func trackerCreateProjectWithRequestBuilder(trackerCreateProjectRequest: TrackerCreateProjectRequest) -> RequestBuilder<TrackerProject> {
-        let localVariablePath = "/v1/tracker/projects"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: trackerCreateProjectRequest)
+    open class func postProjectsBySlugDeploymentsByIdCompleteWithRequestBuilder(slug: String, id: String, projectsComplete: ProjectsComplete, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProjectsDeployment> {
+        var localVariablePath = "/v1/projects/{slug}/deployments/{id}/complete"
+        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
+        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: projectsComplete, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<TrackerProject>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ProjectsDeployment>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Delete a project and all its issues
+     Attaches one or more CUSTOM public hostnames to this org's site.
      
-     - parameter key: (path) Project key (uppercase, ^[A-Z][A-Z0-9]{1,7}$) 
-     - returns: Void
+     - parameter slug: (path) Slug is the site the hosts attach to, from the path. 
+     - parameter projectsDomainsBind: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProjectsBoundDomains
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func trackerDeleteProject(key: String) async throws {
-        return try await trackerDeleteProjectWithRequestBuilder(key: key).execute().body
+    open class func postProjectsBySlugDomains(slug: String, projectsDomainsBind: ProjectsDomainsBind, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProjectsBoundDomains {
+        return try await postProjectsBySlugDomainsWithRequestBuilder(slug: slug, projectsDomainsBind: projectsDomainsBind, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Delete a project and all its issues
-     - DELETE /v1/tracker/projects/{key}
+     Attaches one or more CUSTOM public hostnames to this org's site.
+     - POST /v1/projects/{slug}/domains
+     - Attaches one or more CUSTOM public hostnames to this org's site.  Binding a host you do not own would let you shadow it at the edge, so which outcome you get depends on whether ownership is already established: a SuperAdmin vouches (the operator manages the customer's DNS, so its bind IS the proof) and binds VERIFIED immediately; every other caller, INCLUDING an admin of the deployment's own brand org, has the host CLAIMED as pending and gets the DNS challenge back in `bound[].records`. A pending claim HOLDS the name so nobody else can take it, but it does not route until POST .../domains/{host}/verify proves control.  A hostname we operate is refused to a non-vouched caller (those are assigned by the platform, never claimed), a host another site already holds is a 409, and a name the platform holds is a 400 for EVERY caller — a vouch skips the ownership proof, never the host table's own invariant. Claims and binds are idempotent for the same (org, slug), and re-claiming returns the SAME token rather than invalidating a record the customer has already published. The edge cache-tag is flushed afterwards so a newly-verified host serves the current build immediately.  Scope: a validated principal is required (403 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter key: (path) Project key (uppercase, ^[A-Z][A-Z0-9]{1,7}$) 
-     - returns: RequestBuilder<Void> 
+       - name: bearer
+     - parameter slug: (path) Slug is the site the hosts attach to, from the path. 
+     - parameter projectsDomainsBind: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProjectsBoundDomains> 
      */
-    open class func trackerDeleteProjectWithRequestBuilder(key: String) -> RequestBuilder<Void> {
-        var localVariablePath = "/v1/tracker/projects/{key}"
-        let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
-        let keyPostEscape = keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{key}", with: keyPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func postProjectsBySlugDomainsWithRequestBuilder(slug: String, projectsDomainsBind: ProjectsDomainsBind, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProjectsBoundDomains> {
+        var localVariablePath = "/v1/projects/{slug}/domains"
+        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
+        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: projectsDomainsBind, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = HanzoAPI.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get a project
-     
-     - parameter key: (path) Project key (uppercase, ^[A-Z][A-Z0-9]{1,7}$) 
-     - returns: TrackerProject
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func trackerGetProject(key: String) async throws -> TrackerProject {
-        return try await trackerGetProjectWithRequestBuilder(key: key).execute().body
-    }
-
-    /**
-     Get a project
-     - GET /v1/tracker/projects/{key}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter key: (path) Project key (uppercase, ^[A-Z][A-Z0-9]{1,7}$) 
-     - returns: RequestBuilder<TrackerProject> 
-     */
-    open class func trackerGetProjectWithRequestBuilder(key: String) -> RequestBuilder<TrackerProject> {
-        var localVariablePath = "/v1/tracker/projects/{key}"
-        let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
-        let keyPostEscape = keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{key}", with: keyPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<TrackerProject>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     List projects
-     
-     - returns: [TrackerProject]
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func trackerListProjects() async throws -> [TrackerProject] {
-        return try await trackerListProjectsWithRequestBuilder().execute().body
-    }
-
-    /**
-     List projects
-     - GET /v1/tracker/projects
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<[TrackerProject]> 
-     */
-    open class func trackerListProjectsWithRequestBuilder() -> RequestBuilder<[TrackerProject]> {
-        let localVariablePath = "/v1/tracker/projects"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<[TrackerProject]>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Update a project
-     
-     - parameter key: (path) Project key (uppercase, ^[A-Z][A-Z0-9]{1,7}$) 
-     - parameter trackerUpdateProjectRequest: (body)  
-     - returns: TrackerProject
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func trackerUpdateProject(key: String, trackerUpdateProjectRequest: TrackerUpdateProjectRequest) async throws -> TrackerProject {
-        return try await trackerUpdateProjectWithRequestBuilder(key: key, trackerUpdateProjectRequest: trackerUpdateProjectRequest).execute().body
-    }
-
-    /**
-     Update a project
-     - PATCH /v1/tracker/projects/{key}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter key: (path) Project key (uppercase, ^[A-Z][A-Z0-9]{1,7}$) 
-     - parameter trackerUpdateProjectRequest: (body)  
-     - returns: RequestBuilder<TrackerProject> 
-     */
-    open class func trackerUpdateProjectWithRequestBuilder(key: String, trackerUpdateProjectRequest: TrackerUpdateProjectRequest) -> RequestBuilder<TrackerProject> {
-        var localVariablePath = "/v1/tracker/projects/{key}"
-        let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
-        let keyPostEscape = keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{key}", with: keyPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: trackerUpdateProjectRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<TrackerProject>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ProjectsBoundDomains>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Checks the DNS challenge for a pending custom hostname and, when it passes, promotes the host so it begins routing at the edge.
+     
+     - parameter slug: (path) Slug is the project the host is attached to, from the path. 
+     - parameter host: (path) Host is the custom hostname, from the path. It is cleaned to its canonical form (lowercased, trailing dot dropped) before anything is looked up. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProjectsDomain
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postProjectsBySlugDomainsByHostVerify(slug: String, host: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProjectsDomain {
+        return try await postProjectsBySlugDomainsByHostVerifyWithRequestBuilder(slug: slug, host: host, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Checks the DNS challenge for a pending custom hostname and, when it passes, promotes the host so it begins routing at the edge.
+     - POST /v1/projects/{slug}/domains/{host}/verify
+     - Checks the DNS challenge for a pending custom hostname and, when it passes, promotes the host so it begins routing at the edge.  It answers 200 either way, with the host's honest current state: verified once the TXT record is found, still pending — with the records to publish and the resolver's own explanation in `detail` — when it is not. A not-yet is not an error: the check ran, DNS simply has not propagated, and the customer retries. An already-verified host is returned unchanged without re-resolving. On a successful promotion the edge cache-tag is flushed, since the host routes as of that moment.  Scope: a validated principal is required (403 without one). Both the site and the claim are resolved within that principal's org, so a host claimed by another tenant is \"not claimed by this site\".
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter slug: (path) Slug is the project the host is attached to, from the path. 
+     - parameter host: (path) Host is the custom hostname, from the path. It is cleaned to its canonical form (lowercased, trailing dot dropped) before anything is looked up. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProjectsDomain> 
+     */
+    open class func postProjectsBySlugDomainsByHostVerifyWithRequestBuilder(slug: String, host: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProjectsDomain> {
+        var localVariablePath = "/v1/projects/{slug}/domains/{host}/verify"
+        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
+        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+        let hostPreEscape = "\(APIHelper.mapValueToPathItem(host))"
+        let hostPostEscape = hostPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{host}", with: hostPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ProjectsDomain>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Flushes the site's edge cache without redeploying anything.
+     
+     - parameter slug: (path) Slug is the project to act on, from the path. It is unique within the caller&#39;s org and nowhere else, so another tenant&#39;s slug is a 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProjectsProject
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postProjectsBySlugPurge(slug: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProjectsProject {
+        return try await postProjectsBySlugPurgeWithRequestBuilder(slug: slug, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Flushes the site's edge cache without redeploying anything.
+     - POST /v1/projects/{slug}/purge
+     - Flushes the site's edge cache without redeploying anything.  It invalidates the edge cache-tag `site-<org>-<slug>` and stamps `lastPurgeAt` (unix seconds), and it NEVER writes or deletes the S3 origin — the live build keeps serving; only stale copies held at the edge drop, so the next request re-fetches the current artifact from origin. Idempotent, and an edge that is unconfigured or failing is not fatal: `lastPurgeAt` is still stamped and the answer is still the updated project.  Scope: a validated principal is required (403 without one) and the project is resolved within that principal's org, so another tenant's slug is a 404.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter slug: (path) Slug is the project to act on, from the path. It is unique within the caller&#39;s org and nowhere else, so another tenant&#39;s slug is a 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProjectsProject> 
+     */
+    open class func postProjectsBySlugPurgeWithRequestBuilder(slug: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProjectsProject> {
+        var localVariablePath = "/v1/projects/{slug}/purge"
+        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
+        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ProjectsProject>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Creates a project seeded from a PUBLISHED EXAMPLE — either a starter-kit template from the ONE embedded gallery catalog, or any live project on the platform (an example a seeded creator published, or another org's app serving at <slug>.hanzo.app).
+     
+     - parameter projectsFork: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProjectsProject
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postProjectsFork(projectsFork: ProjectsFork, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProjectsProject {
+        return try await postProjectsForkWithRequestBuilder(projectsFork: projectsFork, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Creates a project seeded from a PUBLISHED EXAMPLE — either a starter-kit template from the ONE embedded gallery catalog, or any live project on the platform (an example a seeded creator published, or another org's app serving at <slug>.hanzo.app).
+     - POST /v1/projects/fork
+     - Creates a project seeded from a PUBLISHED EXAMPLE — either a starter-kit template from the ONE embedded gallery catalog, or any live project on the platform (an example a seeded creator published, or another org's app serving at <slug>.hanzo.app). Answers 201 with the new project.  `slug` names the PARENT to fork and is required. Templates resolve first, and the caller org's own private templates ahead of the public gallery, so a curated template slug keeps meaning the same thing even if someone later publishes a live project under it; `variant` picks that template's format/page/theme. If no template matches, the slug resolves to the UNIQUE live project that owns it across all orgs — the same resolution the site edge uses to serve <slug>.hanzo.app, so what you can browse is what you can fork.  `name` and `target` override the derived project name and slug; everything else is inherited from the parent. A live parent contributes its REPO, so the child builds from the same source — the parent's deployed bytes are never copied, because releases are per-tenant by design and the fork publishes its own. The parent it actually resolved is stamped on the child as `forkedFrom`, so attribution is a fact recorded at fork time rather than a claim reconstructed later.  It funnels through the SAME create path POST /v1/projects uses, so slug validation, org scoping, ID minting and the 409 on a slug the caller's own org already uses are identical.  Scope: a validated principal is required (403 without one) and the child is created in THAT principal's org.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter projectsFork: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProjectsProject> 
+     */
+    open class func postProjectsForkWithRequestBuilder(projectsFork: ProjectsFork, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProjectsProject> {
+        let localVariablePath = "/v1/projects/fork"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: projectsFork, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ProjectsProject>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

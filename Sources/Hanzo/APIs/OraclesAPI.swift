@@ -6,45 +6,45 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class OraclesAPI {
 
     /**
-     List on-chain price/data oracles
+     Reports the on-chain price/data oracles from the graph's O-Chain PriceFeed registry.
      
-     - returns: GraphListOracles200Response
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: OraclesOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func graphListOracles() async throws -> GraphListOracles200Response {
-        return try await graphListOraclesWithRequestBuilder().execute().body
+    open class func getOracles(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> OraclesOut {
+        return try await getOraclesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     List on-chain price/data oracles
+     Reports the on-chain price/data oracles from the graph's O-Chain PriceFeed registry.
      - GET /v1/oracles
+     - Reports the on-chain price/data oracles from the graph's O-Chain PriceFeed registry. A reachable graph with no feeds answers an honest empty list; an unreachable or erroring graph likewise degrades to an empty list at 200 rather than a 502, so the console never error-toasts. No feed is ever fabricated.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<GraphListOracles200Response> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<OraclesOut> 
      */
-    open class func graphListOraclesWithRequestBuilder() -> RequestBuilder<GraphListOracles200Response> {
+    open class func getOraclesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<OraclesOut> {
         let localVariablePath = "/v1/oracles"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GraphListOracles200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<OraclesOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

@@ -6,246 +6,45 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class TagsAPI {
 
     /**
-     Delete a conversation tag
+     The site's browser tag set for the hosted tag — which pixels to inject, by publishable key
      
-     - parameter tag: (path)  
-     - returns: AnyCodable
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: TagConfig
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatDeleteTagsBytag(tag: String) async throws -> AnyCodable {
-        return try await chatDeleteTagsBytagWithRequestBuilder(tag: tag).execute().body
+    open class func getTags(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> TagConfig {
+        return try await getTagsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Delete a conversation tag
-     - DELETE /v1/chat/tags/{tag}
+     The site's browser tag set for the hosted tag — which pixels to inject, by publishable key
+     - GET /v1/tags
+     - Returns the client-side pixels the SITE has connected (GA/Meta/TikTok/X) with their NON-SECRET ids, so the hosted tag injects them first-party and stamps each browser event with the same event_id the server-side Conversions API uses — deduping the two. Resolved per site: by the publishable key on ?key= when it names a project, else by the request host, so hanzo.ai and hanzo.chat carry different tags under one org. WITHOUT a resolvable site it answers an empty set at 200 — a page never breaks on its tag config.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter tag: (path)  
-     - returns: RequestBuilder<AnyCodable> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<TagConfig> 
      */
-    open class func chatDeleteTagsBytagWithRequestBuilder(tag: String) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/chat/tags/{tag}"
-        let tagPreEscape = "\(APIHelper.mapValueToPathItem(tag))"
-        let tagPostEscape = tagPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{tag}", with: tagPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func getTagsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<TagConfig> {
+        let localVariablePath = "/v1/tags"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<TagConfig>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get all conversation tags
-     
-     - returns: [ChatConversationTag]
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatGetTags() async throws -> [ChatConversationTag] {
-        return try await chatGetTagsWithRequestBuilder().execute().body
-    }
-
-    /**
-     Get all conversation tags
-     - GET /v1/chat/tags
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<[ChatConversationTag]> 
-     */
-    open class func chatGetTagsWithRequestBuilder() -> RequestBuilder<[ChatConversationTag]> {
-        let localVariablePath = "/v1/chat/tags"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<[ChatConversationTag]>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Create a conversation tag
-     
-     - parameter chatConversationTag: (body)  
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatPostTags(chatConversationTag: ChatConversationTag) async throws -> AnyCodable {
-        return try await chatPostTagsWithRequestBuilder(chatConversationTag: chatConversationTag).execute().body
-    }
-
-    /**
-     Create a conversation tag
-     - POST /v1/chat/tags
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter chatConversationTag: (body)  
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func chatPostTagsWithRequestBuilder(chatConversationTag: ChatConversationTag) -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/chat/tags"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: chatConversationTag)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Update a conversation tag
-     
-     - parameter tag: (path)  
-     - parameter chatConversationTag: (body)  
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatPutTagsBytag(tag: String, chatConversationTag: ChatConversationTag) async throws -> AnyCodable {
-        return try await chatPutTagsBytagWithRequestBuilder(tag: tag, chatConversationTag: chatConversationTag).execute().body
-    }
-
-    /**
-     Update a conversation tag
-     - PUT /v1/chat/tags/{tag}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter tag: (path)  
-     - parameter chatConversationTag: (body)  
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func chatPutTagsBytagWithRequestBuilder(tag: String, chatConversationTag: ChatConversationTag) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/chat/tags/{tag}"
-        let tagPreEscape = "\(APIHelper.mapValueToPathItem(tag))"
-        let tagPostEscape = tagPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{tag}", with: tagPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: chatConversationTag)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Update tags for a conversation
-     
-     - parameter conversationId: (path)  
-     - parameter chatPutTagsConvoByconversationidRequest: (body)  
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatPutTagsConvoByconversationid(conversationId: String, chatPutTagsConvoByconversationidRequest: ChatPutTagsConvoByconversationidRequest) async throws -> AnyCodable {
-        return try await chatPutTagsConvoByconversationidWithRequestBuilder(conversationId: conversationId, chatPutTagsConvoByconversationidRequest: chatPutTagsConvoByconversationidRequest).execute().body
-    }
-
-    /**
-     Update tags for a conversation
-     - PUT /v1/chat/tags/convo/{conversationId}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter conversationId: (path)  
-     - parameter chatPutTagsConvoByconversationidRequest: (body)  
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func chatPutTagsConvoByconversationidWithRequestBuilder(conversationId: String, chatPutTagsConvoByconversationidRequest: ChatPutTagsConvoByconversationidRequest) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/chat/tags/convo/{conversationId}"
-        let conversationIdPreEscape = "\(APIHelper.mapValueToPathItem(conversationId))"
-        let conversationIdPostEscape = conversationIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{conversationId}", with: conversationIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: chatPutTagsConvoByconversationidRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     List piece tags
-     
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func flowListTags() async throws -> AnyCodable {
-        return try await flowListTagsWithRequestBuilder().execute().body
-    }
-
-    /**
-     List piece tags
-     - GET /v1/flow/tags
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func flowListTagsWithRequestBuilder() -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/flow/tags"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

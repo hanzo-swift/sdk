@@ -6,45 +6,252 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class RegistryAPI {
 
     /**
-     List container registries
+     Images lists the org's container repositories, read live from the OCI catalog and filtered server-side to the org's namespace — the page can only ever hold the caller's own images.
      
-     - returns: PlatformTRPCResult
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RegistryImageList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func platformRegistryAll() async throws -> PlatformTRPCResult {
-        return try await platformRegistryAllWithRequestBuilder().execute().body
+    open class func getRegistryImages(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RegistryImageList {
+        return try await getRegistryImagesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     List container registries
-     - GET /v1/platform/registry/all
+     Images lists the org's container repositories, read live from the OCI catalog and filtered server-side to the org's namespace — the page can only ever hold the caller's own images.
+     - GET /v1/registry/images
+     - Images lists the org's container repositories, read live from the OCI catalog and filtered server-side to the org's namespace — the page can only ever hold the caller's own images.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<PlatformTRPCResult> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<RegistryImageList> 
      */
-    open class func platformRegistryAllWithRequestBuilder() -> RequestBuilder<PlatformTRPCResult> {
-        let localVariablePath = "/v1/platform/registry/all"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func getRegistryImagesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RegistryImageList> {
+        let localVariablePath = "/v1/registry/images"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PlatformTRPCResult>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<RegistryImageList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Packages lists the org's npm packages — `<org>` and `@<org>/…` — from the npm registry's search index, optionally narrowed by a query within that scope.
+     
+     - parameter query: (query) Query narrows the listing within the org&#39;s scope when present; the org boundary itself is never widened by it. It rides the query string. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RegistryPackageList
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getRegistryPackages(query: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RegistryPackageList {
+        return try await getRegistryPackagesWithRequestBuilder(query: query, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Packages lists the org's npm packages — `<org>` and `@<org>/…` — from the npm registry's search index, optionally narrowed by a query within that scope.
+     - GET /v1/registry/packages
+     - Packages lists the org's npm packages — `<org>` and `@<org>/…` — from the npm registry's search index, optionally narrowed by a query within that scope. The org boundary is applied server-side after the search, so a query can never widen it.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter query: (query) Query narrows the listing within the org&#39;s scope when present; the org boundary itself is never widened by it. It rides the query string. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<RegistryPackageList> 
+     */
+    open class func getRegistryPackagesWithRequestBuilder(query: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RegistryPackageList> {
+        let localVariablePath = "/v1/registry/packages"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "query": (wrappedValue: query?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<RegistryPackageList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Projects lists the namespaces the caller can see with what each holds: the org's slug, its repository count on the OCI catalog, and its package count on the npm registry.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RegistryProjectList
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getRegistryProjects(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RegistryProjectList {
+        return try await getRegistryProjectsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Projects lists the namespaces the caller can see with what each holds: the org's slug, its repository count on the OCI catalog, and its package count on the npm registry.
+     - GET /v1/registry/projects
+     - Projects lists the namespaces the caller can see with what each holds: the org's slug, its repository count on the OCI catalog, and its package count on the npm registry. Today that is exactly one row — the caller's org.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<RegistryProjectList> 
+     */
+    open class func getRegistryProjectsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RegistryProjectList> {
+        let localVariablePath = "/v1/registry/projects"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<RegistryProjectList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Status reports whether the OCI and npm registries are reachable and, when the OCI half is auth-gated, which token realm its challenge advertises — an honest lens for \"is the registry plane up\", never a fabricated ok.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RegistryStatus
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getRegistryStatus(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RegistryStatus {
+        return try await getRegistryStatusWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Status reports whether the OCI and npm registries are reachable and, when the OCI half is auth-gated, which token realm its challenge advertises — an honest lens for \"is the registry plane up\", never a fabricated ok.
+     - GET /v1/registry/status
+     - Status reports whether the OCI and npm registries are reachable and, when the OCI half is auth-gated, which token realm its challenge advertises — an honest lens for \"is the registry plane up\", never a fabricated ok.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<RegistryStatus> 
+     */
+    open class func getRegistryStatusWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RegistryStatus> {
+        let localVariablePath = "/v1/registry/status"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<RegistryStatus>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Tags lists one org-owned repository's tags, read live from the OCI registry.
+     
+     - parameter image: (query) Image is the repository name inside the org&#39;s namespace, as returned by the images op. It rides the query string. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RegistryTagList
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getRegistryTags(image: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RegistryTagList {
+        return try await getRegistryTagsWithRequestBuilder(image: image, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Tags lists one org-owned repository's tags, read live from the OCI registry.
+     - GET /v1/registry/tags
+     - Tags lists one org-owned repository's tags, read live from the OCI registry. The repository is addressed inside the org's namespace — a name outside it cannot be expressed, and an unknown one answers 404.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter image: (query) Image is the repository name inside the org&#39;s namespace, as returned by the images op. It rides the query string. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<RegistryTagList> 
+     */
+    open class func getRegistryTagsWithRequestBuilder(image: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RegistryTagList> {
+        let localVariablePath = "/v1/registry/tags"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "image": (wrappedValue: image?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<RegistryTagList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Token mints a short-lived, pull-only registry token for exactly one of the org's images, through the same IAM realm the docker CLI authenticates against.
+     
+     - parameter registryMint: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RegistryToken
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postRegistryToken(registryMint: RegistryMint, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RegistryToken {
+        return try await postRegistryTokenWithRequestBuilder(registryMint: registryMint, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Token mints a short-lived, pull-only registry token for exactly one of the org's images, through the same IAM realm the docker CLI authenticates against.
+     - POST /v1/registry/token
+     - Token mints a short-lived, pull-only registry token for exactly one of the org's images, through the same IAM realm the docker CLI authenticates against. The scope is pinned server-side to `<org>/<image>` with the `pull` action — no field exists to name another org's image or ask for push. Use it as `Authorization: Bearer …` on the OCI wire; it expires in minutes.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter registryMint: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<RegistryToken> 
+     */
+    open class func postRegistryTokenWithRequestBuilder(registryMint: RegistryMint, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RegistryToken> {
+        let localVariablePath = "/v1/registry/token"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: registryMint, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<RegistryToken>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

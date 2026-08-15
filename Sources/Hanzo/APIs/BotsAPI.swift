@@ -6,223 +6,128 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class BotsAPI {
 
     /**
-     * enum for parameter action
-     */
-    public enum Action_visorBotAction: String, CaseIterable {
-        case stop = "stop"
-        case pause = "pause"
-        case message = "message"
-    }
-
-    /**
-     Act on a bot (stop, pause, or message)
+     List returns the caller org's live bot runs, read from the bot runtime and projected into the console contract with each run's live session URL derived here.
      
-     - parameter id: (path)  
-     - parameter action: (path)  
-     - parameter body: (body)  (optional)
-     - returns: AnyCodable
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: BotRuns
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func visorBotAction(id: String, action: Action_visorBotAction, body: AnyCodable? = nil) async throws -> AnyCodable {
-        return try await visorBotActionWithRequestBuilder(id: id, action: action, body: body).execute().body
+    open class func getBots(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> BotRuns {
+        return try await getBotsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Act on a bot (stop, pause, or message)
-     - POST /v1/bots/{id}/{action}
-     - `stop` and `pause` both halt the bot's agent runtime (one honest capability). `message` runs the bot's bound agent via the agent runner and returns that run's output verbatim. 
+     List returns the caller org's live bot runs, read from the bot runtime and projected into the console contract with each run's live session URL derived here.
+     - GET /v1/bots
+     - List returns the caller org's live bot runs, read from the bot runtime and projected into the console contract with each run's live session URL derived here.  The org is ALWAYS the validated principal's org, NEVER a request field, and it is what scopes the runtime's answer — so one tenant can never enumerate another's runs. A runtime that cannot answer is an error, not an empty list: [] would tell the caller \"your org has no runs\", which is a different claim from \"we could not ask\", and the difference is the whole reason this endpoint exists.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter id: (path)  
-     - parameter action: (path)  
-     - parameter body: (body)  (optional)
-     - returns: RequestBuilder<AnyCodable> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<BotRuns> 
      */
-    open class func visorBotActionWithRequestBuilder(id: String, action: Action_visorBotAction, body: AnyCodable? = nil) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/bots/{id}/{action}"
-        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
-        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let actionPreEscape = "\(action.rawValue)"
-        let actionPostEscape = actionPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{action}", with: actionPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+    open class func getBotsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<BotRuns> {
+        let localVariablePath = "/v1/bots"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<BotRuns>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Terminate a bot (unbind agent + delete machine)
+     Stop terminates one of the caller org's own bot runs and reports its terminal state.
      
-     - parameter id: (path)  
+     - parameter runId: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: BotStopped
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postBotsByRunidStop(runId: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> BotStopped {
+        return try await postBotsByRunidStopWithRequestBuilder(runId: runId, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Stop terminates one of the caller org's own bot runs and reports its terminal state.
+     - POST /v1/bots/{runId}/stop
+     - Stop terminates one of the caller org's own bot runs and reports its terminal state.  The own-key guard is the org: it is the caller's validated org, never theirs to choose, and the runtime resolves the run id UNDER it. A run belonging to another tenant is not among this org's runs, so it answers absent — the same 404 a nonexistent id gets, which is what keeps this from being an oracle.  Absence is honoured ONLY when the runtime answers it. A runtime that does not serve stop reports nothing about the run, and reporting \"stopped\" on that basis would be a stop that cannot fail — so it is a 502.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter runId: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<BotStopped> 
+     */
+    open class func postBotsByRunidStopWithRequestBuilder(runId: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<BotStopped> {
+        var localVariablePath = "/v1/bots/{runId}/stop"
+        let runIdPreEscape = "\(APIHelper.mapValueToPathItem(runId))"
+        let runIdPostEscape = runIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{runId}", with: runIdPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<BotStopped>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Reserved address for launching a bot run — not implemented, always 501
+     
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func visorDeleteBot(id: String) async throws {
-        return try await visorDeleteBotWithRequestBuilder(id: id).execute().body
+    open class func postBotsRun(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postBotsRunWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Terminate a bot (unbind agent + delete machine)
-     - DELETE /v1/bots/{id}
+     Reserved address for launching a bot run — not implemented, always 501
+     - POST /v1/bots/run
+     - Answers 501 to every call. The bot runtime exposes no launch operation, so nothing here can start a sandbox, and this address is published rather than dropped because it is reserved: routes resolve by specificity, so the `run` literal can never bind as a run id against its neighbour `/v1/bots/:runId/stop`.  The refusal is total and takes no input. The handler never reads the body, so any bytes at all — malformed JSON included — get the same 501; no run id is minted, no session URL is handed back, and no per-run fee is charged. That is the point: the earlier version minted an id the runtime had never heard of, pointed it at a VNC node that did not exist, and took real money for it.  Listing and stopping runs are live and org-scoped. Only the launch is missing, and it returns in the same change that can prove a bot boots.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter id: (path)  
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func visorDeleteBotWithRequestBuilder(id: String) -> RequestBuilder<Void> {
-        var localVariablePath = "/v1/bots/{id}"
-        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
-        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func postBotsRunWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/bots/run"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = HanzoAPI.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get one bot by id
-     
-     - parameter id: (path)  
-     - returns: VisorBotView
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func visorGetBot(id: String) async throws -> VisorBotView {
-        return try await visorGetBotWithRequestBuilder(id: id).execute().body
-    }
-
-    /**
-     Get one bot by id
-     - GET /v1/bots/{id}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter id: (path)  
-     - returns: RequestBuilder<VisorBotView> 
-     */
-    open class func visorGetBotWithRequestBuilder(id: String) -> RequestBuilder<VisorBotView> {
-        var localVariablePath = "/v1/bots/{id}"
-        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
-        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<VisorBotView>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Launch a bot (machine + agent binding), or dryRun for a quote
-     
-     - parameter visorBotLaunchRequest: (body)  
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func visorLaunchBot(visorBotLaunchRequest: VisorBotLaunchRequest) async throws -> AnyCodable {
-        return try await visorLaunchBotWithRequestBuilder(visorBotLaunchRequest: visorBotLaunchRequest).execute().body
-    }
-
-    /**
-     Launch a bot (machine + agent binding), or dryRun for a quote
-     - POST /v1/bots/launch
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter visorBotLaunchRequest: (body)  
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func visorLaunchBotWithRequestBuilder(visorBotLaunchRequest: VisorBotLaunchRequest) -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/bots/launch"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: visorBotLaunchRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     List the org's bots
-     
-     - returns: VisorListBots200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func visorListBots() async throws -> VisorListBots200Response {
-        return try await visorListBotsWithRequestBuilder().execute().body
-    }
-
-    /**
-     List the org's bots
-     - GET /v1/bots
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<VisorListBots200Response> 
-     */
-    open class func visorListBotsWithRequestBuilder() -> RequestBuilder<VisorListBots200Response> {
-        let localVariablePath = "/v1/bots"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<VisorListBots200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

@@ -6,943 +6,360 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class WebhooksAPI {
 
     /**
-     Receive incoming webhook for a flow trigger
+     Removes one of the caller org's webhook endpoints and answers 204 with no body.
      
-     - parameter flowId: (path)  
-     - parameter body: (body)  (optional)
-     - returns: AnyCodable
+     - parameter id: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func autoHandleWebhook(flowId: String, body: AnyCodable? = nil) async throws -> AnyCodable {
-        return try await autoHandleWebhookWithRequestBuilder(flowId: flowId, body: body).execute().body
+    open class func deleteWebhooksById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteWebhooksByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Receive incoming webhook for a flow trigger
-     - POST /v1/auto/webhooks/{flowId}
-     - parameter flowId: (path)  
-     - parameter body: (body)  (optional)
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func autoHandleWebhookWithRequestBuilder(flowId: String, body: AnyCodable? = nil) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/auto/webhooks/{flowId}"
-        let flowIdPreEscape = "\(APIHelper.mapValueToPathItem(flowId))"
-        let flowIdPostEscape = flowIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{flowId}", with: flowIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
-    }
-
-    /**
-     Receive webhook and wait for flow run result
-     
-     - parameter flowId: (path)  
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func autoHandleWebhookSync(flowId: String) async throws -> AnyCodable {
-        return try await autoHandleWebhookSyncWithRequestBuilder(flowId: flowId).execute().body
-    }
-
-    /**
-     Receive webhook and wait for flow run result
-     - POST /v1/auto/webhooks/{flowId}/sync
-     - parameter flowId: (path)  
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func autoHandleWebhookSyncWithRequestBuilder(flowId: String) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/auto/webhooks/{flowId}/sync"
-        let flowIdPreEscape = "\(APIHelper.mapValueToPathItem(flowId))"
-        let flowIdPostEscape = flowIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{flowId}", with: flowIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
-    }
-
-    /**
-     Receive incoming webhook for a flow trigger
-     
-     - parameter flowId: (path)  
-     - parameter body: (body)  (optional)
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func flowHandleWebhook(flowId: String, body: AnyCodable? = nil) async throws -> AnyCodable {
-        return try await flowHandleWebhookWithRequestBuilder(flowId: flowId, body: body).execute().body
-    }
-
-    /**
-     Receive incoming webhook for a flow trigger
-     - POST /v1/flow/webhooks/{flowId}
-     - parameter flowId: (path)  
-     - parameter body: (body)  (optional)
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func flowHandleWebhookWithRequestBuilder(flowId: String, body: AnyCodable? = nil) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/flow/webhooks/{flowId}"
-        let flowIdPreEscape = "\(APIHelper.mapValueToPathItem(flowId))"
-        let flowIdPostEscape = flowIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{flowId}", with: flowIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
-    }
-
-    /**
-     Receive webhook and wait for flow run result
-     
-     - parameter flowId: (path)  
-     - parameter body: (body)  (optional)
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func flowHandleWebhookSync(flowId: String, body: AnyCodable? = nil) async throws -> AnyCodable {
-        return try await flowHandleWebhookSyncWithRequestBuilder(flowId: flowId, body: body).execute().body
-    }
-
-    /**
-     Receive webhook and wait for flow run result
-     - POST /v1/flow/webhooks/{flowId}/sync
-     - parameter flowId: (path)  
-     - parameter body: (body)  (optional)
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func flowHandleWebhookSyncWithRequestBuilder(flowId: String, body: AnyCodable? = nil) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/flow/webhooks/{flowId}/sync"
-        let flowIdPreEscape = "\(APIHelper.mapValueToPathItem(flowId))"
-        let flowIdPostEscape = flowIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{flowId}", with: flowIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
-    }
-
-    /**
-     Simulate a webhook to capture sample data
-     
-     - parameter flowId: (path)  
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func flowSimulateWebhook(flowId: String) async throws -> AnyCodable {
-        return try await flowSimulateWebhookWithRequestBuilder(flowId: flowId).execute().body
-    }
-
-    /**
-     Simulate a webhook to capture sample data
-     - GET /v1/flow/webhooks/{flowId}/simulate
+     Removes one of the caller org's webhook endpoints and answers 204 with no body.
+     - DELETE /v1/webhooks/{id}
+     - Removes one of the caller org's webhook endpoints and answers 204 with no body. Delivery stops immediately and the endpoint's signing secret is gone with it; its recorded delivery history goes too. An id another org owns reads as not found.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter flowId: (path)  
-     - returns: RequestBuilder<AnyCodable> 
+       - name: bearer
+     - parameter id: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func flowSimulateWebhookWithRequestBuilder(flowId: String) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/flow/webhooks/{flowId}/simulate"
-        let flowIdPreEscape = "\(APIHelper.mapValueToPathItem(flowId))"
-        let flowIdPostEscape = flowIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{flowId}", with: flowIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Api Controller Add Webhook
-     
-     - parameter iamObjectWebhook: (body) The details of the webhook 
-     - returns: IamControllersResponse
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func iamApiControllerAddWebhook(iamObjectWebhook: IamObjectWebhook) async throws -> IamControllersResponse {
-        return try await iamApiControllerAddWebhookWithRequestBuilder(iamObjectWebhook: iamObjectWebhook).execute().body
-    }
-
-    /**
-     Api Controller Add Webhook
-     - POST /v1/iam/webhooks
-     - add webhook
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter iamObjectWebhook: (body) The details of the webhook 
-     - returns: RequestBuilder<IamControllersResponse> 
-     */
-    open class func iamApiControllerAddWebhookWithRequestBuilder(iamObjectWebhook: IamObjectWebhook) -> RequestBuilder<IamControllersResponse> {
-        let localVariablePath = "/v1/iam/webhooks"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamObjectWebhook)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamControllersResponse>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Api Controller Delete Webhook
-     
-     - parameter id: (path) Resource identifier (owner/name) 
-     - parameter iamObjectWebhook: (body) The details of the webhook 
-     - returns: IamControllersResponse
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func iamApiControllerDeleteWebhook(id: String, iamObjectWebhook: IamObjectWebhook) async throws -> IamControllersResponse {
-        return try await iamApiControllerDeleteWebhookWithRequestBuilder(id: id, iamObjectWebhook: iamObjectWebhook).execute().body
-    }
-
-    /**
-     Api Controller Delete Webhook
-     - DELETE /v1/iam/webhooks/{id}
-     - delete webhook
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter id: (path) Resource identifier (owner/name) 
-     - parameter iamObjectWebhook: (body) The details of the webhook 
-     - returns: RequestBuilder<IamControllersResponse> 
-     */
-    open class func iamApiControllerDeleteWebhookWithRequestBuilder(id: String, iamObjectWebhook: IamObjectWebhook) -> RequestBuilder<IamControllersResponse> {
-        var localVariablePath = "/v1/iam/webhooks/{id}"
+    open class func deleteWebhooksByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/webhooks/{id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamObjectWebhook)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamControllersResponse>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Api Controller Get Webhook
-     
-     - parameter id: (path) The id ( owner/name ) of the webhook 
-     - returns: IamObjectWebhook
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func iamApiControllerGetWebhook(id: String) async throws -> IamObjectWebhook {
-        return try await iamApiControllerGetWebhookWithRequestBuilder(id: id).execute().body
-    }
-
-    /**
-     Api Controller Get Webhook
-     - GET /v1/iam/webhooks/{id}
-     - get webhook
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter id: (path) The id ( owner/name ) of the webhook 
-     - returns: RequestBuilder<IamObjectWebhook> 
-     */
-    open class func iamApiControllerGetWebhookWithRequestBuilder(id: String) -> RequestBuilder<IamObjectWebhook> {
-        var localVariablePath = "/v1/iam/webhooks/{id}"
-        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
-        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<IamObjectWebhook>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Api Controller Get Webhooks
+     Returns every webhook endpoint the caller's org has registered, newest first, each with its 7-day delivery and failure counts.
      
-     - parameter owner: (query) The owner of webhooks 
-     - returns: [IamObjectWebhook]
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: EndpointList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func iamApiControllerGetWebhooks(owner: String) async throws -> [IamObjectWebhook] {
-        return try await iamApiControllerGetWebhooksWithRequestBuilder(owner: owner).execute().body
+    open class func getWebhooks(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> EndpointList {
+        return try await getWebhooksWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Api Controller Get Webhooks
-     - GET /v1/iam/webhooks
-     - get webhooks
+     Returns every webhook endpoint the caller's org has registered, newest first, each with its 7-day delivery and failure counts.
+     - GET /v1/webhooks
+     - Returns every webhook endpoint the caller's org has registered, newest first, each with its 7-day delivery and failure counts. Signing secrets are redacted here — a secret leaves the server only on create and on rotate. The listing is physically org-scoped, so another tenant's endpoints are not reachable from this route at all.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter owner: (query) The owner of webhooks 
-     - returns: RequestBuilder<[IamObjectWebhook]> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<EndpointList> 
      */
-    open class func iamApiControllerGetWebhooksWithRequestBuilder(owner: String) -> RequestBuilder<[IamObjectWebhook]> {
-        let localVariablePath = "/v1/iam/webhooks"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func getWebhooksWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<EndpointList> {
+        let localVariablePath = "/v1/webhooks"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<EndpointList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns one of the caller org's webhook endpoints with its 7-day delivery and failure counts, signing secret redacted.
+     
+     - parameter id: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Endpoint
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getWebhooksById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Endpoint {
+        return try await getWebhooksByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns one of the caller org's webhook endpoints with its 7-day delivery and failure counts, signing secret redacted.
+     - GET /v1/webhooks/{id}
+     - Returns one of the caller org's webhook endpoints with its 7-day delivery and failure counts, signing secret redacted. An id another org owns reads as not found, so the response cannot confirm that it exists.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Endpoint> 
+     */
+    open class func getWebhooksByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Endpoint> {
+        var localVariablePath = "/v1/webhooks/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Endpoint>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns one endpoint's per-attempt delivery log, newest first — the record of what was sent, what the subscriber answered, and how long it took.
+     
+     - parameter id: (path)  
+     - parameter limit: (query) Limit caps how many attempts come back: default 50, maximum 200. A value that is not a positive integer reads as the default. (optional)
+     - parameter status: (query) Status narrows the log to one outcome: \&quot;ok\&quot;, \&quot;retrying\&quot; or \&quot;failed\&quot;. Empty returns every attempt. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: DeliveryList
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getWebhooksByIdDeliveries(id: String, limit: Int? = nil, status: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> DeliveryList {
+        return try await getWebhooksByIdDeliveriesWithRequestBuilder(id: id, limit: limit, status: status, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns one endpoint's per-attempt delivery log, newest first — the record of what was sent, what the subscriber answered, and how long it took.
+     - GET /v1/webhooks/{id}/deliveries
+     - Returns one endpoint's per-attempt delivery log, newest first — the record of what was sent, what the subscriber answered, and how long it took. One event that retried three times appears as three rows sharing a delivery id. It is org-scoped exactly like every other route here: the endpoint lookup only ever finds THIS org's endpoint, so another org's id is a 404 and never a window onto its logs.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path)  
+     - parameter limit: (query) Limit caps how many attempts come back: default 50, maximum 200. A value that is not a positive integer reads as the default. (optional)
+     - parameter status: (query) Status narrows the log to one outcome: \&quot;ok\&quot;, \&quot;retrying\&quot; or \&quot;failed\&quot;. Empty returns every attempt. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<DeliveryList> 
+     */
+    open class func getWebhooksByIdDeliveriesWithRequestBuilder(id: String, limit: Int? = nil, status: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<DeliveryList> {
+        var localVariablePath = "/v1/webhooks/{id}/deliveries"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "owner": (wrappedValue: owner.encodeToJSON(), isExplode: true),
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "status": (wrappedValue: status?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ])
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<[IamObjectWebhook]>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<DeliveryList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Api Controller Update Webhook
+     Registers a new webhook subscription for the caller's org and answers 201 with the endpoint INCLUDING its freshly minted signing secret.
      
-     - parameter id: (path) The id ( owner/name ) of the webhook 
-     - parameter iamObjectWebhook: (body) The details of the webhook 
-     - returns: IamControllersResponse
+     - parameter createEndpointIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Endpoint
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func iamApiControllerUpdateWebhook(id: String, iamObjectWebhook: IamObjectWebhook) async throws -> IamControllersResponse {
-        return try await iamApiControllerUpdateWebhookWithRequestBuilder(id: id, iamObjectWebhook: iamObjectWebhook).execute().body
+    open class func postWebhooks(createEndpointIn: CreateEndpointIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Endpoint {
+        return try await postWebhooksWithRequestBuilder(createEndpointIn: createEndpointIn, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Api Controller Update Webhook
-     - PUT /v1/iam/webhooks/{id}
-     - update webhook
+     Registers a new webhook subscription for the caller's org and answers 201 with the endpoint INCLUDING its freshly minted signing secret.
+     - POST /v1/webhooks
+     - Registers a new webhook subscription for the caller's org and answers 201 with the endpoint INCLUDING its freshly minted signing secret. This is one of only two responses that ever carry that secret (the other is rotate) — store it now, because no later read returns it. The org is stamped by the server from the validated principal, so a body can never register an endpoint in another tenant.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter id: (path) The id ( owner/name ) of the webhook 
-     - parameter iamObjectWebhook: (body) The details of the webhook 
-     - returns: RequestBuilder<IamControllersResponse> 
+       - name: bearer
+     - parameter createEndpointIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Endpoint> 
      */
-    open class func iamApiControllerUpdateWebhookWithRequestBuilder(id: String, iamObjectWebhook: IamObjectWebhook) -> RequestBuilder<IamControllersResponse> {
-        var localVariablePath = "/v1/iam/webhooks/{id}"
+    open class func postWebhooksWithRequestBuilder(createEndpointIn: CreateEndpointIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Endpoint> {
+        let localVariablePath = "/v1/webhooks"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: createEndpointIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Endpoint>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Mints a NEW HMAC signing secret for the endpoint and answers the endpoint WITH it — the only other response besides create that ever carries a secret.
+     
+     - parameter id: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Endpoint
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postWebhooksByIdSecret(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Endpoint {
+        return try await postWebhooksByIdSecretWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Mints a NEW HMAC signing secret for the endpoint and answers the endpoint WITH it — the only other response besides create that ever carries a secret.
+     - POST /v1/webhooks/{id}/secret
+     - Mints a NEW HMAC signing secret for the endpoint and answers the endpoint WITH it — the only other response besides create that ever carries a secret. The old secret stops working the instant this returns: every subsequent delivery signs with the new one, with no overlap window. Call it when the subscriber is ready to swap the value on its side, not before.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Endpoint> 
+     */
+    open class func postWebhooksByIdSecretWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Endpoint> {
+        var localVariablePath = "/v1/webhooks/{id}/secret"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamObjectWebhook)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamControllersResponse>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Create a webhook
-     
-     - parameter kmsCreateWebhookRequest: (body)  
-     - returns: KmsCreateWebhook200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kmsCreateWebhook(kmsCreateWebhookRequest: KmsCreateWebhookRequest) async throws -> KmsCreateWebhook200Response {
-        return try await kmsCreateWebhookWithRequestBuilder(kmsCreateWebhookRequest: kmsCreateWebhookRequest).execute().body
-    }
-
-    /**
-     Create a webhook
-     - POST /v1/kms/webhooks
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter kmsCreateWebhookRequest: (body)  
-     - returns: RequestBuilder<KmsCreateWebhook200Response> 
-     */
-    open class func kmsCreateWebhookWithRequestBuilder(kmsCreateWebhookRequest: KmsCreateWebhookRequest) -> RequestBuilder<KmsCreateWebhook200Response> {
-        let localVariablePath = "/v1/kms/webhooks"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: kmsCreateWebhookRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<KmsCreateWebhook200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Delete a webhook
-     
-     - parameter webhookId: (path)  
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kmsDeleteWebhook(webhookId: UUID) async throws -> AnyCodable {
-        return try await kmsDeleteWebhookWithRequestBuilder(webhookId: webhookId).execute().body
-    }
-
-    /**
-     Delete a webhook
-     - DELETE /v1/kms/webhooks/{webhookId}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter webhookId: (path)  
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func kmsDeleteWebhookWithRequestBuilder(webhookId: UUID) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/kms/webhooks/{webhookId}"
-        let webhookIdPreEscape = "\(APIHelper.mapValueToPathItem(webhookId))"
-        let webhookIdPostEscape = webhookIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{webhookId}", with: webhookIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Endpoint>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     List webhooks for a project
-     
-     - parameter workspaceId: (query)  
-     - returns: KmsListWebhooks200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kmsListWebhooks(workspaceId: UUID) async throws -> KmsListWebhooks200Response {
-        return try await kmsListWebhooksWithRequestBuilder(workspaceId: workspaceId).execute().body
-    }
-
-    /**
-     List webhooks for a project
-     - GET /v1/kms/webhooks
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter workspaceId: (query)  
-     - returns: RequestBuilder<KmsListWebhooks200Response> 
-     */
-    open class func kmsListWebhooksWithRequestBuilder(workspaceId: UUID) -> RequestBuilder<KmsListWebhooks200Response> {
-        let localVariablePath = "/v1/kms/webhooks"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "workspaceId": (wrappedValue: workspaceId.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<KmsListWebhooks200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Test a webhook
-     
-     - parameter webhookId: (path)  
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kmsTestWebhook(webhookId: UUID) async throws -> AnyCodable {
-        return try await kmsTestWebhookWithRequestBuilder(webhookId: webhookId).execute().body
-    }
-
-    /**
-     Test a webhook
-     - POST /v1/kms/webhooks/{webhookId}/test
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter webhookId: (path)  
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func kmsTestWebhookWithRequestBuilder(webhookId: UUID) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/kms/webhooks/{webhookId}/test"
-        let webhookIdPreEscape = "\(APIHelper.mapValueToPathItem(webhookId))"
-        let webhookIdPostEscape = webhookIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{webhookId}", with: webhookIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Update a webhook
-     
-     - parameter webhookId: (path)  
-     - parameter kmsUpdateWebhookRequest: (body)  
-     - returns: KmsCreateWebhook200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kmsUpdateWebhook(webhookId: UUID, kmsUpdateWebhookRequest: KmsUpdateWebhookRequest) async throws -> KmsCreateWebhook200Response {
-        return try await kmsUpdateWebhookWithRequestBuilder(webhookId: webhookId, kmsUpdateWebhookRequest: kmsUpdateWebhookRequest).execute().body
-    }
-
-    /**
-     Update a webhook
-     - PATCH /v1/kms/webhooks/{webhookId}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter webhookId: (path)  
-     - parameter kmsUpdateWebhookRequest: (body)  
-     - returns: RequestBuilder<KmsCreateWebhook200Response> 
-     */
-    open class func kmsUpdateWebhookWithRequestBuilder(webhookId: UUID, kmsUpdateWebhookRequest: KmsUpdateWebhookRequest) -> RequestBuilder<KmsCreateWebhook200Response> {
-        var localVariablePath = "/v1/kms/webhooks/{webhookId}"
-        let webhookIdPreEscape = "\(APIHelper.mapValueToPathItem(webhookId))"
-        let webhookIdPostEscape = webhookIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{webhookId}", with: webhookIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: kmsUpdateWebhookRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<KmsCreateWebhook200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Create webhook
-     
-     - parameter registryWebhookCreate: (body)  
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func registryCreateWebhook(registryWebhookCreate: RegistryWebhookCreate) async throws -> AnyCodable {
-        return try await registryCreateWebhookWithRequestBuilder(registryWebhookCreate: registryWebhookCreate).execute().body
-    }
-
-    /**
-     Create webhook
-     - POST /v1/registry/webhooks
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter registryWebhookCreate: (body)  
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func registryCreateWebhookWithRequestBuilder(registryWebhookCreate: RegistryWebhookCreate) -> RequestBuilder<AnyCodable> {
-        let localVariablePath = "/v1/registry/webhooks"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: registryWebhookCreate)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Delete webhook
+     Sends ONE signed test event to the endpoint right now and answers the outcome inline, so the console can show whether the subscriber is reachable without waiting for real traffic.
      
      - parameter id: (path)  
-     - returns: AnyCodable
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: TestResult
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func registryDeleteWebhook(id: Int) async throws -> AnyCodable {
-        return try await registryDeleteWebhookWithRequestBuilder(id: id).execute().body
+    open class func postWebhooksByIdTest(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> TestResult {
+        return try await postWebhooksByIdTestWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Delete webhook
-     - DELETE /v1/registry/webhooks/{id}
+     Sends ONE signed test event to the endpoint right now and answers the outcome inline, so the console can show whether the subscriber is reachable without waiting for real traffic.
+     - POST /v1/webhooks/{id}/test
+     - Sends ONE signed test event to the endpoint right now and answers the outcome inline, so the console can show whether the subscriber is reachable without waiting for real traffic. It takes the same attempt path the bus dispatcher takes — one attempt, 10s timeout, no retry ladder — and records the result in the endpoint's delivery log. It works on a DISABLED endpoint too: validating one you have paused is the whole point.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
+       - name: bearer
      - parameter id: (path)  
-     - returns: RequestBuilder<AnyCodable> 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<TestResult> 
      */
-    open class func registryDeleteWebhookWithRequestBuilder(id: Int) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/registry/webhooks/{id}"
+    open class func postWebhooksByIdTestWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<TestResult> {
+        var localVariablePath = "/v1/webhooks/{id}/test"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<TestResult>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Get webhook
+     Replaces the editable fields of one of the caller org's endpoints — url, events, status and description — and answers the stored row with its secret redacted.
      
      - parameter id: (path)  
-     - returns: RegistryWebhook
+     - parameter updateEndpointIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Endpoint
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func registryGetWebhook(id: Int) async throws -> RegistryWebhook {
-        return try await registryGetWebhookWithRequestBuilder(id: id).execute().body
+    open class func putWebhooksById(id: String, updateEndpointIn: UpdateEndpointIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Endpoint {
+        return try await putWebhooksByIdWithRequestBuilder(id: id, updateEndpointIn: updateEndpointIn, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Get webhook
-     - GET /v1/registry/webhooks/{id}
+     Replaces the editable fields of one of the caller org's endpoints — url, events, status and description — and answers the stored row with its secret redacted.
+     - PUT /v1/webhooks/{id}
+     - Replaces the editable fields of one of the caller org's endpoints — url, events, status and description — and answers the stored row with its secret redacted. It is a full replace, not a patch: an omitted field is written as its empty value, and an omitted or empty events list resubscribes the endpoint to EVERY event. The signing secret and the creation time are immutable here; rotate the secret with POST /v1/webhooks/{id}/secret.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
+       - name: bearer
      - parameter id: (path)  
-     - returns: RequestBuilder<RegistryWebhook> 
+     - parameter updateEndpointIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Endpoint> 
      */
-    open class func registryGetWebhookWithRequestBuilder(id: Int) -> RequestBuilder<RegistryWebhook> {
-        var localVariablePath = "/v1/registry/webhooks/{id}"
+    open class func putWebhooksByIdWithRequestBuilder(id: String, updateEndpointIn: UpdateEndpointIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Endpoint> {
+        var localVariablePath = "/v1/webhooks/{id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: updateEndpointIn, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<RegistryWebhook>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     List webhooks
-     
-     - parameter projectId: (query) Filter by project ID (optional)
-     - parameter page: (query)  (optional, default to 1)
-     - parameter pageSize: (query)  (optional, default to 10)
-     - returns: [RegistryWebhook]
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func registryListWebhooks(projectId: Int? = nil, page: Int? = nil, pageSize: Int? = nil) async throws -> [RegistryWebhook] {
-        return try await registryListWebhooksWithRequestBuilder(projectId: projectId, page: page, pageSize: pageSize).execute().body
-    }
-
-    /**
-     List webhooks
-     - GET /v1/registry/webhooks
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter projectId: (query) Filter by project ID (optional)
-     - parameter page: (query)  (optional, default to 1)
-     - parameter pageSize: (query)  (optional, default to 10)
-     - returns: RequestBuilder<[RegistryWebhook]> 
-     */
-    open class func registryListWebhooksWithRequestBuilder(projectId: Int? = nil, page: Int? = nil, pageSize: Int? = nil) -> RequestBuilder<[RegistryWebhook]> {
-        let localVariablePath = "/v1/registry/webhooks"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "project_id": (wrappedValue: projectId?.encodeToJSON(), isExplode: true),
-            "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
-            "page_size": (wrappedValue: pageSize?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<[RegistryWebhook]>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Update webhook
-     
-     - parameter id: (path)  
-     - parameter registryWebhookCreate: (body)  
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func registryUpdateWebhook(id: Int, registryWebhookCreate: RegistryWebhookCreate) async throws -> AnyCodable {
-        return try await registryUpdateWebhookWithRequestBuilder(id: id, registryWebhookCreate: registryWebhookCreate).execute().body
-    }
-
-    /**
-     Update webhook
-     - PUT /v1/registry/webhooks/{id}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter id: (path)  
-     - parameter registryWebhookCreate: (body)  
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func registryUpdateWebhookWithRequestBuilder(id: Int, registryWebhookCreate: RegistryWebhookCreate) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/registry/webhooks/{id}"
-        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
-        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: registryWebhookCreate)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Endpoint>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Delete all webhooks
-     
-     - returns: [String: SearchWebhookResultsValue]
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func searchDeleteWebhooks() async throws -> [String: SearchWebhookResultsValue] {
-        return try await searchDeleteWebhooksWithRequestBuilder().execute().body
-    }
-
-    /**
-     Delete all webhooks
-     - DELETE /v1/search/webhooks
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<[String: SearchWebhookResultsValue]> 
-     */
-    open class func searchDeleteWebhooksWithRequestBuilder() -> RequestBuilder<[String: SearchWebhookResultsValue]> {
-        let localVariablePath = "/v1/search/webhooks"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<[String: SearchWebhookResultsValue]>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get webhook configuration
-     
-     - returns: [String: SearchWebhookResultsValue]
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func searchGetWebhooks() async throws -> [String: SearchWebhookResultsValue] {
-        return try await searchGetWebhooksWithRequestBuilder().execute().body
-    }
-
-    /**
-     Get webhook configuration
-     - GET /v1/search/webhooks
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<[String: SearchWebhookResultsValue]> 
-     */
-    open class func searchGetWebhooksWithRequestBuilder() -> RequestBuilder<[String: SearchWebhookResultsValue]> {
-        let localVariablePath = "/v1/search/webhooks"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<[String: SearchWebhookResultsValue]>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Update webhook configuration
-     
-     - parameter requestBody: (body)  
-     - returns: [String: SearchWebhookResultsValue]
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func searchUpdateWebhooks(requestBody: [String: SearchWebhookSettingsValue]) async throws -> [String: SearchWebhookResultsValue] {
-        return try await searchUpdateWebhooksWithRequestBuilder(requestBody: requestBody).execute().body
-    }
-
-    /**
-     Update webhook configuration
-     - PATCH /v1/search/webhooks
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter requestBody: (body)  
-     - returns: RequestBuilder<[String: SearchWebhookResultsValue]> 
-     */
-    open class func searchUpdateWebhooksWithRequestBuilder(requestBody: [String: SearchWebhookSettingsValue]) -> RequestBuilder<[String: SearchWebhookResultsValue]> {
-        let localVariablePath = "/v1/search/webhooks"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: requestBody)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<[String: SearchWebhookResultsValue]>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

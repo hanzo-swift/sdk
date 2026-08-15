@@ -6,206 +6,162 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class TracesAPI {
 
     /**
-     Delete a specific trace
+     How many spans this deployment holds for your org
      
-     - parameter traceId: (path)  
-     - returns: ConsoleDeleteDatasetItem200Response
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func consoleDeleteTrace(traceId: String) async throws -> ConsoleDeleteDatasetItem200Response {
-        return try await consoleDeleteTraceWithRequestBuilder(traceId: traceId).execute().body
+    open class func getTracesHealth(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getTracesHealthWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Delete a specific trace
-     - DELETE /v1/console/traces/{traceId}
+     How many spans this deployment holds for your org
+     - GET /v1/traces/health
+     - Reports the native trace store's live state for the calling tenant: the subsystem version and `spans`, the count actually held right now. Not a dependency probe — the store is in-process, so this answers 200 whenever the process is up.  The tenant is the gateway-minted `X-Org-Id` header, falling back to the deployment brand and then `default`.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter traceId: (path)  
-     - returns: RequestBuilder<ConsoleDeleteDatasetItem200Response> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func consoleDeleteTraceWithRequestBuilder(traceId: String) -> RequestBuilder<ConsoleDeleteDatasetItem200Response> {
-        var localVariablePath = "/v1/console/traces/{traceId}"
-        let traceIdPreEscape = "\(APIHelper.mapValueToPathItem(traceId))"
-        let traceIdPostEscape = traceIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{traceId}", with: traceIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func getTracesHealthWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/traces/health"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<ConsoleDeleteDatasetItem200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Delete multiple traces
+     Recent spans for your org over a time range
      
-     - parameter consoleDeleteTracesRequest: (body)  
-     - returns: ConsoleDeleteDatasetItem200Response
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func consoleDeleteTraces(consoleDeleteTracesRequest: ConsoleDeleteTracesRequest) async throws -> ConsoleDeleteDatasetItem200Response {
-        return try await consoleDeleteTracesWithRequestBuilder(consoleDeleteTracesRequest: consoleDeleteTracesRequest).execute().body
+    open class func getTracesQuery(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getTracesQueryWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Delete multiple traces
-     - DELETE /v1/console/traces
+     Recent spans for your org over a time range
+     - GET /v1/traces/query
+     - Answers `{count, spans}`, newest first, filtered on each span's START time. `start` and `end` are nanosecond bounds where 0 — which is what an absent, empty or unparseable value becomes — means UNBOUNDED, so a malformed bound widens the listing instead of failing it. `limit` defaults to 100 when absent or non-positive.  It lists SPANS, not traces: several spans of one trace each count separately and each take a slot against `limit`. Assembling one trace is /v1/traces/trace. The tenant is the gateway-minted `X-Org-Id` header, falling back to the deployment brand and then `default`.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter consoleDeleteTracesRequest: (body)  
-     - returns: RequestBuilder<ConsoleDeleteDatasetItem200Response> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func consoleDeleteTracesWithRequestBuilder(consoleDeleteTracesRequest: ConsoleDeleteTracesRequest) -> RequestBuilder<ConsoleDeleteDatasetItem200Response> {
-        let localVariablePath = "/v1/console/traces"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: consoleDeleteTracesRequest)
+    open class func getTracesQueryWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/traces/query"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ConsoleDeleteDatasetItem200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get a specific trace with full details
-     
-     - parameter traceId: (path)  
-     - returns: ConsoleTraceWithFullDetails
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func consoleGetTrace(traceId: String) async throws -> ConsoleTraceWithFullDetails {
-        return try await consoleGetTraceWithRequestBuilder(traceId: traceId).execute().body
-    }
-
-    /**
-     Get a specific trace with full details
-     - GET /v1/console/traces/{traceId}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter traceId: (path)  
-     - returns: RequestBuilder<ConsoleTraceWithFullDetails> 
-     */
-    open class func consoleGetTraceWithRequestBuilder(traceId: String) -> RequestBuilder<ConsoleTraceWithFullDetails> {
-        var localVariablePath = "/v1/console/traces/{traceId}"
-        let traceIdPreEscape = "\(APIHelper.mapValueToPathItem(traceId))"
-        let traceIdPostEscape = traceIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{traceId}", with: traceIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<ConsoleTraceWithFullDetails>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Get list of traces
+     Every span of one trace — the waterfall
      
-     - parameter page: (query)  (optional, default to 1)
-     - parameter limit: (query)  (optional, default to 50)
-     - parameter userId: (query)  (optional)
-     - parameter name: (query)  (optional)
-     - parameter sessionId: (query)  (optional)
-     - parameter fromTimestamp: (query)  (optional)
-     - parameter toTimestamp: (query)  (optional)
-     - parameter orderBy: (query) Format: field.asc|desc (e.g., timestamp.desc) (optional)
-     - parameter tags: (query)  (optional)
-     - parameter version: (query)  (optional)
-     - parameter release: (query)  (optional)
-     - parameter environment: (query)  (optional)
-     - parameter filter: (query) JSON array of filter conditions (overrides other filters when provided) (optional)
-     - returns: ConsoleListTraces200Response
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func consoleListTraces(page: Int? = nil, limit: Int? = nil, userId: String? = nil, name: String? = nil, sessionId: String? = nil, fromTimestamp: Date? = nil, toTimestamp: Date? = nil, orderBy: String? = nil, tags: [String]? = nil, version: String? = nil, release: String? = nil, environment: [String]? = nil, filter: String? = nil) async throws -> ConsoleListTraces200Response {
-        return try await consoleListTracesWithRequestBuilder(page: page, limit: limit, userId: userId, name: name, sessionId: sessionId, fromTimestamp: fromTimestamp, toTimestamp: toTimestamp, orderBy: orderBy, tags: tags, version: version, release: release, environment: environment, filter: filter).execute().body
+    open class func getTracesTrace(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getTracesTraceWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Get list of traces
-     - GET /v1/console/traces
+     Every span of one trace — the waterfall
+     - GET /v1/traces/trace
+     - Answers `{spans}`: every span the org holds for the trace id in `id`, in the order they were appended, which is what a waterfall view renders. Unlike the other reads there is no count, no time range and no limit — a trace is addressed by id or not at all.  An id with no spans answers an EMPTY list, never a 404: the store cannot tell a trace that never existed from one whose spans retention has already dropped, so it does not pretend to. The tenant is the gateway-minted `X-Org-Id` header, falling back to the deployment brand and then `default`, and a trace id belonging to another org is simply not in this org's store.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter page: (query)  (optional, default to 1)
-     - parameter limit: (query)  (optional, default to 50)
-     - parameter userId: (query)  (optional)
-     - parameter name: (query)  (optional)
-     - parameter sessionId: (query)  (optional)
-     - parameter fromTimestamp: (query)  (optional)
-     - parameter toTimestamp: (query)  (optional)
-     - parameter orderBy: (query) Format: field.asc|desc (e.g., timestamp.desc) (optional)
-     - parameter tags: (query)  (optional)
-     - parameter version: (query)  (optional)
-     - parameter release: (query)  (optional)
-     - parameter environment: (query)  (optional)
-     - parameter filter: (query) JSON array of filter conditions (overrides other filters when provided) (optional)
-     - returns: RequestBuilder<ConsoleListTraces200Response> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func consoleListTracesWithRequestBuilder(page: Int? = nil, limit: Int? = nil, userId: String? = nil, name: String? = nil, sessionId: String? = nil, fromTimestamp: Date? = nil, toTimestamp: Date? = nil, orderBy: String? = nil, tags: [String]? = nil, version: String? = nil, release: String? = nil, environment: [String]? = nil, filter: String? = nil) -> RequestBuilder<ConsoleListTraces200Response> {
-        let localVariablePath = "/v1/console/traces"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func getTracesTraceWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/traces/trace"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
-            "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
-            "userId": (wrappedValue: userId?.encodeToJSON(), isExplode: true),
-            "name": (wrappedValue: name?.encodeToJSON(), isExplode: true),
-            "sessionId": (wrappedValue: sessionId?.encodeToJSON(), isExplode: true),
-            "fromTimestamp": (wrappedValue: fromTimestamp?.encodeToJSON(), isExplode: true),
-            "toTimestamp": (wrappedValue: toTimestamp?.encodeToJSON(), isExplode: true),
-            "orderBy": (wrappedValue: orderBy?.encodeToJSON(), isExplode: true),
-            "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
-            "version": (wrappedValue: version?.encodeToJSON(), isExplode: true),
-            "release": (wrappedValue: release?.encodeToJSON(), isExplode: true),
-            "environment": (wrappedValue: environment?.encodeToJSON(), isExplode: true),
-            "filter": (wrappedValue: filter?.encodeToJSON(), isExplode: true),
-        ])
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<ConsoleListTraces200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Append spans for your org
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postTracesWrite(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postTracesWriteWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Append spans for your org
+     - POST /v1/traces/write
+     - Takes `{spans:[{traceId, spanId, parentId, name, startNs, endNs, attrs}]}`, appends each, and answers `{written}` — the number of spans sent. Every span is indexed by its trace id as it lands, which is what makes the waterfall read possible without a second store.  Times are NANOSECONDS since the Unix epoch. Retention is a bounded ring of 1048576 spans per org: past that the OLDEST are evicted to keep the newest 1048576, and the trace index is rebuilt — so a long-lived trace can lose its early spans while its later ones survive, and a waterfall read is best-effort against retention, not a guarantee.  The tenant is the gateway-minted `X-Org-Id` header, falling back to the deployment brand and then `default`. A body that does not decode is 400.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postTracesWriteWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/traces/write"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

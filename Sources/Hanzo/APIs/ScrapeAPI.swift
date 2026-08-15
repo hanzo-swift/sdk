@@ -6,85 +6,45 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class ScrapeAPI {
 
     /**
-     Scrape a URL to markdown (Firecrawl response shape)
+     Fetch one page and get its extracted markdown, in the firecrawl envelope.
      
-     - parameter websearchScrapeRequest: (body)  
-     - returns: WebsearchScrapeResponse
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func websearchWebScrape(websearchScrapeRequest: WebsearchScrapeRequest) async throws -> WebsearchScrapeResponse {
-        return try await websearchWebScrapeWithRequestBuilder(websearchScrapeRequest: websearchScrapeRequest).execute().body
+    open class func postScrape(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postScrapeWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Scrape a URL to markdown (Firecrawl response shape)
-     - POST /v1/websearch/v1/scrape
+     Fetch one page and get its extracted markdown, in the firecrawl envelope.
+     - POST /v1/scrape
+     - Takes {url} and answers {success, data:{markdown, metadata}} — the exact contract a firecrawl client decodes. The fetch, extraction and optional browser render run in-process; there is no crawler pod to be down.  The shared service key is required as an Authorization Bearer, compared in constant time: unset on the deployment is 503, missing or wrong is 401. Unlike search, a validated principal does NOT substitute for it — this is the service-to-service door.  A page is archived under the caller's own org and project, taken from the verified principal when there is one, so a scrape lands in the same corpus /v1/crawl fills and a URL already read under that scope is answered from the archive without touching the network. A service caller carrying no principal shares the unscoped prefix.  The URL is caller-supplied and fetched from INSIDE the cluster, which makes this a request-forgery primitive by construction: in-namespace service DNS and a cloud metadata endpoint that hands credentials to anyone who asks are both a resolution away. Only http and https are accepted, and every address actually dialled must be public unicast — loopback, link-local, private and multicast are refused. The check lives in the DIALER rather than on the hostname, because resolving a name to validate it and then letting the transport resolve it again is a gap DNS rebinding walks straight through; redirects re-enter the same dialer, so a public URL that bounces to the metadata address is refused at the hop that matters.  The one thing to get right: FAILURE IS 200. A missing or unparseable url, a body over the 1 MiB read cap, and a fetch that could not be completed all answer HTTP 200 with success:false and a reason — a firecrawl client reads data.success, not the status line. Only the two auth refusals use a status code, so a caller that branches on HTTP status alone will read every failed scrape as a success.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter websearchScrapeRequest: (body)  
-     - returns: RequestBuilder<WebsearchScrapeResponse> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func websearchWebScrapeWithRequestBuilder(websearchScrapeRequest: WebsearchScrapeRequest) -> RequestBuilder<WebsearchScrapeResponse> {
-        let localVariablePath = "/v1/websearch/v1/scrape"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: websearchScrapeRequest)
+    open class func postScrapeWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/scrape"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<WebsearchScrapeResponse>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Scrape a URL to markdown (bare alias of /v1/websearch/v1/scrape)
-     
-     - parameter websearchScrapeRequest: (body)  
-     - returns: WebsearchScrapeResponse
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func websearchWebScrapeBare(websearchScrapeRequest: WebsearchScrapeRequest) async throws -> WebsearchScrapeResponse {
-        return try await websearchWebScrapeBareWithRequestBuilder(websearchScrapeRequest: websearchScrapeRequest).execute().body
-    }
-
-    /**
-     Scrape a URL to markdown (bare alias of /v1/websearch/v1/scrape)
-     - POST /v1/websearch/scrape
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter websearchScrapeRequest: (body)  
-     - returns: RequestBuilder<WebsearchScrapeResponse> 
-     */
-    open class func websearchWebScrapeBareWithRequestBuilder(websearchScrapeRequest: WebsearchScrapeRequest) -> RequestBuilder<WebsearchScrapeResponse> {
-        let localVariablePath = "/v1/websearch/scrape"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: websearchScrapeRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<WebsearchScrapeResponse>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

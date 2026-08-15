@@ -6,14 +6,14 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
-public struct CrmSummary: Codable, JSONEncodable, Hashable {
+public struct CrmSummary: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Companies is how many companies the org has. */
     public var companies: Int?
+    /** Contacts is how many contacts the org has. */
     public var contacts: Int?
+    /** Opportunities is how many opportunities the org has. */
     public var opportunities: Int?
 
     public init(companies: Int? = nil, contacts: Int? = nil, opportunities: Int? = nil) {

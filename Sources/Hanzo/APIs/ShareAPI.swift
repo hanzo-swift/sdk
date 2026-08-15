@@ -6,307 +6,84 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class ShareAPI {
 
     /**
-     Get a shared website by share ID (no auth required)
+     Returns the tunnel shares the caller's org currently has open, across every environment that org has enabled.
      
-     - parameter shareId: (path)  
-     - returns: AnalyticsGetSharedWebsite200Response
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: SharesOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func analyticsGetSharedWebsite(shareId: String) async throws -> AnalyticsGetSharedWebsite200Response {
-        return try await analyticsGetSharedWebsiteWithRequestBuilder(shareId: shareId).execute().body
+    open class func getShare(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SharesOut {
+        return try await getShareWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Get a shared website by share ID (no auth required)
-     - GET /v1/analytics/share/{shareId}
-     - parameter shareId: (path)  
-     - returns: RequestBuilder<AnalyticsGetSharedWebsite200Response> 
-     */
-    open class func analyticsGetSharedWebsiteWithRequestBuilder(shareId: String) -> RequestBuilder<AnalyticsGetSharedWebsite200Response> {
-        var localVariablePath = "/v1/analytics/share/{shareId}"
-        let shareIdPreEscape = "\(APIHelper.mapValueToPathItem(shareId))"
-        let shareIdPostEscape = shareIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{shareId}", with: shareIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnalyticsGetSharedWebsite200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
-    }
-
-    /**
-     Delete a shared link
-     
-     - parameter shareId: (path)  
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatDeleteShareByshareid(shareId: String) async throws -> AnyCodable {
-        return try await chatDeleteShareByshareidWithRequestBuilder(shareId: shareId).execute().body
-    }
-
-    /**
-     Delete a shared link
-     - DELETE /v1/chat/share/{shareId}
+     Returns the tunnel shares the caller's org currently has open, across every environment that org has enabled.
+     - GET /v1/share
+     - Returns the tunnel shares the caller's org currently has open, across every environment that org has enabled. It is a READ and it degrades honestly: an unconfigured deployment, an org that has not provisioned yet, and an unreachable controller all answer an EMPTY list at 200 rather than an error, so the console never error-toasts on load.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter shareId: (path)  
-     - returns: RequestBuilder<AnyCodable> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<SharesOut> 
      */
-    open class func chatDeleteShareByshareidWithRequestBuilder(shareId: String) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/chat/share/{shareId}"
-        let shareIdPreEscape = "\(APIHelper.mapValueToPathItem(shareId))"
-        let shareIdPostEscape = shareIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{shareId}", with: shareIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func getShareWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SharesOut> {
+        let localVariablePath = "/v1/share"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<SharesOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     List shared links
+     Enable provisions the caller org's tunnel account and returns the credential the `hanzo share` CLI needs to run a tunnel.
      
-     - parameter cursor: (query)  (optional)
-     - parameter pageSize: (query)  (optional, default to 10)
-     - parameter isPublic: (query)  (optional)
-     - parameter sortBy: (query)  (optional, default to "createdAt")
-     - parameter sortDirection: (query)  (optional, default to "desc")
-     - parameter search: (query)  (optional)
-     - returns: ChatGetShare200Response
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: EnableResp
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatGetShare(cursor: String? = nil, pageSize: Int? = nil, isPublic: String? = nil, sortBy: String? = nil, sortDirection: String? = nil, search: String? = nil) async throws -> ChatGetShare200Response {
-        return try await chatGetShareWithRequestBuilder(cursor: cursor, pageSize: pageSize, isPublic: isPublic, sortBy: sortBy, sortDirection: sortDirection, search: search).execute().body
+    open class func postShareEnable(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> EnableResp {
+        return try await postShareEnableWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     List shared links
-     - GET /v1/chat/share
+     Enable provisions the caller org's tunnel account and returns the credential the `hanzo share` CLI needs to run a tunnel.
+     - POST /v1/share/enable
+     - Enable provisions the caller org's tunnel account and returns the credential the `hanzo share` CLI needs to run a tunnel. It is idempotent: the account is keyed deterministically off the VALIDATED org, so a repeat call hands back the same account rather than creating a second one, and a caller can only ever provision their OWN org's account. 503 when the deployment has no share controller configured; 502 when that controller is unreachable.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter cursor: (query)  (optional)
-     - parameter pageSize: (query)  (optional, default to 10)
-     - parameter isPublic: (query)  (optional)
-     - parameter sortBy: (query)  (optional, default to "createdAt")
-     - parameter sortDirection: (query)  (optional, default to "desc")
-     - parameter search: (query)  (optional)
-     - returns: RequestBuilder<ChatGetShare200Response> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<EnableResp> 
      */
-    open class func chatGetShareWithRequestBuilder(cursor: String? = nil, pageSize: Int? = nil, isPublic: String? = nil, sortBy: String? = nil, sortDirection: String? = nil, search: String? = nil) -> RequestBuilder<ChatGetShare200Response> {
-        let localVariablePath = "/v1/chat/share"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func postShareEnableWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<EnableResp> {
+        let localVariablePath = "/v1/share/enable"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "cursor": (wrappedValue: cursor?.encodeToJSON(), isExplode: true),
-            "pageSize": (wrappedValue: pageSize?.encodeToJSON(), isExplode: true),
-            "isPublic": (wrappedValue: isPublic?.encodeToJSON(), isExplode: true),
-            "sortBy": (wrappedValue: sortBy?.encodeToJSON(), isExplode: true),
-            "sortDirection": (wrappedValue: sortDirection?.encodeToJSON(), isExplode: true),
-            "search": (wrappedValue: search?.encodeToJSON(), isExplode: true),
-        ])
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<ChatGetShare200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<EnableResp>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get shared conversation messages
-     
-     - parameter shareId: (path)  
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatGetShareByshareid(shareId: String) async throws -> AnyCodable {
-        return try await chatGetShareByshareidWithRequestBuilder(shareId: shareId).execute().body
-    }
-
-    /**
-     Get shared conversation messages
-     - GET /v1/chat/share/{shareId}
-     - parameter shareId: (path)  
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func chatGetShareByshareidWithRequestBuilder(shareId: String) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/chat/share/{shareId}"
-        let shareIdPreEscape = "\(APIHelper.mapValueToPathItem(shareId))"
-        let shareIdPostEscape = shareIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{shareId}", with: shareIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
-    }
-
-    /**
-     Get shared link for a conversation
-     
-     - parameter conversationId: (path)  
-     - returns: ChatGetShareLinkByconversationid200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatGetShareLinkByconversationid(conversationId: String) async throws -> ChatGetShareLinkByconversationid200Response {
-        return try await chatGetShareLinkByconversationidWithRequestBuilder(conversationId: conversationId).execute().body
-    }
-
-    /**
-     Get shared link for a conversation
-     - GET /v1/chat/share/link/{conversationId}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter conversationId: (path)  
-     - returns: RequestBuilder<ChatGetShareLinkByconversationid200Response> 
-     */
-    open class func chatGetShareLinkByconversationidWithRequestBuilder(conversationId: String) -> RequestBuilder<ChatGetShareLinkByconversationid200Response> {
-        var localVariablePath = "/v1/chat/share/link/{conversationId}"
-        let conversationIdPreEscape = "\(APIHelper.mapValueToPathItem(conversationId))"
-        let conversationIdPostEscape = conversationIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{conversationId}", with: conversationIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ChatGetShareLinkByconversationid200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Update a shared link
-     
-     - parameter shareId: (path)  
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatPatchShareByshareid(shareId: String) async throws -> AnyCodable {
-        return try await chatPatchShareByshareidWithRequestBuilder(shareId: shareId).execute().body
-    }
-
-    /**
-     Update a shared link
-     - PATCH /v1/chat/share/{shareId}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter shareId: (path)  
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func chatPatchShareByshareidWithRequestBuilder(shareId: String) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/chat/share/{shareId}"
-        let shareIdPreEscape = "\(APIHelper.mapValueToPathItem(shareId))"
-        let shareIdPostEscape = shareIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{shareId}", with: shareIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Create a shared link
-     
-     - parameter conversationId: (path)  
-     - parameter chatPostShareByconversationidRequest: (body)  (optional)
-     - returns: AnyCodable
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatPostShareByconversationid(conversationId: String, chatPostShareByconversationidRequest: ChatPostShareByconversationidRequest? = nil) async throws -> AnyCodable {
-        return try await chatPostShareByconversationidWithRequestBuilder(conversationId: conversationId, chatPostShareByconversationidRequest: chatPostShareByconversationidRequest).execute().body
-    }
-
-    /**
-     Create a shared link
-     - POST /v1/chat/share/{conversationId}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter conversationId: (path)  
-     - parameter chatPostShareByconversationidRequest: (body)  (optional)
-     - returns: RequestBuilder<AnyCodable> 
-     */
-    open class func chatPostShareByconversationidWithRequestBuilder(conversationId: String, chatPostShareByconversationidRequest: ChatPostShareByconversationidRequest? = nil) -> RequestBuilder<AnyCodable> {
-        var localVariablePath = "/v1/chat/share/{conversationId}"
-        let conversationIdPreEscape = "\(APIHelper.mapValueToPathItem(conversationId))"
-        let conversationIdPostEscape = conversationIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{conversationId}", with: conversationIdPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: chatPostShareByconversationidRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

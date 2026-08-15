@@ -6,79 +6,120 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
-/** Composite builder-query payload. The console-shaped composite (start, end, step, compositeQuery with queryType and builderQueries) is passed through to the internal query engine unchanged; the org is pinned server-side and the client never supplies a raw PromQL/SQL fragment. */
-public struct O11yBuilderQuery: Codable, JSONEncodable, Hashable {
+public struct O11yBuilderQuery: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** Range start (Unix ms). */
-    public var start: Int64?
-    /** Range end (Unix ms). */
-    public var end: Int64?
-    /** Step resolution in seconds. */
-    public var step: Int?
-    /** Composite query definition (queryType, panelType, builderQueries). */
-    public var compositeQuery: [String: AnyCodable]?
+    public var isAnomaly: Bool?
+    public var queriesUsedInFormula: [String]?
+    public var shiftBy: Int?
+    public var aggregateAttribute: O11yAttributeKey?
+    public var aggregateOperator: String?
+    public var dataSource: String?
+    public var disabled: Bool?
+    public var expression: String?
+    public var filters: O11yFilterSet?
+    public var functions: [O11yFunction]?
+    public var groupBy: [O11yAttributeKey]?
+    public var having: [O11yHaving]?
+    public var legend: String?
+    public var limit: Int?
+    public var offset: Int?
+    public var orderBy: [O11yOrderBy]?
+    public var pageSize: Int?
+    public var queryName: String?
+    public var reduceTo: String?
+    public var selectColumns: [O11yAttributeKey]?
+    public var seriesAggregation: String?
+    public var spaceAggregation: String?
+    public var stepInterval: Int?
+    public var temporality: String?
+    public var timeAggregation: String?
 
-    public init(start: Int64? = nil, end: Int64? = nil, step: Int? = nil, compositeQuery: [String: AnyCodable]? = nil) {
-        self.start = start
-        self.end = end
-        self.step = step
-        self.compositeQuery = compositeQuery
+    public init(isAnomaly: Bool? = nil, queriesUsedInFormula: [String]? = nil, shiftBy: Int? = nil, aggregateAttribute: O11yAttributeKey? = nil, aggregateOperator: String? = nil, dataSource: String? = nil, disabled: Bool? = nil, expression: String? = nil, filters: O11yFilterSet? = nil, functions: [O11yFunction]? = nil, groupBy: [O11yAttributeKey]? = nil, having: [O11yHaving]? = nil, legend: String? = nil, limit: Int? = nil, offset: Int? = nil, orderBy: [O11yOrderBy]? = nil, pageSize: Int? = nil, queryName: String? = nil, reduceTo: String? = nil, selectColumns: [O11yAttributeKey]? = nil, seriesAggregation: String? = nil, spaceAggregation: String? = nil, stepInterval: Int? = nil, temporality: String? = nil, timeAggregation: String? = nil) {
+        self.isAnomaly = isAnomaly
+        self.queriesUsedInFormula = queriesUsedInFormula
+        self.shiftBy = shiftBy
+        self.aggregateAttribute = aggregateAttribute
+        self.aggregateOperator = aggregateOperator
+        self.dataSource = dataSource
+        self.disabled = disabled
+        self.expression = expression
+        self.filters = filters
+        self.functions = functions
+        self.groupBy = groupBy
+        self.having = having
+        self.legend = legend
+        self.limit = limit
+        self.offset = offset
+        self.orderBy = orderBy
+        self.pageSize = pageSize
+        self.queryName = queryName
+        self.reduceTo = reduceTo
+        self.selectColumns = selectColumns
+        self.seriesAggregation = seriesAggregation
+        self.spaceAggregation = spaceAggregation
+        self.stepInterval = stepInterval
+        self.temporality = temporality
+        self.timeAggregation = timeAggregation
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case start
-        case end
-        case step
-        case compositeQuery
-    }
-
-    public var additionalProperties: [String: AnyCodable] = [:]
-
-    public subscript(key: String) -> AnyCodable? {
-        get {
-            if let value = additionalProperties[key] {
-                return value
-            }
-            return nil
-        }
-
-        set {
-            additionalProperties[key] = newValue
-        }
+        case isAnomaly = "IsAnomaly"
+        case queriesUsedInFormula = "QueriesUsedInFormula"
+        case shiftBy = "ShiftBy"
+        case aggregateAttribute
+        case aggregateOperator
+        case dataSource
+        case disabled
+        case expression
+        case filters
+        case functions
+        case groupBy
+        case having
+        case legend
+        case limit
+        case offset
+        case orderBy
+        case pageSize
+        case queryName
+        case reduceTo
+        case selectColumns
+        case seriesAggregation
+        case spaceAggregation
+        case stepInterval
+        case temporality
+        case timeAggregation
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(start, forKey: .start)
-        try container.encodeIfPresent(end, forKey: .end)
-        try container.encodeIfPresent(step, forKey: .step)
-        try container.encodeIfPresent(compositeQuery, forKey: .compositeQuery)
-        var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
-        try additionalPropertiesContainer.encodeMap(additionalProperties)
-    }
-
-    // Decodable protocol methods
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-
-        start = try container.decodeIfPresent(Int64.self, forKey: .start)
-        end = try container.decodeIfPresent(Int64.self, forKey: .end)
-        step = try container.decodeIfPresent(Int.self, forKey: .step)
-        compositeQuery = try container.decodeIfPresent([String: AnyCodable].self, forKey: .compositeQuery)
-        var nonAdditionalPropertyKeys = Set<String>()
-        nonAdditionalPropertyKeys.insert("start")
-        nonAdditionalPropertyKeys.insert("end")
-        nonAdditionalPropertyKeys.insert("step")
-        nonAdditionalPropertyKeys.insert("compositeQuery")
-        let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
-        additionalProperties = try additionalPropertiesContainer.decodeMap(AnyCodable.self, excludedKeys: nonAdditionalPropertyKeys)
+        try container.encodeIfPresent(isAnomaly, forKey: .isAnomaly)
+        try container.encodeIfPresent(queriesUsedInFormula, forKey: .queriesUsedInFormula)
+        try container.encodeIfPresent(shiftBy, forKey: .shiftBy)
+        try container.encodeIfPresent(aggregateAttribute, forKey: .aggregateAttribute)
+        try container.encodeIfPresent(aggregateOperator, forKey: .aggregateOperator)
+        try container.encodeIfPresent(dataSource, forKey: .dataSource)
+        try container.encodeIfPresent(disabled, forKey: .disabled)
+        try container.encodeIfPresent(expression, forKey: .expression)
+        try container.encodeIfPresent(filters, forKey: .filters)
+        try container.encodeIfPresent(functions, forKey: .functions)
+        try container.encodeIfPresent(groupBy, forKey: .groupBy)
+        try container.encodeIfPresent(having, forKey: .having)
+        try container.encodeIfPresent(legend, forKey: .legend)
+        try container.encodeIfPresent(limit, forKey: .limit)
+        try container.encodeIfPresent(offset, forKey: .offset)
+        try container.encodeIfPresent(orderBy, forKey: .orderBy)
+        try container.encodeIfPresent(pageSize, forKey: .pageSize)
+        try container.encodeIfPresent(queryName, forKey: .queryName)
+        try container.encodeIfPresent(reduceTo, forKey: .reduceTo)
+        try container.encodeIfPresent(selectColumns, forKey: .selectColumns)
+        try container.encodeIfPresent(seriesAggregation, forKey: .seriesAggregation)
+        try container.encodeIfPresent(spaceAggregation, forKey: .spaceAggregation)
+        try container.encodeIfPresent(stepInterval, forKey: .stepInterval)
+        try container.encodeIfPresent(temporality, forKey: .temporality)
+        try container.encodeIfPresent(timeAggregation, forKey: .timeAggregation)
     }
 }
 

@@ -6,829 +6,256 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class SearchAPI {
 
     /**
-     Lexical search for personas
+     Deletes one search index from the shared backend and removes its metadata row.
      
-     - parameter q: (query)  
-     - parameter limit: (query)  (optional, default to 20)
-     - returns: BotSearchPersonas200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func botSearchPersonas(q: String, limit: Int? = nil) async throws -> BotSearchPersonas200Response {
-        return try await botSearchPersonasWithRequestBuilder(q: q, limit: limit).execute().body
-    }
-
-    /**
-     Lexical search for personas
-     - GET /v1/bot/search/personas
-     - parameter q: (query)  
-     - parameter limit: (query)  (optional, default to 20)
-     - returns: RequestBuilder<BotSearchPersonas200Response> 
-     */
-    open class func botSearchPersonasWithRequestBuilder(q: String, limit: Int? = nil) -> RequestBuilder<BotSearchPersonas200Response> {
-        let localVariablePath = "/v1/bot/search/personas"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "q": (wrappedValue: q.encodeToJSON(), isExplode: true),
-            "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<BotSearchPersonas200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
-    }
-
-    /**
-     Hybrid vector + lexical search for skills
-     
-     - parameter q: (query) Search query 
-     - parameter limit: (query)  (optional, default to 20)
-     - returns: BotSearchPersonas200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func botSearchSkills(q: String, limit: Int? = nil) async throws -> BotSearchPersonas200Response {
-        return try await botSearchSkillsWithRequestBuilder(q: q, limit: limit).execute().body
-    }
-
-    /**
-     Hybrid vector + lexical search for skills
-     - GET /v1/bot/search/skills
-     - parameter q: (query) Search query 
-     - parameter limit: (query)  (optional, default to 20)
-     - returns: RequestBuilder<BotSearchPersonas200Response> 
-     */
-    open class func botSearchSkillsWithRequestBuilder(q: String, limit: Int? = nil) -> RequestBuilder<BotSearchPersonas200Response> {
-        let localVariablePath = "/v1/bot/search/skills"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "q": (wrappedValue: q.encodeToJSON(), isExplode: true),
-            "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<BotSearchPersonas200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
-    }
-
-    /**
-     Check if search is enabled
-     
-     - returns: Bool
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func chatGetSearchEnable() async throws -> Bool {
-        return try await chatGetSearchEnableWithRequestBuilder().execute().body
-    }
-
-    /**
-     Check if search is enabled
-     - GET /v1/chat/search/enable
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<Bool> 
-     */
-    open class func chatGetSearchEnableWithRequestBuilder() -> RequestBuilder<Bool> {
-        let localVariablePath = "/v1/chat/search/enable"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Bool>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Search notes
-     
-     - parameter commerceSearchNotesRequest: (body)  
-     - returns: [CommerceNote]
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func commerceSearchNotes(commerceSearchNotesRequest: CommerceSearchNotesRequest) async throws -> [CommerceNote] {
-        return try await commerceSearchNotesWithRequestBuilder(commerceSearchNotesRequest: commerceSearchNotesRequest).execute().body
-    }
-
-    /**
-     Search notes
-     - POST /v1/commerce/search/note
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter commerceSearchNotesRequest: (body)  
-     - returns: RequestBuilder<[CommerceNote]> 
-     */
-    open class func commerceSearchNotesWithRequestBuilder(commerceSearchNotesRequest: CommerceSearchNotesRequest) -> RequestBuilder<[CommerceNote]> {
-        let localVariablePath = "/v1/commerce/search/note"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: commerceSearchNotesRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<[CommerceNote]>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Search orders
-     
-     - parameter q: (query)  
-     - returns: [CommerceOrder]
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func commerceSearchOrders(q: String) async throws -> [CommerceOrder] {
-        return try await commerceSearchOrdersWithRequestBuilder(q: q).execute().body
-    }
-
-    /**
-     Search orders
-     - GET /v1/commerce/search/order
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter q: (query)  
-     - returns: RequestBuilder<[CommerceOrder]> 
-     */
-    open class func commerceSearchOrdersWithRequestBuilder(q: String) -> RequestBuilder<[CommerceOrder]> {
-        let localVariablePath = "/v1/commerce/search/order"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "q": (wrappedValue: q.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<[CommerceOrder]>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Search users
-     
-     - parameter q: (query)  
-     - returns: [CommerceUser]
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func commerceSearchUsers(q: String) async throws -> [CommerceUser] {
-        return try await commerceSearchUsersWithRequestBuilder(q: q).execute().body
-    }
-
-    /**
-     Search users
-     - GET /v1/commerce/search/user
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter q: (query)  
-     - returns: RequestBuilder<[CommerceUser]> 
-     */
-    open class func commerceSearchUsersWithRequestBuilder(q: String) -> RequestBuilder<[CommerceUser]> {
-        let localVariablePath = "/v1/commerce/search/user"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "q": (wrappedValue: q.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<[CommerceUser]>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Semantic search over the org's knowledge
-     
-     - parameter kbSearchRequest: (body)  
-     - returns: KbKbSearch200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kbKbSearch(kbSearchRequest: KbSearchRequest) async throws -> KbKbSearch200Response {
-        return try await kbKbSearchWithRequestBuilder(kbSearchRequest: kbSearchRequest).execute().body
-    }
-
-    /**
-     Semantic search over the org's knowledge
-     - POST /v1/kb/search
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter kbSearchRequest: (body)  
-     - returns: RequestBuilder<KbKbSearch200Response> 
-     */
-    open class func kbKbSearchWithRequestBuilder(kbSearchRequest: KbSearchRequest) -> RequestBuilder<KbKbSearch200Response> {
-        let localVariablePath = "/v1/kb/search"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: kbSearchRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<KbKbSearch200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get aggregate search statistics
-     
-     - returns: ProductSearchStats
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func productGetSearchStats() async throws -> ProductSearchStats {
-        return try await productGetSearchStatsWithRequestBuilder().execute().body
-    }
-
-    /**
-     Get aggregate search statistics
-     - GET /v1/search-docs/stats
-     - Returns the total document count across all Meilisearch indexes. Meilisearch keeps no query-history counters, so `totalSearches`, `totalSessions`, and the `searchesPerDay` series are reported as an honest zero/empty rather than a fabricated number. If the upstream is unreachable, returns HTTP 200 with all counters zeroed. Authenticated with the opaque search service key. 
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<ProductSearchStats> 
-     */
-    open class func productGetSearchStatsWithRequestBuilder() -> RequestBuilder<ProductSearchStats> {
-        let localVariablePath = "/v1/search-docs/stats"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ProductSearchStats>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     List search indexes
-     
-     - returns: ProductListSearchIndexes200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func productListSearchIndexes() async throws -> ProductListSearchIndexes200Response {
-        return try await productListSearchIndexesWithRequestBuilder().execute().body
-    }
-
-    /**
-     List search indexes
-     - GET /v1/search-docs/indexes
-     - Returns every Meilisearch index with its document count and, on a best-effort basis, its created/last-indexed timestamps. If the upstream Meilisearch is unreachable, returns HTTP 200 with an empty `indexes` array. Authenticated with the opaque search service key. 
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<ProductListSearchIndexes200Response> 
-     */
-    open class func productListSearchIndexesWithRequestBuilder() -> RequestBuilder<ProductListSearchIndexes200Response> {
-        let localVariablePath = "/v1/search-docs/indexes"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ProductListSearchIndexes200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Provision a search resource
-     
-     - parameter provisioningCreateRequest: (body)  
-     - returns: ProvisioningCreateResponse
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func provisioningCreateSearch(provisioningCreateRequest: ProvisioningCreateRequest) async throws -> ProvisioningCreateResponse {
-        return try await provisioningCreateSearchWithRequestBuilder(provisioningCreateRequest: provisioningCreateRequest).execute().body
-    }
-
-    /**
-     Provision a search resource
-     - POST /v1/search
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter provisioningCreateRequest: (body)  
-     - returns: RequestBuilder<ProvisioningCreateResponse> 
-     */
-    open class func provisioningCreateSearchWithRequestBuilder(provisioningCreateRequest: ProvisioningCreateRequest) -> RequestBuilder<ProvisioningCreateResponse> {
-        let localVariablePath = "/v1/search"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: provisioningCreateRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ProvisioningCreateResponse>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Deprovision a search resource
-     
-     - parameter name: (path) The user-supplied resource name (slug). Lowercased and trimmed server-side; must match &#x60;^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$&#x60;.  
+     - parameter name: (path) Name is the resource&#39;s org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. 
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func provisioningDeleteSearch(name: String) async throws {
-        return try await provisioningDeleteSearchWithRequestBuilder(name: name).execute().body
+    open class func deleteSearchByName(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteSearchByNameWithRequestBuilder(name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Deprovision a search resource
+     Deletes one search index from the shared backend and removes its metadata row.
      - DELETE /v1/search/{name}
+     - Deletes one search index from the shared backend and removes its metadata row. Answers 204 with no body; a second call is a 404.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter name: (path) The user-supplied resource name (slug). Lowercased and trimmed server-side; must match &#x60;^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$&#x60;.  
+       - name: bearer
+     - parameter name: (path) Name is the resource&#39;s org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. 
+     - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func provisioningDeleteSearchWithRequestBuilder(name: String) -> RequestBuilder<Void> {
+    open class func deleteSearchByNameWithRequestBuilder(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/search/{name}"
         let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = HanzoAPI.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Get one search resource
+     Lists the caller org's search indexes.
      
-     - parameter name: (path) The user-supplied resource name (slug). Lowercased and trimmed server-side; must match &#x60;^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$&#x60;.  
-     - returns: ProvisioningGetResponse
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: [ProvisionedSummary]
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func provisioningGetSearch(name: String) async throws -> ProvisioningGetResponse {
-        return try await provisioningGetSearchWithRequestBuilder(name: name).execute().body
+    open class func getSearch(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> [ProvisionedSummary] {
+        return try await getSearchWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Get one search resource
-     - GET /v1/search/{name}
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter name: (path) The user-supplied resource name (slug). Lowercased and trimmed server-side; must match &#x60;^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$&#x60;.  
-     - returns: RequestBuilder<ProvisioningGetResponse> 
-     */
-    open class func provisioningGetSearchWithRequestBuilder(name: String) -> RequestBuilder<ProvisioningGetResponse> {
-        var localVariablePath = "/v1/search/{name}"
-        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
-        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<ProvisioningGetResponse>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     List search resources for the caller's org
-     
-     - returns: [ProvisioningListItem]
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func provisioningListSearch() async throws -> [ProvisioningListItem] {
-        return try await provisioningListSearchWithRequestBuilder().execute().body
-    }
-
-    /**
-     List search resources for the caller's org
+     Lists the caller org's search indexes.
      - GET /v1/search
+     - Lists the caller org's search indexes. An index is a logical resource inside an already-live shared backend, so every one of them is reached through the public gateway rather than at an instance of its own.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<[ProvisioningListItem]> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<[ProvisionedSummary]> 
      */
-    open class func provisioningListSearchWithRequestBuilder() -> RequestBuilder<[ProvisioningListItem]> {
+    open class func getSearchWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<[ProvisionedSummary]> {
         let localVariablePath = "/v1/search"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<[ProvisioningListItem]>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<[ProvisionedSummary]>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     * enum for parameter matchingStrategy
-     */
-    public enum MatchingStrategy_searchSearchGet: String, CaseIterable {
-        case last = "last"
-        case all = "all"
-        case frequency = "frequency"
-    }
-
-    /**
-     Search documents (GET)
+     Returns one search index's metadata.
      
-     - parameter indexUid: (path) Unique index identifier 
-     - parameter q: (query) Search query (optional)
-     - parameter offset: (query)  (optional, default to 0)
-     - parameter limit: (query)  (optional, default to 20)
-     - parameter attributesToRetrieve: (query) Comma-separated list of attributes to return (optional)
-     - parameter attributesToHighlight: (query)  (optional)
-     - parameter attributesToCrop: (query)  (optional)
-     - parameter cropLength: (query)  (optional, default to 10)
-     - parameter filter: (query) Filter expression (optional)
-     - parameter sort: (query) Comma-separated sort rules (optional)
-     - parameter facets: (query) Comma-separated facet attributes (optional)
-     - parameter showMatchesPosition: (query)  (optional)
-     - parameter showRankingScore: (query)  (optional)
-     - parameter matchingStrategy: (query)  (optional)
-     - returns: SearchSearchResult
+     - parameter name: (path) Name is the resource&#39;s org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProvisionedResource
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func searchSearchGet(indexUid: String, q: String? = nil, offset: Int? = nil, limit: Int? = nil, attributesToRetrieve: String? = nil, attributesToHighlight: String? = nil, attributesToCrop: String? = nil, cropLength: Int? = nil, filter: String? = nil, sort: String? = nil, facets: String? = nil, showMatchesPosition: Bool? = nil, showRankingScore: Bool? = nil, matchingStrategy: MatchingStrategy_searchSearchGet? = nil) async throws -> SearchSearchResult {
-        return try await searchSearchGetWithRequestBuilder(indexUid: indexUid, q: q, offset: offset, limit: limit, attributesToRetrieve: attributesToRetrieve, attributesToHighlight: attributesToHighlight, attributesToCrop: attributesToCrop, cropLength: cropLength, filter: filter, sort: sort, facets: facets, showMatchesPosition: showMatchesPosition, showRankingScore: showRankingScore, matchingStrategy: matchingStrategy).execute().body
+    open class func getSearchByName(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProvisionedResource {
+        return try await getSearchByNameWithRequestBuilder(name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Search documents (GET)
-     - GET /v1/search/indexes/{indexUid}/search
+     Returns one search index's metadata.
+     - GET /v1/search/{name}
+     - Returns one search index's metadata. It carries the index's status and the gateway address it is reached at, and no username: the backend authenticates with a shared, out-of-band key rather than a per-index credential.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter indexUid: (path) Unique index identifier 
-     - parameter q: (query) Search query (optional)
-     - parameter offset: (query)  (optional, default to 0)
-     - parameter limit: (query)  (optional, default to 20)
-     - parameter attributesToRetrieve: (query) Comma-separated list of attributes to return (optional)
-     - parameter attributesToHighlight: (query)  (optional)
-     - parameter attributesToCrop: (query)  (optional)
-     - parameter cropLength: (query)  (optional, default to 10)
-     - parameter filter: (query) Filter expression (optional)
-     - parameter sort: (query) Comma-separated sort rules (optional)
-     - parameter facets: (query) Comma-separated facet attributes (optional)
-     - parameter showMatchesPosition: (query)  (optional)
-     - parameter showRankingScore: (query)  (optional)
-     - parameter matchingStrategy: (query)  (optional)
-     - returns: RequestBuilder<SearchSearchResult> 
+       - name: bearer
+     - parameter name: (path) Name is the resource&#39;s org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProvisionedResource> 
      */
-    open class func searchSearchGetWithRequestBuilder(indexUid: String, q: String? = nil, offset: Int? = nil, limit: Int? = nil, attributesToRetrieve: String? = nil, attributesToHighlight: String? = nil, attributesToCrop: String? = nil, cropLength: Int? = nil, filter: String? = nil, sort: String? = nil, facets: String? = nil, showMatchesPosition: Bool? = nil, showRankingScore: Bool? = nil, matchingStrategy: MatchingStrategy_searchSearchGet? = nil) -> RequestBuilder<SearchSearchResult> {
-        var localVariablePath = "/v1/search/indexes/{indexUid}/search"
-        let indexUidPreEscape = "\(APIHelper.mapValueToPathItem(indexUid))"
-        let indexUidPostEscape = indexUidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{indexUid}", with: indexUidPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func getSearchByNameWithRequestBuilder(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProvisionedResource> {
+        var localVariablePath = "/v1/search/{name}"
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "q": (wrappedValue: q?.encodeToJSON(), isExplode: true),
-            "offset": (wrappedValue: offset?.encodeToJSON(), isExplode: true),
-            "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
-            "attributesToRetrieve": (wrappedValue: attributesToRetrieve?.encodeToJSON(), isExplode: true),
-            "attributesToHighlight": (wrappedValue: attributesToHighlight?.encodeToJSON(), isExplode: true),
-            "attributesToCrop": (wrappedValue: attributesToCrop?.encodeToJSON(), isExplode: true),
-            "cropLength": (wrappedValue: cropLength?.encodeToJSON(), isExplode: true),
-            "filter": (wrappedValue: filter?.encodeToJSON(), isExplode: true),
-            "sort": (wrappedValue: sort?.encodeToJSON(), isExplode: true),
-            "facets": (wrappedValue: facets?.encodeToJSON(), isExplode: true),
-            "showMatchesPosition": (wrappedValue: showMatchesPosition?.encodeToJSON(), isExplode: true),
-            "showRankingScore": (wrappedValue: showRankingScore?.encodeToJSON(), isExplode: true),
-            "matchingStrategy": (wrappedValue: matchingStrategy?.encodeToJSON(), isExplode: true),
-        ])
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<SearchSearchResult>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ProvisionedResource>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Search documents (POST)
+     Lists the search indexes with their document counts and timestamps.
      
-     - parameter indexUid: (path) Unique index identifier 
-     - parameter searchSearchQuery: (body)  
-     - returns: SearchSearchResult
+     - parameter authorization: (header) Authorization carries the surface&#39;s bearer key (&#x60;Bearer &lt;key&gt;&#x60;); the bare key is accepted too. Search and vector are two surfaces with two keys. It is not &#x60;validate:\&quot;required\&quot;&#x60; on purpose: requireKey answers absence itself, so an unconfigured surface 503s and a missing bearer 401s — a validation refusal would rewrite both statuses. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: SearchIndexList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func searchSearchPost(indexUid: String, searchSearchQuery: SearchSearchQuery) async throws -> SearchSearchResult {
-        return try await searchSearchPostWithRequestBuilder(indexUid: indexUid, searchSearchQuery: searchSearchQuery).execute().body
+    open class func getSearchIndexes(authorization: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SearchIndexList {
+        return try await getSearchIndexesWithRequestBuilder(authorization: authorization, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Search documents (POST)
-     - POST /v1/search/indexes/{indexUid}/search
+     Lists the search indexes with their document counts and timestamps.
+     - GET /v1/search/indexes
+     - Lists the search indexes with their document counts and timestamps.  It reads the in-cluster Meilisearch service and reshapes its /stats and /indexes replies into the rows the console's Search panel renders. The read is degrade-friendly by design: an unreachable Meilisearch answers 200 with an EMPTY list, so the panel shows an honest empty state instead of an error. createdAt falls back to now and lastIndexedAt to null when the index list is unavailable.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter indexUid: (path) Unique index identifier 
-     - parameter searchSearchQuery: (body)  
-     - returns: RequestBuilder<SearchSearchResult> 
+       - name: bearer
+     - parameter authorization: (header) Authorization carries the surface&#39;s bearer key (&#x60;Bearer &lt;key&gt;&#x60;); the bare key is accepted too. Search and vector are two surfaces with two keys. It is not &#x60;validate:\&quot;required\&quot;&#x60; on purpose: requireKey answers absence itself, so an unconfigured surface 503s and a missing bearer 401s — a validation refusal would rewrite both statuses. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<SearchIndexList> 
      */
-    open class func searchSearchPostWithRequestBuilder(indexUid: String, searchSearchQuery: SearchSearchQuery) -> RequestBuilder<SearchSearchResult> {
-        var localVariablePath = "/v1/search/indexes/{indexUid}/search"
-        let indexUidPreEscape = "\(APIHelper.mapValueToPathItem(indexUid))"
-        let indexUidPostEscape = indexUidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{indexUid}", with: indexUidPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: searchSearchQuery)
+    open class func getSearchIndexesWithRequestBuilder(authorization: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SearchIndexList> {
+        let localVariablePath = "/v1/search/indexes"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Authorization": authorization?.asParameter(codableHelper: apiConfiguration.codableHelper),
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<SearchIndexList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Totals the documents across every search index.
+     
+     - parameter authorization: (header) Authorization carries the surface&#39;s bearer key (&#x60;Bearer &lt;key&gt;&#x60;); the bare key is accepted too. Search and vector are two surfaces with two keys. It is not &#x60;validate:\&quot;required\&quot;&#x60; on purpose: requireKey answers absence itself, so an unconfigured surface 503s and a missing bearer 401s — a validation refusal would rewrite both statuses. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: SearchStats
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getSearchStats(authorization: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SearchStats {
+        return try await getSearchStatsWithRequestBuilder(authorization: authorization, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Totals the documents across every search index.
+     - GET /v1/search/stats
+     - Totals the documents across every search index.  totalDocuments is summed from Meilisearch's own per-index counts. The other three fields are structurally zero rather than estimated: Meilisearch keeps no query-history counters, so searches, sessions and the per-day series are not derivable from the index and this surface reports the honest zero instead of a fabricated number. An unreachable Meilisearch answers 200 with all zeros.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter authorization: (header) Authorization carries the surface&#39;s bearer key (&#x60;Bearer &lt;key&gt;&#x60;); the bare key is accepted too. Search and vector are two surfaces with two keys. It is not &#x60;validate:\&quot;required\&quot;&#x60; on purpose: requireKey answers absence itself, so an unconfigured surface 503s and a missing bearer 401s — a validation refusal would rewrite both statuses. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<SearchStats> 
+     */
+    open class func getSearchStatsWithRequestBuilder(authorization: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SearchStats> {
+        let localVariablePath = "/v1/search/stats"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Authorization": authorization?.asParameter(codableHelper: apiConfiguration.codableHelper),
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<SearchStats>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Provision a search index for your org
+     
+     - parameter provisionRequest: (body)  (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ProvisionResult
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postSearch(provisionRequest: ProvisionRequest? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProvisionResult {
+        return try await postSearchWithRequestBuilder(provisionRequest: provisionRequest, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Provision a search index for your org
+     - POST /v1/search
+     - Creates a search index inside the already-running shared search backend and answers with the endpoint that reaches it.  `name` is the org-unique slug every physical name derives from, and must match ^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$. `instance` optionally BINDS the add-on to one of your app instances: the DSN is injected into that instance's addons secret as <KIND>_URL, switching the app off its built-in store and onto this one. Omit it and the connection string is yours to wire.  THE CREDENTIAL COMES BACK ONCE. The connection string and password are in this response and nowhere else — every read beside it omits the password — so a caller that does not keep them has to provision again. Where KMS is configured the password is sealed there and only a reference is persisted; where it is not, it is returned this once and stored nowhere. It is never held in plaintext.  Scoped to the caller's validated org (403 without one), which also namespaces the physical resource under a fixed-width hash, so two tenants can never fold onto one backend resource — a residual collision fails closed with 409 rather than silently sharing. A name already taken in your org is 409; an invalid name or instance slug is 400; a backend that refuses the create is 502. Where a later step fails after the backend resource already exists, it is torn back down rather than left orphaned.  Billing is gated BEFORE anything is created: an unfunded org — or, in the fail-closed default, an unreachable meter — gets the fleet-wide 402/503 and nothing is provisioned. The fee is per-kind and set by the deployment.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter provisionRequest: (body)  (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ProvisionResult> 
+     */
+    open class func postSearchWithRequestBuilder(provisionRequest: ProvisionRequest? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProvisionResult> {
+        let localVariablePath = "/v1/search"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: provisionRequest, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<SearchSearchResult>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ProvisionResult>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Recommend points
-     
-     - parameter collectionName: (path)  
-     - parameter vectorRecommendPointsRequest: (body)  
-     - returns: VectorRecommendPoints200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func vectorRecommendPoints(collectionName: String, vectorRecommendPointsRequest: VectorRecommendPointsRequest) async throws -> VectorRecommendPoints200Response {
-        return try await vectorRecommendPointsWithRequestBuilder(collectionName: collectionName, vectorRecommendPointsRequest: vectorRecommendPointsRequest).execute().body
-    }
-
-    /**
-     Recommend points
-     - POST /v1/vector/collections/{collection_name}/points/recommend
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter collectionName: (path)  
-     - parameter vectorRecommendPointsRequest: (body)  
-     - returns: RequestBuilder<VectorRecommendPoints200Response> 
-     */
-    open class func vectorRecommendPointsWithRequestBuilder(collectionName: String, vectorRecommendPointsRequest: VectorRecommendPointsRequest) -> RequestBuilder<VectorRecommendPoints200Response> {
-        var localVariablePath = "/v1/vector/collections/{collection_name}/points/recommend"
-        let collectionNamePreEscape = "\(APIHelper.mapValueToPathItem(collectionName))"
-        let collectionNamePostEscape = collectionNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{collection_name}", with: collectionNamePostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: vectorRecommendPointsRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<VectorRecommendPoints200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Batch search
-     
-     - parameter collectionName: (path)  
-     - parameter vectorSearchBatchRequest: (body)  
-     - returns: VectorSearchBatch200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func vectorSearchBatch(collectionName: String, vectorSearchBatchRequest: VectorSearchBatchRequest) async throws -> VectorSearchBatch200Response {
-        return try await vectorSearchBatchWithRequestBuilder(collectionName: collectionName, vectorSearchBatchRequest: vectorSearchBatchRequest).execute().body
-    }
-
-    /**
-     Batch search
-     - POST /v1/vector/collections/{collection_name}/points/search/batch
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter collectionName: (path)  
-     - parameter vectorSearchBatchRequest: (body)  
-     - returns: RequestBuilder<VectorSearchBatch200Response> 
-     */
-    open class func vectorSearchBatchWithRequestBuilder(collectionName: String, vectorSearchBatchRequest: VectorSearchBatchRequest) -> RequestBuilder<VectorSearchBatch200Response> {
-        var localVariablePath = "/v1/vector/collections/{collection_name}/points/search/batch"
-        let collectionNamePreEscape = "\(APIHelper.mapValueToPathItem(collectionName))"
-        let collectionNamePostEscape = collectionNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{collection_name}", with: collectionNamePostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: vectorSearchBatchRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<VectorSearchBatch200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Search points
-     
-     - parameter collectionName: (path)  
-     - parameter vectorSearchRequest: (body)  
-     - returns: VectorRecommendPoints200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func vectorSearchPoints(collectionName: String, vectorSearchRequest: VectorSearchRequest) async throws -> VectorRecommendPoints200Response {
-        return try await vectorSearchPointsWithRequestBuilder(collectionName: collectionName, vectorSearchRequest: vectorSearchRequest).execute().body
-    }
-
-    /**
-     Search points
-     - POST /v1/vector/collections/{collection_name}/points/search
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter collectionName: (path)  
-     - parameter vectorSearchRequest: (body)  
-     - returns: RequestBuilder<VectorRecommendPoints200Response> 
-     */
-    open class func vectorSearchPointsWithRequestBuilder(collectionName: String, vectorSearchRequest: VectorSearchRequest) -> RequestBuilder<VectorRecommendPoints200Response> {
-        var localVariablePath = "/v1/vector/collections/{collection_name}/points/search"
-        let collectionNamePreEscape = "\(APIHelper.mapValueToPathItem(collectionName))"
-        let collectionNamePostEscape = collectionNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{collection_name}", with: collectionNamePostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: vectorSearchRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<VectorRecommendPoints200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     * enum for parameter format
-     */
-    public enum Format_websearchWebSearch: String, CaseIterable {
-        case json = "json"
-    }
-
-    /**
-     Search the web (SearXNG JSON contract, proxied verbatim)
-     
-     - parameter q: (query) Search query 
-     - parameter format: (query)  (optional, default to .json)
-     - returns: WebsearchSearchResponse
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func websearchWebSearch(q: String, format: Format_websearchWebSearch? = nil) async throws -> WebsearchSearchResponse {
-        return try await websearchWebSearchWithRequestBuilder(q: q, format: format).execute().body
-    }
-
-    /**
-     Search the web (SearXNG JSON contract, proxied verbatim)
-     - GET /v1/websearch/search
-     - API Key:
-       - type: apiKey X-API-Key (HEADER)
-       - name: serviceKey
-     - parameter q: (query) Search query 
-     - parameter format: (query)  (optional, default to .json)
-     - returns: RequestBuilder<WebsearchSearchResponse> 
-     */
-    open class func websearchWebSearchWithRequestBuilder(q: String, format: Format_websearchWebSearch? = nil) -> RequestBuilder<WebsearchSearchResponse> {
-        let localVariablePath = "/v1/websearch/search"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "q": (wrappedValue: q.encodeToJSON(), isExplode: true),
-            "format": (wrappedValue: format?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<WebsearchSearchResponse>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

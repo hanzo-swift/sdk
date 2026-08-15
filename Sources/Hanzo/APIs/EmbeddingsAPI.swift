@@ -6,47 +6,45 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class EmbeddingsAPI {
 
     /**
-     Create embeddings
+     Implements POST /v1/embeddings (OpenAI-compatible).
      
-     - parameter gatewayEmbeddingRequest: (body)  
-     - returns: GatewayEmbeddingResponse
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func gatewayCreateEmbedding(gatewayEmbeddingRequest: GatewayEmbeddingRequest) async throws -> GatewayEmbeddingResponse {
-        return try await gatewayCreateEmbeddingWithRequestBuilder(gatewayEmbeddingRequest: gatewayEmbeddingRequest).execute().body
+    open class func postEmbeddings(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postEmbeddingsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Create embeddings
-     - POST /v1/gateway/embeddings
+     Implements POST /v1/embeddings (OpenAI-compatible).
+     - POST /v1/embeddings
+     - Implements POST /v1/embeddings (OpenAI-compatible).  Body: {\"model\": \"...\", \"input\": \"...\"|[\"...\", ...], \"encoding_format\"?, \"dimensions\"?} It authenticates the caller, resolves the model to its upstream provider via the shared routing table, rewrites the user-facing model name to the upstream id, and proxies the request to the provider's /embeddings endpoint verbatim.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter gatewayEmbeddingRequest: (body)  
-     - returns: RequestBuilder<GatewayEmbeddingResponse> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
      */
-    open class func gatewayCreateEmbeddingWithRequestBuilder(gatewayEmbeddingRequest: GatewayEmbeddingRequest) -> RequestBuilder<GatewayEmbeddingResponse> {
-        let localVariablePath = "/v1/gateway/embeddings"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: gatewayEmbeddingRequest)
+    open class func postEmbeddingsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/embeddings"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GatewayEmbeddingResponse>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

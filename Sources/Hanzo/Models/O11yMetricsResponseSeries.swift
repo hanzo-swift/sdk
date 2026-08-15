@@ -6,39 +6,36 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
-public struct O11yMetricsResponseSeries: Codable, JSONEncodable, Hashable {
+public struct O11yMetricsResponseSeries: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var requests: [O11yMetricPoint]?
-    public var errors: [O11yMetricPoint]?
-    public var latencyP50Ms: [O11yMetricPoint]?
-    public var latencyP95Ms: [O11yMetricPoint]?
+    public var errors: [O11yPoint]?
+    public var latencyP50Ms: [O11yPoint]?
+    public var latencyP95Ms: [O11yPoint]?
+    public var requests: [O11yPoint]?
 
-    public init(requests: [O11yMetricPoint]? = nil, errors: [O11yMetricPoint]? = nil, latencyP50Ms: [O11yMetricPoint]? = nil, latencyP95Ms: [O11yMetricPoint]? = nil) {
-        self.requests = requests
+    public init(errors: [O11yPoint]? = nil, latencyP50Ms: [O11yPoint]? = nil, latencyP95Ms: [O11yPoint]? = nil, requests: [O11yPoint]? = nil) {
         self.errors = errors
         self.latencyP50Ms = latencyP50Ms
         self.latencyP95Ms = latencyP95Ms
+        self.requests = requests
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case requests
         case errors
         case latencyP50Ms
         case latencyP95Ms
+        case requests
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(requests, forKey: .requests)
         try container.encodeIfPresent(errors, forKey: .errors)
         try container.encodeIfPresent(latencyP50Ms, forKey: .latencyP50Ms)
         try container.encodeIfPresent(latencyP95Ms, forKey: .latencyP95Ms)
+        try container.encodeIfPresent(requests, forKey: .requests)
     }
 }
 

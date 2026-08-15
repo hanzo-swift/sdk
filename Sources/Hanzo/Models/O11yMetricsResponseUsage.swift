@@ -6,29 +6,26 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
-public struct O11yMetricsResponseUsage: Codable, JSONEncodable, Hashable {
+public struct O11yMetricsResponseUsage: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var calls: Int64?
-    public var tokens: Int64?
-    public var costCents: Int64?
-    public var series: [O11yUsagePoint]?
+    public var calls: Int?
+    public var costCents: Int?
+    public var series: [O11yUsageBucket]?
+    public var tokens: Int?
 
-    public init(calls: Int64? = nil, tokens: Int64? = nil, costCents: Int64? = nil, series: [O11yUsagePoint]? = nil) {
+    public init(calls: Int? = nil, costCents: Int? = nil, series: [O11yUsageBucket]? = nil, tokens: Int? = nil) {
         self.calls = calls
-        self.tokens = tokens
         self.costCents = costCents
         self.series = series
+        self.tokens = tokens
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case calls
-        case tokens
         case costCents
         case series
+        case tokens
     }
 
     // Encodable protocol methods
@@ -36,9 +33,9 @@ public struct O11yMetricsResponseUsage: Codable, JSONEncodable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(calls, forKey: .calls)
-        try container.encodeIfPresent(tokens, forKey: .tokens)
         try container.encodeIfPresent(costCents, forKey: .costCents)
         try container.encodeIfPresent(series, forKey: .series)
+        try container.encodeIfPresent(tokens, forKey: .tokens)
     }
 }
 

@@ -6,293 +6,357 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class ConnectorsAPI {
 
     /**
-     * enum for parameter provider
-     */
-    public enum Provider_kbConnectCallback: String, CaseIterable {
-        case github = "github"
-        case slack = "slack"
-        case google = "google"
-        case notion = "notion"
-    }
-
-    /**
-     OAuth callback (provider redirect — org recovered from signed state)
+     Forgets a connector: every custodied secret, then the row.
      
-     - parameter provider: (path)  
-     - parameter code: (query)  (optional)
-     - parameter state: (query)  (optional)
-     - parameter error: (query)  (optional)
-     - returns: KbConnectCallback200Response
+     - parameter id: (path) ID is the connector id, provider + \&quot;:\&quot; + label (\&quot;openai:default\&quot;) — the auth-profile-id shape. Another user&#39;s id is simply no row, so 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: DisconnectOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kbConnectCallback(provider: Provider_kbConnectCallback, code: String? = nil, state: String? = nil, error: String? = nil) async throws -> KbConnectCallback200Response {
-        return try await kbConnectCallbackWithRequestBuilder(provider: provider, code: code, state: state, error: error).execute().body
+    open class func deleteConnectorsById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> DisconnectOut {
+        return try await deleteConnectorsByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     OAuth callback (provider redirect — org recovered from signed state)
-     - GET /v1/kb/connectors/{provider}/callback
-     - parameter provider: (path)  
-     - parameter code: (query)  (optional)
-     - parameter state: (query)  (optional)
-     - parameter error: (query)  (optional)
-     - returns: RequestBuilder<KbConnectCallback200Response> 
+     Forgets a connector: every custodied secret, then the row.
+     - DELETE /v1/connectors/{id}
+     - Forgets a connector: every custodied secret, then the row. Idempotent — dropping a never-connected id still answers {disconnected:true} (disconnect() parity). No provider Revoke: none of the user-plane providers exposes a revoke endpoint.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the connector id, provider + \&quot;:\&quot; + label (\&quot;openai:default\&quot;) — the auth-profile-id shape. Another user&#39;s id is simply no row, so 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<DisconnectOut> 
      */
-    open class func kbConnectCallbackWithRequestBuilder(provider: Provider_kbConnectCallback, code: String? = nil, state: String? = nil, error: String? = nil) -> RequestBuilder<KbConnectCallback200Response> {
-        var localVariablePath = "/v1/kb/connectors/{provider}/callback"
-        let providerPreEscape = "\(provider.rawValue)"
+    open class func deleteConnectorsByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<DisconnectOut> {
+        var localVariablePath = "/v1/connectors/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<DisconnectOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Lists the caller's OWN connectors across every provider — the set `hanzo connector ls` prints.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ConnectorsOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getConnectors(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ConnectorsOut {
+        return try await getConnectorsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Lists the caller's OWN connectors across every provider — the set `hanzo connector ls` prints.
+     - GET /v1/connectors
+     - Lists the caller's OWN connectors across every provider — the set `hanzo connector ls` prints. Rows are keyed (org,user), so this can never surface another user's connector, and no secret is in the view.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ConnectorsOut> 
+     */
+    open class func getConnectorsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ConnectorsOut> {
+        let localVariablePath = "/v1/connectors"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ConnectorsOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Hands the custodied access token to its owner — the ONE place custody exits.
+     
+     - parameter id: (path) ID is the connector id, provider + \&quot;:\&quot; + label (\&quot;openai:default\&quot;) — the auth-profile-id shape. Another user&#39;s id is simply no row, so 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ConnectorTokenOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getConnectorsByIdToken(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ConnectorTokenOut {
+        return try await getConnectorsByIdTokenWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Hands the custodied access token to its owner — the ONE place custody exits.
+     - GET /v1/connectors/{id}/token
+     - Hands the custodied access token to its owner — the ONE place custody exits. The (org,user)-keyed row IS the same-user gate: another user's id is simply \"no row\" → 404. fresh() auto-rotates within the refreshSkew window; static providers degenerate to a plain kmsGet of Secrets[0]. Refresh tokens are NEVER returned — custody keeps the sink. The token is never logged.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the connector id, provider + \&quot;:\&quot; + label (\&quot;openai:default\&quot;) — the auth-profile-id shape. Another user&#39;s id is simply no row, so 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ConnectorTokenOut> 
+     */
+    open class func getConnectorsByIdTokenWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ConnectorTokenOut> {
+        var localVariablePath = "/v1/connectors/{id}/token"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ConnectorTokenOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Lists the user-scoped provider cards — the catalog of what a user can connect, and how.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ConnectorProvidersOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getConnectorsProviders(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ConnectorProvidersOut {
+        return try await getConnectorsProvidersWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Lists the user-scoped provider cards — the catalog of what a user can connect, and how.
+     - GET /v1/connectors/providers
+     - Lists the user-scoped provider cards — the catalog of what a user can connect, and how. Methods derive from capabilities (Device/Adopt/Verify — Mount asserts at least one), never from a parallel kind enum.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ConnectorProvidersOut> 
+     */
+    open class func getConnectorsProvidersWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ConnectorProvidersOut> {
+        let localVariablePath = "/v1/connectors/providers"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ConnectorProvidersOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Forces a token rotation for a connected connector, ahead of the automatic rotation a token read would do inside the expiry window.
+     
+     - parameter id: (path) ID is the connector id, provider + \&quot;:\&quot; + label (\&quot;openai:default\&quot;) — the auth-profile-id shape. Another user&#39;s id is simply no row, so 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RefreshOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postConnectorsByIdRefresh(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RefreshOut {
+        return try await postConnectorsByIdRefreshWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Forces a token rotation for a connected connector, ahead of the automatic rotation a token read would do inside the expiry window.
+     - POST /v1/connectors/{id}/refresh
+     - Forces a token rotation for a connected connector, ahead of the automatic rotation a token read would do inside the expiry window. Only providers that declare a Refresh support it.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the connector id, provider + \&quot;:\&quot; + label (\&quot;openai:default\&quot;) — the auth-profile-id shape. Another user&#39;s id is simply no row, so 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<RefreshOut> 
+     */
+    open class func postConnectorsByIdRefreshWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RefreshOut> {
+        var localVariablePath = "/v1/connectors/{id}/refresh"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<RefreshOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Is the direct intake path: a customer-held token/setup-token (Verify) or an externally obtained OAuth bundle from the CLI's local PKCE (Adopt).
+     
+     - parameter provider: (path) Provider is the user-scoped provider&#39;s registry id, from the path. 
+     - parameter credentialIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: CredentialOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postConnectorsByProviderCredential(provider: String, credentialIn: CredentialIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CredentialOut {
+        return try await postConnectorsByProviderCredentialWithRequestBuilder(provider: provider, credentialIn: credentialIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Is the direct intake path: a customer-held token/setup-token (Verify) or an externally obtained OAuth bundle from the CLI's local PKCE (Adopt).
+     - POST /v1/connectors/{provider}/credential
+     - Is the direct intake path: a customer-held token/setup-token (Verify) or an externally obtained OAuth bundle from the CLI's local PKCE (Adopt). ALWAYS verify-before-store: a bad credential is refused and NOTHING is persisted (connectByCredential's fail-closed order).
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter provider: (path) Provider is the user-scoped provider&#39;s registry id, from the path. 
+     - parameter credentialIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<CredentialOut> 
+     */
+    open class func postConnectorsByProviderCredentialWithRequestBuilder(provider: String, credentialIn: CredentialIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CredentialOut> {
+        var localVariablePath = "/v1/connectors/{provider}/credential"
+        let providerPreEscape = "\(APIHelper.mapValueToPathItem(provider))"
         let providerPostEscape = providerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{provider}", with: providerPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: credentialIn, codableHelper: apiConfiguration.codableHelper)
 
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "code": (wrappedValue: code?.encodeToJSON(), isExplode: true),
-            "state": (wrappedValue: state?.encodeToJSON(), isExplode: true),
-            "error": (wrappedValue: error?.encodeToJSON(), isExplode: true),
-        ])
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<KbConnectCallback200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CredentialOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: false)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     * enum for parameter provider
-     */
-    public enum Provider_kbConnectStart: String, CaseIterable {
-        case github = "github"
-        case slack = "slack"
-        case google = "google"
-        case notion = "notion"
-    }
-
-    /**
-     Begin an OAuth connection (returns the provider authorize URL)
+     Begins a device sign-in and returns the code to show the user plus how to poll for completion.
      
-     - parameter provider: (path)  
-     - returns: KbConnectStart200Response
+     - parameter provider: (path) Provider is the user-scoped provider&#39;s registry id, from the path. 
+     - parameter deviceStartIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: DeviceStartOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kbConnectStart(provider: Provider_kbConnectStart) async throws -> KbConnectStart200Response {
-        return try await kbConnectStartWithRequestBuilder(provider: provider).execute().body
+    open class func postConnectorsByProviderDevice(provider: String, deviceStartIn: DeviceStartIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> DeviceStartOut {
+        return try await postConnectorsByProviderDeviceWithRequestBuilder(provider: provider, deviceStartIn: deviceStartIn, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Begin an OAuth connection (returns the provider authorize URL)
-     - GET /v1/kb/connectors/{provider}/connect
+     Begins a device sign-in and returns the code to show the user plus how to poll for completion.
+     - POST /v1/connectors/{provider}/device
+     - Begins a device sign-in and returns the code to show the user plus how to poll for completion. KMS readiness is checked NOW rather than dead-ending the user at poll-done (connect() parity), and the per-provider connector cap is checked before the provider is called. The provider's device code is persisted only in the encrypted grants table and is NEVER returned.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter provider: (path)  
-     - returns: RequestBuilder<KbConnectStart200Response> 
+       - name: bearer
+     - parameter provider: (path) Provider is the user-scoped provider&#39;s registry id, from the path. 
+     - parameter deviceStartIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<DeviceStartOut> 
      */
-    open class func kbConnectStartWithRequestBuilder(provider: Provider_kbConnectStart) -> RequestBuilder<KbConnectStart200Response> {
-        var localVariablePath = "/v1/kb/connectors/{provider}/connect"
-        let providerPreEscape = "\(provider.rawValue)"
+    open class func postConnectorsByProviderDeviceWithRequestBuilder(provider: String, deviceStartIn: DeviceStartIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<DeviceStartOut> {
+        var localVariablePath = "/v1/connectors/{provider}/device"
+        let providerPreEscape = "\(APIHelper.mapValueToPathItem(provider))"
         let providerPostEscape = providerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{provider}", with: providerPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: deviceStartIn, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<KbConnectStart200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<DeviceStartOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     * enum for parameter provider
-     */
-    public enum Provider_kbDisconnectConnector: String, CaseIterable {
-        case github = "github"
-        case slack = "slack"
-        case google = "google"
-        case notion = "notion"
-    }
-
-    /**
-     Disconnect a connector (tombstone token, purge its vector points)
+     Advances a device sign-in.
      
-     - parameter provider: (path)  
-     - returns: KbDisconnectConnector200Response
+     - parameter provider: (path) Provider is the user-scoped provider&#39;s registry id, from the path. 
+     - parameter flow: (path) Flow is the id deviceStartOut returned. Expired or another user&#39;s flow is indistinguishable from an unknown one: 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: DevicePollOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kbDisconnectConnector(provider: Provider_kbDisconnectConnector) async throws -> KbDisconnectConnector200Response {
-        return try await kbDisconnectConnectorWithRequestBuilder(provider: provider).execute().body
+    open class func postConnectorsByProviderDeviceByFlowPoll(provider: String, flow: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> DevicePollOut {
+        return try await postConnectorsByProviderDeviceByFlowPollWithRequestBuilder(provider: provider, flow: flow, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Disconnect a connector (tombstone token, purge its vector points)
-     - DELETE /v1/kb/connectors/{provider}
+     Advances a device sign-in.
+     - POST /v1/connectors/{provider}/device/{flow}/poll
+     - Advances a device sign-in. Terminal outcomes are DATA, not errors (verifyConn {active:false} discipline) — the status set is closed: pending|connected|denied|expired. pollSlow collapses to \"pending\" on the wire; the raised cadence rides interval.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter provider: (path)  
-     - returns: RequestBuilder<KbDisconnectConnector200Response> 
+       - name: bearer
+     - parameter provider: (path) Provider is the user-scoped provider&#39;s registry id, from the path. 
+     - parameter flow: (path) Flow is the id deviceStartOut returned. Expired or another user&#39;s flow is indistinguishable from an unknown one: 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<DevicePollOut> 
      */
-    open class func kbDisconnectConnectorWithRequestBuilder(provider: Provider_kbDisconnectConnector) -> RequestBuilder<KbDisconnectConnector200Response> {
-        var localVariablePath = "/v1/kb/connectors/{provider}"
-        let providerPreEscape = "\(provider.rawValue)"
+    open class func postConnectorsByProviderDeviceByFlowPollWithRequestBuilder(provider: String, flow: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<DevicePollOut> {
+        var localVariablePath = "/v1/connectors/{provider}/device/{flow}/poll"
+        let providerPreEscape = "\(APIHelper.mapValueToPathItem(provider))"
         let providerPostEscape = providerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{provider}", with: providerPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let flowPreEscape = "\(APIHelper.mapValueToPathItem(flow))"
+        let flowPostEscape = flowPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{flow}", with: flowPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<KbDisconnectConnector200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<DevicePollOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     List every connectable source (native + long-tail pieces)
-     
-     - returns: KbListCatalog200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kbListCatalog() async throws -> KbListCatalog200Response {
-        return try await kbListCatalogWithRequestBuilder().execute().body
-    }
-
-    /**
-     List every connectable source (native + long-tail pieces)
-     - GET /v1/kb/connectors/catalog
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<KbListCatalog200Response> 
-     */
-    open class func kbListCatalogWithRequestBuilder() -> RequestBuilder<KbListCatalog200Response> {
-        let localVariablePath = "/v1/kb/connectors/catalog"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<KbListCatalog200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     List this org's connectors and connection state
-     
-     - returns: KbListConnectors200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kbListConnectors() async throws -> KbListConnectors200Response {
-        return try await kbListConnectorsWithRequestBuilder().execute().body
-    }
-
-    /**
-     List this org's connectors and connection state
-     - GET /v1/kb/connectors
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<KbListConnectors200Response> 
-     */
-    open class func kbListConnectorsWithRequestBuilder() -> RequestBuilder<KbListConnectors200Response> {
-        let localVariablePath = "/v1/kb/connectors"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<KbListConnectors200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     * enum for parameter provider
-     */
-    public enum Provider_kbSyncConnector: String, CaseIterable {
-        case github = "github"
-        case slack = "slack"
-        case google = "google"
-        case notion = "notion"
-    }
-
-    /**
-     Sync the provider's documents into this org's knowledge store
-     
-     - parameter provider: (path)  
-     - returns: KbSyncConnector200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func kbSyncConnector(provider: Provider_kbSyncConnector) async throws -> KbSyncConnector200Response {
-        return try await kbSyncConnectorWithRequestBuilder(provider: provider).execute().body
-    }
-
-    /**
-     Sync the provider's documents into this org's knowledge store
-     - POST /v1/kb/connectors/{provider}/sync
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter provider: (path)  
-     - returns: RequestBuilder<KbSyncConnector200Response> 
-     */
-    open class func kbSyncConnectorWithRequestBuilder(provider: Provider_kbSyncConnector) -> RequestBuilder<KbSyncConnector200Response> {
-        var localVariablePath = "/v1/kb/connectors/{provider}/sync"
-        let providerPreEscape = "\(provider.rawValue)"
-        let providerPostEscape = providerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{provider}", with: providerPostEscape, options: .literal, range: nil)
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<KbSyncConnector200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

@@ -6,39 +6,40 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
-public struct SearchStats: Codable, JSONEncodable, Hashable {
+public struct SearchStats: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var databaseSize: Int64?
-    public var usedDatabaseSize: Int64?
-    public var lastUpdate: Date?
-    public var indexes: [String: SearchIndexStats]?
+    /** SearchesPerDay is always empty, for the same reason as totalSearches. */
+    public var searchesPerDay: [DayCount]?
+    /** TotalDocuments is the sum of every index's document count. */
+    public var totalDocuments: Int?
+    /** TotalSearches is always 0: Meilisearch keeps no query-history counter, so this surface reports the honest zero rather than an estimate. */
+    public var totalSearches: Int?
+    /** TotalSessions is always 0, for the same reason as totalSearches. */
+    public var totalSessions: Int?
 
-    public init(databaseSize: Int64? = nil, usedDatabaseSize: Int64? = nil, lastUpdate: Date? = nil, indexes: [String: SearchIndexStats]? = nil) {
-        self.databaseSize = databaseSize
-        self.usedDatabaseSize = usedDatabaseSize
-        self.lastUpdate = lastUpdate
-        self.indexes = indexes
+    public init(searchesPerDay: [DayCount]? = nil, totalDocuments: Int? = nil, totalSearches: Int? = nil, totalSessions: Int? = nil) {
+        self.searchesPerDay = searchesPerDay
+        self.totalDocuments = totalDocuments
+        self.totalSearches = totalSearches
+        self.totalSessions = totalSessions
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case databaseSize
-        case usedDatabaseSize
-        case lastUpdate
-        case indexes
+        case searchesPerDay
+        case totalDocuments
+        case totalSearches
+        case totalSessions
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(databaseSize, forKey: .databaseSize)
-        try container.encodeIfPresent(usedDatabaseSize, forKey: .usedDatabaseSize)
-        try container.encodeIfPresent(lastUpdate, forKey: .lastUpdate)
-        try container.encodeIfPresent(indexes, forKey: .indexes)
+        try container.encodeIfPresent(searchesPerDay, forKey: .searchesPerDay)
+        try container.encodeIfPresent(totalDocuments, forKey: .totalDocuments)
+        try container.encodeIfPresent(totalSearches, forKey: .totalSearches)
+        try container.encodeIfPresent(totalSessions, forKey: .totalSessions)
     }
 }
 

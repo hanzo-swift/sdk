@@ -6,45 +6,45 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class MeshAPI {
 
     /**
-     List the org's ZT edge services
+     Returns the Zero Trust edge services the caller's org owns.
      
-     - returns: ZtListMeshServices200Response
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: MeshServiceList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func ztListMeshServices() async throws -> ZtListMeshServices200Response {
-        return try await ztListMeshServicesWithRequestBuilder().execute().body
+    open class func getMeshServices(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> MeshServiceList {
+        return try await getMeshServicesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     List the org's ZT edge services
+     Returns the Zero Trust edge services the caller's org owns.
      - GET /v1/mesh/services
+     - Returns the Zero Trust edge services the caller's org owns.  One row per real ZT edge service tagged with the org's \"org-<org>\" role attribute: mtls is \"required\" when the service mandates end-to-end encryption and \"enabled\" otherwise (the fabric always mutually authenticates every link), and status is \"active\" because a listed service is a configured, dialable entry. A service tagged for another org, or tagged for none, is invisible here.  Unlike the network and router reads this does NOT degrade: an unconfigured deployment answers 503 and an unreachable controller surfaces the upstream's status, so a mesh page never renders \"no services\" for a fabric it simply could not read.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<ZtListMeshServices200Response> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<MeshServiceList> 
      */
-    open class func ztListMeshServicesWithRequestBuilder() -> RequestBuilder<ZtListMeshServices200Response> {
+    open class func getMeshServicesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<MeshServiceList> {
         let localVariablePath = "/v1/mesh/services"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<ZtListMeshServices200Response>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<MeshServiceList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

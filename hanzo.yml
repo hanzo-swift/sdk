@@ -1,0 +1,47 @@
+# Hanzo CI — the ONE way this repo is gated, read by hanzoai/ci.
+#
+# No `images:` and no `deploy:`: this is a client library. SwiftPM resolves it
+# from a git TAG, so what CI owes is a gate, not an artifact — and no `version:`
+# either: a tag is a human's decision.
+
+test:
+  - name: build
+    # The compiler is the gate, as it is for every sibling client: 2667 files,
+    # 192 API types over 2460 models, and a document defect lands here as a file
+    # and a line rather than as a consumer's surprise. Measured cold on linux:
+    # `Build complete! (34.06s)`.
+    #
+    # It compiles OFF Apple platforms at all because the row that generates this
+    # client overrides one generator template — the transport imports
+    # MobileCoreServices behind `#if !os(macOS)` and names URLSession without
+    # FoundationNetworking, neither of which holds on Linux. See
+    # hanzoai/openapi's `sdks.yaml`.
+    #
+    # The runner needs a Swift toolchain, and hanzoai/ci's build.yml provisions
+    # Go, Node, Rust, Java and C but not yet Swift — one guarded step in that
+    # file, `if: hashFiles('Package.swift') != ''`, in the shape the other four
+    # already have. That is where a toolchain comes from; a client repo
+    # inventing its own container invocation would be the second way.
+    run: swift build
+
+  - name: examples
+    # The flows compile against the client they demonstrate, so a document that
+    # moves a method breaks HERE — one place — rather than in a reader's editor.
+    # `models` is then RUN for real: it is the one flow that needs no credential,
+    # and it proves the whole path a consumer takes — URLSession over corelibs
+    # Foundation, the request the client builds, a 200 back — which no amount of
+    # compiling can. Measured: `HTTP 200 from https://api.hanzo.ai`, 520 models.
+    run: |
+      set -e
+      swift build --package-path examples
+      swift run --package-path examples models
+
+# THE CLIENT LANE — this repo is a PROJECTION of one API document at one version.
+#
+# hanzoai/cloud's release sends `repository_dispatch: spec-update` carrying
+# (version, sha, spec_sha256); hanzoai/ci fetches openapi.yaml AT THAT SHA,
+# REFUSES if the bytes hash to anything else, runs `generate:`, writes
+# `.spec-lock` beside the code, and — only after `test:` above has passed over
+# exactly those bytes — commits.
+client:
+  generate: ./scripts/generate.sh

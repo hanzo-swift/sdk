@@ -6,45 +6,45 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class SummaryAPI {
 
     /**
-     Per-org row counts (companies / contacts / opportunities)
+     Reports whether the platform is up.
      
-     - returns: CrmSummary
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: O11yStatusSummary
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func crmCrmSummary() async throws -> CrmSummary {
-        return try await crmCrmSummaryWithRequestBuilder().execute().body
+    open class func getSummary(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yStatusSummary {
+        return try await getSummaryWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Per-org row counts (companies / contacts / opportunities)
-     - GET /v1/crm/summary
+     Reports whether the platform is up.
+     - GET /v1/summary
+     - Reports whether the platform is up. It returns the public status document: the incidents currently open against Hanzo's own services, derived from the fleet health probes, plus the address of the human status page. No authentication is required and no tenant data is involved — the answer is the same for every caller.  A service that fails its health probe becomes one incident naming that service. When the availability source itself cannot be read the endpoint answers 503 rather than an empty incident list, because \"we cannot tell\" and \"everything is fine\" are different answers and only one of them is true.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<CrmSummary> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<O11yStatusSummary> 
      */
-    open class func crmCrmSummaryWithRequestBuilder() -> RequestBuilder<CrmSummary> {
-        let localVariablePath = "/v1/crm/summary"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func getSummaryWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yStatusSummary> {
+        let localVariablePath = "/v1/summary"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<CrmSummary>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<O11yStatusSummary>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

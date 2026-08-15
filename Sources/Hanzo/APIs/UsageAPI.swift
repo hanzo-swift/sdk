@@ -6,45 +6,515 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class UsageAPI {
 
     /**
-     Per-repo + total storage bytes for the tenant
+     Activity returns the per-day usage series for ONE authorized subject — the points a contribution heatmap and a timeline are drawn from, gap-filled so every day in the range is present.
      
-     - returns: GitUsage
+     - parameter subject: (query) Subject is what the series is about: \&quot;user\&quot; (default), \&quot;org\&quot; or \&quot;project\&quot;. (optional)
+     - parameter id: (query) ID names the subject within what the caller is entitled to see. Omitted (or \&quot;me\&quot;) it is the caller themselves, or their own org. Another user requires org admin and must belong to the caller&#39;s org; another org requires a SuperAdmin. (optional)
+     - parameter from: (query) From is the first day of the range, \&quot;2006-01-02\&quot;. Defaults to 90 days back. (optional)
+     - parameter to: (query) To is the last day of the range, \&quot;2006-01-02\&quot;. Defaults to today; the span is clamped to 366 days. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ActivityView
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func gitGetGitUsage() async throws -> GitUsage {
-        return try await gitGetGitUsageWithRequestBuilder().execute().body
+    open class func getUsageActivity(subject: String? = nil, id: String? = nil, from: String? = nil, to: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ActivityView {
+        return try await getUsageActivityWithRequestBuilder(subject: subject, id: id, from: from, to: to, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Per-repo + total storage bytes for the tenant
-     - GET /v1/git/usage
+     Activity returns the per-day usage series for ONE authorized subject — the points a contribution heatmap and a timeline are drawn from, gap-filled so every day in the range is present.
+     - GET /v1/usage/activity
+     - Activity returns the per-day usage series for ONE authorized subject — the points a contribution heatmap and a timeline are drawn from, gap-filled so every day in the range is present. Authorization is resolved server-side from the validated principal, so a caller can never widen the subject past what they are entitled to: a non-admin reads only themselves and their own org. subject=project answers empty with a note, because the usage ledger records no project column yet. When the warehouse is not connected the series answers empty with available=false rather than fabricated days.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<GitUsage> 
+       - name: bearer
+     - parameter subject: (query) Subject is what the series is about: \&quot;user\&quot; (default), \&quot;org\&quot; or \&quot;project\&quot;. (optional)
+     - parameter id: (query) ID names the subject within what the caller is entitled to see. Omitted (or \&quot;me\&quot;) it is the caller themselves, or their own org. Another user requires org admin and must belong to the caller&#39;s org; another org requires a SuperAdmin. (optional)
+     - parameter from: (query) From is the first day of the range, \&quot;2006-01-02\&quot;. Defaults to 90 days back. (optional)
+     - parameter to: (query) To is the last day of the range, \&quot;2006-01-02\&quot;. Defaults to today; the span is clamped to 366 days. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ActivityView> 
      */
-    open class func gitGetGitUsageWithRequestBuilder() -> RequestBuilder<GitUsage> {
-        let localVariablePath = "/v1/git/usage"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func getUsageActivityWithRequestBuilder(subject: String? = nil, id: String? = nil, from: String? = nil, to: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ActivityView> {
+        let localVariablePath = "/v1/usage/activity"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "subject": (wrappedValue: subject?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "id": (wrappedValue: id?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "from": (wrappedValue: from?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "to": (wrappedValue: to?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GitUsage>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ActivityView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Is the entitlement-GATED per-provider breakdown of the caller org's LLM usage — the paid lens over the same warehouse ledger GET /v1/usage/summary reads its totals from.
+     
+     - parameter end: (query) End is the exclusive window end, RFC3339. Read only when Range is custom. (optional)
+     - parameter plan: (query) Plan is the plan id whose entitlement decides access and retention. INTERIM: cloud has no org-to-plan resolver yet, so the caller names the plan; when that resolver lands this becomes the caller org&#39;s own plan. (optional)
+     - parameter range: (query) Range is the window: a count and a unit — 24h, 7d, 90d, any &lt;N&gt;h or &lt;N&gt;d — or day, week, month, all, custom. Empty means 24h. The window is then clamped forward to the plan&#39;s retention entitlement. (optional)
+     - parameter start: (query) Start is the inclusive window start, RFC3339. Read only when Range is custom, and clamped forward to the plan&#39;s retention floor. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: UsageAnalyticsView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getUsageAnalytics(end: String? = nil, plan: String? = nil, range: String? = nil, start: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> UsageAnalyticsView {
+        return try await getUsageAnalyticsWithRequestBuilder(end: end, plan: plan, range: range, start: start, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Is the entitlement-GATED per-provider breakdown of the caller org's LLM usage — the paid lens over the same warehouse ledger GET /v1/usage/summary reads its totals from.
+     - GET /v1/usage/analytics
+     - Is the entitlement-GATED per-provider breakdown of the caller org's LLM usage — the paid lens over the same warehouse ledger GET /v1/usage/summary reads its totals from. Basic own-org usage stays ungated at /v1/usage/summary.  A plan that does not grant the analytics datastore is refused with 402, and an unresolvable plan fails closed to the free floor, which does not grant it. The window is clamped forward to the plan's retention entitlement, so a tenant can never read older than its plan allows even with a custom start. The response is marked no-store.  INTERIM (mirrors apps/world's limits echo): no org→plan resolver exists in cloud yet — the subscription lookup is owned by the billing plane and the gateway principal carries no plan claim — so the caller passes the plan and the gate resolves THAT plan's access.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter end: (query) End is the exclusive window end, RFC3339. Read only when Range is custom. (optional)
+     - parameter plan: (query) Plan is the plan id whose entitlement decides access and retention. INTERIM: cloud has no org-to-plan resolver yet, so the caller names the plan; when that resolver lands this becomes the caller org&#39;s own plan. (optional)
+     - parameter range: (query) Range is the window: a count and a unit — 24h, 7d, 90d, any &lt;N&gt;h or &lt;N&gt;d — or day, week, month, all, custom. Empty means 24h. The window is then clamped forward to the plan&#39;s retention entitlement. (optional)
+     - parameter start: (query) Start is the inclusive window start, RFC3339. Read only when Range is custom, and clamped forward to the plan&#39;s retention floor. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<UsageAnalyticsView> 
+     */
+    open class func getUsageAnalyticsWithRequestBuilder(end: String? = nil, plan: String? = nil, range: String? = nil, start: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<UsageAnalyticsView> {
+        let localVariablePath = "/v1/usage/analytics"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "end": (wrappedValue: end?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "plan": (wrappedValue: plan?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "range": (wrappedValue: range?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "start": (wrappedValue: start?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<UsageAnalyticsView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Echoes a plan's resolved analytics entitlement so a dashboard can configure itself against the LIVE catalog instead of hardcoding tier numbers.
+     
+     - parameter plan: (query) Plan is a plan id from the live @hanzo/plans catalog. Empty resolves the free floor, and so does an id the catalog does not know — this never fails on an unknown plan. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: UsageAnalyticsAccess
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getUsageAnalyticsAccess(plan: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> UsageAnalyticsAccess {
+        return try await getUsageAnalyticsAccessWithRequestBuilder(plan: plan, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Echoes a plan's resolved analytics entitlement so a dashboard can configure itself against the LIVE catalog instead of hardcoding tier numbers.
+     - GET /v1/usage/analytics/access
+     - Echoes a plan's resolved analytics entitlement so a dashboard can configure itself against the LIVE catalog instead of hardcoding tier numbers. An empty plan resolves the free floor, and a catalog resolution failure serves that same floor rather than erroring — so this always answers 200. It is a read-only contract echo and carries no tenant data.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter plan: (query) Plan is a plan id from the live @hanzo/plans catalog. Empty resolves the free floor, and so does an id the catalog does not know — this never fails on an unknown plan. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<UsageAnalyticsAccess> 
+     */
+    open class func getUsageAnalyticsAccessWithRequestBuilder(plan: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<UsageAnalyticsAccess> {
+        let localVariablePath = "/v1/usage/analytics/access"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "plan": (wrappedValue: plan?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<UsageAnalyticsAccess>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Leaderboard ranks AI usage over a window, either the users of the caller's own org or organizations against each other, and always reports the caller's own standing even when it falls outside the returned page.
+     
+     - parameter scope: (query) Scope picks the board: \&quot;personal\&quot; (default) ranks the caller among their own org&#39;s users, \&quot;org\&quot; is that same org board named for an admin, \&quot;global\&quot; ranks organizations against each other. (optional)
+     - parameter metric: (query) Metric is the value ranked: tokens (default), requests, or cost. (optional)
+     - parameter period: (query) Period is the window ranked: day, week, month (default) or all. (optional)
+     - parameter limit: (query) Limit caps the rows returned, clamped to 100. Defaults to 10, which is also what a non-positive or unparseable value takes. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: LeaderboardView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getUsageLeaderboard(scope: String? = nil, metric: String? = nil, period: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> LeaderboardView {
+        return try await getUsageLeaderboardWithRequestBuilder(scope: scope, metric: metric, period: period, limit: limit, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Leaderboard ranks AI usage over a window, either the users of the caller's own org or organizations against each other, and always reports the caller's own standing even when it falls outside the returned page.
+     - GET /v1/usage/leaderboard
+     - Leaderboard ranks AI usage over a window, either the users of the caller's own org or organizations against each other, and always reports the caller's own standing even when it falls outside the returned page. Identities are private by default: a caller sees themselves, plus the peers or orgs that opted into public listing, and only an admin sees their own org's members named. Cross-org spend is restricted to platform admins. When the warehouse is not connected the board answers empty with available=false rather than a fabricated rank.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter scope: (query) Scope picks the board: \&quot;personal\&quot; (default) ranks the caller among their own org&#39;s users, \&quot;org\&quot; is that same org board named for an admin, \&quot;global\&quot; ranks organizations against each other. (optional)
+     - parameter metric: (query) Metric is the value ranked: tokens (default), requests, or cost. (optional)
+     - parameter period: (query) Period is the window ranked: day, week, month (default) or all. (optional)
+     - parameter limit: (query) Limit caps the rows returned, clamped to 100. Defaults to 10, which is also what a non-positive or unparseable value takes. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<LeaderboardView> 
+     */
+    open class func getUsageLeaderboardWithRequestBuilder(scope: String? = nil, metric: String? = nil, period: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<LeaderboardView> {
+        let localVariablePath = "/v1/usage/leaderboard"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "scope": (wrappedValue: scope?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "metric": (wrappedValue: metric?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "period": (wrappedValue: period?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<LeaderboardView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns the caller's own public-listing preference and their org's, each with whether the caller may change it.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: OptinView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getUsageLeaderboardOptin(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> OptinView {
+        return try await getUsageLeaderboardOptinWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns the caller's own public-listing preference and their org's, each with whether the caller may change it.
+     - GET /v1/usage/leaderboard/optin
+     - Returns the caller's own public-listing preference and their org's, each with whether the caller may change it. Public listing is opt-in and private by default, so a fresh caller reads listed=false for both.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<OptinView> 
+     */
+    open class func getUsageLeaderboardOptinWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<OptinView> {
+        let localVariablePath = "/v1/usage/leaderboard/optin"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<OptinView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Is the PER-PROVIDER view: one connected account's own consumption of its own plan — \"my plan is 47% through its 6h window, resets at 14:20\".
+     
+     - parameter account: (query) Account narrows to ONE linked account of that provider. Empty covers every account the caller has linked there. (optional)
+     - parameter provider: (query) Provider is the upstream to read, e.g. anthropic. Required. (optional)
+     - parameter range: (query) Range is the window to read: a count and a unit — 1h, 24h, 90d, any &lt;N&gt;h or &lt;N&gt;d — or day, week, month, all. Empty means 24h. A label that is not a count, or one reaching past the 730-day horizon, is refused rather than silently replaced. (optional)
+     - parameter window: (query) Window narrows to ONE window class: 6h, day, week or month. Empty covers every class. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: DashResp
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getUsageSamples(account: String? = nil, provider: String? = nil, range: String? = nil, window: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> DashResp {
+        return try await getUsageSamplesWithRequestBuilder(account: account, provider: provider, range: range, window: window, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Is the PER-PROVIDER view: one connected account's own consumption of its own plan — \"my plan is 47% through its 6h window, resets at 14:20\".
+     - GET /v1/usage/samples
+     - Is the PER-PROVIDER view: one connected account's own consumption of its own plan — \"my plan is 47% through its 6h window, resets at 14:20\".  `current` is the newest instance of each lane (the headline); `windows` is the history behind it. Both come from ONE deduped read, so they can never disagree. The rows are the caller's OWN linked accounts, scoped to the validated principal and its subject — never another user's, and never another org's.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter account: (query) Account narrows to ONE linked account of that provider. Empty covers every account the caller has linked there. (optional)
+     - parameter provider: (query) Provider is the upstream to read, e.g. anthropic. Required. (optional)
+     - parameter range: (query) Range is the window to read: a count and a unit — 1h, 24h, 90d, any &lt;N&gt;h or &lt;N&gt;d — or day, week, month, all. Empty means 24h. A label that is not a count, or one reaching past the 730-day horizon, is refused rather than silently replaced. (optional)
+     - parameter window: (query) Window narrows to ONE window class: 6h, day, week or month. Empty covers every class. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<DashResp> 
+     */
+    open class func getUsageSamplesWithRequestBuilder(account: String? = nil, provider: String? = nil, range: String? = nil, window: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<DashResp> {
+        let localVariablePath = "/v1/usage/samples"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "account": (wrappedValue: account?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "provider": (wrappedValue: provider?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "range": (wrappedValue: range?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "window": (wrappedValue: window?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<DashResp>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Answers GET /v1/usage/summary: the caller's own usage footprint over one window — the categorized spend roll-up from the commerce ledger, the org's LLM usage totals from the warehouse, and the caller's OWN linked provider accounts beside the org's Hanzo-routed usage.
+     
+     - parameter range: (query) Range is the window: a count and a unit — 24h, 7d, 90d, any &lt;N&gt;h or &lt;N&gt;d — or day, week, month, all, custom. Empty means 24h. A label this surface does not know, or one reaching past the 730-day horizon, is refused rather than silently replaced. (optional)
+     - parameter start: (query) Start is the inclusive window start, RFC3339. Read only when Range is custom. (optional)
+     - parameter end: (query) End is the exclusive window end, RFC3339. Read only when Range is custom. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: UsageSummary
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getUsageSummary(range: String? = nil, start: String? = nil, end: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> UsageSummary {
+        return try await getUsageSummaryWithRequestBuilder(range: range, start: start, end: end, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Answers GET /v1/usage/summary: the caller's own usage footprint over one window — the categorized spend roll-up from the commerce ledger, the org's LLM usage totals from the warehouse, and the caller's OWN linked provider accounts beside the org's Hanzo-routed usage.
+     - GET /v1/usage/summary
+     - Answers GET /v1/usage/summary: the caller's own usage footprint over one window — the categorized spend roll-up from the commerce ledger, the org's LLM usage totals from the warehouse, and the caller's OWN linked provider accounts beside the org's Hanzo-routed usage.  Every source degrades INDEPENDENTLY to honest zeros and says so in `sources` and in its own `available` flag, so a partial deploy reports \"no data\" rather than fabricating spend. The account rows and the Hanzo rows are concatenated and never summed: a plan's percent is not money.  The response is org-scoped from the validated principal and marked no-store — a signed-out caller is refused.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter range: (query) Range is the window: a count and a unit — 24h, 7d, 90d, any &lt;N&gt;h or &lt;N&gt;d — or day, week, month, all, custom. Empty means 24h. A label this surface does not know, or one reaching past the 730-day horizon, is refused rather than silently replaced. (optional)
+     - parameter start: (query) Start is the inclusive window start, RFC3339. Read only when Range is custom. (optional)
+     - parameter end: (query) End is the exclusive window end, RFC3339. Read only when Range is custom. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<UsageSummary> 
+     */
+    open class func getUsageSummaryWithRequestBuilder(range: String? = nil, start: String? = nil, end: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<UsageSummary> {
+        let localVariablePath = "/v1/usage/summary"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "range": (wrappedValue: range?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "start": (wrappedValue: start?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "end": (wrappedValue: end?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<UsageSummary>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Ingests a batch of account-usage samples — what a developer's OWN AI accounts have consumed of their OWN plans, metered from each provider's own login — and appends them to the warehouse series.
+     
+     - parameter reportReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ReportResp
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postUsage(reportReq: ReportReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ReportResp {
+        return try await postUsageWithRequestBuilder(reportReq: reportReq, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Ingests a batch of account-usage samples — what a developer's OWN AI accounts have consumed of their OWN plans, metered from each provider's own login — and appends them to the warehouse series.
+     - POST /v1/usage
+     - Ingests a batch of account-usage samples — what a developer's OWN AI accounts have consumed of their OWN plans, metered from each provider's own login — and appends them to the warehouse series. Answers 202.  Send either a `samples` array or one sample's fields at the top level. Every sample needs a provider, a machine and a known window class; an unknown window or kind is refused rather than silently rewritten, because a dash filled with a class nobody reported is worse than an error. There is no timestamp field: the server owns the observation clock, and a sample says which window it measured with windowStart or resetsAt.  It is FAIL-SOFT on storage: a warehouse outage costs a poll of history (stored:false), never a failed request. It records usage ONLY — the link registry is refreshed separately via POST /v1/links, so there is one and only one way to update an account row.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter reportReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ReportResp> 
+     */
+    open class func postUsageWithRequestBuilder(reportReq: ReportReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ReportResp> {
+        let localVariablePath = "/v1/usage"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: reportReq, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ReportResp>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Backfill seeds the derived usage rollup from ledger history — the rows written before the incremental view existed, which that view can never capture.
+     
+     - parameter backfillQuery: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: BackfillResult
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postUsageRollupBackfill(backfillQuery: BackfillQuery, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> BackfillResult {
+        return try await postUsageRollupBackfillWithRequestBuilder(backfillQuery: backfillQuery, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Backfill seeds the derived usage rollup from ledger history — the rows written before the incremental view existed, which that view can never capture.
+     - POST /v1/usage/rollup/backfill
+     - Backfill seeds the derived usage rollup from ledger history — the rows written before the incremental view existed, which that view can never capture. SuperAdmin only. Because the rollup accumulates, a second unguarded run would double every day it re-reads, so it refuses with 409 when the rollup already holds rows unless force=true is passed; forcing WILL double-count.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter backfillQuery: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<BackfillResult> 
+     */
+    open class func postUsageRollupBackfillWithRequestBuilder(backfillQuery: BackfillQuery, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<BackfillResult> {
+        let localVariablePath = "/v1/usage/rollup/backfill"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: backfillQuery, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<BackfillResult>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Sets the CALLER's own public-listing preference on the leaderboard.
+     
+     - parameter userOptinReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: UserOptinView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func putUsageLeaderboardOptin(userOptinReq: UserOptinReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> UserOptinView {
+        return try await putUsageLeaderboardOptinWithRequestBuilder(userOptinReq: userOptinReq, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Sets the CALLER's own public-listing preference on the leaderboard.
+     - PUT /v1/usage/leaderboard/optin
+     - Sets the CALLER's own public-listing preference on the leaderboard. Self only: the row written is keyed by the caller's validated ledger identity, so this can never edit another member's visibility whatever the request says. A caller opting in with no handle is given their username, so a listed row never renders as \"Anonymous\" to its own owner.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter userOptinReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<UserOptinView> 
+     */
+    open class func putUsageLeaderboardOptinWithRequestBuilder(userOptinReq: UserOptinReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<UserOptinView> {
+        let localVariablePath = "/v1/usage/leaderboard/optin"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: userOptinReq, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<UserOptinView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Sets the ORG's listing on the cross-org global board.
+     
+     - parameter orgOptinReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: OrgOptinView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func putUsageLeaderboardOptinOrg(orgOptinReq: OrgOptinReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> OrgOptinView {
+        return try await putUsageLeaderboardOptinOrgWithRequestBuilder(orgOptinReq: orgOptinReq, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Sets the ORG's listing on the cross-org global board.
+     - PUT /v1/usage/leaderboard/optin/org
+     - Sets the ORG's listing on the cross-org global board. Only an admin of the caller's own org — an org admin or a platform SuperAdmin — may change it, and the org written is the caller's validated tenant, never a value from the request. Listing consents to publishing the org's usage VOLUME; cross-org spend stays restricted to platform admins regardless.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter orgOptinReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<OrgOptinView> 
+     */
+    open class func putUsageLeaderboardOptinOrgWithRequestBuilder(orgOptinReq: OrgOptinReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<OrgOptinView> {
+        let localVariablePath = "/v1/usage/leaderboard/optin/org"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: orgOptinReq, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<OrgOptinView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

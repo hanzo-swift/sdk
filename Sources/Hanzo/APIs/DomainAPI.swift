@@ -6,322 +6,298 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
 open class DomainAPI {
 
     /**
-     List domains for an application
+     Checks exact names rather than searching for them, and answers the same quote shape search does — purchasable, premium, first-term and renewal price in cents.
      
-     - parameter input: (query) URL-encoded JSON input for tRPC queries (optional)
-     - returns: PlatformTRPCResult
+     - parameter domain: (query) Domain is one name, or several comma-separated, to check in one call. Names are lowercased. It is required. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: QuoteList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func platformDomainByApplicationId(input: String? = nil) async throws -> PlatformTRPCResult {
-        return try await platformDomainByApplicationIdWithRequestBuilder(input: input).execute().body
+    open class func getDomainAvailability(domain: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> QuoteList {
+        return try await getDomainAvailabilityWithRequestBuilder(domain: domain, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     List domains for an application
-     - GET /v1/platform/domain/byApplicationId
+     Checks exact names rather than searching for them, and answers the same quote shape search does — purchasable, premium, first-term and renewal price in cents.
+     - GET /v1/domain/availability
+     - Checks exact names rather than searching for them, and answers the same quote shape search does — purchasable, premium, first-term and renewal price in cents.  It requires a validated principal; 403 without one. Nothing is charged and nothing is held. A deployment with no registrar credentials answers 503.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter input: (query) URL-encoded JSON input for tRPC queries (optional)
-     - returns: RequestBuilder<PlatformTRPCResult> 
+       - name: bearer
+     - parameter domain: (query) Domain is one name, or several comma-separated, to check in one call. Names are lowercased. It is required. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<QuoteList> 
      */
-    open class func platformDomainByApplicationIdWithRequestBuilder(input: String? = nil) -> RequestBuilder<PlatformTRPCResult> {
-        let localVariablePath = "/v1/platform/domain/byApplicationId"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func getDomainAvailabilityWithRequestBuilder(domain: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<QuoteList> {
+        let localVariablePath = "/v1/domain/availability"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "input": (wrappedValue: input?.encodeToJSON(), isExplode: true),
+            "domain": (wrappedValue: domain.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ])
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PlatformTRPCResult>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<QuoteList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     List domains for a compose service
+     Is the domains your org has bought here, newest registration first, each carrying the name, when it was registered, when it expires, what the org paid, the registrar order id and the nameservers it points at.
      
-     - parameter input: (query) URL-encoded JSON input for tRPC queries (optional)
-     - returns: PlatformTRPCResult
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Holdings
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func platformDomainByComposeId(input: String? = nil) async throws -> PlatformTRPCResult {
-        return try await platformDomainByComposeIdWithRequestBuilder(input: input).execute().body
+    open class func getDomainDomains(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Holdings {
+        return try await getDomainDomainsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     List domains for a compose service
-     - GET /v1/platform/domain/byComposeId
+     Is the domains your org has bought here, newest registration first, each carrying the name, when it was registered, when it expires, what the org paid, the registrar order id and the nameservers it points at.
+     - GET /v1/domain/domains
+     - Is the domains your org has bought here, newest registration first, each carrying the name, when it was registered, when it expires, what the org paid, the registrar order id and the nameservers it points at.  Scoped to the validated principal's org — 403 without one, and there is no parameter that reaches another org's holdings.  This is the deployment's OWN ownership record, not a query to the registrar: it lists what was bought THROUGH this surface, so a domain the org holds elsewhere is not here. The default store is in-process, so a deployment that has not swapped in a durable store answers from what this process registered.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter input: (query) URL-encoded JSON input for tRPC queries (optional)
-     - returns: RequestBuilder<PlatformTRPCResult> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Holdings> 
      */
-    open class func platformDomainByComposeIdWithRequestBuilder(input: String? = nil) -> RequestBuilder<PlatformTRPCResult> {
-        let localVariablePath = "/v1/platform/domain/byComposeId"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
+    open class func getDomainDomainsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Holdings> {
+        let localVariablePath = "/v1/domain/domains"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "input": (wrappedValue: input?.encodeToJSON(), isExplode: true),
-        ])
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PlatformTRPCResult>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Holdings>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Create a domain mapping
+     Reports registrar reachability honestly: ok only when the wholesale credentials are present AND name.com accepted them on a live call made while you waited.
      
-     - parameter platformDomainCreateRequest: (body)  
-     - returns: PlatformTRPCResult
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Reachability
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func platformDomainCreate(platformDomainCreateRequest: PlatformDomainCreateRequest) async throws -> PlatformTRPCResult {
-        return try await platformDomainCreateWithRequestBuilder(platformDomainCreateRequest: platformDomainCreateRequest).execute().body
+    open class func getDomainHealth(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Reachability {
+        return try await getDomainHealthWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Create a domain mapping
-     - POST /v1/platform/domain/create
+     Reports registrar reachability honestly: ok only when the wholesale credentials are present AND name.com accepted them on a live call made while you waited.
+     - GET /v1/domain/health
+     - Reports registrar reachability honestly: ok only when the wholesale credentials are present AND name.com accepted them on a live call made while you waited.  Missing credentials or an unreachable registrar is 503 carrying configured, reachable and the reason, so an operator reads the blocker instead of guessing at it. It takes no principal, like every subsystem health probe.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter platformDomainCreateRequest: (body)  
-     - returns: RequestBuilder<PlatformTRPCResult> 
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Reachability> 
      */
-    open class func platformDomainCreateWithRequestBuilder(platformDomainCreateRequest: PlatformDomainCreateRequest) -> RequestBuilder<PlatformTRPCResult> {
-        let localVariablePath = "/v1/platform/domain/create"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: platformDomainCreateRequest)
+    open class func getDomainHealthWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Reachability> {
+        let localVariablePath = "/v1/domain/health"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<PlatformTRPCResult>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Delete a domain
-     
-     - parameter platformDomainDeleteRequest: (body)  
-     - returns: PlatformTRPCResult
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func platformDomainDelete(platformDomainDeleteRequest: PlatformDomainDeleteRequest) async throws -> PlatformTRPCResult {
-        return try await platformDomainDeleteWithRequestBuilder(platformDomainDeleteRequest: platformDomainDeleteRequest).execute().body
-    }
-
-    /**
-     Delete a domain
-     - POST /v1/platform/domain/delete
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter platformDomainDeleteRequest: (body)  
-     - returns: RequestBuilder<PlatformTRPCResult> 
-     */
-    open class func platformDomainDeleteWithRequestBuilder(platformDomainDeleteRequest: PlatformDomainDeleteRequest) -> RequestBuilder<PlatformTRPCResult> {
-        let localVariablePath = "/v1/platform/domain/delete"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: platformDomainDeleteRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<PlatformTRPCResult>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Generate a traefik.me auto-domain
-     
-     - parameter platformDomainGenerateDomainRequest: (body)  
-     - returns: PlatformTRPCResult
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func platformDomainGenerateDomain(platformDomainGenerateDomainRequest: PlatformDomainGenerateDomainRequest) async throws -> PlatformTRPCResult {
-        return try await platformDomainGenerateDomainWithRequestBuilder(platformDomainGenerateDomainRequest: platformDomainGenerateDomainRequest).execute().body
-    }
-
-    /**
-     Generate a traefik.me auto-domain
-     - POST /v1/platform/domain/generateDomain
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter platformDomainGenerateDomainRequest: (body)  
-     - returns: RequestBuilder<PlatformTRPCResult> 
-     */
-    open class func platformDomainGenerateDomainWithRequestBuilder(platformDomainGenerateDomainRequest: PlatformDomainGenerateDomainRequest) -> RequestBuilder<PlatformTRPCResult> {
-        let localVariablePath = "/v1/platform/domain/generateDomain"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: platformDomainGenerateDomainRequest)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: Any?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<PlatformTRPCResult>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
-    }
-
-    /**
-     Get a domain by ID
-     
-     - parameter input: (query) URL-encoded JSON input for tRPC queries (optional)
-     - returns: PlatformTRPCResult
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func platformDomainOne(input: String? = nil) async throws -> PlatformTRPCResult {
-        return try await platformDomainOneWithRequestBuilder(input: input).execute().body
-    }
-
-    /**
-     Get a domain by ID
-     - GET /v1/platform/domain/one
-     - Bearer Token:
-       - type: http
-       - name: bearerAuth
-     - parameter input: (query) URL-encoded JSON input for tRPC queries (optional)
-     - returns: RequestBuilder<PlatformTRPCResult> 
-     */
-    open class func platformDomainOneWithRequestBuilder(input: String? = nil) -> RequestBuilder<PlatformTRPCResult> {
-        let localVariablePath = "/v1/platform/domain/one"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters: [String: Any]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "input": (wrappedValue: input?.encodeToJSON(), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PlatformTRPCResult>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Reachability>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Update a domain mapping
+     Finds names built from the keyword q, plus the registrar's alternate-TLD suggestions, and answers a quote for each: the name, whether it is purchasable, whether it is premium, the first-term and renewal price in cents, and the TLD.
      
-     - parameter platformDomainUpdateRequest: (body)  
-     - returns: PlatformTRPCResult
+     - parameter q: (query) Q is the keyword to build names from. It is required. 
+     - parameter tld: (query) TLD narrows the search to a comma-separated set of top-level domains. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: QuoteList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func platformDomainUpdate(platformDomainUpdateRequest: PlatformDomainUpdateRequest) async throws -> PlatformTRPCResult {
-        return try await platformDomainUpdateWithRequestBuilder(platformDomainUpdateRequest: platformDomainUpdateRequest).execute().body
+    open class func getDomainSearch(q: String, tld: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> QuoteList {
+        return try await getDomainSearchWithRequestBuilder(q: q, tld: tld, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Update a domain mapping
-     - POST /v1/platform/domain/update
+     Finds names built from the keyword q, plus the registrar's alternate-TLD suggestions, and answers a quote for each: the name, whether it is purchasable, whether it is premium, the first-term and renewal price in cents, and the TLD.
+     - GET /v1/domain/search
+     - Finds names built from the keyword q, plus the registrar's alternate-TLD suggestions, and answers a quote for each: the name, whether it is purchasable, whether it is premium, the first-term and renewal price in cents, and the TLD.  Prices are RETAIL — this deployment's markup is already applied and the wholesale cost is never on the wire.  It requires a validated principal; 403 without one. Nothing is charged and nothing is held — a quote is not a reservation, and the price is re-quoted at purchase, so a name quoted here can be gone or dearer by the time you buy it. A deployment with no registrar credentials answers 503.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter platformDomainUpdateRequest: (body)  
-     - returns: RequestBuilder<PlatformTRPCResult> 
+       - name: bearer
+     - parameter q: (query) Q is the keyword to build names from. It is required. 
+     - parameter tld: (query) TLD narrows the search to a comma-separated set of top-level domains. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<QuoteList> 
      */
-    open class func platformDomainUpdateWithRequestBuilder(platformDomainUpdateRequest: PlatformDomainUpdateRequest) -> RequestBuilder<PlatformTRPCResult> {
-        let localVariablePath = "/v1/platform/domain/update"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: platformDomainUpdateRequest)
+    open class func getDomainSearchWithRequestBuilder(q: String, tld: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<QuoteList> {
+        let localVariablePath = "/v1/domain/search"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "q": (wrappedValue: q.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "tld": (wrappedValue: tld?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<QuoteList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Buys a domain for your org and answers the ownership record together with the quote it was bought at.
+     
+     - parameter order: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RegisterResult
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postDomainRegister(order: Order, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RegisterResult {
+        return try await postDomainRegisterWithRequestBuilder(order: order, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Buys a domain for your org and answers the ownership record together with the quote it was bought at.
+     - POST /v1/domain/register
+     - Buys a domain for your org and answers the ownership record together with the quote it was bought at.  The order of operations is the product guarantee: quote, refuse anything unpurchasable or unpriced, AUTHORIZE the org's prepaid balance, provision the authoritative zone in Hanzo DNS, register at the registrar already pointing at Hanzo's nameservers, and only then CAPTURE the charge and record ownership. A registrar failure therefore leaves the balance untouched — the org is never billed for a domain it did not get.  It requires a validated principal; that principal's org owns the domain and is the ledger the charge lands on. Re-buying a name the org already holds is 409, not a second purchase.  Refusals are distinct on purpose: 402 when the prepaid balance cannot cover the quoted price, 409 when the name is not available, 503 when the deployment has no registrar credentials, and the registrar's own message with its own 4xx — or 502 for its 5xx — when it rejects the purchase. Zone provisioning is best-effort: if the zone service is down the domain is still registered against Hanzo's nameservers and the zone reconciles afterwards, rather than the purchase failing.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter order: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<RegisterResult> 
+     */
+    open class func postDomainRegisterWithRequestBuilder(order: Order, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RegisterResult> {
+        let localVariablePath = "/v1/domain/register"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: order, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PlatformTRPCResult>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<RegisterResult>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Validate DNS for a domain
+     Extends a domain your org already owns and answers the updated record with its new expiry alongside what was paid.
      
-     - parameter platformDomainValidateDomainRequest: (body)  
-     - returns: PlatformTRPCResult
+     - parameter renewReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RenewResult
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func platformDomainValidateDomain(platformDomainValidateDomainRequest: PlatformDomainValidateDomainRequest) async throws -> PlatformTRPCResult {
-        return try await platformDomainValidateDomainWithRequestBuilder(platformDomainValidateDomainRequest: platformDomainValidateDomainRequest).execute().body
+    open class func postDomainRenew(renewReq: RenewReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RenewResult {
+        return try await postDomainRenewWithRequestBuilder(renewReq: renewReq, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Validate DNS for a domain
-     - POST /v1/platform/domain/validateDomain
+     Extends a domain your org already owns and answers the updated record with its new expiry alongside what was paid.
+     - POST /v1/domain/renew
+     - Extends a domain your org already owns and answers the updated record with its new expiry alongside what was paid.  Ownership is the gate: a name the caller's org does not hold is 404, so a renewal can never reach another tenant's domain.  The price is re-quoted at the CURRENT renewal rate rather than the one paid at purchase. If the registrar returns no renewal price the org's original price is charged instead, so a renewal is never accidentally free. The balance is authorized before the registrar is called and captured after it confirms — 402 when the prepaid balance cannot cover it, 503 when the deployment has no registrar credentials. Requires a validated principal.
      - Bearer Token:
        - type: http
-       - name: bearerAuth
-     - parameter platformDomainValidateDomainRequest: (body)  
-     - returns: RequestBuilder<PlatformTRPCResult> 
+       - name: bearer
+     - parameter renewReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<RenewResult> 
      */
-    open class func platformDomainValidateDomainWithRequestBuilder(platformDomainValidateDomainRequest: PlatformDomainValidateDomainRequest) -> RequestBuilder<PlatformTRPCResult> {
-        let localVariablePath = "/v1/platform/domain/validateDomain"
-        let localVariableURLString = HanzoAPI.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: platformDomainValidateDomainRequest)
+    open class func postDomainRenewWithRequestBuilder(renewReq: RenewReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RenewResult> {
+        let localVariablePath = "/v1/domain/renew"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: renewReq, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
-        let localVariableNillableHeaders: [String: Any?] = [
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PlatformTRPCResult>.Type = HanzoAPI.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<RenewResult>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Moves a domain you own at another registrar onto your org here, using its authCode, and answers the same record-plus-quote a purchase does.
+     
+     - parameter transferReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RegisterResult
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postDomainTransfer(transferReq: TransferReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RegisterResult {
+        return try await postDomainTransferWithRequestBuilder(transferReq: transferReq, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Moves a domain you own at another registrar onto your org here, using its authCode, and answers the same record-plus-quote a purchase does.
+     - POST /v1/domain/transfer
+     - Moves a domain you own at another registrar onto your org here, using its authCode, and answers the same record-plus-quote a purchase does.  It is priced and charged exactly like a registration: authorize the org's prepaid balance, ask the registrar for the transfer, capture only after the registrar accepts. A name the registrar will not price is 409, an insufficient balance is 402, and a deployment with no registrar credentials is 503.  It requires a validated principal; the ownership record is written under that org as soon as the registrar ACCEPTS the request, which is not the same instant the transfer completes at the losing registrar. Unlike a registration this does not provision a zone, so the record carries this deployment's configured nameservers.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter transferReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<RegisterResult> 
+     */
+    open class func postDomainTransferWithRequestBuilder(transferReq: TransferReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RegisterResult> {
+        let localVariablePath = "/v1/domain/transfer"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: transferReq, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<RegisterResult>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

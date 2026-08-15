@@ -6,12 +6,8 @@
 //
 
 import Foundation
-#if canImport(AnyCodable)
-import AnyCodable
-#endif
 
-/** One live replica of a product service from the VictoriaMetrics up inventory. */
-public struct O11yDeployment: Codable, JSONEncodable, Hashable {
+public struct O11yDeployment: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var instance: String?
     public var up: Bool?
