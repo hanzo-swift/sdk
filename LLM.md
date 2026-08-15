@@ -42,9 +42,10 @@ Measured before replacing it, by pulling `(method, path)` out of every
 371 of the old client's addresses survive. The other 1937 — the whole
 `/v1/chat/…` console surface among them — are not served: cloud's document is
 emitted from its own routers and gated by regenerating from source, so it cannot
-miss a route the binary serves. The four clients already on this mechanism
-(python, typescript, ruby, php) carry none of those addresses either, so this is
-the same trade every language already took, not a new loss.
+miss a route the binary serves. All ten clients already on this mechanism carry
+none of those addresses either — measured on `/v1/chat/agents`, which none of
+them names, while all ten name `/v1/chat/completions` — so this is the same
+trade every language already took, not a new loss.
 
 ## What the row has to say, and why
 
@@ -113,12 +114,14 @@ transport file, all found by building:
 | | |
 |---|---|
 | `#if !os(macOS) / import MobileCoreServices` | true on Linux, where that framework does not exist |
-| `URLSession`, `URLRequest`, `URLResponse` named without `FoundationNetworking` | 9 errors — corelibs keeps them in that module |
+| `URLSession`, `URLRequest`, `URLResponse` named without `FoundationNetworking` | 69 errors — corelibs keeps them in that module |
 | `mimeType(for:)`'s pre-macOS-11 branch calls four MobileCoreServices C functions unguarded | 5 errors — Linux never *reaches* that branch, `#available` being true for a platform it does not name, but it still has to compile |
 
 The row's `templates: templates/swift` corrects exactly those, in the file the
-generator would otherwise take from its jar, and all three are no-ops on the four
-platforms `Package.swift` declares — the Apple output is byte-identical.
+generator would otherwise take from its jar. All three ask `canImport`, so on the
+four platforms `Package.swift` declares they leave the same code standing — macOS
+additionally imports MobileCoreServices, which is present there and whose symbols
+the pre-11 branch already calls.
 
 `hanzo.yml` therefore gates on `swift build`, like every sibling client. What it
 still needs is a Swift toolchain ON the runner: `hanzoai/ci`'s `build.yml`
@@ -172,3 +175,8 @@ inside a container mounted at `/pkg` looks for a package called `pkg`).
 - A property whose name Swift already uses is escaped with a leading underscore
   — `ApiKey._prefix` — and `CodingKeys` keeps the wire name, so it still
   decodes from `"prefix"`.
+- **No formatter config.** The generator emits a `.swiftformat` pinned to
+  `--swiftversion 5.4`; this package's language mode is `.v6`, `take` never
+  copies it so `.generated` cannot guard it, and nothing runs a formatter. A file
+  whose only effect would be rewriting 2664 files `--check` requires be exact is
+  worse than none.
