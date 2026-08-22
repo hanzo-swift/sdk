@@ -25,13 +25,12 @@ public struct IamCert: Sendable, Codable, ParameterConvertible, Hashable {
     public var id: String?
     public var name: String?
     public var owner: String?
-    public var privateKey: String?
     public var provider: String?
     public var scope: String?
     public var type: String?
     public var updatedAt: Date?
 
-    public init(accessKey: String? = nil, accessSecret: String? = nil, account: String? = nil, bitSize: Int? = nil, certificate: String? = nil, createdAt: Date? = nil, createdTime: String? = nil, cryptoAlgorithm: String? = nil, deleted: Bool? = nil, displayName: String? = nil, domainExpireTime: String? = nil, expireInYears: Int? = nil, expireTime: String? = nil, id: String? = nil, name: String? = nil, owner: String? = nil, privateKey: String? = nil, provider: String? = nil, scope: String? = nil, type: String? = nil, updatedAt: Date? = nil) {
+    public init(accessKey: String? = nil, accessSecret: String? = nil, account: String? = nil, bitSize: Int? = nil, certificate: String? = nil, createdAt: Date? = nil, createdTime: String? = nil, cryptoAlgorithm: String? = nil, deleted: Bool? = nil, displayName: String? = nil, domainExpireTime: String? = nil, expireInYears: Int? = nil, expireTime: String? = nil, id: String? = nil, name: String? = nil, owner: String? = nil, provider: String? = nil, scope: String? = nil, type: String? = nil, updatedAt: Date? = nil) {
         self.accessKey = accessKey
         self.accessSecret = accessSecret
         self.account = account
@@ -48,7 +47,6 @@ public struct IamCert: Sendable, Codable, ParameterConvertible, Hashable {
         self.id = id
         self.name = name
         self.owner = owner
-        self.privateKey = privateKey
         self.provider = provider
         self.scope = scope
         self.type = type
@@ -72,7 +70,6 @@ public struct IamCert: Sendable, Codable, ParameterConvertible, Hashable {
         case id
         case name
         case owner
-        case privateKey
         case provider
         case scope
         case type
@@ -99,7 +96,6 @@ public struct IamCert: Sendable, Codable, ParameterConvertible, Hashable {
         try container.encodeIfPresent(id, forKey: .id)
         try container.encodeIfPresent(name, forKey: .name)
         try container.encodeIfPresent(owner, forKey: .owner)
-        try container.encodeIfPresent(privateKey, forKey: .privateKey)
         try container.encodeIfPresent(provider, forKey: .provider)
         try container.encodeIfPresent(scope, forKey: .scope)
         try container.encodeIfPresent(type, forKey: .type)

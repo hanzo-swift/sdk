@@ -9,6 +9,7 @@ import Foundation
 
 public struct CallList: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Data is this org's own calls, newest first — what this platform placed or received on its behalf, which is our record rather than the carrier's. */
     public var data: [Call]?
 
     public init(data: [Call]? = nil) {

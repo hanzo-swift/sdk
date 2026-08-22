@@ -9,15 +9,17 @@ import Foundation
 
 public struct Question: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Account is the chart number the questioned entry posted to, where one applies. */
     public var account: String?
-    /** formatted figure ($…) */
+    /** Amount is the figure that makes the question concrete, already FORMATTED for display with its currency symbol — a string, not cents, and not for arithmetic. */
     public var amount: String?
-    /** the source transaction id it concerns */
+    /** ID is the source transaction the question is about, so answering it leads straight back to the entry that raised it. */
     public var id: String?
-    /** outlier|reversal|roundoff|uncosted|overdrawn */
+    /** Kind is what looked wrong: outlier (a charge far above the usual), reversal (a posting undone), roundoff (a balancing plug big enough to be worth explaining), uncosted (revenue booked with no cost matched to it), or overdrawn (a wallet spent past its balance). */
     public var kind: String?
+    /** PostedAt anchors the question in time — when the entry it concerns posted. */
     public var postedAt: String?
-    /** the specific question to ask the founder */
+    /** Text is the question itself, written for a founder to answer directly. */
     public var text: String?
 
     public init(account: String? = nil, amount: String? = nil, id: String? = nil, kind: String? = nil, postedAt: String? = nil, text: String? = nil) {

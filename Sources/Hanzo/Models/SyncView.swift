@@ -9,15 +9,23 @@ import Foundation
 
 public struct SyncView: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Actor is the identity a reconcile writes AS. It is the loop guard: a change this identity made is one we already have, so it is not synced back. */
     public var actor: String?
+    /** CreatedAt is when the link was first declared, RFC3339 in UTC. */
     public var createdAt: String?
+    /** Direction is which way work flows: \"both\", \"pull\" (target ← source), \"push\" (source → target), or \"off\" — which keeps the link declared and moves nothing. */
     public var direction: String?
+    /** ID is the link's handle, derived from its source and target — which is what makes re-declaring the same pair an update rather than a duplicate. */
     public var id: String?
+    /** Kind is what is being synced. \"git\" today; the field exists so a storage or database link is a value here rather than a second route family. */
     public var kind: String?
+    /** Source is the side read FROM on a pull. */
     public var source: EndpointView?
+    /** Target is the side written TO on a push. */
     public var target: EndpointView?
+    /** Trigger is what starts a reconcile: \"webhook\" (the provider tells us), \"poll\" (we ask on a schedule), or \"manual\" (only an explicit call). */
     public var trigger: String?
-    /** bumped on every reconcile — the last-synced time */
+    /** UpdatedAt is bumped by every reconcile, so it reads as the LAST-SYNCED time rather than the last edit. Absent until the first one runs. */
     public var updatedAt: String?
 
     public init(actor: String? = nil, createdAt: String? = nil, direction: String? = nil, id: String? = nil, kind: String? = nil, source: EndpointView? = nil, target: EndpointView? = nil, trigger: String? = nil, updatedAt: String? = nil) {

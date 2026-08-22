@@ -9,9 +9,13 @@ import Foundation
 
 public struct PagesProjectCreate: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** BuildConfig says how to build the site. Omitted means no build step. */
     public var buildConfig: PagesBuildConfig?
+    /** DeploymentConfigs carries the preview and production runtime configs — the bindings and variables the built site's functions run with. */
     public var deploymentConfigs: PagesDeploymentConfigs?
+    /** Name is the project name, and it is also the address: the site answers at <name>.pages.dev. Cloudflare will not rename a project afterwards. */
     public var name: String?
+    /** ProductionBranch is which git branch builds to production; every other branch builds a preview. Omitted leaves Cloudflare's own default. */
     public var productionBranch: String?
 
     public init(buildConfig: PagesBuildConfig? = nil, deploymentConfigs: PagesDeploymentConfigs? = nil, name: String? = nil, productionBranch: String? = nil) {

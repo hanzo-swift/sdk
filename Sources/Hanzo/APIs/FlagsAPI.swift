@@ -220,50 +220,6 @@ open class FlagsAPI {
     }
 
     /**
-     Reports whether ONE host is currently gated by the launch waitlist.
-     
-     - parameter host: (query) Host is the host to resolve, e.g. \&quot;chat.hanzo.ai\&quot;. Defaults to the request&#39;s own Host header when omitted, which is what lets a guard running on the governed host ask about itself with no argument. (optional)
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: WaitlistModeView
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getFlagsWaitlist(host: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> WaitlistModeView {
-        return try await getFlagsWaitlistWithRequestBuilder(host: host, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Reports whether ONE host is currently gated by the launch waitlist.
-     - GET /v1/flags/waitlist
-     - Reports whether ONE host is currently gated by the launch waitlist. It resolves the host to the service that governs it and reads that service's waitlist switch, so a guard sitting in front of a hosted surface can decide in one call whether to show the waitlist or the product. It answers for the ONE host asked about and never enumerates the registry, which is why it needs no credential. It FAILS OPEN: an unregistered host, an unmounted registry and a store fault all answer known=false with mode=false, so a request is never gated pre-boot or on a registry fault.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter host: (query) Host is the host to resolve, e.g. \&quot;chat.hanzo.ai\&quot;. Defaults to the request&#39;s own Host header when omitted, which is what lets a guard running on the governed host ask about itself with no argument. (optional)
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<WaitlistModeView> 
-     */
-    open class func getFlagsWaitlistWithRequestBuilder(host: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<WaitlistModeView> {
-        let localVariablePath = "/v1/flags/waitlist"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "host": (wrappedValue: host?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<WaitlistModeView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
      Evaluate runs the caller's flag definitions for one identity and returns the flag verdict: which flags are on (or which variant), their payloads, and whether any definition failed to compute.
      
      - parameter evaluateIn: (body)  

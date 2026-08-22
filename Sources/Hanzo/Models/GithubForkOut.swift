@@ -9,11 +9,15 @@ import Foundation
 
 public struct GithubForkOut: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** CloneURL is the fork's https git remote. GitHub populates a new fork in the background, so a clone issued the moment this answers can still find it empty. */
     public var cloneUrl: String?
+    /** DefaultBranch is the branch the fork checks out, inherited from upstream. */
     public var defaultBranch: String?
     /** Existing reports that the fork was already there. GitHub answers 202 either way, so without this a caller cannot tell \"made you one\" from \"you had one\". */
     public var existing: Bool?
+    /** FullName is the fork's \"owner/repo\". The owner is the account it landed in — the request's org, or the installation's own account when none was named. */
     public var fullName: String?
+    /** HTMLURL is the fork's page on github.com. */
     public var htmlUrl: String?
 
     public init(cloneUrl: String? = nil, defaultBranch: String? = nil, existing: Bool? = nil, fullName: String? = nil, htmlUrl: String? = nil) {

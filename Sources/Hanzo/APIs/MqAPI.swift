@@ -17,13 +17,13 @@ open class MqAPI {
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteMqStreamsByName(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await deleteMqStreamsByNameWithRequestBuilder(name: name, apiConfiguration: apiConfiguration).execute().body
+    open class func deleteMqStreamByName(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteMqStreamByNameWithRequestBuilder(name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Removes a stream with all its messages and consumers.
-     - DELETE /v1/mq/streams/{name}
+     - DELETE /v1/mq/stream/{name}
      - Removes a stream with all its messages and consumers. Irreversible.
      - Bearer Token:
        - type: http
@@ -32,8 +32,8 @@ open class MqAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func deleteMqStreamsByNameWithRequestBuilder(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        var localVariablePath = "/v1/mq/streams/{name}"
+    open class func deleteMqStreamByNameWithRequestBuilder(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/mq/stream/{name}"
         let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
@@ -62,13 +62,13 @@ open class MqAPI {
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteMqStreamsByNameMessagesBySeq(name: String, seq: Int, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await deleteMqStreamsByNameMessagesBySeqWithRequestBuilder(name: name, seq: seq, apiConfiguration: apiConfiguration).execute().body
+    open class func deleteMqStreamByNameMessageBySeq(name: String, seq: Int, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteMqStreamByNameMessageBySeqWithRequestBuilder(name: name, seq: seq, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Erases one message by sequence; the sequence gap remains.
-     - DELETE /v1/mq/streams/{name}/messages/{seq}
+     - DELETE /v1/mq/stream/{name}/message/{seq}
      - Erases one message by sequence; the sequence gap remains.
      - Bearer Token:
        - type: http
@@ -78,8 +78,8 @@ open class MqAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func deleteMqStreamsByNameMessagesBySeqWithRequestBuilder(name: String, seq: Int, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        var localVariablePath = "/v1/mq/streams/{name}/messages/{seq}"
+    open class func deleteMqStreamByNameMessageBySeqWithRequestBuilder(name: String, seq: Int, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/mq/stream/{name}/message/{seq}"
         let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
@@ -111,13 +111,13 @@ open class MqAPI {
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteMqStreamsByStreamConsumersByName(stream: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await deleteMqStreamsByStreamConsumersByNameWithRequestBuilder(stream: stream, name: name, apiConfiguration: apiConfiguration).execute().body
+    open class func deleteMqStreamByStreamConsumerByName(stream: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteMqStreamByStreamConsumerByNameWithRequestBuilder(stream: stream, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Removes a consumer and its delivery state; unacknowledged messages stay in the stream.
-     - DELETE /v1/mq/streams/{stream}/consumers/{name}
+     - DELETE /v1/mq/stream/{stream}/consumer/{name}
      - Removes a consumer and its delivery state; unacknowledged messages stay in the stream.
      - Bearer Token:
        - type: http
@@ -127,8 +127,8 @@ open class MqAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func deleteMqStreamsByStreamConsumersByNameWithRequestBuilder(stream: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        var localVariablePath = "/v1/mq/streams/{stream}/consumers/{name}"
+    open class func deleteMqStreamByStreamConsumerByNameWithRequestBuilder(stream: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/mq/stream/{stream}/consumer/{name}"
         let streamPreEscape = "\(APIHelper.mapValueToPathItem(stream))"
         let streamPostEscape = streamPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{stream}", with: streamPostEscape, options: .literal, range: nil)
@@ -238,13 +238,13 @@ open class MqAPI {
      - returns: Streams
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getMqStreams(limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Streams {
-        return try await getMqStreamsWithRequestBuilder(limit: limit, offset: offset, apiConfiguration: apiConfiguration).execute().body
+    open class func getMqStream(limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Streams {
+        return try await getMqStreamWithRequestBuilder(limit: limit, offset: offset, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Returns the org's streams, name-ordered, with their live state.
-     - GET /v1/mq/streams
+     - GET /v1/mq/stream
      - Returns the org's streams, name-ordered, with their live state.
      - Bearer Token:
        - type: http
@@ -254,8 +254,8 @@ open class MqAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Streams> 
      */
-    open class func getMqStreamsWithRequestBuilder(limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Streams> {
-        let localVariablePath = "/v1/mq/streams"
+    open class func getMqStreamWithRequestBuilder(limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Streams> {
+        let localVariablePath = "/v1/mq/stream"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
@@ -284,13 +284,13 @@ open class MqAPI {
      - returns: ModelStream
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getMqStreamsByName(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ModelStream {
-        return try await getMqStreamsByNameWithRequestBuilder(name: name, apiConfiguration: apiConfiguration).execute().body
+    open class func getMqStreamByName(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ModelStream {
+        return try await getMqStreamByNameWithRequestBuilder(name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Returns one stream's configuration and live state.
-     - GET /v1/mq/streams/{name}
+     - GET /v1/mq/stream/{name}
      - Returns one stream's configuration and live state.
      - Bearer Token:
        - type: http
@@ -299,8 +299,8 @@ open class MqAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ModelStream> 
      */
-    open class func getMqStreamsByNameWithRequestBuilder(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ModelStream> {
-        var localVariablePath = "/v1/mq/streams/{name}"
+    open class func getMqStreamByNameWithRequestBuilder(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ModelStream> {
+        var localVariablePath = "/v1/mq/stream/{name}"
         let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
@@ -332,13 +332,13 @@ open class MqAPI {
      - returns: ReadOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getMqStreamsByNameMessages(name: String, seq: Int? = nil, lastBySubject: String? = nil, nextBySubject: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ReadOut {
-        return try await getMqStreamsByNameMessagesWithRequestBuilder(name: name, seq: seq, lastBySubject: lastBySubject, nextBySubject: nextBySubject, limit: limit, apiConfiguration: apiConfiguration).execute().body
+    open class func getMqStreamByNameMessage(name: String, seq: Int? = nil, lastBySubject: String? = nil, nextBySubject: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ReadOut {
+        return try await getMqStreamByNameMessageWithRequestBuilder(name: name, seq: seq, lastBySubject: lastBySubject, nextBySubject: nextBySubject, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Reads stored messages without a consumer: by sequence, by newest on a subject, or walking a subject forward from a sequence.
-     - GET /v1/mq/streams/{name}/messages
+     - GET /v1/mq/stream/{name}/message
      - Reads stored messages without a consumer: by sequence, by newest on a subject, or walking a subject forward from a sequence.
      - Bearer Token:
        - type: http
@@ -351,8 +351,8 @@ open class MqAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ReadOut> 
      */
-    open class func getMqStreamsByNameMessagesWithRequestBuilder(name: String, seq: Int? = nil, lastBySubject: String? = nil, nextBySubject: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ReadOut> {
-        var localVariablePath = "/v1/mq/streams/{name}/messages"
+    open class func getMqStreamByNameMessageWithRequestBuilder(name: String, seq: Int? = nil, lastBySubject: String? = nil, nextBySubject: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ReadOut> {
+        var localVariablePath = "/v1/mq/stream/{name}/message"
         let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
@@ -388,13 +388,13 @@ open class MqAPI {
      - returns: PickOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getMqStreamsByStreamConsumers(stream: String, limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PickOut {
-        return try await getMqStreamsByStreamConsumersWithRequestBuilder(stream: stream, limit: limit, offset: offset, apiConfiguration: apiConfiguration).execute().body
+    open class func getMqStreamByStreamConsumer(stream: String, limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PickOut {
+        return try await getMqStreamByStreamConsumerWithRequestBuilder(stream: stream, limit: limit, offset: offset, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Returns a stream's consumers, name-ordered, with delivery state.
-     - GET /v1/mq/streams/{stream}/consumers
+     - GET /v1/mq/stream/{stream}/consumer
      - Returns a stream's consumers, name-ordered, with delivery state.
      - Bearer Token:
        - type: http
@@ -405,8 +405,8 @@ open class MqAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<PickOut> 
      */
-    open class func getMqStreamsByStreamConsumersWithRequestBuilder(stream: String, limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PickOut> {
-        var localVariablePath = "/v1/mq/streams/{stream}/consumers"
+    open class func getMqStreamByStreamConsumerWithRequestBuilder(stream: String, limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PickOut> {
+        var localVariablePath = "/v1/mq/stream/{stream}/consumer"
         let streamPreEscape = "\(APIHelper.mapValueToPathItem(stream))"
         let streamPostEscape = streamPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{stream}", with: streamPostEscape, options: .literal, range: nil)
@@ -439,13 +439,13 @@ open class MqAPI {
      - returns: Consumer
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getMqStreamsByStreamConsumersByName(stream: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Consumer {
-        return try await getMqStreamsByStreamConsumersByNameWithRequestBuilder(stream: stream, name: name, apiConfiguration: apiConfiguration).execute().body
+    open class func getMqStreamByStreamConsumerByName(stream: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Consumer {
+        return try await getMqStreamByStreamConsumerByNameWithRequestBuilder(stream: stream, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Returns one consumer's configuration and delivery state.
-     - GET /v1/mq/streams/{stream}/consumers/{name}
+     - GET /v1/mq/stream/{stream}/consumer/{name}
      - Returns one consumer's configuration and delivery state.
      - Bearer Token:
        - type: http
@@ -455,8 +455,8 @@ open class MqAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Consumer> 
      */
-    open class func getMqStreamsByStreamConsumersByNameWithRequestBuilder(stream: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Consumer> {
-        var localVariablePath = "/v1/mq/streams/{stream}/consumers/{name}"
+    open class func getMqStreamByStreamConsumerByNameWithRequestBuilder(stream: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Consumer> {
+        var localVariablePath = "/v1/mq/stream/{stream}/consumer/{name}"
         let streamPreEscape = "\(APIHelper.mapValueToPathItem(stream))"
         let streamPostEscape = streamPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{stream}", with: streamPostEscape, options: .literal, range: nil)
@@ -487,13 +487,13 @@ open class MqAPI {
      - returns: ModelStream
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postMqStreams(config: Config, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ModelStream {
-        return try await postMqStreamsWithRequestBuilder(config: config, apiConfiguration: apiConfiguration).execute().body
+    open class func postMqStream(config: Config, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ModelStream {
+        return try await postMqStreamWithRequestBuilder(config: config, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Creates a durable stream in the org's namespace and returns it.
-     - POST /v1/mq/streams
+     - POST /v1/mq/stream
      - Creates a durable stream in the org's namespace and returns it.
      - Bearer Token:
        - type: http
@@ -502,8 +502,8 @@ open class MqAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ModelStream> 
      */
-    open class func postMqStreamsWithRequestBuilder(config: Config, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ModelStream> {
-        let localVariablePath = "/v1/mq/streams"
+    open class func postMqStreamWithRequestBuilder(config: Config, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ModelStream> {
+        let localVariablePath = "/v1/mq/stream"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: config, codableHelper: apiConfiguration.codableHelper)
 
@@ -529,13 +529,13 @@ open class MqAPI {
      - returns: PurgeOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postMqStreamsByNamePurge(name: String, purge: Purge, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PurgeOut {
-        return try await postMqStreamsByNamePurgeWithRequestBuilder(name: name, purge: purge, apiConfiguration: apiConfiguration).execute().body
+    open class func postMqStreamByNamePurge(name: String, purge: Purge, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PurgeOut {
+        return try await postMqStreamByNamePurgeWithRequestBuilder(name: name, purge: purge, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Removes messages from a stream, leaving its consumers in place.
-     - POST /v1/mq/streams/{name}/purge
+     - POST /v1/mq/stream/{name}/purge
      - Removes messages from a stream, leaving its consumers in place.
      - Bearer Token:
        - type: http
@@ -545,8 +545,8 @@ open class MqAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<PurgeOut> 
      */
-    open class func postMqStreamsByNamePurgeWithRequestBuilder(name: String, purge: Purge, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PurgeOut> {
-        var localVariablePath = "/v1/mq/streams/{name}/purge"
+    open class func postMqStreamByNamePurgeWithRequestBuilder(name: String, purge: Purge, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PurgeOut> {
+        var localVariablePath = "/v1/mq/stream/{name}/purge"
         let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
@@ -575,13 +575,13 @@ open class MqAPI {
      - returns: Consumer
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postMqStreamsByStreamConsumers(stream: String, makeIn: MakeIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Consumer {
-        return try await postMqStreamsByStreamConsumersWithRequestBuilder(stream: stream, makeIn: makeIn, apiConfiguration: apiConfiguration).execute().body
+    open class func postMqStreamByStreamConsumer(stream: String, makeIn: MakeIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Consumer {
+        return try await postMqStreamByStreamConsumerWithRequestBuilder(stream: stream, makeIn: makeIn, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Creates a durable pull consumer on a stream and returns it.
-     - POST /v1/mq/streams/{stream}/consumers
+     - POST /v1/mq/stream/{stream}/consumer
      - Creates a durable pull consumer on a stream and returns it.
      - Bearer Token:
        - type: http
@@ -591,8 +591,8 @@ open class MqAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Consumer> 
      */
-    open class func postMqStreamsByStreamConsumersWithRequestBuilder(stream: String, makeIn: MakeIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Consumer> {
-        var localVariablePath = "/v1/mq/streams/{stream}/consumers"
+    open class func postMqStreamByStreamConsumerWithRequestBuilder(stream: String, makeIn: MakeIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Consumer> {
+        var localVariablePath = "/v1/mq/stream/{stream}/consumer"
         let streamPreEscape = "\(APIHelper.mapValueToPathItem(stream))"
         let streamPostEscape = streamPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{stream}", with: streamPostEscape, options: .literal, range: nil)
@@ -622,13 +622,13 @@ open class MqAPI {
      - returns: ReadOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postMqStreamsByStreamConsumersByNameNext(stream: String, name: String, nextIn: NextIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ReadOut {
-        return try await postMqStreamsByStreamConsumersByNameNextWithRequestBuilder(stream: stream, name: name, nextIn: nextIn, apiConfiguration: apiConfiguration).execute().body
+    open class func postMqStreamByStreamConsumerByNameNext(stream: String, name: String, nextIn: NextIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ReadOut {
+        return try await postMqStreamByStreamConsumerByNameNextWithRequestBuilder(stream: stream, name: name, nextIn: nextIn, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Pulls the consumer's next batch.
-     - POST /v1/mq/streams/{stream}/consumers/{name}/next
+     - POST /v1/mq/stream/{stream}/consumer/{name}/next
      - Pulls the consumer's next batch. Delivered messages are acknowledged on delivery — the broker will not redeliver what this call returns; an empty wait answers 408.
      - Bearer Token:
        - type: http
@@ -639,8 +639,8 @@ open class MqAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ReadOut> 
      */
-    open class func postMqStreamsByStreamConsumersByNameNextWithRequestBuilder(stream: String, name: String, nextIn: NextIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ReadOut> {
-        var localVariablePath = "/v1/mq/streams/{stream}/consumers/{name}/next"
+    open class func postMqStreamByStreamConsumerByNameNextWithRequestBuilder(stream: String, name: String, nextIn: NextIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ReadOut> {
+        var localVariablePath = "/v1/mq/stream/{stream}/consumer/{name}/next"
         let streamPreEscape = "\(APIHelper.mapValueToPathItem(stream))"
         let streamPostEscape = streamPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{stream}", with: streamPostEscape, options: .literal, range: nil)
@@ -672,13 +672,13 @@ open class MqAPI {
      - returns: ModelStream
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putMqStreamsByName(name: String, config: Config, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ModelStream {
-        return try await putMqStreamsByNameWithRequestBuilder(name: name, config: config, apiConfiguration: apiConfiguration).execute().body
+    open class func putMqStreamByName(name: String, config: Config, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ModelStream {
+        return try await putMqStreamByNameWithRequestBuilder(name: name, config: config, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Reconfigures an existing stream; the path names the stream, and the immutable fields (storage, retention) must restate what they are.
-     - PUT /v1/mq/streams/{name}
+     - PUT /v1/mq/stream/{name}
      - Reconfigures an existing stream; the path names the stream, and the immutable fields (storage, retention) must restate what they are.
      - Bearer Token:
        - type: http
@@ -688,8 +688,8 @@ open class MqAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ModelStream> 
      */
-    open class func putMqStreamsByNameWithRequestBuilder(name: String, config: Config, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ModelStream> {
-        var localVariablePath = "/v1/mq/streams/{name}"
+    open class func putMqStreamByNameWithRequestBuilder(name: String, config: Config, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ModelStream> {
+        var localVariablePath = "/v1/mq/stream/{name}"
         let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)

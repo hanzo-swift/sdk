@@ -9,10 +9,15 @@ import Foundation
 
 public struct Citation: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** EndLine is its last line, inclusive. */
     public var endLine: Int?
+    /** File is the path inside the repo, relative to its root. */
     public var file: String?
+    /** Line is the first line of the cited region, 1-based. */
     public var line: Int?
+    /** Repo is the repository the cited code lives in (\"owner/name\"), absent when the ask was already scoped to one. */
     public var repo: String?
+    /** Symbol is the declaration the region belongs to, when it belongs to one. */
     public var symbol: String?
 
     public init(endLine: Int? = nil, file: String? = nil, line: Int? = nil, repo: String? = nil, symbol: String? = nil) {

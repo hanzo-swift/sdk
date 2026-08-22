@@ -11,15 +11,25 @@ public struct Answer: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Cold reports that this request paid to PREPARE the revision — the tree write, the dependency fetch and the language server's first index. It is the billed event, surfaced so a caller can see what it was charged for. */
     public var cold: Bool?
+    /** Completions is complete's answer: the candidates at the position, typed and resolved through the repository's dependencies rather than guessed from text. */
     public var completions: [Completion]?
+    /** Diagnostics is diagnostics' answer: every problem the server finds in the whole file, position ignored. Empty means it found none. */
     public var diagnostics: [Diagnostic]?
+    /** Hover is hover's answer: the type and documentation as the language server itself renders them, so it is prose meant to be shown, not parsed. */
     public var hover: String?
+    /** Lang is the language the server that answered speaks (\"go\"), as the daemon reports it. Empty when the daemon named none. */
     public var lang: String?
+    /** Locations is locate's answer: where the symbol is defined, referenced, typed or implemented, per the relation asked for. Empty means the server resolved nothing there, which is an answer. */
     public var locations: [Location]?
+    /** Op is the question that was asked: hover, locate, symbols, diagnostics or complete. It names which result field below is the populated one. */
     public var op: String?
+    /** Path is the repo-relative file the question was about, echoed back. */
     public var path: String?
+    /** Repo is the repository the question was about, echoed back. */
     public var repo: String?
+    /** Rev is the RESOLVED commit sha, never the branch or tag that was asked for. It is what makes an answer re-askable: a branch moves, this does not. */
     public var rev: String?
+    /** Symbols is symbols' answer: the file's whole outline, position ignored. */
     public var symbols: [Symbol]?
 
     public init(cold: Bool? = nil, completions: [Completion]? = nil, diagnostics: [Diagnostic]? = nil, hover: String? = nil, lang: String? = nil, locations: [Location]? = nil, op: String? = nil, path: String? = nil, repo: String? = nil, rev: String? = nil, symbols: [Symbol]? = nil) {

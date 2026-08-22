@@ -9,25 +9,31 @@ import Foundation
 
 public struct ProjectsUpdate: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** CacheControl replaces the Cache-Control policy the edge serves this site's HTML under. Absent leaves it. */
     public var cacheControl: String?
+    /** Description replaces the one-line summary. Absent leaves it. */
     public var description: String?
+    /** Framework replaces the build hint. It affects the NEXT build only — nothing already deployed is rebuilt. */
     public var framework: String?
     /** Hidden is MODERATION, and the only admin-gated field on this body: it pulls a public project out of the catalogue from admin.hanzo.ai without editing the publisher's own visibility choice, so un-hiding restores exactly what they asked for. A tenant sending it is ignored. */
     public var hidden: Bool?
+    /** HiddenReason records WHY moderation hid it, so the action can be explained and reviewed later. Admin-gated like hidden itself. */
     public var hiddenReason: String?
+    /** License is the terms that upstream work carries, with the same clear-versus- leave rule. */
     public var license: String?
+    /** Name replaces the display name. Absent leaves it; the slug never moves with it. */
     public var name: String?
-    public var repo: ProjectsCreateRepo?
+    public var repo: ProjectsUpdateRepo?
     /** Slug is the project to update, from the path. The URL is the addressing authority — a `slug` in the body cannot move the write to another project. */
     public var slug: String?
-    /** Tags sets the site's browser tag config: platform slug → non-secret pixel id (e.g. {\"ga4\":\"G-…\",\"meta\":\"…\"}). track.js injects these first-party and the server CAPI reads them, per site. Absent LEAVES them; a present object REPLACES the set (send {} to clear). The ids are public — they ship in the page — so this is not the SECRET path (a CAPI token is sealed via POST /v1/destinations). */
+    /** Tags sets the site's browser tag config: platform slug → non-secret pixel id (e.g. {\"ga4\":\"G-…\",\"meta\":\"…\"}). track.js injects these first-party and the server CAPI reads them, per site. Absent LEAVES them; a present object REPLACES the set (send {} to clear). The ids are public — they ship in the page — so this is not the SECRET path (a CAPI token is sealed via POST /v1/destination). */
     public var tags: [String: String]?
-    /** Upstream/License credit the third-party work this app was published from — settable after the fact, because the demos that need crediting most are the ones already live. Pointers so \"\" clears a credit and absent leaves it. */
+    /** Upstream credits the third-party work this project was published from, and is settable after the fact because the live demos are the ones that most need crediting. An explicit empty string CLEARS the credit; absent leaves it. */
     public var upstream: String?
     /** Visibility flips an existing project between \"public\" and \"private\". Same ONE rule as at create: public is free, private needs a paid plan. */
     public var visibility: String?
 
-    public init(cacheControl: String? = nil, description: String? = nil, framework: String? = nil, hidden: Bool? = nil, hiddenReason: String? = nil, license: String? = nil, name: String? = nil, repo: ProjectsCreateRepo? = nil, slug: String? = nil, tags: [String: String]? = nil, upstream: String? = nil, visibility: String? = nil) {
+    public init(cacheControl: String? = nil, description: String? = nil, framework: String? = nil, hidden: Bool? = nil, hiddenReason: String? = nil, license: String? = nil, name: String? = nil, repo: ProjectsUpdateRepo? = nil, slug: String? = nil, tags: [String: String]? = nil, upstream: String? = nil, visibility: String? = nil) {
         self.cacheControl = cacheControl
         self.description = description
         self.framework = framework

@@ -9,10 +9,15 @@ import Foundation
 
 public struct GitOpsDeploy: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Automated is whether CD started this deploy itself, from its own polling of the tracked git ref (initiatedBy.automated), rather than someone asking for it. */
     public var automated: Bool?
+    /** DeployedAt is when the apply finished, RFC 3339. Absent when CD recorded none. */
     public var deployedAt: String?
+    /** ID is CD's own sequence number for this deploy (status.history[].id). It increases with every applied revision, so the largest id in `history` is the most recent deploy — which is the first entry, since the list is reversed. */
     public var id: Int?
+    /** Revision is the git commit this deploy applied, as CD recorded it. */
     public var revision: String?
+    /** StartedAt is when CD began applying the revision (deployStartedAt), RFC 3339. Absent when CD recorded none. */
     public var startedAt: String?
 
     public init(automated: Bool? = nil, deployedAt: String? = nil, id: Int? = nil, revision: String? = nil, startedAt: String? = nil) {

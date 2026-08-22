@@ -9,9 +9,13 @@ import Foundation
 
 public struct BuildRequest: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Name is the plugin's name: one lowercase path segment (a-z0-9, _ or -), and the id the runtime loads it by. */
     public var name: String?
+    /** Provider is the connectors provider whose credential the plugin reads at run time. Empty for a plugin that needs none. */
     public var provider: String?
+    /** Source is TypeScript to build as-is. Exactly one of Source or Spec. */
     public var source: String?
+    /** Spec is API documentation — an OpenAPI document, or prose describing the endpoints — that the generator turns into Source. The generated source is returned in the response, so a caller can read what will run before it runs. */
     public var spec: String?
 
     public init(name: String? = nil, provider: String? = nil, source: String? = nil, spec: String? = nil) {

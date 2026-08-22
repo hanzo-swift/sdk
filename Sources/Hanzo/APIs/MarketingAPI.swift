@@ -327,7 +327,7 @@ open class MarketingAPI {
     }
 
     /**
-     Returns the org's calendar, soonest scheduled first, optionally narrowed to one status.
+     Returns the org's calendar, latest scheduled first, optionally narrowed to one status.
      
      - parameter status: (query) Status keeps only posts in that state (draft, scheduled, published, failed, canceled). Empty means every post. (optional)
      - parameter limit: (query) Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured. (optional)
@@ -340,9 +340,9 @@ open class MarketingAPI {
     }
 
     /**
-     Returns the org's calendar, soonest scheduled first, optionally narrowed to one status.
+     Returns the org's calendar, latest scheduled first, optionally narrowed to one status.
      - GET /v1/marketing/calendar
-     - Returns the org's calendar, soonest scheduled first, optionally narrowed to one status.
+     - Returns the org's calendar, latest scheduled first, optionally narrowed to one status.
      - Bearer Token:
        - type: http
        - name: bearer

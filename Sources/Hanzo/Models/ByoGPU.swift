@@ -9,12 +9,13 @@ import Foundation
 
 public struct ByoGPU: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** native target, e.g. \"gfx1151\" */
+    /** Arch is the card's native compile target (\"gfx1151\"), which is what a kernel has to be built for. AMD reports one; NVIDIA cards leave it empty. */
     public var arch: String?
-    /** VRAM (or unified pool), e.g. \"122880 MiB\" */
+    /** MemoryTotal is the card's VRAM in the units the host reported it in (\"122880 MiB\") — a display string, not a byte count. On a unified part it is the shared CPU/GPU pool, so it is not memory reserved for the GPU. */
     public var memoryTotal: String?
+    /** Name is the card's model exactly as its own tooling named it (\"NVIDIA GB10\"), never normalized — an operator matches what they see here against what nvidia-smi tells them on the box. */
     public var name: String?
-    /** unified CPU/GPU memory pool (APU / SoC) */
+    /** Unified reports that CPU and GPU share one memory pool (an APU or SoC), so MemoryTotal is not private to the GPU and the host competes for it. */
     public var unified: Bool?
 
     public init(arch: String? = nil, memoryTotal: String? = nil, name: String? = nil, unified: Bool? = nil) {

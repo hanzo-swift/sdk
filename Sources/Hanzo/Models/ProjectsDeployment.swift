@@ -9,21 +9,35 @@ import Foundation
 
 public struct ProjectsDeployment: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Bucket is the object-store bucket its files were written to. */
     public var bucket: String?
+    /** Bytes is their total size in bytes. */
     public var bytes: Int?
+    /** Commit is the revision that was built, for a deployment that came from a repository. Absent for an uploaded artifact, which has no revision. */
     public var commit: String?
+    /** CreatedAt is when the deployment was queued, as Unix seconds. */
     public var createdAt: Int?
+    /** Files is how many objects the deployment published. */
     public var files: Int?
+    /** ID identifies this one deployment attempt, and is what CI quotes back to complete it. */
     public var id: String?
+    /** LiveURL is where this deployment serves, once it is live. */
     public var liveUrl: String?
+    /** Message is what happened, in words — the build's own note, or on a failure why it failed. */
     public var message: String?
+    /** Prefix is the key prefix within that bucket holding EXACTLY this deployment's objects — the unit an upload grant is scoped to, so a grant for one deployment cannot write over another. */
     public var _prefix: String?
+    /** ProjectID is the project this deployment belongs to. */
     public var projectId: String?
+    /** Source is what caused the deployment — a git push, an uploaded artifact, a generated site. */
     public var source: String?
+    /** Status is where the attempt got to — queued, live, or failed. A deployment that is live is not necessarily the one SERVING: the project's own currentDeploymentId says which is. */
     public var status: String?
+    /** UpdatedAt is when it last changed state, as Unix seconds — so the gap between the two is how long the build took. */
     public var updatedAt: Int?
     /** Upload is the prefix-scoped, short-lived S3 write grant handed to CI with a queued git deployment, so it needs no bucket credential (grant.go). Present ONLY on the 202 that creates the deployment — it is never stored and never replayed on a later read, so a grant cannot outlive the build it was minted for by being fetched again. */
     public var upload: ProjectsUploadGrant?
+    /** Version counts deployments of this project from 1, so the history reads as an ordered sequence rather than by timestamp. It is per project, not global. */
     public var version: Int?
 
     public init(bucket: String? = nil, bytes: Int? = nil, commit: String? = nil, createdAt: Int? = nil, files: Int? = nil, id: String? = nil, liveUrl: String? = nil, message: String? = nil, _prefix: String? = nil, projectId: String? = nil, source: String? = nil, status: String? = nil, updatedAt: Int? = nil, upload: ProjectsUploadGrant? = nil, version: Int? = nil) {

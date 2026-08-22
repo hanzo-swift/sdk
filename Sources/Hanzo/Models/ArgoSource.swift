@@ -9,8 +9,11 @@ import Foundation
 
 public struct ArgoSource: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Path is the directory within RepoURL. Display-only alongside a display-only RepoURL; CD's own value for a CD row. */
     public var path: String?
+    /** RepoURL is the git repository the desired state comes from. For an application projected from an App CR it is the fleet manifest repo and is DISPLAY ONLY — an App CR pins an image, and nothing is rendered from this repo to produce it. For a CD row it is the repo CD actually polls. */
     public var repoURL: String?
+    /** TargetRevision is the git ref tracked there — a branch such as \"main\". Display-only for a projected App CR; the ref CD tracks for a CD row. */
     public var targetRevision: String?
 
     public init(path: String? = nil, repoURL: String? = nil, targetRevision: String? = nil) {

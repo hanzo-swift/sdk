@@ -9,9 +9,13 @@ import Foundation
 
 public struct ArgoProjectSpec: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** ClusterResourceWhitelist are the cluster-scoped kinds it may create — [{group:\"*\", kind:\"*\"}] on a synthesized project. */
     public var clusterResourceWhitelist: [ArgoGroupKind]?
+    /** Description is the project's human label: the IAM project's display name, or its description when it has no display name. Absent when IAM carries neither. */
     public var description: String?
+    /** Destinations are the cluster/namespace pairs it may write to — a single {server:\"*\", namespace:\"*\"} on a synthesized project, for the same reason. */
     public var destinations: [ArgoDestination]?
+    /** SourceRepos are the git repos applications in this project may pull from. [\"*\"] for every project this plane synthesizes or reflects from IAM: the boundary that actually holds on this platform is the IAM org, resolved before a row is ever projected, so the projected fence is deliberately permissive and is NOT an authorization statement. */
     public var sourceRepos: [String]?
 
     public init(clusterResourceWhitelist: [ArgoGroupKind]? = nil, description: String? = nil, destinations: [ArgoDestination]? = nil, sourceRepos: [String]? = nil) {

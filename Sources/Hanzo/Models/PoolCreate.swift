@@ -15,8 +15,9 @@ public struct PoolCreate: Sendable, Codable, ParameterConvertible, Hashable {
     public var clusterId: String?
     /** Count is how many nodes the pool starts with. */
     public var count: Int?
+    /** MaxNodes is the ceiling the autoscaler may not grow the pool past, and so the bound on what this pool can spend. Ignored unless AutoScale is set. */
     public var maxNodes: Int?
-    /** MinNodes and MaxNodes bound the autoscaler; they are ignored unless AutoScale is set. */
+    /** MinNodes is the floor the autoscaler may not shrink the pool below. Ignored unless AutoScale is set. */
     public var minNodes: Int?
     /** Name is the pool's name. */
     public var name: String?

@@ -9,22 +9,27 @@ import Foundation
 
 public struct JourneyStep: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Args are the tool's default arguments, merged under whatever the caller passes at run time, so a step ships with the arguments that make it work. */
     public var args: [String: JSONValue]?
     /** Dependencies are step ids that must be done/skipped before this step is available. The wire key is `deps` (the blueprint contract); the Go field keeps its descriptive name. */
     public var deps: [String]?
-    /** the prose/juncture — what the Guide asks/explains here */
+    /** Detail is the juncture — what the Guide explains, or asks for, at this step. */
     public var detail: String?
+    /** Draft, when set, is the prompt the embedded AI answers first; its output is folded into one of Args before the tool runs, so the model writes the content and the tool only delivers it. */
     public var draft: String?
+    /** DraftInto names the argument the drafted text lands in. Empty means \"brief\". */
     public var draftInto: String?
     /** Enabled is the admin on/off lever. A NIL pointer reads as ENABLED (absence == on): a legacy/org curriculum that omits the field keeps every step, and only an explicit `enabled: false` (an admin disable) drops a step from the journey. See on() in blueprint.go and the Blueprint.Curriculum() projection. */
     public var enabled: Bool?
+    /** ID is the stable slug the whole plane addresses this step by — the value in `deps`, in `next`, in the progress rows, and in the URL of every step route. Renaming it orphans an org's recorded progress for this step. */
     public var id: String?
-    /** the phase (section id) this step groups under */
+    /** Section is the id of the phase this step groups under. A disabled section takes its steps out of the journey with it. */
     public var section: String?
     /** Signal, when set, names a machine detector (detect.go). When the detector reports the org's real state present, the step auto-marks done. */
     public var signal: String?
+    /** Title is the one-line quest as a person reads it in the checklist. */
     public var title: String?
-    /** Tool, when set, is the MCP tool the Business AI runs for \"do it for me\". Args are its default arguments; Draft is an optional AI prompt whose output fills the DraftInto arg (default \"brief\"). */
+    /** Tool, when set, names the MCP tool the Business AI runs for \"do it for me\". A step with no tool can only be completed by a person; it is the field the `automatable` flag on every projection of this step is derived from. */
     public var tool: String?
 
     public init(args: [String: JSONValue]? = nil, deps: [String]? = nil, detail: String? = nil, draft: String? = nil, draftInto: String? = nil, enabled: Bool? = nil, id: String? = nil, section: String? = nil, signal: String? = nil, title: String? = nil, tool: String? = nil) {

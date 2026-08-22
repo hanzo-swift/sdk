@@ -9,10 +9,15 @@ import Foundation
 
 public struct Suggestion: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Automatable is true when the step names a tool, so the Business AI can do it rather than only describe it. */
     public var automatable: Bool?
+    /** Detail is the step's own prose — what it asks for. */
     public var detail: String?
+    /** Rationale is why this step is being suggested NOW, written for the person reading it. It explains the ranking, not the step. */
     public var rationale: String?
+    /** StepID is the checklist step being recommended — the id every step route takes, so a caller can act on the suggestion directly. */
     public var stepId: String?
+    /** Title is the step's own one-line quest. */
     public var title: String?
     /** Unlocks is how many downstream steps completing this one immediately makes available (its leverage) — the primary ranking key. */
     public var unlocks: Int?

@@ -9,19 +9,25 @@ import Foundation
 
 public struct Strategy: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Action is the tactic itself: the thing to go and do, stated imperatively. */
     public var action: String?
-    /** long-form explainer (nil for un-blogged tactics) */
+    /** Blog is the tactic's long-form explainer; absent for tactics that have none. */
     public var blog: Blog?
+    /** Category is the growth discipline the tactic belongs to — the axis `?category=` narrows the corpus on, and one of the facets a caller browses by. */
     public var category: String?
+    /** Enabled is the admin lever. Absent reads as ON; an explicit false drops the tactic from every org-facing corpus read while leaving it in the document. */
     public var enabled: Bool?
-    /** modern | heritage */
+    /** Era separates an AI-era tactic (`modern`) from a classical one (`heritage`). */
     public var era: String?
+    /** ID is the tactic's stable slug, unique across the corpus. */
     public var id: String?
-    /** the spine slug this tactic files under */
+    /** Principle is the spine slug this tactic files under (a Principle.Slug). */
     public var principle: String?
-    /** provenance / attribution */
+    /** Source is where the tactic came from — the attribution a reader is owed. */
     public var source: String?
+    /** Tags are PRECONDITIONS, not labels — every one must be satisfied by the org's observed profile before the tactic surfaces, so an untagged tactic is universally applicable. Two vocabularies: `stage:<research|formed|launched| activated|scaling>` reads the org's growth stage, `has:<capability>` reads an observed signal. */
     public var tags: [String]?
+    /** Workload is how much effort running the tactic costs, so a corpus can be narrowed to what an org has the hands for right now. */
     public var workload: String?
 
     public init(action: String? = nil, blog: Blog? = nil, category: String? = nil, enabled: Bool? = nil, era: String? = nil, id: String? = nil, principle: String? = nil, source: String? = nil, tags: [String]? = nil, workload: String? = nil) {

@@ -9,6 +9,7 @@ import Foundation
 
 public struct PagesKVBinding: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** NamespaceID is the KV namespace this binding points at, by Cloudflare's id rather than its title. The BINDING NAME — what the Worker code reads it as — is the map key this value sits under, not a field here. */
     public var namespaceId: String?
 
     public init(namespaceId: String? = nil) {

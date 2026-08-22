@@ -14,9 +14,11 @@ public struct AgentDetail: Sendable, Codable, ParameterConvertible, Hashable {
     public var description: String?
     public var executionMode: String?
     public var id: String?
+    /** Instructions is the agent's system prompt, verbatim, up to 32 KiB. It is the one field the list read withholds, because it is the agent's whole behaviour and a page of them would be a page of prompts. */
     public var instructions: String?
     public var model: String?
     public var name: String?
+    /** RecentRuns is the agent's 20 most recent executions, newest first. It is a window on the history, not the history: the count beside it is `runs`. */
     public var recentRuns: [AgentRunView]?
     public var runs: Int?
     public var schedule: String?

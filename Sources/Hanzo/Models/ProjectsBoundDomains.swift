@@ -13,8 +13,9 @@ public struct ProjectsBoundDomains: Sendable, Codable, ParameterConvertible, Has
     public var bound: [ProjectsDomain]?
     /** Domains are the hostnames that are VERIFIED and routing right now, after this bind. */
     public var domains: [String]?
-    /** Org and Slug identify the site the hosts were bound to. */
+    /** Org is the organisation that owns the site. */
     public var org: String?
+    /** Slug is the site the hosts were bound to. */
     public var slug: String?
 
     public init(bound: [ProjectsDomain]? = nil, domains: [String]? = nil, org: String? = nil, slug: String? = nil) {

@@ -9,10 +9,13 @@ import Foundation
 
 public struct PnLLine: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Account is the chart-of-accounts number this line reports on. */
     public var account: String?
-    /** cents, display sign (income & expense both positive when normal) */
+    /** Amount is the account's movement over the period in whole cents, in its NATURAL sign: positive when the account behaved normally, for income and expense alike. Income is credit-normal so its stored net is flipped once here for display; the ledger underneath is never sign-flipped. A negative amount therefore means the account ran backwards — a refunded sale, a reversed cost. */
     public var amount: Int?
+    /** Name is that account's human name from the fixed chart. */
     public var name: String?
+    /** Type is the account's fundamental class, which on this statement is always income or expense — it tells a reader which half of the statement the line came from without re-deriving it from the array it arrived in. */
     public var type: String?
 
     public init(account: String? = nil, amount: Int? = nil, name: String? = nil, type: String? = nil) {

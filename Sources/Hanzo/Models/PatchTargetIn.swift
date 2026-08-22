@@ -9,15 +9,21 @@ import Foundation
 
 public struct PatchTargetIn: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Capacity rewrites the human summary, up to 256 characters. \"\" clears it. */
     public var capacity: String?
+    /** Host re-points the hostname sessions are matched by. Moving it moves the load: the session counts follow the new name from the next read. */
     public var host: String?
     /** ID is the target to update, from the path. */
     public var id: String?
+    /** Kind re-files it under laptop | cloud | gpu | cluster | machine. */
     public var kind: String?
+    /** Label renames the machine, up to 128 characters. Empty STRING is refused — a target with no name is a row nobody can pick out of a fleet. */
     public var label: String?
-    /** present => a heartbeat; the server stamps its time */
+    /** Metrics replaces the live sample, and sending one IS A HEARTBEAT: the server stamps the time and appends the point to the fleet series. Sending an all-zero sample CLEARS the heartbeat — the machine goes back to having no liveness fact at all, and its stored status is taken at face value again. */
     public var metrics: Metrics?
+    /** Spec replaces the static capability whole, sanitized and clamped the same way a register's is. */
     public var spec: Spec?
+    /** Status sets operator INTENT: online | offline | draining. Draining is how a machine is taken out of dispatch without ending what is already on it. What comes back may still read offline, because the heartbeat outranks the intent. */
     public var status: String?
 
     public init(capacity: String? = nil, host: String? = nil, id: String? = nil, kind: String? = nil, label: String? = nil, metrics: Metrics? = nil, spec: Spec? = nil, status: String? = nil) {

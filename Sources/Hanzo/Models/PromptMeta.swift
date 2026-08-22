@@ -13,7 +13,7 @@ public struct PromptMeta: Sendable, Codable, ParameterConvertible, Hashable {
     public var labels: [String]?
     /** LastUpdatedAt is when the newest version was appended, RFC 3339 UTC. Empty only if the record carries no timestamp at all. */
     public var lastUpdatedAt: String?
-    /** Name is the prompt's org-unique handle and the URL segment it is fetched by: GET /v1/prompts/<name>. */
+    /** Name is the prompt's org-unique handle and the URL segment it is fetched by: GET /v1/prompt/<name>. */
     public var name: String?
     /** Tags is the second free-form taxonomy under the same rules as Labels. Nothing in this service interprets either; they are yours to organize by. */
     public var tags: [String]?

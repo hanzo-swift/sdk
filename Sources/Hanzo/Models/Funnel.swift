@@ -9,32 +9,52 @@ import Foundation
 
 public struct Funnel: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** ConvertedOrgs is how many distinct referred orgs have produced positive commission at least once — a referral that actually spent. */
-    public var convertedOrgs: Int?
-    /** RatePct is convertedOrgs over referredOrgs as a PERCENTAGE, 0–100, and the one non-integer figure on this board. It is 0 when nothing has been referred yet, not undefined. */
-    public var ratePct: Double?
-    /** ReferredOrgs is how many attribution edges exist fleet-wide — one per referred org, first-touch, so it is also the count of distinct referred orgs. */
-    public var referredOrgs: Int?
+    /** Available separates \"this org has no traffic\" from \"we could not ask\". False means the warehouse was unreachable or the org has emitted nothing at all, and every count below is then a placeholder zero rather than a measurement — a caller must read this before reading any of them. */
+    public var available: Bool?
+    /** Orders counts completed orders in the window — purchases, not carts started. */
+    public var orders: Int?
+    /** Pageviews counts page events in the window, one per view rather than per person, so a single visitor reading ten pages counts ten. */
+    public var pageviews: Int?
+    /** Revenue is the sum of the amounts those orders reported, in whatever currency the beacon stamped on them (major units, e.g. 49.5 for $49.50) — NOT cents, and not converted to a single currency. Contrast revenueCents on the profile, which is the money of record. */
+    public var revenue: Double?
+    /** Signups counts completed signups in the window, the step where an anonymous visitor becomes somebody with an account. */
+    public var signups: Int?
+    /** Visitors is the number of DISTINCT people seen in the window, counted by the beacon's distinct id — so it is unique visitors, not sessions and not views. */
+    public var visitors: Int?
+    /** WindowDays is the length of the trailing window every count covers, so a reader knows whether 40 signups is a month or a day. */
+    public var windowDays: Int?
 
-    public init(convertedOrgs: Int? = nil, ratePct: Double? = nil, referredOrgs: Int? = nil) {
-        self.convertedOrgs = convertedOrgs
-        self.ratePct = ratePct
-        self.referredOrgs = referredOrgs
+    public init(available: Bool? = nil, orders: Int? = nil, pageviews: Int? = nil, revenue: Double? = nil, signups: Int? = nil, visitors: Int? = nil, windowDays: Int? = nil) {
+        self.available = available
+        self.orders = orders
+        self.pageviews = pageviews
+        self.revenue = revenue
+        self.signups = signups
+        self.visitors = visitors
+        self.windowDays = windowDays
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case convertedOrgs
-        case ratePct
-        case referredOrgs
+        case available
+        case orders
+        case pageviews
+        case revenue
+        case signups
+        case visitors
+        case windowDays
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(convertedOrgs, forKey: .convertedOrgs)
-        try container.encodeIfPresent(ratePct, forKey: .ratePct)
-        try container.encodeIfPresent(referredOrgs, forKey: .referredOrgs)
+        try container.encodeIfPresent(available, forKey: .available)
+        try container.encodeIfPresent(orders, forKey: .orders)
+        try container.encodeIfPresent(pageviews, forKey: .pageviews)
+        try container.encodeIfPresent(revenue, forKey: .revenue)
+        try container.encodeIfPresent(signups, forKey: .signups)
+        try container.encodeIfPresent(visitors, forKey: .visitors)
+        try container.encodeIfPresent(windowDays, forKey: .windowDays)
     }
 }
 

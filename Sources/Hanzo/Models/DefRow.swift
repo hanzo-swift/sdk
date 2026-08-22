@@ -10,9 +10,13 @@ import Foundation
 public struct DefRow: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var definition: JSONValue?
+    /** Key is the flag's primary key in the caller's (org, project) store, and the name evaluation looks it up by. On a write it is taken from the URL, never from the body: the stored document's own \"key\" is forced to match. */
     public var key: String?
+    /** UpdatedAt is when the definition was last written, RFC 3339 UTC. */
     public var updatedAt: String?
+    /** UpdatedBy is the email of the principal who last wrote it. Empty when the write came from an in-process composer (an experiment registering its own assignment flag) rather than from a signed-in person. */
     public var updatedBy: String?
+    /** Version is 1 when the key was created and rises by one on every overwrite. It counts writes, not content changes: re-storing an identical document bumps it. */
     public var version: Int?
 
     public init(definition: JSONValue? = nil, key: String? = nil, updatedAt: String? = nil, updatedBy: String? = nil, version: Int? = nil) {

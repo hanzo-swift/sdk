@@ -9,7 +9,9 @@ import Foundation
 
 public struct ArgoGroupKind: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Group is the API group a project admits, \"*\" for any. Empty names the core group. */
     public var group: String?
+    /** Kind is the kind it admits, \"*\" for any. */
     public var kind: String?
 
     public init(group: String? = nil, kind: String? = nil) {

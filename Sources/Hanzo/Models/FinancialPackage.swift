@@ -9,13 +9,21 @@ import Foundation
 
 public struct FinancialPackage: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** BalanceSheet is struck as of the period END, not the start. */
     public var balanceSheet: BalanceSheet?
+    /** From opens the reporting period. Absent means from the beginning of the ledger. */
     public var from: String?
+    /** GeneratedAt is when the bundle was assembled — the moment the statements were struck, which is what makes two exports of the same period comparable. */
     public var generatedAt: String?
+    /** GL is the newest slice of ledger detail, as the audit trail behind the statements. It is CAPPED, so on a busy ledger it is a sample rather than the full support for the figures above. */
     public var gl: [GLRow]?
+    /** Org is the organisation whose books these are — the validated caller's own, stamped so a downloaded bundle still says whose it is. */
     public var org: String?
+    /** PnL is the income statement for the period, on an accrual basis. */
     public var pnl: PnL?
+    /** To closes it. Absent means up to now. */
     public var to: String?
+    /** TrialBalance is the proof the ledger balances over the period. */
     public var trialBalance: TrialBalance?
 
     public init(balanceSheet: BalanceSheet? = nil, from: String? = nil, generatedAt: String? = nil, gl: [GLRow]? = nil, org: String? = nil, pnl: PnL? = nil, to: String? = nil, trialBalance: TrialBalance? = nil) {

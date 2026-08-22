@@ -12,6 +12,7 @@ public struct SessionDetail: Sendable, Codable, ParameterConvertible, Hashable {
     public var account: String?
     public var actor: String?
     public var agent: String?
+    /** Children is the session's DIRECT children, one level down, each with its own counts. The promoted `children` integer beside it is how many there are; this is who they are. For the whole subtree, read the tree. */
     public var childSessions: [SessionView]?
     public var children: Int?
     public var createdAt: String?
@@ -26,6 +27,7 @@ public struct SessionDetail: Sendable, Codable, ParameterConvertible, Hashable {
     public var project: String?
     public var provider: String?
     public var published: Bool?
+    /** RecentEvents is the 50 most recent turns, OLDEST of those first — a transcript to read down, not a feed. The promoted `events` integer says how many the log holds in total; page the rest from a seq. */
     public var recentEvents: [EventView]?
     public var repo: String?
     public var rootSessionId: String?

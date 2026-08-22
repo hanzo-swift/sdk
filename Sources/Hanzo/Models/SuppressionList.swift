@@ -9,6 +9,7 @@ import Foundation
 
 public struct SuppressionList: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Data is the page: every (channel, address) this org's send gate refuses, newest opt-out first. Absence from it is not permission to mail someone — it only means no opt-out was recorded on that channel. */
     public var data: [Suppression]?
 
     public init(data: [Suppression]? = nil) {

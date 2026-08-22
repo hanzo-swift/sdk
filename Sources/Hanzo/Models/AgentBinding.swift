@@ -9,17 +9,29 @@ import Foundation
 
 public struct AgentBinding: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** AgentName is the cloud Agent (/v1/agents) this machine runs — the agent a message to the bot is actually run against. It is the one field that decides what the bot DOES. */
     public var agentName: String?
+    /** BotVersion pins the @hanzo/bot runtime version the machine runs. Empty means the machine took the default in force when it was bound. */
     public var botVersion: String?
+    /** CreatedTime is when the binding was first made. */
     public var createdTime: String?
+    /** MachineId is the bound machine as vm addresses it, owner-qualified (\"<org>/<machine>\"). The unqualified half is what this surface's :id routes take. */
     public var machineId: String?
+    /** Message is vm's human-readable detail on Status (\"machine provisioning; @hanzo/bot runtime not yet confirmed\") — the reason behind the state, not a second state. */
     public var message: String?
+    /** Name is the binding's own key, which is the machine's id: a machine hosts at most one agent, so the binding is named for it. This is the key a bots list joins bindings onto machines by. */
     public var name: String?
+    /** Org is the Hanzo tenant the binding belongs to. */
     public var org: String?
+    /** Owner is the tenant vm filed the binding under, resolved from the ?owner it was called with — which is the caller's validated org and never a body field. */
     public var owner: String?
+    /** Provider is the cloud the bound machine runs on, carried here so a bindings list says where each bot lives without a second read per machine. */
     public var provider: String?
+    /** PublicIp is the bound machine's public address as vm recorded it on the binding. Empty while the machine has none yet. */
     public var publicIp: String?
+    /** Status is the binding's lifecycle in VM's OWN words — \"Pending\" while the machine provisions and the runtime is unconfirmed, \"running\" once vm has confirmed it. The vocabulary is vm's and passes through unmapped, which is why its capitalization does not match the machine states beside it, and it is vm's reconciled reading rather than anything asserted here. */
     public var status: String?
+    /** UpdatedTime is when vm last reconciled it — the age of Status. */
     public var updatedTime: String?
 
     public init(agentName: String? = nil, botVersion: String? = nil, createdTime: String? = nil, machineId: String? = nil, message: String? = nil, name: String? = nil, org: String? = nil, owner: String? = nil, provider: String? = nil, publicIp: String? = nil, status: String? = nil, updatedTime: String? = nil) {

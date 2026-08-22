@@ -9,6 +9,7 @@ import Foundation
 
 public struct MessageList: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Data is this org's own messages, newest first — from our store rather than the carrier's, so it is the set an audit or a bill has to agree with. */
     public var data: [SMS]?
 
     public init(data: [SMS]? = nil) {

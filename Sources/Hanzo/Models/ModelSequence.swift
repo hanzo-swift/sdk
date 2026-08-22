@@ -9,7 +9,7 @@ import Foundation
 
 public struct ModelSequence: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** CreatedAt and UpdatedAt are unix seconds, both server-assigned. */
+    /** CreatedAt is unix seconds when the sequence was registered, server-assigned and never rewritten. */
     public var createdAt: Int?
     /** ID is the server-assigned sequence id (\"seq_\" + 128 random bits). */
     public var id: String?
@@ -17,6 +17,7 @@ public struct ModelSequence: Sendable, Codable, ParameterConvertible, Hashable {
     public var name: String?
     /** Status is the lifecycle: draft, active or archived. Empty means draft, and ONLY an active sequence accepts enrollments. */
     public var status: String?
+    /** UpdatedAt is unix seconds of the last status flip, server-assigned, and the key the sequence list is ordered by (newest first). Adding a step or enrolling a contact does NOT touch it — only draft/active/archived does — so it tracks activation rather than activity. */
     public var updatedAt: Int?
 
     public init(createdAt: Int? = nil, id: String? = nil, name: String? = nil, status: String? = nil, updatedAt: Int? = nil) {

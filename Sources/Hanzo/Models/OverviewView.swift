@@ -9,11 +9,17 @@ import Foundation
 
 public struct OverviewView: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Custom is true when the org replaced the shared playbook with one of its own — the difference between \"everyone's checklist\" and \"the one you authored\". */
     public var custom: Bool?
+    /** Funnel is the org's analytics lens, present only where the read asked for it — absent means it was not requested, never that the org has no traffic. */
     public var funnel: Funnel?
+    /** Progress is how far through the journey the org is. */
     public var progress: ProgressView?
+    /** Steps are every enabled step with the org's own state folded in, in authoring order. */
     public var steps: [StepView]?
+    /** Title is the playbook's name as it heads the checklist. */
     public var title: String?
+    /** Version identifies the playbook this journey came from, so a caller can tell that the checklist itself changed under them. */
     public var version: String?
 
     public init(custom: Bool? = nil, funnel: Funnel? = nil, progress: ProgressView? = nil, steps: [StepView]? = nil, title: String? = nil, version: String? = nil) {

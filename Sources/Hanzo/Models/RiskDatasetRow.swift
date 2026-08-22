@@ -13,12 +13,13 @@ public struct RiskDatasetRow: Sendable, Codable, ParameterConvertible, Hashable 
     public var at: String?
     /** ID names the row forever. It is DERIVED from the row's own subject and instant, not allocated, so two materialisations of the same fact agree on it without coordinating. */
     public var id: String?
-    /** Kind and Subject name whose row this is. */
+    /** Kind is the subject kind: person, session or account. */
     public var kind: String?
     /** Point is the coordinates, in the order the version's spec names its dims. */
     public var point: [Double]?
     /** Split is train, val or test. */
     public var split: String?
+    /** Subject is the identity within that kind — whose row this is. Every row of one subject is in ONE split, decided by that subject's earliest instant, so a subject is never on both sides of a cut. */
     public var subject: String?
 
     public init(at: String? = nil, id: String? = nil, kind: String? = nil, point: [Double]? = nil, split: String? = nil, subject: String? = nil) {

@@ -9,10 +9,15 @@ import Foundation
 
 public struct ContextBundle: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** BudgetTokens is the ceiling the caller asked for. Packing stops under it, so this is a bound and not a target. */
     public var budgetTokens: Int?
+    /** Query is the ask this bundle was packed for, echoed back so a cached or forwarded bundle still says what it answers. */
     public var query: String?
+    /** Repo narrows the retrieval to one repository. Absent means every indexed repo was searched. */
     public var repo: String?
+    /** Spans are the packed chunks, most relevant first, each expanded with the definitions it calls and its notable callers. The top match is always present even if it had to be truncated to fit, so a matched query never comes back with nothing. */
     public var spans: [Span]?
+    /** UsedTokens is what the returned spans actually cost, by the same estimate the packer used (roughly one token per four characters — an estimate, not a tokenizer's count, so size a real window with headroom). */
     public var usedTokens: Int?
 
     public init(budgetTokens: Int? = nil, query: String? = nil, repo: String? = nil, spans: [Span]? = nil, usedTokens: Int? = nil) {

@@ -9,7 +9,9 @@ import Foundation
 
 public struct ArgoClusterList: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Items is one entry per distinct destination server, in first-seen order with the in-cluster destination first. Never empty: an empty fleet still has the one cluster it would deploy into. */
     public var items: [ArgoCluster]?
+    /** Metadata is the list envelope the SPA expects; it carries no resume point. */
     public var metadata: ArgoListMeta?
 
     public init(items: [ArgoCluster]? = nil, metadata: ArgoListMeta? = nil) {

@@ -9,15 +9,17 @@ import Foundation
 
 public struct SampleIngest: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** GPUModel names the representative accelerator (\"GB10\"); GPUs carries how many. A heterogeneous host names its first card rather than inventing a summary. */
     public var gpuModel: String?
     /** GPUUtil is accelerator utilization as a fraction 0..1; the warehouse clamps anything outside that. */
     public var gpuUtil: Double?
-    /** GPUs is how many accelerators the reading covers, GPUModel the representative model name. */
+    /** GPUs is how many accelerators this reading covers. */
     public var gpus: Int?
     /** Host is the node's hostname, for display. */
     public var host: String?
+    /** MemFree is host memory still available, in BYTES. */
     public var memFree: Int?
-    /** MemUsed and MemFree are host memory in bytes. */
+    /** MemUsed is host memory in use, in BYTES. */
     public var memUsed: Int?
     /** Unit is the reporting node's own id — the same id it registered under, and the key the board joins this series onto. Required. */
     public var unit: String?

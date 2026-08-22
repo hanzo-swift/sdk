@@ -15,7 +15,7 @@ public struct Enrollment: Sendable, Codable, ParameterConvertible, Hashable {
     public var channel: String?
     /** CurrentStep is the index of the step that sends next. */
     public var currentStep: Int?
-    /** EnrolledAt and UpdatedAt are unix seconds. */
+    /** EnrolledAt is unix seconds when the contact joined the walk, and orders the enrollment list (newest first). */
     public var enrolledAt: Int?
     /** ID is the server-assigned enrollment id (\"enr_\" + 128 random bits). */
     public var id: String?
@@ -25,6 +25,7 @@ public struct Enrollment: Sendable, Codable, ParameterConvertible, Hashable {
     public var sequenceId: String?
     /** Status is active, completed or canceled. */
     public var status: String?
+    /** UpdatedAt is unix seconds of the last move: the drip engine writes it each time it advances the walk a step, completes it or cancels it. Together with Status it says when the walk last did anything, which is how a stalled enrollment is told from a finished one. */
     public var updatedAt: Int?
 
     public init(address: String? = nil, channel: String? = nil, currentStep: Int? = nil, enrolledAt: Int? = nil, id: String? = nil, nextRunAt: Int? = nil, sequenceId: String? = nil, status: String? = nil, updatedAt: Int? = nil) {

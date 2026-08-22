@@ -9,11 +9,15 @@ import Foundation
 
 public struct CallInput: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Agent hands the answered call to a Hanzo assistant by name instead of connecting it to a person. Empty places an ordinary call. */
     public var agent: String?
+    /** From is the number to call FROM, in E.164. It must be one this org holds. */
     public var from: String?
     /** Record is a per-call flag rather than a product. Where a recording lands and how long it is kept is the org's retention policy, not this call's. */
     public var record: Bool?
+    /** To is the number to call, in E.164. */
     public var to: String?
+    /** Webhook is a URL the carrier posts this call's events to as it progresses. Empty means the call's outcome is only visible by reading it back. */
     public var webhook: String?
 
     public init(agent: String? = nil, from: String? = nil, record: Bool? = nil, to: String? = nil, webhook: String? = nil) {

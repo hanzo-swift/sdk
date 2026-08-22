@@ -9,15 +9,23 @@ import Foundation
 
 public struct UpdateAgentIn: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** ComputeRef re-binds (or, with \"\", unbinds) the visor machine. Opaque here. */
     public var computeRef: String?
+    /** Description replaces the line other agents read in the tool catalogue. */
     public var description: String?
+    /** ExecutionMode switches between one-shot and long-running. The RESULTING mode+schedule are validated together, so switching to long-running without a stored or supplied cron is refused rather than accepted into an agent the scheduler would skip forever. A switch INTO long-running counts against the per-org cap and can be a 409. */
     public var executionMode: String?
+    /** Instructions replaces the system prompt whole, up to 32 KiB. There is no append: a prompt is one text, and sending \"\" clears it. */
     public var instructions: String?
+    /** Model re-points the agent at another model, checked against the gateway's served catalogue exactly as create checks it. Empty STRING is refused — say nothing to keep the current one. Past runs keep the model that served them. */
     public var model: String?
     /** Ref is the agent to update — its public id or org-unique name, from the path. */
     public var ref: String?
+    /** Schedule replaces the cron. It is validated against the mode this update leaves behind, and dropped if that mode is one-shot. */
     public var schedule: String?
+    /** ServiceAccountID re-points (or, with \"\", clears) the IAM service account a scheduled run is billed as. Clearing it puts that spend back on the org. */
     public var serviceAccountId: String?
+    /** Tools replaces the whole allow-list, it does not add to it. Sending [] takes every tool away, which is the only way to say that. */
     public var tools: [String]?
 
     public init(computeRef: String? = nil, description: String? = nil, executionMode: String? = nil, instructions: String? = nil, model: String? = nil, ref: String? = nil, schedule: String? = nil, serviceAccountId: String? = nil, tools: [String]? = nil) {

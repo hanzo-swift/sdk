@@ -9,57 +9,37 @@ import Foundation
 
 public struct Form: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var category: String?
-    public var createdTime: String?
-    public var displayName: String?
-    public var formItems: [FormItem]?
+    /** Code is the IRS designation, e.g. \"SS-4\". */
+    public var code: String?
+    /** Name is the form's own title, so a reader need not already know the code. */
     public var name: String?
-    public var owner: String?
-    public var position: String?
-    public var tag: String?
-    public var type: String?
-    public var url: String?
+    /** Signed reports whether we hold the signature. */
+    public var signed: Bool?
+    /** Why states what this form is for in this application — the same form is owed for different reasons on different paths. */
+    public var why: String?
 
-    public init(category: String? = nil, createdTime: String? = nil, displayName: String? = nil, formItems: [FormItem]? = nil, name: String? = nil, owner: String? = nil, position: String? = nil, tag: String? = nil, type: String? = nil, url: String? = nil) {
-        self.category = category
-        self.createdTime = createdTime
-        self.displayName = displayName
-        self.formItems = formItems
+    public init(code: String? = nil, name: String? = nil, signed: Bool? = nil, why: String? = nil) {
+        self.code = code
         self.name = name
-        self.owner = owner
-        self.position = position
-        self.tag = tag
-        self.type = type
-        self.url = url
+        self.signed = signed
+        self.why = why
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case category
-        case createdTime
-        case displayName
-        case formItems
+        case code
         case name
-        case owner
-        case position
-        case tag
-        case type
-        case url
+        case signed
+        case why
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(category, forKey: .category)
-        try container.encodeIfPresent(createdTime, forKey: .createdTime)
-        try container.encodeIfPresent(displayName, forKey: .displayName)
-        try container.encodeIfPresent(formItems, forKey: .formItems)
+        try container.encodeIfPresent(code, forKey: .code)
         try container.encodeIfPresent(name, forKey: .name)
-        try container.encodeIfPresent(owner, forKey: .owner)
-        try container.encodeIfPresent(position, forKey: .position)
-        try container.encodeIfPresent(tag, forKey: .tag)
-        try container.encodeIfPresent(type, forKey: .type)
-        try container.encodeIfPresent(url, forKey: .url)
+        try container.encodeIfPresent(signed, forKey: .signed)
+        try container.encodeIfPresent(why, forKey: .why)
     }
 }
 

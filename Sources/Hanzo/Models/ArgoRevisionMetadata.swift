@@ -9,10 +9,15 @@ import Foundation
 
 public struct ArgoRevisionMetadata: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Author is the commit author. Always absent: an App CR pins an IMAGE, so this process has no commit to read one from and will not invent one. */
     public var author: String?
+    /** Date is when the App CR was created, RFC 3339 UTC — the only real timestamp there is here. It is NOT the date of the revision asked for. */
     public var date: String?
+    /** Message is the revision asked for, echoed back — not a commit message. The empty revision and \"HEAD\" resolve to the image tag the CR declares (spec.image.tag), and anything longer than 256 characters is truncated to it. */
     public var message: String?
+    /** SignatureInfo is the GPG verification result for the revision. Always absent: nothing here verifies a signature, and an empty field says so rather than implying an unsigned commit. */
     public var signatureInfo: String?
+    /** Tags are the git tags pointing at the revision. Always absent, for the same reason as Author. */
     public var tags: [String]?
 
     public init(author: String? = nil, date: String? = nil, message: String? = nil, signatureInfo: String? = nil, tags: [String]? = nil) {

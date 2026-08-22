@@ -187,7 +187,7 @@ open class IamAPI {
 
     /**
      Records a sign-in.
-     - POST /v1/iam/sessions/create
+     - POST /v1/iam/sessions
      - Records a sign-in. Signing in again from another browser adds to the session rather than replacing it, so one person can be signed in from a laptop and a phone at once.  Ask for an exclusive sign-in and the opposite holds: the new sign-in is the only one left and every other browser is signed out. That is the setting to use when one person may hold only one live session at a time.
      - Bearer Token:
        - type: http
@@ -197,7 +197,7 @@ open class IamAPI {
      - returns: RequestBuilder<IamSession> 
      */
     open class func createSessionWithRequestBuilder(iamCreateSessionIn: IamCreateSessionIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamSession> {
-        let localVariablePath = "/v1/iam/sessions/create"
+        let localVariablePath = "/v1/iam/sessions"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamCreateSessionIn, codableHelper: apiConfiguration.codableHelper)
 
@@ -217,38 +217,40 @@ open class IamAPI {
     /**
      Removes an application.
      
-     - parameter owner: (query)  
-     - parameter name: (query)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: IamDeleteResult
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteIamApplication(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamDeleteResult {
-        return try await deleteIamApplicationWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
+    open class func deleteIamApplicationsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamDeleteResult {
+        return try await deleteIamApplicationsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Removes an application.
-     - DELETE /v1/iam/application
+     - DELETE /v1/iam/applications/{owner}/{name}
      - Removes an application. Anyone mid-sign-in through it is turned away and its client credentials stop working, so retire the integration before deleting it.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (query)  
-     - parameter name: (query)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IamDeleteResult> 
      */
-    open class func deleteIamApplicationWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamDeleteResult> {
-        let localVariablePath = "/v1/iam/application"
+    open class func deleteIamApplicationsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamDeleteResult> {
+        var localVariablePath = "/v1/iam/applications/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "owner": (wrappedValue: owner.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-            "name": (wrappedValue: name.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-        ])
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
@@ -257,6 +259,388 @@ open class IamAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<IamDeleteResult>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Removes an audit entry.
+     
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamDeleteOutput
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deleteIamAuditLogsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamDeleteOutput {
+        return try await deleteIamAuditLogsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Removes an audit entry.
+     - DELETE /v1/iam/audit-logs/{owner}/{name}
+     - Removes an audit entry. Retention policy is normally what should expire a trail; deleting by hand leaves a gap a reviewer will notice.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamDeleteOutput> 
+     */
+    open class func deleteIamAuditLogsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamDeleteOutput> {
+        var localVariablePath = "/v1/iam/audit-logs/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamDeleteOutput>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Removes a signing certificate.
+     
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamCertsDeleteOutput
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deleteIamCertsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamCertsDeleteOutput {
+        return try await deleteIamCertsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Removes a signing certificate.
+     - DELETE /v1/iam/certs/{owner}/{name}
+     - Removes a signing certificate. Tokens signed with it can no longer be verified, so retire it only once nothing is still presenting them.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamCertsDeleteOutput> 
+     */
+    open class func deleteIamCertsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamCertsDeleteOutput> {
+        var localVariablePath = "/v1/iam/certs/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamCertsDeleteOutput>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Withdraws an invitation.
+     
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamInvitationsDeleteOutput
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deleteIamInvitationsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamInvitationsDeleteOutput {
+        return try await deleteIamInvitationsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Withdraws an invitation.
+     - DELETE /v1/iam/invitations/{owner}/{name}
+     - Withdraws an invitation. It stops being redeemable at once; anyone who already joined through it keeps their account.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamInvitationsDeleteOutput> 
+     */
+    open class func deleteIamInvitationsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamInvitationsDeleteOutput> {
+        var localVariablePath = "/v1/iam/invitations/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamInvitationsDeleteOutput>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Revokes an API key.
+     
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamDeleteResponse
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deleteIamKeysByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamDeleteResponse {
+        return try await deleteIamKeysByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Revokes an API key.
+     - DELETE /v1/iam/keys/{owner}/{name}
+     - Revokes an API key. Anything still presenting it stops being authorized at once, so roll the replacement out before you revoke.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamDeleteResponse> 
+     */
+    open class func deleteIamKeysByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamDeleteResponse> {
+        var localVariablePath = "/v1/iam/keys/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamDeleteResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Turns a factor off, so sign-in stops asking for it.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deleteIamMfa(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteIamMfaWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Turns a factor off, so sign-in stops asking for it.
+     - DELETE /v1/iam/mfa
+     - Turns a factor off, so sign-in stops asking for it. Naming no factor turns off ALL of them — the reset path. People may do this for themselves; doing it for somebody else takes an administrator, which is what makes it the way back in when a phone is lost.  The recovery codes go with the last factor: they are the way past a challenge, so keeping them alive for an account with nothing to challenge would leave a standing credential behind.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func deleteIamMfaWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/iam/mfa"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Revokes a permission.
+     
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamPermissionDeleteResponse
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deleteIamPermissionsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamPermissionDeleteResponse {
+        return try await deleteIamPermissionsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Revokes a permission.
+     - DELETE /v1/iam/permissions/{owner}/{name}
+     - Revokes a permission. Everyone who held access only through it loses that access immediately; grants they hold by another route are untouched.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamPermissionDeleteResponse> 
+     */
+    open class func deleteIamPermissionsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamPermissionDeleteResponse> {
+        var localVariablePath = "/v1/iam/permissions/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamPermissionDeleteResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Removes a project.
+     
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamProjectsDeleteOutput
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deleteIamProjectsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamProjectsDeleteOutput {
+        return try await deleteIamProjectsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Removes a project.
+     - DELETE /v1/iam/projects/{owner}/{name}
+     - Removes a project. The people and roles in your organization are unchanged; what goes is the scope itself, so move anything addressed by it first.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamProjectsDeleteOutput> 
+     */
+    open class func deleteIamProjectsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamProjectsDeleteOutput> {
+        var localVariablePath = "/v1/iam/projects/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamProjectsDeleteOutput>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Removes a role.
+     
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamRolesDeleteOutput
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deleteIamRolesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamRolesDeleteOutput {
+        return try await deleteIamRolesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Removes a role.
+     - DELETE /v1/iam/roles/{owner}/{name}
+     - Removes a role. Everyone in it loses the access it carried; their accounts, and any other role they hold, are untouched.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamRolesDeleteOutput> 
+     */
+    open class func deleteIamRolesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamRolesDeleteOutput> {
+        var localVariablePath = "/v1/iam/roles/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamRolesDeleteOutput>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -355,208 +739,400 @@ open class IamAPI {
     }
 
     /**
-     Removes an organization and everything named inside it.
+     Removes a person from your organization.
      
-     - parameter iamDeleteOrganizationInput: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamDeleteOrganizationOutput
+     - returns: IamUsersDeleteOutput
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteOrganization(iamDeleteOrganizationInput: IamDeleteOrganizationInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamDeleteOrganizationOutput {
-        return try await deleteOrganizationWithRequestBuilder(iamDeleteOrganizationInput: iamDeleteOrganizationInput, apiConfiguration: apiConfiguration).execute().body
+    open class func deleteIamUsersByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamUsersDeleteOutput {
+        return try await deleteIamUsersByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Removes an organization and everything named inside it.
-     - POST /v1/iam/organizations/delete
-     - Removes an organization and everything named inside it. There is no undo, and every session issued under it stops working.  The built-in admin organization cannot be deleted — losing it would leave the account with no way back in.
+     Removes a person from your organization.
+     - DELETE /v1/iam/users/{owner}/{name}
+     - Removes a person from your organization. Their sessions stop working immediately and the account is gone rather than suspended — to keep the record and only stop sign-in, update the user instead.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter iamDeleteOrganizationInput: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamDeleteOrganizationOutput> 
+     - returns: RequestBuilder<IamUsersDeleteOutput> 
      */
-    open class func deleteOrganizationWithRequestBuilder(iamDeleteOrganizationInput: IamDeleteOrganizationInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamDeleteOrganizationOutput> {
-        let localVariablePath = "/v1/iam/organizations/delete"
+    open class func deleteIamUsersByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamUsersDeleteOutput> {
+        var localVariablePath = "/v1/iam/users/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamDeleteOrganizationInput, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamUsersDeleteOutput>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Clears the target user's key of the requested TYPE (immediate revoke).
+     
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deleteIamUsersByOwnerByNameKeys(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteIamUsersByOwnerByNameKeysWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Clears the target user's key of the requested TYPE (immediate revoke).
+     - DELETE /v1/iam/users/{owner}/{name}/keys
+     - Clears the target user's key of the requested TYPE (immediate revoke). Scoped by the same `?type` field mint takes, so revoking the browser key leaves the server key working. A secret key's stored value is the sk- in its schema.Key row.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func deleteIamUsersByOwnerByNameKeysWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/iam/users/{owner}/{name}/keys"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Removes a workspace.
+     
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamWorkspacesDeleteOutput
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deleteIamWorkspacesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamWorkspacesDeleteOutput {
+        return try await deleteIamWorkspacesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Removes a workspace.
+     - DELETE /v1/iam/workspaces/{owner}/{name}
+     - Removes a workspace. The people and roles in your organization are unchanged; what goes is the scope itself.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamWorkspacesDeleteOutput> 
+     */
+    open class func deleteIamWorkspacesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamWorkspacesDeleteOutput> {
+        var localVariablePath = "/v1/iam/workspaces/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamWorkspacesDeleteOutput>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Removes an organization and everything named inside it.
+     
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamDeleteOrganizationOutput
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deleteOrganization(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamDeleteOrganizationOutput {
+        return try await deleteOrganizationWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Removes an organization and everything named inside it.
+     - DELETE /v1/iam/organizations/{owner}/{name}
+     - Removes an organization and everything named inside it. There is no undo, and every session issued under it stops working.  The built-in admin organization cannot be deleted — losing it would leave the account with no way back in.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamDeleteOrganizationOutput> 
+     */
+    open class func deleteOrganizationWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamDeleteOrganizationOutput> {
+        var localVariablePath = "/v1/iam/organizations/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<IamDeleteOrganizationOutput>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
      Removes a provider.
      
-     - parameter iamProviderKey: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: IamMutationResult
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteProvider(iamProviderKey: IamProviderKey, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamMutationResult {
-        return try await deleteProviderWithRequestBuilder(iamProviderKey: iamProviderKey, apiConfiguration: apiConfiguration).execute().body
+    open class func deleteProvider(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamMutationResult {
+        return try await deleteProviderWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Removes a provider.
-     - POST /v1/iam/providers/delete
+     - DELETE /v1/iam/providers/{owner}/{name}
      - Removes a provider. Sign-in through it stops for every application that used it, so give those applications another method first.  A provider that is already gone answers \"nothing changed\" rather than an error, so the call is safe to repeat.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter iamProviderKey: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IamMutationResult> 
      */
-    open class func deleteProviderWithRequestBuilder(iamProviderKey: IamProviderKey, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamMutationResult> {
-        let localVariablePath = "/v1/iam/providers/delete"
+    open class func deleteProviderWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamMutationResult> {
+        var localVariablePath = "/v1/iam/providers/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamProviderKey, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<IamMutationResult>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
      Signs a person out of one application — the session ends and every browser carrying it stops being authenticated.
      
-     - parameter iamSessionRef: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter application: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: IamDeleteSessionOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteSession(iamSessionRef: IamSessionRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamDeleteSessionOut {
-        return try await deleteSessionWithRequestBuilder(iamSessionRef: iamSessionRef, apiConfiguration: apiConfiguration).execute().body
+    open class func deleteSession(owner: String, name: String, application: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamDeleteSessionOut {
+        return try await deleteSessionWithRequestBuilder(owner: owner, name: name, application: application, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Signs a person out of one application — the session ends and every browser carrying it stops being authenticated.
-     - POST /v1/iam/sessions/delete
+     - DELETE /v1/iam/sessions/{owner}/{name}/{application}
      - Signs a person out of one application — the session ends and every browser carrying it stops being authenticated.  A session that is already gone reports that nothing was deleted rather than an error, so the call is safe to repeat.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter iamSessionRef: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter application: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IamDeleteSessionOut> 
      */
-    open class func deleteSessionWithRequestBuilder(iamSessionRef: IamSessionRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamDeleteSessionOut> {
-        let localVariablePath = "/v1/iam/sessions/delete"
+    open class func deleteSessionWithRequestBuilder(owner: String, name: String, application: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamDeleteSessionOut> {
+        var localVariablePath = "/v1/iam/sessions/{owner}/{name}/{application}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let applicationPreEscape = "\(APIHelper.mapValueToPathItem(application))"
+        let applicationPostEscape = applicationPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{application}", with: applicationPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamSessionRef, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<IamDeleteSessionOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
      Revokes an access token.
      
-     - parameter iamTokenKey: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: IamTokenMutation
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteToken(iamTokenKey: IamTokenKey, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamTokenMutation {
-        return try await deleteTokenWithRequestBuilder(iamTokenKey: iamTokenKey, apiConfiguration: apiConfiguration).execute().body
+    open class func deleteToken(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamTokenMutation {
+        return try await deleteTokenWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Revokes an access token.
-     - POST /v1/iam/tokens/delete
+     - DELETE /v1/iam/tokens/{owner}/{name}
      - Revokes an access token. Whatever was using it stops being authorized at once.  A token that is already gone answers \"nothing changed\" rather than an error, so the call is safe to repeat.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter iamTokenKey: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IamTokenMutation> 
      */
-    open class func deleteTokenWithRequestBuilder(iamTokenKey: IamTokenKey, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamTokenMutation> {
-        let localVariablePath = "/v1/iam/tokens/delete"
+    open class func deleteTokenWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamTokenMutation> {
+        var localVariablePath = "/v1/iam/tokens/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamTokenKey, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<IamTokenMutation>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
      Removes a passkey or security key — what you call when a device is lost.
      
-     - parameter iamWebauthnCredentialKey: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: IamWebauthnCredentialMutationResult
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteWebauthnCredential(iamWebauthnCredentialKey: IamWebauthnCredentialKey, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamWebauthnCredentialMutationResult {
-        return try await deleteWebauthnCredentialWithRequestBuilder(iamWebauthnCredentialKey: iamWebauthnCredentialKey, apiConfiguration: apiConfiguration).execute().body
+    open class func deleteWebauthnCredential(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamWebauthnCredentialMutationResult {
+        return try await deleteWebauthnCredentialWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Removes a passkey or security key — what you call when a device is lost.
-     - POST /v1/iam/webauthn-credentials/delete
+     - DELETE /v1/iam/webauthn-credentials/{owner}/{name}
      - Removes a passkey or security key — what you call when a device is lost. Make sure the person has another way to sign in first.  A credential that is already gone answers \"nothing changed\" rather than an error, so the call is safe to repeat.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter iamWebauthnCredentialKey: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IamWebauthnCredentialMutationResult> 
      */
-    open class func deleteWebauthnCredentialWithRequestBuilder(iamWebauthnCredentialKey: IamWebauthnCredentialKey, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamWebauthnCredentialMutationResult> {
-        let localVariablePath = "/v1/iam/webauthn-credentials/delete"
+    open class func deleteWebauthnCredentialWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamWebauthnCredentialMutationResult> {
+        var localVariablePath = "/v1/iam/webauthn-credentials/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamWebauthnCredentialKey, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<IamWebauthnCredentialMutationResult>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
@@ -594,53 +1170,6 @@ open class IamAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Returns one application: its sign-in methods, its allowed redirect URIs and the client credentials your integration authenticates with.
-     
-     - parameter owner: (query)  
-     - parameter name: (query)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamApplication
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIamApplication(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamApplication {
-        return try await getIamApplicationWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Returns one application: its sign-in methods, its allowed redirect URIs and the client credentials your integration authenticates with.
-     - GET /v1/iam/application
-     - Returns one application: its sign-in methods, its allowed redirect URIs and the client credentials your integration authenticates with.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter owner: (query)  
-     - parameter name: (query)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamApplication> 
-     */
-    open class func getIamApplicationWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamApplication> {
-        let localVariablePath = "/v1/iam/application"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "owner": (wrappedValue: owner.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-            "name": (wrappedValue: name.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamApplication>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -692,38 +1221,40 @@ open class IamAPI {
     /**
      Returns one application: its sign-in methods, its allowed redirect URIs and the client credentials your integration authenticates with.
      
-     - parameter owner: (query)  
-     - parameter name: (query)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: IamApplication
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIamApplicationsGet(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamApplication {
-        return try await getIamApplicationsGetWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
+    open class func getIamApplicationsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamApplication {
+        return try await getIamApplicationsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Returns one application: its sign-in methods, its allowed redirect URIs and the client credentials your integration authenticates with.
-     - GET /v1/iam/applications/get
+     - GET /v1/iam/applications/{owner}/{name}
      - Returns one application: its sign-in methods, its allowed redirect URIs and the client credentials your integration authenticates with.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (query)  
-     - parameter name: (query)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IamApplication> 
      */
-    open class func getIamApplicationsGetWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamApplication> {
-        let localVariablePath = "/v1/iam/applications/get"
+    open class func getIamApplicationsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamApplication> {
+        var localVariablePath = "/v1/iam/applications/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "owner": (wrappedValue: owner.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-            "name": (wrappedValue: name.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-        ])
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
@@ -776,6 +1307,55 @@ open class IamAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<IamListOutput>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns one audit entry in full: the action, the person or key behind it, and the request it came in on.
+     
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamAuditLog
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getIamAuditLogsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamAuditLog {
+        return try await getIamAuditLogsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns one audit entry in full: the action, the person or key behind it, and the request it came in on.
+     - GET /v1/iam/audit-logs/{owner}/{name}
+     - Returns one audit entry in full: the action, the person or key behind it, and the request it came in on.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamAuditLog> 
+     */
+    open class func getIamAuditLogsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamAuditLog> {
+        var localVariablePath = "/v1/iam/audit-logs/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamAuditLog>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -916,6 +1496,55 @@ open class IamAPI {
     }
 
     /**
+     Returns one signing certificate — its algorithm, its validity window and its public half.
+     
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamCert
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getIamCertsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamCert {
+        return try await getIamCertsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns one signing certificate — its algorithm, its validity window and its public half.
+     - GET /v1/iam/certs/{owner}/{name}
+     - Returns one signing certificate — its algorithm, its validity window and its public half. The private key is masked.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamCert> 
+     */
+    open class func getIamCertsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamCert> {
+        var localVariablePath = "/v1/iam/certs/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamCert>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      Returns the calling person's own privacy and communication choices.
      
      - parameter apiConfiguration: The configuration for the http request.
@@ -1041,794 +1670,6 @@ open class IamAPI {
     }
 
     /**
-     Reads one record — the older spelling of the single reads on the REST surface, over the same data and the same permissions.
-     
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIamGetApplication(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await getIamGetApplicationWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Reads one record — the older spelling of the single reads on the REST surface, over the same data and the same permissions.
-     - GET /v1/iam/get-application
-     - Reads one record — the older spelling of the single reads on the REST surface, over the same data and the same permissions.  Secrets are stripped. Naming a record in another organization does not reach it, however the request spells it.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func getIamGetApplicationWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        let localVariablePath = "/v1/iam/get-application"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Lists one kind of record in your organization — the older spelling of the collection reads on the REST surface, over the same data and the same permissions.
-     
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIamGetApplications(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await getIamGetApplicationsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Lists one kind of record in your organization — the older spelling of the collection reads on the REST surface, over the same data and the same permissions.
-     - GET /v1/iam/get-applications
-     - Lists one kind of record in your organization — the older spelling of the collection reads on the REST surface, over the same data and the same permissions.  Secrets are stripped from every row. Send both a page number and a page size to page, and the total comes back alongside; send neither and you get the whole set. You see your own organization and no other, whatever the request asks for.  Scoping note (intentional, fail-closed): iam's ownership model is mixed — users/roles/permissions are owned by their tenant org, while organizations/ applications/providers/certs are platform-owned (Owner \"admin\"). A SuperAdmin (Scope → the requested owner, empty = all) therefore lists every entity, which is the console-admin path. A non-super is pinned by Scope to its own org, so it lists its tenant-owned entities correctly and is refused the platform-owned lists at the Guard (owner \"\" or \"admin\" both deny) — a safe 403, never another tenant's rows. Non-super, membership-scoped views of the platform-owned entities (e.g. an org console's own app list keyed on Application.Organization) are a separate, additive surface, not a silent behavior of this generic lister.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func getIamGetApplicationsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        let localVariablePath = "/v1/iam/get-applications"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Reads one record — the older spelling of the single reads on the REST surface, over the same data and the same permissions.
-     
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIamGetCert(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await getIamGetCertWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Reads one record — the older spelling of the single reads on the REST surface, over the same data and the same permissions.
-     - GET /v1/iam/get-cert
-     - Reads one record — the older spelling of the single reads on the REST surface, over the same data and the same permissions.  Secrets are stripped. Naming a record in another organization does not reach it, however the request spells it.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func getIamGetCertWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        let localVariablePath = "/v1/iam/get-cert"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Lists one kind of record in your organization — the older spelling of the collection reads on the REST surface, over the same data and the same permissions.
-     
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIamGetCerts(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await getIamGetCertsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Lists one kind of record in your organization — the older spelling of the collection reads on the REST surface, over the same data and the same permissions.
-     - GET /v1/iam/get-certs
-     - Lists one kind of record in your organization — the older spelling of the collection reads on the REST surface, over the same data and the same permissions.  Secrets are stripped from every row. Send both a page number and a page size to page, and the total comes back alongside; send neither and you get the whole set. You see your own organization and no other, whatever the request asks for.  Scoping note (intentional, fail-closed): iam's ownership model is mixed — users/roles/permissions are owned by their tenant org, while organizations/ applications/providers/certs are platform-owned (Owner \"admin\"). A SuperAdmin (Scope → the requested owner, empty = all) therefore lists every entity, which is the console-admin path. A non-super is pinned by Scope to its own org, so it lists its tenant-owned entities correctly and is refused the platform-owned lists at the Guard (owner \"\" or \"admin\" both deny) — a safe 403, never another tenant's rows. Non-super, membership-scoped views of the platform-owned entities (e.g. an org console's own app list keyed on Application.Organization) are a separate, additive surface, not a silent behavior of this generic lister.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func getIamGetCertsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        let localVariablePath = "/v1/iam/get-certs"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Lists one kind of record in your organization — the older spelling of the collection reads on the REST surface, over the same data and the same permissions.
-     
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIamGetGlobalUsers(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await getIamGetGlobalUsersWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Lists one kind of record in your organization — the older spelling of the collection reads on the REST surface, over the same data and the same permissions.
-     - GET /v1/iam/get-global-users
-     - Lists one kind of record in your organization — the older spelling of the collection reads on the REST surface, over the same data and the same permissions.  Secrets are stripped from every row. Send both a page number and a page size to page, and the total comes back alongside; send neither and you get the whole set. You see your own organization and no other, whatever the request asks for.  Scoping note (intentional, fail-closed): iam's ownership model is mixed — users/roles/permissions are owned by their tenant org, while organizations/ applications/providers/certs are platform-owned (Owner \"admin\"). A SuperAdmin (Scope → the requested owner, empty = all) therefore lists every entity, which is the console-admin path. A non-super is pinned by Scope to its own org, so it lists its tenant-owned entities correctly and is refused the platform-owned lists at the Guard (owner \"\" or \"admin\" both deny) — a safe 403, never another tenant's rows. Non-super, membership-scoped views of the platform-owned entities (e.g. an org console's own app list keyed on Application.Organization) are a separate, additive surface, not a silent behavior of this generic lister.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func getIamGetGlobalUsersWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        let localVariablePath = "/v1/iam/get-global-users"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Lists one kind of record in your organization — the older spelling of the collection reads on the REST surface, over the same data and the same permissions.
-     
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIamGetInvitations(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await getIamGetInvitationsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Lists one kind of record in your organization — the older spelling of the collection reads on the REST surface, over the same data and the same permissions.
-     - GET /v1/iam/get-invitations
-     - Lists one kind of record in your organization — the older spelling of the collection reads on the REST surface, over the same data and the same permissions.  Secrets are stripped from every row. Send both a page number and a page size to page, and the total comes back alongside; send neither and you get the whole set. You see your own organization and no other, whatever the request asks for.  Scoping note (intentional, fail-closed): iam's ownership model is mixed — users/roles/permissions are owned by their tenant org, while organizations/ applications/providers/certs are platform-owned (Owner \"admin\"). A SuperAdmin (Scope → the requested owner, empty = all) therefore lists every entity, which is the console-admin path. A non-super is pinned by Scope to its own org, so it lists its tenant-owned entities correctly and is refused the platform-owned lists at the Guard (owner \"\" or \"admin\" both deny) — a safe 403, never another tenant's rows. Non-super, membership-scoped views of the platform-owned entities (e.g. an org console's own app list keyed on Application.Organization) are a separate, additive surface, not a silent behavior of this generic lister.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func getIamGetInvitationsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        let localVariablePath = "/v1/iam/get-invitations"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Answers either question about who belongs where: which organizations one person can act in, or who can act in one organization.
-     
-     - parameter user: (query) User is \&quot;&lt;homeOrg&gt;/&lt;username&gt;\&quot; — which organizations that identity may act in. (optional)
-     - parameter org: (query) Org is an organization — who may act in it. (optional)
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamAnswer
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIamGetMemberships(user: String? = nil, org: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamAnswer {
-        return try await getIamGetMembershipsWithRequestBuilder(user: user, org: org, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Answers either question about who belongs where: which organizations one person can act in, or who can act in one organization.
-     - GET /v1/iam/get-memberships
-     - Answers either question about who belongs where: which organizations one person can act in, or who can act in one organization.  Both are org-scoped: a non-SuperAdmin may ask about ITS OWN org's roster, or about a user whose home org is its own, and nothing else. The bound comes from the verified credential via authz.Scope, so a request parameter can never widen it — a membership row names who may act and spend in an org, so a cross-tenant read is a customer roster leak.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter user: (query) User is \&quot;&lt;homeOrg&gt;/&lt;username&gt;\&quot; — which organizations that identity may act in. (optional)
-     - parameter org: (query) Org is an organization — who may act in it. (optional)
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamAnswer> 
-     */
-    open class func getIamGetMembershipsWithRequestBuilder(user: String? = nil, org: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamAnswer> {
-        let localVariablePath = "/v1/iam/get-memberships"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "user": (wrappedValue: user?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-            "org": (wrappedValue: org?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamAnswer>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Reads one record — the older spelling of the single reads on the REST surface, over the same data and the same permissions.
-     
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIamGetOrganization(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await getIamGetOrganizationWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Reads one record — the older spelling of the single reads on the REST surface, over the same data and the same permissions.
-     - GET /v1/iam/get-organization
-     - Reads one record — the older spelling of the single reads on the REST surface, over the same data and the same permissions.  Secrets are stripped. Naming a record in another organization does not reach it, however the request spells it.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func getIamGetOrganizationWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        let localVariablePath = "/v1/iam/get-organization"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Returns one organization's projects — what a scope switcher lists so somebody can move between them.
-     
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIamGetOrganizationProjects(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await getIamGetOrganizationProjectsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Returns one organization's projects — what a scope switcher lists so somebody can move between them.
-     - GET /v1/iam/get-organization-projects
-     - Returns one organization's projects — what a scope switcher lists so somebody can move between them.  You see your own organization and no other, whatever the request asks for.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func getIamGetOrganizationProjectsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        let localVariablePath = "/v1/iam/get-organization-projects"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Returns one organization's workspaces — what a scope switcher lists so somebody can move between them.
-     
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIamGetOrganizationWorkspaces(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await getIamGetOrganizationWorkspacesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Returns one organization's workspaces — what a scope switcher lists so somebody can move between them.
-     - GET /v1/iam/get-organization-workspaces
-     - Returns one organization's workspaces — what a scope switcher lists so somebody can move between them.  You see your own organization and no other, whatever the request asks for.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func getIamGetOrganizationWorkspacesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        let localVariablePath = "/v1/iam/get-organization-workspaces"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Lists one kind of record in your organization — the older spelling of the collection reads on the REST surface, over the same data and the same permissions.
-     
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIamGetOrganizations(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await getIamGetOrganizationsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Lists one kind of record in your organization — the older spelling of the collection reads on the REST surface, over the same data and the same permissions.
-     - GET /v1/iam/get-organizations
-     - Lists one kind of record in your organization — the older spelling of the collection reads on the REST surface, over the same data and the same permissions.  Secrets are stripped from every row. Send both a page number and a page size to page, and the total comes back alongside; send neither and you get the whole set. You see your own organization and no other, whatever the request asks for.  Scoping note (intentional, fail-closed): iam's ownership model is mixed — users/roles/permissions are owned by their tenant org, while organizations/ applications/providers/certs are platform-owned (Owner \"admin\"). A SuperAdmin (Scope → the requested owner, empty = all) therefore lists every entity, which is the console-admin path. A non-super is pinned by Scope to its own org, so it lists its tenant-owned entities correctly and is refused the platform-owned lists at the Guard (owner \"\" or \"admin\" both deny) — a safe 403, never another tenant's rows. Non-super, membership-scoped views of the platform-owned entities (e.g. an org console's own app list keyed on Application.Organization) are a separate, additive surface, not a silent behavior of this generic lister.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func getIamGetOrganizationsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        let localVariablePath = "/v1/iam/get-organizations"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Reads one record — the older spelling of the single reads on the REST surface, over the same data and the same permissions.
-     
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIamGetPermission(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await getIamGetPermissionWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Reads one record — the older spelling of the single reads on the REST surface, over the same data and the same permissions.
-     - GET /v1/iam/get-permission
-     - Reads one record — the older spelling of the single reads on the REST surface, over the same data and the same permissions.  Secrets are stripped. Naming a record in another organization does not reach it, however the request spells it.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func getIamGetPermissionWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        let localVariablePath = "/v1/iam/get-permission"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Lists one kind of record in your organization — the older spelling of the collection reads on the REST surface, over the same data and the same permissions.
-     
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIamGetPermissions(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await getIamGetPermissionsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Lists one kind of record in your organization — the older spelling of the collection reads on the REST surface, over the same data and the same permissions.
-     - GET /v1/iam/get-permissions
-     - Lists one kind of record in your organization — the older spelling of the collection reads on the REST surface, over the same data and the same permissions.  Secrets are stripped from every row. Send both a page number and a page size to page, and the total comes back alongside; send neither and you get the whole set. You see your own organization and no other, whatever the request asks for.  Scoping note (intentional, fail-closed): iam's ownership model is mixed — users/roles/permissions are owned by their tenant org, while organizations/ applications/providers/certs are platform-owned (Owner \"admin\"). A SuperAdmin (Scope → the requested owner, empty = all) therefore lists every entity, which is the console-admin path. A non-super is pinned by Scope to its own org, so it lists its tenant-owned entities correctly and is refused the platform-owned lists at the Guard (owner \"\" or \"admin\" both deny) — a safe 403, never another tenant's rows. Non-super, membership-scoped views of the platform-owned entities (e.g. an org console's own app list keyed on Application.Organization) are a separate, additive surface, not a silent behavior of this generic lister.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func getIamGetPermissionsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        let localVariablePath = "/v1/iam/get-permissions"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Reads one record — the older spelling of the single reads on the REST surface, over the same data and the same permissions.
-     
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIamGetProvider(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await getIamGetProviderWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Reads one record — the older spelling of the single reads on the REST surface, over the same data and the same permissions.
-     - GET /v1/iam/get-provider
-     - Reads one record — the older spelling of the single reads on the REST surface, over the same data and the same permissions.  Secrets are stripped. Naming a record in another organization does not reach it, however the request spells it.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func getIamGetProviderWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        let localVariablePath = "/v1/iam/get-provider"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Lists one kind of record in your organization — the older spelling of the collection reads on the REST surface, over the same data and the same permissions.
-     
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIamGetProviders(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await getIamGetProvidersWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Lists one kind of record in your organization — the older spelling of the collection reads on the REST surface, over the same data and the same permissions.
-     - GET /v1/iam/get-providers
-     - Lists one kind of record in your organization — the older spelling of the collection reads on the REST surface, over the same data and the same permissions.  Secrets are stripped from every row. Send both a page number and a page size to page, and the total comes back alongside; send neither and you get the whole set. You see your own organization and no other, whatever the request asks for.  Scoping note (intentional, fail-closed): iam's ownership model is mixed — users/roles/permissions are owned by their tenant org, while organizations/ applications/providers/certs are platform-owned (Owner \"admin\"). A SuperAdmin (Scope → the requested owner, empty = all) therefore lists every entity, which is the console-admin path. A non-super is pinned by Scope to its own org, so it lists its tenant-owned entities correctly and is refused the platform-owned lists at the Guard (owner \"\" or \"admin\" both deny) — a safe 403, never another tenant's rows. Non-super, membership-scoped views of the platform-owned entities (e.g. an org console's own app list keyed on Application.Organization) are a separate, additive surface, not a silent behavior of this generic lister.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func getIamGetProvidersWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        let localVariablePath = "/v1/iam/get-providers"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Lists one kind of record in your organization — the older spelling of the collection reads on the REST surface, over the same data and the same permissions.
-     
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIamGetRecords(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await getIamGetRecordsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Lists one kind of record in your organization — the older spelling of the collection reads on the REST surface, over the same data and the same permissions.
-     - GET /v1/iam/get-records
-     - Lists one kind of record in your organization — the older spelling of the collection reads on the REST surface, over the same data and the same permissions.  Secrets are stripped from every row. Send both a page number and a page size to page, and the total comes back alongside; send neither and you get the whole set. You see your own organization and no other, whatever the request asks for.  Scoping note (intentional, fail-closed): iam's ownership model is mixed — users/roles/permissions are owned by their tenant org, while organizations/ applications/providers/certs are platform-owned (Owner \"admin\"). A SuperAdmin (Scope → the requested owner, empty = all) therefore lists every entity, which is the console-admin path. A non-super is pinned by Scope to its own org, so it lists its tenant-owned entities correctly and is refused the platform-owned lists at the Guard (owner \"\" or \"admin\" both deny) — a safe 403, never another tenant's rows. Non-super, membership-scoped views of the platform-owned entities (e.g. an org console's own app list keyed on Application.Organization) are a separate, additive surface, not a silent behavior of this generic lister.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func getIamGetRecordsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        let localVariablePath = "/v1/iam/get-records"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Reads one record — the older spelling of the single reads on the REST surface, over the same data and the same permissions.
-     
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIamGetRole(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await getIamGetRoleWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Reads one record — the older spelling of the single reads on the REST surface, over the same data and the same permissions.
-     - GET /v1/iam/get-role
-     - Reads one record — the older spelling of the single reads on the REST surface, over the same data and the same permissions.  Secrets are stripped. Naming a record in another organization does not reach it, however the request spells it.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func getIamGetRoleWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        let localVariablePath = "/v1/iam/get-role"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Lists one kind of record in your organization — the older spelling of the collection reads on the REST surface, over the same data and the same permissions.
-     
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIamGetRoles(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await getIamGetRolesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Lists one kind of record in your organization — the older spelling of the collection reads on the REST surface, over the same data and the same permissions.
-     - GET /v1/iam/get-roles
-     - Lists one kind of record in your organization — the older spelling of the collection reads on the REST surface, over the same data and the same permissions.  Secrets are stripped from every row. Send both a page number and a page size to page, and the total comes back alongside; send neither and you get the whole set. You see your own organization and no other, whatever the request asks for.  Scoping note (intentional, fail-closed): iam's ownership model is mixed — users/roles/permissions are owned by their tenant org, while organizations/ applications/providers/certs are platform-owned (Owner \"admin\"). A SuperAdmin (Scope → the requested owner, empty = all) therefore lists every entity, which is the console-admin path. A non-super is pinned by Scope to its own org, so it lists its tenant-owned entities correctly and is refused the platform-owned lists at the Guard (owner \"\" or \"admin\" both deny) — a safe 403, never another tenant's rows. Non-super, membership-scoped views of the platform-owned entities (e.g. an org console's own app list keyed on Application.Organization) are a separate, additive surface, not a silent behavior of this generic lister.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func getIamGetRolesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        let localVariablePath = "/v1/iam/get-roles"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Reads one person, two ways.
-     
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIamGetUser(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await getIamGetUserWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Reads one person, two ways.
-     - GET /v1/iam/get-user
-     - Reads one person, two ways.  Name them and it is an ordinary read, with secrets stripped. Or hand it a SECRET API key and it answers with the person that key belongs to — how a service of yours turns a credential on an incoming request into an identity.  A publishable key resolves to nobody here, deliberately: it is safe to ship in a browser precisely because it names an organization and never a person.  get-user is handler-authorized (authz.handlerAuthorizedExact) because the key variant carries no owner/name for the Guard to authorize; so the owner/name variant reinstates the SAME read authorization the Guard applies, through the ONE policy function (authz.Can) — identical behavior, a cross-tenant or non-self read still refused 403 — then reuses the generic getHandler verbatim for resolution and redaction. No authz and no CRUD is reimplemented.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func getIamGetUserWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        let localVariablePath = "/v1/iam/get-user"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Lists one kind of record in your organization — the older spelling of the collection reads on the REST surface, over the same data and the same permissions.
-     
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIamGetUsers(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await getIamGetUsersWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Lists one kind of record in your organization — the older spelling of the collection reads on the REST surface, over the same data and the same permissions.
-     - GET /v1/iam/get-users
-     - Lists one kind of record in your organization — the older spelling of the collection reads on the REST surface, over the same data and the same permissions.  Secrets are stripped from every row. Send both a page number and a page size to page, and the total comes back alongside; send neither and you get the whole set. You see your own organization and no other, whatever the request asks for.  Scoping note (intentional, fail-closed): iam's ownership model is mixed — users/roles/permissions are owned by their tenant org, while organizations/ applications/providers/certs are platform-owned (Owner \"admin\"). A SuperAdmin (Scope → the requested owner, empty = all) therefore lists every entity, which is the console-admin path. A non-super is pinned by Scope to its own org, so it lists its tenant-owned entities correctly and is refused the platform-owned lists at the Guard (owner \"\" or \"admin\" both deny) — a safe 403, never another tenant's rows. Non-super, membership-scoped views of the platform-owned entities (e.g. an org console's own app list keyed on Application.Organization) are a separate, additive surface, not a silent behavior of this generic lister.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func getIamGetUsersWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        let localVariablePath = "/v1/iam/get-users"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
      Returns your organization's invitations, newest first — who has been asked to join, on what terms, and how many seats each invitation still has left.
      
      - parameter owner: (query)  (optional)
@@ -1868,6 +1709,55 @@ open class IamAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<IamInvitationsListOutput>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns one invitation: who it is for, what it grants on acceptance, and when it expires.
+     
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamInvitation
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getIamInvitationsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamInvitation {
+        return try await getIamInvitationsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns one invitation: who it is for, what it grants on acceptance, and when it expires.
+     - GET /v1/iam/invitations/{owner}/{name}
+     - Returns one invitation: who it is for, what it grants on acceptance, and when it expires.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamInvitation> 
+     */
+    open class func getIamInvitationsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamInvitation> {
+        var localVariablePath = "/v1/iam/invitations/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamInvitation>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -1919,38 +1809,40 @@ open class IamAPI {
     /**
      Returns one API key: what it is called, what it may reach, and when it was issued.
      
-     - parameter owner: (query)  (optional)
-     - parameter name: (query)  (optional)
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: IamKey
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIamKeysGet(owner: String? = nil, name: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamKey {
-        return try await getIamKeysGetWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
+    open class func getIamKeysByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamKey {
+        return try await getIamKeysByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Returns one API key: what it is called, what it may reach, and when it was issued.
-     - GET /v1/iam/keys/get
+     - GET /v1/iam/keys/{owner}/{name}
      - Returns one API key: what it is called, what it may reach, and when it was issued.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (query)  (optional)
-     - parameter name: (query)  (optional)
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IamKey> 
      */
-    open class func getIamKeysGetWithRequestBuilder(owner: String? = nil, name: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamKey> {
-        let localVariablePath = "/v1/iam/keys/get"
+    open class func getIamKeysByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamKey> {
+        var localVariablePath = "/v1/iam/keys/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "owner": (wrappedValue: owner?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-            "name": (wrappedValue: name?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-        ])
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
@@ -1959,6 +1851,84 @@ open class IamAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<IamKey>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Resolve a PUBLISHABLE key to the organization that owns it
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getIamKeysOrg(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getIamKeysOrgWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Resolve a PUBLISHABLE key to the organization that owns it
+     - GET /v1/iam/keys/org
+     - Answers which organization a publishable key belongs to — what a service calls to attribute a request that arrived carrying a key shipped in a browser. This is the noun spelling of `/v1/iam/resolve-key`, the same handler at the address that replaces it; both answer while callers migrate.  It names an ORGANIZATION and never a person. No path through it loads or returns a user, so a key placed in client code cannot become a way to learn who anyone is — which is the whole reason this is a separate door from the one below.  A key that is expired, secret rather than publishable, or simply unknown all answer with the same sentence and a `code` saying which it was. Only a confidential service that has already proved it may resolve keys reads that code — there is no anonymous caller here to probe which keys exist — and telling those apart is what lets a holder be told to re-mint an expired key instead of hunting a configuration error.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getIamKeysOrgWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/iam/keys/org"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Resolve a SECRET key to the principal it authenticates
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getIamKeysPrincipal(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getIamKeysPrincipalWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Resolve a SECRET key to the principal it authenticates
+     - GET /v1/iam/keys/principal
+     - Answers who a secret key belongs to — the owner and name a gateway needs to attribute and bill a request that arrived carrying an `sk-`. This is the noun spelling of `/v1/iam/get-user?accessKey=`, the same handler at the address that replaces it; both answer while callers migrate.  It resolves a KEY and nothing else. The verb it replaces also reads a user by `?id=`, and carrying that here would make this a second address for the user read — the exact thing being retired. Ask for a person by name at the user read; ask here only what a credential resolves to.  Requires a confidential caller: the resolver authenticates as an app, so a request without that credential resolves nothing rather than falling back to an anonymous lookup. An unresolvable key answers with a `code` distinguishing expired from wrong-door from unknown, so the holder can be told which one cure applies.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getIamKeysPrincipalWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/iam/keys/principal"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -2141,7 +2111,7 @@ open class IamAPI {
     /**
      Ends a sign-in and sends the browser somewhere sensible.
      - GET /v1/iam/oauth/logout
-     - Ends a sign-in and sends the browser somewhere sensible. Accepts GET or POST, so it works as a plain link.  It ACTUALLY signs you out, which is worth stating because the endpoint spent a release not doing it: the whole body computed a redirect and answered {\"status\":\"ok\"} unconditionally — no session ended, no token revoked. A logout that reports success while leaving the session live is worse than no logout at all, because the person on the shared machine believes it worked. Three things happen here now, in this order:   1. The browser session dies — sid revoked server-side AND the cookie expired     (sessions.Clear). Server-side revocation is the load-bearing half: a copy     of the cookie taken before logout must not still resolve.  2. The relying party's tokens are revoked when an id_token_hint names it, so     the refresh token cannot mint a fresh access token after the human left.     Revocation state is authoritative — a JWT's `exp` still reads valid for     days, so expiry is necessary but never sufficient.  3. Only then is a redirect considered, and only to a REGISTERED uri.  The open-redirect guard is unchanged: a redirect happens only when a VERIFIED id_token_hint identifies the application and that application has registered the target. Anything else refuses to redirect — nobody can turn your logout link into a redirect to a site of their choosing.
+     - Ends a sign-in and sends the browser somewhere sensible. Accepts GET or POST, so it works as a plain link.  It ACTUALLY signs you out — worth stating, because a logout that computes a redirect and answers {\"status\":\"ok\"} while ending no session and revoking no token is worse than none: the person on the shared machine believes it worked. Three things happen here, in this order:   1. The browser session dies — sid revoked server-side AND the cookie expired     (sessions.Clear). Server-side revocation is the load-bearing half: a copy     of the cookie taken before logout must not still resolve.  2. The relying party's tokens are revoked when an id_token_hint names it, so     the refresh token cannot mint a fresh access token after the human left.     Revocation state is authoritative — a JWT's `exp` still reads valid for     days, so expiry is necessary but never sufficient.  3. Only then is a redirect considered, and only to a REGISTERED uri.  The open-redirect guard is unchanged: a redirect happens only when a VERIFIED id_token_hint identifies the application and that application has registered the target. Anything else refuses to redirect — nobody can turn your logout link into a redirect to a site of their choosing.
      - Bearer Token:
        - type: http
        - name: bearer
@@ -2252,38 +2222,40 @@ open class IamAPI {
     /**
      Returns one permission: who it grants to, what it allows, and the resources it covers.
      
-     - parameter owner: (query)  (optional)
-     - parameter name: (query)  (optional)
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: IamPermission
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIamPermissionsGet(owner: String? = nil, name: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamPermission {
-        return try await getIamPermissionsGetWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
+    open class func getIamPermissionsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamPermission {
+        return try await getIamPermissionsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Returns one permission: who it grants to, what it allows, and the resources it covers.
-     - GET /v1/iam/permissions/get
+     - GET /v1/iam/permissions/{owner}/{name}
      - Returns one permission: who it grants to, what it allows, and the resources it covers.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (query)  (optional)
-     - parameter name: (query)  (optional)
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IamPermission> 
      */
-    open class func getIamPermissionsGetWithRequestBuilder(owner: String? = nil, name: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamPermission> {
-        let localVariablePath = "/v1/iam/permissions/get"
+    open class func getIamPermissionsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamPermission> {
+        var localVariablePath = "/v1/iam/permissions/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "owner": (wrappedValue: owner?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-            "name": (wrappedValue: name?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-        ])
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
@@ -2336,6 +2308,55 @@ open class IamAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<IamProjectsListOutput>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns one project: what it is called and how it is set up.
+     
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamProject
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getIamProjectsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamProject {
+        return try await getIamProjectsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns one project: what it is called and how it is set up.
+     - GET /v1/iam/projects/{owner}/{name}
+     - Returns one project: what it is called and how it is set up.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamProject> 
+     */
+    open class func getIamProjectsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamProject> {
+        var localVariablePath = "/v1/iam/projects/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamProject>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -2419,45 +2440,6 @@ open class IamAPI {
     }
 
     /**
-     Answers which organization a PUBLISHABLE key belongs to — what a service of yours calls to attribute a request that arrived carrying a key shipped in a browser.
-     
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIamResolveKey(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await getIamResolveKeyWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Answers which organization a PUBLISHABLE key belongs to — what a service of yours calls to attribute a request that arrived carrying a key shipped in a browser.
-     - GET /v1/iam/resolve-key
-     - Answers which organization a PUBLISHABLE key belongs to — what a service of yours calls to attribute a request that arrived carrying a key shipped in a browser.  It names an organization and never a person: no path through it can load or return a user, so a key you put in client code cannot become a way to learn who anyone is. A key that is expired, secret rather than publishable, or simply unknown all answer with the same sentence, and with a `code` saying which of those it was. Only a confidential service that already proved it may resolve keys at all ever reads that code — there is no anonymous caller here to probe for which keys exist — and telling it apart is what lets the holder be told to re-mint an expired key instead of hunting a configuration error.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func getIamResolveKeyWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        let localVariablePath = "/v1/iam/resolve-key"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
      Returns your organization's roles, newest first — each a named group of people that permissions are granted to.
      
      - parameter owner: (query)  (optional)
@@ -2497,6 +2479,55 @@ open class IamAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<IamRolesListOutput>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns one role: who is in it, and the roles it includes.
+     
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamRole
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getIamRolesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamRole {
+        return try await getIamRolesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns one role: who is in it, and the roles it includes.
+     - GET /v1/iam/roles/{owner}/{name}
+     - Returns one role: who is in it, and the roles it includes.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamRole> 
+     */
+    open class func getIamRolesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamRole> {
+        var localVariablePath = "/v1/iam/roles/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamRole>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -2848,14 +2879,15 @@ open class IamAPI {
      Returns a page of the people in your organization, with the total so you can page through the rest.
      
      - parameter owner: (query)  
+     - parameter email: (query) Email narrows the page to the accounts carrying one address. Looking a person up by their address is a QUERY over the collection, not an item read: an address is not the natural key, two rows in one org can carry one, and a caller that gets a page SEES both — where a single-item read would have to choose, and choosing is how somebody joins a team under a colleague&#39;s identity. (optional)
      - parameter limit: (query)  (optional)
      - parameter offset: (query)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: IamUsersListOutput
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIamUsers(owner: String, limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamUsersListOutput {
-        return try await getIamUsersWithRequestBuilder(owner: owner, limit: limit, offset: offset, apiConfiguration: apiConfiguration).execute().body
+    open class func getIamUsers(owner: String, email: String? = nil, limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamUsersListOutput {
+        return try await getIamUsersWithRequestBuilder(owner: owner, email: email, limit: limit, offset: offset, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -2866,12 +2898,13 @@ open class IamAPI {
        - type: http
        - name: bearer
      - parameter owner: (query)  
+     - parameter email: (query) Email narrows the page to the accounts carrying one address. Looking a person up by their address is a QUERY over the collection, not an item read: an address is not the natural key, two rows in one org can carry one, and a caller that gets a page SEES both — where a single-item read would have to choose, and choosing is how somebody joins a team under a colleague&#39;s identity. (optional)
      - parameter limit: (query)  (optional)
      - parameter offset: (query)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IamUsersListOutput> 
      */
-    open class func getIamUsersWithRequestBuilder(owner: String, limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamUsersListOutput> {
+    open class func getIamUsersWithRequestBuilder(owner: String, email: String? = nil, limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamUsersListOutput> {
         let localVariablePath = "/v1/iam/users"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -2879,6 +2912,7 @@ open class IamAPI {
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
             "owner": (wrappedValue: owner.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "email": (wrappedValue: email?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "offset": (wrappedValue: offset?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ])
@@ -2897,39 +2931,43 @@ open class IamAPI {
     /**
      Returns one person in your organization, addressed by their username or by their email address.
      
-     - parameter owner: (query)  
-     - parameter name: (query)  (optional)
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter email: (query)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: IamUser
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIamUsersGet(owner: String, name: String? = nil, email: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamUser {
-        return try await getIamUsersGetWithRequestBuilder(owner: owner, name: name, email: email, apiConfiguration: apiConfiguration).execute().body
+    open class func getIamUsersByOwnerByName(owner: String, name: String, email: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamUser {
+        return try await getIamUsersByOwnerByNameWithRequestBuilder(owner: owner, name: name, email: email, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Returns one person in your organization, addressed by their username or by their email address.
-     - GET /v1/iam/users/get
+     - GET /v1/iam/users/{owner}/{name}
      - Returns one person in your organization, addressed by their username or by their email address. Passwords, API secrets and MFA material are stripped from the response.  An address that names two accounts names none: the read refuses rather than picking one, and says so instead of reporting \"no such user\". Handing back an arbitrary one of two rows is how somebody gets added to a team under a colleague's identity.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (query)  
-     - parameter name: (query)  (optional)
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter email: (query)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IamUser> 
      */
-    open class func getIamUsersGetWithRequestBuilder(owner: String, name: String? = nil, email: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamUser> {
-        let localVariablePath = "/v1/iam/users/get"
+    open class func getIamUsersByOwnerByNameWithRequestBuilder(owner: String, name: String, email: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamUser> {
+        var localVariablePath = "/v1/iam/users/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "owner": (wrappedValue: owner.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-            "name": (wrappedValue: name?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "email": (wrappedValue: email?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ])
 
@@ -2967,6 +3005,84 @@ open class IamAPI {
      */
     open class func getIamWeb3NonceWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/iam/web3/nonce"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Starts a passkey sign-in: it returns the challenge the person's authenticator signs.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getIamWebauthnSigninBegin(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getIamWebauthnSigninBeginWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Starts a passkey sign-in: it returns the challenge the person's authenticator signs.
+     - GET /v1/iam/webauthn/signin/begin
+     - Starts a passkey sign-in: it returns the challenge the person's authenticator signs.  The account is named in the query, and the challenge is bound to it, so what may answer is decided here — by the server, from the row — and the finish checks the answer against that decision rather than recomputing it.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getIamWebauthnSigninBeginWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/iam/webauthn/signin/begin"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Starts enrolling a passkey for the signed-in person: it returns the options their browser hands to the authenticator.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getIamWebauthnSignupBegin(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getIamWebauthnSignupBeginWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Starts enrolling a passkey for the signed-in person: it returns the options their browser hands to the authenticator.
+     - GET /v1/iam/webauthn/signup/begin
+     - Starts enrolling a passkey for the signed-in person: it returns the options their browser hands to the authenticator.  Passkeys already on the account are EXCLUDED, so a second enrollment on a device that already holds one is refused by the authenticator itself rather than silently producing a duplicate the person cannot tell apart.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getIamWebauthnSignupBeginWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/iam/webauthn/signup/begin"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
@@ -3184,40 +3300,91 @@ open class IamAPI {
     }
 
     /**
+     Returns one workspace: what it is called and how it is set up.
+     
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamWorkspace
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getIamWorkspacesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamWorkspace {
+        return try await getIamWorkspacesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns one workspace: what it is called and how it is set up.
+     - GET /v1/iam/workspaces/{owner}/{name}
+     - Returns one workspace: what it is called and how it is set up.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamWorkspace> 
+     */
+    open class func getIamWorkspacesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamWorkspace> {
+        var localVariablePath = "/v1/iam/workspaces/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamWorkspace>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      Returns one organization: its display, its defaults and the sign-in rules everyone in it inherits.
      
-     - parameter owner: (query)  (optional)
-     - parameter name: (query)  (optional)
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: IamOrganization
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getOrganization(owner: String? = nil, name: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamOrganization {
+    open class func getOrganization(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamOrganization {
         return try await getOrganizationWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Returns one organization: its display, its defaults and the sign-in rules everyone in it inherits.
-     - GET /v1/iam/organizations/get
+     - GET /v1/iam/organizations/{owner}/{name}
      - Returns one organization: its display, its defaults and the sign-in rules everyone in it inherits.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (query)  (optional)
-     - parameter name: (query)  (optional)
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IamOrganization> 
      */
-    open class func getOrganizationWithRequestBuilder(owner: String? = nil, name: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamOrganization> {
-        let localVariablePath = "/v1/iam/organizations/get"
+    open class func getOrganizationWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamOrganization> {
+        var localVariablePath = "/v1/iam/organizations/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "owner": (wrappedValue: owner?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-            "name": (wrappedValue: name?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-        ])
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
@@ -3233,208 +3400,247 @@ open class IamAPI {
     /**
      Returns one provider: what it connects to and how it is configured.
      
-     - parameter iamProviderKey: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: IamProviderResult
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getProvider(iamProviderKey: IamProviderKey, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamProviderResult {
-        return try await getProviderWithRequestBuilder(iamProviderKey: iamProviderKey, apiConfiguration: apiConfiguration).execute().body
+    open class func getProvider(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamProviderResult {
+        return try await getProviderWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Returns one provider: what it connects to and how it is configured.
-     - POST /v1/iam/providers/get
+     - GET /v1/iam/providers/{owner}/{name}
      - Returns one provider: what it connects to and how it is configured. Its credentials come back masked.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter iamProviderKey: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IamProviderResult> 
      */
-    open class func getProviderWithRequestBuilder(iamProviderKey: IamProviderKey, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamProviderResult> {
-        let localVariablePath = "/v1/iam/providers/get"
+    open class func getProviderWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamProviderResult> {
+        var localVariablePath = "/v1/iam/providers/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamProviderKey, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<IamProviderResult>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
      Returns one person's session in one application — when it began and which browsers or devices are still carrying it.
      
-     - parameter iamSessionRef: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter application: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: IamSession
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getSession(iamSessionRef: IamSessionRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamSession {
-        return try await getSessionWithRequestBuilder(iamSessionRef: iamSessionRef, apiConfiguration: apiConfiguration).execute().body
+    open class func getSession(owner: String, name: String, application: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamSession {
+        return try await getSessionWithRequestBuilder(owner: owner, name: name, application: application, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Returns one person's session in one application — when it began and which browsers or devices are still carrying it.
-     - POST /v1/iam/sessions/get
+     - GET /v1/iam/sessions/{owner}/{name}/{application}
      - Returns one person's session in one application — when it began and which browsers or devices are still carrying it.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter iamSessionRef: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter application: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IamSession> 
      */
-    open class func getSessionWithRequestBuilder(iamSessionRef: IamSessionRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamSession> {
-        let localVariablePath = "/v1/iam/sessions/get"
+    open class func getSessionWithRequestBuilder(owner: String, name: String, application: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamSession> {
+        var localVariablePath = "/v1/iam/sessions/{owner}/{name}/{application}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let applicationPreEscape = "\(APIHelper.mapValueToPathItem(application))"
+        let applicationPostEscape = applicationPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{application}", with: applicationPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamSessionRef, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<IamSession>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
      Returns one access token: who and what it was issued to, and when it expires.
      
-     - parameter iamTokenKey: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: IamTokenResult
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getToken(iamTokenKey: IamTokenKey, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamTokenResult {
-        return try await getTokenWithRequestBuilder(iamTokenKey: iamTokenKey, apiConfiguration: apiConfiguration).execute().body
+    open class func getToken(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamTokenResult {
+        return try await getTokenWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Returns one access token: who and what it was issued to, and when it expires.
-     - POST /v1/iam/tokens/get
+     - GET /v1/iam/tokens/{owner}/{name}
      - Returns one access token: who and what it was issued to, and when it expires.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter iamTokenKey: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IamTokenResult> 
      */
-    open class func getTokenWithRequestBuilder(iamTokenKey: IamTokenKey, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamTokenResult> {
-        let localVariablePath = "/v1/iam/tokens/get"
+    open class func getTokenWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamTokenResult> {
+        var localVariablePath = "/v1/iam/tokens/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamTokenKey, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<IamTokenResult>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
      Returns one passkey or security key: whose it is, what device it lives on, and when it was registered.
      
-     - parameter iamWebauthnCredentialKey: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: IamWebauthnCredentialResult
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getWebauthnCredential(iamWebauthnCredentialKey: IamWebauthnCredentialKey, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamWebauthnCredentialResult {
-        return try await getWebauthnCredentialWithRequestBuilder(iamWebauthnCredentialKey: iamWebauthnCredentialKey, apiConfiguration: apiConfiguration).execute().body
+    open class func getWebauthnCredential(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamWebauthnCredentialResult {
+        return try await getWebauthnCredentialWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Returns one passkey or security key: whose it is, what device it lives on, and when it was registered.
-     - POST /v1/iam/webauthn-credentials/get
+     - GET /v1/iam/webauthn-credentials/{owner}/{name}
      - Returns one passkey or security key: whose it is, what device it lives on, and when it was registered.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter iamWebauthnCredentialKey: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IamWebauthnCredentialResult> 
      */
-    open class func getWebauthnCredentialWithRequestBuilder(iamWebauthnCredentialKey: IamWebauthnCredentialKey, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamWebauthnCredentialResult> {
-        let localVariablePath = "/v1/iam/webauthn-credentials/get"
+    open class func getWebauthnCredentialWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamWebauthnCredentialResult> {
+        var localVariablePath = "/v1/iam/webauthn-credentials/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamWebauthnCredentialKey, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<IamWebauthnCredentialResult>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Returns the organizations you can see, newest first.
+     Returns the organizations you can act in, the ones you belong to first and the rest after, newest first, narrowed by an optional query against the name or the display name.
      
-     - parameter owner: (query)  (optional)
+     - parameter xForwardedFor: (header)  (optional)
+     - parameter q: (query)  (optional)
      - parameter limit: (query)  (optional)
-     - parameter offset: (query)  (optional)
+     - parameter cursor: (query)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: IamListOrganizationsOutput
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func listOrganizations(owner: String? = nil, limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamListOrganizationsOutput {
-        return try await listOrganizationsWithRequestBuilder(owner: owner, limit: limit, offset: offset, apiConfiguration: apiConfiguration).execute().body
+    open class func listOrganizations(xForwardedFor: String? = nil, q: String? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamListOrganizationsOutput {
+        return try await listOrganizationsWithRequestBuilder(xForwardedFor: xForwardedFor, q: q, limit: limit, cursor: cursor, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Returns the organizations you can see, newest first.
+     Returns the organizations you can act in, the ones you belong to first and the rest after, newest first, narrowed by an optional query against the name or the display name.
      - GET /v1/iam/organizations
-     - Returns the organizations you can see, newest first. Narrow it to one parent account, and set a limit and offset to page through the rest.
+     - Returns the organizations you can act in, the ones you belong to first and the rest after, newest first, narrowed by an optional query against the name or the display name.  Platform operators see every organization; everyone else sees their own. Pass the cursor from the previous page to continue; an empty cursor in the answer means there is nothing more.  THE SCOPE IS THE HANDLER'S OWN, so it holds at every door. The Guard refuses a bearerless request before this runs, but the agent door carries a typed op to its handler with no middleware in front of it — a handler that read no principal would answer such a caller with the whole registry. Reading the principal here is what makes the answer the same one over both.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (query)  (optional)
+     - parameter xForwardedFor: (header)  (optional)
+     - parameter q: (query)  (optional)
      - parameter limit: (query)  (optional)
-     - parameter offset: (query)  (optional)
+     - parameter cursor: (query)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IamListOrganizationsOutput> 
      */
-    open class func listOrganizationsWithRequestBuilder(owner: String? = nil, limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamListOrganizationsOutput> {
+    open class func listOrganizationsWithRequestBuilder(xForwardedFor: String? = nil, q: String? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamListOrganizationsOutput> {
         let localVariablePath = "/v1/iam/organizations"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "owner": (wrappedValue: owner?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "q": (wrappedValue: q?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-            "offset": (wrappedValue: offset?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "cursor": (wrappedValue: cursor?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "X-Forwarded-For": xForwardedFor?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
@@ -3491,42 +3697,51 @@ open class IamAPI {
     /**
      Returns who is currently signed in to your organization, newest first, and can be narrowed to one person or one application.
      
-     - parameter iamListSessionsIn: (body)  
+     - parameter owner: (query)  
+     - parameter name: (query)  (optional)
+     - parameter application: (query)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: IamListSessionsOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func listSessions(iamListSessionsIn: IamListSessionsIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamListSessionsOut {
-        return try await listSessionsWithRequestBuilder(iamListSessionsIn: iamListSessionsIn, apiConfiguration: apiConfiguration).execute().body
+    open class func listSessions(owner: String, name: String? = nil, application: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamListSessionsOut {
+        return try await listSessionsWithRequestBuilder(owner: owner, name: name, application: application, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Returns who is currently signed in to your organization, newest first, and can be narrowed to one person or one application.
-     - POST /v1/iam/sessions/list
+     - GET /v1/iam/sessions
      - Returns who is currently signed in to your organization, newest first, and can be narrowed to one person or one application. It is what you read before signing someone out.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter iamListSessionsIn: (body)  
+     - parameter owner: (query)  
+     - parameter name: (query)  (optional)
+     - parameter application: (query)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IamListSessionsOut> 
      */
-    open class func listSessionsWithRequestBuilder(iamListSessionsIn: IamListSessionsIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamListSessionsOut> {
-        let localVariablePath = "/v1/iam/sessions/list"
+    open class func listSessionsWithRequestBuilder(owner: String, name: String? = nil, application: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamListSessionsOut> {
+        let localVariablePath = "/v1/iam/sessions"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamListSessionsIn, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "owner": (wrappedValue: owner.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "name": (wrappedValue: name?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "application": (wrappedValue: application?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<IamListSessionsOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
@@ -3577,36 +3792,36 @@ open class IamAPI {
     }
 
     /**
-     Returns the passkeys and security keys registered in your organization, newest first — which device each belongs to and when it was last used.
+     Returns the passkeys and security keys registered to one person, newest first — which device each lives on and when it was registered.
      
-     - parameter owner: (query)  (optional)
+     - parameter user: (query)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: IamListWebauthnCredentialsOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func listWebauthnCredentials(owner: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamListWebauthnCredentialsOut {
-        return try await listWebauthnCredentialsWithRequestBuilder(owner: owner, apiConfiguration: apiConfiguration).execute().body
+    open class func listWebauthnCredentials(user: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamListWebauthnCredentialsOut {
+        return try await listWebauthnCredentialsWithRequestBuilder(user: user, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Returns the passkeys and security keys registered in your organization, newest first — which device each belongs to and when it was last used.
+     Returns the passkeys and security keys registered to one person, newest first — which device each lives on and when it was registered.
      - GET /v1/iam/webauthn-credentials
-     - Returns the passkeys and security keys registered in your organization, newest first — which device each belongs to and when it was last used.
+     - Returns the passkeys and security keys registered to one person, newest first — which device each lives on and when it was registered.  Yours by default. Name somebody else and you get them only if you already administer their account, which is the same authority that governs reading their user record — so this list can never show more people than the surface beside it already does.  There is no organization-wide list, by design. Scoping to the ORG would hand an org admin every member's credential rows in one answer and a SuperAdmin every tenant's, while a plain member could not read even their own (an unnamed target fails the Guard's tenant rule). One scope answers both halves cleanly: the answer is a person's, and the caller is that person unless they say otherwise and may.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (query)  (optional)
+     - parameter user: (query)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IamListWebauthnCredentialsOut> 
      */
-    open class func listWebauthnCredentialsWithRequestBuilder(owner: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamListWebauthnCredentialsOut> {
+    open class func listWebauthnCredentialsWithRequestBuilder(user: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamListWebauthnCredentialsOut> {
         let localVariablePath = "/v1/iam/webauthn-credentials"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "owner": (wrappedValue: owner?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "user": (wrappedValue: user?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
@@ -3670,332 +3885,6 @@ open class IamAPI {
     }
 
     /**
-     Registers an application in your organization — one product or site your people sign in to, with its own client credentials, sign-in methods and allowed redirect URIs.
-     
-     - parameter iamApplication: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamResponse
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamAddApplication(iamApplication: IamApplication, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamResponse {
-        return try await postIamAddApplicationWithRequestBuilder(iamApplication: iamApplication, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Registers an application in your organization — one product or site your people sign in to, with its own client credentials, sign-in methods and allowed redirect URIs.
-     - POST /v1/iam/add-application
-     - Registers an application in your organization — one product or site your people sign in to, with its own client credentials, sign-in methods and allowed redirect URIs.  The older spelling of POST /v1/iam/application. A name already used in the organization is refused rather than overwritten.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamApplication: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamResponse> 
-     */
-    open class func postIamAddApplicationWithRequestBuilder(iamApplication: IamApplication, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamResponse> {
-        let localVariablePath = "/v1/iam/add-application"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamApplication, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Lets a person or an application act in an organization.
-     
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamAddMembership(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postIamAddMembershipWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Lets a person or an application act in an organization.
-     - POST /v1/iam/add-membership
-     - Lets a person or an application act in an organization. It is the grant behind \"add someone to the team\", and it is safe to repeat — granting a membership that already exists changes nothing. Granting membership IS the org's authority to give, so it takes the same gate a write to that org's own registry row takes: a SuperAdmin, an admin of the org itself, or an org-admin-capable confidential client. One rule, one place (internal/authz).
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func postIamAddMembershipWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        let localVariablePath = "/v1/iam/add-membership"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Creates an organization — the account everything else in your directory hangs from.
-     
-     - parameter iamCreateOrganizationInput: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamResponse
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamAddOrganization(iamCreateOrganizationInput: IamCreateOrganizationInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamResponse {
-        return try await postIamAddOrganizationWithRequestBuilder(iamCreateOrganizationInput: iamCreateOrganizationInput, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Creates an organization — the account everything else in your directory hangs from.
-     - POST /v1/iam/add-organization
-     - Creates an organization — the account everything else in your directory hangs from. Users, applications, roles, projects and workspaces are all named inside one organization, so this is the first write in a new tenant.  The older spelling of POST /v1/iam/organizations. Both reach the same create, so a name already taken is refused here too.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamCreateOrganizationInput: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamResponse> 
-     */
-    open class func postIamAddOrganizationWithRequestBuilder(iamCreateOrganizationInput: IamCreateOrganizationInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamResponse> {
-        let localVariablePath = "/v1/iam/add-organization"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamCreateOrganizationInput, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Creates a project inside your organization — the scope people pick between when their work is separated by product or client rather than by team.
-     
-     - parameter iamInput: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamResponse
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamAddProject(iamInput: IamInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamResponse {
-        return try await postIamAddProjectWithRequestBuilder(iamInput: iamInput, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Creates a project inside your organization — the scope people pick between when their work is separated by product or client rather than by team.
-     - POST /v1/iam/add-project
-     - Creates a project inside your organization — the scope people pick between when their work is separated by product or client rather than by team.  The older spelling of POST /v1/iam/projects. Creating one takes an administrator of the owning organization.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamInput: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamResponse> 
-     */
-    open class func postIamAddProjectWithRequestBuilder(iamInput: IamInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamResponse> {
-        let localVariablePath = "/v1/iam/add-project"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamInput, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Adds an identity provider your people can sign in with, or a service your applications send through — a social or enterprise login, an email or SMS sender, a storage or payment connector.
-     
-     - parameter iamProvider: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamResponse
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamAddProvider(iamProvider: IamProvider, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamResponse {
-        return try await postIamAddProviderWithRequestBuilder(iamProvider: iamProvider, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Adds an identity provider your people can sign in with, or a service your applications send through — a social or enterprise login, an email or SMS sender, a storage or payment connector.
-     - POST /v1/iam/add-provider
-     - Adds an identity provider your people can sign in with, or a service your applications send through — a social or enterprise login, an email or SMS sender, a storage or payment connector.  A provider is configured once here and then switched on per application, so several applications can share one set of credentials.  The older spelling of POST /v1/iam/providers.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamProvider: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamResponse> 
-     */
-    open class func postIamAddProviderWithRequestBuilder(iamProvider: IamProvider, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamResponse> {
-        let localVariablePath = "/v1/iam/add-provider"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamProvider, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Creates a role — a named group of people that permissions are granted to.
-     
-     - parameter iamRolesInput: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamResponse
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamAddRole(iamRolesInput: IamRolesInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamResponse {
-        return try await postIamAddRoleWithRequestBuilder(iamRolesInput: iamRolesInput, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Creates a role — a named group of people that permissions are granted to.
-     - POST /v1/iam/add-role
-     - Creates a role — a named group of people that permissions are granted to. Granting to a role rather than to each person is what keeps access correct as your team changes: add someone to the role and they inherit everything it can do.  The older spelling of POST /v1/iam/roles.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamRolesInput: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamResponse> 
-     */
-    open class func postIamAddRoleWithRequestBuilder(iamRolesInput: IamRolesInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamResponse> {
-        let localVariablePath = "/v1/iam/add-role"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamRolesInput, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Adds a person to your organization and, if you send a password, sets the one they will sign in with.
-     
-     - parameter iamUserBody: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamResponse
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamAddUser(iamUserBody: IamUserBody, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamResponse {
-        return try await postIamAddUserWithRequestBuilder(iamUserBody: iamUserBody, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Adds a person to your organization and, if you send a password, sets the one they will sign in with.
-     - POST /v1/iam/add-user
-     - Adds a person to your organization and, if you send a password, sets the one they will sign in with. The password is hashed before it is stored and is never returned to you or to anyone else.  Usernames are checked against one rule wherever an account is created — this verb, password signup, a social sign-in, or SCIM — so a name accepted here is a name accepted everywhere.  The older spelling of POST /v1/iam/users, and it posts the user's fields at the top level rather than wrapped in {user, password}.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamUserBody: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamResponse> 
-     */
-    open class func postIamAddUserWithRequestBuilder(iamUserBody: IamUserBody, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamResponse> {
-        let localVariablePath = "/v1/iam/add-user"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamUserBody, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Creates a workspace inside your organization — the scope a team works in, alongside projects rather than instead of them.
-     
-     - parameter iamWorkspacesInput: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamResponse
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamAddWorkspace(iamWorkspacesInput: IamWorkspacesInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamResponse {
-        return try await postIamAddWorkspaceWithRequestBuilder(iamWorkspacesInput: iamWorkspacesInput, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Creates a workspace inside your organization — the scope a team works in, alongside projects rather than instead of them.
-     - POST /v1/iam/add-workspace
-     - Creates a workspace inside your organization — the scope a team works in, alongside projects rather than instead of them.  The older spelling of POST /v1/iam/workspaces. Creating one takes an administrator of the owning organization.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamWorkspacesInput: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamResponse> 
-     */
-    open class func postIamAddWorkspaceWithRequestBuilder(iamWorkspacesInput: IamWorkspacesInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamResponse> {
-        let localVariablePath = "/v1/iam/add-workspace"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamWorkspacesInput, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
      Sets up an account on someone's behalf — the same onboarding a person gets themselves, driven by one of your own services instead of by them.
      
      - parameter apiConfiguration: The configuration for the http request.
@@ -4042,47 +3931,6 @@ open class IamAPI {
      - returns: IamApplication
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamApplication(iamApplication: IamApplication, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamApplication {
-        return try await postIamApplicationWithRequestBuilder(iamApplication: iamApplication, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Registers an application in your organization — one product or site your people sign in to, with its own client credentials, sign-in methods and allowed redirect URIs.
-     - POST /v1/iam/application
-     - Registers an application in your organization — one product or site your people sign in to, with its own client credentials, sign-in methods and allowed redirect URIs. A name already used in the organization is refused rather than overwritten.  Exported so the legacy add-application alias reuses this exact path — one create, two spellings.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamApplication: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamApplication> 
-     */
-    open class func postIamApplicationWithRequestBuilder(iamApplication: IamApplication, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamApplication> {
-        let localVariablePath = "/v1/iam/application"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamApplication, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamApplication>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Registers an application in your organization — one product or site your people sign in to, with its own client credentials, sign-in methods and allowed redirect URIs.
-     
-     - parameter iamApplication: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamApplication
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func postIamApplications(iamApplication: IamApplication, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamApplication {
         return try await postIamApplicationsWithRequestBuilder(iamApplication: iamApplication, apiConfiguration: apiConfiguration).execute().body
     }
@@ -4117,83 +3965,48 @@ open class IamAPI {
     }
 
     /**
-     Removes an application.
+     Steps a platform operator into an organization: it returns their own access token re-scoped to that tenant, so they see what the tenant sees.
      
-     - parameter iamApplicationRef: (body)  
+     - parameter iamAssumeBody: (body)  
+     - parameter authorization: (header)  (optional)
+     - parameter xForwardedFor: (header)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamDeleteResult
+     - returns: IamAnswer
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamApplicationsDelete(iamApplicationRef: IamApplicationRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamDeleteResult {
-        return try await postIamApplicationsDeleteWithRequestBuilder(iamApplicationRef: iamApplicationRef, apiConfiguration: apiConfiguration).execute().body
+    open class func postIamAssume(iamAssumeBody: IamAssumeBody, authorization: String? = nil, xForwardedFor: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamAnswer {
+        return try await postIamAssumeWithRequestBuilder(iamAssumeBody: iamAssumeBody, authorization: authorization, xForwardedFor: xForwardedFor, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Removes an application.
-     - POST /v1/iam/applications/delete
-     - Removes an application. Anyone mid-sign-in through it is turned away and its client credentials stop working, so retire the integration before deleting it.
+     Steps a platform operator into an organization: it returns their own access token re-scoped to that tenant, so they see what the tenant sees.
+     - POST /v1/iam/assume
+     - Steps a platform operator into an organization: it returns their own access token re-scoped to that tenant, so they see what the tenant sees.  The token still names the operator — stepping in is not becoming somebody else — and records the organization it was scoped to, so everything done with it is attributed to the person who did it. Only a platform operator may, and the attempt is recorded whether or not it succeeds.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter iamApplicationRef: (body)  
+     - parameter iamAssumeBody: (body)  
+     - parameter authorization: (header)  (optional)
+     - parameter xForwardedFor: (header)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamDeleteResult> 
+     - returns: RequestBuilder<IamAnswer> 
      */
-    open class func postIamApplicationsDeleteWithRequestBuilder(iamApplicationRef: IamApplicationRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamDeleteResult> {
-        let localVariablePath = "/v1/iam/applications/delete"
+    open class func postIamAssumeWithRequestBuilder(iamAssumeBody: IamAssumeBody, authorization: String? = nil, xForwardedFor: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamAnswer> {
+        let localVariablePath = "/v1/iam/assume"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamApplicationRef, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamAssumeBody, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
+            "Authorization": authorization?.asParameter(codableHelper: apiConfiguration.codableHelper),
+            "X-Forwarded-For": xForwardedFor?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<IamDeleteResult>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Changes an application's display, its sign-in methods and the redirect URIs it may return to — the call that makes login work from a new host.
-     
-     - parameter iamApplication: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamApplication
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamApplicationsUpdate(iamApplication: IamApplication, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamApplication {
-        return try await postIamApplicationsUpdateWithRequestBuilder(iamApplication: iamApplication, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Changes an application's display, its sign-in methods and the redirect URIs it may return to — the call that makes login work from a new host.
-     - POST /v1/iam/applications/update
-     - Changes an application's display, its sign-in methods and the redirect URIs it may return to — the call that makes login work from a new host. Which organization it belongs to and what it is named are fixed when it is created and are not editable here.  Exported so the legacy update-application alias reuses this exact path — one update, two spellings.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamApplication: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamApplication> 
-     */
-    open class func postIamApplicationsUpdateWithRequestBuilder(iamApplication: IamApplication, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamApplication> {
-        let localVariablePath = "/v1/iam/applications/update"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamApplication, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamApplication>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<IamAnswer>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -4201,13 +4014,13 @@ open class IamAPI {
     /**
      Records an audit entry, so activity from your own systems lands in the same trail as everything the Hanzo Cloud records for you.
      
-     - parameter iamAuditlogsInput: (body)  
+     - parameter iamInput: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: IamAuditLog
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamAuditLogs(iamAuditlogsInput: IamAuditlogsInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamAuditLog {
-        return try await postIamAuditLogsWithRequestBuilder(iamAuditlogsInput: iamAuditlogsInput, apiConfiguration: apiConfiguration).execute().body
+    open class func postIamAuditLogs(iamInput: IamInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamAuditLog {
+        return try await postIamAuditLogsWithRequestBuilder(iamInput: iamInput, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -4217,14 +4030,14 @@ open class IamAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter iamAuditlogsInput: (body)  
+     - parameter iamInput: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IamAuditLog> 
      */
-    open class func postIamAuditLogsWithRequestBuilder(iamAuditlogsInput: IamAuditlogsInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamAuditLog> {
+    open class func postIamAuditLogsWithRequestBuilder(iamInput: IamInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamAuditLog> {
         let localVariablePath = "/v1/iam/audit-logs"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamAuditlogsInput, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamInput, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -4240,130 +4053,7 @@ open class IamAPI {
     }
 
     /**
-     Removes an audit entry.
-     
-     - parameter iamRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamDeleteOutput
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamAuditLogsDelete(iamRef: IamRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamDeleteOutput {
-        return try await postIamAuditLogsDeleteWithRequestBuilder(iamRef: iamRef, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Removes an audit entry.
-     - POST /v1/iam/audit-logs/delete
-     - Removes an audit entry. Retention policy is normally what should expire a trail; deleting by hand leaves a gap a reviewer will notice.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamDeleteOutput> 
-     */
-    open class func postIamAuditLogsDeleteWithRequestBuilder(iamRef: IamRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamDeleteOutput> {
-        let localVariablePath = "/v1/iam/audit-logs/delete"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamRef, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamDeleteOutput>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Returns one audit entry in full: the action, the person or key behind it, and the request it came in on.
-     
-     - parameter iamRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamAuditLog
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamAuditLogsGet(iamRef: IamRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamAuditLog {
-        return try await postIamAuditLogsGetWithRequestBuilder(iamRef: iamRef, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Returns one audit entry in full: the action, the person or key behind it, and the request it came in on.
-     - POST /v1/iam/audit-logs/get
-     - Returns one audit entry in full: the action, the person or key behind it, and the request it came in on.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamAuditLog> 
-     */
-    open class func postIamAuditLogsGetWithRequestBuilder(iamRef: IamRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamAuditLog> {
-        let localVariablePath = "/v1/iam/audit-logs/get"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamRef, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamAuditLog>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Corrects an audit entry.
-     
-     - parameter iamAuditlogsInput: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamAuditLog
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamAuditLogsUpdate(iamAuditlogsInput: IamAuditlogsInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamAuditLog {
-        return try await postIamAuditLogsUpdateWithRequestBuilder(iamAuditlogsInput: iamAuditlogsInput, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Corrects an audit entry.
-     - POST /v1/iam/audit-logs/update
-     - Corrects an audit entry. The trail is append-only in normal operation and nothing in the Hanzo Cloud rewrites it — this exists for an administrator to correct an entry their own systems recorded wrongly.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamAuditlogsInput: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamAuditLog> 
-     */
-    open class func postIamAuditLogsUpdateWithRequestBuilder(iamAuditlogsInput: IamAuditlogsInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamAuditLog> {
-        let localVariablePath = "/v1/iam/audit-logs/update"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamAuditlogsInput, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamAuditLog>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Adds a signing certificate your applications can verify tokens against — the call you make to bring your own key, or to stage the next one before a rotation.
+     Adds a signing certificate your applications can verify tokens against — the call you make to stage the next one before a rotation.
      
      - parameter iamCert: (body)  
      - parameter apiConfiguration: The configuration for the http request.
@@ -4375,9 +4065,9 @@ open class IamAPI {
     }
 
     /**
-     Adds a signing certificate your applications can verify tokens against — the call you make to bring your own key, or to stage the next one before a rotation.
+     Adds a signing certificate your applications can verify tokens against — the call you make to stage the next one before a rotation.
      - POST /v1/iam/certs
-     - Adds a signing certificate your applications can verify tokens against — the call you make to bring your own key, or to stage the next one before a rotation. A name already used in your organization is refused.
+     - Adds a signing certificate your applications can verify tokens against — the call you make to stage the next one before a rotation. A name already used in your organization is refused.  It registers the certificate's IDENTITY: its name (which is the JWKS `kid`), its algorithm, its expiry. Key material does not travel this way and cannot: the private key is not part of the Cert's JSON, so it is neither served here nor accepted here. It is supplied to the process by the deployment, under the name registered here (internal/keyring). Staging a rotation is therefore two halves — this call names the key, and the deployment provides it.
      - Bearer Token:
        - type: http
        - name: bearer
@@ -4399,170 +4089,6 @@ open class IamAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<IamCert>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Removes a signing certificate.
-     
-     - parameter iamCertsRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamCertsDeleteOutput
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamCertsDelete(iamCertsRef: IamCertsRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamCertsDeleteOutput {
-        return try await postIamCertsDeleteWithRequestBuilder(iamCertsRef: iamCertsRef, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Removes a signing certificate.
-     - POST /v1/iam/certs/delete
-     - Removes a signing certificate. Tokens signed with it can no longer be verified, so retire it only once nothing is still presenting them.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamCertsRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamCertsDeleteOutput> 
-     */
-    open class func postIamCertsDeleteWithRequestBuilder(iamCertsRef: IamCertsRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamCertsDeleteOutput> {
-        let localVariablePath = "/v1/iam/certs/delete"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamCertsRef, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamCertsDeleteOutput>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Returns one signing certificate — its algorithm, its validity window and its public half.
-     
-     - parameter iamCertsRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamCert
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamCertsGet(iamCertsRef: IamCertsRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamCert {
-        return try await postIamCertsGetWithRequestBuilder(iamCertsRef: iamCertsRef, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Returns one signing certificate — its algorithm, its validity window and its public half.
-     - POST /v1/iam/certs/get
-     - Returns one signing certificate — its algorithm, its validity window and its public half. The private key is masked.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamCertsRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamCert> 
-     */
-    open class func postIamCertsGetWithRequestBuilder(iamCertsRef: IamCertsRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamCert> {
-        let localVariablePath = "/v1/iam/certs/get"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamCertsRef, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamCert>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Changes a signing certificate's settings.
-     
-     - parameter iamCert: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamCert
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamCertsUpdate(iamCert: IamCert, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamCert {
-        return try await postIamCertsUpdateWithRequestBuilder(iamCert: iamCert, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Changes a signing certificate's settings.
-     - POST /v1/iam/certs/update
-     - Changes a signing certificate's settings. What it is called does not change, and neither does when it was added.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamCert: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamCert> 
-     */
-    open class func postIamCertsUpdateWithRequestBuilder(iamCert: IamCert, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamCert> {
-        let localVariablePath = "/v1/iam/certs/update"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamCert, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamCert>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Deletes an application.
-     
-     - parameter iamApplication: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamResponse
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamDeleteApplication(iamApplication: IamApplication, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamResponse {
-        return try await postIamDeleteApplicationWithRequestBuilder(iamApplication: iamApplication, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Deletes an application.
-     - POST /v1/iam/delete-application
-     - Deletes an application. Anyone mid-sign-in through it is turned away and its client credentials stop working, so retire the integration first.  The older spelling of DELETE /v1/iam/application.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamApplication: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamResponse> 
-     */
-    open class func postIamDeleteApplicationWithRequestBuilder(iamApplication: IamApplication, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamResponse> {
-        let localVariablePath = "/v1/iam/delete-application"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamApplication, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -4646,252 +4172,6 @@ open class IamAPI {
     }
 
     /**
-     Deletes an organization and everything named inside it — its users, applications, roles, projects and workspaces.
-     
-     - parameter iamDeleteOrganizationInput: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamResponse
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamDeleteOrganization(iamDeleteOrganizationInput: IamDeleteOrganizationInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamResponse {
-        return try await postIamDeleteOrganizationWithRequestBuilder(iamDeleteOrganizationInput: iamDeleteOrganizationInput, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Deletes an organization and everything named inside it — its users, applications, roles, projects and workspaces.
-     - POST /v1/iam/delete-organization
-     - Deletes an organization and everything named inside it — its users, applications, roles, projects and workspaces. There is no undo, and every session issued under it stops working.  The older spelling of POST /v1/iam/organizations/delete.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamDeleteOrganizationInput: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamResponse> 
-     */
-    open class func postIamDeleteOrganizationWithRequestBuilder(iamDeleteOrganizationInput: IamDeleteOrganizationInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamResponse> {
-        let localVariablePath = "/v1/iam/delete-organization"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamDeleteOrganizationInput, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Deletes a project.
-     
-     - parameter iamProjectsRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamResponse
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamDeleteProject(iamProjectsRef: IamProjectsRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamResponse {
-        return try await postIamDeleteProjectWithRequestBuilder(iamProjectsRef: iamProjectsRef, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Deletes a project.
-     - POST /v1/iam/delete-project
-     - Deletes a project. The people and roles in your organization are unchanged; what goes is the scope itself, so anything addressed by it must move first.  The older spelling of POST /v1/iam/projects/delete.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamProjectsRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamResponse> 
-     */
-    open class func postIamDeleteProjectWithRequestBuilder(iamProjectsRef: IamProjectsRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamResponse> {
-        let localVariablePath = "/v1/iam/delete-project"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamProjectsRef, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Removes a provider.
-     
-     - parameter iamProvider: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamResponse
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamDeleteProvider(iamProvider: IamProvider, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamResponse {
-        return try await postIamDeleteProviderWithRequestBuilder(iamProvider: iamProvider, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Removes a provider.
-     - POST /v1/iam/delete-provider
-     - Removes a provider. Sign-in through it stops for every application that used it, so detach those applications first if they have no other method.  The older spelling of POST /v1/iam/providers/delete.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamProvider: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamResponse> 
-     */
-    open class func postIamDeleteProviderWithRequestBuilder(iamProvider: IamProvider, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamResponse> {
-        let localVariablePath = "/v1/iam/delete-provider"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamProvider, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Deletes a role.
-     
-     - parameter iamRolesRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamResponse
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamDeleteRole(iamRolesRef: IamRolesRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamResponse {
-        return try await postIamDeleteRoleWithRequestBuilder(iamRolesRef: iamRolesRef, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Deletes a role.
-     - POST /v1/iam/delete-role
-     - Deletes a role. Everyone in it loses the access it carried; their accounts and any other roles they hold are untouched.  The older spelling of POST /v1/iam/roles/delete.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamRolesRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamResponse> 
-     */
-    open class func postIamDeleteRoleWithRequestBuilder(iamRolesRef: IamRolesRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamResponse> {
-        let localVariablePath = "/v1/iam/delete-role"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamRolesRef, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Removes a person from your organization.
-     
-     - parameter iamUserBody: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamResponse
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamDeleteUser(iamUserBody: IamUserBody, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamResponse {
-        return try await postIamDeleteUserWithRequestBuilder(iamUserBody: iamUserBody, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Removes a person from your organization.
-     - POST /v1/iam/delete-user
-     - Removes a person from your organization. Their sessions stop working and the account is gone, not suspended — to keep the record and only stop sign-in, update the user instead.  The older spelling of POST /v1/iam/users/delete.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamUserBody: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamResponse> 
-     */
-    open class func postIamDeleteUserWithRequestBuilder(iamUserBody: IamUserBody, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamResponse> {
-        let localVariablePath = "/v1/iam/delete-user"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamUserBody, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Deletes a workspace.
-     
-     - parameter iamWorkspacesRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamResponse
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamDeleteWorkspace(iamWorkspacesRef: IamWorkspacesRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamResponse {
-        return try await postIamDeleteWorkspaceWithRequestBuilder(iamWorkspacesRef: iamWorkspacesRef, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Deletes a workspace.
-     - POST /v1/iam/delete-workspace
-     - Deletes a workspace. The people and roles in your organization are unchanged; what goes is the scope itself.  The older spelling of POST /v1/iam/workspaces/delete.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamWorkspacesRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamResponse> 
-     */
-    open class func postIamDeleteWorkspaceWithRequestBuilder(iamWorkspacesRef: IamWorkspacesRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamResponse> {
-        let localVariablePath = "/v1/iam/delete-workspace"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamWorkspacesRef, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
      Issues an invitation to join your organization — the code or link a new member redeems, with the role they arrive holding and the date it stops working.
      
      - parameter iamInvitationsInput: (body)  
@@ -4916,129 +4196,6 @@ open class IamAPI {
      */
     open class func postIamInvitationsWithRequestBuilder(iamInvitationsInput: IamInvitationsInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamInvitation> {
         let localVariablePath = "/v1/iam/invitations"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamInvitationsInput, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamInvitation>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Withdraws an invitation.
-     
-     - parameter iamInvitationsRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamInvitationsDeleteOutput
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamInvitationsDelete(iamInvitationsRef: IamInvitationsRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamInvitationsDeleteOutput {
-        return try await postIamInvitationsDeleteWithRequestBuilder(iamInvitationsRef: iamInvitationsRef, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Withdraws an invitation.
-     - POST /v1/iam/invitations/delete
-     - Withdraws an invitation. It stops being redeemable at once; anyone who already joined through it keeps their account.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamInvitationsRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamInvitationsDeleteOutput> 
-     */
-    open class func postIamInvitationsDeleteWithRequestBuilder(iamInvitationsRef: IamInvitationsRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamInvitationsDeleteOutput> {
-        let localVariablePath = "/v1/iam/invitations/delete"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamInvitationsRef, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamInvitationsDeleteOutput>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Returns one invitation: who it is for, what it grants on acceptance, and when it expires.
-     
-     - parameter iamInvitationsRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamInvitation
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamInvitationsGet(iamInvitationsRef: IamInvitationsRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamInvitation {
-        return try await postIamInvitationsGetWithRequestBuilder(iamInvitationsRef: iamInvitationsRef, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Returns one invitation: who it is for, what it grants on acceptance, and when it expires.
-     - POST /v1/iam/invitations/get
-     - Returns one invitation: who it is for, what it grants on acceptance, and when it expires.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamInvitationsRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamInvitation> 
-     */
-    open class func postIamInvitationsGetWithRequestBuilder(iamInvitationsRef: IamInvitationsRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamInvitation> {
-        let localVariablePath = "/v1/iam/invitations/get"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamInvitationsRef, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamInvitation>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Changes an invitation's terms — the role it grants, how many may redeem it, or when it expires.
-     
-     - parameter iamInvitationsInput: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamInvitation
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamInvitationsUpdate(iamInvitationsInput: IamInvitationsInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamInvitation {
-        return try await postIamInvitationsUpdateWithRequestBuilder(iamInvitationsInput: iamInvitationsInput, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Changes an invitation's terms — the role it grants, how many may redeem it, or when it expires.
-     - POST /v1/iam/invitations/update
-     - Changes an invitation's terms — the role it grants, how many may redeem it, or when it expires. What it is called does not change.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamInvitationsInput: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamInvitation> 
-     */
-    open class func postIamInvitationsUpdateWithRequestBuilder(iamInvitationsInput: IamInvitationsInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamInvitation> {
-        let localVariablePath = "/v1/iam/invitations/update"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamInvitationsInput, codableHelper: apiConfiguration.codableHelper)
 
@@ -5119,166 +4276,6 @@ open class IamAPI {
      */
     open class func postIamKeysWithRequestBuilder(iamKey: IamKey, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamKey> {
         let localVariablePath = "/v1/iam/keys"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamKey, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamKey>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Revokes an API key.
-     
-     - parameter iamKeysRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamDeleteResponse
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamKeysDelete(iamKeysRef: IamKeysRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamDeleteResponse {
-        return try await postIamKeysDeleteWithRequestBuilder(iamKeysRef: iamKeysRef, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Revokes an API key.
-     - POST /v1/iam/keys/delete
-     - Revokes an API key. Anything still presenting it stops being authorized at once, so roll the replacement out before you revoke.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamKeysRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamDeleteResponse> 
-     */
-    open class func postIamKeysDeleteWithRequestBuilder(iamKeysRef: IamKeysRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamDeleteResponse> {
-        let localVariablePath = "/v1/iam/keys/delete"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamKeysRef, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamDeleteResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     (re)generates the target user's key of the requested TYPE and returns it once, over the shared authorizeMinter + mintTarget seam.
-     
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamKeysMint(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postIamKeysMintWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     (re)generates the target user's key of the requested TYPE and returns it once, over the shared authorizeMinter + mintTarget seam.
-     - POST /v1/iam/keys/mint
-     - (re)generates the target user's key of the requested TYPE and returns it once, over the shared authorizeMinter + mintTarget seam. `?type=secret` (the default) yields the confidential sk-; `?type=publishable` yields the pk- that is safe to ship in client JS and resolves to an org, never a principal.  It writes the schema.Key row that the resolvers actually read. schema.User.AccessKey is not a credential and nothing resolves it, so a key stamped there would authenticate nobody.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func postIamKeysMintWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        let localVariablePath = "/v1/iam/keys/mint"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Clears the target user's key of the requested TYPE (immediate revoke).
-     
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamKeysRevoke(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postIamKeysRevokeWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Clears the target user's key of the requested TYPE (immediate revoke).
-     - POST /v1/iam/keys/revoke
-     - Clears the target user's key of the requested TYPE (immediate revoke). Scoped by the same `?type` field mint takes, so revoking the browser key leaves the server key working. A secret key's stored value is the sk- in its schema.Key row.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func postIamKeysRevokeWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        let localVariablePath = "/v1/iam/keys/revoke"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Changes what a key is called or what it may reach.
-     
-     - parameter iamKey: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamKey
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamKeysUpdate(iamKey: IamKey, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamKey {
-        return try await postIamKeysUpdateWithRequestBuilder(iamKey: iamKey, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Changes what a key is called or what it may reach.
-     - POST /v1/iam/keys/update
-     - Changes what a key is called or what it may reach. The credential itself is not reissued — the key in your deployment keeps working.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamKey: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamKey> 
-     */
-    open class func postIamKeysUpdateWithRequestBuilder(iamKey: IamKey, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamKey> {
-        let localVariablePath = "/v1/iam/keys/update"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamKey, codableHelper: apiConfiguration.codableHelper)
 
@@ -5413,45 +4410,6 @@ open class IamAPI {
     }
 
     /**
-     Turns a factor off, so sign-in stops asking for it.
-     
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamMfaDisable(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postIamMfaDisableWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Turns a factor off, so sign-in stops asking for it.
-     - POST /v1/iam/mfa/disable
-     - Turns a factor off, so sign-in stops asking for it. Naming no factor turns off ALL of them — the reset path. People may do this for themselves; doing it for somebody else takes an administrator, which is what makes it the way back in when a phone is lost.  The recovery codes go with the last factor: they are the way past a challenge, so keeping them alive for an account with nothing to challenge would leave a standing credential behind.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func postIamMfaDisableWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        let localVariablePath = "/v1/iam/mfa/disable"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
      Picks which second factor an account is asked for first when it has more than one.
      
      - parameter apiConfiguration: The configuration for the http request.
@@ -5504,7 +4462,7 @@ open class IamAPI {
     /**
      Finishes the enrolment: from here the account's sign-ins ask for this factor.
      - POST /v1/iam/mfa/setup/enable
-     - Finishes the enrolment: from here the account's sign-ins ask for this factor. It requires the proof initiate handed out — a passcode from the authenticator, or the code that was sent — and verifies it BEFORE writing anything.  It used to write on the strength of a `secret` field alone. A client that skipped the verify step, scanned the QR into the wrong app, or was simply buggy switched on a factor no code would ever satisfy, and the account was then locked out with no self-service way back: the gate holds the sign-in before minting, so the person cannot obtain the bearer that disable requires.  The recovery codes are minted here and returned ONCE, on the first factor the account adds. Answering with them is the way back in when no factor can be produced, so they are the same value the row's digests were made from — by construction, not by a client echoing them back.
+     - Finishes the enrolment: from here the account's sign-ins ask for this factor. It requires the proof initiate handed out — a passcode from the authenticator, or the code that was sent — and verifies it BEFORE writing anything.  Verifying BEFORE writing is what keeps a client that never completed the proof — a skipped verify step, a QR scanned into the wrong app, a bug — from switching on a factor no code can satisfy. That would lock the account out with no self-service way back: the gate holds the sign-in before minting, so the person could not obtain the bearer that disable requires.  The recovery codes are minted here and returned ONCE, on the first factor the account adds. Answering with them is the way back in when no factor can be produced, so they are the same value the row's digests were made from — by construction, not by a client echoing them back.
      - Bearer Token:
        - type: http
        - name: bearer
@@ -5699,7 +4657,7 @@ open class IamAPI {
     /**
      Answers \"what am I approving?\" for a pending device code.
      - POST /v1/iam/oauth/device/info
-     - Answers \"what am I approving?\" for a pending device code.  The approval page exists to tell a human WHICH application they are authorizing; a page that names the wrong one defeats the control it implements. It used to render the portal's own app name — a constant, `hanzo-console` for every code — so a device code minted by `hanzo-cli` was approved under a screen naming a different application entirely. The client is a property of the CODE, so it is read from the code's row here and nowhere else.  Requires a signed-in session, and answers with the same ONE opaque refusal approveDevice uses. That is deliberate: the user_code is only 40 bits and is the one secret in this flow, so an unauthenticated lookup — or one that distinguished unknown from expired from already-approved — would be an oracle for hunting live codes. Gated and opaque, it reveals strictly less than the approval the same caller could already attempt.
+     - Answers \"what am I approving?\" for a pending device code.  The approval page exists to tell a human WHICH application they are authorizing; a page that names any other one defeats the control it implements. The client is a property of the CODE, not of the page or of whatever app the browser happens to be signed in to, so it is read from the code's row here and nowhere else.  Requires a signed-in session, and answers with the same ONE opaque refusal approveDevice uses. That is deliberate: the user_code is only 40 bits and is the one secret in this flow, so an unauthenticated lookup — or one that distinguished unknown from expired from already-approved — would be an oracle for hunting live codes. Gated and opaque, it reveals strictly less than the approval the same caller could already attempt.
      - Bearer Token:
        - type: http
        - name: bearer
@@ -5816,7 +4774,7 @@ open class IamAPI {
     /**
      Ends a sign-in and sends the browser somewhere sensible.
      - POST /v1/iam/oauth/logout
-     - Ends a sign-in and sends the browser somewhere sensible. Accepts GET or POST, so it works as a plain link.  It ACTUALLY signs you out, which is worth stating because the endpoint spent a release not doing it: the whole body computed a redirect and answered {\"status\":\"ok\"} unconditionally — no session ended, no token revoked. A logout that reports success while leaving the session live is worse than no logout at all, because the person on the shared machine believes it worked. Three things happen here now, in this order:   1. The browser session dies — sid revoked server-side AND the cookie expired     (sessions.Clear). Server-side revocation is the load-bearing half: a copy     of the cookie taken before logout must not still resolve.  2. The relying party's tokens are revoked when an id_token_hint names it, so     the refresh token cannot mint a fresh access token after the human left.     Revocation state is authoritative — a JWT's `exp` still reads valid for     days, so expiry is necessary but never sufficient.  3. Only then is a redirect considered, and only to a REGISTERED uri.  The open-redirect guard is unchanged: a redirect happens only when a VERIFIED id_token_hint identifies the application and that application has registered the target. Anything else refuses to redirect — nobody can turn your logout link into a redirect to a site of their choosing.
+     - Ends a sign-in and sends the browser somewhere sensible. Accepts GET or POST, so it works as a plain link.  It ACTUALLY signs you out — worth stating, because a logout that computes a redirect and answers {\"status\":\"ok\"} while ending no session and revoking no token is worse than none: the person on the shared machine believes it worked. Three things happen here, in this order:   1. The browser session dies — sid revoked server-side AND the cookie expired     (sessions.Clear). Server-side revocation is the load-bearing half: a copy     of the cookie taken before logout must not still resolve.  2. The relying party's tokens are revoked when an id_token_hint names it, so     the refresh token cannot mint a fresh access token after the human left.     Revocation state is authoritative — a JWT's `exp` still reads valid for     days, so expiry is necessary but never sufficient.  3. Only then is a redirect considered, and only to a REGISTERED uri.  The open-redirect guard is unchanged: a redirect happens only when a VERIFIED id_token_hint identifies the application and that application has registered the target. Anything else refuses to redirect — nobody can turn your logout link into a redirect to a site of their choosing.
      - Bearer Token:
        - type: http
        - name: bearer
@@ -5855,7 +4813,7 @@ open class IamAPI {
     /**
      Retires a token before it expires — what you call when someone signs out or a credential may have leaked.
      - POST /v1/iam/oauth/revoke
-     - Retires a token before it expires — what you call when someone signs out or a credential may have leaked.  Revoking an access token kills that token. Revoking a REFRESH token kills the whole chain it belongs to, so no further access tokens can be minted from it and every token already minted from it dies with it.  A token that is not yours, or that never existed, answers success and does nothing — so the endpoint cannot be used to discover which tokens are real.  PUBLIC clients revoke too, and must: sign-out is the only control a long-lived refresh token has. hanzo-cli is a public PKCE client holding a 30-day rotating refresh token, so a confidential-only revocation endpoint made `hanzo auth logout` a LOCAL DELETE — the credential it dropped stayed spendable at hanzo.id for the rest of the month, with nothing able to kill it. Measured 2026-08-01: revoke answered 401 invalid_client and the refresh token went on minting access tokens.  Widening authentication does not widen authority. The caller must still POSSESS the token — and possession already permits USE, of which revocation is the strict opposite — and the row must belong to the client that presents it, so a public client_id buys the ability to destroy exactly what its holder could otherwise spend. RFC 6749 §3.2.1 is the same reading: a client with no credentials identifies itself with client_id.
+     - Retires a token before it expires — what you call when someone signs out or a credential may have leaked.  Revoking an access token kills that token. Revoking a REFRESH token kills the whole chain it belongs to, so no further access tokens can be minted from it and every token already minted from it dies with it.  A token that is not yours, or that never existed, answers success and does nothing — so the endpoint cannot be used to discover which tokens are real.  PUBLIC clients revoke too, and must: sign-out is the only control a long-lived refresh token has. A native app or CLI is a public PKCE client and holds no secret, so requiring one here would leave signing out as a local delete — forgetting a credential that stays spendable for the rest of its lifetime.  Widening authentication does not widen authority. The caller must still POSSESS the token — and possession already permits USE, of which revocation is the strict opposite — and the row must belong to the client that presents it, so a public client_id buys the ability to destroy exactly what its holder could otherwise spend. RFC 6749 §3.2.1 is the same reading: a client with no credentials identifies itself with client_id.
      - Bearer Token:
        - type: http
        - name: bearer
@@ -6039,88 +4997,6 @@ open class IamAPI {
     }
 
     /**
-     Revokes a permission.
-     
-     - parameter iamPermissionRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamPermissionDeleteResponse
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamPermissionsDelete(iamPermissionRef: IamPermissionRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamPermissionDeleteResponse {
-        return try await postIamPermissionsDeleteWithRequestBuilder(iamPermissionRef: iamPermissionRef, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Revokes a permission.
-     - POST /v1/iam/permissions/delete
-     - Revokes a permission. Everyone who held access only through it loses that access immediately; grants they hold by another route are untouched.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamPermissionRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamPermissionDeleteResponse> 
-     */
-    open class func postIamPermissionsDeleteWithRequestBuilder(iamPermissionRef: IamPermissionRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamPermissionDeleteResponse> {
-        let localVariablePath = "/v1/iam/permissions/delete"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamPermissionRef, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamPermissionDeleteResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Changes who a permission grants to, what it allows, or the resources it covers.
-     
-     - parameter iamPermission: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamPermission
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamPermissionsUpdate(iamPermission: IamPermission, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamPermission {
-        return try await postIamPermissionsUpdateWithRequestBuilder(iamPermission: iamPermission, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Changes who a permission grants to, what it allows, or the resources it covers.
-     - POST /v1/iam/permissions/update
-     - Changes who a permission grants to, what it allows, or the resources it covers. Access changes as soon as the write lands. What the permission is called does not change, and neither does when it was created.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamPermission: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamPermission> 
-     */
-    open class func postIamPermissionsUpdateWithRequestBuilder(iamPermission: IamPermission, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamPermission> {
-        let localVariablePath = "/v1/iam/permissions/update"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamPermission, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamPermission>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
      Saves the calling person's own settings and returns the full set afterwards.
      
      - parameter apiConfiguration: The configuration for the http request.
@@ -6162,13 +5038,13 @@ open class IamAPI {
     /**
      Makes a project inside your organization — the scope people pick between when their work is separated by product or client rather than by team.
      
-     - parameter iamInput: (body)  
+     - parameter iamProjectsInput: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: IamProject
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamProjects(iamInput: IamInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamProject {
-        return try await postIamProjectsWithRequestBuilder(iamInput: iamInput, apiConfiguration: apiConfiguration).execute().body
+    open class func postIamProjects(iamProjectsInput: IamProjectsInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamProject {
+        return try await postIamProjectsWithRequestBuilder(iamProjectsInput: iamProjectsInput, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -6178,137 +5054,14 @@ open class IamAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter iamInput: (body)  
+     - parameter iamProjectsInput: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IamProject> 
      */
-    open class func postIamProjectsWithRequestBuilder(iamInput: IamInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamProject> {
+    open class func postIamProjectsWithRequestBuilder(iamProjectsInput: IamProjectsInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamProject> {
         let localVariablePath = "/v1/iam/projects"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamInput, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamProject>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Removes a project.
-     
-     - parameter iamProjectsRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamProjectsDeleteOutput
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamProjectsDelete(iamProjectsRef: IamProjectsRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamProjectsDeleteOutput {
-        return try await postIamProjectsDeleteWithRequestBuilder(iamProjectsRef: iamProjectsRef, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Removes a project.
-     - POST /v1/iam/projects/delete
-     - Removes a project. The people and roles in your organization are unchanged; what goes is the scope itself, so move anything addressed by it first.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamProjectsRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamProjectsDeleteOutput> 
-     */
-    open class func postIamProjectsDeleteWithRequestBuilder(iamProjectsRef: IamProjectsRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamProjectsDeleteOutput> {
-        let localVariablePath = "/v1/iam/projects/delete"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamProjectsRef, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamProjectsDeleteOutput>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Returns one project: what it is called and how it is set up.
-     
-     - parameter iamProjectsRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamProject
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamProjectsGet(iamProjectsRef: IamProjectsRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamProject {
-        return try await postIamProjectsGetWithRequestBuilder(iamProjectsRef: iamProjectsRef, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Returns one project: what it is called and how it is set up.
-     - POST /v1/iam/projects/get
-     - Returns one project: what it is called and how it is set up.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamProjectsRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamProject> 
-     */
-    open class func postIamProjectsGetWithRequestBuilder(iamProjectsRef: IamProjectsRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamProject> {
-        let localVariablePath = "/v1/iam/projects/get"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamProjectsRef, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamProject>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Changes a project's settings.
-     
-     - parameter iamInput: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamProject
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamProjectsUpdate(iamInput: IamInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamProject {
-        return try await postIamProjectsUpdateWithRequestBuilder(iamInput: iamInput, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Changes a project's settings.
-     - POST /v1/iam/projects/update
-     - Changes a project's settings. What it is called does not change, and neither does when it was created.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamInput: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamProject> 
-     */
-    open class func postIamProjectsUpdateWithRequestBuilder(iamInput: IamInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamProject> {
-        let localVariablePath = "/v1/iam/projects/update"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamInput, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamProjectsInput, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -6358,6 +5111,53 @@ open class IamAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Steps a platform operator back out: it returns their own access token with no organization assumed, which is the credential they had before they stepped in.
+     
+     - parameter iamAssumeBody: (body)  
+     - parameter authorization: (header)  (optional)
+     - parameter xForwardedFor: (header)  (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamAnswer
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postIamRelease(iamAssumeBody: IamAssumeBody, authorization: String? = nil, xForwardedFor: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamAnswer {
+        return try await postIamReleaseWithRequestBuilder(iamAssumeBody: iamAssumeBody, authorization: authorization, xForwardedFor: xForwardedFor, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Steps a platform operator back out: it returns their own access token with no organization assumed, which is the credential they had before they stepped in.
+     - POST /v1/iam/release
+     - Steps a platform operator back out: it returns their own access token with no organization assumed, which is the credential they had before they stepped in. Recorded like the step in.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter iamAssumeBody: (body)  
+     - parameter authorization: (header)  (optional)
+     - parameter xForwardedFor: (header)  (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamAnswer> 
+     */
+    open class func postIamReleaseWithRequestBuilder(iamAssumeBody: IamAssumeBody, authorization: String? = nil, xForwardedFor: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamAnswer> {
+        let localVariablePath = "/v1/iam/release"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamAssumeBody, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+            "Authorization": authorization?.asParameter(codableHelper: apiConfiguration.codableHelper),
+            "X-Forwarded-For": xForwardedFor?.asParameter(codableHelper: apiConfiguration.codableHelper),
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamAnswer>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -6426,129 +5226,6 @@ open class IamAPI {
      */
     open class func postIamRolesWithRequestBuilder(iamRolesInput: IamRolesInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamRole> {
         let localVariablePath = "/v1/iam/roles"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamRolesInput, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamRole>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Removes a role.
-     
-     - parameter iamRolesRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamRolesDeleteOutput
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamRolesDelete(iamRolesRef: IamRolesRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamRolesDeleteOutput {
-        return try await postIamRolesDeleteWithRequestBuilder(iamRolesRef: iamRolesRef, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Removes a role.
-     - POST /v1/iam/roles/delete
-     - Removes a role. Everyone in it loses the access it carried; their accounts, and any other role they hold, are untouched.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamRolesRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamRolesDeleteOutput> 
-     */
-    open class func postIamRolesDeleteWithRequestBuilder(iamRolesRef: IamRolesRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamRolesDeleteOutput> {
-        let localVariablePath = "/v1/iam/roles/delete"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamRolesRef, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamRolesDeleteOutput>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Returns one role: who is in it, and the roles it includes.
-     
-     - parameter iamRolesRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamRole
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamRolesGet(iamRolesRef: IamRolesRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamRole {
-        return try await postIamRolesGetWithRequestBuilder(iamRolesRef: iamRolesRef, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Returns one role: who is in it, and the roles it includes.
-     - POST /v1/iam/roles/get
-     - Returns one role: who is in it, and the roles it includes.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamRolesRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamRole> 
-     */
-    open class func postIamRolesGetWithRequestBuilder(iamRolesRef: IamRolesRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamRole> {
-        let localVariablePath = "/v1/iam/roles/get"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamRolesRef, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamRole>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Changes who is in a role, or which roles it includes.
-     
-     - parameter iamRolesInput: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamRole
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamRolesUpdate(iamRolesInput: IamRolesInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamRole {
-        return try await postIamRolesUpdateWithRequestBuilder(iamRolesInput: iamRolesInput, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Changes who is in a role, or which roles it includes.
-     - POST /v1/iam/roles/update
-     - Changes who is in a role, or which roles it includes. Access changes for everyone in it as soon as the write lands. What the role is called does not change, and neither does when it was created.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamRolesInput: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamRole> 
-     */
-    open class func postIamRolesUpdateWithRequestBuilder(iamRolesInput: IamRolesInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamRole> {
-        let localVariablePath = "/v1/iam/roles/update"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamRolesInput, codableHelper: apiConfiguration.codableHelper)
 
@@ -6922,88 +5599,6 @@ open class IamAPI {
     }
 
     /**
-     Updates one of your applications — its display, its sign-in methods and the redirect URIs it is allowed to return to.
-     
-     - parameter iamApplication: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamResponse
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamUpdateApplication(iamApplication: IamApplication, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamResponse {
-        return try await postIamUpdateApplicationWithRequestBuilder(iamApplication: iamApplication, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Updates one of your applications — its display, its sign-in methods and the redirect URIs it is allowed to return to.
-     - POST /v1/iam/update-application
-     - Updates one of your applications — its display, its sign-in methods and the redirect URIs it is allowed to return to. Which organization and name the application has are fixed when it is created and are not editable here.  A redirect URI you add becomes an allowed sign-in origin, so this is the call that makes login work from a new host.  The older spelling of PUT /v1/iam/application.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamApplication: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamResponse> 
-     */
-    open class func postIamUpdateApplicationWithRequestBuilder(iamApplication: IamApplication, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamResponse> {
-        let localVariablePath = "/v1/iam/update-application"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamApplication, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Updates your organization — its display, its default settings and the sign-in rules everyone in it inherits.
-     
-     - parameter iamUpdateOrganizationInput: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamResponse
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamUpdateOrganization(iamUpdateOrganizationInput: IamUpdateOrganizationInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamResponse {
-        return try await postIamUpdateOrganizationWithRequestBuilder(iamUpdateOrganizationInput: iamUpdateOrganizationInput, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Updates your organization — its display, its default settings and the sign-in rules everyone in it inherits.
-     - POST /v1/iam/update-organization
-     - Updates your organization — its display, its default settings and the sign-in rules everyone in it inherits.  The older spelling of POST /v1/iam/organizations/update.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamUpdateOrganizationInput: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamResponse> 
-     */
-    open class func postIamUpdateOrganizationWithRequestBuilder(iamUpdateOrganizationInput: IamUpdateOrganizationInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamResponse> {
-        let localVariablePath = "/v1/iam/update-organization"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamUpdateOrganizationInput, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
      Saves the calling person's own settings and returns the full set afterwards.
      
      - parameter apiConfiguration: The configuration for the http request.
@@ -7038,129 +5633,6 @@ open class IamAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Updates a provider's settings or rotates the credentials it holds.
-     
-     - parameter iamProvider: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamResponse
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamUpdateProvider(iamProvider: IamProvider, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamResponse {
-        return try await postIamUpdateProviderWithRequestBuilder(iamProvider: iamProvider, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Updates a provider's settings or rotates the credentials it holds.
-     - POST /v1/iam/update-provider
-     - Updates a provider's settings or rotates the credentials it holds. The change takes effect on the next sign-in through it — sessions already issued are unaffected.  The older spelling of POST /v1/iam/providers/update.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamProvider: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamResponse> 
-     */
-    open class func postIamUpdateProviderWithRequestBuilder(iamProvider: IamProvider, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamResponse> {
-        let localVariablePath = "/v1/iam/update-provider"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamProvider, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Updates a role's members or the roles it includes.
-     
-     - parameter iamRolesInput: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamResponse
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamUpdateRole(iamRolesInput: IamRolesInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamResponse {
-        return try await postIamUpdateRoleWithRequestBuilder(iamRolesInput: iamRolesInput, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Updates a role's members or the roles it includes.
-     - POST /v1/iam/update-role
-     - Updates a role's members or the roles it includes. Access changes for everyone in it as soon as the write lands.  The older spelling of POST /v1/iam/roles/update.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamRolesInput: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamResponse> 
-     */
-    open class func postIamUpdateRoleWithRequestBuilder(iamRolesInput: IamRolesInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamResponse> {
-        let localVariablePath = "/v1/iam/update-role"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamRolesInput, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Updates one of your users' profile, roles or credentials.
-     
-     - parameter iamUserBody: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamResponse
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamUpdateUser(iamUserBody: IamUserBody, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamResponse {
-        return try await postIamUpdateUserWithRequestBuilder(iamUserBody: iamUserBody, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Updates one of your users' profile, roles or credentials.
-     - POST /v1/iam/update-user
-     - Updates one of your users' profile, roles or credentials. Send a password to reset it; leave it out and the current one stands.  The older spelling of POST /v1/iam/users/update, with the user's fields at the top level rather than wrapped in {user, password}.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamUserBody: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamResponse> 
-     */
-    open class func postIamUpdateUserWithRequestBuilder(iamUserBody: IamUserBody, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamResponse> {
-        let localVariablePath = "/v1/iam/update-user"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamUserBody, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -7207,83 +5679,50 @@ open class IamAPI {
     }
 
     /**
-     Removes a person from your organization.
+     (re)generates the target user's key of the requested TYPE and returns it once, over the shared authorizeMinter + mintTarget seam.
      
-     - parameter iamUsersRef: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamUsersDeleteOutput
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamUsersDelete(iamUsersRef: IamUsersRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamUsersDeleteOutput {
-        return try await postIamUsersDeleteWithRequestBuilder(iamUsersRef: iamUsersRef, apiConfiguration: apiConfiguration).execute().body
+    open class func postIamUsersByOwnerByNameKeys(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postIamUsersByOwnerByNameKeysWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Removes a person from your organization.
-     - POST /v1/iam/users/delete
-     - Removes a person from your organization. Their sessions stop working immediately and the account is gone rather than suspended — to keep the record and only stop sign-in, update the user instead.
+     (re)generates the target user's key of the requested TYPE and returns it once, over the shared authorizeMinter + mintTarget seam.
+     - POST /v1/iam/users/{owner}/{name}/keys
+     - (re)generates the target user's key of the requested TYPE and returns it once, over the shared authorizeMinter + mintTarget seam. `?type=secret` (the default) yields the confidential sk-; `?type=publishable` yields the pk- that is safe to ship in client JS and resolves to an org, never a principal.  It writes the schema.Key row that the resolvers actually read. schema.User.AccessKey is not a credential and nothing resolves it, so a key stamped there would authenticate nobody.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter iamUsersRef: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamUsersDeleteOutput> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postIamUsersDeleteWithRequestBuilder(iamUsersRef: IamUsersRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamUsersDeleteOutput> {
-        let localVariablePath = "/v1/iam/users/delete"
+    open class func postIamUsersByOwnerByNameKeysWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/iam/users/{owner}/{name}/keys"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamUsersRef, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<IamUsersDeleteOutput>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Changes a person's profile, their roles, or the credentials they sign in with.
-     
-     - parameter iamUpdateInput: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamUser
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamUsersUpdate(iamUpdateInput: IamUpdateInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamUser {
-        return try await postIamUsersUpdateWithRequestBuilder(iamUpdateInput: iamUpdateInput, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Changes a person's profile, their roles, or the credentials they sign in with.
-     - POST /v1/iam/users/update
-     - Changes a person's profile, their roles, or the credentials they sign in with. Send a password to reset it; leave it out and their current one keeps working.  Who they are does not change: their organization, username and the identifier their existing sessions are keyed on all survive the write, so an update never signs anyone out.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamUpdateInput: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamUser> 
-     */
-    open class func postIamUsersUpdateWithRequestBuilder(iamUpdateInput: IamUpdateInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamUser> {
-        let localVariablePath = "/v1/iam/users/update"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamUpdateInput, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamUser>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -7367,6 +5806,84 @@ open class IamAPI {
     }
 
     /**
+     Verifies the signed challenge and signs the person in.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postIamWebauthnSigninFinish(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postIamWebauthnSigninFinishWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Verifies the signed challenge and signs the person in.
+     - POST /v1/iam/webauthn/signin/finish
+     - Verifies the signed challenge and signs the person in.  It answers exactly as a password sign-in does — the same envelope, through the same grant — so nothing downstream branches on how somebody arrived.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postIamWebauthnSigninFinishWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/iam/webauthn/signin/finish"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Verifies the newly created passkey and stores it, so the person can sign in with their device from then on.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postIamWebauthnSignupFinish(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postIamWebauthnSignupFinishWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Verifies the newly created passkey and stores it, so the person can sign in with their device from then on.
+     - POST /v1/iam/webauthn/signup/finish
+     - Verifies the newly created passkey and stores it, so the person can sign in with their device from then on.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postIamWebauthnSignupFinishWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/iam/webauthn/signup/finish"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      Makes a workspace inside your organization — the scope a team works in, alongside projects rather than instead of them.
      
      - parameter iamWorkspacesInput: (body)  
@@ -7408,153 +5925,87 @@ open class IamAPI {
     }
 
     /**
-     Removes a workspace.
+     Saves the calling person's own profile — the name they are shown by, their picture, a line about themselves and a link.
      
-     - parameter iamWorkspacesRef: (body)  
+     - parameter iamAccountBody: (body)  
+     - parameter cookie: (header)  (optional)
+     - parameter authorization: (header)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamWorkspacesDeleteOutput
+     - returns: IamAnswer
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamWorkspacesDelete(iamWorkspacesRef: IamWorkspacesRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamWorkspacesDeleteOutput {
-        return try await postIamWorkspacesDeleteWithRequestBuilder(iamWorkspacesRef: iamWorkspacesRef, apiConfiguration: apiConfiguration).execute().body
+    open class func putIamAccount(iamAccountBody: IamAccountBody, cookie: String? = nil, authorization: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamAnswer {
+        return try await putIamAccountWithRequestBuilder(iamAccountBody: iamAccountBody, cookie: cookie, authorization: authorization, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Removes a workspace.
-     - POST /v1/iam/workspaces/delete
-     - Removes a workspace. The people and roles in your organization are unchanged; what goes is the scope itself.
+     Saves the calling person's own profile — the name they are shown by, their picture, a line about themselves and a link.
+     - PUT /v1/iam/account
+     - Saves the calling person's own profile — the name they are shown by, their picture, a line about themselves and a link.  Only their own: the request names nobody, so it cannot reach another account. Send only what you are changing; a field you leave out keeps the value it had, and a field you send empty is cleared.  A picture is an https link or an inline image up to 96 KiB, the same value an organization's mark is (schema.AvatarRef) — one rule for how a subject appears, whether the subject is a person or an organization.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter iamWorkspacesRef: (body)  
+     - parameter iamAccountBody: (body)  
+     - parameter cookie: (header)  (optional)
+     - parameter authorization: (header)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamWorkspacesDeleteOutput> 
+     - returns: RequestBuilder<IamAnswer> 
      */
-    open class func postIamWorkspacesDeleteWithRequestBuilder(iamWorkspacesRef: IamWorkspacesRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamWorkspacesDeleteOutput> {
-        let localVariablePath = "/v1/iam/workspaces/delete"
+    open class func putIamAccountWithRequestBuilder(iamAccountBody: IamAccountBody, cookie: String? = nil, authorization: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamAnswer> {
+        let localVariablePath = "/v1/iam/account"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamWorkspacesRef, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamAccountBody, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             "Content-Type": "application/json",
+            "Cookie": cookie?.asParameter(codableHelper: apiConfiguration.codableHelper),
+            "Authorization": authorization?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<IamWorkspacesDeleteOutput>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<IamAnswer>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Returns one workspace: what it is called and how it is set up.
-     
-     - parameter iamWorkspacesRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamWorkspace
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamWorkspacesGet(iamWorkspacesRef: IamWorkspacesRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamWorkspace {
-        return try await postIamWorkspacesGetWithRequestBuilder(iamWorkspacesRef: iamWorkspacesRef, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Returns one workspace: what it is called and how it is set up.
-     - POST /v1/iam/workspaces/get
-     - Returns one workspace: what it is called and how it is set up.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamWorkspacesRef: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamWorkspace> 
-     */
-    open class func postIamWorkspacesGetWithRequestBuilder(iamWorkspacesRef: IamWorkspacesRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamWorkspace> {
-        let localVariablePath = "/v1/iam/workspaces/get"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamWorkspacesRef, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamWorkspace>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Changes a workspace's settings.
-     
-     - parameter iamWorkspacesInput: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: IamWorkspace
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIamWorkspacesUpdate(iamWorkspacesInput: IamWorkspacesInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamWorkspace {
-        return try await postIamWorkspacesUpdateWithRequestBuilder(iamWorkspacesInput: iamWorkspacesInput, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Changes a workspace's settings.
-     - POST /v1/iam/workspaces/update
-     - Changes a workspace's settings. What it is called does not change, and neither does when it was created.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter iamWorkspacesInput: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<IamWorkspace> 
-     */
-    open class func postIamWorkspacesUpdateWithRequestBuilder(iamWorkspacesInput: IamWorkspacesInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamWorkspace> {
-        let localVariablePath = "/v1/iam/workspaces/update"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamWorkspacesInput, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<IamWorkspace>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
      Changes an application's display, its sign-in methods and the redirect URIs it may return to — the call that makes login work from a new host.
      
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter iamApplication: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: IamApplication
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putIamApplication(iamApplication: IamApplication, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamApplication {
-        return try await putIamApplicationWithRequestBuilder(iamApplication: iamApplication, apiConfiguration: apiConfiguration).execute().body
+    open class func putIamApplicationsByOwnerByName(owner: String, name: String, iamApplication: IamApplication, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamApplication {
+        return try await putIamApplicationsByOwnerByNameWithRequestBuilder(owner: owner, name: name, iamApplication: iamApplication, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Changes an application's display, its sign-in methods and the redirect URIs it may return to — the call that makes login work from a new host.
-     - PUT /v1/iam/application
+     - PUT /v1/iam/applications/{owner}/{name}
      - Changes an application's display, its sign-in methods and the redirect URIs it may return to — the call that makes login work from a new host. Which organization it belongs to and what it is named are fixed when it is created and are not editable here.  Exported so the legacy update-application alias reuses this exact path — one update, two spellings.
      - Bearer Token:
        - type: http
        - name: bearer
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter iamApplication: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IamApplication> 
      */
-    open class func putIamApplicationWithRequestBuilder(iamApplication: IamApplication, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamApplication> {
-        let localVariablePath = "/v1/iam/application"
+    open class func putIamApplicationsByOwnerByNameWithRequestBuilder(owner: String, name: String, iamApplication: IamApplication, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamApplication> {
+        var localVariablePath = "/v1/iam/applications/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamApplication, codableHelper: apiConfiguration.codableHelper)
 
@@ -7567,6 +6018,108 @@ open class IamAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<IamApplication>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Corrects an audit entry.
+     
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter iamInput: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamAuditLog
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func putIamAuditLogsByOwnerByName(owner: String, name: String, iamInput: IamInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamAuditLog {
+        return try await putIamAuditLogsByOwnerByNameWithRequestBuilder(owner: owner, name: name, iamInput: iamInput, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Corrects an audit entry.
+     - PUT /v1/iam/audit-logs/{owner}/{name}
+     - Corrects an audit entry. The trail is append-only in normal operation and nothing in the Hanzo Cloud rewrites it — this exists for an administrator to correct an entry their own systems recorded wrongly.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter iamInput: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamAuditLog> 
+     */
+    open class func putIamAuditLogsByOwnerByNameWithRequestBuilder(owner: String, name: String, iamInput: IamInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamAuditLog> {
+        var localVariablePath = "/v1/iam/audit-logs/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamInput, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamAuditLog>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Changes a signing certificate's settings.
+     
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter iamCert: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamCert
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func putIamCertsByOwnerByName(owner: String, name: String, iamCert: IamCert, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamCert {
+        return try await putIamCertsByOwnerByNameWithRequestBuilder(owner: owner, name: name, iamCert: iamCert, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Changes a signing certificate's settings.
+     - PUT /v1/iam/certs/{owner}/{name}
+     - Changes a signing certificate's settings. What it is called does not change, and neither does when it was added.  A PUT here is a METADATA edit — display name, expiry, provider. It overlays only the fields the request actually SET onto the loaded row: a field the JSON omits (or leaves at its zero value) keeps what the row holds, rather than blanking it. That is load-bearing, not a nicety. A read serves the public Certificate (Mask hides only PrivateKey and AccessSecret), so a client that reads a cert, changes one field, and writes it back sends the masked halves empty and every other field it did not touch at its zero value — and the old full-struct overlay wrote all of those blanks back. Blanking CryptoAlgorithm alone drops the cert from the JWKS (oidc.Publishes turns false), so every token under its `kid` stops verifying; blanking Provider/Account/ExpireTime breaks ACME renewal and expiry — all from a request that only meant to rename it. Absent-or-zero means \"unchanged\", so the deployment (key) and a rotation (cert) remain the only way key or published material changes; the metadata API cannot clear it.  The overlay is generic — it copies every set field, so a field nobody has added yet is carried without a line here — and leaves three things the request may not move: the bound Model (id, createdAt, key, snapshot), the natural key (owner/name address the row, they do not mutate it), and the creation stamp.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter iamCert: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamCert> 
+     */
+    open class func putIamCertsByOwnerByNameWithRequestBuilder(owner: String, name: String, iamCert: IamCert, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamCert> {
+        var localVariablePath = "/v1/iam/certs/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamCert, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamCert>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -7606,6 +6159,108 @@ open class IamAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Changes an invitation's terms — the role it grants, how many may redeem it, or when it expires.
+     
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter iamInvitationsInput: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamInvitation
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func putIamInvitationsByOwnerByName(owner: String, name: String, iamInvitationsInput: IamInvitationsInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamInvitation {
+        return try await putIamInvitationsByOwnerByNameWithRequestBuilder(owner: owner, name: name, iamInvitationsInput: iamInvitationsInput, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Changes an invitation's terms — the role it grants, how many may redeem it, or when it expires.
+     - PUT /v1/iam/invitations/{owner}/{name}
+     - Changes an invitation's terms — the role it grants, how many may redeem it, or when it expires. What it is called does not change.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter iamInvitationsInput: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamInvitation> 
+     */
+    open class func putIamInvitationsByOwnerByNameWithRequestBuilder(owner: String, name: String, iamInvitationsInput: IamInvitationsInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamInvitation> {
+        var localVariablePath = "/v1/iam/invitations/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamInvitationsInput, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamInvitation>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Changes what a key is called or what it may reach.
+     
+     - parameter owner: (path) Owner is the tenant that holds the key; Name is unique within Owner. 
+     - parameter name: (path)  
+     - parameter iamKey: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamKey
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func putIamKeysByOwnerByName(owner: String, name: String, iamKey: IamKey, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamKey {
+        return try await putIamKeysByOwnerByNameWithRequestBuilder(owner: owner, name: name, iamKey: iamKey, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Changes what a key is called or what it may reach.
+     - PUT /v1/iam/keys/{owner}/{name}
+     - Changes what a key is called or what it may reach. The credential itself is not reissued — the key in your deployment keeps working.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter owner: (path) Owner is the tenant that holds the key; Name is unique within Owner. 
+     - parameter name: (path)  
+     - parameter iamKey: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamKey> 
+     */
+    open class func putIamKeysByOwnerByNameWithRequestBuilder(owner: String, name: String, iamKey: IamKey, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamKey> {
+        var localVariablePath = "/v1/iam/keys/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamKey, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamKey>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -7653,6 +6308,159 @@ open class IamAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<IamAnswer>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Changes who a permission grants to, what it allows, or the resources it covers.
+     
+     - parameter owner: (path) Identity — the (owner, name) natural key. 
+     - parameter name: (path)  
+     - parameter iamPermission: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamPermission
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func putIamPermissionsByOwnerByName(owner: String, name: String, iamPermission: IamPermission, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamPermission {
+        return try await putIamPermissionsByOwnerByNameWithRequestBuilder(owner: owner, name: name, iamPermission: iamPermission, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Changes who a permission grants to, what it allows, or the resources it covers.
+     - PUT /v1/iam/permissions/{owner}/{name}
+     - Changes who a permission grants to, what it allows, or the resources it covers. Access changes as soon as the write lands. What the permission is called does not change, and neither does when it was created.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter owner: (path) Identity — the (owner, name) natural key. 
+     - parameter name: (path)  
+     - parameter iamPermission: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamPermission> 
+     */
+    open class func putIamPermissionsByOwnerByNameWithRequestBuilder(owner: String, name: String, iamPermission: IamPermission, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamPermission> {
+        var localVariablePath = "/v1/iam/permissions/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamPermission, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamPermission>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Changes a project's settings.
+     
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter iamProjectsInput: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamProject
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func putIamProjectsByOwnerByName(owner: String, name: String, iamProjectsInput: IamProjectsInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamProject {
+        return try await putIamProjectsByOwnerByNameWithRequestBuilder(owner: owner, name: name, iamProjectsInput: iamProjectsInput, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Changes a project's settings.
+     - PUT /v1/iam/projects/{owner}/{name}
+     - Changes a project's settings. What it is called does not change, and neither does when it was created.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter iamProjectsInput: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamProject> 
+     */
+    open class func putIamProjectsByOwnerByNameWithRequestBuilder(owner: String, name: String, iamProjectsInput: IamProjectsInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamProject> {
+        var localVariablePath = "/v1/iam/projects/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamProjectsInput, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamProject>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Changes who is in a role, or which roles it includes.
+     
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter iamRolesInput: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamRole
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func putIamRolesByOwnerByName(owner: String, name: String, iamRolesInput: IamRolesInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamRole {
+        return try await putIamRolesByOwnerByNameWithRequestBuilder(owner: owner, name: name, iamRolesInput: iamRolesInput, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Changes who is in a role, or which roles it includes.
+     - PUT /v1/iam/roles/{owner}/{name}
+     - Changes who is in a role, or which roles it includes. Access changes for everyone in it as soon as the write lands. What the role is called does not change, and neither does when it was created.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter iamRolesInput: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamRole> 
+     */
+    open class func putIamRolesByOwnerByNameWithRequestBuilder(owner: String, name: String, iamRolesInput: IamRolesInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamRole> {
+        var localVariablePath = "/v1/iam/roles/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamRolesInput, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamRole>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -7707,32 +6515,134 @@ open class IamAPI {
     }
 
     /**
-     Changes an organization's display, its defaults and the sign-in rules everyone in it inherits.
+     Changes a person's profile, their roles, or the credentials they sign in with.
      
-     - parameter iamUpdateOrganizationInput: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter iamUpdateInput: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamUser
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func putIamUsersByOwnerByName(owner: String, name: String, iamUpdateInput: IamUpdateInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamUser {
+        return try await putIamUsersByOwnerByNameWithRequestBuilder(owner: owner, name: name, iamUpdateInput: iamUpdateInput, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Changes a person's profile, their roles, or the credentials they sign in with.
+     - PUT /v1/iam/users/{owner}/{name}
+     - Changes a person's profile, their roles, or the credentials they sign in with. Send a password to reset it; leave it out and their current one keeps working.  Who they are does not change: their organization, username and the identifier their existing sessions are keyed on all survive the write, so an update never signs anyone out.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter iamUpdateInput: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamUser> 
+     */
+    open class func putIamUsersByOwnerByNameWithRequestBuilder(owner: String, name: String, iamUpdateInput: IamUpdateInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamUser> {
+        var localVariablePath = "/v1/iam/users/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamUpdateInput, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamUser>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Changes a workspace's settings.
+     
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter iamWorkspacesInput: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamWorkspace
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func putIamWorkspacesByOwnerByName(owner: String, name: String, iamWorkspacesInput: IamWorkspacesInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamWorkspace {
+        return try await putIamWorkspacesByOwnerByNameWithRequestBuilder(owner: owner, name: name, iamWorkspacesInput: iamWorkspacesInput, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Changes a workspace's settings.
+     - PUT /v1/iam/workspaces/{owner}/{name}
+     - Changes a workspace's settings. What it is called does not change, and neither does when it was created.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter iamWorkspacesInput: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamWorkspace> 
+     */
+    open class func putIamWorkspacesByOwnerByNameWithRequestBuilder(owner: String, name: String, iamWorkspacesInput: IamWorkspacesInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamWorkspace> {
+        var localVariablePath = "/v1/iam/workspaces/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamWorkspacesInput, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamWorkspace>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Changes how an organization appears across Hanzo: the square mark beside its name, as an uploaded image or as a single emoji.
+     
+     - parameter iamSetAvatarInput: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: IamOrganization
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func updateOrganization(iamUpdateOrganizationInput: IamUpdateOrganizationInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamOrganization {
-        return try await updateOrganizationWithRequestBuilder(iamUpdateOrganizationInput: iamUpdateOrganizationInput, apiConfiguration: apiConfiguration).execute().body
+    open class func setOrganizationAvatar(iamSetAvatarInput: IamSetAvatarInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamOrganization {
+        return try await setOrganizationAvatarWithRequestBuilder(iamSetAvatarInput: iamSetAvatarInput, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Changes an organization's display, its defaults and the sign-in rules everyone in it inherits.
-     - POST /v1/iam/organizations/update
-     - Changes an organization's display, its defaults and the sign-in rules everyone in it inherits. Which organization it is does not change, and neither does when it was created.
+     Changes how an organization appears across Hanzo: the square mark beside its name, as an uploaded image or as a single emoji.
+     - POST /v1/iam/organizations/avatar
+     - Changes how an organization appears across Hanzo: the square mark beside its name, as an uploaded image or as a single emoji. Sending an image clears the emoji and sending an emoji clears the image — an organization has one mark, not a preference order — and sending neither clears both, which is how it goes back to being drawn as its initial.  An image is an https link or the bytes inline as a data URL, up to 96 KiB. Anyone who administers the organization may set this; it is not reserved to the platform.  It writes the two fields onto the stored row and touches nothing else, which update cannot do: update replaces the whole record, and a record read back first arrives masked, so a read-modify-write through it would persist the mask over the organization's own credential settings.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter iamUpdateOrganizationInput: (body)  
+     - parameter iamSetAvatarInput: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IamOrganization> 
      */
-    open class func updateOrganizationWithRequestBuilder(iamUpdateOrganizationInput: IamUpdateOrganizationInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamOrganization> {
-        let localVariablePath = "/v1/iam/organizations/update"
+    open class func setOrganizationAvatarWithRequestBuilder(iamSetAvatarInput: IamSetAvatarInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamOrganization> {
+        let localVariablePath = "/v1/iam/organizations/avatar"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamUpdateOrganizationInput, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamSetAvatarInput, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -7748,30 +6658,91 @@ open class IamAPI {
     }
 
     /**
+     Changes an organization's display, its defaults and the sign-in rules everyone in it inherits.
+     
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter iamUpdateOrganizationInput: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamOrganization
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func updateOrganization(owner: String, name: String, iamUpdateOrganizationInput: IamUpdateOrganizationInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamOrganization {
+        return try await updateOrganizationWithRequestBuilder(owner: owner, name: name, iamUpdateOrganizationInput: iamUpdateOrganizationInput, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Changes an organization's display, its defaults and the sign-in rules everyone in it inherits.
+     - PUT /v1/iam/organizations/{owner}/{name}
+     - Changes an organization's display, its defaults and the sign-in rules everyone in it inherits. Which organization it is does not change, and neither does when it was created.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter iamUpdateOrganizationInput: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamOrganization> 
+     */
+    open class func updateOrganizationWithRequestBuilder(owner: String, name: String, iamUpdateOrganizationInput: IamUpdateOrganizationInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamOrganization> {
+        var localVariablePath = "/v1/iam/organizations/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamUpdateOrganizationInput, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamOrganization>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      Changes a provider's settings or rotates the credentials it holds.
      
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter iamProvider: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: IamMutationResult
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func updateProvider(iamProvider: IamProvider, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamMutationResult {
-        return try await updateProviderWithRequestBuilder(iamProvider: iamProvider, apiConfiguration: apiConfiguration).execute().body
+    open class func updateProvider(owner: String, name: String, iamProvider: IamProvider, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamMutationResult {
+        return try await updateProviderWithRequestBuilder(owner: owner, name: name, iamProvider: iamProvider, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Changes a provider's settings or rotates the credentials it holds.
-     - POST /v1/iam/providers/update
+     - PUT /v1/iam/providers/{owner}/{name}
      - Changes a provider's settings or rotates the credentials it holds. The change takes effect on the next sign-in through it — sessions already issued are unaffected.  A provider that is not there answers \"nothing changed\" rather than an error, so the call is safe to repeat.
      - Bearer Token:
        - type: http
        - name: bearer
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter iamProvider: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IamMutationResult> 
      */
-    open class func updateProviderWithRequestBuilder(iamProvider: IamProvider, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamMutationResult> {
-        let localVariablePath = "/v1/iam/providers/update"
+    open class func updateProviderWithRequestBuilder(owner: String, name: String, iamProvider: IamProvider, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamMutationResult> {
+        var localVariablePath = "/v1/iam/providers/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamProvider, codableHelper: apiConfiguration.codableHelper)
 
@@ -7785,34 +6756,49 @@ open class IamAPI {
 
         let localVariableRequestBuilder: RequestBuilder<IamMutationResult>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
      Replaces the set of browsers a session covers — signing out the ones you leave off while the session itself stays live.
      
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter application: (path)  
      - parameter iamUpdateSessionIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: IamSession
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func updateSession(iamUpdateSessionIn: IamUpdateSessionIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamSession {
-        return try await updateSessionWithRequestBuilder(iamUpdateSessionIn: iamUpdateSessionIn, apiConfiguration: apiConfiguration).execute().body
+    open class func updateSession(owner: String, name: String, application: String, iamUpdateSessionIn: IamUpdateSessionIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamSession {
+        return try await updateSessionWithRequestBuilder(owner: owner, name: name, application: application, iamUpdateSessionIn: iamUpdateSessionIn, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Replaces the set of browsers a session covers — signing out the ones you leave off while the session itself stays live.
-     - POST /v1/iam/sessions/update
+     - PUT /v1/iam/sessions/{owner}/{name}/{application}
      - Replaces the set of browsers a session covers — signing out the ones you leave off while the session itself stays live. A session that does not exist is reported as missing rather than created.
      - Bearer Token:
        - type: http
        - name: bearer
+     - parameter owner: (path)  
+     - parameter name: (path)  
+     - parameter application: (path)  
      - parameter iamUpdateSessionIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IamSession> 
      */
-    open class func updateSessionWithRequestBuilder(iamUpdateSessionIn: IamUpdateSessionIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamSession> {
-        let localVariablePath = "/v1/iam/sessions/update"
+    open class func updateSessionWithRequestBuilder(owner: String, name: String, application: String, iamUpdateSessionIn: IamUpdateSessionIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamSession> {
+        var localVariablePath = "/v1/iam/sessions/{owner}/{name}/{application}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let applicationPreEscape = "\(APIHelper.mapValueToPathItem(application))"
+        let applicationPostEscape = applicationPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{application}", with: applicationPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamUpdateSessionIn, codableHelper: apiConfiguration.codableHelper)
 
@@ -7826,34 +6812,44 @@ open class IamAPI {
 
         let localVariableRequestBuilder: RequestBuilder<IamSession>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
      Changes an access token's scope or expiry.
      
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter iamToken: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: IamTokenMutation
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func updateToken(iamToken: IamToken, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamTokenMutation {
-        return try await updateTokenWithRequestBuilder(iamToken: iamToken, apiConfiguration: apiConfiguration).execute().body
+    open class func updateToken(owner: String, name: String, iamToken: IamToken, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamTokenMutation {
+        return try await updateTokenWithRequestBuilder(owner: owner, name: name, iamToken: iamToken, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Changes an access token's scope or expiry.
-     - POST /v1/iam/tokens/update
+     - PUT /v1/iam/tokens/{owner}/{name}
      - Changes an access token's scope or expiry.  A token that is not there answers \"nothing changed\" rather than an error, so the call is safe to repeat.
      - Bearer Token:
        - type: http
        - name: bearer
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter iamToken: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IamTokenMutation> 
      */
-    open class func updateTokenWithRequestBuilder(iamToken: IamToken, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamTokenMutation> {
-        let localVariablePath = "/v1/iam/tokens/update"
+    open class func updateTokenWithRequestBuilder(owner: String, name: String, iamToken: IamToken, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamTokenMutation> {
+        var localVariablePath = "/v1/iam/tokens/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamToken, codableHelper: apiConfiguration.codableHelper)
 
@@ -7867,34 +6863,44 @@ open class IamAPI {
 
         let localVariableRequestBuilder: RequestBuilder<IamTokenMutation>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
      Renames a registered passkey or security key, so a person can tell their devices apart.
      
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter iamWebauthnCredential: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: IamWebauthnCredentialMutationResult
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func updateWebauthnCredential(iamWebauthnCredential: IamWebauthnCredential, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamWebauthnCredentialMutationResult {
-        return try await updateWebauthnCredentialWithRequestBuilder(iamWebauthnCredential: iamWebauthnCredential, apiConfiguration: apiConfiguration).execute().body
+    open class func updateWebauthnCredential(owner: String, name: String, iamWebauthnCredential: IamWebauthnCredential, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamWebauthnCredentialMutationResult {
+        return try await updateWebauthnCredentialWithRequestBuilder(owner: owner, name: name, iamWebauthnCredential: iamWebauthnCredential, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Renames a registered passkey or security key, so a person can tell their devices apart.
-     - POST /v1/iam/webauthn-credentials/update
+     - PUT /v1/iam/webauthn-credentials/{owner}/{name}
      - Renames a registered passkey or security key, so a person can tell their devices apart.  A credential that is not there answers \"nothing changed\" rather than an error, so the call is safe to repeat.
      - Bearer Token:
        - type: http
        - name: bearer
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter iamWebauthnCredential: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IamWebauthnCredentialMutationResult> 
      */
-    open class func updateWebauthnCredentialWithRequestBuilder(iamWebauthnCredential: IamWebauthnCredential, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamWebauthnCredentialMutationResult> {
-        let localVariablePath = "/v1/iam/webauthn-credentials/update"
+    open class func updateWebauthnCredentialWithRequestBuilder(owner: String, name: String, iamWebauthnCredential: IamWebauthnCredential, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamWebauthnCredentialMutationResult> {
+        var localVariablePath = "/v1/iam/webauthn-credentials/{owner}/{name}"
+        let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
+        let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{owner}", with: ownerPostEscape, options: .literal, range: nil)
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamWebauthnCredential, codableHelper: apiConfiguration.codableHelper)
 
@@ -7908,7 +6914,7 @@ open class IamAPI {
 
         let localVariableRequestBuilder: RequestBuilder<IamWebauthnCredentialMutationResult>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
@@ -7971,7 +6977,7 @@ open class IamAPI {
     /**
      Creates a person or updates them in place, so a deployment can declare the accounts it needs and re-run that declaration safely.
      - POST /v1/iam/admin/users/upsert
-     - Creates a person or updates them in place, so a deployment can declare the accounts it needs and re-run that declaration safely.  Passwords are hashed before they are stored. Leave the password out and their current one is kept, so a redeploy never locks somebody out.
+     - Creates a person or updates them in place, so a deployment can declare the accounts it needs and re-run that declaration safely.  It DESCRIBES an account it meets and GRANTS only to one it creates: org-admin is never raised on a row that already exists, and a machine identity is answered by name rather than adopted. Both are properties of the update itself, so a steady-state reconcile — which changes neither — is unaffected.  Passwords are hashed before they are stored. Leave the password out and their current one is kept, so a redeploy never locks somebody out; send the same one again and it is kept too, so a steady-state re-run is not a rotation.
      - Bearer Token:
        - type: http
        - name: bearer

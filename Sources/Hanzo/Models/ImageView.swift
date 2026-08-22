@@ -9,7 +9,9 @@ import Foundation
 
 public struct ImageView: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Repository is the image path without a tag (ghcr.io/acme/api). Required for source `image`, which runs it as-is. A git app's built image is NOT this: the build pushes to a path derived from the org and slug, and the deployment records that full ref. */
     public var repository: String?
+    /** Tag is the tag to run: what the create declared, then RE-STAMPED on every transition to live with the tag that actually went live. So after a deploy it names what is running, not what was asked for. */
     public var tag: String?
 
     public init(repository: String? = nil, tag: String? = nil) {

@@ -9,9 +9,13 @@ import Foundation
 
 public struct ArgoCluster: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** ConnectionState is whether the destination is reachable. */
     public var connectionState: ArgoConnectionState?
+    /** Info is the connection state again plus the count of applications targeting this destination. */
     public var info: ArgoClusterInfo?
+    /** Name is what the Destination column shows: \"in-cluster\" for this cluster, otherwise whatever spec.destination.name declares, falling back to the server URL when it declares none. */
     public var name: String?
+    /** Server is the destination's API URL, and the key the list is deduplicated by. https://kubernetes.default.svc is this cluster. */
     public var server: String?
 
     public init(connectionState: ArgoConnectionState? = nil, info: ArgoClusterInfo? = nil, name: String? = nil, server: String? = nil) {

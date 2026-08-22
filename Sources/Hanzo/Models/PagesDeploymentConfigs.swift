@@ -9,7 +9,9 @@ import Foundation
 
 public struct PagesDeploymentConfigs: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Preview is the config every branch build other than the production branch runs under. It is a SEPARATE set of bindings and variables, which is what lets a preview point at test data. */
     public var preview: PagesDeploymentConfig?
+    /** Production is the config the production branch builds under. */
     public var production: PagesDeploymentConfig?
 
     public init(preview: PagesDeploymentConfig? = nil, production: PagesDeploymentConfig? = nil) {

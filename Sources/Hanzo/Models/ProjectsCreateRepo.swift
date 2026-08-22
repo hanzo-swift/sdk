@@ -7,6 +7,7 @@
 
 import Foundation
 
+/** Repo links a git source, so pushes to it rebuild this project. Omit it for a project deployed by uploading an artifact. */
 public struct ProjectsCreateRepo: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var branch: String?

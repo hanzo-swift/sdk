@@ -9,9 +9,11 @@ import Foundation
 
 public struct PromoStatus: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Promo is the offer itself. It is fleet-wide, identical for every org — only the two counters beside it move. */
     public var promo: Promo?
     /** Redeemed is how many orgs have taken it, Remaining how many are left under the fleet-wide cap. */
     public var redeemed: Int?
+    /** Remaining is MaxRedemptions minus Redeemed, floored at 0. At 0 the next redeem is declined, and a quote reports ineligible rather than pricing an offer that cannot be taken. */
     public var remaining: Int?
 
     public init(promo: Promo? = nil, redeemed: Int? = nil, remaining: Int? = nil) {

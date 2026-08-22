@@ -9,7 +9,7 @@ import Foundation
 
 public struct CodeResult: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** Files are what this run CREATED OR CHANGED, decided by mtime against a marker taken before the program started — so it is the run's output, not a listing of the directory. Fetch each from GET /v1/download/{session}/{id}. */
+    /** Files are what this run CREATED OR CHANGED, decided by mtime against a marker taken before the program started — so it is the run's output, not a listing of the directory. Fetch each from GET /v1/exec/download/{session}/{id}. */
     public var files: [CodeFile]?
     /** SessionID is the sandbox this run used — the one that was passed in, or the fresh one that was leased. Pass it to the next run to keep the filesystem. */
     public var sessionId: String?

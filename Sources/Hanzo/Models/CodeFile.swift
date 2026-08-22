@@ -9,7 +9,7 @@ import Foundation
 
 public struct CodeFile: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** ID is the file's path RELATIVE to its session's artifact directory, which is also how it is fetched: GET /v1/download/{session}/{id}. */
+    /** ID is the file's path RELATIVE to its session's artifact directory, which is also how it is fetched: GET /v1/exec/download/{session}/{id}. */
     public var id: String?
     /** Name is the display name. On an ANSWER it carries the `{session}/{id}` identifier whole, because the client matches on that prefix. */
     public var name: String?

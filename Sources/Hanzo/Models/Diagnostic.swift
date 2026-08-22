@@ -9,10 +9,15 @@ import Foundation
 
 public struct Diagnostic: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Code is the checker's own identifier for the rule, a string or a number depending on the server. Absent when it published none. */
     public var code: JSONValue?
+    /** Message is the problem in the server's own words, meant to be shown. */
     public var message: String?
+    /** Range is the span the problem is about. */
     public var range: ModelRange?
+    /** Severity is the LSP's: 1 error, 2 warning, 3 information, 4 hint. A file with only 3s and 4s still compiles. */
     public var severity: Int?
+    /** Source is which checker reported it (\"compiler\", \"go vet\", a linter's name), which is what separates a build error from a style opinion. */
     public var source: String?
 
     public init(code: JSONValue? = nil, message: String? = nil, range: ModelRange? = nil, severity: Int? = nil, source: String? = nil) {

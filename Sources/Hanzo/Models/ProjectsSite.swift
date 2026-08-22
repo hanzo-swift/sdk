@@ -9,10 +9,15 @@ import Foundation
 
 public struct ProjectsSite: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Name is the site's display name. */
     public var name: String?
+    /** Slug is the site's handle — also the label of the host it serves at. */
     public var slug: String?
+    /** Status is the project's state behind the site — whether it is serving, still building, or failed its last build. A site that is listed is not necessarily one that answers. */
     public var status: String?
+    /** UpdatedAt is when the project last changed, as Unix seconds. */
     public var updatedAt: Int?
+    /** URL is the pretty address readers use, not the object-store path behind it. */
     public var url: String?
 
     public init(name: String? = nil, slug: String? = nil, status: String? = nil, updatedAt: Int? = nil, url: String? = nil) {

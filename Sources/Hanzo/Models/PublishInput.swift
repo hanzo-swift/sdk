@@ -9,9 +9,11 @@ import Foundation
 
 public struct PublishInput: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** DocType is the content type holding the item: Campaign, SocialPost or Asset. Any other name is refused as an unknown content type. */
     public var doctype: String?
+    /** Name is the document within that type — the item to distribute. Its caption, media and channel list come off the stored document, so this names WHICH item and says nothing about what goes out. */
     public var name: String?
-    /** \"\" = now */
+    /** ScheduleAt hands a future go-live to the channel's own scheduler, as an ISO-8601 time. Empty posts now. */
     public var scheduleAt: String?
 
     public init(doctype: String? = nil, name: String? = nil, scheduleAt: String? = nil) {

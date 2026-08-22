@@ -948,50 +948,6 @@ open class CloudflareAPI {
     }
 
     /**
-     Run a Cloudflare Workers AI model and get its output back
-     
-     - parameter wildcard1: (path)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postCloudflareAiRunByWildcard1(wildcard1: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postCloudflareAiRunByWildcard1WithRequestBuilder(wildcard1: wildcard1, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Run a Cloudflare Workers AI model and get its output back
-     - POST /v1/cloudflare/ai/run/{wildcard1}
-     - Runs a Workers AI model — the model id is the rest of the path, e.g. `@cf/meta/llama-3.1-8b-instruct` — on the org's OWN Cloudflare account and relays the model's output. The request body is whatever the chosen model takes (a prompt, chat messages, a base64 audio clip) and is forwarded unchanged; the response is the model's own, which for an image or audio model is BYTES under Cloudflare's content type rather than JSON. Both halves are why this is not a typed op.  It is the ONE PRICED route on this plane, because a run is inference rather than passthrough. The org's own token already paid Cloudflare for the compute, so Hanzo debits only the thin BYO routing fee — never the full inference cost — and meters it on the SAME `ai` product axis and per-project caps as every other model call, so Workers AI spend sums with LLM spend. The fee has a floor, so every run leaves a usage row even for a modality that reports no tokens, and it emits one gen_ai span with `gen_ai.system = cloudflare`.  Gated by BALANCE, not by the admin bit that guards the destructive verbs here: a validated org is enough, and a frozen, broke or over-cap org is refused with the fleet-wide 402/503 billing contract BEFORE any byte reaches Cloudflare — no run, and no account discovery either. An empty or oversized body is 400, as is a model id that is not a plain Cloudflare model path; 503 if the org has never connected a Cloudflare token.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter wildcard1: (path)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func postCloudflareAiRunByWildcard1WithRequestBuilder(wildcard1: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        var localVariablePath = "/v1/cloudflare/ai/run/{wildcard1}"
-        let wildcard1PreEscape = "\(APIHelper.mapValueToPathItem(wildcard1))"
-        let wildcard1PostEscape = wildcard1PreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{wildcard1}", with: wildcard1PostEscape, options: .literal, range: nil)
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
      Creates a D1 database on the org's Cloudflare account.
      
      - parameter databaseCreateIn: (body)  

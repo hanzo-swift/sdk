@@ -9,9 +9,13 @@ import Foundation
 
 public struct IamKey: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** AccessKey (pk-*) is the publishable identifier and lookup index; AccessSecret (sk-*) is the confidential secret. */
+    /** AccessKey (pk-*) is the publishable identifier and lookup index; AccessSecret (sk-*) is the confidential secret. AccessSecret IS NOT PERSISTED for a key minted at or after the digest change: it carries the secret out to its holder once, in the mint response, and the row keeps only AccessSecretDigest. It stays on the struct because that one-time reveal is the whole point of minting, and it stays in the schema because rows written before the change still hold a plaintext secret that the resolver drains on first use. */
     public var accessKey: String?
     public var accessSecret: String?
+    /** AccessSecretDigest is how a presented secret finds its key: the resolver digests what the caller sent and looks THAT up. It is what lets the row hold no plaintext and still be found in one indexed read — a salted hash cannot be looked up by value, which is the reason the plaintext was here. */
+    public var accessSecretDigest: String?
+    /** Act is the durable, opt-in grant that lets this key act FOR a user in its own org — the credential behind as(): presenting it authorizes minting a short-lived, user-bound token for a member of the key's tenant. Default false, so a server key mints nothing on anyone's behalf until the grant is set deliberately — the capability is never inherited by every key. It is confined at mint time to the key's OWN Owner, and a reserved-org or SuperAdmin target is refused, so the grant reaches only ordinary members of the one tenant that holds the key. */
+    public var act: Bool?
     public var application: String?
     public var createdAt: Date?
     /** CreatedTime and UpdatedTime are RFC3339 audit stamps carried as strings for byte-parity with the v1 row (orm.Model separately tracks CreatedAt / UpdatedAt as time.Time for the store's own lifecycle). */
@@ -35,9 +39,11 @@ public struct IamKey: Sendable, Codable, ParameterConvertible, Hashable {
     public var updatedTime: String?
     public var user: String?
 
-    public init(accessKey: String? = nil, accessSecret: String? = nil, application: String? = nil, createdAt: Date? = nil, createdTime: String? = nil, deleted: Bool? = nil, displayName: String? = nil, expireTime: String? = nil, id: String? = nil, name: String? = nil, organization: String? = nil, owner: String? = nil, scope: String? = nil, state: String? = nil, type: String? = nil, updatedAt: Date? = nil, updatedTime: String? = nil, user: String? = nil) {
+    public init(accessKey: String? = nil, accessSecret: String? = nil, accessSecretDigest: String? = nil, act: Bool? = nil, application: String? = nil, createdAt: Date? = nil, createdTime: String? = nil, deleted: Bool? = nil, displayName: String? = nil, expireTime: String? = nil, id: String? = nil, name: String? = nil, organization: String? = nil, owner: String? = nil, scope: String? = nil, state: String? = nil, type: String? = nil, updatedAt: Date? = nil, updatedTime: String? = nil, user: String? = nil) {
         self.accessKey = accessKey
         self.accessSecret = accessSecret
+        self.accessSecretDigest = accessSecretDigest
+        self.act = act
         self.application = application
         self.createdAt = createdAt
         self.createdTime = createdTime
@@ -59,6 +65,8 @@ public struct IamKey: Sendable, Codable, ParameterConvertible, Hashable {
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case accessKey
         case accessSecret
+        case accessSecretDigest
+        case act
         case application
         case createdAt
         case createdTime
@@ -83,6 +91,8 @@ public struct IamKey: Sendable, Codable, ParameterConvertible, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(accessKey, forKey: .accessKey)
         try container.encodeIfPresent(accessSecret, forKey: .accessSecret)
+        try container.encodeIfPresent(accessSecretDigest, forKey: .accessSecretDigest)
+        try container.encodeIfPresent(act, forKey: .act)
         try container.encodeIfPresent(application, forKey: .application)
         try container.encodeIfPresent(createdAt, forKey: .createdAt)
         try container.encodeIfPresent(createdTime, forKey: .createdTime)

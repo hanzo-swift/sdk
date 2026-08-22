@@ -49,50 +49,6 @@ open class TasksAPI {
     }
 
     /**
-     Delete an engine resource
-     
-     - parameter wildcard1: (path)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteTasksByWildcard1(wildcard1: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await deleteTasksByWildcard1WithRequestBuilder(wildcard1: wildcard1, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Delete an engine resource
-     - DELETE /v1/tasks/{wildcard1}
-     - Removes a resource the engine owns — a namespace and the like — inside the caller's own tenant shard.  It is the narrowest of the three working methods: most of the engine's surface is read on GET and acted on with POST, so a delete that finds no route for its path answers the same plain-text 404 any unrouted path does.  This single address fronts the whole durable-workflow engine — namespaces, workflows, schedules, batches, deployments, nexus, task queues, workers, activities and the rest — matched by path segment inside the engine's own router, which is why the document publishes one wildcard rather than sixty-four operations.  Most of it requires a validated principal and is refused 403 otherwise; the settings and cluster probes are open, because capability flags and cluster health carry no tenant data. A principal that is validated but carries NO org is refused too — that request would otherwise read the shared unscoped store instead of anyone's shard, so it fails closed. Admitted, the org, project and user are threaded into the engine, and every read and write lands in that tenant's own shard.  Two things about the answers differ from the rest of this API and will bite a generic client: errors here carry `code` as a NUMBER rather than the usual `status`, and the address serves several content types — JSON, plain-text refusals, and an event stream at the events path. Until the engine is wired the whole surface answers 503.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter wildcard1: (path)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func deleteTasksByWildcard1WithRequestBuilder(wildcard1: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        var localVariablePath = "/v1/tasks/{wildcard1}"
-        let wildcard1PreEscape = "\(APIHelper.mapValueToPathItem(wildcard1))"
-        let wildcard1PostEscape = wildcard1PreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{wildcard1}", with: wildcard1PostEscape, options: .literal, range: nil)
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
      Redirect to the tasks API root
      
      - parameter apiConfiguration: The configuration for the http request.
@@ -115,50 +71,6 @@ open class TasksAPI {
      */
     open class func getTasksWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/tasks"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Read workflow state from the durable engine
-     
-     - parameter wildcard1: (path)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getTasksByWildcard1(wildcard1: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await getTasksByWildcard1WithRequestBuilder(wildcard1: wildcard1, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Read workflow state from the durable engine
-     - GET /v1/tasks/{wildcard1}
-     - Reads from the durable engine: list namespaces, workflows, schedules, batches, deployments, task queues, workers and search attributes, fetch one workflow with its history, or subscribe to the realtime event stream. The cluster and settings probes are on this method too.  This single address fronts the whole durable-workflow engine — namespaces, workflows, schedules, batches, deployments, nexus, task queues, workers, activities and the rest — matched by path segment inside the engine's own router, which is why the document publishes one wildcard rather than sixty-four operations.  Most of it requires a validated principal and is refused 403 otherwise; the settings and cluster probes are open, because capability flags and cluster health carry no tenant data. A principal that is validated but carries NO org is refused too — that request would otherwise read the shared unscoped store instead of anyone's shard, so it fails closed. Admitted, the org, project and user are threaded into the engine, and every read and write lands in that tenant's own shard.  Two things about the answers differ from the rest of this API and will bite a generic client: errors here carry `code` as a NUMBER rather than the usual `status`, and the address serves several content types — JSON, plain-text refusals, and an event stream at the events path. Until the engine is wired the whole surface answers 503.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter wildcard1: (path)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func getTasksByWildcard1WithRequestBuilder(wildcard1: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        var localVariablePath = "/v1/tasks/{wildcard1}"
-        let wildcard1PreEscape = "\(APIHelper.mapValueToPathItem(wildcard1))"
-        let wildcard1PostEscape = wildcard1PreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{wildcard1}", with: wildcard1PostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
@@ -215,50 +127,6 @@ open class TasksAPI {
     }
 
     /**
-     Not served by the engine
-     
-     - parameter wildcard1: (path)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func patchTasksByWildcard1(wildcard1: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await patchTasksByWildcard1WithRequestBuilder(wildcard1: wildcard1, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Not served by the engine
-     - PATCH /v1/tasks/{wildcard1}
-     - Published because this address accepts every method, but the engine routes no PATCH: the answer is a plain-text 404, not a 405, and no state changes.  There is no partial update on this surface. State advances by appending events, so the operations that change a running workflow — signal, cancel, terminate, reset — are all POST.  This single address fronts the whole durable-workflow engine — namespaces, workflows, schedules, batches, deployments, nexus, task queues, workers, activities and the rest — matched by path segment inside the engine's own router, which is why the document publishes one wildcard rather than sixty-four operations.  Most of it requires a validated principal and is refused 403 otherwise; the settings and cluster probes are open, because capability flags and cluster health carry no tenant data. A principal that is validated but carries NO org is refused too — that request would otherwise read the shared unscoped store instead of anyone's shard, so it fails closed. Admitted, the org, project and user are threaded into the engine, and every read and write lands in that tenant's own shard.  Two things about the answers differ from the rest of this API and will bite a generic client: errors here carry `code` as a NUMBER rather than the usual `status`, and the address serves several content types — JSON, plain-text refusals, and an event stream at the events path. Until the engine is wired the whole surface answers 503.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter wildcard1: (path)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func patchTasksByWildcard1WithRequestBuilder(wildcard1: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        var localVariablePath = "/v1/tasks/{wildcard1}"
-        let wildcard1PreEscape = "\(APIHelper.mapValueToPathItem(wildcard1))"
-        let wildcard1PostEscape = wildcard1PreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{wildcard1}", with: wildcard1PostEscape, options: .literal, range: nil)
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
      Redirect to the tasks API root
      
      - parameter apiConfiguration: The configuration for the http request.
@@ -298,50 +166,6 @@ open class TasksAPI {
     }
 
     /**
-     Start workflows and act on running ones
-     
-     - parameter wildcard1: (path)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postTasksByWildcard1(wildcard1: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postTasksByWildcard1WithRequestBuilder(wildcard1: wildcard1, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Start workflows and act on running ones
-     - POST /v1/tasks/{wildcard1}
-     - Everything that changes the engine's state: register a namespace, start a workflow or signal-with-start one, and signal, query, cancel, terminate or reset a workflow that is already running. The MCP tool surface is on this method as well, and is the one part of it that refuses a non-POST with a plain-text 405.  The engine is event-sourced and exactly-once, so an action is durable once it is accepted and survives a process crash — a started workflow resumes rather than restarts.  This single address fronts the whole durable-workflow engine — namespaces, workflows, schedules, batches, deployments, nexus, task queues, workers, activities and the rest — matched by path segment inside the engine's own router, which is why the document publishes one wildcard rather than sixty-four operations.  Most of it requires a validated principal and is refused 403 otherwise; the settings and cluster probes are open, because capability flags and cluster health carry no tenant data. A principal that is validated but carries NO org is refused too — that request would otherwise read the shared unscoped store instead of anyone's shard, so it fails closed. Admitted, the org, project and user are threaded into the engine, and every read and write lands in that tenant's own shard.  Two things about the answers differ from the rest of this API and will bite a generic client: errors here carry `code` as a NUMBER rather than the usual `status`, and the address serves several content types — JSON, plain-text refusals, and an event stream at the events path. Until the engine is wired the whole surface answers 503.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter wildcard1: (path)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func postTasksByWildcard1WithRequestBuilder(wildcard1: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        var localVariablePath = "/v1/tasks/{wildcard1}"
-        let wildcard1PreEscape = "\(APIHelper.mapValueToPathItem(wildcard1))"
-        let wildcard1PostEscape = wildcard1PreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{wildcard1}", with: wildcard1PostEscape, options: .literal, range: nil)
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
      Redirect to the tasks API root
      
      - parameter apiConfiguration: The configuration for the http request.
@@ -364,50 +188,6 @@ open class TasksAPI {
      */
     open class func putTasksWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/tasks"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Not served by the engine
-     
-     - parameter wildcard1: (path)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putTasksByWildcard1(wildcard1: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await putTasksByWildcard1WithRequestBuilder(wildcard1: wildcard1, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Not served by the engine
-     - PUT /v1/tasks/{wildcard1}
-     - Published because this address accepts every method, but the engine routes no PUT: the answer is a plain-text 404, not a 405, and no state changes.  Nothing here is updated by replacement. The engine is event-sourced — a workflow is changed by signalling, cancelling, terminating or resetting it, all of which are POST — so a client reaching for PUT wants POST.  This single address fronts the whole durable-workflow engine — namespaces, workflows, schedules, batches, deployments, nexus, task queues, workers, activities and the rest — matched by path segment inside the engine's own router, which is why the document publishes one wildcard rather than sixty-four operations.  Most of it requires a validated principal and is refused 403 otherwise; the settings and cluster probes are open, because capability flags and cluster health carry no tenant data. A principal that is validated but carries NO org is refused too — that request would otherwise read the shared unscoped store instead of anyone's shard, so it fails closed. Admitted, the org, project and user are threaded into the engine, and every read and write lands in that tenant's own shard.  Two things about the answers differ from the rest of this API and will bite a generic client: errors here carry `code` as a NUMBER rather than the usual `status`, and the address serves several content types — JSON, plain-text refusals, and an event stream at the events path. Until the engine is wired the whole surface answers 503.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter wildcard1: (path)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func putTasksByWildcard1WithRequestBuilder(wildcard1: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        var localVariablePath = "/v1/tasks/{wildcard1}"
-        let wildcard1PreEscape = "\(APIHelper.mapValueToPathItem(wildcard1))"
-        let wildcard1PostEscape = wildcard1PreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{wildcard1}", with: wildcard1PostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 

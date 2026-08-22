@@ -7,6 +7,7 @@
 
 import Foundation
 
+/** Series is the RED trend: request rate, error rate and two latency quantiles, bucketed at range.stepSec and oldest bucket first. Latencies are in MILLISECONDS. */
 public struct O11yMetricsResponseSeries: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var errors: [O11yPoint]?

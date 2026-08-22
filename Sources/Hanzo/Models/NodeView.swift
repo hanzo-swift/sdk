@@ -17,7 +17,7 @@ public struct NodeView: Sendable, Codable, ParameterConvertible, Hashable {
     public var connectedAt: String?
     /** DisplayName is the human name the node reported for itself. */
     public var displayName: String?
-    /** ID is the node's own identifier within the org — the value POST /v1/bot/nodes/{id}/invoke addresses it by. */
+    /** ID is the node's own identifier within the org — the value POST /v1/node/{id}/invoke addresses it by. */
     public var id: String?
     /** Platform is the operating system and architecture the node reported. */
     public var platform: String?

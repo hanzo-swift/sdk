@@ -7,6 +7,7 @@
 
 import Foundation
 
+/** Range is the window and bucket width actually used, after clamping — not what was asked for, which is why a caller reads it back rather than assuming. */
 public struct O11yAvailabilityResponseRange: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var sinceSec: Int?

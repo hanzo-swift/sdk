@@ -24,7 +24,7 @@ public struct ProductEvent: Sendable, Codable, ParameterConvertible, Hashable {
     public var sessionId: String?
     /** Timestamp is when the event happened, RFC3339 UTC. */
     public var timestamp: String?
-    /** Type is the row's kind — the plane's discriminator: page, track, identify or group. (Errors are not here at all: they land on event.error and are read at /v1/errors.) */
+    /** Type is the row's kind — the plane's discriminator: page, track, identify or group. (Errors are not here at all: they land on event.error and are read at /v1/event/errors.) */
     public var type: String?
     /** URL is the full page address the event fired on. Omitted when absent. */
     public var url: String?

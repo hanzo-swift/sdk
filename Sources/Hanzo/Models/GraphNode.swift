@@ -13,6 +13,7 @@ public struct GraphNode: Sendable, Codable, ParameterConvertible, Hashable {
     public var id: String?
     /** the document name (empty for synthetic nodes) */
     public var name: String?
+    /** Project is the project scope the underlying document was saved under. Absent for a document saved with none, and for the synthetic nodes — unresolved link targets and connectors belong to no project. When ?project= narrows the graph, every page, memory and source node carries that value. */
     public var project: String?
     /** display label */
     public var title: String?

@@ -9,13 +9,21 @@ import Foundation
 
 public struct ProjectsRelease: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Active is whether this is the release the site is SERVING right now. Exactly one release of a site is active; the others are kept so they can be activated again, until retention reclaims them. */
     public var active: Bool?
+    /** Bytes is their total size in bytes. */
     public var bytes: Int?
+    /** CreatedAt is when the release was cut, as Unix seconds — not when it was last activated. */
     public var createdAt: Int?
+    /** Objects is how many files the release holds. */
     public var objects: Int?
+    /** ReleaseID is derived from a DIGEST of the release's own manifest, so identical content is the same release and a release can never be confused with another one. Activating an older id IS the rollback. */
     public var releaseId: String?
+    /** Slug is the site this release belongs to. */
     public var slug: String?
+    /** Source is what the release was cut from — the build output or upload it was promoted out of. */
     public var source: String?
+    /** URL is where the site serves. Present only on the ACTIVE release, since an inactive one is not answering anywhere. */
     public var url: String?
 
     public init(active: Bool? = nil, bytes: Int? = nil, createdAt: Int? = nil, objects: Int? = nil, releaseId: String? = nil, slug: String? = nil, source: String? = nil, url: String? = nil) {

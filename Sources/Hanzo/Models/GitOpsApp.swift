@@ -9,23 +9,35 @@ import Foundation
 
 public struct GitOpsApp: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Automated is whether CD applies new commits without being asked. It reads the PRESENCE of spec.syncPolicy.automated, which is a block rather than a boolean; false means drift is reported and nothing moves. */
     public var automated: Bool?
-    /** Healthy|Degraded|Progressing|… */
+    /** Health is CD's verdict on the objects it manages, verbatim: Healthy, Progressing, Degraded, Suspended, Missing or Unknown. */
     public var health: String?
+    /** History is the recent deploy log, NEWEST FIRST and capped at ten. CD appends oldest-first and bounds the list itself; the reversal happens here so a caller never has to know the storage order to show what shipped last. Empty (never null) for an Application that has deployed nothing. */
     public var history: [GitOpsDeploy]?
+    /** Name is what CD calls this tracked source, not the workload it deploys — the Application CR's own metadata.name. The fleet ApplicationSet mints these as <namespace>-<app>. */
     public var name: String?
+    /** Namespace is where the Application OBJECT lives: CD's own controller namespace, which is the same one for every row here. It is NOT the destination the workloads land in — this endpoint lists cluster-wide and never reads spec.destination. */
     public var namespace: String?
+    /** Operation is the last sync attempt and how it ended. Absent when CD has run none, which is the honest gap between \"never tried\" and \"tried and failed\". */
     public var operation: GitOpsOperation?
+    /** Path is the directory inside that repository CD renders, relative to its root. */
     public var path: String?
+    /** Project is the AppProject fence the sync is admitted under: which repos this Application may pull from and which destinations it may write to. Empty when the CR declares none. */
     public var project: String?
+    /** ReconciledAt is when CD last COMPARED this Application against git, RFC 3339. It moves on every comparison, including ones that applied nothing. */
     public var reconciledAt: String?
+    /** RepoURL is the git repository CD polls for this Application's desired state. */
     public var repoURL: String?
+    /** Resources is how MANY objects CD manages for this Application (len(status.resources)) — a count, not the objects. Zero for an Application CD has not reconciled. */
     public var resources: Int?
-    /** the commit last applied */
+    /** Revision is the commit CD last APPLIED (status.sync.revision). Empty means it has applied none — never read that as the head of TargetRevision. */
     public var revision: String?
+    /** SelfHeal is whether CD also reverts changes made directly in the cluster (syncPolicy.automated.selfHeal). Meaningless unless Automated. */
     public var selfHeal: Bool?
-    /** Synced|OutOfSync|Unknown */
+    /** Sync is CD's verdict on git versus cluster, verbatim: Synced, OutOfSync or Unknown. It is about the applied REVISION, so an Application can be Synced to a commit that is several behind the branch it tracks. */
     public var sync: String?
+    /** TargetRevision is the git ref CD TRACKS — usually a branch such as \"main\". It is what CD aims at; Revision is what it has reached. */
     public var targetRevision: String?
 
     public init(automated: Bool? = nil, health: String? = nil, history: [GitOpsDeploy]? = nil, name: String? = nil, namespace: String? = nil, operation: GitOpsOperation? = nil, path: String? = nil, project: String? = nil, reconciledAt: String? = nil, repoURL: String? = nil, resources: Int? = nil, revision: String? = nil, selfHeal: Bool? = nil, sync: String? = nil, targetRevision: String? = nil) {

@@ -13,8 +13,9 @@ public struct ProjectsDomains: Sendable, Codable, ParameterConvertible, Hashable
     public var claims: [ProjectsDomain]?
     /** Domains are the hostnames that are VERIFIED and routing right now. */
     public var domains: [String]?
-    /** Org and Slug identify the site the panel belongs to. */
+    /** Org is the organisation that owns the site. */
     public var org: String?
+    /** Slug is the site the panel belongs to. */
     public var slug: String?
 
     public init(claims: [ProjectsDomain]? = nil, domains: [String]? = nil, org: String? = nil, slug: String? = nil) {

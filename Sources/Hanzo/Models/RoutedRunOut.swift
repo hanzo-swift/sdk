@@ -9,10 +9,15 @@ import Foundation
 
 public struct RoutedRunOut: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Base is the branch to start FROM. Empty means the repository's default — resolve it on the machine, since the machine is the one holding the clone. */
     public var base: String?
+    /** Branch is the ref the run must push its work to, and the ONLY one it is permitted to write: the forge's ref policy refuses anything else from this run's credential. It is decided at dispatch and exists before the work does. */
     public var branch: String?
+    /** CloneURL is how to fetch the repository. It carries NO credential — the machine authenticates with the git identity it already holds — which is why this whole shape is safe to hand to a claimed runner. */
     public var cloneUrl: String?
+    /** Project is the product slug the run is filed under, so the machine can tag what it produces. Empty when the dispatch named none. */
     public var project: String?
+    /** Prompt is the task, in full, as the person wrote it. There is no second field for context. */
     public var prompt: String?
     /** Repo is the repository to work in and CloneURL is how to fetch it. */
     public var repo: String?

@@ -9,6 +9,7 @@ import Foundation
 
 public struct PagesD1Binding: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** ID is the D1 database this binding points at, by Cloudflare's uuid. The binding name the Worker code reads it as is the map key, not a field here. */
     public var id: String?
 
     public init(id: String? = nil) {

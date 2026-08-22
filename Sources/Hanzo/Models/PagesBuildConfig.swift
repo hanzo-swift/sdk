@@ -9,8 +9,11 @@ import Foundation
 
 public struct PagesBuildConfig: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** BuildCommand is what Cloudflare runs to build the site (\"npm run build\"). Omitted means no build step: the repository is published as it stands. */
     public var buildCommand: String?
+    /** DestinationDir is the directory the build leaves the site in (\"dist\"), relative to RootDir. It is what gets served. */
     public var destinationDir: String?
+    /** RootDir is where in the repository the build runs, for a project that is not at the repository root. Omitted means the root. */
     public var rootDir: String?
 
     public init(buildCommand: String? = nil, destinationDir: String? = nil, rootDir: String? = nil) {

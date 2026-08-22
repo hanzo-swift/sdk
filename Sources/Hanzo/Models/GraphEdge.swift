@@ -9,9 +9,11 @@ import Foundation
 
 public struct GraphEdge: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** From is the id of the node the edge starts at: the child page for a parent edge, the page holding the wikilink for a link edge, the kb-source for a provenance edge. Always one of Nodes. */
     public var from: String?
     /** parent | link | provenance */
     public var kind: String?
+    /** To is the id of the node the edge points at: the parent page, the linked page, the kb-connector. Always one of Nodes — a wikilink matching no page points at a synthetic \"unresolved:<lowercased title>\" node rather than dangling. */
     public var to: String?
 
     public init(from: String? = nil, kind: String? = nil, to: String? = nil) {

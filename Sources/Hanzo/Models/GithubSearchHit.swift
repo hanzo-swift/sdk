@@ -9,13 +9,21 @@ import Foundation
 
 public struct GithubSearchHit: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** CloneURL is the repository's https git remote. */
     public var cloneUrl: String?
+    /** DefaultBranch is the branch a clone checks out. */
     public var defaultBranch: String?
+    /** Description is the blurb the repository's owner wrote. Empty when it has none. */
     public var description: String?
+    /** FullName is the repository's \"owner/repo\" on GitHub. Finding it here does NOT make it forkable: githubFork takes a repo the org's installation was granted, and a hit from the public index usually is not one. */
     public var fullName: String?
+    /** HTMLURL is the repository's page on github.com. */
     public var htmlUrl: String?
+    /** Language is the primary language GitHub detected from the file mix (\"Go\", \"TypeScript\"). Empty when GitHub attributes none. */
     public var language: String?
+    /** Private is GitHub's visibility flag, passed through. This op reads the public index — the org's token only charges the rate limit to the installation — so it is false for everything a search can reach. */
     public var _private: Bool?
+    /** Stars is GitHub's stargazers_count as the SEARCH INDEX held it when the query ran — a snapshot, not a live count off the repository. */
     public var stars: Int?
 
     public init(cloneUrl: String? = nil, defaultBranch: String? = nil, description: String? = nil, fullName: String? = nil, htmlUrl: String? = nil, language: String? = nil, _private: Bool? = nil, stars: Int? = nil) {

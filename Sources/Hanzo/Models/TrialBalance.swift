@@ -9,11 +9,17 @@ import Foundation
 
 public struct TrialBalance: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Balanced is the proof this report exists to give: whether total debits equal total credits. It is computed from the rows above, never assumed, and false means the ledger itself is broken rather than that the report is wrong. */
     public var balanced: Bool?
+    /** From is the posting time the window opens at, as it was asked for. Absent means the report runs from the beginning of the ledger. */
     public var from: String?
+    /** Rows are the accounts that MOVED in one of the windows. An account that never moved is omitted rather than listed at zero, so this is shorter than the chart. */
     public var rows: [TrialBalanceRow]?
+    /** To is the posting time the window closes at, inclusive. Absent means \"up to now\" — every posting the ledger holds. */
     public var to: String?
+    /** TotalCredit is the sum of every row's closing credit column, in cents. */
     public var totalCredit: Int?
+    /** TotalDebit is the sum of every row's CLOSING debit column, in cents. */
     public var totalDebit: Int?
 
     public init(balanced: Bool? = nil, from: String? = nil, rows: [TrialBalanceRow]? = nil, to: String? = nil, totalCredit: Int? = nil, totalDebit: Int? = nil) {

@@ -9,15 +9,21 @@ import Foundation
 
 public struct Txn: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** AmountCents is the voucher's total, in whole cents — its total debit, which equals its total credit because every voucher balances. It is the size of the entry and carries no direction; the category says which way it went. */
     public var amountCents: Int?
-    /** COA account number of the P&L line */
+    /** Category is the chart-of-accounts NUMBER of the income or expense account this voucher touched — where it lands on the P&L, not a free-text label. */
     public var category: String?
+    /** CategoryName is that account's human name, so a caller need not carry the chart to render the row. */
     public var categoryName: String?
+    /** Date is when the voucher POSTED — the accounting date the reports window on, which for an imported bank row is the bank's date and not the day it landed here. */
     public var date: String?
+    /** Description is the line a person reads: the memo carried in from the source. */
     public var description: String?
-    /** source_kind: bank_txn | scan | commerce_txn */
+    /** Source is where the entry came from: bank_txn for an imported statement line, scan for a receipt or bill read by the scanner, commerce_txn for a sale booked by the store. */
     public var source: String?
+    /** Vendor is the counterparty, resolved from whatever the source knew — a bank row's merchant, a scanned bill's supplier. Absent when the source named none. */
     public var vendor: String?
+    /** VoucherID identifies the underlying double-entry voucher, so a caller can open the full set of legs behind this single register line. */
     public var voucherId: Int?
 
     public init(amountCents: Int? = nil, category: String? = nil, categoryName: String? = nil, date: String? = nil, description: String? = nil, source: String? = nil, vendor: String? = nil, voucherId: Int? = nil) {

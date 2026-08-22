@@ -9,10 +9,15 @@ import Foundation
 
 public struct LastEventView: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Actor is who produced the turn, defaulted to the calling principal when the writer named nobody. */
     public var actor: String?
+    /** At is when the turn was recorded, RFC 3339 in UTC to the second. */
     public var at: String?
+    /** Kind is what the turn was, from the log's closed six: message, tool-call, spawn, log, status, control. */
     public var kind: String?
+    /** Preview is the first 240 bytes of the event's payload, cut without regard for the JSON inside it — it is a string to SHOW, never a value to parse. Read the detail or the stream for the whole payload. */
     public var preview: String?
+    /** Seq is that event's position in the session's log — monotonic from 1, per session. A reader holding it can ask the detail or stream reads for everything after it, so this doubles as the list's resume cursor. */
     public var seq: Int?
 
     public init(actor: String? = nil, at: String? = nil, kind: String? = nil, preview: String? = nil, seq: Int? = nil) {

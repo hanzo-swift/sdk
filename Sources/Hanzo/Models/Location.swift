@@ -9,8 +9,11 @@ import Foundation
 
 public struct Location: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** External is true when the answer left the repository — the case a static index cannot answer, and the reason this service resolves through dependencies. */
     public var external: Bool?
+    /** Path is repo-relative while External is false, and the module coordinate (\"golang.org/x/mod@v0.14.0/semver/semver.go\") once it is true. */
     public var path: String?
+    /** Range is the span inside that file, in LSP positions. */
     public var range: ModelRange?
 
     public init(external: Bool? = nil, path: String? = nil, range: ModelRange? = nil) {

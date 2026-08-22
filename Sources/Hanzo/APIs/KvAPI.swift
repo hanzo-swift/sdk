@@ -10,33 +10,33 @@ import Foundation
 open class KvAPI {
 
     /**
-     DropKV deprovisions one Hanzo KV store.
+     Removes one bucket of the caller's org — every key and every revision with it — and answers 204 with no body.
      
-     - parameter name: (path) Name is the resource&#39;s org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. 
+     - parameter bucket: (path) Bucket is the bucket&#39;s name, from the path. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteKvByName(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await deleteKvByNameWithRequestBuilder(name: name, apiConfiguration: apiConfiguration).execute().body
+    open class func deleteKvByBucket(bucket: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteKvByBucketWithRequestBuilder(bucket: bucket, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     DropKV deprovisions one Hanzo KV store.
-     - DELETE /v1/kv/{name}
-     - DropKV deprovisions one Hanzo KV store. It reverts any app instance bound to it back to Base BEFORE tearing down the org's dedicated Valkey instance, then deletes the sealed credential and removes the metadata row. Answers 204 with no body; a second call is a 404.
+     Removes one bucket of the caller's org — every key and every revision with it — and answers 204 with no body.
+     - DELETE /v1/kv/{bucket}
+     - Removes one bucket of the caller's org — every key and every revision with it — and answers 204 with no body. 404 when the org has no bucket of that name.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter name: (path) Name is the resource&#39;s org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. 
+     - parameter bucket: (path) Bucket is the bucket&#39;s name, from the path. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func deleteKvByNameWithRequestBuilder(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        var localVariablePath = "/v1/kv/{name}"
-        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
-        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+    open class func deleteKvByBucketWithRequestBuilder(bucket: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/kv/{bucket}"
+        let bucketPreEscape = "\(APIHelper.mapValueToPathItem(bucket))"
+        let bucketPostEscape = bucketPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{bucket}", with: bucketPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
@@ -54,28 +54,38 @@ open class KvAPI {
     }
 
     /**
-     ListKV lists the caller org's Hanzo KV stores.
+     Delete removes one key — a delete marker in the key's history, so watchers see it and Get answers 404 — and answers 204 with no body.
      
+     - parameter bucket: (path) Bucket is the bucket, from the path. 
+     - parameter key: (path) Key is the key, from the path. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: [ProvisionedSummary]
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getKv(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> [ProvisionedSummary] {
-        return try await getKvWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    open class func deleteKvByBucketByKey(bucket: String, key: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteKvByBucketByKeyWithRequestBuilder(bucket: bucket, key: key, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     ListKV lists the caller org's Hanzo KV stores.
-     - GET /v1/kv
-     - ListKV lists the caller org's Hanzo KV stores. Each one is a DEDICATED Valkey instance the org alone runs, so the host is that instance's own in-cluster Service and the port is 6379.
+     Delete removes one key — a delete marker in the key's history, so watchers see it and Get answers 404 — and answers 204 with no body.
+     - DELETE /v1/kv/{bucket}/{key}
+     - Delete removes one key — a delete marker in the key's history, so watchers see it and Get answers 404 — and answers 204 with no body. 404 when the bucket does not exist.
      - Bearer Token:
        - type: http
        - name: bearer
+     - parameter bucket: (path) Bucket is the bucket, from the path. 
+     - parameter key: (path) Key is the key, from the path. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<[ProvisionedSummary]> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getKvWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<[ProvisionedSummary]> {
-        let localVariablePath = "/v1/kv"
+    open class func deleteKvByBucketByKeyWithRequestBuilder(bucket: String, key: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/kv/{bucket}/{key}"
+        let bucketPreEscape = "\(APIHelper.mapValueToPathItem(bucket))"
+        let bucketPostEscape = bucketPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{bucket}", with: bucketPostEscape, options: .literal, range: nil)
+        let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
+        let keyPostEscape = keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{key}", with: keyPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
@@ -87,39 +97,44 @@ open class KvAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<[ProvisionedSummary]>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     GetKV returns one Hanzo KV store's metadata.
+     Get returns one key's current value and revision.
      
-     - parameter name: (path) Name is the resource&#39;s org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. 
+     - parameter bucket: (path) Bucket is the bucket, from the path. 
+     - parameter key: (path) Key is the key, from the path. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: ProvisionedResource
+     - returns: KvEntry
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getKvByName(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProvisionedResource {
-        return try await getKvByNameWithRequestBuilder(name: name, apiConfiguration: apiConfiguration).execute().body
+    open class func getKvByBucketByKey(bucket: String, key: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> KvEntry {
+        return try await getKvByBucketByKeyWithRequestBuilder(bucket: bucket, key: key, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     GetKV returns one Hanzo KV store's metadata.
-     - GET /v1/kv/{name}
-     - GetKV returns one Hanzo KV store's metadata. It carries the store's status, its instance address and the Valkey user it authenticates as (\"default\", the only user a requirepass instance has) — never the password. A still-booting instance reads \"provisioning\", reconciled from the operator's live view.
+     Get returns one key's current value and revision.
+     - GET /v1/kv/{bucket}/{key}
+     - Get returns one key's current value and revision. 404 when the bucket does not exist, the key was never written, or its latest revision is a delete.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter name: (path) Name is the resource&#39;s org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. 
+     - parameter bucket: (path) Bucket is the bucket, from the path. 
+     - parameter key: (path) Key is the key, from the path. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<ProvisionedResource> 
+     - returns: RequestBuilder<KvEntry> 
      */
-    open class func getKvByNameWithRequestBuilder(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProvisionedResource> {
-        var localVariablePath = "/v1/kv/{name}"
-        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
-        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+    open class func getKvByBucketByKeyWithRequestBuilder(bucket: String, key: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<KvEntry> {
+        var localVariablePath = "/v1/kv/{bucket}/{key}"
+        let bucketPreEscape = "\(APIHelper.mapValueToPathItem(bucket))"
+        let bucketPostEscape = bucketPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{bucket}", with: bucketPostEscape, options: .literal, range: nil)
+        let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
+        let keyPostEscape = keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{key}", with: keyPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
@@ -131,38 +146,92 @@ open class KvAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<ProvisionedResource>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<KvEntry>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Provision a key-value store for your org
+     History returns one key's retained revisions, oldest first — every put and every delete marker up to the bucket's History depth.
      
-     - parameter provisionRequest: (body)  (optional)
+     - parameter bucket: (path) Bucket is the bucket, from the path. 
+     - parameter key: (path) Key is the key, from the path. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: ProvisionResult
+     - returns: KvPage
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postKv(provisionRequest: ProvisionRequest? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ProvisionResult {
-        return try await postKvWithRequestBuilder(provisionRequest: provisionRequest, apiConfiguration: apiConfiguration).execute().body
+    open class func getKvByBucketByKeyHistory(bucket: String, key: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> KvPage {
+        return try await getKvByBucketByKeyHistoryWithRequestBuilder(bucket: bucket, key: key, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Provision a key-value store for your org
-     - POST /v1/kv
-     - Launches your org's OWN key-value instance and answers with its `kv://` connection string. The instance is yours alone: a deployment in your own tenant namespace, so its admin credential is naturally scoped to you and no other tenant shares the process. Off-cluster, where there is no orchestrator to launch one, this fails closed with 503 rather than handing back a shared one.  `name` is the org-unique slug every physical name derives from, and must match ^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$. `instance` optionally BINDS the add-on to one of your app instances: the DSN is injected into that instance's addons secret as <KIND>_URL, switching the app off its built-in store and onto this one. Omit it and the connection string is yours to wire.  THE CREDENTIAL COMES BACK ONCE. The connection string and password are in this response and nowhere else — every read beside it omits the password — so a caller that does not keep them has to provision again. Where KMS is configured the password is sealed there and only a reference is persisted; where it is not, it is returned this once and stored nowhere. It is never held in plaintext.  Scoped to the caller's validated org (403 without one), which also namespaces the physical resource under a fixed-width hash, so two tenants can never fold onto one backend resource — a residual collision fails closed with 409 rather than silently sharing. A name already taken in your org is 409; an invalid name or instance slug is 400; a backend that refuses the create is 502. Where a later step fails after the backend resource already exists, it is torn back down rather than left orphaned.  Billing is gated BEFORE anything is created: an unfunded org — or, in the fail-closed default, an unreachable meter — gets the fleet-wide 402/503 and nothing is provisioned. The fee is per-kind and set by the deployment.
+     History returns one key's retained revisions, oldest first — every put and every delete marker up to the bucket's History depth.
+     - GET /v1/kv/{bucket}/{key}/history
+     - History returns one key's retained revisions, oldest first — every put and every delete marker up to the bucket's History depth. 404 when the bucket does not exist or the key was never written.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter provisionRequest: (body)  (optional)
+     - parameter bucket: (path) Bucket is the bucket, from the path. 
+     - parameter key: (path) Key is the key, from the path. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<ProvisionResult> 
+     - returns: RequestBuilder<KvPage> 
      */
-    open class func postKvWithRequestBuilder(provisionRequest: ProvisionRequest? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ProvisionResult> {
-        let localVariablePath = "/v1/kv"
+    open class func getKvByBucketByKeyHistoryWithRequestBuilder(bucket: String, key: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<KvPage> {
+        var localVariablePath = "/v1/kv/{bucket}/{key}/history"
+        let bucketPreEscape = "\(APIHelper.mapValueToPathItem(bucket))"
+        let bucketPostEscape = bucketPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{bucket}", with: bucketPostEscape, options: .literal, range: nil)
+        let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
+        let keyPostEscape = keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{key}", with: keyPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: provisionRequest, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<KvPage>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Creates a KV bucket and returns it.
+     
+     - parameter bucket: (path) Bucket is the bucket&#39;s name within the org, from the path: 1–64 of [A-Za-z0-9_], no dash. 
+     - parameter bucketWrite: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: BucketRecord
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postKvByBucket(bucket: String, bucketWrite: BucketWrite, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> BucketRecord {
+        return try await postKvByBucketWithRequestBuilder(bucket: bucket, bucketWrite: bucketWrite, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Creates a KV bucket and returns it.
+     - POST /v1/kv/{bucket}
+     - Creates a KV bucket and returns it. A bucket is keyed state on the same durable plane as the streams: each key holds up to History revisions, entries can expire by TTL, and watchers on the NATS port see every write. 409 when the org already has a bucket of that name.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter bucket: (path) Bucket is the bucket&#39;s name within the org, from the path: 1–64 of [A-Za-z0-9_], no dash. 
+     - parameter bucketWrite: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<BucketRecord> 
+     */
+    open class func postKvByBucketWithRequestBuilder(bucket: String, bucketWrite: BucketWrite, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<BucketRecord> {
+        var localVariablePath = "/v1/kv/{bucket}"
+        let bucketPreEscape = "\(APIHelper.mapValueToPathItem(bucket))"
+        let bucketPostEscape = bucketPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{bucket}", with: bucketPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: bucketWrite, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -172,8 +241,59 @@ open class KvAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<ProvisionResult>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<BucketRecord>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Put sets one key to one value and returns the revision the write created.
+     
+     - parameter bucket: (path) Bucket is the bucket, from the path. 
+     - parameter key: (path) Key is the key, from the path. 
+     - parameter kvWrite: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: KvAck
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func putKvByBucketByKey(bucket: String, key: String, kvWrite: KvWrite, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> KvAck {
+        return try await putKvByBucketByKeyWithRequestBuilder(bucket: bucket, key: key, kvWrite: kvWrite, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Put sets one key to one value and returns the revision the write created.
+     - PUT /v1/kv/{bucket}/{key}
+     - Put sets one key to one value and returns the revision the write created. Writes are versioned: each put is a new revision and the bucket retains up to its History of them per key.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter bucket: (path) Bucket is the bucket, from the path. 
+     - parameter key: (path) Key is the key, from the path. 
+     - parameter kvWrite: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<KvAck> 
+     */
+    open class func putKvByBucketByKeyWithRequestBuilder(bucket: String, key: String, kvWrite: KvWrite, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<KvAck> {
+        var localVariablePath = "/v1/kv/{bucket}/{key}"
+        let bucketPreEscape = "\(APIHelper.mapValueToPathItem(bucket))"
+        let bucketPostEscape = bucketPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{bucket}", with: bucketPostEscape, options: .literal, range: nil)
+        let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
+        let keyPostEscape = keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{key}", with: keyPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: kvWrite, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<KvAck>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 }

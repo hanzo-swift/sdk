@@ -9,11 +9,17 @@ import Foundation
 
 public struct ActivityRow: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Action is one of created, updated, deleted. */
     public var action: String?
+    /** Actor is the email of the principal who made the change. Empty for a write by an in-process composer; a project key can never appear here, because evaluating flags is all a key may do. */
     public var actor: String?
+    /** At is when the change was made, RFC 3339 UTC. */
     public var at: String?
+    /** Detail is free-form context about the change. Nothing writes it today, so it is absent from every row the store serves. */
     public var detail: String?
+    /** ID is the log's own sequence number, rising with each entry. The log is served newest-first, which is this descending. */
     public var id: Int?
+    /** Key is the flag that changed. It survives a delete, so the log still names flags the definition store no longer holds. */
     public var key: String?
 
     public init(action: String? = nil, actor: String? = nil, at: String? = nil, detail: String? = nil, id: Int? = nil, key: String? = nil) {

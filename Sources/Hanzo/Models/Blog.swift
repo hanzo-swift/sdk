@@ -9,10 +9,15 @@ import Foundation
 
 public struct Blog: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** CaseStudy is one worked instance — somebody who ran it, and what happened. */
     public var caseStudy: String?
+    /** How is the run book: the steps to execute the tactic. */
     public var how: String?
+    /** Slug is the post's address — the last path segment it is published at. */
     public var slug: String?
+    /** Title is the post's headline. */
     public var title: String?
+    /** Why is the mechanism: the reason the tactic works, stated as a principle rather than as instructions. */
     public var why: String?
 
     public init(caseStudy: String? = nil, how: String? = nil, slug: String? = nil, title: String? = nil, why: String? = nil) {

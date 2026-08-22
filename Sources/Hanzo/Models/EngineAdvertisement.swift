@@ -9,12 +9,13 @@ import Foundation
 
 public struct EngineAdvertisement: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** [\"openai\",\"anthropic\"] */
+    /** APIs are the wire formats the engine serves on that one port: \"openai\", \"anthropic\", or both. */
     public var apis: [String]?
-    /** ids from the node's GET /v1/models */
+    /** Models are the model ids the node's own GET /v1/models answered with — what this GPU can actually be asked for. */
     public var models: [String]?
-    /** \"ready\" | \"unreachable\" */
+    /** Status is \"ready\" when the node's engine answered, \"unreachable\" when it did not. Advertised is not the same as serving, and this is the difference. */
     public var status: String?
+    /** URL is the base address the node advertised its engine on — where a model call to this GPU is sent. The node chose it, so reaching it is a question about the node's network, not about this surface. */
     public var url: String?
 
     public init(apis: [String]? = nil, models: [String]? = nil, status: String? = nil, url: String? = nil) {

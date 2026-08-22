@@ -11,11 +11,15 @@ public struct O11yStatusSummary: Sendable, Codable, ParameterConvertible, Hashab
 
     /** CheckedAt is when the underlying availability read was taken, RFC3339 UTC. Not part of the status-page schema the panel parses (which ignores unknown fields); it is here because a status document with no timestamp cannot be told apart from a stale one. */
     public var checkedAt: String?
+    /** InProgressMaintenances is always empty: this platform has no maintenance scheduling plane, so \"nothing is running\" is a true statement rather than a placeholder. */
     public var inProgressMaintenances: [O11yStatusMaintenance]?
+    /** OngoingIncidents is one entry per service that failed its health probe, sorted by name. Empty means every probed service answered — which is a measurement, not an absence of reports. */
     public var ongoingIncidents: [O11yStatusIncident]?
+    /** PageTitle is the brand's own status-page title, resolved per request from the Host — a lux caller must never be shown Hanzo's. */
     public var pageTitle: String?
     /** PageURL is the HUMAN status page — an HTML page for people, distinct from this JSON endpoint. Every link in this document points there. */
     public var pageUrl: String?
+    /** ScheduledMaintenances is always empty, for the same reason. */
     public var scheduledMaintenances: [O11yStatusMaintenance]?
 
     public init(checkedAt: String? = nil, inProgressMaintenances: [O11yStatusMaintenance]? = nil, ongoingIncidents: [O11yStatusIncident]? = nil, pageTitle: String? = nil, pageUrl: String? = nil, scheduledMaintenances: [O11yStatusMaintenance]? = nil) {

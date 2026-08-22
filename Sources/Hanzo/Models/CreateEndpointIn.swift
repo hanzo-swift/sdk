@@ -13,7 +13,7 @@ public struct CreateEndpointIn: Sendable, Codable, ParameterConvertible, Hashabl
     public var description: String?
     /** Events are NATS subject patterns to subscribe to (e.g. \"commerce.order.>\"). An empty or omitted list means EVERY event on the platform bus. Max 64 patterns, each max 256 bytes. */
     public var events: [String]?
-    /** Status is \"active\" or \"disabled\". Empty defaults to active. A disabled endpoint receives no bus deliveries, but can still be exercised with POST /v1/webhooks/{id}/test. */
+    /** Status is \"active\" or \"disabled\". Empty defaults to active. A disabled endpoint receives no bus deliveries, but can still be exercised with POST /v1/webhook/{id}/test. */
     public var status: String?
     /** URL is the https:// address each matching event is POSTed to. Required, max 2048 bytes; http:// and every other scheme is refused, because a webhook carries signed event data and must not travel in the clear. */
     public var url: String?

@@ -9,7 +9,9 @@ import Foundation
 
 public struct ProvisionRequest: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Instance binds a DEDICATED add-on to the app instance whose <instance>-addons Secret receives the <KIND>_URL (e.g. \"commerce\"). Optional: empty means \"not instance-bound\" — the DSN is returned once and wired by the caller. */
     public var instance: String?
+    /** Name is the org-unique slug for the new resource, matching ^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$. Every physical name derives from it. */
     public var name: String?
 
     public init(instance: String? = nil, name: String? = nil) {

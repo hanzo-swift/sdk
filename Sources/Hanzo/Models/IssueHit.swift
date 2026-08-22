@@ -9,15 +9,25 @@ import Foundation
 
 public struct IssueHit: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Assignee is who holds the work. EMPTY MEANS UNHELD, which is what makes the issue claimable: claiming one already held by someone else is refused with 409 rather than quietly taken. */
     public var assignee: String?
+    /** Kind is what the row IS: issue, pr or epic. */
     public var kind: String?
+    /** Number is the issue's number on that board, from 1 and monotonic there. Unique per board, never across the org — so it addresses an issue only together with Project. */
     public var number: Int?
+    /** Priority is urgent, high, medium, low or none. Never empty — an unset priority is the value \"none\". */
     public var priority: String?
+    /** Project is the board key the issue is on. It and Number are the issue's address in every other route on this surface, which is why a hit carries it. */
     public var project: String?
+    /** Repo is the git repository the issue is bound to, empty when it is not repo-bound. */
     public var repo: String?
+    /** Source is which surface opened it: team, git, crm, helpdesk, cms or agent. \"git\" is how the mirrored forge and GitHub rows are spelled. */
     public var source: String?
+    /** Status is the board column: backlog, todo, in_progress, done or canceled. Claiming moves backlog and todo to in_progress and leaves the other three where they are. */
     public var status: String?
+    /** Title is the issue's one-line summary — what the q filter matched, along with the description. */
     public var title: String?
+    /** URL is the row's external anchor — its extRef — which is a link only when the feeder sent one. A mirrored GitHub issue carries \"github:owner/repo#123\" and an agent's PR row carries the pushed branch. Empty for a row opened here. */
     public var url: String?
 
     public init(assignee: String? = nil, kind: String? = nil, number: Int? = nil, priority: String? = nil, project: String? = nil, repo: String? = nil, source: String? = nil, status: String? = nil, title: String? = nil, url: String? = nil) {

@@ -11,6 +11,8 @@ public struct IamOrganization: Sendable, Codable, ParameterConvertible, Hashable
 
     public var accountItems: [IamAccountItem]?
     public var accountMenu: String?
+    /** How the organization appears across Hanzo — the square mark beside its name — as an image or as one emoji, never both. It is the pair a person carries (User.Avatar) under the same names, resolved the same way, so a screen draws a subject without asking which kind of subject it has. Both halves live on the row: a mark that appears everywhere cannot be kept on one device. Written through schema.MarkOf; Logo and LogoDark above are a different thing, the wordmark a login screen draws. */
+    public var avatar: String?
     public var balanceCredit: Double?
     public var balanceCurrency: String?
     public var countryCodes: [String]?
@@ -23,6 +25,7 @@ public struct IamOrganization: Sendable, Codable, ParameterConvertible, Hashable
     public var deleted: Bool?
     public var disableSignin: Bool?
     public var displayName: String?
+    public var emoji: String?
     public var enableSoftDeletion: Bool?
     public var enableTour: Bool?
     public var failedSigninFrozenTime: Int?
@@ -72,9 +75,10 @@ public struct IamOrganization: Sendable, Codable, ParameterConvertible, Hashable
     public var websiteUrl: String?
     public var widgetItems: [String]?
 
-    public init(accountItems: [IamAccountItem]? = nil, accountMenu: String? = nil, balanceCredit: Double? = nil, balanceCurrency: String? = nil, countryCodes: [String]? = nil, createdAt: Date? = nil, createdTime: String? = nil, dcrPolicy: String? = nil, defaultApplication: String? = nil, defaultAvatar: String? = nil, defaultPassword: String? = nil, deleted: Bool? = nil, disableSignin: Bool? = nil, displayName: String? = nil, enableSoftDeletion: Bool? = nil, enableTour: Bool? = nil, failedSigninFrozenTime: Int? = nil, failedSigninLimit: Int? = nil, favicon: String? = nil, founder: String? = nil, hasPrivilegeConsent: Bool? = nil, id: String? = nil, initScore: Int? = nil, ipRestriction: String? = nil, ipWhitelist: String? = nil, isPersonal: Bool? = nil, isProfilePublic: Bool? = nil, kerberosKdcHost: String? = nil, kerberosKeytab: String? = nil, kerberosRealm: String? = nil, kerberosServiceName: String? = nil, languages: [String]? = nil, ldapAttributes: [String]? = nil, logo: String? = nil, logoDark: String? = nil, masterPassword: String? = nil, masterVerificationCode: String? = nil, mfaItems: [IamMfaItem]? = nil, mfaRememberInHours: Int? = nil, name: String? = nil, navItems: [String]? = nil, orgBalance: Double? = nil, owner: String? = nil, passwordExpireDays: Int? = nil, passwordObfuscatorKey: String? = nil, passwordObfuscatorType: String? = nil, passwordOptions: [String]? = nil, passwordSalt: String? = nil, passwordType: String? = nil, tags: [String]? = nil, themeData: IamThemeData? = nil, updatedAt: Date? = nil, useEmailAsUsername: Bool? = nil, usePermanentAvatar: Bool? = nil, userBalance: Double? = nil, userNavItems: [String]? = nil, userTypes: [String]? = nil, websiteUrl: String? = nil, widgetItems: [String]? = nil) {
+    public init(accountItems: [IamAccountItem]? = nil, accountMenu: String? = nil, avatar: String? = nil, balanceCredit: Double? = nil, balanceCurrency: String? = nil, countryCodes: [String]? = nil, createdAt: Date? = nil, createdTime: String? = nil, dcrPolicy: String? = nil, defaultApplication: String? = nil, defaultAvatar: String? = nil, defaultPassword: String? = nil, deleted: Bool? = nil, disableSignin: Bool? = nil, displayName: String? = nil, emoji: String? = nil, enableSoftDeletion: Bool? = nil, enableTour: Bool? = nil, failedSigninFrozenTime: Int? = nil, failedSigninLimit: Int? = nil, favicon: String? = nil, founder: String? = nil, hasPrivilegeConsent: Bool? = nil, id: String? = nil, initScore: Int? = nil, ipRestriction: String? = nil, ipWhitelist: String? = nil, isPersonal: Bool? = nil, isProfilePublic: Bool? = nil, kerberosKdcHost: String? = nil, kerberosKeytab: String? = nil, kerberosRealm: String? = nil, kerberosServiceName: String? = nil, languages: [String]? = nil, ldapAttributes: [String]? = nil, logo: String? = nil, logoDark: String? = nil, masterPassword: String? = nil, masterVerificationCode: String? = nil, mfaItems: [IamMfaItem]? = nil, mfaRememberInHours: Int? = nil, name: String? = nil, navItems: [String]? = nil, orgBalance: Double? = nil, owner: String? = nil, passwordExpireDays: Int? = nil, passwordObfuscatorKey: String? = nil, passwordObfuscatorType: String? = nil, passwordOptions: [String]? = nil, passwordSalt: String? = nil, passwordType: String? = nil, tags: [String]? = nil, themeData: IamThemeData? = nil, updatedAt: Date? = nil, useEmailAsUsername: Bool? = nil, usePermanentAvatar: Bool? = nil, userBalance: Double? = nil, userNavItems: [String]? = nil, userTypes: [String]? = nil, websiteUrl: String? = nil, widgetItems: [String]? = nil) {
         self.accountItems = accountItems
         self.accountMenu = accountMenu
+        self.avatar = avatar
         self.balanceCredit = balanceCredit
         self.balanceCurrency = balanceCurrency
         self.countryCodes = countryCodes
@@ -87,6 +91,7 @@ public struct IamOrganization: Sendable, Codable, ParameterConvertible, Hashable
         self.deleted = deleted
         self.disableSignin = disableSignin
         self.displayName = displayName
+        self.emoji = emoji
         self.enableSoftDeletion = enableSoftDeletion
         self.enableTour = enableTour
         self.failedSigninFrozenTime = failedSigninFrozenTime
@@ -137,6 +142,7 @@ public struct IamOrganization: Sendable, Codable, ParameterConvertible, Hashable
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case accountItems
         case accountMenu
+        case avatar
         case balanceCredit
         case balanceCurrency
         case countryCodes
@@ -149,6 +155,7 @@ public struct IamOrganization: Sendable, Codable, ParameterConvertible, Hashable
         case deleted
         case disableSignin
         case displayName
+        case emoji
         case enableSoftDeletion
         case enableTour
         case failedSigninFrozenTime
@@ -202,6 +209,7 @@ public struct IamOrganization: Sendable, Codable, ParameterConvertible, Hashable
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(accountItems, forKey: .accountItems)
         try container.encodeIfPresent(accountMenu, forKey: .accountMenu)
+        try container.encodeIfPresent(avatar, forKey: .avatar)
         try container.encodeIfPresent(balanceCredit, forKey: .balanceCredit)
         try container.encodeIfPresent(balanceCurrency, forKey: .balanceCurrency)
         try container.encodeIfPresent(countryCodes, forKey: .countryCodes)
@@ -214,6 +222,7 @@ public struct IamOrganization: Sendable, Codable, ParameterConvertible, Hashable
         try container.encodeIfPresent(deleted, forKey: .deleted)
         try container.encodeIfPresent(disableSignin, forKey: .disableSignin)
         try container.encodeIfPresent(displayName, forKey: .displayName)
+        try container.encodeIfPresent(emoji, forKey: .emoji)
         try container.encodeIfPresent(enableSoftDeletion, forKey: .enableSoftDeletion)
         try container.encodeIfPresent(enableTour, forKey: .enableTour)
         try container.encodeIfPresent(failedSigninFrozenTime, forKey: .failedSigninFrozenTime)

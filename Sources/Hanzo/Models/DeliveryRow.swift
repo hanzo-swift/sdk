@@ -9,14 +9,23 @@ import Foundation
 
 public struct DeliveryRow: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Attempt is which try this row is, starting at 1. The ladder waits 1s, then 5s, then 25s before the next one. */
     public var attempt: Int?
+    /** Created is when the attempt was made, RFC3339 in UTC. */
     public var created: String?
+    /** DeliveryID groups the attempts for ONE event to ONE endpoint. Rows sharing it are the same delivery being retried, not separate events. */
     public var delivery: String?
+    /** DurationMs is how long this attempt took end to end, in MILLISECONDS. */
     public var durationMs: Int?
+    /** EndpointID is which subscriber this attempt was for. */
     public var endpoint: String?
+    /** Error says what went wrong on a non-ok attempt. Empty on success. */
     public var error: String?
+    /** HTTPStatus is what the subscriber answered. ZERO means it never answered — a refused connection, a DNS failure or a timeout — which is why a zero here is not a 200. */
     public var httpStatus: Int?
+    /** Status is \"ok\" when the subscriber accepted it, \"retrying\" while a further attempt will follow, and \"failed\" when none will. Exactly one row of a delivery is terminal. */
     public var status: String?
+    /** Subject is the event that was delivered (\"commerce.order.created\"). A manual test send carries \"webhook.test\". */
     public var subject: String?
 
     public init(attempt: Int? = nil, created: String? = nil, delivery: String? = nil, durationMs: Int? = nil, endpoint: String? = nil, error: String? = nil, httpStatus: Int? = nil, status: String? = nil, subject: String? = nil) {

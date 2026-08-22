@@ -9,9 +9,13 @@ import Foundation
 
 public struct MessageInput: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** From is the number to send FROM, in E.164. It must be one this org holds and it must be sms-capable. */
     public var from: String?
+    /** Media are URLs to attach. A message with any is an MMS to the carrier — the distinction is the carrier's to make, not something the caller declares. */
     public var media: [String]?
+    /** Text is the message body. It may be empty when Media carries the message. */
     public var text: String?
+    /** To is the number to send to, in E.164. */
     public var to: String?
 
     public init(from: String? = nil, media: [String]? = nil, text: String? = nil, to: String? = nil) {

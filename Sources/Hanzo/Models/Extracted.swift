@@ -9,15 +9,21 @@ import Foundation
 
 public struct Extracted: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** proposed slug (software|cloud|office|…) */
+    /** Category is the expense bucket the SCANNER guessed, as a slug — a hint only. Vendor rules override it whenever they know better, so this is the model's reading and not the account the entry will land on. */
     public var category: String?
+    /** Currency is the ISO code the document is denominated in. */
     public var currency: String?
-    /** YYYY-MM-DD */
+    /** IssuedAt is the document's OWN date as YYYY-MM-DD — when the bill was issued, which is not when it was uploaded or when it will post. */
     public var issuedAt: String?
+    /** LineItems are the individual lines read off the document, where it had any. They need not sum to totalCents: a document may carry lines the scanner could not read, and the total is taken from the total. */
     public var lineItems: [LineItem]?
+    /** Merchant is the supplier as printed on the document. */
     public var merchant: String?
+    /** Note is anything else worth carrying from the document that has no field of its own. */
     public var note: String?
+    /** TaxCents is how much of that total is tax, in cents. It is part of totalCents, not additional to it. */
     public var taxCents: Int?
+    /** TotalCents is the document total in whole cents, tax INCLUDED. */
     public var totalCents: Int?
 
     public init(category: String? = nil, currency: String? = nil, issuedAt: String? = nil, lineItems: [LineItem]? = nil, merchant: String? = nil, note: String? = nil, taxCents: Int? = nil, totalCents: Int? = nil) {

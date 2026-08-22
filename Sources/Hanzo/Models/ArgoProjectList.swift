@@ -9,7 +9,9 @@ import Foundation
 
 public struct ArgoProjectList: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Items is the projects visible to the caller — its own organization's, or every organization's for a SuperAdmin. A project named \"default\" is always present and is prepended when IAM does not carry one, because that is what an application with no project label groups under. */
     public var items: [ArgoProject]?
+    /** Metadata is the list envelope the SPA expects; it carries no resume point. */
     public var metadata: ArgoListMeta?
 
     public init(items: [ArgoProject]? = nil, metadata: ArgoListMeta? = nil) {

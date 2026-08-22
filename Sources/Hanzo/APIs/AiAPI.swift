@@ -56,13 +56,13 @@ open class AiAPI {
     /**
      Delete a article
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiArticles200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteAiArticlesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiArticles200Response {
+    open class func deleteAiArticlesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteAiArticlesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -73,12 +73,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiArticles200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteAiArticlesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiArticles200Response> {
+    open class func deleteAiArticlesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/articles/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -97,7 +97,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiArticles200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -105,13 +105,13 @@ open class AiAPI {
     /**
      Delete a asset
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiAssets200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteAiAssetsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiAssets200Response {
+    open class func deleteAiAssetsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteAiAssetsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -122,12 +122,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiAssets200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteAiAssetsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiAssets200Response> {
+    open class func deleteAiAssetsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/assets/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -146,7 +146,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiAssets200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -154,13 +154,13 @@ open class AiAPI {
     /**
      Delete a chat
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiChats200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteAiChatsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiChats200Response {
+    open class func deleteAiChatsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteAiChatsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -171,12 +171,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiChats200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteAiChatsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiChats200Response> {
+    open class func deleteAiChatsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/chats/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -195,7 +195,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiChats200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -247,13 +247,13 @@ open class AiAPI {
     /**
      Delete a application
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiDeployments200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteAiDeploymentsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiDeployments200Response {
+    open class func deleteAiDeploymentsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteAiDeploymentsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -264,12 +264,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiDeployments200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteAiDeploymentsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiDeployments200Response> {
+    open class func deleteAiDeploymentsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/deployments/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -288,7 +288,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiDeployments200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -296,13 +296,13 @@ open class AiAPI {
     /**
      Delete a file
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiFiles200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteAiFilesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiFiles200Response {
+    open class func deleteAiFilesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteAiFilesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -313,12 +313,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiFiles200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteAiFilesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiFiles200Response> {
+    open class func deleteAiFilesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/files/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -337,7 +337,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiFiles200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -345,13 +345,13 @@ open class AiAPI {
     /**
      Delete a form
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiForms200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteAiFormsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiForms200Response {
+    open class func deleteAiFormsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteAiFormsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -362,12 +362,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiForms200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteAiFormsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiForms200Response> {
+    open class func deleteAiFormsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/forms/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -386,7 +386,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiForms200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -394,13 +394,13 @@ open class AiAPI {
     /**
      Delete a graph
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiGraphs200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteAiGraphsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiGraphs200Response {
+    open class func deleteAiGraphsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteAiGraphsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -411,12 +411,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiGraphs200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteAiGraphsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiGraphs200Response> {
+    open class func deleteAiGraphsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/graphs/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -435,7 +435,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiGraphs200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -443,13 +443,13 @@ open class AiAPI {
     /**
      Delete a message
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiMessages200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteAiMessagesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiMessages200Response {
+    open class func deleteAiMessagesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteAiMessagesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -460,12 +460,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiMessages200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteAiMessagesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiMessages200Response> {
+    open class func deleteAiMessagesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/messages/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -484,7 +484,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiMessages200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -493,10 +493,10 @@ open class AiAPI {
      Welcome (message)
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteAiMessagesWelcome(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
+    open class func deleteAiMessagesWelcome(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteAiMessagesWelcomeWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -507,9 +507,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteAiMessagesWelcomeWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func deleteAiMessagesWelcomeWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/messages/welcome"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -522,7 +522,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -530,13 +530,13 @@ open class AiAPI {
     /**
      Delete a node
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiNodes200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteAiNodesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiNodes200Response {
+    open class func deleteAiNodesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteAiNodesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -547,12 +547,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiNodes200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteAiNodesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiNodes200Response> {
+    open class func deleteAiNodesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/nodes/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -571,7 +571,85 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiNodes200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deleteAiOrgSettings(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteAiOrgSettingsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - DELETE /v1/ai/org/settings
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func deleteAiOrgSettingsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/org/settings"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deleteAiOrgSettingsList(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteAiOrgSettingsListWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - DELETE /v1/ai/org/settings/list
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func deleteAiOrgSettingsListWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/org/settings/list"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -579,13 +657,13 @@ open class AiAPI {
     /**
      Delete a provider
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiProviders200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteAiProvidersByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiProviders200Response {
+    open class func deleteAiProvidersByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteAiProvidersByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -596,12 +674,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiProviders200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteAiProvidersByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiProviders200Response> {
+    open class func deleteAiProvidersByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/providers/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -620,7 +698,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiProviders200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -628,13 +706,13 @@ open class AiAPI {
     /**
      Delete a record
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiRecords200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteAiRecordsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiRecords200Response {
+    open class func deleteAiRecordsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteAiRecordsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -645,12 +723,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiRecords200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteAiRecordsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiRecords200Response> {
+    open class func deleteAiRecordsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/records/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -669,7 +747,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiRecords200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -677,13 +755,13 @@ open class AiAPI {
     /**
      Delete a connection
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiRemoteConnections200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteAiRemoteConnectionsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiRemoteConnections200Response {
+    open class func deleteAiRemoteConnectionsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteAiRemoteConnectionsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -694,12 +772,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiRemoteConnections200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteAiRemoteConnectionsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiRemoteConnections200Response> {
+    open class func deleteAiRemoteConnectionsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/remote-connections/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -718,7 +796,240 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiRemoteConnections200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deleteAiRouterArtifactMeta(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteAiRouterArtifactMetaWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - DELETE /v1/ai/router/artifact-meta
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func deleteAiRouterArtifactMetaWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/router/artifact-meta"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Router Data
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deleteAiRouterData(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteAiRouterDataWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Router Data
+     - DELETE /v1/ai/router/data
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func deleteAiRouterDataWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/router/data"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deleteAiRouterDefaults(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteAiRouterDefaultsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - DELETE /v1/ai/router/defaults
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func deleteAiRouterDefaultsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/router/defaults"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deleteAiRouterLedger(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteAiRouterLedgerWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - DELETE /v1/ai/router/ledger
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func deleteAiRouterLedgerWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/router/ledger"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deleteAiRouterPolicy(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteAiRouterPolicyWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - DELETE /v1/ai/router/policy
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func deleteAiRouterPolicyWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/router/policy"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deleteAiRouterRewards(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteAiRouterRewardsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - DELETE /v1/ai/router/rewards
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func deleteAiRouterRewardsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/router/rewards"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -726,13 +1037,13 @@ open class AiAPI {
     /**
      Delete a model-route
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiRoutes200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteAiRoutesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiRoutes200Response {
+    open class func deleteAiRoutesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteAiRoutesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -743,12 +1054,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiRoutes200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteAiRoutesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiRoutes200Response> {
+    open class func deleteAiRoutesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/routes/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -767,7 +1078,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiRoutes200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -775,13 +1086,13 @@ open class AiAPI {
     /**
      Delete a scale
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiScales200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteAiScalesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiScales200Response {
+    open class func deleteAiScalesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteAiScalesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -792,12 +1103,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiScales200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteAiScalesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiScales200Response> {
+    open class func deleteAiScalesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/scales/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -816,7 +1127,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiScales200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -824,13 +1135,13 @@ open class AiAPI {
     /**
      Delete a scan
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiScans200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteAiScansByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiScans200Response {
+    open class func deleteAiScansByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteAiScansByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -841,12 +1152,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiScans200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteAiScansByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiScans200Response> {
+    open class func deleteAiScansByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/scans/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -865,7 +1176,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiScans200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -873,13 +1184,13 @@ open class AiAPI {
     /**
      Delete a session
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiSigninSessions200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteAiSigninSessionsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiSigninSessions200Response {
+    open class func deleteAiSigninSessionsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteAiSigninSessionsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -890,12 +1201,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiSigninSessions200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteAiSigninSessionsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiSigninSessions200Response> {
+    open class func deleteAiSigninSessionsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/signin-sessions/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -914,7 +1225,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiSigninSessions200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -922,13 +1233,13 @@ open class AiAPI {
     /**
      Delete a store
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiStores200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteAiStoresByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiStores200Response {
+    open class func deleteAiStoresByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteAiStoresByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -939,12 +1250,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiStores200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteAiStoresByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiStores200Response> {
+    open class func deleteAiStoresByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/stores/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -963,7 +1274,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiStores200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -971,13 +1282,13 @@ open class AiAPI {
     /**
      Delete a task
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiTasks200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteAiTasksByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiTasks200Response {
+    open class func deleteAiTasksByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteAiTasksByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -988,12 +1299,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiTasks200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteAiTasksByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiTasks200Response> {
+    open class func deleteAiTasksByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/tasks/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -1012,7 +1323,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiTasks200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -1020,13 +1331,13 @@ open class AiAPI {
     /**
      Delete a template
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiTemplates200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteAiTemplatesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiTemplates200Response {
+    open class func deleteAiTemplatesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteAiTemplatesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -1037,12 +1348,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiTemplates200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteAiTemplatesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiTemplates200Response> {
+    open class func deleteAiTemplatesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/templates/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -1061,7 +1372,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiTemplates200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -1069,13 +1380,13 @@ open class AiAPI {
     /**
      Delete a tree-file
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiTreeFiles200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteAiTreeFilesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiTreeFiles200Response {
+    open class func deleteAiTreeFilesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteAiTreeFilesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -1086,12 +1397,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiTreeFiles200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteAiTreeFilesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiTreeFiles200Response> {
+    open class func deleteAiTreeFilesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/tree-files/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -1110,7 +1421,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiTreeFiles200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -1119,10 +1430,10 @@ open class AiAPI {
      All (vector)
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteAiVectorsAll(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
+    open class func deleteAiVectorsAll(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteAiVectorsAllWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -1133,9 +1444,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteAiVectorsAllWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func deleteAiVectorsAllWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/vectors/all"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -1148,7 +1459,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -1156,13 +1467,13 @@ open class AiAPI {
     /**
      Delete a vector
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiVectors200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteAiVectorsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiVectors200Response {
+    open class func deleteAiVectorsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteAiVectorsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -1173,12 +1484,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiVectors200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteAiVectorsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiVectors200Response> {
+    open class func deleteAiVectorsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/vectors/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -1197,7 +1508,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiVectors200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -1205,13 +1516,13 @@ open class AiAPI {
     /**
      Delete a video
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiVideos200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteAiVideosByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiVideos200Response {
+    open class func deleteAiVideosByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteAiVideosByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -1222,12 +1533,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiVideos200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteAiVideosByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiVideos200Response> {
+    open class func deleteAiVideosByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/videos/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -1246,7 +1557,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiVideos200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -1254,13 +1565,13 @@ open class AiAPI {
     /**
      Delete a workflow
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiWorkflows200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteAiWorkflowsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiWorkflows200Response {
+    open class func deleteAiWorkflowsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteAiWorkflowsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -1271,12 +1582,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiWorkflows200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteAiWorkflowsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiWorkflows200Response> {
+    open class func deleteAiWorkflowsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/workflows/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -1295,7 +1606,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiWorkflows200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -1304,10 +1615,10 @@ open class AiAPI {
      Account
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiAccount(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
+    open class func getAiAccount(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiAccountWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -1318,9 +1629,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiAccountWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func getAiAccountWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/account"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -1333,7 +1644,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -1342,10 +1653,10 @@ open class AiAPI {
      List activities
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiActivities200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiActivities(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiActivities200Response {
+    open class func getAiActivities(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiActivitiesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -1357,9 +1668,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiActivities200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiActivitiesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiActivities200Response> {
+    open class func getAiActivitiesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/activities"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -1372,7 +1683,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiActivities200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -1381,10 +1692,10 @@ open class AiAPI {
      Answer
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiAnswer(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
+    open class func getAiAnswer(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiAnswerWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -1395,9 +1706,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiAnswerWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func getAiAnswerWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/answer"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -1410,7 +1721,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -1419,10 +1730,10 @@ open class AiAPI {
      List articles
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiArticles200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiArticles(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiArticles200Response {
+    open class func getAiArticles(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiArticlesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -1434,9 +1745,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiArticles200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiArticlesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiArticles200Response> {
+    open class func getAiArticlesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/articles"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -1449,7 +1760,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiArticles200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -1457,13 +1768,13 @@ open class AiAPI {
     /**
      Retrieve a article
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiArticles200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiArticlesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiArticles200Response {
+    open class func getAiArticlesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiArticlesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -1474,12 +1785,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiArticles200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiArticlesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiArticles200Response> {
+    open class func getAiArticlesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/articles/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -1498,7 +1809,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiArticles200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -1507,10 +1818,10 @@ open class AiAPI {
      List articles across tenants
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiArticles200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiArticlesGlobal(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiArticles200Response {
+    open class func getAiArticlesGlobal(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiArticlesGlobalWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -1522,9 +1833,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiArticles200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiArticlesGlobalWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiArticles200Response> {
+    open class func getAiArticlesGlobalWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/articles/global"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -1537,7 +1848,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiArticles200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -1546,10 +1857,10 @@ open class AiAPI {
      List assets
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiAssets200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiAssets(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiAssets200Response {
+    open class func getAiAssets(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiAssetsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -1561,9 +1872,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiAssets200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiAssetsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiAssets200Response> {
+    open class func getAiAssetsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/assets"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -1576,7 +1887,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiAssets200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -1584,13 +1895,13 @@ open class AiAPI {
     /**
      Retrieve a asset
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiAssets200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiAssetsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiAssets200Response {
+    open class func getAiAssetsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiAssetsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -1601,12 +1912,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiAssets200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiAssetsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiAssets200Response> {
+    open class func getAiAssetsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/assets/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -1625,7 +1936,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiAssets200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -1634,10 +1945,10 @@ open class AiAPI {
      List chats
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiChats200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiChats(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiChats200Response {
+    open class func getAiChats(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiChatsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -1649,9 +1960,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiChats200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiChatsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiChats200Response> {
+    open class func getAiChatsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/chats"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -1664,7 +1975,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiChats200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -1672,13 +1983,13 @@ open class AiAPI {
     /**
      Retrieve a chat
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiChats200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiChatsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiChats200Response {
+    open class func getAiChatsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiChatsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -1689,12 +2000,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiChats200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiChatsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiChats200Response> {
+    open class func getAiChatsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/chats/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -1713,7 +2024,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiChats200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -1722,10 +2033,10 @@ open class AiAPI {
      List chats across tenants
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiChats200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiChatsGlobal(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiChats200Response {
+    open class func getAiChatsGlobal(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiChatsGlobalWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -1737,9 +2048,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiChats200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiChatsGlobalWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiChats200Response> {
+    open class func getAiChatsGlobalWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/chats/global"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -1752,7 +2063,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiChats200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -1932,10 +2243,10 @@ open class AiAPI {
      Dashboards Agents
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiDashboardsAgents(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
+    open class func getAiDashboardsAgents(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiDashboardsAgentsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -1946,9 +2257,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiDashboardsAgentsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func getAiDashboardsAgentsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/dashboards/agents"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -1961,7 +2272,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -1970,10 +2281,10 @@ open class AiAPI {
      Dashboards Vm
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiDashboardsVm(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
+    open class func getAiDashboardsVm(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiDashboardsVmWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -1984,9 +2295,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiDashboardsVmWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func getAiDashboardsVmWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/dashboards/vm"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -1999,7 +2310,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -2008,10 +2319,10 @@ open class AiAPI {
      List deployments
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiDeployments200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiDeployments(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiDeployments200Response {
+    open class func getAiDeployments(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiDeploymentsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -2023,9 +2334,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiDeployments200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiDeploymentsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiDeployments200Response> {
+    open class func getAiDeploymentsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/deployments"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -2038,7 +2349,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiDeployments200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -2046,13 +2357,13 @@ open class AiAPI {
     /**
      Retrieve a application
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiDeployments200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiDeploymentsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiDeployments200Response {
+    open class func getAiDeploymentsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiDeploymentsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -2063,12 +2374,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiDeployments200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiDeploymentsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiDeployments200Response> {
+    open class func getAiDeploymentsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/deployments/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -2087,7 +2398,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiDeployments200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -2096,10 +2407,10 @@ open class AiAPI {
      List files
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiFiles200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiFiles(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiFiles200Response {
+    open class func getAiFiles(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiFilesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -2111,9 +2422,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiFiles200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiFilesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiFiles200Response> {
+    open class func getAiFilesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/files"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -2126,7 +2437,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiFiles200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -2135,10 +2446,10 @@ open class AiAPI {
      Active (file)
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiFilesActive(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
+    open class func getAiFilesActive(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiFilesActiveWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -2149,9 +2460,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiFilesActiveWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func getAiFilesActiveWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/files/active"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -2164,7 +2475,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -2172,13 +2483,13 @@ open class AiAPI {
     /**
      Retrieve a file
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiFiles200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiFilesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiFiles200Response {
+    open class func getAiFilesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiFilesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -2189,12 +2500,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiFiles200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiFilesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiFiles200Response> {
+    open class func getAiFilesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/files/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -2213,7 +2524,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiFiles200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -2222,10 +2533,10 @@ open class AiAPI {
      List files across tenants
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiFiles200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiFilesGlobal(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiFiles200Response {
+    open class func getAiFilesGlobal(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiFilesGlobalWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -2237,9 +2548,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiFiles200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiFilesGlobalWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiFiles200Response> {
+    open class func getAiFilesGlobalWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/files/global"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -2252,7 +2563,241 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiFiles200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Proxies a HuggingFace dataset search (dataset picker).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAiFinetuneHfDatasets(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getAiFinetuneHfDatasetsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Proxies a HuggingFace dataset search (dataset picker).
+     - GET /v1/ai/finetune/hf/datasets
+     - Proxies a HuggingFace dataset search (dataset picker).
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getAiFinetuneHfDatasetsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/finetune/hf/datasets"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Proxies a HuggingFace model search (base-model picker).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAiFinetuneHfModels(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getAiFinetuneHfModelsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Proxies a HuggingFace model search (base-model picker).
+     - GET /v1/ai/finetune/hf/models
+     - Proxies a HuggingFace model search (base-model picker).
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getAiFinetuneHfModelsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/finetune/hf/models"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns a repo's detail (files, gated/private state).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAiFinetuneHfRepo(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getAiFinetuneHfRepoWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns a repo's detail (files, gated/private state).
+     - GET /v1/ai/finetune/hf/repo
+     - Returns a repo's detail (files, gated/private state). ?id=&kind=model|dataset
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getAiFinetuneHfRepoWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/finetune/hf/repo"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns one job with refreshed live status.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAiFinetuneJob(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getAiFinetuneJobWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns one job with refreshed live status.
+     - GET /v1/ai/finetune/job
+     - Returns one job with refreshed live status. ?id=owner/name or ?name=
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getAiFinetuneJobWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/finetune/job"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns the org's jobs, refreshing live status for active ones.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAiFinetuneJobs(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getAiFinetuneJobsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns the org's jobs, refreshing live status for active ones.
+     - GET /v1/ai/finetune/jobs
+     - Returns the org's jobs, refreshing live status for active ones.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getAiFinetuneJobsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/finetune/jobs"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns the new-job catalog plus, when a selection is passed (?baseModel&method&task&preset[&datasetExamples]), the recommended config so the console can render \"Recommended\" as a one-click, ready-to-run default.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAiFinetunePresets(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getAiFinetunePresetsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns the new-job catalog plus, when a selection is passed (?baseModel&method&task&preset[&datasetExamples]), the recommended config so the console can render \"Recommended\" as a one-click, ready-to-run default.
+     - GET /v1/ai/finetune/presets
+     - Returns the new-job catalog plus, when a selection is passed (?baseModel&method&task&preset[&datasetExamples]), the recommended config so the console can render \"Recommended\" as a one-click, ready-to-run default.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getAiFinetunePresetsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/finetune/presets"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -2261,10 +2806,10 @@ open class AiAPI {
      List forms
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiForms200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiForms(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiForms200Response {
+    open class func getAiForms(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiFormsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -2276,9 +2821,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiForms200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiFormsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiForms200Response> {
+    open class func getAiFormsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/forms"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -2291,7 +2836,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiForms200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -2299,13 +2844,13 @@ open class AiAPI {
     /**
      Retrieve a form
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiForms200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiFormsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiForms200Response {
+    open class func getAiFormsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiFormsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -2316,12 +2861,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiForms200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiFormsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiForms200Response> {
+    open class func getAiFormsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/forms/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -2340,7 +2885,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiForms200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -2349,10 +2894,10 @@ open class AiAPI {
      Data (form)
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiFormsData(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
+    open class func getAiFormsData(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiFormsDataWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -2363,9 +2908,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiFormsDataWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func getAiFormsDataWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/forms/data"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -2378,7 +2923,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -2387,10 +2932,10 @@ open class AiAPI {
      List forms across tenants
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiForms200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiFormsGlobal(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiForms200Response {
+    open class func getAiFormsGlobal(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiFormsGlobalWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -2402,9 +2947,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiForms200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiFormsGlobalWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiForms200Response> {
+    open class func getAiFormsGlobalWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/forms/global"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -2417,7 +2962,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiForms200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -2426,10 +2971,10 @@ open class AiAPI {
      List graphs
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiGraphs200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiGraphs(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiGraphs200Response {
+    open class func getAiGraphs(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiGraphsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -2441,9 +2986,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiGraphs200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiGraphsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiGraphs200Response> {
+    open class func getAiGraphsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/graphs"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -2456,7 +3001,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiGraphs200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -2464,13 +3009,13 @@ open class AiAPI {
     /**
      Retrieve a graph
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiGraphs200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiGraphsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiGraphs200Response {
+    open class func getAiGraphsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiGraphsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -2481,12 +3026,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiGraphs200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiGraphsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiGraphs200Response> {
+    open class func getAiGraphsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/graphs/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -2505,7 +3050,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiGraphs200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -2514,10 +3059,10 @@ open class AiAPI {
      List graphs across tenants
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiGraphs200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiGraphsGlobal(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiGraphs200Response {
+    open class func getAiGraphsGlobal(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiGraphsGlobalWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -2529,9 +3074,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiGraphs200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiGraphsGlobalWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiGraphs200Response> {
+    open class func getAiGraphsGlobalWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/graphs/global"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -2544,7 +3089,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiGraphs200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -2553,10 +3098,10 @@ open class AiAPI {
      K8s Status
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiK8sStatus(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
+    open class func getAiK8sStatus(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiK8sStatusWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -2567,9 +3112,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiK8sStatusWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func getAiK8sStatusWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/k8s-status"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -2582,7 +3127,163 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     List the authenticated user's stored facts
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAiMemoryFacts(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getAiMemoryFactsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     List the authenticated user's stored facts
+     - GET /v1/ai/memory/facts
+     - List the authenticated user's stored facts
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getAiMemoryFactsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/memory/facts"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     List the authenticated user's memories, newest first
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAiMemoryList(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getAiMemoryListWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     List the authenticated user's memories, newest first
+     - GET /v1/ai/memory/list
+     - List the authenticated user's memories, newest first
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getAiMemoryListWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/memory/list"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Recall recent/relevant memories for context injection; with q it
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAiMemoryRecall(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getAiMemoryRecallWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Recall recent/relevant memories for context injection; with q it
+     - GET /v1/ai/memory/recall
+     - Recall recent/relevant memories for context injection; with q it ranks semantically, without q it returns the most recent
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getAiMemoryRecallWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/memory/recall"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Search the authenticated user's memories (semantic, text fallback)
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAiMemorySearch(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getAiMemorySearchWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Search the authenticated user's memories (semantic, text fallback)
+     - GET /v1/ai/memory/search
+     - Search the authenticated user's memories (semantic, text fallback)
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getAiMemorySearchWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/memory/search"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -2591,10 +3292,10 @@ open class AiAPI {
      List messages
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiMessages200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiMessages(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiMessages200Response {
+    open class func getAiMessages(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiMessagesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -2606,9 +3307,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiMessages200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiMessagesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiMessages200Response> {
+    open class func getAiMessagesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/messages"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -2621,7 +3322,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiMessages200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -2629,13 +3330,13 @@ open class AiAPI {
     /**
      Retrieve a message
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiMessages200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiMessagesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiMessages200Response {
+    open class func getAiMessagesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiMessagesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -2646,12 +3347,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiMessages200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiMessagesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiMessages200Response> {
+    open class func getAiMessagesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/messages/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -2670,7 +3371,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiMessages200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -2678,13 +3379,13 @@ open class AiAPI {
     /**
      Answer (message)
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiMessagesByOwnerByNameAnswer(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
+    open class func getAiMessagesByOwnerByNameAnswer(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiMessagesByOwnerByNameAnswerWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -2694,12 +3395,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiMessagesByOwnerByNameAnswerWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func getAiMessagesByOwnerByNameAnswerWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/messages/{owner}/{name}/answer"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -2718,7 +3419,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -2727,10 +3428,10 @@ open class AiAPI {
      List messages across tenants
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiMessages200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiMessagesGlobal(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiMessages200Response {
+    open class func getAiMessagesGlobal(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiMessagesGlobalWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -2742,9 +3443,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiMessages200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiMessagesGlobalWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiMessages200Response> {
+    open class func getAiMessagesGlobalWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/messages/global"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -2757,7 +3458,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiMessages200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -2766,10 +3467,10 @@ open class AiAPI {
      List nodes
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiNodes200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiNodes(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiNodes200Response {
+    open class func getAiNodes(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiNodesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -2781,9 +3482,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiNodes200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiNodesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiNodes200Response> {
+    open class func getAiNodesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/nodes"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -2796,7 +3497,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiNodes200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -2804,13 +3505,13 @@ open class AiAPI {
     /**
      Retrieve a node
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiNodes200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiNodesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiNodes200Response {
+    open class func getAiNodesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiNodesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -2821,12 +3522,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiNodes200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiNodesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiNodes200Response> {
+    open class func getAiNodesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/nodes/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -2845,7 +3546,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiNodes200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -2853,13 +3554,13 @@ open class AiAPI {
     /**
      Tunnel (node)
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiNodesByOwnerByNameTunnel(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
+    open class func getAiNodesByOwnerByNameTunnel(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiNodesByOwnerByNameTunnelWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -2869,12 +3570,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiNodesByOwnerByNameTunnelWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func getAiNodesByOwnerByNameTunnelWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/nodes/{owner}/{name}/tunnel"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -2893,7 +3594,85 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAiOrgSettings(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getAiOrgSettingsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - GET /v1/ai/org/settings
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getAiOrgSettingsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/org/settings"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAiOrgSettingsList(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getAiOrgSettingsListWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - GET /v1/ai/org/settings/list
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getAiOrgSettingsListWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/org/settings/list"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -2902,10 +3681,10 @@ open class AiAPI {
      Prometheus
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiPrometheus(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
+    open class func getAiPrometheus(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiPrometheusWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -2916,9 +3695,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiPrometheusWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func getAiPrometheusWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/prometheus"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -2931,7 +3710,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -2940,10 +3719,10 @@ open class AiAPI {
      List providers
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiProviders200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiProviders(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiProviders200Response {
+    open class func getAiProviders(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiProvidersWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -2955,9 +3734,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiProviders200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiProvidersWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiProviders200Response> {
+    open class func getAiProvidersWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/providers"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -2970,7 +3749,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiProviders200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -2978,13 +3757,13 @@ open class AiAPI {
     /**
      Retrieve a provider
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiProviders200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiProvidersByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiProviders200Response {
+    open class func getAiProvidersByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiProvidersByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -2995,12 +3774,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiProviders200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiProvidersByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiProviders200Response> {
+    open class func getAiProvidersByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/providers/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -3019,7 +3798,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiProviders200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -3028,10 +3807,10 @@ open class AiAPI {
      List providers across tenants
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiProviders200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiProvidersGlobal(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiProviders200Response {
+    open class func getAiProvidersGlobal(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiProvidersGlobalWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -3043,9 +3822,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiProviders200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiProvidersGlobalWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiProviders200Response> {
+    open class func getAiProvidersGlobalWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/providers/global"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -3058,7 +3837,46 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiProviders200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Return every stored chunk of one file_id (full document context).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAiRagContext(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getAiRagContextWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Return every stored chunk of one file_id (full document context).
+     - GET /v1/ai/rag/context
+     - Return every stored chunk of one file_id (full document context). Consolidates the retired chat-rag-api GET /documents/{id}/context.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getAiRagContextWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/rag/context"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -3067,10 +3885,10 @@ open class AiAPI {
      List records
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiRecords200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiRecords(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiRecords200Response {
+    open class func getAiRecords(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiRecordsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -3082,9 +3900,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiRecords200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiRecordsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiRecords200Response> {
+    open class func getAiRecordsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/records"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -3097,7 +3915,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiRecords200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -3105,13 +3923,13 @@ open class AiAPI {
     /**
      Retrieve a record
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiRecords200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiRecordsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiRecords200Response {
+    open class func getAiRecordsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiRecordsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -3122,12 +3940,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiRecords200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiRecordsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiRecords200Response> {
+    open class func getAiRecordsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/records/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -3146,7 +3964,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiRecords200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -3155,10 +3973,10 @@ open class AiAPI {
      Query (record)
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiRecordsQuery(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
+    open class func getAiRecordsQuery(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiRecordsQueryWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -3169,9 +3987,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiRecordsQueryWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func getAiRecordsQueryWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/records/query"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -3184,7 +4002,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -3193,10 +4011,10 @@ open class AiAPI {
      Query Second (record)
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiRecordsQuerySecond(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
+    open class func getAiRecordsQuerySecond(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiRecordsQuerySecondWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -3207,9 +4025,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiRecordsQuerySecondWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func getAiRecordsQuerySecondWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/records/query-second"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -3222,7 +4040,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -3231,10 +4049,10 @@ open class AiAPI {
      List remote-connections
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiRemoteConnections200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiRemoteConnections(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiRemoteConnections200Response {
+    open class func getAiRemoteConnections(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiRemoteConnectionsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -3246,9 +4064,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiRemoteConnections200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiRemoteConnectionsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiRemoteConnections200Response> {
+    open class func getAiRemoteConnectionsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/remote-connections"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -3261,7 +4079,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiRemoteConnections200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -3269,13 +4087,13 @@ open class AiAPI {
     /**
      Retrieve a connection
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiRemoteConnections200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiRemoteConnectionsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiRemoteConnections200Response {
+    open class func getAiRemoteConnectionsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiRemoteConnectionsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -3286,12 +4104,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiRemoteConnections200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiRemoteConnectionsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiRemoteConnections200Response> {
+    open class func getAiRemoteConnectionsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/remote-connections/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -3310,7 +4128,357 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiRemoteConnections200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAiRouterArtifactMeta(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getAiRouterArtifactMetaWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - GET /v1/ai/router/artifact-meta
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getAiRouterArtifactMetaWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/router/artifact-meta"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Router Data
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAiRouterData(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getAiRouterDataWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Router Data
+     - GET /v1/ai/router/data
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getAiRouterDataWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/router/data"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAiRouterDefaults(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getAiRouterDefaultsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - GET /v1/ai/router/defaults
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getAiRouterDefaultsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/router/defaults"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns the router-improvement time-series.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAiRouterHistory(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getAiRouterHistoryWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns the router-improvement time-series.
+     - GET /v1/ai/router/history
+     - Returns the router-improvement time-series. Two scopes, one route, mirroring /v1/ai/router/stats:    - ?scope=platform — PUBLIC-safe aggregate over ALL orgs, no authentication. Emits     the daily reward/cost-saved/adoption series (task mix included, model ids NOT)     and the retrain timeline. This is what world.hanzo.ai polls.   - default (org scope) — requires a signed-in principal, scoped to the caller's OWN     org (a super admin may pass ?org= to target another or \"\" for all).  Window: ?days=N (default 30, capped at 90). Aggregates only.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getAiRouterHistoryWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/router/history"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns the LIVE Mean-Field Judge Panel state: the configured panel + dynamic judge posture (enabled/sample) resolved from the \"*\" GlobalDefaultOwner row, the live in-process per-judge calibration (weight/mean/n), and the static published benchmark.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAiRouterJudgePanel(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getAiRouterJudgePanelWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns the LIVE Mean-Field Judge Panel state: the configured panel + dynamic judge posture (enabled/sample) resolved from the \"*\" GlobalDefaultOwner row, the live in-process per-judge calibration (weight/mean/n), and the static published benchmark.
+     - GET /v1/ai/router/judge-panel
+     - Returns the LIVE Mean-Field Judge Panel state: the configured panel + dynamic judge posture (enabled/sample) resolved from the \"*\" GlobalDefaultOwner row, the live in-process per-judge calibration (weight/mean/n), and the static published benchmark. PUBLIC-safe and platform-global (model ids + scalars only), so it rides the same unauthenticated, balance-exempt class as /v1/ai/router/stats?scope=platform — the world widget polls it with no auth. The judge state is a single in-process population (not per-org), so there is nothing to scope; ?scope=platform is accepted for symmetry with router-stats.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getAiRouterJudgePanelWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/router/judge-panel"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAiRouterLedger(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getAiRouterLedgerWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - GET /v1/ai/router/ledger
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getAiRouterLedgerWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/router/ledger"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAiRouterPolicy(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getAiRouterPolicyWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - GET /v1/ai/router/policy
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getAiRouterPolicyWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/router/policy"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAiRouterRewards(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getAiRouterRewardsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - GET /v1/ai/router/rewards
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getAiRouterRewardsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/router/rewards"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns the router observability aggregate.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAiRouterStats(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getAiRouterStatsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns the router observability aggregate.
+     - GET /v1/ai/router/stats
+     - Returns the router observability aggregate. Two scopes, one route:    - ?scope=platform — PUBLIC-safe aggregate over ALL orgs, no authentication.     Emits rates, shares, per-task/per-model counts, throughput, and the cost     RATIO (saved_pct) + counterfactual model id, but NEVER absolute $ levels,     org identity, raw events, or feature vectors. This is what world.hanzo.ai     polls.   - default (org scope) — requires a signed-in principal; scoped to the caller's     OWN org (a super admin may pass ?org= to target another org or \"\" for all).     Carries the absolute $/MTok indices for the admin savings panel.  Window: ?since= (RFC3339) or ?hours= (default 24, capped). Aggregates only.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getAiRouterStatsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/router/stats"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -3319,10 +4487,10 @@ open class AiAPI {
      List routes
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiRoutes200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiRoutes(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiRoutes200Response {
+    open class func getAiRoutes(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiRoutesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -3334,9 +4502,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiRoutes200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiRoutesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiRoutes200Response> {
+    open class func getAiRoutesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/routes"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -3349,7 +4517,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiRoutes200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -3357,13 +4525,13 @@ open class AiAPI {
     /**
      Retrieve a model-route
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiRoutes200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiRoutesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiRoutes200Response {
+    open class func getAiRoutesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiRoutesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -3374,12 +4542,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiRoutes200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiRoutesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiRoutes200Response> {
+    open class func getAiRoutesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/routes/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -3398,7 +4566,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiRoutes200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -3407,10 +4575,10 @@ open class AiAPI {
      List scales
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiScales200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiScales(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiScales200Response {
+    open class func getAiScales(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiScalesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -3422,9 +4590,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiScales200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiScalesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiScales200Response> {
+    open class func getAiScalesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/scales"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -3437,7 +4605,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiScales200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -3445,13 +4613,13 @@ open class AiAPI {
     /**
      Retrieve a scale
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiScales200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiScalesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiScales200Response {
+    open class func getAiScalesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiScalesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -3462,12 +4630,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiScales200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiScalesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiScales200Response> {
+    open class func getAiScalesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/scales/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -3486,7 +4654,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiScales200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -3495,10 +4663,10 @@ open class AiAPI {
      List scales across tenants
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiScales200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiScalesGlobal(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiScales200Response {
+    open class func getAiScalesGlobal(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiScalesGlobalWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -3510,9 +4678,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiScales200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiScalesGlobalWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiScales200Response> {
+    open class func getAiScalesGlobalWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/scales/global"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -3525,7 +4693,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiScales200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -3534,10 +4702,10 @@ open class AiAPI {
      Public (scale)
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiScalesPublic(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
+    open class func getAiScalesPublic(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiScalesPublicWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -3548,9 +4716,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiScalesPublicWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func getAiScalesPublicWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/scales/public"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -3563,7 +4731,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -3572,10 +4740,10 @@ open class AiAPI {
      List scans
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiScans200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiScans(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiScans200Response {
+    open class func getAiScans(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiScansWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -3587,9 +4755,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiScans200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiScansWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiScans200Response> {
+    open class func getAiScansWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/scans"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -3602,7 +4770,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiScans200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -3610,13 +4778,13 @@ open class AiAPI {
     /**
      Retrieve a scan
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiScans200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiScansByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiScans200Response {
+    open class func getAiScansByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiScansByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -3627,12 +4795,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiScans200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiScansByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiScans200Response> {
+    open class func getAiScansByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/scans/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -3651,7 +4819,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiScans200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -3660,10 +4828,10 @@ open class AiAPI {
      List signin-sessions
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiSigninSessions200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiSigninSessions(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiSigninSessions200Response {
+    open class func getAiSigninSessions(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiSigninSessionsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -3675,9 +4843,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiSigninSessions200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiSigninSessionsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiSigninSessions200Response> {
+    open class func getAiSigninSessionsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/signin-sessions"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -3690,7 +4858,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiSigninSessions200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -3698,13 +4866,13 @@ open class AiAPI {
     /**
      Retrieve a session
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiSigninSessions200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiSigninSessionsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiSigninSessions200Response {
+    open class func getAiSigninSessionsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiSigninSessionsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -3715,12 +4883,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiSigninSessions200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiSigninSessionsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiSigninSessions200Response> {
+    open class func getAiSigninSessionsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/signin-sessions/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -3739,7 +4907,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiSigninSessions200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -3748,10 +4916,10 @@ open class AiAPI {
      Duplicated (session)
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiSigninSessionsDuplicated(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
+    open class func getAiSigninSessionsDuplicated(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiSigninSessionsDuplicatedWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -3762,9 +4930,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiSigninSessionsDuplicatedWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func getAiSigninSessionsDuplicatedWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/signin-sessions/duplicated"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -3777,7 +4945,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -3786,10 +4954,10 @@ open class AiAPI {
      List stores
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiStores200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiStores(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiStores200Response {
+    open class func getAiStores(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiStoresWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -3801,9 +4969,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiStores200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiStoresWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiStores200Response> {
+    open class func getAiStoresWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/stores"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -3816,7 +4984,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiStores200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -3824,13 +4992,13 @@ open class AiAPI {
     /**
      Retrieve a store
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiStores200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiStoresByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiStores200Response {
+    open class func getAiStoresByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiStoresByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -3841,12 +5009,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiStores200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiStoresByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiStores200Response> {
+    open class func getAiStoresByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/stores/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -3865,7 +5033,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiStores200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -3874,10 +5042,10 @@ open class AiAPI {
      List stores across tenants
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiStores200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiStoresGlobal(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiStores200Response {
+    open class func getAiStoresGlobal(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiStoresGlobalWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -3889,9 +5057,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiStores200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiStoresGlobalWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiStores200Response> {
+    open class func getAiStoresGlobalWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/stores/global"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -3904,7 +5072,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiStores200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -3913,10 +5081,10 @@ open class AiAPI {
      Names (store)
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiStoresNames(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
+    open class func getAiStoresNames(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiStoresNamesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -3927,9 +5095,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiStoresNamesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func getAiStoresNamesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/stores/names"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -3942,7 +5110,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -3951,10 +5119,10 @@ open class AiAPI {
      Providers (store)
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiStoresProviders(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
+    open class func getAiStoresProviders(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiStoresProvidersWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -3965,9 +5133,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiStoresProvidersWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func getAiStoresProvidersWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/stores/providers"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -3980,7 +5148,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -3989,10 +5157,10 @@ open class AiAPI {
      System
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiSystem(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
+    open class func getAiSystem(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiSystemWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4003,9 +5171,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiSystemWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func getAiSystemWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/system"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -4018,7 +5186,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -4027,10 +5195,10 @@ open class AiAPI {
      List tasks
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiTasks200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiTasks(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiTasks200Response {
+    open class func getAiTasks(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiTasksWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4042,9 +5210,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiTasks200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiTasksWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiTasks200Response> {
+    open class func getAiTasksWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/tasks"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -4057,7 +5225,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiTasks200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -4065,13 +5233,13 @@ open class AiAPI {
     /**
      Retrieve a task
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiTasks200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiTasksByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiTasks200Response {
+    open class func getAiTasksByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiTasksByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4082,12 +5250,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiTasks200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiTasksByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiTasks200Response> {
+    open class func getAiTasksByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/tasks/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -4106,7 +5274,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiTasks200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -4115,10 +5283,10 @@ open class AiAPI {
      List tasks across tenants
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiTasks200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiTasksGlobal(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiTasks200Response {
+    open class func getAiTasksGlobal(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiTasksGlobalWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4130,9 +5298,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiTasks200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiTasksGlobalWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiTasks200Response> {
+    open class func getAiTasksGlobalWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/tasks/global"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -4145,7 +5313,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiTasks200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -4154,10 +5322,10 @@ open class AiAPI {
      List templates
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiTemplates200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiTemplates(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiTemplates200Response {
+    open class func getAiTemplates(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiTemplatesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4169,9 +5337,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiTemplates200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiTemplatesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiTemplates200Response> {
+    open class func getAiTemplatesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/templates"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -4184,7 +5352,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiTemplates200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -4192,13 +5360,13 @@ open class AiAPI {
     /**
      Retrieve a template
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiTemplates200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiTemplatesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiTemplates200Response {
+    open class func getAiTemplatesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiTemplatesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4209,12 +5377,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiTemplates200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiTemplatesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiTemplates200Response> {
+    open class func getAiTemplatesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/templates/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -4233,7 +5401,46 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiTemplates200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns the PUBLIC live request-geo aggregate for the world.hanzo.ai \"Hanzo mode\" globe: WHERE requests to api.hanzo.ai are coming from, as country/region points with per-service-class counts, plus headline throughput rates.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAiTrafficGlobe(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getAiTrafficGlobeWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns the PUBLIC live request-geo aggregate for the world.hanzo.ai \"Hanzo mode\" globe: WHERE requests to api.hanzo.ai are coming from, as country/region points with per-service-class counts, plus headline throughput rates.
+     - GET /v1/ai/traffic/globe
+     - Returns the PUBLIC live request-geo aggregate for the world.hanzo.ai \"Hanzo mode\" globe: WHERE requests to api.hanzo.ai are coming from, as country/region points with per-service-class counts, plus headline throughput rates.  It is AUTH-exempt and BALANCE-exempt exactly like /v1/ai/router/stats?scope=platform:   - auth: the controller name \"traffic/globe\" is neither a get-/update- CRUD name     nor a super-admin/present-credential endpoint, so the authz filter passes it     through, and this handler requires no principal.   - balance: isBalanceExempt(\"/v1/ai/traffic/...\") returns true.  It exposes ONLY aggregates — counts, rates, and country/region centroids — and NEVER any IP, per-request row, org, or user dimension (see object/traffic.go). Marketing telemetry; nothing sensitive.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getAiTrafficGlobeWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/traffic/globe"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -4242,10 +5449,10 @@ open class AiAPI {
      Training Contribution
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiTrainingContribution(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
+    open class func getAiTrainingContribution(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiTrainingContributionWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4256,9 +5463,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiTrainingContributionWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func getAiTrainingContributionWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/training-contribution"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -4271,7 +5478,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -4280,10 +5487,10 @@ open class AiAPI {
      List usages
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiUsages200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiUsages(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiUsages200Response {
+    open class func getAiUsages(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiUsagesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4295,9 +5502,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiUsages200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiUsagesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiUsages200Response> {
+    open class func getAiUsagesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/usages"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -4310,7 +5517,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiUsages200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -4319,10 +5526,10 @@ open class AiAPI {
      By User (usage)
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiUsagesByUser(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
+    open class func getAiUsagesByUser(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiUsagesByUserWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4333,9 +5540,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiUsagesByUserWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func getAiUsagesByUserWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/usages/by-user"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -4348,7 +5555,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -4357,10 +5564,10 @@ open class AiAPI {
      Cloud (usage)
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiUsagesCloud(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
+    open class func getAiUsagesCloud(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiUsagesCloudWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4371,9 +5578,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiUsagesCloudWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func getAiUsagesCloudWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/usages/cloud"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -4386,7 +5593,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -4395,10 +5602,10 @@ open class AiAPI {
      Range (usage)
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiUsagesRange(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
+    open class func getAiUsagesRange(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiUsagesRangeWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4409,9 +5616,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiUsagesRangeWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func getAiUsagesRangeWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/usages/range"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -4424,7 +5631,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -4433,10 +5640,10 @@ open class AiAPI {
      User Names (usage)
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiUsagesUserNames(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
+    open class func getAiUsagesUserNames(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiUsagesUserNamesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4447,9 +5654,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiUsagesUserNamesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func getAiUsagesUserNamesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/usages/user-names"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -4462,7 +5669,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -4471,10 +5678,10 @@ open class AiAPI {
      List vectors
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiVectors200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiVectors(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiVectors200Response {
+    open class func getAiVectors(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiVectorsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4486,9 +5693,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiVectors200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiVectorsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiVectors200Response> {
+    open class func getAiVectorsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/vectors"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -4501,7 +5708,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiVectors200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -4509,13 +5716,13 @@ open class AiAPI {
     /**
      Retrieve a vector
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiVectors200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiVectorsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiVectors200Response {
+    open class func getAiVectorsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiVectorsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4526,12 +5733,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiVectors200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiVectorsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiVectors200Response> {
+    open class func getAiVectorsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/vectors/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -4550,7 +5757,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiVectors200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -4559,10 +5766,10 @@ open class AiAPI {
      List vectors across tenants
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiVectors200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiVectorsGlobal(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiVectors200Response {
+    open class func getAiVectorsGlobal(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiVectorsGlobalWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4574,9 +5781,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiVectors200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiVectorsGlobalWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiVectors200Response> {
+    open class func getAiVectorsGlobalWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/vectors/global"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -4589,7 +5796,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiVectors200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -4598,10 +5805,10 @@ open class AiAPI {
      Version
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiVersion(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
+    open class func getAiVersion(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiVersionWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4612,9 +5819,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiVersionWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func getAiVersionWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/version"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -4627,7 +5834,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -4636,10 +5843,10 @@ open class AiAPI {
      List videos
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiVideos200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiVideos(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiVideos200Response {
+    open class func getAiVideos(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiVideosWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4651,9 +5858,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiVideos200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiVideosWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiVideos200Response> {
+    open class func getAiVideosWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/videos"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -4666,7 +5873,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiVideos200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -4674,13 +5881,13 @@ open class AiAPI {
     /**
      Retrieve a video
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiVideos200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiVideosByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiVideos200Response {
+    open class func getAiVideosByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiVideosByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4691,12 +5898,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiVideos200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiVideosByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiVideos200Response> {
+    open class func getAiVideosByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/videos/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -4715,7 +5922,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiVideos200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -4724,10 +5931,10 @@ open class AiAPI {
      List videos across tenants
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiVideos200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiVideosGlobal(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiVideos200Response {
+    open class func getAiVideosGlobal(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiVideosGlobalWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4739,9 +5946,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiVideos200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiVideosGlobalWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiVideos200Response> {
+    open class func getAiVideosGlobalWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/videos/global"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -4754,7 +5961,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiVideos200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -4763,10 +5970,10 @@ open class AiAPI {
      List workflows
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiWorkflows200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiWorkflows(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiWorkflows200Response {
+    open class func getAiWorkflows(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiWorkflowsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4778,9 +5985,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiWorkflows200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiWorkflowsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiWorkflows200Response> {
+    open class func getAiWorkflowsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/workflows"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -4793,7 +6000,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiWorkflows200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -4801,13 +6008,13 @@ open class AiAPI {
     /**
      Retrieve a workflow
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiWorkflows200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiWorkflowsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiWorkflows200Response {
+    open class func getAiWorkflowsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiWorkflowsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4818,12 +6025,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiWorkflows200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiWorkflowsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiWorkflows200Response> {
+    open class func getAiWorkflowsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/workflows/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -4842,7 +6049,7 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiWorkflows200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -4851,10 +6058,10 @@ open class AiAPI {
      List workflows across tenants
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiWorkflows200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiWorkflowsGlobal(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiWorkflows200Response {
+    open class func getAiWorkflowsGlobal(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await getAiWorkflowsGlobalWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4866,9 +6073,9 @@ open class AiAPI {
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiWorkflows200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func getAiWorkflowsGlobalWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiWorkflows200Response> {
+    open class func getAiWorkflowsGlobalWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/workflows/global"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -4881,7 +6088,217 @@ open class AiAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<GetAiWorkflows200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns the list of available models from the routing table.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getModels(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getModelsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns the list of available models from the routing table.
+     - GET /v1/models
+     - Returns the list of available models from the routing table.  PUBLIC BY DESIGN, AND IT DOES NOT AUTHENTICATE — that is the whole contract, so it is stated here rather than left to be inferred. The catalogue is the same for everyone (listAvailableModels takes no principal), docs.hanzo.ai fetches it from the browser, and every policy layer around it already says so out loud: the authz filter lists \"models\" as public, filter_balance refuses to gate it (a 402 here was a console-wide outage), the rate limiter excludes it, and cloud's spend.Reachable carries /v1/models/ as \"the model catalog the shell reads for discovery\".  SO THE Authorization HEADER IS NOT AN ADMISSION CHECK HERE. It is read for ONE thing — annotating gated SKUs with the caller's own access standing — and annotation degrades to nothing when there is no verified principal.  It used to hold a \"require authentication\" gate that authenticated nobody: it rejected an ABSENT credential and a MALFORMED one, then accepted any string that merely looked like a key. `Bearer sk-` followed by 36 zeroes returned 200 in production; so did a JWT three days expired. It was a shape check wearing an auth check's clothes, and its cost was diagnostic: /v1/models is the natural \"is my auth working?\" probe, and answering 200 to a dead credential sent people debugging the wrong system. A public endpoint must not appear to validate. Either check the credential or ignore it — this one ignores it, deliberately and visibly.  Removing that gate discloses nothing new: the catalogue was already reachable by anyone willing to type three characters, so there is no confidentiality delta, only an honesty one.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getModelsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/models"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns the caller's own standing for a gated model: \"granted\", \"requested\", or empty when they have never asked.
+     
+     - parameter model: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getModelsByModelAccess(model: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getModelsByModelAccessWithRequestBuilder(model: model, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns the caller's own standing for a gated model: \"granted\", \"requested\", or empty when they have never asked.
+     - GET /v1/models/{model}/access
+     - Returns the caller's own standing for a gated model: \"granted\", \"requested\", or empty when they have never asked.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter model: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getModelsByModelAccessWithRequestBuilder(model: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/models/{model}/access"
+        let modelPreEscape = "\(APIHelper.mapValueToPathItem(model))"
+        let modelPostEscape = modelPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{model}", with: modelPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Public, secret-free list of the providers serving the models that GET /v1/models lists — the same source, projected.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getModelsProviders(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getModelsProvidersWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Public, secret-free list of the providers serving the models that GET /v1/models lists — the same source, projected.
+     - GET /v1/models/providers
+     - Public, secret-free list of the providers serving the models that GET /v1/models lists — the same source, projected. Safe unauthenticated: no keys, URLs, or config are returned, and it reports a SET of names, never which provider serves which model.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getModelsProvidersWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/models/providers"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Implements GET /v1/videos/{id} — poll a job's status.
+     
+     - parameter id: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getVideosById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getVideosByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Implements GET /v1/videos/{id} — poll a job's status.
+     - GET /v1/videos/{id}
+     - Implements GET /v1/videos/{id} — poll a job's status.  It authenticates the caller, verifies they OWN the job (the caller's billing subject must equal the job's), performs ONE upstream status poll, and — the first time the job is observed completed — settles the reservation with the actual cost and records the billable usage event (exactly once). Returns the OpenAI-shaped video object.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getVideosByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/videos/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Implements GET /v1/videos/{id}/content — download the finished MP4.
+     
+     - parameter id: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getVideosByIdContent(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await getVideosByIdContentWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Implements GET /v1/videos/{id}/content — download the finished MP4.
+     - GET /v1/videos/{id}/content
+     - Implements GET /v1/videos/{id}/content — download the finished MP4.  It authenticates + ownership-checks the caller, then proxies the upstream /content endpoint (bounded by the download concurrency ceiling) and streams the raw video bytes back inline. A successful download also bills the job once (for the client that downloads without first polling to completion) — idempotent with the poll path via job.markCompleted.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func getVideosByIdContentWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/videos/{id}/content"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -4889,15 +6306,14 @@ open class AiAPI {
     /**
      Update a article
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiArticles200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func patchAiArticlesByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiArticles200Response {
-        return try await patchAiArticlesByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func patchAiArticlesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiArticlesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -4907,13 +6323,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiArticles200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func patchAiArticlesByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiArticles200Response> {
+    open class func patchAiArticlesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/articles/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -4922,17 +6337,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiArticles200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -4940,15 +6355,14 @@ open class AiAPI {
     /**
      Update a asset
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiAssets200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func patchAiAssetsByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiAssets200Response {
-        return try await patchAiAssetsByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func patchAiAssetsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiAssetsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -4958,13 +6372,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiAssets200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func patchAiAssetsByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiAssets200Response> {
+    open class func patchAiAssetsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/assets/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -4973,17 +6386,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiAssets200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -4991,15 +6404,14 @@ open class AiAPI {
     /**
      Update a chat
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiChats200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func patchAiChatsByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiChats200Response {
-        return try await patchAiChatsByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func patchAiChatsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiChatsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -5009,13 +6421,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiChats200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func patchAiChatsByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiChats200Response> {
+    open class func patchAiChatsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/chats/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -5024,17 +6435,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiChats200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -5042,15 +6453,14 @@ open class AiAPI {
     /**
      Update a application
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiDeployments200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func patchAiDeploymentsByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiDeployments200Response {
-        return try await patchAiDeploymentsByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func patchAiDeploymentsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiDeploymentsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -5060,13 +6470,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiDeployments200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func patchAiDeploymentsByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiDeployments200Response> {
+    open class func patchAiDeploymentsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/deployments/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -5075,17 +6484,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiDeployments200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -5093,15 +6502,14 @@ open class AiAPI {
     /**
      Update a file
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiFiles200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func patchAiFilesByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiFiles200Response {
-        return try await patchAiFilesByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func patchAiFilesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiFilesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -5111,13 +6519,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiFiles200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func patchAiFilesByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiFiles200Response> {
+    open class func patchAiFilesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/files/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -5126,17 +6533,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiFiles200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -5144,15 +6551,14 @@ open class AiAPI {
     /**
      Update a form
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiForms200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func patchAiFormsByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiForms200Response {
-        return try await patchAiFormsByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func patchAiFormsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiFormsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -5162,13 +6568,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiForms200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func patchAiFormsByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiForms200Response> {
+    open class func patchAiFormsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/forms/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -5177,17 +6582,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiForms200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -5195,15 +6600,14 @@ open class AiAPI {
     /**
      Update a graph
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiGraphs200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func patchAiGraphsByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiGraphs200Response {
-        return try await patchAiGraphsByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func patchAiGraphsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiGraphsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -5213,13 +6617,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiGraphs200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func patchAiGraphsByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiGraphs200Response> {
+    open class func patchAiGraphsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/graphs/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -5228,17 +6631,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiGraphs200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -5246,15 +6649,14 @@ open class AiAPI {
     /**
      Update a message
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiMessages200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func patchAiMessagesByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiMessages200Response {
-        return try await patchAiMessagesByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func patchAiMessagesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiMessagesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -5264,13 +6666,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiMessages200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func patchAiMessagesByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiMessages200Response> {
+    open class func patchAiMessagesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/messages/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -5279,17 +6680,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiMessages200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -5297,15 +6698,14 @@ open class AiAPI {
     /**
      Update a node
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiNodes200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func patchAiNodesByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiNodes200Response {
-        return try await patchAiNodesByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func patchAiNodesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiNodesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -5315,13 +6715,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiNodes200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func patchAiNodesByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiNodes200Response> {
+    open class func patchAiNodesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/nodes/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -5330,17 +6729,95 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiNodes200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func patchAiOrgSettings(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiOrgSettingsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - PATCH /v1/ai/org/settings
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func patchAiOrgSettingsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/org/settings"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func patchAiOrgSettingsList(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiOrgSettingsListWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - PATCH /v1/ai/org/settings/list
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func patchAiOrgSettingsListWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/org/settings/list"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -5348,13 +6825,12 @@ open class AiAPI {
     /**
      Preferences
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func patchAiPreferences(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
-        return try await patchAiPreferencesWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func patchAiPreferences(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiPreferencesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -5363,24 +6839,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func patchAiPreferencesWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func patchAiPreferencesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/preferences"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -5388,15 +6863,14 @@ open class AiAPI {
     /**
      Update a provider
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiProviders200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func patchAiProvidersByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiProviders200Response {
-        return try await patchAiProvidersByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func patchAiProvidersByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiProvidersByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -5406,13 +6880,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiProviders200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func patchAiProvidersByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiProviders200Response> {
+    open class func patchAiProvidersByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/providers/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -5421,17 +6894,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiProviders200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -5439,15 +6912,14 @@ open class AiAPI {
     /**
      Update a record
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiRecords200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func patchAiRecordsByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiRecords200Response {
-        return try await patchAiRecordsByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func patchAiRecordsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiRecordsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -5457,13 +6929,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiRecords200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func patchAiRecordsByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiRecords200Response> {
+    open class func patchAiRecordsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/records/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -5472,17 +6943,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiRecords200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -5490,15 +6961,14 @@ open class AiAPI {
     /**
      Update a connection
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiRemoteConnections200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func patchAiRemoteConnectionsByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiRemoteConnections200Response {
-        return try await patchAiRemoteConnectionsByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func patchAiRemoteConnectionsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiRemoteConnectionsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -5508,13 +6978,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiRemoteConnections200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func patchAiRemoteConnectionsByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiRemoteConnections200Response> {
+    open class func patchAiRemoteConnectionsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/remote-connections/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -5523,17 +6992,212 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiRemoteConnections200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func patchAiRouterArtifactMeta(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiRouterArtifactMetaWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - PATCH /v1/ai/router/artifact-meta
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func patchAiRouterArtifactMetaWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/router/artifact-meta"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func patchAiRouterDefaults(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiRouterDefaultsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - PATCH /v1/ai/router/defaults
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func patchAiRouterDefaultsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/router/defaults"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func patchAiRouterLedger(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiRouterLedgerWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - PATCH /v1/ai/router/ledger
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func patchAiRouterLedgerWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/router/ledger"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func patchAiRouterPolicy(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiRouterPolicyWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - PATCH /v1/ai/router/policy
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func patchAiRouterPolicyWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/router/policy"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func patchAiRouterRewards(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiRouterRewardsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - PATCH /v1/ai/router/rewards
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func patchAiRouterRewardsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/router/rewards"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -5541,15 +7205,14 @@ open class AiAPI {
     /**
      Update a model-route
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiRoutes200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func patchAiRoutesByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiRoutes200Response {
-        return try await patchAiRoutesByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func patchAiRoutesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiRoutesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -5559,13 +7222,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiRoutes200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func patchAiRoutesByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiRoutes200Response> {
+    open class func patchAiRoutesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/routes/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -5574,17 +7236,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiRoutes200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -5592,15 +7254,14 @@ open class AiAPI {
     /**
      Update a scale
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiScales200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func patchAiScalesByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiScales200Response {
-        return try await patchAiScalesByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func patchAiScalesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiScalesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -5610,13 +7271,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiScales200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func patchAiScalesByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiScales200Response> {
+    open class func patchAiScalesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/scales/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -5625,17 +7285,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiScales200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -5643,15 +7303,14 @@ open class AiAPI {
     /**
      Update a scan
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiScans200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func patchAiScansByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiScans200Response {
-        return try await patchAiScansByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func patchAiScansByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiScansByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -5661,13 +7320,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiScans200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func patchAiScansByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiScans200Response> {
+    open class func patchAiScansByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/scans/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -5676,17 +7334,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiScans200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -5694,15 +7352,14 @@ open class AiAPI {
     /**
      Update a session
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiSigninSessions200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func patchAiSigninSessionsByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiSigninSessions200Response {
-        return try await patchAiSigninSessionsByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func patchAiSigninSessionsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiSigninSessionsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -5712,13 +7369,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiSigninSessions200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func patchAiSigninSessionsByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiSigninSessions200Response> {
+    open class func patchAiSigninSessionsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/signin-sessions/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -5727,17 +7383,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiSigninSessions200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -5745,15 +7401,14 @@ open class AiAPI {
     /**
      Update a store
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiStores200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func patchAiStoresByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiStores200Response {
-        return try await patchAiStoresByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func patchAiStoresByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiStoresByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -5763,13 +7418,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiStores200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func patchAiStoresByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiStores200Response> {
+    open class func patchAiStoresByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/stores/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -5778,17 +7432,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiStores200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -5796,15 +7450,14 @@ open class AiAPI {
     /**
      Update a task
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiTasks200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func patchAiTasksByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiTasks200Response {
-        return try await patchAiTasksByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func patchAiTasksByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiTasksByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -5814,13 +7467,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiTasks200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func patchAiTasksByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiTasks200Response> {
+    open class func patchAiTasksByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/tasks/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -5829,17 +7481,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiTasks200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -5847,15 +7499,14 @@ open class AiAPI {
     /**
      Update a template
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiTemplates200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func patchAiTemplatesByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiTemplates200Response {
-        return try await patchAiTemplatesByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func patchAiTemplatesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiTemplatesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -5865,13 +7516,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiTemplates200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func patchAiTemplatesByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiTemplates200Response> {
+    open class func patchAiTemplatesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/templates/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -5880,17 +7530,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiTemplates200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -5898,13 +7548,12 @@ open class AiAPI {
     /**
      Training Contribution
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func patchAiTrainingContribution(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
-        return try await patchAiTrainingContributionWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func patchAiTrainingContribution(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiTrainingContributionWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -5913,24 +7562,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func patchAiTrainingContributionWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func patchAiTrainingContributionWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/training-contribution"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -5938,15 +7586,14 @@ open class AiAPI {
     /**
      Update a tree-file
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiTreeFiles200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func patchAiTreeFilesByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiTreeFiles200Response {
-        return try await patchAiTreeFilesByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func patchAiTreeFilesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiTreeFilesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -5956,13 +7603,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiTreeFiles200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func patchAiTreeFilesByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiTreeFiles200Response> {
+    open class func patchAiTreeFilesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/tree-files/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -5971,17 +7617,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiTreeFiles200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -5989,15 +7635,14 @@ open class AiAPI {
     /**
      Update a vector
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiVectors200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func patchAiVectorsByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiVectors200Response {
-        return try await patchAiVectorsByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func patchAiVectorsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiVectorsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -6007,13 +7652,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiVectors200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func patchAiVectorsByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiVectors200Response> {
+    open class func patchAiVectorsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/vectors/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -6022,17 +7666,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiVectors200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -6040,15 +7684,14 @@ open class AiAPI {
     /**
      Update a video
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiVideos200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func patchAiVideosByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiVideos200Response {
-        return try await patchAiVideosByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func patchAiVideosByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiVideosByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -6058,13 +7701,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiVideos200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func patchAiVideosByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiVideos200Response> {
+    open class func patchAiVideosByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/videos/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -6073,17 +7715,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiVideos200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -6091,15 +7733,14 @@ open class AiAPI {
     /**
      Update a workflow
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiWorkflows200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func patchAiWorkflowsByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiWorkflows200Response {
-        return try await patchAiWorkflowsByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func patchAiWorkflowsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await patchAiWorkflowsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -6109,13 +7750,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiWorkflows200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func patchAiWorkflowsByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiWorkflows200Response> {
+    open class func patchAiWorkflowsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/workflows/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -6124,17 +7764,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiWorkflows200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -6142,13 +7782,12 @@ open class AiAPI {
     /**
      Create a article
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiArticles200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiArticles(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiArticles200Response {
-        return try await postAiArticlesWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiArticles(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiArticlesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -6158,24 +7797,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiArticles200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiArticlesWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiArticles200Response> {
+    open class func postAiArticlesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/articles"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiArticles200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -6183,13 +7821,12 @@ open class AiAPI {
     /**
      Create a asset
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiAssets200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiAssets(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiAssets200Response {
-        return try await postAiAssetsWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiAssets(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiAssetsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -6199,24 +7836,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiAssets200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiAssetsWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiAssets200Response> {
+    open class func postAiAssetsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/assets"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiAssets200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -6224,15 +7860,14 @@ open class AiAPI {
     /**
      Scan (asset)
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiAssetsByOwnerByNameScan(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
-        return try await postAiAssetsByOwnerByNameScanWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiAssetsByOwnerByNameScan(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiAssetsByOwnerByNameScanWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -6241,13 +7876,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiAssetsByOwnerByNameScanWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func postAiAssetsByOwnerByNameScanWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/assets/{owner}/{name}/scan"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -6256,17 +7890,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -6274,13 +7908,12 @@ open class AiAPI {
     /**
      Scan (asset)
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiAssetsScan(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
-        return try await postAiAssetsScanWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiAssetsScan(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiAssetsScanWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -6289,24 +7922,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiAssetsScanWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func postAiAssetsScanWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/assets/scan"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -6314,13 +7946,12 @@ open class AiAPI {
     /**
      Create a chat
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiChats200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiChats(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiChats200Response {
-        return try await postAiChatsWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiChats(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiChatsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -6330,24 +7961,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiChats200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiChatsWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiChats200Response> {
+    open class func postAiChatsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/chats"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiChats200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -6438,13 +8068,12 @@ open class AiAPI {
     /**
      Create a application
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiDeployments200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiDeployments(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiDeployments200Response {
-        return try await postAiDeploymentsWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiDeployments(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiDeploymentsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -6454,24 +8083,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiDeployments200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiDeploymentsWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiDeployments200Response> {
+    open class func postAiDeploymentsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/deployments"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiDeployments200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -6479,15 +8107,14 @@ open class AiAPI {
     /**
      Deploy (application)
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiDeploymentsByOwnerByNameDeploy(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
-        return try await postAiDeploymentsByOwnerByNameDeployWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiDeploymentsByOwnerByNameDeploy(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiDeploymentsByOwnerByNameDeployWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -6496,13 +8123,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiDeploymentsByOwnerByNameDeployWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func postAiDeploymentsByOwnerByNameDeployWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/deployments/{owner}/{name}/deploy"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -6511,17 +8137,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -6529,15 +8155,14 @@ open class AiAPI {
     /**
      Undeploy (application)
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiDeploymentsByOwnerByNameUndeploy(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
-        return try await postAiDeploymentsByOwnerByNameUndeployWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiDeploymentsByOwnerByNameUndeploy(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiDeploymentsByOwnerByNameUndeployWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -6546,13 +8171,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiDeploymentsByOwnerByNameUndeployWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func postAiDeploymentsByOwnerByNameUndeployWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/deployments/{owner}/{name}/undeploy"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -6561,17 +8185,56 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Attaches a per-request outcome reward to the routing decision that served request_id — the enso training loop's quality signal.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAiFeedback(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiFeedbackWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Attaches a per-request outcome reward to the routing decision that served request_id — the enso training loop's quality signal.
+     - POST /v1/ai/feedback
+     - Attaches a per-request outcome reward to the routing decision that served request_id — the enso training loop's quality signal. Org-scoped via the same session-OR-Bearer principal the usage read uses (RequirePrincipal): the reward lands only on the caller's OWN org's event, so a request_id from another org (or unknown) is a 404 — cross-org writes are impossible and unknown ids are indistinguishable from foreign ones. Idempotent: a repeat overwrites. The body carries NO prompt text — only {request_id, reward|rating}.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAiFeedbackWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/feedback"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -6579,13 +8242,12 @@ open class AiAPI {
     /**
      Create a file
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiFiles200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiFiles(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiFiles200Response {
-        return try await postAiFilesWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiFiles(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiFilesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -6595,24 +8257,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiFiles200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiFilesWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiFiles200Response> {
+    open class func postAiFilesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/files"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiFiles200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -6620,13 +8281,12 @@ open class AiAPI {
     /**
      Activate (file)
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiFilesActivate(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
-        return try await postAiFilesActivateWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiFilesActivate(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiFilesActivateWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -6635,24 +8295,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiFilesActivateWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func postAiFilesActivateWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/files/activate"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -6660,15 +8319,14 @@ open class AiAPI {
     /**
      Vectors (file)
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiFilesByOwnerByNameVectors(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
-        return try await postAiFilesByOwnerByNameVectorsWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiFilesByOwnerByNameVectors(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiFilesByOwnerByNameVectorsWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -6677,13 +8335,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiFilesByOwnerByNameVectorsWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func postAiFilesByOwnerByNameVectorsWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/files/{owner}/{name}/vectors"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -6692,17 +8349,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -6710,13 +8367,12 @@ open class AiAPI {
     /**
      Upload (file)
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiFilesUpload(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
-        return try await postAiFilesUploadWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiFilesUpload(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiFilesUploadWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -6725,24 +8381,140 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiFilesUploadWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func postAiFilesUploadWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/files/upload"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Deletes the TrainJob CR, meters the GPU-hours used so far, and marks the job cancelled.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAiFinetuneCancel(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiFinetuneCancelWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Deletes the TrainJob CR, meters the GPU-hours used so far, and marks the job cancelled.
+     - POST /v1/ai/finetune/cancel
+     - Deletes the TrainJob CR, meters the GPU-hours used so far, and marks the job cancelled. ?id= or ?name=
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAiFinetuneCancelWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/finetune/cancel"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Serves a completed job's checkpoints and registers the result as a routable model on api.hanzo.ai.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAiFinetuneDeploy(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiFinetuneDeployWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Serves a completed job's checkpoints and registers the result as a routable model on api.hanzo.ai.
+     - POST /v1/ai/finetune/deploy
+     - Serves a completed job's checkpoints and registers the result as a routable model on api.hanzo.ai. ?id= or ?name=
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAiFinetuneDeployWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/finetune/deploy"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Validates the request, resolves efficient defaults, persists the job, and submits a real TrainJob CR.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAiFinetuneJobs(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiFinetuneJobsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Validates the request, resolves efficient defaults, persists the job, and submits a real TrainJob CR.
+     - POST /v1/ai/finetune/jobs
+     - Validates the request, resolves efficient defaults, persists the job, and submits a real TrainJob CR. A submit failure (e.g. no cluster wired) is surfaced honestly: the job is saved with status \"failed\" + the reason, never faked.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAiFinetuneJobsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/finetune/jobs"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -6750,13 +8522,12 @@ open class AiAPI {
     /**
      Create a form
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiForms200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiForms(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiForms200Response {
-        return try await postAiFormsWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiForms(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiFormsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -6766,24 +8537,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiForms200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiFormsWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiForms200Response> {
+    open class func postAiFormsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/forms"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiForms200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -6791,13 +8561,12 @@ open class AiAPI {
     /**
      Create a graph
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiGraphs200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiGraphs(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiGraphs200Response {
-        return try await postAiGraphsWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiGraphs(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiGraphsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -6807,24 +8576,140 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiGraphs200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiGraphsWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiGraphs200Response> {
+    open class func postAiGraphsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/graphs"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiGraphs200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Delete one of the authenticated user's memories
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAiMemoryDelete(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiMemoryDeleteWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Delete one of the authenticated user's memories
+     - POST /v1/ai/memory/delete
+     - Delete one of the authenticated user's memories
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAiMemoryDeleteWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/memory/delete"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Store a memory for the authenticated user
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAiMemoryRemember(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiMemoryRememberWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Store a memory for the authenticated user
+     - POST /v1/ai/memory/remember
+     - Store a memory for the authenticated user
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAiMemoryRememberWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/memory/remember"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Update one of the authenticated user's memories
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAiMemoryUpdate(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiMemoryUpdateWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Update one of the authenticated user's memories
+     - POST /v1/ai/memory/update
+     - Update one of the authenticated user's memories
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAiMemoryUpdateWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/memory/update"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -6832,13 +8717,12 @@ open class AiAPI {
     /**
      Create a message
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiMessages200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiMessages(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiMessages200Response {
-        return try await postAiMessagesWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiMessages(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiMessagesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -6848,24 +8732,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiMessages200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiMessagesWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiMessages200Response> {
+    open class func postAiMessagesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/messages"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiMessages200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -6873,13 +8756,12 @@ open class AiAPI {
     /**
      Create a node
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiNodes200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiNodes(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiNodes200Response {
-        return try await postAiNodesWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiNodes(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiNodesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -6889,24 +8771,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiNodes200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiNodesWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiNodes200Response> {
+    open class func postAiNodesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/nodes"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiNodes200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -6914,15 +8795,14 @@ open class AiAPI {
     /**
      Tunnel (node)
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiNodesByOwnerByNameTunnel(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
-        return try await postAiNodesByOwnerByNameTunnelWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiNodesByOwnerByNameTunnel(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiNodesByOwnerByNameTunnelWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -6931,13 +8811,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiNodesByOwnerByNameTunnelWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func postAiNodesByOwnerByNameTunnelWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/nodes/{owner}/{name}/tunnel"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -6946,17 +8825,95 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAiOrgSettings(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiOrgSettingsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - POST /v1/ai/org/settings
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAiOrgSettingsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/org/settings"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAiOrgSettingsList(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiOrgSettingsListWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - POST /v1/ai/org/settings/list
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAiOrgSettingsListWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/org/settings/list"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -6964,13 +8921,12 @@ open class AiAPI {
     /**
      Create a provider
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiProviders200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiProviders(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiProviders200Response {
-        return try await postAiProvidersWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiProviders(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiProvidersWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -6980,24 +8936,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiProviders200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiProvidersWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiProviders200Response> {
+    open class func postAiProvidersWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/providers"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiProviders200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -7005,13 +8960,12 @@ open class AiAPI {
     /**
      Mcp Tools (provider)
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiProvidersMcpTools(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
-        return try await postAiProvidersMcpToolsWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiProvidersMcpTools(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiProvidersMcpToolsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -7020,24 +8974,218 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiProvidersMcpToolsWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func postAiProvidersMcpToolsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/providers/mcp-tools"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Delete all chunks of one or more uploaded files (by file_id) from the owner's Search+Vector index.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAiRagDelete(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiRagDeleteWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Delete all chunks of one or more uploaded files (by file_id) from the owner's Search+Vector index.
+     - POST /v1/ai/rag/delete
+     - Delete all chunks of one or more uploaded files (by file_id) from the owner's Search+Vector index. Consolidates the retired chat-rag-api DELETE /documents.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAiRagDeleteWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/rag/delete"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Parse, chunk, and embed one uploaded file under its file_id into the unified Search+Vector index, scoped to the authenticated owner.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAiRagEmbed(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiRagEmbedWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Parse, chunk, and embed one uploaded file under its file_id into the unified Search+Vector index, scoped to the authenticated owner.
+     - POST /v1/ai/rag/embed
+     - Parse, chunk, and embed one uploaded file under its file_id into the unified Search+Vector index, scoped to the authenticated owner. Provide inline `content` or a `url` to fetch+parse (PDF/CSV/XLSX/PPTX/…). Re-embedding the same file_id replaces its chunks. Consolidates the retired chat-rag-api POST /embed and /local/embed.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAiRagEmbedWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/rag/embed"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Unified RAG ingest: parse + chunk + embed documents and pipe them to BOTH Hanzo Vector (semantic) AND Hanzo Search (keyword) under the tenant index {owner}-{store}-docs — the same index /v1/chat retrieval reads.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAiRagIngest(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiRagIngestWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Unified RAG ingest: parse + chunk + embed documents and pipe them to BOTH Hanzo Vector (semantic) AND Hanzo Search (keyword) under the tenant index {owner}-{store}-docs — the same index /v1/chat retrieval reads.
+     - POST /v1/ai/rag/ingest
+     - Unified RAG ingest: parse + chunk + embed documents and pipe them to BOTH Hanzo Vector (semantic) AND Hanzo Search (keyword) under the tenant index {owner}-{store}-docs — the same index /v1/chat retrieval reads. The source is pluggable: \"upload\" (inline files/documents), \"github\" (index a repo), \"crawl\" (web), or \"s3\" (the store's object-storage space). The owner is bound to the authenticated principal; the client-supplied owner is never trusted.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAiRagIngestWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/rag/ingest"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Retrieve the top-K chunks relevant to a query, scoped to a single uploaded file (`file_id`).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAiRagQuery(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiRagQueryWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Retrieve the top-K chunks relevant to a query, scoped to a single uploaded file (`file_id`).
+     - POST /v1/ai/rag/query
+     - Retrieve the top-K chunks relevant to a query, scoped to a single uploaded file (`file_id`). Hybrid keyword+vector retrieval over the same index. Consolidates the retired chat-rag-api POST /query.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAiRagQueryWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/rag/query"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Retrieve the top-K chunks relevant to a query, scoped to a SET of uploaded files (`file_ids`).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAiRagQueryMultiple(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiRagQueryMultipleWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Retrieve the top-K chunks relevant to a query, scoped to a SET of uploaded files (`file_ids`).
+     - POST /v1/ai/rag/query-multiple
+     - Retrieve the top-K chunks relevant to a query, scoped to a SET of uploaded files (`file_ids`). Consolidates the retired chat-rag-api POST /query_multiple. Shares one retrieval path with /rag/query.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAiRagQueryMultipleWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/rag/query-multiple"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -7045,13 +9193,12 @@ open class AiAPI {
     /**
      Create a record
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiRecords200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiRecords(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiRecords200Response {
-        return try await postAiRecordsWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiRecords(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiRecordsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -7061,24 +9208,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiRecords200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiRecordsWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiRecords200Response> {
+    open class func postAiRecordsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/records"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiRecords200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -7086,13 +9232,12 @@ open class AiAPI {
     /**
      Batch (record)
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiRecordsBatch(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
-        return try await postAiRecordsBatchWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiRecordsBatch(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiRecordsBatchWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -7101,24 +9246,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiRecordsBatchWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func postAiRecordsBatchWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/records/batch"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -7126,13 +9270,12 @@ open class AiAPI {
     /**
      Commit (record)
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiRecordsCommit(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
-        return try await postAiRecordsCommitWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiRecordsCommit(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiRecordsCommitWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -7141,24 +9284,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiRecordsCommitWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func postAiRecordsCommitWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/records/commit"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -7166,13 +9308,12 @@ open class AiAPI {
     /**
      Commit Second (record)
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiRecordsCommitSecond(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
-        return try await postAiRecordsCommitSecondWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiRecordsCommitSecond(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiRecordsCommitSecondWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -7181,24 +9322,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiRecordsCommitSecondWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func postAiRecordsCommitSecondWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/records/commit-second"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -7206,13 +9346,12 @@ open class AiAPI {
     /**
      Create a connection
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiRemoteConnections200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiRemoteConnections(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiRemoteConnections200Response {
-        return try await postAiRemoteConnectionsWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiRemoteConnections(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiRemoteConnectionsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -7222,24 +9361,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiRemoteConnections200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiRemoteConnectionsWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiRemoteConnections200Response> {
+    open class func postAiRemoteConnectionsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/remote-connections"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiRemoteConnections200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -7247,15 +9385,14 @@ open class AiAPI {
     /**
      Start (connection)
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiRemoteConnectionsByOwnerByNameStart(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
-        return try await postAiRemoteConnectionsByOwnerByNameStartWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiRemoteConnectionsByOwnerByNameStart(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiRemoteConnectionsByOwnerByNameStartWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -7264,13 +9401,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiRemoteConnectionsByOwnerByNameStartWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func postAiRemoteConnectionsByOwnerByNameStartWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/remote-connections/{owner}/{name}/start"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -7279,17 +9415,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -7297,15 +9433,14 @@ open class AiAPI {
     /**
      Stop (connection)
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiRemoteConnectionsByOwnerByNameStop(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
-        return try await postAiRemoteConnectionsByOwnerByNameStopWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiRemoteConnectionsByOwnerByNameStop(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiRemoteConnectionsByOwnerByNameStopWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -7314,13 +9449,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiRemoteConnectionsByOwnerByNameStopWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func postAiRemoteConnectionsByOwnerByNameStopWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/remote-connections/{owner}/{name}/stop"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -7329,17 +9463,212 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAiRouterArtifactMeta(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiRouterArtifactMetaWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - POST /v1/ai/router/artifact-meta
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAiRouterArtifactMetaWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/router/artifact-meta"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAiRouterDefaults(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiRouterDefaultsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - POST /v1/ai/router/defaults
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAiRouterDefaultsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/router/defaults"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAiRouterLedger(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiRouterLedgerWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - POST /v1/ai/router/ledger
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAiRouterLedgerWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/router/ledger"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAiRouterPolicy(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiRouterPolicyWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - POST /v1/ai/router/policy
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAiRouterPolicyWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/router/policy"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAiRouterRewards(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiRouterRewardsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - POST /v1/ai/router/rewards
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAiRouterRewardsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/router/rewards"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -7347,13 +9676,12 @@ open class AiAPI {
     /**
      Create a model-route
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiRoutes200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiRoutes(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiRoutes200Response {
-        return try await postAiRoutesWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiRoutes(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiRoutesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -7363,24 +9691,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiRoutes200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiRoutesWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiRoutes200Response> {
+    open class func postAiRoutesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/routes"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiRoutes200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -7388,13 +9715,12 @@ open class AiAPI {
     /**
      Create a scale
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiScales200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiScales(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiScales200Response {
-        return try await postAiScalesWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiScales(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiScalesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -7404,24 +9730,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiScales200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiScalesWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiScales200Response> {
+    open class func postAiScalesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/scales"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiScales200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -7429,13 +9754,12 @@ open class AiAPI {
     /**
      Create a scan
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiScans200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiScans(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiScans200Response {
-        return try await postAiScansWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiScans(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiScansWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -7445,24 +9769,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiScans200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiScansWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiScans200Response> {
+    open class func postAiScansWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/scans"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiScans200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -7470,13 +9793,12 @@ open class AiAPI {
     /**
      Signin
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiSignin(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
-        return try await postAiSigninWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiSignin(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiSigninWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -7485,24 +9807,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiSigninWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func postAiSigninWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/signin"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -7510,13 +9831,12 @@ open class AiAPI {
     /**
      Create a session
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiSigninSessions200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiSigninSessions(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiSigninSessions200Response {
-        return try await postAiSigninSessionsWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiSigninSessions(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiSigninSessionsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -7526,24 +9846,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiSigninSessions200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiSigninSessionsWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiSigninSessions200Response> {
+    open class func postAiSigninSessionsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/signin-sessions"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiSigninSessions200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -7551,13 +9870,12 @@ open class AiAPI {
     /**
      Signout
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiSignout(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
-        return try await postAiSignoutWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiSignout(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiSignoutWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -7566,24 +9884,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiSignoutWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func postAiSignoutWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/signout"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -7591,13 +9908,12 @@ open class AiAPI {
     /**
      Create a store
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiStores200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiStores(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiStores200Response {
-        return try await postAiStoresWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiStores(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiStoresWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -7607,24 +9923,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiStores200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiStoresWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiStores200Response> {
+    open class func postAiStoresWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/stores"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiStores200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -7632,15 +9947,14 @@ open class AiAPI {
     /**
      Vectors (store)
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiStoresByOwnerByNameVectors(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
-        return try await postAiStoresByOwnerByNameVectorsWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiStoresByOwnerByNameVectors(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiStoresByOwnerByNameVectorsWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -7649,13 +9963,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiStoresByOwnerByNameVectorsWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func postAiStoresByOwnerByNameVectorsWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/stores/{owner}/{name}/vectors"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -7664,17 +9977,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -7682,13 +9995,12 @@ open class AiAPI {
     /**
      Create a task
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiTasks200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiTasks(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiTasks200Response {
-        return try await postAiTasksWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiTasks(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiTasksWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -7698,24 +10010,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiTasks200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiTasksWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiTasks200Response> {
+    open class func postAiTasksWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/tasks"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiTasks200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -7723,15 +10034,14 @@ open class AiAPI {
     /**
      Analyze (task)
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiTasksByOwnerByNameAnalyze(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
-        return try await postAiTasksByOwnerByNameAnalyzeWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiTasksByOwnerByNameAnalyze(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiTasksByOwnerByNameAnalyzeWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -7740,13 +10050,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiTasksByOwnerByNameAnalyzeWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func postAiTasksByOwnerByNameAnalyzeWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/tasks/{owner}/{name}/analyze"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -7755,17 +10064,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -7773,15 +10082,14 @@ open class AiAPI {
     /**
      Document (task)
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiTasksByOwnerByNameDocument(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
-        return try await postAiTasksByOwnerByNameDocumentWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiTasksByOwnerByNameDocument(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiTasksByOwnerByNameDocumentWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -7790,13 +10098,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiTasksByOwnerByNameDocumentWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func postAiTasksByOwnerByNameDocumentWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/tasks/{owner}/{name}/document"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -7805,17 +10112,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -7823,13 +10130,12 @@ open class AiAPI {
     /**
      Create a template
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiTemplates200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiTemplates(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiTemplates200Response {
-        return try await postAiTemplatesWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiTemplates(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiTemplatesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -7839,24 +10145,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiTemplates200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiTemplatesWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiTemplates200Response> {
+    open class func postAiTemplatesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/templates"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiTemplates200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -7864,13 +10169,12 @@ open class AiAPI {
     /**
      Create a tree-file
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiTreeFiles200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiTreeFiles(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiTreeFiles200Response {
-        return try await postAiTreeFilesWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiTreeFiles(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiTreeFilesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -7880,24 +10184,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiTreeFiles200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiTreeFilesWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiTreeFiles200Response> {
+    open class func postAiTreeFilesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/tree-files"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiTreeFiles200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -7905,13 +10208,12 @@ open class AiAPI {
     /**
      Create a vector
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiVectors200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiVectors(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiVectors200Response {
-        return try await postAiVectorsWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiVectors(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiVectorsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -7921,24 +10223,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiVectors200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiVectorsWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiVectors200Response> {
+    open class func postAiVectorsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/vectors"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiVectors200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -7946,13 +10247,12 @@ open class AiAPI {
     /**
      Create a video
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiVideos200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiVideos(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiVideos200Response {
-        return try await postAiVideosWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiVideos(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiVideosWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -7962,24 +10262,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiVideos200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiVideosWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiVideos200Response> {
+    open class func postAiVideosWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/videos"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiVideos200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -7987,13 +10286,12 @@ open class AiAPI {
     /**
      Upload (video)
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiVideosUpload(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
-        return try await postAiVideosUploadWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiVideosUpload(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiVideosUploadWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -8002,24 +10300,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiVideosUploadWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func postAiVideosUploadWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/videos/upload"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -8027,13 +10324,12 @@ open class AiAPI {
     /**
      Create a workflow
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiWorkflows200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAiWorkflows(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiWorkflows200Response {
-        return try await postAiWorkflowsWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func postAiWorkflows(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAiWorkflowsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -8043,24 +10339,691 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiWorkflows200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func postAiWorkflowsWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiWorkflows200Response> {
+    open class func postAiWorkflowsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/workflows"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiWorkflows200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Serves the generative audio verbs — /v1/audio/voice (TTS), /music, /foley — that the Zen family serves natively.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAudioFoley(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAudioFoleyWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Serves the generative audio verbs — /v1/audio/voice (TTS), /music, /foley — that the Zen family serves natively.
+     - POST /v1/audio/foley
+     - Serves the generative audio verbs — /v1/audio/voice (TTS), /music, /foley — that the Zen family serves natively. It resolves the SKU and, for a Zen model, forwards to zen's matching verb billed per call at the discovered price. These verbs are Zen-native; a non-Zen model is rejected.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAudioFoleyWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/audio/foley"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Serves the generative audio verbs — /v1/audio/voice (TTS), /music, /foley — that the Zen family serves natively.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAudioMusic(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAudioMusicWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Serves the generative audio verbs — /v1/audio/voice (TTS), /music, /foley — that the Zen family serves natively.
+     - POST /v1/audio/music
+     - Serves the generative audio verbs — /v1/audio/voice (TTS), /music, /foley — that the Zen family serves natively. It resolves the SKU and, for a Zen model, forwards to zen's matching verb billed per call at the discovered price. These verbs are Zen-native; a non-Zen model is rejected.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAudioMusicWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/audio/music"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The OpenAI-compatible TTS endpoint (POST /v1/audio/speech).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAudioSpeech(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAudioSpeechWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The OpenAI-compatible TTS endpoint (POST /v1/audio/speech).
+     - POST /v1/audio/speech
+     - The OpenAI-compatible TTS endpoint (POST /v1/audio/speech). It authenticates the caller, resolves `model` to its TTS provider (the SAME model-route resolution the chat/images/video endpoints use — so a BYO node registered as a TTS provider works transparently), synthesizes the audio, and streams the bytes back. This is the ONE way to synthesize speech: OpenAI-shaped, with no store or message coupling, so a caller needs no chat to speak.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAudioSpeechWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/audio/speech"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The OpenAI-compatible STT endpoint (POST /v1/audio/transcriptions, multipart: file + model [+ language + response_format]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAudioTranscriptions(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAudioTranscriptionsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The OpenAI-compatible STT endpoint (POST /v1/audio/transcriptions, multipart: file + model [+ language + response_format]).
+     - POST /v1/audio/transcriptions
+     - The OpenAI-compatible STT endpoint (POST /v1/audio/transcriptions, multipart: file + model [+ language + response_format]). It mirrors AudioSpeech exactly: authenticate the caller, resolve `model` to its STT provider through the SAME model-route resolution (so the in-cluster speech service — or any BYO node registered as an STT provider — works transparently), transcribe, and return the OpenAI body. This is the ONE way to transcribe: OpenAI-shaped, with no store coupling, so a caller needs no chat to be heard.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAudioTranscriptionsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/audio/transcriptions"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Serves the generative audio verbs — /v1/audio/voice (TTS), /music, /foley — that the Zen family serves natively.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAudioVoice(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAudioVoiceWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Serves the generative audio verbs — /v1/audio/voice (TTS), /music, /foley — that the Zen family serves natively.
+     - POST /v1/audio/voice
+     - Serves the generative audio verbs — /v1/audio/voice (TTS), /music, /foley — that the Zen family serves natively. It resolves the SKU and, for a Zen model, forwards to zen's matching verb billed per call at the discovered price. These verbs are Zen-native; a non-Zen model is rejected.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAudioVoiceWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/audio/voice"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Implements the OpenAI-compatible chat completions API
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postChat(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postChatWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Implements the OpenAI-compatible chat completions API
+     - POST /v1/chat
+     - Implements the OpenAI-compatible chat completions API
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postChatWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/chat"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Implements the OpenAI-compatible chat completions API
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postChatCompletions(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postChatCompletionsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Implements the OpenAI-compatible chat completions API
+     - POST /v1/chat/completions
+     - Implements the OpenAI-compatible chat completions API
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postChatCompletionsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/chat/completions"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Serves one completion to a caller with no account.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postChatPublic(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postChatPublicWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Serves one completion to a caller with no account.
+     - POST /v1/chat/public
+     - Serves one completion to a caller with no account.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postChatPublicWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/chat/public"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Implements the OpenAI-compatible chat completions API
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postCompletions(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postCompletionsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Implements the OpenAI-compatible chat completions API
+     - POST /v1/completions
+     - Implements the OpenAI-compatible chat completions API
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postCompletionsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/completions"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Implements POST /v1/embeddings (OpenAI-compatible).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postEmbeddings(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postEmbeddingsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Implements POST /v1/embeddings (OpenAI-compatible).
+     - POST /v1/embeddings
+     - Implements POST /v1/embeddings (OpenAI-compatible).  Body: {\"model\": \"...\", \"input\": \"...\"|[\"...\", ...], \"encoding_format\"?, \"dimensions\"?} It authenticates the caller, resolves the model to its upstream provider via the shared routing table, rewrites the user-facing model name to the upstream id, and proxies the request to the provider's /embeddings endpoint verbatim.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postEmbeddingsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/embeddings"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Implements POST /v1/images/generations (OpenAI-compatible).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postImagesGenerations(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postImagesGenerationsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Implements POST /v1/images/generations (OpenAI-compatible).
+     - POST /v1/images/generations
+     - Implements POST /v1/images/generations (OpenAI-compatible).  Body: {\"model\": \"...\", \"prompt\": \"...\", \"n\"?: int, \"size\"?: \"1024x1024\",   \"response_format\"?: \"url\"|\"b64_json\"}  It authenticates the caller, resolves the model to its upstream provider via the shared routing table (zen3-image* → do-ai fal diffusion), reserves the per-image budget, generates the image(s) through the do-ai async image client, records usage for billing, and returns the OpenAI images response.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postImagesGenerationsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/images/generations"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Implements the Anthropic Messages API.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postMessages(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postMessagesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Implements the Anthropic Messages API.
+     - POST /v1/messages
+     - Implements the Anthropic Messages API.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postMessagesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/messages"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Implements POST /v1/messages/count_tokens.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postMessagesCountTokens(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postMessagesCountTokensWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Implements POST /v1/messages/count_tokens.
+     - POST /v1/messages/count_tokens
+     - Implements POST /v1/messages/count_tokens. Claude Code calls it before a request; it returns {\"input_tokens\": N} for the given model + messages + tools.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postMessagesCountTokensWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/messages/count_tokens"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Records the caller's waitlist request for a gated model and answers their new standing.
+     
+     - parameter model: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postModelsByModelAccess(model: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postModelsByModelAccessWithRequestBuilder(model: model, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Records the caller's waitlist request for a gated model and answers their new standing.
+     - POST /v1/models/{model}/access
+     - Records the caller's waitlist request for a gated model and answers their new standing. Authed, idempotent, and self-scoped: the row is keyed to the caller's own org and identity, never to a body-supplied owner.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter model: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postModelsByModelAccessWithRequestBuilder(model: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/models/{model}/access"
+        let modelPreEscape = "\(APIHelper.mapValueToPathItem(model))"
+        let modelPostEscape = modelPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{model}", with: modelPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Implements POST /v1/rerank (Cohere/Jina-compatible).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postRerank(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postRerankWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Implements POST /v1/rerank (Cohere/Jina-compatible).
+     - POST /v1/rerank
+     - Implements POST /v1/rerank (Cohere/Jina-compatible).  Body: {\"model\": \"...\", \"query\": \"...\", \"documents\": [\"...\", ...]|[{\"text\":\"...\"}],   \"top_n\"?: int, \"return_documents\"?: bool}  Response: {\"object\":\"list\",\"model\":...,\"results\":[{\"index\",\"relevance_score\",\"document\"?}],\"usage\":{...}}  Backend selection is provider-driven (one endpoint, one contract):   - If the model routes to a native rerank provider (Jina/Cohere/Voyage) the     request is proxied to that provider's /rerank endpoint.   - Otherwise scores are computed as a real bi-encoder ranking: embed the     query and documents through the resolved embedding model and rank by     cosine similarity. No rerank-specific key required.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postRerankWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/rerank"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Implements POST /v1/responses.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postResponses(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postResponsesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Implements POST /v1/responses.
+     - POST /v1/responses
+     - Implements POST /v1/responses. The converted request is completed by the chat path, which is handed a sink saying where the answer goes: a stream is translated as it is produced, a whole body is translated entire.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postResponsesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/responses"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Implements POST /v1/videos/generations — the ASYNC create.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postVideosGenerations(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postVideosGenerationsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Implements POST /v1/videos/generations — the ASYNC create.
+     - POST /v1/videos/generations
+     - Implements POST /v1/videos/generations — the ASYNC create.  Body: {\"model\": \"...\", \"prompt\": \"...\", \"size\"?: \"1280x720\", \"seconds\"?: int}  It authenticates the caller, resolves the model to its upstream provider via the shared routing table (zen3-video* / wan2-2-t2v-a14b → the spark-video backend), reserves the per-video budget (the balance gate), creates ONE upstream job, registers it in the in-pod store, and returns the OpenAI-shaped video object with status \"queued\" IMMEDIATELY. The client then polls GET /v1/videos/{id} and downloads GET /v1/videos/{id}/content. Nothing is billed here — the debit lands on completion.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postVideosGenerationsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/videos/generations"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -8068,15 +11031,14 @@ open class AiAPI {
     /**
      Replace a article
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiArticles200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putAiArticlesByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiArticles200Response {
-        return try await putAiArticlesByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func putAiArticlesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiArticlesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -8086,13 +11048,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiArticles200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func putAiArticlesByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiArticles200Response> {
+    open class func putAiArticlesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/articles/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -8101,17 +11062,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiArticles200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -8119,15 +11080,14 @@ open class AiAPI {
     /**
      Replace a asset
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiAssets200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putAiAssetsByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiAssets200Response {
-        return try await putAiAssetsByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func putAiAssetsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiAssetsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -8137,13 +11097,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiAssets200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func putAiAssetsByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiAssets200Response> {
+    open class func putAiAssetsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/assets/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -8152,17 +11111,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiAssets200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -8170,15 +11129,14 @@ open class AiAPI {
     /**
      Replace a chat
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiChats200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putAiChatsByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiChats200Response {
-        return try await putAiChatsByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func putAiChatsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiChatsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -8188,13 +11146,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiChats200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func putAiChatsByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiChats200Response> {
+    open class func putAiChatsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/chats/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -8203,17 +11160,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiChats200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -8221,15 +11178,14 @@ open class AiAPI {
     /**
      Replace a application
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiDeployments200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putAiDeploymentsByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiDeployments200Response {
-        return try await putAiDeploymentsByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func putAiDeploymentsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiDeploymentsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -8239,13 +11195,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiDeployments200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func putAiDeploymentsByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiDeployments200Response> {
+    open class func putAiDeploymentsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/deployments/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -8254,17 +11209,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiDeployments200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -8272,15 +11227,14 @@ open class AiAPI {
     /**
      Replace a file
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiFiles200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putAiFilesByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiFiles200Response {
-        return try await putAiFilesByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func putAiFilesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiFilesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -8290,13 +11244,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiFiles200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func putAiFilesByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiFiles200Response> {
+    open class func putAiFilesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/files/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -8305,17 +11258,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiFiles200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -8323,15 +11276,14 @@ open class AiAPI {
     /**
      Replace a form
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiForms200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putAiFormsByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiForms200Response {
-        return try await putAiFormsByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func putAiFormsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiFormsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -8341,13 +11293,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiForms200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func putAiFormsByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiForms200Response> {
+    open class func putAiFormsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/forms/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -8356,17 +11307,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiForms200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -8374,15 +11325,14 @@ open class AiAPI {
     /**
      Replace a graph
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiGraphs200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putAiGraphsByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiGraphs200Response {
-        return try await putAiGraphsByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func putAiGraphsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiGraphsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -8392,13 +11342,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiGraphs200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func putAiGraphsByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiGraphs200Response> {
+    open class func putAiGraphsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/graphs/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -8407,17 +11356,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiGraphs200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -8425,15 +11374,14 @@ open class AiAPI {
     /**
      Replace a message
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiMessages200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putAiMessagesByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiMessages200Response {
-        return try await putAiMessagesByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func putAiMessagesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiMessagesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -8443,13 +11391,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiMessages200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func putAiMessagesByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiMessages200Response> {
+    open class func putAiMessagesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/messages/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -8458,17 +11405,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiMessages200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -8476,15 +11423,14 @@ open class AiAPI {
     /**
      Replace a node
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiNodes200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putAiNodesByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiNodes200Response {
-        return try await putAiNodesByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func putAiNodesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiNodesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -8494,13 +11440,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiNodes200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func putAiNodesByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiNodes200Response> {
+    open class func putAiNodesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/nodes/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -8509,17 +11454,95 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiNodes200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func putAiOrgSettings(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiOrgSettingsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - PUT /v1/ai/org/settings
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func putAiOrgSettingsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/org/settings"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func putAiOrgSettingsList(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiOrgSettingsListWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - PUT /v1/ai/org/settings/list
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func putAiOrgSettingsListWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/org/settings/list"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -8527,13 +11550,12 @@ open class AiAPI {
     /**
      Preferences
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putAiPreferences(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
-        return try await putAiPreferencesWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func putAiPreferences(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiPreferencesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -8542,24 +11564,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func putAiPreferencesWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func putAiPreferencesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/preferences"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -8567,15 +11588,14 @@ open class AiAPI {
     /**
      Replace a provider
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiProviders200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putAiProvidersByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiProviders200Response {
-        return try await putAiProvidersByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func putAiProvidersByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiProvidersByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -8585,13 +11605,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiProviders200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func putAiProvidersByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiProviders200Response> {
+    open class func putAiProvidersByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/providers/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -8600,17 +11619,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiProviders200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -8618,15 +11637,14 @@ open class AiAPI {
     /**
      Replace a record
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiRecords200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putAiRecordsByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiRecords200Response {
-        return try await putAiRecordsByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func putAiRecordsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiRecordsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -8636,13 +11654,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiRecords200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func putAiRecordsByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiRecords200Response> {
+    open class func putAiRecordsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/records/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -8651,17 +11668,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiRecords200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -8669,15 +11686,14 @@ open class AiAPI {
     /**
      Replace a connection
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiRemoteConnections200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putAiRemoteConnectionsByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiRemoteConnections200Response {
-        return try await putAiRemoteConnectionsByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func putAiRemoteConnectionsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiRemoteConnectionsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -8687,13 +11703,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiRemoteConnections200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func putAiRemoteConnectionsByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiRemoteConnections200Response> {
+    open class func putAiRemoteConnectionsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/remote-connections/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -8702,17 +11717,212 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiRemoteConnections200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func putAiRouterArtifactMeta(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiRouterArtifactMetaWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - PUT /v1/ai/router/artifact-meta
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func putAiRouterArtifactMetaWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/router/artifact-meta"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func putAiRouterDefaults(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiRouterDefaultsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - PUT /v1/ai/router/defaults
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func putAiRouterDefaultsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/router/defaults"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func putAiRouterLedger(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiRouterLedgerWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - PUT /v1/ai/router/ledger
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func putAiRouterLedgerWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/router/ledger"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func putAiRouterPolicy(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiRouterPolicyWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - PUT /v1/ai/router/policy
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func putAiRouterPolicyWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/router/policy"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func putAiRouterRewards(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiRouterRewardsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
+     - PUT /v1/ai/router/rewards
+     - The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func putAiRouterRewardsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/ai/router/rewards"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -8720,15 +11930,14 @@ open class AiAPI {
     /**
      Replace a model-route
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiRoutes200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putAiRoutesByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiRoutes200Response {
-        return try await putAiRoutesByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func putAiRoutesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiRoutesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -8738,13 +11947,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiRoutes200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func putAiRoutesByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiRoutes200Response> {
+    open class func putAiRoutesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/routes/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -8753,17 +11961,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiRoutes200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -8771,15 +11979,14 @@ open class AiAPI {
     /**
      Replace a scale
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiScales200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putAiScalesByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiScales200Response {
-        return try await putAiScalesByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func putAiScalesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiScalesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -8789,13 +11996,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiScales200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func putAiScalesByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiScales200Response> {
+    open class func putAiScalesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/scales/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -8804,17 +12010,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiScales200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -8822,15 +12028,14 @@ open class AiAPI {
     /**
      Replace a scan
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiScans200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putAiScansByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiScans200Response {
-        return try await putAiScansByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func putAiScansByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiScansByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -8840,13 +12045,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiScans200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func putAiScansByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiScans200Response> {
+    open class func putAiScansByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/scans/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -8855,17 +12059,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiScans200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -8873,15 +12077,14 @@ open class AiAPI {
     /**
      Replace a session
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiSigninSessions200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putAiSigninSessionsByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiSigninSessions200Response {
-        return try await putAiSigninSessionsByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func putAiSigninSessionsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiSigninSessionsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -8891,13 +12094,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiSigninSessions200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func putAiSigninSessionsByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiSigninSessions200Response> {
+    open class func putAiSigninSessionsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/signin-sessions/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -8906,17 +12108,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiSigninSessions200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -8924,15 +12126,14 @@ open class AiAPI {
     /**
      Replace a store
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiStores200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putAiStoresByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiStores200Response {
-        return try await putAiStoresByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func putAiStoresByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiStoresByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -8942,13 +12143,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiStores200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func putAiStoresByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiStores200Response> {
+    open class func putAiStoresByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/stores/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -8957,17 +12157,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiStores200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -8975,15 +12175,14 @@ open class AiAPI {
     /**
      Replace a task
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiTasks200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putAiTasksByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiTasks200Response {
-        return try await putAiTasksByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func putAiTasksByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiTasksByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -8993,13 +12192,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiTasks200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func putAiTasksByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiTasks200Response> {
+    open class func putAiTasksByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/tasks/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -9008,17 +12206,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiTasks200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -9026,15 +12224,14 @@ open class AiAPI {
     /**
      Replace a template
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiTemplates200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putAiTemplatesByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiTemplates200Response {
-        return try await putAiTemplatesByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func putAiTemplatesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiTemplatesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -9044,13 +12241,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiTemplates200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func putAiTemplatesByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiTemplates200Response> {
+    open class func putAiTemplatesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/templates/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -9059,17 +12255,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiTemplates200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -9077,13 +12273,12 @@ open class AiAPI {
     /**
      Training Contribution
      
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Envelope
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putAiTrainingContribution(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Envelope {
-        return try await putAiTrainingContributionWithRequestBuilder(body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func putAiTrainingContribution(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiTrainingContributionWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -9092,24 +12287,23 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter body: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Envelope> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func putAiTrainingContributionWithRequestBuilder(body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Envelope> {
+    open class func putAiTrainingContributionWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/ai/training-contribution"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Envelope>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -9117,15 +12311,14 @@ open class AiAPI {
     /**
      Replace a tree-file
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiTreeFiles200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putAiTreeFilesByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiTreeFiles200Response {
-        return try await putAiTreeFilesByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func putAiTreeFilesByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiTreeFilesByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -9135,13 +12328,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiTreeFiles200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func putAiTreeFilesByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiTreeFiles200Response> {
+    open class func putAiTreeFilesByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/tree-files/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -9150,17 +12342,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiTreeFiles200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -9168,15 +12360,14 @@ open class AiAPI {
     /**
      Replace a vector
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiVectors200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putAiVectorsByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiVectors200Response {
-        return try await putAiVectorsByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func putAiVectorsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiVectorsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -9186,13 +12377,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiVectors200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func putAiVectorsByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiVectors200Response> {
+    open class func putAiVectorsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/vectors/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -9201,17 +12391,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiVectors200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -9219,15 +12409,14 @@ open class AiAPI {
     /**
      Replace a video
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiVideos200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putAiVideosByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiVideos200Response {
-        return try await putAiVideosByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func putAiVideosByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiVideosByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -9237,13 +12426,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiVideos200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func putAiVideosByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiVideos200Response> {
+    open class func putAiVideosByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/videos/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -9252,17 +12440,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiVideos200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -9270,15 +12458,14 @@ open class AiAPI {
     /**
      Replace a workflow
      
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: PostAiWorkflows200Response
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putAiWorkflowsByOwnerByName(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostAiWorkflows200Response {
-        return try await putAiWorkflowsByOwnerByNameWithRequestBuilder(owner: owner, name: name, body: body, apiConfiguration: apiConfiguration).execute().body
+    open class func putAiWorkflowsByOwnerByName(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putAiWorkflowsByOwnerByNameWithRequestBuilder(owner: owner, name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -9288,13 +12475,12 @@ open class AiAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (path) Owning organization. 
-     - parameter name: (path) Resource name, unique within the owner. 
-     - parameter body: (body)  
+     - parameter owner: (path)  
+     - parameter name: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<PostAiWorkflows200Response> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func putAiWorkflowsByOwnerByNameWithRequestBuilder(owner: String, name: String, body: JSONValue, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostAiWorkflows200Response> {
+    open class func putAiWorkflowsByOwnerByNameWithRequestBuilder(owner: String, name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/ai/workflows/{owner}/{name}"
         let ownerPreEscape = "\(APIHelper.mapValueToPathItem(owner))"
         let ownerPostEscape = ownerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -9303,17 +12489,17 @@ open class AiAPI {
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
+            :
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<PostAiWorkflows200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

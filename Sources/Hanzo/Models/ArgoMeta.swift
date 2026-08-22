@@ -9,10 +9,15 @@ import Foundation
 
 public struct ArgoMeta: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** CreationTimestamp is when the source object was created, RFC 3339 to the second. Empty for a synthesized project. */
     public var creationTimestamp: String?
+    /** Labels are the labels this projection puts on the row, not the source object's full label set. An application projected from an App CR carries hanzo.ai/instance (its name), hanzo.ai/env (main, test or dev, from the namespace it was read from) and hanzo.ai/org when the CR declares a tenant. A Hanzo CD Application carries the CR's own labels verbatim. A project reflected from IAM carries hanzo.ai/org alone. */
     public var labels: [String: String]?
+    /** Name is the projected object's name: the App CR's metadata.name for an application, the CD Application's name for a CD row, and the IAM project name for a project. */
     public var name: String?
+    /** Namespace is the namespace the source object was read from — the tenant or platform namespace for an App CR, CD's controller namespace for a CD row. Empty for a project synthesized here, which lives in no namespace. */
     public var namespace: String?
+    /** UID is the k8s metadata.uid of the source object, which is what the SPA keys a row on across refreshes. Empty for a synthesized project — there is no object to take one from. */
     public var uid: String?
 
     public init(creationTimestamp: String? = nil, labels: [String: String]? = nil, name: String? = nil, namespace: String? = nil, uid: String? = nil) {

@@ -9,17 +9,29 @@ import Foundation
 
 public struct DeploymentView: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** ApplicationID is the app this deployed — the app's `id`, not its slug. */
     public var applicationId: String?
+    /** BuildID is the build record behind a git deploy, whose logs and status live at /v1/platform/builds. Empty for an image deploy. */
     public var buildId: String?
+    /** Commit is the git ref this built — the commit a deploy or a push named, else the app's branch. Empty for an image deploy, which builds nothing. */
     public var commit: String?
+    /** CreatedAt is when the attempt was recorded, unix seconds. */
     public var createdAt: Int?
+    /** ID is the deployment's id (`dep_…`), minted when the attempt is recorded. The app's currentDeploymentId points at one of these. */
     public var id: String?
+    /** Image is the full `repo:tag` this deployment put in the CR. For a git deploy it is the ref the in-cluster build pushes to, known before the build runs. */
     public var image: String?
+    /** Message is why this attempt is not live: the failure, or the note that a newer deployment went live before this build finished. Empty while it is fine. */
     public var message: String?
+    /** Org is the tenant the deployment belongs to, from the validated identity. */
     public var org: String?
+    /** Source is which lane produced it: `git` (built from the repo) or `image` (an already-built ref deployed as-is, including promote and rollback). */
     public var source: String?
+    /** Status is where the attempt got to: `building` while its image is being built, `deploying` once its CR reached the cluster — which is the terminal success state, the app's own status is what turns `live` — `error` with the reason in Message, or `superseded` when a newer version went live first. */
     public var status: String?
+    /** UpdatedAt is its last transition, unix seconds — so for a terminal deployment it is when it reached that state. */
     public var updatedAt: Int?
+    /** Version counts this app's deployments, from 1 and monotonically. It is what ORDERS them: a deploy only goes live if no higher version already is, so a build that finishes late is superseded instead of overwriting a newer one. */
     public var version: Int?
 
     public init(applicationId: String? = nil, buildId: String? = nil, commit: String? = nil, createdAt: Int? = nil, id: String? = nil, image: String? = nil, message: String? = nil, org: String? = nil, source: String? = nil, status: String? = nil, updatedAt: Int? = nil, version: Int? = nil) {

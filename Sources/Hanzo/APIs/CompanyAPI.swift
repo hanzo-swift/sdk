@@ -306,6 +306,47 @@ open class CompanyAPI {
     }
 
     /**
+     Opens the EIN application and answers what it owes.
+     
+     - parameter einIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: EIN
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postCompanyEin(einIn: EinIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> EIN {
+        return try await postCompanyEinWithRequestBuilder(einIn: einIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Opens the EIN application and answers what it owes.
+     - POST /v1/company/ein
+     - Opens the EIN application and answers what it owes.  The answer states whether it can be filed ONLINE, because that is the fact deciding whether the customer waits a sitting or several weeks — and it names each form with what that form is for, so nobody has to already know what an SS-4 is to understand why they are signing one.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter einIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<EIN> 
+     */
+    open class func postCompanyEinWithRequestBuilder(einIn: EinIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<EIN> {
+        let localVariablePath = "/v1/company/ein"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: einIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<EIN>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      Sends the generated formation documents for signature by every founder and records the provider's reference on the formation.
      
      - parameter apiConfiguration: The configuration for the http request.
@@ -790,7 +831,7 @@ open class CompanyAPI {
     }
 
     /**
-     Charge the one-time formation fee and mark the formation paid
+     Charges the caller's own org the one-time Hanzo Company formation fee.
      
      - parameter apiConfiguration: The configuration for the http request.
      - returns: FormationView
@@ -801,9 +842,9 @@ open class CompanyAPI {
     }
 
     /**
-     Charge the one-time formation fee and mark the formation paid
+     Charges the caller's own org the one-time Hanzo Company formation fee.
      - POST /v1/company/payment
-     - Bills the caller's own org the one-time Hanzo Company formation fee — $999 unless the deployment sets another — and answers with the formation record carrying its paid flag and the charge reference. Takes no body: the org is the validated tenant and the amount is the platform's, never the caller's to assert.  IDEMPOTENT on the formation rather than on the request: an already-paid formation answers 200 with the same record and is not charged again, so a retry or a double-clicked button costs nothing. Available only at the `payment` stage (409 anywhere else) and only for an org that has begun a formation (404 otherwise).  A refused charge answers the fleet-wide billing contract, not a formation error — 402 when the org cannot pay, 503 when metering is unavailable — which is exactly why this route is not a typed op.
+     - Charges the caller's own org the one-time Hanzo Company formation fee.  It is $999 unless the deployment sets another, and the answer is the formation record carrying its paid flag and the charge reference. It takes no body: the org is the validated tenant and the amount is the platform's, never the caller's to assert.  IDEMPOTENT on the formation rather than on the request: an already-paid formation answers 200 with the same record and is not charged again, so a retry or a double-clicked button costs nothing. Available only at the `payment` stage (409 anywhere else) and only for an org that has begun a formation (404 otherwise).  A denial answers the fleet-wide billing contract — 402 insufficient_balance, 402 spend_cap_exceeded, 503 balance_unavailable — carried by cloud.Denied, which is the money wire's own {\"error\":{\"code\",\"message\"}} body rather than a second vocabulary invented for this surface.  The gate is the LAST thing it does, after the stage check and the paid short-circuit, so a caller the machine is about to refuse is never charged. That ordering is why the gate cannot lift into middleware, where it would run first. Both facts are pinned: TestPaymentDenialWire, TestPaymentChargesLast.
      - Bearer Token:
        - type: http
        - name: bearer
@@ -863,6 +904,47 @@ open class CompanyAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<FormationView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Itemises what a formation costs before anyone commits to it.
+     
+     - parameter tariffIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Tariff
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postCompanyTariff(tariffIn: TariffIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Tariff {
+        return try await postCompanyTariffWithRequestBuilder(tariffIn: tariffIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Itemises what a formation costs before anyone commits to it.
+     - POST /v1/company/tariff
+     - Itemises what a formation costs before anyone commits to it.  It answers what is due now and what recurs, as separate figures, and marks the state's filing fee as money we collect and remit rather than keep. A caller can therefore show a payer the whole bill — which is the point of quoting at all, and was impossible while the fee was one number in an error string.  A jurisdiction whose filing fee this deployment has not been told REFUSES, naming the setting that fixes it. Quoting our half as though it were the total is the one answer that would be worse than no answer.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter tariffIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Tariff> 
+     */
+    open class func postCompanyTariffWithRequestBuilder(tariffIn: TariffIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Tariff> {
+        let localVariablePath = "/v1/company/tariff"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: tariffIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Tariff>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

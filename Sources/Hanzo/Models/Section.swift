@@ -9,10 +9,15 @@ import Foundation
 
 public struct Section: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Detail is what this phase of the journey is for, in prose. */
     public var detail: String?
+    /** Enabled is the admin lever. Absent reads as ON, so only an explicit false turns a phase off — and it takes every step filed under it out of the journey, not just the heading. */
     public var enabled: Bool?
+    /** ID is the slug a step's `section` names to file itself under this phase. */
     public var id: String?
+    /** Order places the phase in the journey, ascending. Ties fall back to authoring order, and an omitted order sorts as 0 — ahead of everything. */
     public var order: Int?
+    /** Title is the phase heading a person reads above its steps. */
     public var title: String?
 
     public init(detail: String? = nil, enabled: Bool? = nil, id: String? = nil, order: Int? = nil, title: String? = nil) {

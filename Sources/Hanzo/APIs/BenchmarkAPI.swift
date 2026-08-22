@@ -49,6 +49,62 @@ open class BenchmarkAPI {
     }
 
     /**
+     Lists the effective published claims: what the leaderboard will use for each (benchmark, model) after the seed, the import and any stored correction are layered.
+     
+     - parameter benchmark: (query) Benchmark filters to one benchmark id. Empty returns every benchmark. (optional)
+     - parameter model: (query) Model filters to one model. Empty returns every model. (optional)
+     - parameter provider: (query) Provider filters to one lab or leaderboard — the way to read what a single source claims across every model it covers. (optional)
+     - parameter source: (query) Source filters to one citation, which is the finest grain there is: a source is what makes two claims about one model independent rather than a restatement of each other. (optional)
+     - parameter _protocol: (query) Protocol filters by HOW a claim was scored, so provider cards can be read apart from third parties running their own harness. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ClaimsOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getBenchmarkClaims(benchmark: String? = nil, model: String? = nil, provider: String? = nil, source: String? = nil, _protocol: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ClaimsOut {
+        return try await getBenchmarkClaimsWithRequestBuilder(benchmark: benchmark, model: model, provider: provider, source: source, _protocol: _protocol, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Lists the effective published claims: what the leaderboard will use for each (benchmark, model) after the seed, the import and any stored correction are layered.
+     - GET /v1/benchmark/claims
+     - Lists the effective published claims: what the leaderboard will use for each (benchmark, model) after the seed, the import and any stored correction are layered. It answers the operator's question — what does this arena currently believe someone else reported, and did we ship that or fix it.  Effective values only. The history of a key lives in the append-only file and is not what this op is for; a list that returned every superseded row would make the common question the hard one.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter benchmark: (query) Benchmark filters to one benchmark id. Empty returns every benchmark. (optional)
+     - parameter model: (query) Model filters to one model. Empty returns every model. (optional)
+     - parameter provider: (query) Provider filters to one lab or leaderboard — the way to read what a single source claims across every model it covers. (optional)
+     - parameter source: (query) Source filters to one citation, which is the finest grain there is: a source is what makes two claims about one model independent rather than a restatement of each other. (optional)
+     - parameter _protocol: (query) Protocol filters by HOW a claim was scored, so provider cards can be read apart from third parties running their own harness. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ClaimsOut> 
+     */
+    open class func getBenchmarkClaimsWithRequestBuilder(benchmark: String? = nil, model: String? = nil, provider: String? = nil, source: String? = nil, _protocol: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ClaimsOut> {
+        let localVariablePath = "/v1/benchmark/claims"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "Benchmark": (wrappedValue: benchmark?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "Model": (wrappedValue: model?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "Provider": (wrappedValue: provider?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "Source": (wrappedValue: source?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "Protocol": (wrappedValue: _protocol?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ClaimsOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      Is the ONLY valid arm-vs-arm test: it pairs the two models on the items BOTH completed, and answers rescue and damage counts with an exact-McNemar p.
      
      - parameter a: (query) A is the first model id. It is required. 
@@ -94,6 +150,53 @@ open class BenchmarkAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<Pairing>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns each model's measured score per run over time, oldest first, with the change between runs.
+     
+     - parameter benchmark: (query) Benchmark is the catalog id to read, defaulting to gpqa_diamond. (optional)
+     - parameter model: (query) Model filters to one model. Empty returns every model measured. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: HistoryOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getBenchmarkHistory(benchmark: String? = nil, model: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> HistoryOut {
+        return try await getBenchmarkHistoryWithRequestBuilder(benchmark: benchmark, model: model, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns each model's measured score per run over time, oldest first, with the change between runs.
+     - GET /v1/benchmark/history
+     - Returns each model's measured score per run over time, oldest first, with the change between runs.  This is the counterweight to a leaderboard: the board shows the latest run because that is what \"how good is it\" means, and a single latest number cannot distinguish a model that has always been strong from one that just improved, or from one that regressed after a provider changed something. Both matter for routing, and only one of them is visible on a board.  Runs with no id — attempts recorded before runs existed — group under the empty run, which is honestly what they are: one undated measurement.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter benchmark: (query) Benchmark is the catalog id to read, defaulting to gpqa_diamond. (optional)
+     - parameter model: (query) Model filters to one model. Empty returns every model measured. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<HistoryOut> 
+     */
+    open class func getBenchmarkHistoryWithRequestBuilder(benchmark: String? = nil, model: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<HistoryOut> {
+        let localVariablePath = "/v1/benchmark/history"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "Benchmark": (wrappedValue: benchmark?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "Model": (wrappedValue: model?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<HistoryOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -179,6 +282,47 @@ open class BenchmarkAPI {
         let localVariableRequestBuilder: RequestBuilder<PresetList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Records published claims: one to correct a number, many to import a leaderboard.
+     
+     - parameter putClaimsIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: PutClaimsOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postBenchmarkClaims(putClaimsIn: PutClaimsIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PutClaimsOut {
+        return try await postBenchmarkClaimsWithRequestBuilder(putClaimsIn: putClaimsIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Records published claims: one to correct a number, many to import a leaderboard.
+     - POST /v1/benchmark/claims
+     - Records published claims: one to correct a number, many to import a leaderboard. Every row must carry a Source, because a claim without its citation is a number nobody can check — and an unattributed number in the published plane is indistinguishable from a measurement, which is the one confusion this whole surface is built to prevent.  Writes are append-only, so this never destroys the value it replaces. A vendor restating a score leaves both rows on disk, which is how the restating itself becomes visible.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter putClaimsIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<PutClaimsOut> 
+     */
+    open class func postBenchmarkClaimsWithRequestBuilder(putClaimsIn: PutClaimsIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PutClaimsOut> {
+        let localVariablePath = "/v1/benchmark/claims"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: putClaimsIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<PutClaimsOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**

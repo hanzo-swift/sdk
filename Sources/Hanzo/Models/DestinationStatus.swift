@@ -21,16 +21,18 @@ public struct DestinationStatus: Sendable, Codable, ParameterConvertible, Hashab
     public var enabled: Bool?
     /** Fields are the non-secret inputs this platform needs, which the console card renders and the connect body fills. */
     public var fields: [DestinationField]?
-    /** Live is whether a credential resolves RIGHT NOW: a KMS-sealed secret for this org, else the integrations connection named by the platform's Fallback, else no credential needed at all (a public-ingest sink like Umami). False on a connected destination whose secret has gone missing — Connected && !Live is exactly the \"reconnect me\" state. */
+    /** Live is whether a credential resolves RIGHT NOW: a KMS-sealed secret for this org, else the integrations connection named by the platform's Fallback, else no credential needed at all (a public-ingest sink like Analytics). False on a connected destination whose secret has gone missing — Connected && !Live is exactly the \"reconnect me\" state. */
     public var live: Bool?
     /** the platform's display name (\"Google Analytics 4\") */
     public var name: String?
+    /** Pixel is whether the hosted tag can inject a browser pixel for this platform, so a console offers a per-SITE pixel input for exactly these. False means the platform receives conversions server-side only, and an input would promise an injection that never happens. Derived from the tag's own map (event.BrowserTags), never restated — a second list is how a console offers a pixel nothing fires. */
+    public var pixel: Bool?
     /** the platform slug, and the path segment every route addresses it by */
     public var platform: String?
     /** Secrets are the KMS secret NAMES this platform custodies for the org — names only, never values. The connect body accepts each under its camelCase form. */
     public var secrets: [String]?
 
-    public init(account: String? = nil, category: String? = nil, config: [String: String]? = nil, connected: Bool? = nil, enabled: Bool? = nil, fields: [DestinationField]? = nil, live: Bool? = nil, name: String? = nil, platform: String? = nil, secrets: [String]? = nil) {
+    public init(account: String? = nil, category: String? = nil, config: [String: String]? = nil, connected: Bool? = nil, enabled: Bool? = nil, fields: [DestinationField]? = nil, live: Bool? = nil, name: String? = nil, pixel: Bool? = nil, platform: String? = nil, secrets: [String]? = nil) {
         self.account = account
         self.category = category
         self.config = config
@@ -39,6 +41,7 @@ public struct DestinationStatus: Sendable, Codable, ParameterConvertible, Hashab
         self.fields = fields
         self.live = live
         self.name = name
+        self.pixel = pixel
         self.platform = platform
         self.secrets = secrets
     }
@@ -52,6 +55,7 @@ public struct DestinationStatus: Sendable, Codable, ParameterConvertible, Hashab
         case fields
         case live
         case name
+        case pixel
         case platform
         case secrets
     }
@@ -68,6 +72,7 @@ public struct DestinationStatus: Sendable, Codable, ParameterConvertible, Hashab
         try container.encodeIfPresent(fields, forKey: .fields)
         try container.encodeIfPresent(live, forKey: .live)
         try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(pixel, forKey: .pixel)
         try container.encodeIfPresent(platform, forKey: .platform)
         try container.encodeIfPresent(secrets, forKey: .secrets)
     }

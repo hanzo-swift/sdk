@@ -9,14 +9,15 @@ import Foundation
 
 public struct RiskDataset: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** At is when this version last changed state, and By who. */
+    /** At is when this version last changed state, RFC 3339 UTC. */
     public var at: String?
+    /** By is who moved it there: the validated user, or the org itself when the caller is a machine with no user behind it. */
     public var by: String?
     /** Counts is how the rows fall across the splits. */
     public var counts: RiskSplitCounts?
     /** Digest fingerprints the SPEC and the ROWS together. Two materialisations of one spec agree on it or the plane says they do not. */
     public var digest: String?
-    /** Name and Version identify the version. */
+    /** Name identifies the dataset across all of its versions. */
     public var name: String?
     /** Oversize is how many of the window's subjects this version could NOT carry because their subject identity exceeds the plane's per-subject byte bound.  It is on the wire, not only in a log, because it is the one degradation a caller cannot otherwise detect: the rows that are here look complete, and a dataset silently missing a population is a model silently blind to it. Non-zero does not make a version invalid — it makes it a version whose coverage is STATED. Zero is the normal case and omits. */
     public var oversize: Int?
@@ -32,6 +33,7 @@ public struct RiskDataset: Sendable, Codable, ParameterConvertible, Hashable {
     public var status: String?
     /** Truncated is true when the row cap bound before the window ran out. The trailing subject is dropped whole when that happens, because half a subject on one side of a split is exactly the leak the grouping prevents. */
     public var truncated: Bool?
+    /** Version is which version this is, from 1 and monotone within the dataset. A number is never reused — not even after a disposal, where the next declare continues the count — so \"signups v3\" means one thing forever, which is what makes a model's citation of it checkable. */
     public var version: Int?
 
     public init(at: String? = nil, by: String? = nil, counts: RiskSplitCounts? = nil, digest: String? = nil, name: String? = nil, oversize: Int? = nil, refusal: String? = nil, running: Bool? = nil, share: Int? = nil, spec: RiskDatasetSpec? = nil, status: String? = nil, truncated: Bool? = nil, version: Int? = nil) {

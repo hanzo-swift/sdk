@@ -9,37 +9,29 @@ import Foundation
 
 public struct O11ySeries: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var costCents: Int?
-    public var errors: Int?
-    public var requests: Int?
-    public var tokens: Int?
-    public var ts: String?
+    public var labels: [String: String]?
+    public var labelsArray: [[String: String]]?
+    public var values: [JSONValue]?
 
-    public init(costCents: Int? = nil, errors: Int? = nil, requests: Int? = nil, tokens: Int? = nil, ts: String? = nil) {
-        self.costCents = costCents
-        self.errors = errors
-        self.requests = requests
-        self.tokens = tokens
-        self.ts = ts
+    public init(labels: [String: String]? = nil, labelsArray: [[String: String]]? = nil, values: [JSONValue]? = nil) {
+        self.labels = labels
+        self.labelsArray = labelsArray
+        self.values = values
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case costCents
-        case errors
-        case requests
-        case tokens
-        case ts
+        case labels
+        case labelsArray
+        case values
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(costCents, forKey: .costCents)
-        try container.encodeIfPresent(errors, forKey: .errors)
-        try container.encodeIfPresent(requests, forKey: .requests)
-        try container.encodeIfPresent(tokens, forKey: .tokens)
-        try container.encodeIfPresent(ts, forKey: .ts)
+        try container.encodeIfPresent(labels, forKey: .labels)
+        try container.encodeIfPresent(labelsArray, forKey: .labelsArray)
+        try container.encodeIfPresent(values, forKey: .values)
     }
 }
 

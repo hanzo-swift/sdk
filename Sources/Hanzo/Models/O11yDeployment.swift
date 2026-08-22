@@ -9,7 +9,9 @@ import Foundation
 
 public struct O11yDeployment: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Instance is the replica as the telemetry store labels it — the address the series was recorded against, which is what distinguishes two replicas of one service. */
     public var instance: String?
+    /** Up is that replica's last reported state. Every target emits on every cycle, so a replica missing from the list is one the prober is not reporting at all, which is a different fact from down. */
     public var up: Bool?
 
     public init(instance: String? = nil, up: Bool? = nil) {

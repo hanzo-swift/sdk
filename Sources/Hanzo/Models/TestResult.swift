@@ -9,9 +9,13 @@ import Foundation
 
 public struct TestResult: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Delivered is whether the subscriber accepted the test POST. It is the whole answer: the send is synchronous and is not retried. */
     public var delivered: Bool?
+    /** DurationMs is how long the single attempt took, in MILLISECONDS. */
     public var durationMs: Int?
+    /** Error says what stopped it. Empty when delivered. */
     public var error: String?
+    /** HTTPStatus is what the subscriber answered, or 0 if it never answered. */
     public var httpStatus: Int?
 
     public init(delivered: Bool? = nil, durationMs: Int? = nil, error: String? = nil, httpStatus: Int? = nil) {

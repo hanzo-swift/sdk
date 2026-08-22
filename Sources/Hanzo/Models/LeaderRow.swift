@@ -9,10 +9,20 @@ import Foundation
 
 public struct LeaderRow: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** CIHigh is the upper bound of that interval. Wilson rather than the normal approximation because the normal one produces bounds past 100 exactly where benchmark scores live — at 194/198 that is the top of the board, not a corner case. */
+    public var ciHigh: Double?
+    /** CILow and CIHigh are the 95% Wilson interval on Measured, in percent. They are what makes the score comparable: at n=198 a 98% carries roughly ±2 points, so most differences at the top of a board are not distinguishable and a bare number implies a precision it does not have. Absent when there is no measurement. */
+    public var ciLow: Double?
+    /** Claims is how many independent claims exist for this model on this benchmark. More than one means several sources reported it. */
+    public var claims: Int?
     /** published − measured (the arena signal) */
     public var gap: Double?
+    /** Mean is the unweighted average of every claim, which answers a different question from Published: what the field says on average, rather than what the vendor says about itself. With one claim the two are equal. */
+    public var mean: Double?
     /** hanzo-measured accuracy % (nil if unrun) */
     public var measured: Double?
+    /** MeasuredAt is when the run behind Measured was recorded. */
+    public var measuredAt: Date?
     /** the model this row scores */
     public var model: String?
     /** coverage — NEVER compare across different n */
@@ -21,35 +31,60 @@ public struct LeaderRow: Sendable, Codable, ParameterConvertible, Hashable {
     public var _protocol: String?
     /** provider-claimed % (nil if none) */
     public var published: Double?
+    /** Run names the measurement Measured came from, and MeasuredAt is when it ran. A score with no date is not a fact about a model, it is a fact about a model on a day — and models change, so the date is what makes the number checkable rather than merely quoted. */
+    public var run: String?
+    /** Spread is the distance between the highest and lowest of them, nil when there is only one. It is the disagreement AMONG sources, which a single Published number cannot show — signal in the same way the published-minus-measured gap is. */
+    public var spread: Double?
 
-    public init(gap: Double? = nil, measured: Double? = nil, model: String? = nil, n: Int? = nil, _protocol: String? = nil, published: Double? = nil) {
+    public init(ciHigh: Double? = nil, ciLow: Double? = nil, claims: Int? = nil, gap: Double? = nil, mean: Double? = nil, measured: Double? = nil, measuredAt: Date? = nil, model: String? = nil, n: Int? = nil, _protocol: String? = nil, published: Double? = nil, run: String? = nil, spread: Double? = nil) {
+        self.ciHigh = ciHigh
+        self.ciLow = ciLow
+        self.claims = claims
         self.gap = gap
+        self.mean = mean
         self.measured = measured
+        self.measuredAt = measuredAt
         self.model = model
         self.n = n
         self._protocol = _protocol
         self.published = published
+        self.run = run
+        self.spread = spread
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
+        case ciHigh
+        case ciLow
+        case claims
         case gap
+        case mean
         case measured
+        case measuredAt
         case model
         case n
         case _protocol = "protocol"
         case published
+        case run
+        case spread
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(ciHigh, forKey: .ciHigh)
+        try container.encodeIfPresent(ciLow, forKey: .ciLow)
+        try container.encodeIfPresent(claims, forKey: .claims)
         try container.encodeIfPresent(gap, forKey: .gap)
+        try container.encodeIfPresent(mean, forKey: .mean)
         try container.encodeIfPresent(measured, forKey: .measured)
+        try container.encodeIfPresent(measuredAt, forKey: .measuredAt)
         try container.encodeIfPresent(model, forKey: .model)
         try container.encodeIfPresent(n, forKey: .n)
         try container.encodeIfPresent(_protocol, forKey: ._protocol)
         try container.encodeIfPresent(published, forKey: .published)
+        try container.encodeIfPresent(run, forKey: .run)
+        try container.encodeIfPresent(spread, forKey: .spread)
     }
 }
 

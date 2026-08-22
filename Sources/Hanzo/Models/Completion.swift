@@ -9,8 +9,11 @@ import Foundation
 
 public struct Completion: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Detail is the server's short elaboration, typically the type or signature. */
     public var detail: String?
+    /** Kind is the LSP CompletionItemKind number (2 method, 3 function, 5 field, 6 variable, …), passed through as the protocol spells it. */
     public var kind: Int?
+    /** Label is the text a client would insert, and what an editor lists. */
     public var label: String?
 
     public init(detail: String? = nil, kind: Int? = nil, label: String? = nil) {

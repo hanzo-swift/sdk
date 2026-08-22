@@ -9,25 +9,37 @@ import Foundation
 
 public struct RegisterReq: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Account is which subscription or API account under that provider served the run, up to 256 characters. It is what lets a revoke of that login stop exactly the sessions it was paying for. */
     public var account: String?
+    /** Actor is the \"org/sub\" identity to record the session under, up to 256 characters. Omit it and the calling principal is used, which is almost always what you want: it is what a login revoke matches on to stop this session. */
     public var actor: String?
+    /** Agent is the label the surface opening this session calls itself by (\"hanzo-dev\"). REQUIRED, up to 128 characters, and free text — nothing resolves it against a defined agent. */
     public var agent: String?
+    /** Cwd is the directory the session starts in, up to 1024 characters. It can be moved later, because a linked shell walks around. */
     public var cwd: String?
     /** Execution context — where this session runs (all optional). */
     public var host: String?
+    /** ParentSessionID makes this a subagent of that session: it inherits the parent's root, so one flow stays one tree. The parent must exist IN THE SAME ORG — a foreign or unknown id is a 400, never a tree across tenants. Empty opens a root session. */
     public var parentSessionId: String?
     /** The readable build (provenance.go): which product this session builds, and whether its story may be read by the world. */
     public var project: String?
     /** Account tag — the linked AI account this session ran under (login manager). */
     public var provider: String?
+    /** Published opens this session's story to the public build route. It is refused without a Project, because that route is keyed on (org, project) — a build with no product is not a story anyone can open. False keeps it org-only. */
     public var published: Bool?
+    /** Repo is the code being worked on, up to 512 characters. A label the surface states; nothing resolves it against the forge. */
     public var repo: String?
+    /** Status opens the session in one of running, paused, done or error. Empty means running. A TERMINAL status here (done, error) records a session that has already finished — its end time is stamped now — and nothing can move it afterwards. */
     public var status: String?
+    /** Target names a run-target the org has registered. Unlike Host and Repo it IS resolved: a target that does not exist in this org is a 400, so a session can never claim to run on another tenant's machine. Empty names no machine. */
     public var target: String?
+    /** TaskRunID is that workflow's particular run, same bound. Recorded, not resolved: this surface does not check the workflow exists. */
     public var taskRunId: String?
+    /** TaskWorkflowID links this session to the hanzoai/tasks workflow that executes it, up to 256 characters. Set it and control commands are forwarded to that engine; leave it and the running surface polls for them instead. */
     public var taskWorkflowId: String?
     /** Terminal is the URL this session's live terminal is published at, so the console can watch it. Optional — a session that publishes nothing is still a session. */
     public var terminal: String?
+    /** Title is the human line a card shows, up to 512 characters. Optional, and changeable later. */
     public var title: String?
 
     public init(account: String? = nil, actor: String? = nil, agent: String? = nil, cwd: String? = nil, host: String? = nil, parentSessionId: String? = nil, project: String? = nil, provider: String? = nil, published: Bool? = nil, repo: String? = nil, status: String? = nil, target: String? = nil, taskRunId: String? = nil, taskWorkflowId: String? = nil, terminal: String? = nil, title: String? = nil) {

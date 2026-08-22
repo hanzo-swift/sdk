@@ -13,8 +13,11 @@ public struct Metrics: Sendable, Codable, ParameterConvertible, Hashable {
     public var at: Int?
     /** 0..1 aggregate utilization */
     public var gpuUtil: Double?
+    /** Load1 is the machine's own one-minute load average — a count of runnable and uninterruptible tasks, NOT a percentage and NOT already divided by core count, so it is read against Spec.CPUs: 8.0 is idle on 16 cores and swamped on 4. Coerced finite and non-negative on write, so 0 means either genuinely idle or nothing reported. */
     public var load1: Double?
+    /** Load5 is the same figure averaged over five minutes. */
     public var load5: Double?
+    /** Load15 is the same figure over fifteen. The three together are what separate a machine that is busy right now from one that has been busy all along — which is the question a dispatcher is really asking. */
     public var load15: Double?
     /** bytes */
     public var memFree: Int?

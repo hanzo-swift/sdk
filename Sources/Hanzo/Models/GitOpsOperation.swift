@@ -9,10 +9,15 @@ import Foundation
 
 public struct GitOpsOperation: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** FinishedAt is when it ended, RFC 3339. Absent while the phase is Running. */
     public var finishedAt: String?
+    /** Message is CD's account of the phase — \"successfully synced (all tasks run)\" for a Succeeded operation, the reason it stopped for a Failed one. */
     public var message: String?
+    /** Phase is how the last sync operation ended, in CD's own vocabulary: Running, Succeeded or Failed. It is never empty — an Application whose phase is empty has no operation at all and omits this whole object. */
     public var phase: String?
+    /** Revision is the commit this operation ATTEMPTED (operationState.syncResult). It differs from the Application's own revision exactly when the attempt did not land: revision is the last commit CD got applied, this is the last one it tried. */
     public var revision: String?
+    /** StartedAt is when the operation began, RFC 3339. */
     public var startedAt: String?
 
     public init(finishedAt: String? = nil, message: String? = nil, phase: String? = nil, revision: String? = nil, startedAt: String? = nil) {

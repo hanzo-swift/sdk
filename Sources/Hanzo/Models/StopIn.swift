@@ -9,6 +9,7 @@ import Foundation
 
 public struct StopIn: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** ID is the sandbox to interrupt, from an earlier lease. Every command running in it stops; the lease itself survives, so the checkout and the half-written files are still there to read. Use EndIn to give the computer back. */
     public var id: String?
 
     public init(id: String? = nil) {

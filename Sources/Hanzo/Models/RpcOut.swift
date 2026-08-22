@@ -9,8 +9,10 @@ import Foundation
 
 public struct RpcOut: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Error is the JSON-RPC error object, present instead of Result. Its presence is the ONLY way a failure shows up here: the HTTP status stays 200, because that is what a standard JSON-RPC client parses. */
     public var error: RpcError?
     public var id: JSONValue?
+    /** JSONRPC is always \"2.0\". An upstream that omits it has it filled in, so a client never has to cope with a response that is missing the one field telling it which protocol it is reading. */
     public var jsonrpc: String?
     public var result: JSONValue?
 

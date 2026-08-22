@@ -9,7 +9,7 @@ import Foundation
 
 public struct CatalogList: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** Data is every starter prompt, each importable as-is with POST /v1/prompts. */
+    /** Data is every starter prompt, each importable as-is with POST /v1/prompt. */
     public var data: [CatalogEntry]?
 
     public init(data: [CatalogEntry]? = nil) {

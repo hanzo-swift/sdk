@@ -9,17 +9,27 @@ import Foundation
 
 public struct Endpoint: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** CreatedAt is when the endpoint was registered, RFC3339 in UTC — stored in that spelling because it sorts as a string. */
     public var created: String?
-    /** Deliveries7d / Failures7d are cheap usage counters computed from the delivery log over usageWindow (not stored columns) and populated ONLY on list/get. They are 0 when there is no delivery history — never omitempty, so the console always sees them. */
+    /** Deliveries7d is how many deliveries SETTLED in the trailing 7 days — the attempts that ended ok or failed, so a delivery still retrying is in neither counter yet. It is counted from the log at read time rather than stored, and it is filled only on a list or a get; a create answers 0 because there is no history, which is why it is never omitted. */
     public var deliveries7d: Int?
+    /** Description is the operator's own label for the endpoint. Never sent anywhere. */
     public var description: String?
+    /** Events are the subject patterns this endpoint subscribes to (\"commerce.order.>\"). An EMPTY list means every event, not none. */
     public var events: [String]?
+    /** Failures7d is how many of those settled as failed — the subscriber never accepted it and no further attempt will be made. It is the numerator to Deliveries7d, over the same window. */
     public var failures7d: Int?
+    /** ID is the endpoint's handle, server-minted and stable for its life. It is what every other route here addresses. */
     public var id: String?
+    /** Org is the tenant that owns the endpoint, taken from the validated principal rather than from any request field. */
     public var org: String?
+    /** Secret is the HMAC-SHA256 signing key a subscriber recomputes the signature with. It is returned exactly ONCE, on create: a later read of the endpoint omits it, so a lost secret is replaced rather than recovered. */
     public var secret: String?
+    /** Status is \"active\" or \"disabled\" — nothing else is accepted. A disabled endpoint keeps its subscription and receives no deliveries, except a manual test send, which goes out anyway. */
     public var status: String?
+    /** UpdatedAt is when its url, events, status or description last changed. */
     public var updated: String?
+    /** URL is where the POST goes. Changing it is the one edit that redirects an org's events, which is why it is never bindable from a query string. */
     public var url: String?
 
     public init(created: String? = nil, deliveries7d: Int? = nil, description: String? = nil, events: [String]? = nil, failures7d: Int? = nil, id: String? = nil, org: String? = nil, secret: String? = nil, status: String? = nil, updated: String? = nil, url: String? = nil) {

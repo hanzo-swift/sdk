@@ -9,8 +9,11 @@ import Foundation
 
 public struct ProjectsDeploySite: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Files is the whole site, inline — every file it consists of. It REPLACES what is there rather than merging, so an omitted file is a deleted one. */
     public var files: [ProjectsFile]?
+    /** Name is the site's display name. */
     public var name: String?
+    /** Slug is the handle and public host label to publish under. */
     public var slug: String?
 
     public init(files: [ProjectsFile]? = nil, name: String? = nil, slug: String? = nil) {

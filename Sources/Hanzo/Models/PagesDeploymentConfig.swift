@@ -9,11 +9,17 @@ import Foundation
 
 public struct PagesDeploymentConfig: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** CompatibilityDate pins which Workers runtime behaviour the functions run under, as a date (\"2024-01-01\"). It is a pin, not a version: the runtime keeps that date's semantics for code deployed against it. */
     public var compatibilityDate: String?
+    /** CompatibilityFlags turn individual runtime behaviours on or off ahead of, or behind, the date above (\"nodejs_compat\"). */
     public var compatibilityFlags: [String]?
+    /** D1Databases binds D1 databases in, keyed by binding name. */
     public var d1Databases: [String: PagesD1Binding]?
+    /** EnvVars are the environment variables the functions see, KEYED BY VARIABLE NAME. The key is the name; the value carries the value and whether it is a secret. */
     public var envVars: [String: PagesEnvVar]?
+    /** KVNamespaces binds KV namespaces into the functions, KEYED BY THE BINDING NAME the code reads (`env.SESSIONS`). Same shape for the two below. */
     public var kvNamespaces: [String: PagesKVBinding]?
+    /** R2Buckets binds R2 buckets in, keyed by binding name. */
     public var r2Buckets: [String: PagesR2Binding]?
 
     public init(compatibilityDate: String? = nil, compatibilityFlags: [String]? = nil, d1Databases: [String: PagesD1Binding]? = nil, envVars: [String: PagesEnvVar]? = nil, kvNamespaces: [String: PagesKVBinding]? = nil, r2Buckets: [String: PagesR2Binding]? = nil) {

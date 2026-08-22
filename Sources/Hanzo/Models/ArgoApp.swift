@@ -9,10 +9,15 @@ import Foundation
 
 public struct ArgoApp: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** APIVersion is the constant \"argoproj.io/v1alpha1\" — the shape, not the source. These are projections of operator App CRs and Hanzo CD Applications; no argoproj.io object is stored anywhere behind this plane. */
     public var apiVersion: String?
+    /** Kind is the constant \"Application\". */
     public var kind: String?
+    /** Metadata is the projected object's identity. */
     public var metadata: ArgoMeta?
+    /** Spec is the desired state: where it comes from, where it lands, what project it belongs to. */
     public var spec: ArgoSpec?
+    /** Status is what was observed: the sync verdict, the health, and the owned objects when this is a detail read. */
     public var status: ArgoStatus?
 
     public init(apiVersion: String? = nil, kind: String? = nil, metadata: ArgoMeta? = nil, spec: ArgoSpec? = nil, status: ArgoStatus? = nil) {

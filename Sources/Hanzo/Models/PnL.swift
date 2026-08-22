@@ -9,13 +9,19 @@ import Foundation
 
 public struct PnL: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Expense is the cost lines that moved in the period, one per account. */
     public var expense: [PnLLine]?
+    /** From opens the period and is EXCLUSIVE — movement strictly after it, matching the trial balance's opening boundary so the two reports agree on what belongs to a period. Absent means from the beginning of the ledger. */
     public var from: String?
+    /** Income is the revenue lines that moved in the period, one per account. Accounts that did not move are omitted rather than listed at zero. */
     public var income: [PnLLine]?
-    /** TotalIncome − TotalExpense */
+    /** NetIncome is totalIncome minus totalExpense, in cents. Negative is a loss. */
     public var netIncome: Int?
+    /** To closes the period and is inclusive. Absent means up to now. */
     public var to: String?
+    /** TotalExpense is cost MATCHED to that revenue, in cents, including accrued infrastructure that has not been billed yet. */
     public var totalExpense: Int?
+    /** TotalIncome is revenue RECOGNIZED in the period, in cents — accrual, not cash, so a prepaid top-up is not in it until the credit is consumed. */
     public var totalIncome: Int?
 
     public init(expense: [PnLLine]? = nil, from: String? = nil, income: [PnLLine]? = nil, netIncome: Int? = nil, to: String? = nil, totalExpense: Int? = nil, totalIncome: Int? = nil) {

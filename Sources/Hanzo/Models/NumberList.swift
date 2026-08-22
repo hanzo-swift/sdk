@@ -9,6 +9,7 @@ import Foundation
 
 public struct NumberList: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Data is the numbers, and which numbers depends on the route: a search answers what the carrier has available, a list answers what this org already holds. */
     public var data: [Number]?
 
     public init(data: [Number]? = nil) {

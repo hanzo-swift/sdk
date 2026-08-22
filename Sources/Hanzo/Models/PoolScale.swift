@@ -9,10 +9,11 @@ import Foundation
 
 public struct PoolScale: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** ClusterID and PoolID address the pool, from the URL path. */
+    /** ClusterID is the cluster holding the pool, from the URL path. */
     public var clusterId: String?
     /** Count is the node count to scale TO — an absolute target, not a delta, and never negative. */
     public var count: Int?
+    /** PoolID is the pool to resize, from the URL path — the `poolId` a cluster read reports for it. Required. */
     public var poolId: String?
     /** Provider is the cloud the cluster lives on. Required; body or ?provider=. */
     public var provider: String?

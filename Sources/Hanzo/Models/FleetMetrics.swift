@@ -9,10 +9,15 @@ import Foundation
 
 public struct FleetMetrics: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** At is when this reading was MEASURED, RFC 3339 in UTC — not when the board was built. A console decides staleness by comparing it to now; the board deliberately does not decide that for it. */
     public var at: String?
+    /** GPUUtil is aggregate accelerator utilization as a FRACTION of 1 — 0.42 is 42% busy, never 42. Across all of the unit's cards, not one of them. */
     public var gpuUtil: Double?
+    /** Load1 is the host's 1-minute load average — runnable processes, not a percentage, so it is read against the unit's core count and can exceed 1. */
     public var load1: Double?
+    /** MemFree is host memory still available, in BYTES. It is what the source reported, not fleetSpec.Memory minus MemUsed. */
     public var memFree: Int?
+    /** MemUsed is host memory in use, in BYTES. */
     public var memUsed: Int?
 
     public init(at: String? = nil, gpuUtil: Double? = nil, load1: Double? = nil, memFree: Int? = nil, memUsed: Int? = nil) {

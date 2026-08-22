@@ -9,7 +9,9 @@ import Foundation
 
 public struct Field: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Key is the identifier the body substitutes ({{.key}}) and the key a generation's data map must carry. snake_case by convention across the built-ins — effective_date, company_name, governing_law. An override whose body references a key no Field declares is refused on save. */
     public var key: String?
+    /** Label is the human prompt for whoever fills the value in — \"Governing law (state)\". It never reaches the rendered document; only Key does. */
     public var label: String?
 
     public init(key: String? = nil, label: String? = nil) {

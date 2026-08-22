@@ -9,12 +9,19 @@ import Foundation
 
 public struct BuildTurn: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Actor is who took the turn. A deploy turn's actor is the literal \"deploy\", because nobody took it. */
     public var actor: String?
+    /** At is when the turn was recorded, RFC 3339 in UTC to the second. */
     public var at: String?
+    /** Body is the readable text of the turn, taken from the stored event's `text`. Empty when the event carried a payload of some other shape — this route reads transcripts and does not invent prose for turns that are not one. */
     public var body: String?
+    /** Commit is the full sha this turn produced, empty when the turn changed nothing. It is ECHOED from the transcript, and the authority is the commit itself: it carries the `Hanzo-Session:`/`Hanzo-Turn:` trailer, or a note under refs/notes/hanzo-provenance saying the same, so the claim is checkable at source with the command in `verify`. */
     public var commit: String?
+    /** Kind is what the turn was, from the log's closed six: message, tool-call, spawn, log, status, control. A deploy arrives as a `status` turn. */
     public var kind: String?
+    /** Subject is that commit's subject line, from the same transcript, so a reader sees what the commit says without fetching the repository. */
     public var subject: String?
+    /** Seq is this turn's POSITION in the session's log — monotonic from 1, per session — and it is what a commit's `Hanzo-Turn:` trailer names. It is not a count of anything: the count is `turns` on the summary beside it. */
     public var turn: Int?
 
     public init(actor: String? = nil, at: String? = nil, body: String? = nil, commit: String? = nil, kind: String? = nil, subject: String? = nil, turn: Int? = nil) {

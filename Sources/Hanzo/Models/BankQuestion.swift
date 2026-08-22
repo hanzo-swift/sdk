@@ -9,10 +9,15 @@ import Foundation
 
 public struct BankQuestion: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Connector names the feed the unplaceable line arrived on. With externalId it identifies both the question and the bank line it is about, so re-syncing the same deposit never asks twice. */
     public var connector: String?
+    /** CreatedAt is when the question was raised. */
     public var createdAt: String?
+    /** ExternalID is the bank's own id for the line in question. */
     public var externalId: String?
+    /** Prompt is the question put to the founder in plain language — what this money was, since the books cannot place it on their own. */
     public var prompt: String?
+    /** Status is whether the question is still open or has been answered. */
     public var status: String?
 
     public init(connector: String? = nil, createdAt: String? = nil, externalId: String? = nil, prompt: String? = nil, status: String? = nil) {

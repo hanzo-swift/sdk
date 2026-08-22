@@ -9,7 +9,9 @@ import Foundation
 
 public struct ArgoInfoItem: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Name is the chip's label. The only one this projection produces is \"Image Tag\". */
     public var name: String?
+    /** Value is the chip's value — for \"Image Tag\", the tag the node runs. */
     public var value: String?
 
     public init(name: String? = nil, value: String? = nil) {

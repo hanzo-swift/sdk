@@ -11,6 +11,8 @@ public struct IamWebauthnCredential: Sendable, Codable, ParameterConvertible, Ha
 
     public var aaguid: String?
     public var attachment: String?
+    /** AttestationFormat is the statement format the authenticator attested in (\"packed\", \"apple\", \"none\", …), which is a DIFFERENT value from the attestation type above. The library reads it back when resolving the FIDO AppID extension, so a row that dropped it would round-trip a credential the verifier no longer recognises as the one it stored. */
+    public var attestationFormat: String?
     public var attestationType: String?
     public var backupEligible: Bool?
     public var backupState: Bool?
@@ -30,9 +32,10 @@ public struct IamWebauthnCredential: Sendable, Codable, ParameterConvertible, Ha
     public var userPresent: Bool?
     public var userVerified: Bool?
 
-    public init(aaguid: String? = nil, attachment: String? = nil, attestationType: String? = nil, backupEligible: Bool? = nil, backupState: Bool? = nil, cloneWarning: Bool? = nil, createdAt: Date? = nil, createdTime: String? = nil, credentialId: String? = nil, deleted: Bool? = nil, id: String? = nil, name: String? = nil, owner: String? = nil, publicKey: String? = nil, signCount: Int? = nil, transport: [String]? = nil, updatedAt: Date? = nil, user: String? = nil, userPresent: Bool? = nil, userVerified: Bool? = nil) {
+    public init(aaguid: String? = nil, attachment: String? = nil, attestationFormat: String? = nil, attestationType: String? = nil, backupEligible: Bool? = nil, backupState: Bool? = nil, cloneWarning: Bool? = nil, createdAt: Date? = nil, createdTime: String? = nil, credentialId: String? = nil, deleted: Bool? = nil, id: String? = nil, name: String? = nil, owner: String? = nil, publicKey: String? = nil, signCount: Int? = nil, transport: [String]? = nil, updatedAt: Date? = nil, user: String? = nil, userPresent: Bool? = nil, userVerified: Bool? = nil) {
         self.aaguid = aaguid
         self.attachment = attachment
+        self.attestationFormat = attestationFormat
         self.attestationType = attestationType
         self.backupEligible = backupEligible
         self.backupState = backupState
@@ -56,6 +59,7 @@ public struct IamWebauthnCredential: Sendable, Codable, ParameterConvertible, Ha
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case aaguid
         case attachment
+        case attestationFormat
         case attestationType
         case backupEligible
         case backupState
@@ -82,6 +86,7 @@ public struct IamWebauthnCredential: Sendable, Codable, ParameterConvertible, Ha
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(aaguid, forKey: .aaguid)
         try container.encodeIfPresent(attachment, forKey: .attachment)
+        try container.encodeIfPresent(attestationFormat, forKey: .attestationFormat)
         try container.encodeIfPresent(attestationType, forKey: .attestationType)
         try container.encodeIfPresent(backupEligible, forKey: .backupEligible)
         try container.encodeIfPresent(backupState, forKey: .backupState)

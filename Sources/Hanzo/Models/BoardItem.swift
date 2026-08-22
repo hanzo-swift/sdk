@@ -9,11 +9,17 @@ import Foundation
 
 public struct BoardItem: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** DocType is which content type the row came from: Campaign, SocialPost or Asset. The board spans all three at once, so this is what tells them apart. */
     public var doctype: String?
+    /** Name is the document within that type. (doctype, name) is the pair every /v1/content write addresses an item by. */
     public var name: String?
+    /** Project is the brand/site sub-scope within the org. Absent for an item held at org level rather than under one brand. */
     public var project: String?
+    /** Status is the lifecycle state: draft, in_review, approved, queued, published or archived. It decides what a reader may see — the public site pulls exactly \"published\" and nothing else — so it is a visibility fact, not a workflow label. */
     public var status: String?
+    /** Title is the item's headline, read from its type's own title field. Empty for a document that has none. */
     public var title: String?
+    /** UpdatedAt is unix seconds of the document's last write, and the key the board sorts on, newest first. */
     public var updatedAt: Int?
 
     public init(doctype: String? = nil, name: String? = nil, project: String? = nil, status: String? = nil, title: String? = nil, updatedAt: Int? = nil) {

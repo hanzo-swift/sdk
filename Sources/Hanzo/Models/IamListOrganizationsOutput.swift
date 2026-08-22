@@ -9,16 +9,16 @@ import Foundation
 
 public struct IamListOrganizationsOutput: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var count: Int?
+    public var cursor: String?
     public var organizations: [IamOrganization]?
 
-    public init(count: Int? = nil, organizations: [IamOrganization]? = nil) {
-        self.count = count
+    public init(cursor: String? = nil, organizations: [IamOrganization]? = nil) {
+        self.cursor = cursor
         self.organizations = organizations
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case count
+        case cursor
         case organizations
     }
 
@@ -26,7 +26,7 @@ public struct IamListOrganizationsOutput: Sendable, Codable, ParameterConvertibl
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(count, forKey: .count)
+        try container.encodeIfPresent(cursor, forKey: .cursor)
         try container.encodeIfPresent(organizations, forKey: .organizations)
     }
 }

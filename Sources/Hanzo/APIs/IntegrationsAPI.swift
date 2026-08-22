@@ -10,6 +10,50 @@ import Foundation
 open class IntegrationsAPI {
 
     /**
+     Forgets a connector: every custodied secret, then the row.
+     
+     - parameter id: (path) ID is the connector id, provider + \&quot;:\&quot; + label (\&quot;openai:default\&quot;) — the auth-profile-id shape. Another user&#39;s id is simply no row, so 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: DisconnectOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deleteIntegrationsConnectorsById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> DisconnectOut {
+        return try await deleteIntegrationsConnectorsByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Forgets a connector: every custodied secret, then the row.
+     - DELETE /v1/integrations/connectors/{id}
+     - Forgets a connector: every custodied secret, then the row. Idempotent — dropping a never-connected id still answers {disconnected:true} (disconnect() parity). No provider Revoke: none of the user-plane providers exposes a revoke endpoint.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the connector id, provider + \&quot;:\&quot; + label (\&quot;openai:default\&quot;) — the auth-profile-id shape. Another user&#39;s id is simply no row, so 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<DisconnectOut> 
+     */
+    open class func deleteIntegrationsConnectorsByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<DisconnectOut> {
+        var localVariablePath = "/v1/integrations/connectors/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<DisconnectOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      Deletes the repo's Pages site.
      
      - parameter repo: (path) Repo is the repository&#39;s short name within the org&#39;s installation, with no owner prefix (the owner is server-derived from the grant). A trailing \&quot;.git\&quot; is stripped. 
@@ -67,7 +111,7 @@ open class IntegrationsAPI {
     /**
      Returns every registered integration provider together with THIS org's connection status for it — the catalog the console's Integrations page renders.
      - GET /v1/integrations
-     - Returns every registered integration provider together with THIS org's connection status for it — the catalog the console's Integrations page renders. Org-authed: a caller with no validated principal is 403, because the status is per-org and there is no org-less answer. User-plane providers (the /v1/connectors surface) are omitted; the two planes are disjoint.
+     - Returns every registered integration provider together with THIS org's connection status for it — the catalog the console's Integrations page renders. Org-authed: a caller with no validated principal is 403, because the status is per-org and there is no org-less answer. User-plane providers (the /v1/integrations/connectors surface) are omitted; the two planes are disjoint.
      - Bearer Token:
        - type: http
        - name: bearer
@@ -95,7 +139,7 @@ open class IntegrationsAPI {
     /**
      Returns ONE provider with this org's connection status — the same view list carries, for a single id.
      
-     - parameter provider: (path) Provider is the registry id of the connector — \&quot;slack\&quot;, \&quot;github\&quot;, \&quot;cloudflare\&quot;. Unknown ids are 404, as are the user-plane (/v1/connectors) providers, which this surface never resolves. 
+     - parameter provider: (path) Provider is the registry id of the connector — \&quot;slack\&quot;, \&quot;github\&quot;, \&quot;cloudflare\&quot;. Unknown ids are 404, as are the user-plane (/v1/integrations/connectors) providers, which this surface never resolves. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: ProviderView
      */
@@ -111,7 +155,7 @@ open class IntegrationsAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter provider: (path) Provider is the registry id of the connector — \&quot;slack\&quot;, \&quot;github\&quot;, \&quot;cloudflare\&quot;. Unknown ids are 404, as are the user-plane (/v1/connectors) providers, which this surface never resolves. 
+     - parameter provider: (path) Provider is the registry id of the connector — \&quot;slack\&quot;, \&quot;github\&quot;, \&quot;cloudflare\&quot;. Unknown ids are 404, as are the user-plane (/v1/integrations/connectors) providers, which this surface never resolves. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ProviderView> 
      */
@@ -176,6 +220,128 @@ open class IntegrationsAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Lists the caller's OWN connectors across every provider — the set `hanzo connector ls` prints.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ConnectorsOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getIntegrationsConnectors(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ConnectorsOut {
+        return try await getIntegrationsConnectorsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Lists the caller's OWN connectors across every provider — the set `hanzo connector ls` prints.
+     - GET /v1/integrations/connectors
+     - Lists the caller's OWN connectors across every provider — the set `hanzo connector ls` prints. Rows are keyed (org,user), so this can never surface another user's connector, and no secret is in the view.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ConnectorsOut> 
+     */
+    open class func getIntegrationsConnectorsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ConnectorsOut> {
+        let localVariablePath = "/v1/integrations/connectors"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ConnectorsOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Hands the custodied access token to its owner — the ONE place custody exits.
+     
+     - parameter id: (path) ID is the connector id, provider + \&quot;:\&quot; + label (\&quot;openai:default\&quot;) — the auth-profile-id shape. Another user&#39;s id is simply no row, so 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ConnectorTokenOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getIntegrationsConnectorsByIdToken(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ConnectorTokenOut {
+        return try await getIntegrationsConnectorsByIdTokenWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Hands the custodied access token to its owner — the ONE place custody exits.
+     - GET /v1/integrations/connectors/{id}/token
+     - Hands the custodied access token to its owner — the ONE place custody exits. The (org,user)-keyed row IS the same-user gate: another user's id is simply \"no row\" → 404. fresh() auto-rotates within the refreshSkew window; static providers degenerate to a plain kmsGet of Secrets[0]. Refresh tokens are NEVER returned — custody keeps the sink. The token is never logged.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the connector id, provider + \&quot;:\&quot; + label (\&quot;openai:default\&quot;) — the auth-profile-id shape. Another user&#39;s id is simply no row, so 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ConnectorTokenOut> 
+     */
+    open class func getIntegrationsConnectorsByIdTokenWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ConnectorTokenOut> {
+        var localVariablePath = "/v1/integrations/connectors/{id}/token"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ConnectorTokenOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Lists the user-scoped provider cards — the catalog of what a user can connect, and how.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: ConnectorProvidersOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getIntegrationsConnectorsProviders(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ConnectorProvidersOut {
+        return try await getIntegrationsConnectorsProvidersWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Lists the user-scoped provider cards — the catalog of what a user can connect, and how.
+     - GET /v1/integrations/connectors/providers
+     - Lists the user-scoped provider cards — the catalog of what a user can connect, and how. Methods derive from capabilities (Device/Adopt/Verify — Mount asserts at least one), never from a parallel kind enum.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<ConnectorProvidersOut> 
+     */
+    open class func getIntegrationsConnectorsProvidersWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ConnectorProvidersOut> {
+        let localVariablePath = "/v1/integrations/connectors/providers"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ConnectorProvidersOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -415,6 +581,45 @@ open class IntegrationsAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<GithubPagesView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Lists the projects the org's GitLab connection can reach — membership projects, most recently active first.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: GitlabProjectsOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getIntegrationsGitlabProjects(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GitlabProjectsOut {
+        return try await getIntegrationsGitlabProjectsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Lists the projects the org's GitLab connection can reach — membership projects, most recently active first.
+     - GET /v1/integrations/gitlab/projects
+     - Lists the projects the org's GitLab connection can reach — membership projects, most recently active first.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<GitlabProjectsOut> 
+     */
+    open class func getIntegrationsGitlabProjectsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GitlabProjectsOut> {
+        let localVariablePath = "/v1/integrations/gitlab/projects"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<GitlabProjectsOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -858,7 +1063,7 @@ open class IntegrationsAPI {
     /**
      Revokes (best-effort) and forgets an org's connection: it deletes every custodied KMS secret and the connection row.
      
-     - parameter provider: (path) Provider is the registry id of the connector — \&quot;slack\&quot;, \&quot;github\&quot;, \&quot;cloudflare\&quot;. Unknown ids are 404, as are the user-plane (/v1/connectors) providers, which this surface never resolves. 
+     - parameter provider: (path) Provider is the registry id of the connector — \&quot;slack\&quot;, \&quot;github\&quot;, \&quot;cloudflare\&quot;. Unknown ids are 404, as are the user-plane (/v1/integrations/connectors) providers, which this surface never resolves. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: DisconnectOut
      */
@@ -874,7 +1079,7 @@ open class IntegrationsAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter provider: (path) Provider is the registry id of the connector — \&quot;slack\&quot;, \&quot;github\&quot;, \&quot;cloudflare\&quot;. Unknown ids are 404, as are the user-plane (/v1/connectors) providers, which this surface never resolves. 
+     - parameter provider: (path) Provider is the registry id of the connector — \&quot;slack\&quot;, \&quot;github\&quot;, \&quot;cloudflare\&quot;. Unknown ids are 404, as are the user-plane (/v1/integrations/connectors) providers, which this surface never resolves. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<DisconnectOut> 
      */
@@ -902,7 +1107,7 @@ open class IntegrationsAPI {
     /**
      Re-checks a CONNECTED apikey connector's stored credential against the provider, live (`hanzo connector verify`).
      
-     - parameter provider: (path) Provider is the registry id of the connector — \&quot;slack\&quot;, \&quot;github\&quot;, \&quot;cloudflare\&quot;. Unknown ids are 404, as are the user-plane (/v1/connectors) providers, which this surface never resolves. 
+     - parameter provider: (path) Provider is the registry id of the connector — \&quot;slack\&quot;, \&quot;github\&quot;, \&quot;cloudflare\&quot;. Unknown ids are 404, as are the user-plane (/v1/integrations/connectors) providers, which this surface never resolves. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: VerifyOut
      */
@@ -918,7 +1123,7 @@ open class IntegrationsAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter provider: (path) Provider is the registry id of the connector — \&quot;slack\&quot;, \&quot;github\&quot;, \&quot;cloudflare\&quot;. Unknown ids are 404, as are the user-plane (/v1/connectors) providers, which this surface never resolves. 
+     - parameter provider: (path) Provider is the registry id of the connector — \&quot;slack\&quot;, \&quot;github\&quot;, \&quot;cloudflare\&quot;. Unknown ids are 404, as are the user-plane (/v1/integrations/connectors) providers, which this surface never resolves. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<VerifyOut> 
      */
@@ -939,6 +1144,191 @@ open class IntegrationsAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<VerifyOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Forces a token rotation for a connected connector, ahead of the automatic rotation a token read would do inside the expiry window.
+     
+     - parameter id: (path) ID is the connector id, provider + \&quot;:\&quot; + label (\&quot;openai:default\&quot;) — the auth-profile-id shape. Another user&#39;s id is simply no row, so 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RefreshOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postIntegrationsConnectorsByIdRefresh(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RefreshOut {
+        return try await postIntegrationsConnectorsByIdRefreshWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Forces a token rotation for a connected connector, ahead of the automatic rotation a token read would do inside the expiry window.
+     - POST /v1/integrations/connectors/{id}/refresh
+     - Forces a token rotation for a connected connector, ahead of the automatic rotation a token read would do inside the expiry window. Only providers that declare a Refresh support it.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the connector id, provider + \&quot;:\&quot; + label (\&quot;openai:default\&quot;) — the auth-profile-id shape. Another user&#39;s id is simply no row, so 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<RefreshOut> 
+     */
+    open class func postIntegrationsConnectorsByIdRefreshWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RefreshOut> {
+        var localVariablePath = "/v1/integrations/connectors/{id}/refresh"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<RefreshOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Is the direct intake path: a customer-held token/setup-token (Verify) or an externally obtained OAuth bundle from the CLI's local PKCE (Adopt).
+     
+     - parameter provider: (path) Provider is the user-scoped provider&#39;s registry id, from the path. 
+     - parameter credentialIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: CredentialOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postIntegrationsConnectorsByProviderCredential(provider: String, credentialIn: CredentialIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CredentialOut {
+        return try await postIntegrationsConnectorsByProviderCredentialWithRequestBuilder(provider: provider, credentialIn: credentialIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Is the direct intake path: a customer-held token/setup-token (Verify) or an externally obtained OAuth bundle from the CLI's local PKCE (Adopt).
+     - POST /v1/integrations/connectors/{provider}/credential
+     - Is the direct intake path: a customer-held token/setup-token (Verify) or an externally obtained OAuth bundle from the CLI's local PKCE (Adopt). ALWAYS verify-before-store: a bad credential is refused and NOTHING is persisted (connectByCredential's fail-closed order).
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter provider: (path) Provider is the user-scoped provider&#39;s registry id, from the path. 
+     - parameter credentialIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<CredentialOut> 
+     */
+    open class func postIntegrationsConnectorsByProviderCredentialWithRequestBuilder(provider: String, credentialIn: CredentialIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CredentialOut> {
+        var localVariablePath = "/v1/integrations/connectors/{provider}/credential"
+        let providerPreEscape = "\(APIHelper.mapValueToPathItem(provider))"
+        let providerPostEscape = providerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{provider}", with: providerPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: credentialIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<CredentialOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Begins a device sign-in and returns the code to show the user plus how to poll for completion.
+     
+     - parameter provider: (path) Provider is the user-scoped provider&#39;s registry id, from the path. 
+     - parameter deviceStartIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: DeviceStartOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postIntegrationsConnectorsByProviderDevice(provider: String, deviceStartIn: DeviceStartIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> DeviceStartOut {
+        return try await postIntegrationsConnectorsByProviderDeviceWithRequestBuilder(provider: provider, deviceStartIn: deviceStartIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Begins a device sign-in and returns the code to show the user plus how to poll for completion.
+     - POST /v1/integrations/connectors/{provider}/device
+     - Begins a device sign-in and returns the code to show the user plus how to poll for completion. KMS readiness is checked NOW rather than dead-ending the user at poll-done (connect() parity), and the per-provider connector cap is checked before the provider is called. The provider's device code is persisted only in the encrypted grants table and is NEVER returned.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter provider: (path) Provider is the user-scoped provider&#39;s registry id, from the path. 
+     - parameter deviceStartIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<DeviceStartOut> 
+     */
+    open class func postIntegrationsConnectorsByProviderDeviceWithRequestBuilder(provider: String, deviceStartIn: DeviceStartIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<DeviceStartOut> {
+        var localVariablePath = "/v1/integrations/connectors/{provider}/device"
+        let providerPreEscape = "\(APIHelper.mapValueToPathItem(provider))"
+        let providerPostEscape = providerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{provider}", with: providerPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: deviceStartIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<DeviceStartOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Advances a device sign-in.
+     
+     - parameter provider: (path) Provider is the user-scoped provider&#39;s registry id, from the path. 
+     - parameter flow: (path) Flow is the id deviceStartOut returned. Expired or another user&#39;s flow is indistinguishable from an unknown one: 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: DevicePollOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postIntegrationsConnectorsByProviderDeviceByFlowPoll(provider: String, flow: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> DevicePollOut {
+        return try await postIntegrationsConnectorsByProviderDeviceByFlowPollWithRequestBuilder(provider: provider, flow: flow, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Advances a device sign-in.
+     - POST /v1/integrations/connectors/{provider}/device/{flow}/poll
+     - Advances a device sign-in. Terminal outcomes are DATA, not errors (verifyConn {active:false} discipline) — the status set is closed: pending|connected|denied|expired. pollSlow collapses to \"pending\" on the wire; the raised cadence rides interval.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter provider: (path) Provider is the user-scoped provider&#39;s registry id, from the path. 
+     - parameter flow: (path) Flow is the id deviceStartOut returned. Expired or another user&#39;s flow is indistinguishable from an unknown one: 404. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<DevicePollOut> 
+     */
+    open class func postIntegrationsConnectorsByProviderDeviceByFlowPollWithRequestBuilder(provider: String, flow: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<DevicePollOut> {
+        var localVariablePath = "/v1/integrations/connectors/{provider}/device/{flow}/poll"
+        let providerPreEscape = "\(APIHelper.mapValueToPathItem(provider))"
+        let providerPostEscape = providerPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{provider}", with: providerPostEscape, options: .literal, range: nil)
+        let flowPreEscape = "\(APIHelper.mapValueToPathItem(flow))"
+        let flowPostEscape = flowPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{flow}", with: flowPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<DevicePollOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

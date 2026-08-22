@@ -10,29 +10,29 @@ import Foundation
 open class IndexAPI {
 
     /**
-     Delete an index and everything in it
+     Deletes an index and everything in it.
      
      - parameter uid: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: IndexEnqueued
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteIndexIndexesByUid(uid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func deleteIndexIndexesByUid(uid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IndexEnqueued {
         return try await deleteIndexIndexesByUidWithRequestBuilder(uid: uid, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Delete an index and everything in it
+     Deletes an index and everything in it.
      - DELETE /v1/index/indexes/{uid}
-     - Drops one index in the caller's org together with all of its documents. This is the only way to retire an index; without it a mistaken uid would be permanent. It is idempotent — dropping an index that is not there still succeeds. The tenant is the org minted from the VALIDATED bearer's owner claim, never a client-supplied header, and every query filters on it, so two orgs may both hold an index named \"messages\" and neither can see the other's documents. Without a validated principal the answer is 403 carrying Meilisearch's `invalid_api_key` body. Errors use Meilisearch's {message, code, type, link} shape rather than cloud's, because that `code` is a wire contract a Meilisearch client branches on.  The 202 and its `enqueued` task are DIALECT COMPATIBILITY, not a promise of later work: the write is already applied when this answers, and the task it names is already complete. A client that polls waitForTask resolves immediately rather than waiting, and a client that does not poll has still had its write committed.
+     - Deletes an index and everything in it.  Drops the index and every document in it from the caller's own org, and answers the dialect's EnqueuedTask. This is the only way to retire an index; without it a mistaken uid is permanent. Deleting an index that is not there succeeds, so a cleanup pass is safe to re-run.  The 202 and its `enqueued` task are DIALECT COMPATIBILITY, not a promise of later work: the documents are already gone when this answers.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter uid: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<IndexEnqueued> 
      */
-    open class func deleteIndexIndexesByUidWithRequestBuilder(uid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func deleteIndexIndexesByUidWithRequestBuilder(uid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IndexEnqueued> {
         var localVariablePath = "/v1/index/indexes/{uid}"
         let uidPreEscape = "\(APIHelper.mapValueToPathItem(uid))"
         let uidPostEscape = uidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -48,37 +48,37 @@ open class IndexAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<IndexEnqueued>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Delete one document by its primary key
+     Deletes one document by its primary key.
      
      - parameter uid: (path)  
      - parameter id: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: IndexEnqueued
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteIndexIndexesByUidDocumentsById(uid: String, id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func deleteIndexIndexesByUidDocumentsById(uid: String, id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IndexEnqueued {
         return try await deleteIndexIndexesByUidDocumentsByIdWithRequestBuilder(uid: uid, id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Delete one document by its primary key
+     Deletes one document by its primary key.
      - DELETE /v1/index/indexes/{uid}/documents/{id}
-     - Removes one document from an index. It is IDEMPOTENT: deleting a key that is not there succeeds rather than 404, so a retry after a lost response is safe. The tenant is the org minted from the VALIDATED bearer's owner claim, never a client-supplied header, and every query filters on it, so two orgs may both hold an index named \"messages\" and neither can see the other's documents. Without a validated principal the answer is 403 carrying Meilisearch's `invalid_api_key` body. Errors use Meilisearch's {message, code, type, link} shape rather than cloud's, because that `code` is a wire contract a Meilisearch client branches on.  The 202 and its `enqueued` task are DIALECT COMPATIBILITY, not a promise of later work: the write is already applied when this answers, and the task it names is already complete. A client that polls waitForTask resolves immediately rather than waiting, and a client that does not poll has still had its write committed.
+     - Deletes one document by its primary key.  Removes the document from the caller's own org and answers the dialect's EnqueuedTask. Deleting a key that is not there succeeds, so a client reconciling its own corpus can delete without checking first.  The 202 and its `enqueued` task are DIALECT COMPATIBILITY, not a promise of later work: the document is already gone when this answers.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter uid: (path)  
      - parameter id: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<IndexEnqueued> 
      */
-    open class func deleteIndexIndexesByUidDocumentsByIdWithRequestBuilder(uid: String, id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func deleteIndexIndexesByUidDocumentsByIdWithRequestBuilder(uid: String, id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IndexEnqueued> {
         var localVariablePath = "/v1/index/indexes/{uid}/documents/{id}"
         let uidPreEscape = "\(APIHelper.mapValueToPathItem(uid))"
         let uidPostEscape = uidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -97,33 +97,33 @@ open class IndexAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<IndexEnqueued>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Report whether the search plane can serve
+     Reports whether the search plane can serve.
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: IndexHealth
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIndexHealth(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getIndexHealth(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IndexHealth {
         return try await getIndexHealthWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Report whether the search plane can serve
+     Reports whether the search plane can serve.
      - GET /v1/index/health
-     - Answers Meilisearch's `{\"status\":\"available\"}` when the index store is readable. It FAILS CLOSED — an unreadable store answers 503 and `unavailable` — so a replica whose volume has gone bad stops taking traffic instead of answering every search with nothing found. It touches no tenant data and needs no credential.
+     - Reports whether the search plane can serve.  Answers the dialect's `{\"status\":\"available\"}` when the index store is readable. It FAILS CLOSED — an unreadable store answers 503 with `{\"status\":\"unavailable\"}` rather than an empty result set, because a Meilisearch client probes this before it will use a server at all and a cheerful 200 over a broken volume turns \"search is down\" into \"nothing matched\". It requires no principal and reads no tenant data.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<IndexHealth> 
      */
-    open class func getIndexHealthWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getIndexHealthWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IndexHealth> {
         let localVariablePath = "/v1/index/health"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -136,33 +136,33 @@ open class IndexAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<IndexHealth>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     List the indexes your org holds
+     Lists the indexes your org holds.
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: IndexList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIndexIndexes(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getIndexIndexes(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IndexList {
         return try await getIndexIndexesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     List the indexes your org holds
+     Lists the indexes your org holds.
      - GET /v1/index/indexes
-     - Answers every index in the caller's org with its primary key and timestamps. It is the only way to enumerate what an org holds — without it an index whose uid a caller has forgotten is unreachable. The tenant is the org minted from the VALIDATED bearer's owner claim, never a client-supplied header, and every query filters on it, so two orgs may both hold an index named \"messages\" and neither can see the other's documents. Without a validated principal the answer is 403 carrying Meilisearch's `invalid_api_key` body. Errors use Meilisearch's {message, code, type, link} shape rather than cloud's, because that `code` is a wire contract a Meilisearch client branches on.
+     - Lists the indexes your org holds.  Answers every index in the caller's own org with its primary key and timestamps. Without it an index whose uid a caller has forgotten is unreachable — there is no other way to enumerate what an org holds. The page is the whole set: an org's index count is small by construction, so `limit` and `total` both report it.  The tenant is the org minted from the VALIDATED bearer's owner claim, never a client-supplied header, and two orgs may both hold an index named \"messages\" without either seeing the other. Without a validated principal the answer is 403 carrying the dialect's `invalid_api_key` body.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<IndexList> 
      */
-    open class func getIndexIndexesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getIndexIndexesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IndexList> {
         let localVariablePath = "/v1/index/indexes"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -175,35 +175,35 @@ open class IndexAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<IndexList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Read one index's definition
+     Reads one index's definition.
      
      - parameter uid: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: IndexView
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIndexIndexesByUid(uid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getIndexIndexesByUid(uid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IndexView {
         return try await getIndexIndexesByUidWithRequestBuilder(uid: uid, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Read one index's definition
+     Reads one index's definition.
      - GET /v1/index/indexes/{uid}
-     - Answers a single index's uid, primary key and timestamps. An index the caller's org does not hold is 404 `index_not_found` — which is the same answer another org's index gives, since the org is a bound predicate on the read. The tenant is the org minted from the VALIDATED bearer's owner claim, never a client-supplied header, and every query filters on it, so two orgs may both hold an index named \"messages\" and neither can see the other's documents. Without a validated principal the answer is 403 carrying Meilisearch's `invalid_api_key` body. Errors use Meilisearch's {message, code, type, link} shape rather than cloud's, because that `code` is a wire contract a Meilisearch client branches on.
+     - Reads one index's definition.  Answers the index's uid, primary key and timestamps. An index this org does not hold answers 404 carrying the dialect's `index_not_found` — the code a Meilisearch client reads as permission to create it, which is why this is a refusal rather than an empty object.  The uid is scoped to the caller's own org, so another tenant's index is indistinguishable from one that never existed: this surface is not an existence oracle.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter uid: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<IndexView> 
      */
-    open class func getIndexIndexesByUidWithRequestBuilder(uid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getIndexIndexesByUidWithRequestBuilder(uid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IndexView> {
         var localVariablePath = "/v1/index/indexes/{uid}"
         let uidPreEscape = "\(APIHelper.mapValueToPathItem(uid))"
         let uidPostEscape = uidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -219,35 +219,39 @@ open class IndexAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<IndexView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Page through the documents in an index
+     Pages through the documents in an index.
      
      - parameter uid: (path)  
+     - parameter limit: (query)  (optional)
+     - parameter offset: (query)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: IndexDocuments
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIndexIndexesByUidDocuments(uid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await getIndexIndexesByUidDocumentsWithRequestBuilder(uid: uid, apiConfiguration: apiConfiguration).execute().body
+    open class func getIndexIndexesByUidDocuments(uid: String, limit: String? = nil, offset: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IndexDocuments {
+        return try await getIndexIndexesByUidDocumentsWithRequestBuilder(uid: uid, limit: limit, offset: offset, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Page through the documents in an index
+     Pages through the documents in an index.
      - GET /v1/index/indexes/{uid}/documents
-     - Answers the documents in one index with a total count. `limit` defaults to 20 and is capped at 1000, `offset` pages, and the response echoes both back so a pager knows what it actually got. An index the caller's org does not hold is 404 `index_not_found`. The tenant is the org minted from the VALIDATED bearer's owner claim, never a client-supplied header, and every query filters on it, so two orgs may both hold an index named \"messages\" and neither can see the other's documents. Without a validated principal the answer is 403 carrying Meilisearch's `invalid_api_key` body. Errors use Meilisearch's {message, code, type, link} shape rather than cloud's, because that `code` is a wire contract a Meilisearch client branches on.
+     - Pages through the documents in an index.  Answers the org's stored documents in insertion order, whole, with the page's bounds and the index's total. It is the enumeration surface — search ranks by relevance and cannot walk a corpus — so a caller reconciling what it has written reads it here.  An index this org does not hold answers 404 carrying the dialect's `index_not_found`.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter uid: (path)  
+     - parameter limit: (query)  (optional)
+     - parameter offset: (query)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<IndexDocuments> 
      */
-    open class func getIndexIndexesByUidDocumentsWithRequestBuilder(uid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getIndexIndexesByUidDocumentsWithRequestBuilder(uid: String, limit: String? = nil, offset: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IndexDocuments> {
         var localVariablePath = "/v1/index/indexes/{uid}/documents"
         let uidPreEscape = "\(APIHelper.mapValueToPathItem(uid))"
         let uidPostEscape = uidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -255,7 +259,11 @@ open class IndexAPI {
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "offset": (wrappedValue: offset?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
@@ -263,37 +271,37 @@ open class IndexAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<IndexDocuments>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Read one document by its primary key
+     Reads one document by its primary key.
      
      - parameter uid: (path)  
      - parameter id: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: JSONValue
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIndexIndexesByUidDocumentsById(uid: String, id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getIndexIndexesByUidDocumentsById(uid: String, id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> JSONValue {
         return try await getIndexIndexesByUidDocumentsByIdWithRequestBuilder(uid: uid, id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Read one document by its primary key
+     Reads one document by its primary key.
      - GET /v1/index/indexes/{uid}/documents/{id}
-     - Answers the stored document whose primary key matches, exactly as it was written. A missing document is 404 `document_not_found` and a missing index is 404 `index_not_found` — two different codes, because a client that branches on them treats the cases differently. The tenant is the org minted from the VALIDATED bearer's owner claim, never a client-supplied header, and every query filters on it, so two orgs may both hold an index named \"messages\" and neither can see the other's documents. Without a validated principal the answer is 403 carrying Meilisearch's `invalid_api_key` body. Errors use Meilisearch's {message, code, type, link} shape rather than cloud's, because that `code` is a wire contract a Meilisearch client branches on.
+     - Reads one document by its primary key.  Answers the stored document exactly as it was written — this surface keeps documents whole rather than projecting them, so what comes back is what went in. A primary key this index does not hold answers 404 carrying the dialect's `document_not_found`; an index this org does not hold answers `index_not_found`, and the two are different facts a client acts on differently.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter uid: (path)  
      - parameter id: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<JSONValue> 
      */
-    open class func getIndexIndexesByUidDocumentsByIdWithRequestBuilder(uid: String, id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getIndexIndexesByUidDocumentsByIdWithRequestBuilder(uid: String, id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<JSONValue> {
         var localVariablePath = "/v1/index/indexes/{uid}/documents/{id}"
         let uidPreEscape = "\(APIHelper.mapValueToPathItem(uid))"
         let uidPostEscape = uidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -312,35 +320,35 @@ open class IndexAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<JSONValue>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Read an index's filterable attributes
+     Reads an index's filterable attributes.
      
      - parameter uid: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: IndexSettings
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIndexIndexesByUidSettings(uid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getIndexIndexesByUidSettings(uid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IndexSettings {
         return try await getIndexIndexesByUidSettingsWithRequestBuilder(uid: uid, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Read an index's filterable attributes
+     Reads an index's filterable attributes.
      - GET /v1/index/indexes/{uid}/settings
-     - Answers the attributes an index allows filtering on. This dialect implements the filterable-attributes setting and no other, so that is the whole of what comes back. An index the caller's org does not hold is 404 `index_not_found`. The tenant is the org minted from the VALIDATED bearer's owner claim, never a client-supplied header, and every query filters on it, so two orgs may both hold an index named \"messages\" and neither can see the other's documents. Without a validated principal the answer is 403 carrying Meilisearch's `invalid_api_key` body. Errors use Meilisearch's {message, code, type, link} shape rather than cloud's, because that `code` is a wire contract a Meilisearch client branches on.
+     - Reads an index's filterable attributes.  Answers the settings subset this surface implements: the attributes a search `filter` may constrain. An index this org does not hold answers 404 carrying the dialect's `index_not_found`.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter uid: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<IndexSettings> 
      */
-    open class func getIndexIndexesByUidSettingsWithRequestBuilder(uid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getIndexIndexesByUidSettingsWithRequestBuilder(uid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IndexSettings> {
         var localVariablePath = "/v1/index/indexes/{uid}/settings"
         let uidPreEscape = "\(APIHelper.mapValueToPathItem(uid))"
         let uidPostEscape = uidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -356,33 +364,33 @@ open class IndexAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<IndexSettings>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Count the documents in each of your indexes
+     Counts the documents in each of your indexes.
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: IndexStats
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIndexStats(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getIndexStats(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IndexStats {
         return try await getIndexStatsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Count the documents in each of your indexes
+     Counts the documents in each of your indexes.
      - GET /v1/index/stats
-     - Answers a document count per index for the caller's org, plus their sum. `isIndexing` is always false, which is the honest answer here rather than a stub: writes are applied before their response, so there is never a backlog in progress to report. The tenant is the org minted from the VALIDATED bearer's owner claim, never a client-supplied header, and every query filters on it, so two orgs may both hold an index named \"messages\" and neither can see the other's documents. Without a validated principal the answer is 403 carrying Meilisearch's `invalid_api_key` body. Errors use Meilisearch's {message, code, type, link} shape rather than cloud's, because that `code` is a wire contract a Meilisearch client branches on.
+     - Counts the documents in each of your indexes.  Reports every index the caller's own org holds with its document count, plus the org's total. `isIndexing` is always false because writes here are applied before their response — there is never a background pass to wait on.  The tenant is the org minted from the VALIDATED bearer's owner claim, never a client-supplied header, so this counts the caller's own documents and no other tenant's. Without a validated principal the answer is 403 carrying the dialect's `invalid_api_key` body.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<IndexStats> 
      */
-    open class func getIndexStatsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getIndexStatsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IndexStats> {
         let localVariablePath = "/v1/index/stats"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -395,35 +403,35 @@ open class IndexAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<IndexStats>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Check a write task, which has already finished
+     Checks a write task, which has already finished.
      
      - parameter uid: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: IndexTask
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIndexTasksByUid(uid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getIndexTasksByUid(uid: Int, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IndexTask {
         return try await getIndexTasksByUidWithRequestBuilder(uid: uid, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Check a write task, which has already finished
+     Checks a write task, which has already finished.
      - GET /v1/index/tasks/{uid}
-     - Answers `succeeded` for the task id given. It ALWAYS answers succeeded, and that is honest rather than a stub: writes on this surface are applied before their response returns, so by the time any task id exists to ask about, its work is done. It exists so a Meilisearch client's waitForTask resolves at once instead of polling forever for a queue that was never there. It requires a validated principal but reads no tenant data.
+     - Checks a write task, which has already finished.  Always reports `succeeded`. Writes here are applied to SQLite before their EnqueuedTask is returned, so a client polling waitForTask resolves on its first call rather than waiting for a queue that was never there. The three timestamps are the same instant for the same reason.  It requires a validated principal but reads no tenant data: the task id it echoes was minted by this process and names nothing about any org.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter uid: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<IndexTask> 
      */
-    open class func getIndexTasksByUidWithRequestBuilder(uid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getIndexTasksByUidWithRequestBuilder(uid: Int, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IndexTask> {
         var localVariablePath = "/v1/index/tasks/{uid}"
         let uidPreEscape = "\(APIHelper.mapValueToPathItem(uid))"
         let uidPostEscape = uidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -439,33 +447,33 @@ open class IndexAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<IndexTask>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Identify the search implementation answering
+     Identifies the search implementation answering.
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: IndexVersion
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIndexVersion(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getIndexVersion(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IndexVersion {
         return try await getIndexVersionWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Identify the search implementation answering
+     Identifies the search implementation answering.
      - GET /v1/index/version
-     - Answers the version shape a Meilisearch client expects. It names THIS implementation rather than a Meilisearch release — the commit field reads `hanzo-cloud` — so a client that logs it records which server actually answered instead of implying a Meilisearch build. Needs no credential.
+     - Identifies the search implementation answering.  Reports the dialect's version shape with `commitSha` naming this implementation rather than a Meilisearch build, so a client that logs the version records which server answered instead of implying a release of software this is not. It requires no principal and reads no tenant data.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<IndexVersion> 
      */
-    open class func getIndexVersionWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getIndexVersionWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IndexVersion> {
         let localVariablePath = "/v1/index/version"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -478,90 +486,94 @@ open class IndexAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<IndexVersion>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Set which attributes an index can be filtered on
+     Sets which attributes an index can be filtered on.
      
      - parameter uid: (path)  
+     - parameter indexFilter: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: IndexEnqueued
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func patchIndexIndexesByUidSettings(uid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await patchIndexIndexesByUidSettingsWithRequestBuilder(uid: uid, apiConfiguration: apiConfiguration).execute().body
+    open class func patchIndexIndexesByUidSettings(uid: String, indexFilter: IndexFilter, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IndexEnqueued {
+        return try await patchIndexIndexesByUidSettingsWithRequestBuilder(uid: uid, indexFilter: indexFilter, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Set which attributes an index can be filtered on
+     Sets which attributes an index can be filtered on.
      - PATCH /v1/index/indexes/{uid}/settings
-     - Replaces an index's filterable attributes with the list in `filterableAttributes`; omitting the field leaves them as they are. The index is CREATED ON DEMAND rather than 404'd, because a client that configures an index it has just asked for should not have to create it first — this is the one read-shaped path on the surface that writes. The tenant is the org minted from the VALIDATED bearer's owner claim, never a client-supplied header, and every query filters on it, so two orgs may both hold an index named \"messages\" and neither can see the other's documents. Without a validated principal the answer is 403 carrying Meilisearch's `invalid_api_key` body. Errors use Meilisearch's {message, code, type, link} shape rather than cloud's, because that `code` is a wire contract a Meilisearch client branches on.  The 202 and its `enqueued` task are DIALECT COMPATIBILITY, not a promise of later work: the write is already applied when this answers, and the task it names is already complete. A client that polls waitForTask resolves immediately rather than waiting, and a client that does not poll has still had its write committed.
+     - Sets which attributes an index can be filtered on.  Replaces the whole filterable set. An attribute not listed here cannot be used in a search `filter`, so this is what makes a per-user or per-tag narrowing possible at all.  It CREATES the index when it is missing rather than answering 404, because a Meilisearch client configures settings on an index it has just asked for and a refusal there leaves the client with no index at all.  The 202 and its `enqueued` task are DIALECT COMPATIBILITY, not a promise of later work: the setting is already applied when this answers.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter uid: (path)  
+     - parameter indexFilter: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<IndexEnqueued> 
      */
-    open class func patchIndexIndexesByUidSettingsWithRequestBuilder(uid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func patchIndexIndexesByUidSettingsWithRequestBuilder(uid: String, indexFilter: IndexFilter, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IndexEnqueued> {
         var localVariablePath = "/v1/index/indexes/{uid}/settings"
         let uidPreEscape = "\(APIHelper.mapValueToPathItem(uid))"
         let uidPostEscape = uidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{uid}", with: uidPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: indexFilter, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<IndexEnqueued>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Create an index
+     Creates an index.
      
+     - parameter indexNew: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: IndexEnqueued
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIndexIndexes(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postIndexIndexesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    open class func postIndexIndexes(indexNew: IndexNew, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IndexEnqueued {
+        return try await postIndexIndexesWithRequestBuilder(indexNew: indexNew, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Create an index
+     Creates an index.
      - POST /v1/index/indexes
-     - Creates an index named by `uid` in the caller's org. `primaryKey` names the document field that identifies a document and defaults to `id`. Creating an index that already exists is not an error — it settles on the existing one, primary key included — so a client that creates before every write is safe to run repeatedly. A missing or over-long uid is 400 `invalid_index_uid`. A new index starts with `user` filterable, which is what lets a multi-user app narrow searches to one end user without configuring anything. The tenant is the org minted from the VALIDATED bearer's owner claim, never a client-supplied header, and every query filters on it, so two orgs may both hold an index named \"messages\" and neither can see the other's documents. Without a validated principal the answer is 403 carrying Meilisearch's `invalid_api_key` body. Errors use Meilisearch's {message, code, type, link} shape rather than cloud's, because that `code` is a wire contract a Meilisearch client branches on.  The 202 and its `enqueued` task are DIALECT COMPATIBILITY, not a promise of later work: the write is already applied when this answers, and the task it names is already complete. A client that polls waitForTask resolves immediately rather than waiting, and a client that does not poll has still had its write committed.
+     - Creates an index.  Registers a named index in the caller's own org and answers the dialect's EnqueuedTask. It is idempotent: creating an index that already exists returns the same receipt and changes nothing, which is what lets a client create on startup without checking first.  `primaryKey` is optional — the first write establishes one when it is omitted. An index is a ROW here rather than a table, so an unusual uid is stored verbatim instead of being sanitised into a schema name.  The 202 and its `enqueued` task are DIALECT COMPATIBILITY, not a promise of later work: the write is already applied when this answers. A client that polls waitForTask resolves immediately.
      - Bearer Token:
        - type: http
        - name: bearer
+     - parameter indexNew: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<IndexEnqueued> 
      */
-    open class func postIndexIndexesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postIndexIndexesWithRequestBuilder(indexNew: IndexNew, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IndexEnqueued> {
         let localVariablePath = "/v1/index/indexes"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: indexNew, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<IndexEnqueued>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -570,42 +582,44 @@ open class IndexAPI {
      Add or replace documents in an index
      
      - parameter uid: (path)  
+     - parameter requestBody: (body)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: IndexEnqueued
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIndexIndexesByUidDocuments(uid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postIndexIndexesByUidDocumentsWithRequestBuilder(uid: uid, apiConfiguration: apiConfiguration).execute().body
+    open class func postIndexIndexesByUidDocuments(uid: String, requestBody: [JSONValue]? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IndexEnqueued {
+        return try await postIndexIndexesByUidDocumentsWithRequestBuilder(uid: uid, requestBody: requestBody, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Add or replace documents in an index
      - POST /v1/index/indexes/{uid}/documents
-     - Upserts documents into one index, keyed by the index's primary key: a document whose key is already present is REPLACED, one that is not is added, and it becomes searchable immediately. Send an array, or a single object — a hand-rolled caller sending one document is accepted rather than 400'd. The index is created on demand, so a first write needs no create call.  This and the PUT on the same path are the SAME operation: both are a whole document upsert, which is what a Meilisearch client's addDocuments and updateDocuments both reduce to here. A body that is neither an array nor an object is 400. The tenant is the org minted from the VALIDATED bearer's owner claim, never a client-supplied header, and every query filters on it, so two orgs may both hold an index named \"messages\" and neither can see the other's documents. Without a validated principal the answer is 403 carrying Meilisearch's `invalid_api_key` body. Errors use Meilisearch's {message, code, type, link} shape rather than cloud's, because that `code` is a wire contract a Meilisearch client branches on.  The 202 and its `enqueued` task are DIALECT COMPATIBILITY, not a promise of later work: the write is already applied when this answers, and the task it names is already complete. A client that polls waitForTask resolves immediately rather than waiting, and a client that does not poll has still had its write committed.
+     - Writes documents into the caller's own index, keyed by the index's primary key: a document whose key is already present is REPLACED whole. The body is the dialect's own — an array of documents, or a single document — and each is stored verbatim, so a read gives back exactly what was written.  The index is CREATED when it is missing rather than refused, because a Meilisearch client writes before it configures.  The tenant is the org minted from the VALIDATED bearer's owner claim, never a client-supplied header, so two orgs may both hold an index named \"messages\" and neither can see the other's documents. Without a validated principal the answer is 403 carrying the dialect's `invalid_api_key` body.  The 202 and its `enqueued` task are DIALECT COMPATIBILITY, not a promise of later work: the documents are searchable when this answers, and a client that polls waitForTask resolves immediately.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter uid: (path)  
+     - parameter requestBody: (body)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<IndexEnqueued> 
      */
-    open class func postIndexIndexesByUidDocumentsWithRequestBuilder(uid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postIndexIndexesByUidDocumentsWithRequestBuilder(uid: String, requestBody: [JSONValue]? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IndexEnqueued> {
         var localVariablePath = "/v1/index/indexes/{uid}/documents"
         let uidPreEscape = "\(APIHelper.mapValueToPathItem(uid))"
         let uidPostEscape = uidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{uid}", with: uidPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: requestBody, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<IndexEnqueued>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -614,86 +628,90 @@ open class IndexAPI {
      Delete many documents by primary key in one call
      
      - parameter uid: (path)  
+     - parameter postIndexIndexesByUidDocumentsDeleteBatchRequest: (body)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: IndexEnqueued
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIndexIndexesByUidDocumentsDeleteBatch(uid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postIndexIndexesByUidDocumentsDeleteBatchWithRequestBuilder(uid: uid, apiConfiguration: apiConfiguration).execute().body
+    open class func postIndexIndexesByUidDocumentsDeleteBatch(uid: String, postIndexIndexesByUidDocumentsDeleteBatchRequest: PostIndexIndexesByUidDocumentsDeleteBatchRequest? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IndexEnqueued {
+        return try await postIndexIndexesByUidDocumentsDeleteBatchWithRequestBuilder(uid: uid, postIndexIndexesByUidDocumentsDeleteBatchRequest: postIndexIndexesByUidDocumentsDeleteBatchRequest, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Delete many documents by primary key in one call
      - POST /v1/index/indexes/{uid}/documents/delete-batch
-     - Removes every document named by an array of primary keys. Keys may be sent as strings or numbers — a number keeps its exact decimal form, so an integer key round-trips as `42` and never as scientific notation. Keys that are absent from the index are skipped rather than failing the batch, so this is idempotent. A body that is not an array is 400. The tenant is the org minted from the VALIDATED bearer's owner claim, never a client-supplied header, and every query filters on it, so two orgs may both hold an index named \"messages\" and neither can see the other's documents. Without a validated principal the answer is 403 carrying Meilisearch's `invalid_api_key` body. Errors use Meilisearch's {message, code, type, link} shape rather than cloud's, because that `code` is a wire contract a Meilisearch client branches on.  The 202 and its `enqueued` task are DIALECT COMPATIBILITY, not a promise of later work: the write is already applied when this answers, and the task it names is already complete. A client that polls waitForTask resolves immediately rather than waiting, and a client that does not poll has still had its write committed.
+     - Removes every named document from the caller's own index. The body is the dialect's own: a bare array of primary keys, which may be strings or numbers. A key that is not there is not an error, so a client reconciling its own corpus can send one list rather than checking each key first.  The tenant is the org minted from the VALIDATED bearer's owner claim, never a client-supplied header. Without a validated principal the answer is 403 carrying the dialect's `invalid_api_key` body.  The 202 and its `enqueued` task are DIALECT COMPATIBILITY, not a promise of later work: the documents are already gone when this answers.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter uid: (path)  
+     - parameter postIndexIndexesByUidDocumentsDeleteBatchRequest: (body)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<IndexEnqueued> 
      */
-    open class func postIndexIndexesByUidDocumentsDeleteBatchWithRequestBuilder(uid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postIndexIndexesByUidDocumentsDeleteBatchWithRequestBuilder(uid: String, postIndexIndexesByUidDocumentsDeleteBatchRequest: PostIndexIndexesByUidDocumentsDeleteBatchRequest? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IndexEnqueued> {
         var localVariablePath = "/v1/index/indexes/{uid}/documents/delete-batch"
         let uidPreEscape = "\(APIHelper.mapValueToPathItem(uid))"
         let uidPostEscape = uidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{uid}", with: uidPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: postIndexIndexesByUidDocumentsDeleteBatchRequest, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<IndexEnqueued>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Search an index, forgiving typos
+     Searches an index, forgiving typos.
      
      - parameter uid: (path)  
+     - parameter indexQuery: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: IndexHits
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIndexIndexesByUidSearch(uid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postIndexIndexesByUidSearchWithRequestBuilder(uid: uid, apiConfiguration: apiConfiguration).execute().body
+    open class func postIndexIndexesByUidSearch(uid: String, indexQuery: IndexQuery, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IndexHits {
+        return try await postIndexIndexesByUidSearchWithRequestBuilder(uid: uid, indexQuery: indexQuery, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Search an index, forgiving typos
+     Searches an index, forgiving typos.
      - POST /v1/index/indexes/{uid}/search
-     - Answers the documents in one index matching `q`, ranked by how many of the query's terms they match, with prefix matching so a partial word still finds its document. `limit` defaults to 20 and is capped at 1000, `offset` pages; a negative value falls back to the default rather than erroring.  `filter` takes a Meilisearch filter expression, or an array of them, and the `user = \"…\"` and `user IN […]` forms are honoured — that is how an app with many end users narrows results to one of them WITHIN the org. `estimatedTotalHits` is exact for the page returned, not an estimate, because every hit is materialised. An index the caller's org does not hold is 404 `index_not_found`. The tenant is the org minted from the VALIDATED bearer's owner claim, never a client-supplied header, and every query filters on it, so two orgs may both hold an index named \"messages\" and neither can see the other's documents. Without a validated principal the answer is 403 carrying Meilisearch's `invalid_api_key` body. Errors use Meilisearch's {message, code, type, link} shape rather than cloud's, because that `code` is a wire contract a Meilisearch client branches on.
+     - Searches an index, forgiving typos.  Ranks the org's documents in one index against `q` and answers the matching documents whole, most relevant first. A prefix matches, so a partial word finds the documents containing it, and `filter` narrows the result to documents whose filterable attributes match — which is how a caller scopes results to one end user within its own org.  `estimatedTotalHits` is the dialect's name for the count; every hit is materialised here, so for this page it is exact. An index this org does not hold answers 404 carrying the dialect's `index_not_found`.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter uid: (path)  
+     - parameter indexQuery: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<IndexHits> 
      */
-    open class func postIndexIndexesByUidSearchWithRequestBuilder(uid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postIndexIndexesByUidSearchWithRequestBuilder(uid: String, indexQuery: IndexQuery, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IndexHits> {
         var localVariablePath = "/v1/index/indexes/{uid}/search"
         let uidPreEscape = "\(APIHelper.mapValueToPathItem(uid))"
         let uidPostEscape = uidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{uid}", with: uidPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: indexQuery, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<IndexHits>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -702,42 +720,44 @@ open class IndexAPI {
      Add or update documents in an index
      
      - parameter uid: (path)  
+     - parameter requestBody: (body)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: IndexEnqueued
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putIndexIndexesByUidDocuments(uid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await putIndexIndexesByUidDocumentsWithRequestBuilder(uid: uid, apiConfiguration: apiConfiguration).execute().body
+    open class func putIndexIndexesByUidDocuments(uid: String, requestBody: [JSONValue]? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IndexEnqueued {
+        return try await putIndexIndexesByUidDocumentsWithRequestBuilder(uid: uid, requestBody: requestBody, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Add or update documents in an index
      - PUT /v1/index/indexes/{uid}/documents
-     - Upserts documents into one index, keyed by the index's primary key: a document whose key is already present is REPLACED, one that is not is added, and it becomes searchable immediately. Send an array, or a single object — a hand-rolled caller sending one document is accepted rather than 400'd. The index is created on demand, so a first write needs no create call.  This and the POST on the same path are the SAME operation, served by one handler. Both exist because the Meilisearch dialect has both verbs; there is no partial-update semantics on this one — a document is replaced whole either way. The tenant is the org minted from the VALIDATED bearer's owner claim, never a client-supplied header, and every query filters on it, so two orgs may both hold an index named \"messages\" and neither can see the other's documents. Without a validated principal the answer is 403 carrying Meilisearch's `invalid_api_key` body. Errors use Meilisearch's {message, code, type, link} shape rather than cloud's, because that `code` is a wire contract a Meilisearch client branches on.  The 202 and its `enqueued` task are DIALECT COMPATIBILITY, not a promise of later work: the write is already applied when this answers, and the task it names is already complete. A client that polls waitForTask resolves immediately rather than waiting, and a client that does not poll has still had its write committed.
+     - The dialect's update spelling of the write above, and the same act: an upsert keyed by the index's primary key. The JS client's addDocuments and updateDocuments both reduce to this for whole documents, so both spellings are served and both behave identically.  The tenant is the org minted from the VALIDATED bearer's owner claim, never a client-supplied header. Without a validated principal the answer is 403 carrying the dialect's `invalid_api_key` body.  The 202 and its `enqueued` task are DIALECT COMPATIBILITY, not a promise of later work: the write is already applied when this answers.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter uid: (path)  
+     - parameter requestBody: (body)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<IndexEnqueued> 
      */
-    open class func putIndexIndexesByUidDocumentsWithRequestBuilder(uid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func putIndexIndexesByUidDocumentsWithRequestBuilder(uid: String, requestBody: [JSONValue]? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IndexEnqueued> {
         var localVariablePath = "/v1/index/indexes/{uid}/documents"
         let uidPreEscape = "\(APIHelper.mapValueToPathItem(uid))"
         let uidPostEscape = uidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{uid}", with: uidPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: requestBody, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<IndexEnqueued>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

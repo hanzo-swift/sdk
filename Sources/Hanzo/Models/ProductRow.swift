@@ -9,95 +9,37 @@ import Foundation
 
 public struct ProductRow: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** hanzo-k8s */
-    public var cluster: String?
-    /** spec.image.tag on the App CR (declared truth) */
-    public var declaredTag: String?
-    /** any drift flag present */
-    public var drift: Bool?
-    /** ok|yellow|red (rolled-up) */
-    public var driftSeverity: String?
-    /** main|test|dev (lifecycle namespace) */
-    public var env: String?
-    /** green|yellow|red|unknown */
-    public var health: String?
-    /** operator App CR spec.role (sql|kv|generic|ingress) or \"\" */
-    public var kind: String?
-    /** newest released tag (GH release reader — empty until wired) */
-    public var latestTag: String?
-    public var name: String?
-    /** k8s namespace */
-    public var namespace: String?
-    /** image namespace (hanzoai|luxfi|docker.io/…) */
-    public var org: String?
-    /** operator status.phase (Running/Creating/…) */
-    public var phase: String?
-    /** owner/repo image coordinate */
-    public var repo: String?
-    /** observed from the live Deployment */
-    public var runningTag: String?
-    /** derived: cloud|data|edge|daemon|paas|app (grouping) */
-    public var tier: String?
-    public var updated: String?
+    /** Orders is how many order_completed events carried it. */
+    public var orders: Int?
+    /** ProductID is the product the order events named. */
+    public var productId: String?
+    /** Revenue is the total they carried, in the events' own currency unit. */
+    public var revenue: Double?
+    /** Units is the summed quantity sold. */
+    public var units: Int?
 
-    public init(cluster: String? = nil, declaredTag: String? = nil, drift: Bool? = nil, driftSeverity: String? = nil, env: String? = nil, health: String? = nil, kind: String? = nil, latestTag: String? = nil, name: String? = nil, namespace: String? = nil, org: String? = nil, phase: String? = nil, repo: String? = nil, runningTag: String? = nil, tier: String? = nil, updated: String? = nil) {
-        self.cluster = cluster
-        self.declaredTag = declaredTag
-        self.drift = drift
-        self.driftSeverity = driftSeverity
-        self.env = env
-        self.health = health
-        self.kind = kind
-        self.latestTag = latestTag
-        self.name = name
-        self.namespace = namespace
-        self.org = org
-        self.phase = phase
-        self.repo = repo
-        self.runningTag = runningTag
-        self.tier = tier
-        self.updated = updated
+    public init(orders: Int? = nil, productId: String? = nil, revenue: Double? = nil, units: Int? = nil) {
+        self.orders = orders
+        self.productId = productId
+        self.revenue = revenue
+        self.units = units
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case cluster
-        case declaredTag
-        case drift
-        case driftSeverity
-        case env
-        case health
-        case kind
-        case latestTag
-        case name
-        case namespace
-        case org
-        case phase
-        case repo
-        case runningTag
-        case tier
-        case updated
+        case orders
+        case productId
+        case revenue
+        case units
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(cluster, forKey: .cluster)
-        try container.encodeIfPresent(declaredTag, forKey: .declaredTag)
-        try container.encodeIfPresent(drift, forKey: .drift)
-        try container.encodeIfPresent(driftSeverity, forKey: .driftSeverity)
-        try container.encodeIfPresent(env, forKey: .env)
-        try container.encodeIfPresent(health, forKey: .health)
-        try container.encodeIfPresent(kind, forKey: .kind)
-        try container.encodeIfPresent(latestTag, forKey: .latestTag)
-        try container.encodeIfPresent(name, forKey: .name)
-        try container.encodeIfPresent(namespace, forKey: .namespace)
-        try container.encodeIfPresent(org, forKey: .org)
-        try container.encodeIfPresent(phase, forKey: .phase)
-        try container.encodeIfPresent(repo, forKey: .repo)
-        try container.encodeIfPresent(runningTag, forKey: .runningTag)
-        try container.encodeIfPresent(tier, forKey: .tier)
-        try container.encodeIfPresent(updated, forKey: .updated)
+        try container.encodeIfPresent(orders, forKey: .orders)
+        try container.encodeIfPresent(productId, forKey: .productId)
+        try container.encodeIfPresent(revenue, forKey: .revenue)
+        try container.encodeIfPresent(units, forKey: .units)
     }
 }
 

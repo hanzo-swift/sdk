@@ -7,6 +7,7 @@
 
 import Foundation
 
+/** NodePool is the ONE pool the cluster is born with — a cluster with no nodes runs nothing, so it is not optional. More pools are added afterwards through POST /v1/visor/clusters/:clusterId/pools. */
 public struct CreateClusterReqNodePool: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var count: Int?

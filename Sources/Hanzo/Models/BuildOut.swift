@@ -9,8 +9,11 @@ import Foundation
 
 public struct BuildOut: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Bytes is the size of the bundled CommonJS the runtime will execute. */
     public var bytes: Int?
+    /** Generated is whether a model wrote the source from a spec, rather than the caller posting the source itself. */
     public var generated: Bool?
+    /** Plugin is the plugin as stored, with its derived id and build time. */
     public var plugin: AuthoredPlugin?
 
     public init(bytes: Int? = nil, generated: Bool? = nil, plugin: AuthoredPlugin? = nil) {

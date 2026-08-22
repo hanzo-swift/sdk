@@ -9,9 +9,13 @@ import Foundation
 
 public struct AskAnswer: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Answer is the synthesized prose. EMPTY is a real answer here: nothing in the index matched, or synthesis was unavailable — read `degraded` and `citations` to tell those apart. It is never written without grounding. */
     public var answer: String?
+    /** Citations are the exact regions the answer was grounded on, and they are the point: an answer is checkable only because every claim in it can be read back at a file and line. Present even when Answer is empty. */
     public var citations: [Citation]?
+    /** Degraded is true when retrieval worked but no synthesizer was reachable. The citations are still real code, so a caller can answer from them itself; a caller that treats this like an error throws away a usable result. */
     public var degraded: Bool?
+    /** Question is the ask, echoed back. */
     public var question: String?
 
     public init(answer: String? = nil, citations: [Citation]? = nil, degraded: Bool? = nil, question: String? = nil) {

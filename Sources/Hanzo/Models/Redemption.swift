@@ -13,10 +13,11 @@ public struct Redemption: Sendable, Codable, ParameterConvertible, Hashable {
     public var code: String?
     /** DiscountCents is the month-one discount this redemption CLAIMS, in USD cents. It is a recorded figure, NOT a balance: nothing was credited and no wallet moved. An admin granting against this claim is what would make it money, and that decision happens on the admin surface, not here. */
     public var discountCents: Int?
-    /** Plan and Seats are what was redeemed against. Both are DERIVED server-side — Plan from the org's live paid subscription, Seats from claimSeats — and neither is ever read from the request. */
+    /** Plan is the tier redeemed against: pro, max or team. It is DERIVED from the org's live ACTIVE/TRIALING subscription, never read from the request, so it is what the org actually holds rather than what it claimed. */
     public var plan: String?
     /** RedeemedAt is unix seconds. */
     public var redeemedAt: Int?
+    /** Seats is the seat count the claim was priced at, and it is ALWAYS 1. No server-side authority on this surface answers \"how many seats\", and the caller's own number is exactly the input that once inflated these claims, so a redemption records the single-seat floor and an admin resolves the real count against subscription data at grant time. */
     public var seats: Int?
 
     public init(code: String? = nil, discountCents: Int? = nil, plan: String? = nil, redeemedAt: Int? = nil, seats: Int? = nil) {

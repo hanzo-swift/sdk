@@ -27,14 +27,10 @@ public struct RunnerBuildReq: Sendable, Codable, ParameterConvertible, Hashable 
     public var dockerfile: String?
     /** Image is the output image ref to push. Required on the image lane, and it must target a registry namespace the caller's org owns. */
     public var image: String?
-    /** OrgID attributes the build to an org. On the IAM path it defaults to the caller's own validated org, and a foreign one is refused unless the caller is a platform SuperAdmin. */
-    public var organizationId: String?
     /** OS is the target operating system for the artifact lane. */
     public var os: String?
     /** Ref is the git ref to build when no SHA is given. */
     public var ref: String?
-    /** Release requests native release semantics for cloud's self-publish: compute the next version, build+push ghcr.io/hanzoai/cloud, smoke it, then tag (the receipt) and notify universe. It owns its output image (release.go), and it takes SuperAdmin. */
-    public var release: Bool?
     /** Repo is the repository clone URL to build. Required on the image lane. */
     public var repo: String?
     /** SHA is the commit to pin; it wins over Ref and Branch. */
@@ -42,7 +38,7 @@ public struct RunnerBuildReq: Sendable, Codable, ParameterConvertible, Hashable 
     /** Tag is the publish path segment, so both front doors write ONE index at ONE URL. It defaults to the pinned ref, and must be named explicitly for a branch. */
     public var tag: String?
 
-    public init(arch: String? = nil, args: [String: String]? = nil, binaries: [BinarySpec]? = nil, branch: String? = nil, bucket: String? = nil, context: String? = nil, dockerTarget: String? = nil, dockerfile: String? = nil, image: String? = nil, organizationId: String? = nil, os: String? = nil, ref: String? = nil, release: Bool? = nil, repo: String? = nil, sha: String? = nil, tag: String? = nil) {
+    public init(arch: String? = nil, args: [String: String]? = nil, binaries: [BinarySpec]? = nil, branch: String? = nil, bucket: String? = nil, context: String? = nil, dockerTarget: String? = nil, dockerfile: String? = nil, image: String? = nil, os: String? = nil, ref: String? = nil, repo: String? = nil, sha: String? = nil, tag: String? = nil) {
         self.arch = arch
         self.args = args
         self.binaries = binaries
@@ -52,10 +48,8 @@ public struct RunnerBuildReq: Sendable, Codable, ParameterConvertible, Hashable 
         self.dockerTarget = dockerTarget
         self.dockerfile = dockerfile
         self.image = image
-        self.organizationId = organizationId
         self.os = os
         self.ref = ref
-        self.release = release
         self.repo = repo
         self.sha = sha
         self.tag = tag
@@ -71,10 +65,8 @@ public struct RunnerBuildReq: Sendable, Codable, ParameterConvertible, Hashable 
         case dockerTarget
         case dockerfile
         case image
-        case organizationId
         case os
         case ref
-        case release
         case repo
         case sha
         case tag
@@ -93,10 +85,8 @@ public struct RunnerBuildReq: Sendable, Codable, ParameterConvertible, Hashable 
         try container.encodeIfPresent(dockerTarget, forKey: .dockerTarget)
         try container.encodeIfPresent(dockerfile, forKey: .dockerfile)
         try container.encodeIfPresent(image, forKey: .image)
-        try container.encodeIfPresent(organizationId, forKey: .organizationId)
         try container.encodeIfPresent(os, forKey: .os)
         try container.encodeIfPresent(ref, forKey: .ref)
-        try container.encodeIfPresent(release, forKey: .release)
         try container.encodeIfPresent(repo, forKey: .repo)
         try container.encodeIfPresent(sha, forKey: .sha)
         try container.encodeIfPresent(tag, forKey: .tag)

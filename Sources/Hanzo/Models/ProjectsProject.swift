@@ -9,40 +9,60 @@ import Foundation
 
 public struct ProjectsProject: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** Analytics is the wired-by-default web-analytics flag (default true). It is the value the app's static-builder reads as deployment.analytics to inject the beacon. Space is the project's Base data space (\"<org>/<slug>\") a deployed site posts form/forum/data submissions to under /v1/base. */
+    /** Analytics is whether the web-analytics beacon is injected into this site's pages. It is ON by default — a project has to opt out — and it is what the static builder reads to decide whether to inject at all. */
     public var analytics: Bool?
+    /** Bucket is the object-store bucket the site's files are served out of. */
     public var bucket: String?
-    /** Cache is the site's edge-cache state: the HTML/document Cache-Control policy in effect (TTL) and the last edge-purge time, so a console can show freshness. */
+    /** CacheControl is the Cache-Control policy the edge serves this site's HTML under — how long a reader may hold a stale page before asking again. Assets are content-addressed and are not governed by it. */
     public var cacheControl: String?
+    /** CreatedAt is when the project was created, as Unix seconds. */
     public var createdAt: Int?
+    /** CurrentDeploymentID names the deployment currently serving, so a caller can ask what is live without scanning the history. */
     public var currentDeploymentId: String?
+    /** Description is the one-line summary, which is copied onto forks of this project and shown on a gallery card. */
     public var description: String?
     /** ForkedFrom is the parent this project was forked from (\"<org>/<slug>\" of a published project, or a catalog template slug) — the attribution edge a gallery credits. */
     public var forkedFrom: String?
+    /** Framework is a BUILD HINT from a closed set, defaulting to static. It tells CI how to build a linked repo and never gates a deploy, so a wrong value costs a build rather than access. */
     public var framework: String?
+    /** Hidden is PLATFORM MODERATION, and it is a different axis from visibility: it pulls a public project out of the catalogue without editing the publisher's own choice, so un-hiding restores exactly what they asked for. A project is listed only when it is public AND not hidden. Always present, never omitted, for the same reason as visibility. */
     public var hidden: Bool?
+    /** HiddenReason is why moderation hid it. Absent when it is not hidden. */
     public var hiddenReason: String?
+    /** ID is the project's internal identifier. It is stable across a rename, but it is not what the API addresses this project by — `slug` is. */
     public var id: String?
     /** Key is the project's publishable ingest key, minted at create. It is the value the injected beacon carries and the ONE thing that attributes this site's events; the static-builder reads it beside analytics.  Publishable means it belongs in a page's source: it names a write scope and mints no principal, so it is returned in full rather than masked. Masking it would only mean every caller needed a second endpoint to get the thing the page already ships. */
     public var key: String?
+    /** LastPurgeAt is when the edge cache was last cleared, as Unix seconds, so a console can say how fresh what readers see actually is. Absent means never. */
     public var lastPurgeAt: Int?
+    /** License is the terms that upstream work carries. Absent has the same reading: undeclared, not unencumbered. */
     public var license: String?
+    /** LiveURL is where the site answers today. Absent until something has been deployed. */
     public var liveUrl: String?
+    /** Name is the project's display name, free text a person chose. */
     public var name: String?
+    /** Org is the organisation that owns the project, and therefore who pays for it and who may change it. It is also the AUTHORSHIP line a gallery credits; there is no separate author field. */
     public var org: String?
+    /** Repo is the git source this project builds from, empty when it is deployed by uploading an artifact instead. */
     public var repo: ProjectsRepo?
+    /** Slug is the identifier that MATTERS: the handle every later call addresses, the S3 key segment the site's objects live under, and the label of the public host `<slug>.hanzo.app`. Because it is a hostname it is constrained and reserved labels such as `api` are refused. */
     public var slug: String?
+    /** Space is the project's Base data space, which is where a deployed site's form, forum and data submissions land. Absent means the site stores nothing. */
     public var space: String?
+    /** Starred is THIS CALLER's star, not a property of the project — two people in the same org see different values for the same row, which is the whole point of it. Always present so a client can tell \"not starred\" from \"this API is too old to say\", the same reason visibility and hidden are. */
+    public var starred: Bool?
+    /** Status is where the project stands — whether a build has ever succeeded and whether anything is serving right now. */
     public var status: String?
     /** Tags is the site's browser tag config: platform slug → non-secret pixel id (GA measurement, Meta pixel, …) — what track.js injects and the server CAPI reads, per site. Omitted when none are set. The API SECRET is never here (KMS). */
     public var tags: [String: String]?
+    /** UpdatedAt is when the project's own record last changed, as Unix seconds. A deploy is not an edit of the project, so this does not move on every publish. */
     public var updatedAt: Int?
-    /** Upstream/License credit the third-party work this project was published from, and the terms it carries. Omitted when nothing is declared: an absent credit means \"nobody has said\", not \"there is nothing to say\". */
+    /** Upstream credits the third-party work this project was published from — a free-text line, because the honest answer is a name and a title that no enum could hold. Absent means NOBODY HAS SAID, not that there is nothing to say. */
     public var upstream: String?
     /** Visibility is \"public\" or \"private\", and Hidden reports platform moderation. Both are always present (never omitempty) so a consumer can tell a real answer from \"this API is too old to say\" — and so a console never renders a project as public because a field was missing.  Authorship is deliberately absent: it is Org, above. */
     public var visibility: String?
 
-    public init(analytics: Bool? = nil, bucket: String? = nil, cacheControl: String? = nil, createdAt: Int? = nil, currentDeploymentId: String? = nil, description: String? = nil, forkedFrom: String? = nil, framework: String? = nil, hidden: Bool? = nil, hiddenReason: String? = nil, id: String? = nil, key: String? = nil, lastPurgeAt: Int? = nil, license: String? = nil, liveUrl: String? = nil, name: String? = nil, org: String? = nil, repo: ProjectsRepo? = nil, slug: String? = nil, space: String? = nil, status: String? = nil, tags: [String: String]? = nil, updatedAt: Int? = nil, upstream: String? = nil, visibility: String? = nil) {
+    public init(analytics: Bool? = nil, bucket: String? = nil, cacheControl: String? = nil, createdAt: Int? = nil, currentDeploymentId: String? = nil, description: String? = nil, forkedFrom: String? = nil, framework: String? = nil, hidden: Bool? = nil, hiddenReason: String? = nil, id: String? = nil, key: String? = nil, lastPurgeAt: Int? = nil, license: String? = nil, liveUrl: String? = nil, name: String? = nil, org: String? = nil, repo: ProjectsRepo? = nil, slug: String? = nil, space: String? = nil, starred: Bool? = nil, status: String? = nil, tags: [String: String]? = nil, updatedAt: Int? = nil, upstream: String? = nil, visibility: String? = nil) {
         self.analytics = analytics
         self.bucket = bucket
         self.cacheControl = cacheControl
@@ -63,6 +83,7 @@ public struct ProjectsProject: Sendable, Codable, ParameterConvertible, Hashable
         self.repo = repo
         self.slug = slug
         self.space = space
+        self.starred = starred
         self.status = status
         self.tags = tags
         self.updatedAt = updatedAt
@@ -91,6 +112,7 @@ public struct ProjectsProject: Sendable, Codable, ParameterConvertible, Hashable
         case repo
         case slug
         case space
+        case starred
         case status
         case tags
         case updatedAt
@@ -122,6 +144,7 @@ public struct ProjectsProject: Sendable, Codable, ParameterConvertible, Hashable
         try container.encodeIfPresent(repo, forKey: .repo)
         try container.encodeIfPresent(slug, forKey: .slug)
         try container.encodeIfPresent(space, forKey: .space)
+        try container.encodeIfPresent(starred, forKey: .starred)
         try container.encodeIfPresent(status, forKey: .status)
         try container.encodeIfPresent(tags, forKey: .tags)
         try container.encodeIfPresent(updatedAt, forKey: .updatedAt)

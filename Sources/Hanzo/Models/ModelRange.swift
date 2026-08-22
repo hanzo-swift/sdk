@@ -9,7 +9,9 @@ import Foundation
 
 public struct ModelRange: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** End is the position just past the span, excluded — the range is half-open, so an empty range has Start equal to End. */
     public var end: Position?
+    /** Start is the first position in the span, included. */
     public var start: Position?
 
     public init(end: Position? = nil, start: Position? = nil) {

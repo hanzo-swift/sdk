@@ -9,7 +9,7 @@ import Foundation
 
 public struct NetworkView: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** ID is the org-derived id of the overlay network — the key GET /v1/networks/{id} addresses. */
+    /** ID is the org-derived id of the overlay network — the key GET /v1/network/{id} addresses. */
     public var id: String?
     /** Name is the org the overlay belongs to. */
     public var name: String?

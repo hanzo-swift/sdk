@@ -9,14 +9,21 @@ import Foundation
 
 public struct BalanceSheet: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** AsOf is the posting time the statement is taken at, inclusive. A balance sheet is a snapshot, not a window, so there is no From. Absent means as of now. */
     public var asOf: String?
+    /** Assets are what the org OWNS at that instant, one line per account that has a balance. Cash, receivables, funds captured but not yet settled. */
     public var assets: [BalanceLine]?
-    /** TotalAssets == TotalLiabilities + TotalEquity */
+    /** Balanced is whether assets equal liabilities plus equity — the accounting equation, computed from the totals above rather than assumed. False means the ledger is broken, not that the statement is. */
     public var balanced: Bool?
+    /** Equity is what is left over for the owners. It carries a DERIVED retained earnings line holding cumulative income minus expense, because this ledger has no period close that sweeps the P&L into equity — without that line the equation would not close. */
     public var equity: [BalanceLine]?
+    /** Liabilities are what the org OWES — including customers' unspent prepaid credit, which is their money until it is consumed and so is carried here rather than counted as revenue. */
     public var liabilities: [BalanceLine]?
+    /** TotalAssets is the sum of the asset lines, in cents. */
     public var totalAssets: Int?
+    /** TotalEquity is the sum of the equity lines including retained earnings, in cents. */
     public var totalEquity: Int?
+    /** TotalLiabilities is the sum of the liability lines, in cents. */
     public var totalLiabilities: Int?
 
     public init(asOf: String? = nil, assets: [BalanceLine]? = nil, balanced: Bool? = nil, equity: [BalanceLine]? = nil, liabilities: [BalanceLine]? = nil, totalAssets: Int? = nil, totalEquity: Int? = nil, totalLiabilities: Int? = nil) {

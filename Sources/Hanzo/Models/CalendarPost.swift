@@ -13,7 +13,7 @@ public struct CalendarPost: Sendable, Codable, ParameterConvertible, Hashable {
     public var body: String?
     /** Channel is the target network: x, facebook, instagram, linkedin, tiktok, youtube or threads. Required — a post must name where it goes. */
     public var channel: String?
-    /** CreatedAt and UpdatedAt are unix seconds, both server-assigned. */
+    /** CreatedAt is unix seconds when the post was added, server-assigned and never rewritten. */
     public var createdAt: Int?
     /** Error is the exact reason the last publish attempt failed — the honest record behind a \"failed\" status, never a faked success. */
     public var error: String?
@@ -27,6 +27,7 @@ public struct CalendarPost: Sendable, Codable, ParameterConvertible, Hashable {
     public var status: String?
     /** Title is the post's internal label, capped at 1024 bytes. */
     public var title: String?
+    /** UpdatedAt is unix seconds of the last write, server-assigned. The durable sweep writes too — claiming a due post, publishing it and recording a failure each bump it — so this moves without anyone editing the post. */
     public var updatedAt: Int?
 
     public init(body: String? = nil, channel: String? = nil, createdAt: Int? = nil, error: String? = nil, id: String? = nil, publishedAt: Int? = nil, scheduledAt: Int? = nil, status: String? = nil, title: String? = nil, updatedAt: Int? = nil) {

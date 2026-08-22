@@ -9,15 +9,23 @@ import Foundation
 
 public struct GpuView: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** ID is the card's address: its host machine's id, \"#\", and the card's ordinal within that machine (\"gpu-1#0\"). Stable for as long as the machine is, and the only id a single accelerator has — providers do not name cards. */
     public var id: String?
+    /** Location is where the card physically sits, which for every source today is the same value Region carries — the console renders it in its own column. */
     public var location: String?
+    /** Machine is the id of the machine holding this card, addressable as-is on /v1/visor/machines/:id. */
     public var machine: String?
+    /** Memory is the card's VRAM as its own tooling reported it (\"122880 MiB\") — a display string in the reporter's units, not a byte count. BYO cards carry it (nvidia-smi); Visor's machine object states no VRAM, so a rented card leaves it empty and the console renders \"—\" rather than a fabricated 0. */
     public var memory: String?
+    /** Model is the accelerator: the model token read out of the size slug for a Visor GPU droplet (\"H100\", \"MI300X\"), or the name nvidia-smi reported for a BYO card (\"NVIDIA GB10\"). */
     public var model: String?
+    /** Name is the HOST MACHINE's display name, not the card's — every card in a gpu-h100x8 node repeats it. Model is what says which accelerator this is. */
     public var name: String?
-    /** Provider distinguishes a BYO accelerator (\"byo\") from a Visor-provisioned one (the machine's real provider). Memory is VRAM when known (BYO reports it from nvidia-smi; Visor's machine object carries none, so it stays empty and the UI renders \"—\"). Both are additive + omitempty: existing rows are unaffected and the console normalizer ignores fields it does not read. */
+    /** Provider distinguishes a BYO accelerator (\"byo\") from a Visor-provisioned one (the host machine's real provider). It is what tells a card the org owns from a card the org rents. */
     public var provider: String?
+    /** Region is the host machine's provider region slug; \"on-prem\" for a BYO card. */
     public var region: String?
+    /** Status is the HOST MACHINE's lifecycle state, because nothing upstream reports a card's own health. A card reads running because its machine does. */
     public var status: String?
 
     public init(id: String? = nil, location: String? = nil, machine: String? = nil, memory: String? = nil, model: String? = nil, name: String? = nil, provider: String? = nil, region: String? = nil, status: String? = nil) {

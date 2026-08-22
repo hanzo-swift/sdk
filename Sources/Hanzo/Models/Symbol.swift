@@ -9,9 +9,13 @@ import Foundation
 
 public struct Symbol: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Detail is the server's short elaboration, typically the signature. Absent when it offered none. */
     public var detail: String?
+    /** Kind is the LSP SymbolKind number (5 class, 6 method, 12 function, 23 struct, …), passed through rather than translated to a word — these callers already speak LSP, and inventing a second vocabulary is how the two drift. */
     public var kind: Int?
+    /** Name is the declared identifier. */
     public var name: String?
+    /** Range is the declaration's span in the file. */
     public var range: ModelRange?
 
     public init(detail: String? = nil, kind: Int? = nil, name: String? = nil, range: ModelRange? = nil) {

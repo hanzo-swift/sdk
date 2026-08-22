@@ -9,7 +9,9 @@ import Foundation
 
 public struct ProjectsFile: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Content is the file's whole text, inline. There is no upload step and no reference to fetch: a site is sent as its bytes, and each file and the site as a whole are size-bounded. */
     public var content: String?
+    /** Path is where the file lands in the site, RELATIVE to its root — so \"index.html\" is the page served at /. Leading slashes and any attempt to escape the root are refused. */
     public var path: String?
 
     public init(content: String? = nil, path: String? = nil) {

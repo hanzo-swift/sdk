@@ -9,8 +9,11 @@ import Foundation
 
 public struct ProjectsRepo: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Branch is the ref a push has to touch for this project to rebuild. Pushes to any other branch are ignored. */
     public var branch: String?
+    /** Provider is the forge the URL was recognised as — it decides which webhook and which credential reach the repository, and is DERIVED from the URL rather than chosen by the caller. */
     public var provider: String?
+    /** URL is the clone address of the repository this project builds from. */
     public var url: String?
 
     public init(branch: String? = nil, provider: String? = nil, url: String? = nil) {

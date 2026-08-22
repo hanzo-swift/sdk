@@ -10,9 +10,9 @@ import Foundation
 open class SocialAPI {
 
     /**
-     Disconnect one account
+     Removes one connected account from the org and answers 204 with no body; an id that is not there is 404.
      
-     - parameter id: (path)  
+     - parameter id: (path) ID is the account or post to act on, taken from the path. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
@@ -22,13 +22,13 @@ open class SocialAPI {
     }
 
     /**
-     Disconnect one account
+     Removes one connected account from the org and answers 204 with no body; an id that is not there is 404.
      - DELETE /v1/social/accounts/{id}
-     - Removes one connected account from the org and answers 204 with no body; an id that is not there is 404.  It removes the account record only. Posts that already published through it keep their published state and their recorded external ids — this does not retract anything from the network.  A validated principal is required; 403 without one. Every row is keyed by the caller's org taken from that principal and never from the request, so an id belonging to another tenant reads as not found rather than as a refusal.
+     - Removes one connected account from the org and answers 204 with no body; an id that is not there is 404.  It removes the account record only. Posts that already published through it keep their published state and their recorded external ids — this does not retract anything from the network.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter id: (path)  
+     - parameter id: (path) ID is the account or post to act on, taken from the path. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
@@ -54,9 +54,9 @@ open class SocialAPI {
     }
 
     /**
-     Delete one post
+     Removes one post from the org and answers 204 with no body; an id that is not there is 404.
      
-     - parameter id: (path)  
+     - parameter id: (path) ID is the account or post to act on, taken from the path. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
@@ -66,13 +66,13 @@ open class SocialAPI {
     }
 
     /**
-     Delete one post
+     Removes one post from the org and answers 204 with no body; an id that is not there is 404.
      - DELETE /v1/social/posts/{id}
-     - Removes one post from the org and answers 204 with no body; an id that is not there is 404.  It deletes the record here only. A post that has already published is not retracted from the network by deleting it.  A validated principal is required; 403 without one. Every row is keyed by the caller's org taken from that principal and never from the request, so an id belonging to another tenant reads as not found rather than as a refusal.
+     - Removes one post from the org and answers 204 with no body; an id that is not there is 404.  It deletes the record here only. A post that has already published is not retracted from the network by deleting it.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter id: (path)  
+     - parameter id: (path) ID is the account or post to act on, taken from the path. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
@@ -98,32 +98,40 @@ open class SocialAPI {
     }
 
     /**
-     List the social accounts connected to your org
+     Returns the org's connected accounts — each one's id, network, handle, status and timestamps, most-recently-updated first.
      
+     - parameter provider: (query) Provider keeps only accounts on one network — x, facebook, instagram, linkedin, tiktok, youtube or threads. Omit it for every network. It is lower-cased and trimmed before it is matched, and a value that names no network simply matches nothing rather than being refused. (optional)
+     - parameter limit: (query) Limit bounds the page, defaulting to 200 and capped at 1000. It is a string rather than an integer on purpose: the route parses it with a leading trim and falls back to the default on anything it cannot read, so &#x60;?limit&#x3D;%2050&#x60; is a page of fifty today. An integer field would refuse the space and read an unparseable value as zero, which is a different page. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: SocialAccounts
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getSocialAccounts(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await getSocialAccountsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    open class func getSocialAccounts(provider: String? = nil, limit: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SocialAccounts {
+        return try await getSocialAccountsWithRequestBuilder(provider: provider, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     List the social accounts connected to your org
+     Returns the org's connected accounts — each one's id, network, handle, status and timestamps, most-recently-updated first.
      - GET /v1/social/accounts
-     - Returns the org's connected accounts — each one's id, network, handle, status and timestamps. `provider` filters to one network; `limit` bounds the page, defaulting to 200 and capped at 1000.  An account's provider access token is NEVER included in any response on this surface. Only the publisher reads it.  A validated principal is required; 403 without one. Every row is keyed by the caller's org taken from that principal and never from the request, so an id belonging to another tenant reads as not found rather than as a refusal.
+     - Returns the org's connected accounts — each one's id, network, handle, status and timestamps, most-recently-updated first.  An account's provider access token is NEVER included in any response on this surface. Only the publisher reads it.
      - Bearer Token:
        - type: http
        - name: bearer
+     - parameter provider: (query) Provider keeps only accounts on one network — x, facebook, instagram, linkedin, tiktok, youtube or threads. Omit it for every network. It is lower-cased and trimmed before it is matched, and a value that names no network simply matches nothing rather than being refused. (optional)
+     - parameter limit: (query) Limit bounds the page, defaulting to 200 and capped at 1000. It is a string rather than an integer on purpose: the route parses it with a leading trim and falls back to the default on anything it cannot read, so &#x60;?limit&#x3D;%2050&#x60; is a page of fifty today. An integer field would refuse the space and read an unparseable value as zero, which is a different page. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<SocialAccounts> 
      */
-    open class func getSocialAccountsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getSocialAccountsWithRequestBuilder(provider: String? = nil, limit: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SocialAccounts> {
         let localVariablePath = "/v1/social/accounts"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "provider": (wrappedValue: provider?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
@@ -131,35 +139,35 @@ open class SocialAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<SocialAccounts>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Read one connected account
+     Returns one of the org's connected accounts by id — its network, handle, status and timestamps — or 404.
      
-     - parameter id: (path)  
+     - parameter id: (path) ID is the account or post to act on, taken from the path. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: SocialAccount
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getSocialAccountsById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getSocialAccountsById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SocialAccount {
         return try await getSocialAccountsByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Read one connected account
+     Returns one of the org's connected accounts by id — its network, handle, status and timestamps — or 404.
      - GET /v1/social/accounts/{id}
-     - Returns one of the org's connected accounts by id — its network, handle, status and timestamps — or 404. The provider access token is not part of the response.  A validated principal is required; 403 without one. Every row is keyed by the caller's org taken from that principal and never from the request, so an id belonging to another tenant reads as not found rather than as a refusal.
+     - Returns one of the org's connected accounts by id — its network, handle, status and timestamps — or 404. The provider access token is not part of the response.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter id: (path)  
+     - parameter id: (path) ID is the account or post to act on, taken from the path. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<SocialAccount> 
      */
-    open class func getSocialAccountsByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getSocialAccountsByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SocialAccount> {
         var localVariablePath = "/v1/social/accounts/{id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -175,38 +183,46 @@ open class SocialAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<SocialAccount>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     List your org's posts
+     Returns the org's posts — content, channel, status, scheduled time, media and timestamps — most-recently-updated first.
      
+     - parameter status: (query) Status keeps only posts in one state — draft, scheduled, published or failed. Omit it for every state. The transient publishing claim is not a user-visible state and matching it is not useful. (optional)
+     - parameter limit: (query) Limit bounds the page, defaulting to 200 and capped at 1000. A string for the same reason accountFilter.Limit is. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: SocialPosts
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getSocialPosts(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await getSocialPostsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    open class func getSocialPosts(status: String? = nil, limit: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SocialPosts {
+        return try await getSocialPostsWithRequestBuilder(status: status, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     List your org's posts
+     Returns the org's posts — content, channel, status, scheduled time, media and timestamps — most-recently-updated first.
      - GET /v1/social/posts
-     - Returns the org's posts — content, channel, status, scheduled time, media and timestamps. `status` filters to one of draft, scheduled, published or failed; `limit` bounds the page, defaulting to 200 and capped at 1000.  A validated principal is required; 403 without one. Every row is keyed by the caller's org taken from that principal and never from the request, so an id belonging to another tenant reads as not found rather than as a refusal.
+     - Returns the org's posts — content, channel, status, scheduled time, media and timestamps — most-recently-updated first.
      - Bearer Token:
        - type: http
        - name: bearer
+     - parameter status: (query) Status keeps only posts in one state — draft, scheduled, published or failed. Omit it for every state. The transient publishing claim is not a user-visible state and matching it is not useful. (optional)
+     - parameter limit: (query) Limit bounds the page, defaulting to 200 and capped at 1000. A string for the same reason accountFilter.Limit is. (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<SocialPosts> 
      */
-    open class func getSocialPostsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getSocialPostsWithRequestBuilder(status: String? = nil, limit: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SocialPosts> {
         let localVariablePath = "/v1/social/posts"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "status": (wrappedValue: status?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
             :
@@ -214,35 +230,35 @@ open class SocialAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<SocialPosts>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Read one post
+     Returns one of the org's posts by id, with its current status, scheduled time, media and — once it has published — the account and external id it published under.
      
-     - parameter id: (path)  
+     - parameter id: (path) ID is the account or post to act on, taken from the path. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: SocialPost
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getSocialPostsById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getSocialPostsById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SocialPost {
         return try await getSocialPostsByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Read one post
+     Returns one of the org's posts by id, with its current status, scheduled time, media and — once it has published — the account and external id it published under.
      - GET /v1/social/posts/{id}
-     - Returns one of the org's posts by id, with its current status, scheduled time, media and — once it has published — the account and external id it published under. 404 when there is no such post for this org.  A validated principal is required; 403 without one. Every row is keyed by the caller's org taken from that principal and never from the request, so an id belonging to another tenant reads as not found rather than as a refusal.
+     - Returns one of the org's posts by id, with its current status, scheduled time, media and — once it has published — the account and external id it published under. 404 when there is no such post for this org.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter id: (path)  
+     - parameter id: (path) ID is the account or post to act on, taken from the path. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<SocialPost> 
      */
-    open class func getSocialPostsByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getSocialPostsByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SocialPost> {
         var localVariablePath = "/v1/social/posts/{id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -258,33 +274,33 @@ open class SocialAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<SocialPost>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Which networks this deployment can actually publish to
+     Reports each supported network's publish-readiness: whether this deployment holds the OAuth application credentials for it and, when it does not, exactly which environment variables are missing.
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: SocialProviders
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getSocialProviders(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getSocialProviders(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SocialProviders {
         return try await getSocialProvidersWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Which networks this deployment can actually publish to
+     Reports each supported network's publish-readiness: whether this deployment holds the OAuth application credentials for it and, when it does not, exactly which environment variables are missing.
      - GET /v1/social/providers
-     - Reports each supported network's publish-readiness: whether this deployment holds the OAuth application credentials for it and, when it does not, exactly which environment variables are missing.  This is a live read of the deployment's own configuration, not a static list of networks — it answers \"can I connect this today\", which is what a connect affordance and a pre-cutover checklist both need. It says nothing about whether the caller has connected an account; that is the accounts listing.  A validated principal is required; 403 without one. Every row is keyed by the caller's org taken from that principal and never from the request, so an id belonging to another tenant reads as not found rather than as a refusal.
+     - Reports each supported network's publish-readiness: whether this deployment holds the OAuth application credentials for it and, when it does not, exactly which environment variables are missing.  This is a live read of the deployment's own configuration, not a static list of networks — it answers \"can I connect this today\", which is what a connect affordance and a pre-cutover checklist both need. It says nothing about whether the caller has connected an account; that is the accounts listing.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<SocialProviders> 
      */
-    open class func getSocialProvidersWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getSocialProvidersWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SocialProviders> {
         let localVariablePath = "/v1/social/providers"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -297,33 +313,33 @@ open class SocialAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<SocialProviders>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Counts across your org's social presence
+     Returns four counts for the caller's org: total posts, how many are scheduled, how many have published, and how many accounts are connected.
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: SocialSummary
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getSocialSummary(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getSocialSummary(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SocialSummary {
         return try await getSocialSummaryWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Counts across your org's social presence
+     Returns four counts for the caller's org: total posts, how many are scheduled, how many have published, and how many accounts are connected.
      - GET /v1/social/summary
-     - Returns four counts for the caller's org: total posts, how many are scheduled, how many have published, and how many accounts are connected. It is the dashboard roll-up, computed over the org's own rows in one read.  A validated principal is required; 403 without one. Every row is keyed by the caller's org taken from that principal and never from the request, so an id belonging to another tenant reads as not found rather than as a refusal.
+     - Returns four counts for the caller's org: total posts, how many are scheduled, how many have published, and how many accounts are connected. It is the dashboard roll-up, computed over the org's own rows in one read.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<SocialSummary> 
      */
-    open class func getSocialSummaryWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getSocialSummaryWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SocialSummary> {
         let localVariablePath = "/v1/social/summary"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -336,113 +352,117 @@ open class SocialAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<SocialSummary>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Connect a social account to your org
+     Records a social account for the org and answers 201 with the stored row, including the generated id later calls address it by.
      
+     - parameter socialAccountBody: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: SocialAccount
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postSocialAccounts(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postSocialAccountsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    open class func postSocialAccounts(socialAccountBody: SocialAccountBody, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SocialAccount {
+        return try await postSocialAccountsWithRequestBuilder(socialAccountBody: socialAccountBody, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Connect a social account to your org
+     Records a social account for the org and answers 201 with the stored row, including the generated id later calls address it by.
      - POST /v1/social/accounts
-     - Records a social account for the org and answers 201 with the stored row, including the generated id later calls address it by.  `provider` must be one of x, facebook, instagram, linkedin, tiktok, youtube or threads, defaulting to x when omitted. `status` is one of connected, disconnected or error, defaulting to connected. The handle is trimmed and bounded at 1024 characters.  A validated principal is required; 403 without one. Every row is keyed by the caller's org taken from that principal and never from the request, so an id belonging to another tenant reads as not found rather than as a refusal.
+     - Records a social account for the org and answers 201 with the stored row, including the generated id later calls address it by.
      - Bearer Token:
        - type: http
        - name: bearer
+     - parameter socialAccountBody: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<SocialAccount> 
      */
-    open class func postSocialAccountsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postSocialAccountsWithRequestBuilder(socialAccountBody: SocialAccountBody, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SocialAccount> {
         let localVariablePath = "/v1/social/accounts"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: socialAccountBody, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<SocialAccount>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Create a post, and publish it if it is already due
+     Stores a post for the org and answers 201 with the stored row.
      
+     - parameter socialPostBody: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: SocialPost
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postSocialPosts(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postSocialPostsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    open class func postSocialPosts(socialPostBody: SocialPostBody, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SocialPost {
+        return try await postSocialPostsWithRequestBuilder(socialPostBody: socialPostBody, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Create a post, and publish it if it is already due
+     Stores a post for the org and answers 201 with the stored row.
      - POST /v1/social/posts
-     - Stores a post for the org and answers 201 with the stored row.  A post created as scheduled for a time that has already passed is published IMMEDIATELY, and the row returned carries that outcome — this is the one behaviour a reader would otherwise miss. A future-scheduled post is left for the scheduler, and a draft is left alone. Publishing never fails the creation: the post is stored either way, and a publish that could not run leaves the row for the scheduler to retry.  `content` is required and bounded at 8192 characters; `channel` is one of the seven supported networks, defaulting to x; `status` is one of draft, scheduled, published or failed, defaulting to draft; up to 10 media URLs are kept, each bounded at 1024 characters.  A validated principal is required; 403 without one. Every row is keyed by the caller's org taken from that principal and never from the request, so an id belonging to another tenant reads as not found rather than as a refusal.
+     - Stores a post for the org and answers 201 with the stored row.  A post created as scheduled for a time that has already passed is published IMMEDIATELY, and the row returned carries that outcome — this is the one behaviour a reader would otherwise miss. A future-scheduled post is left for the scheduler, and a draft is left alone. Publishing never fails the creation: the post is stored either way, and a publish that could not run leaves the row for the scheduler to retry.
      - Bearer Token:
        - type: http
        - name: bearer
+     - parameter socialPostBody: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<SocialPost> 
      */
-    open class func postSocialPostsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postSocialPostsWithRequestBuilder(socialPostBody: SocialPostBody, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SocialPost> {
         let localVariablePath = "/v1/social/posts"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: socialPostBody, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<SocialPost>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Publish one post now
+     Publishes the post immediately to the connected accounts on its channel and answers with the updated row, carrying the account and external id it published under.
      
-     - parameter id: (path)  
+     - parameter id: (path) ID is the account or post to act on, taken from the path. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: SocialPost
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postSocialPostsByIdPublish(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func postSocialPostsByIdPublish(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SocialPost {
         return try await postSocialPostsByIdPublishWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Publish one post now
+     Publishes the post immediately to the connected accounts on its channel and answers with the updated row, carrying the account and external id it published under.
      - POST /v1/social/posts/{id}/publish
-     - Publishes the post immediately to the connected accounts on its channel and answers with the updated row, carrying the account and external id it published under.  It is IDEMPOTENT: a post that has already published, or that another caller is publishing right now, comes back unchanged rather than being posted twice. That claim is taken before any network call, which is what makes a double submit safe.  The two failure shapes differ on purpose. Having no connected account for the channel is the caller's to fix, so it is recorded ON the post as failed with the reason and answers normally. A deployment that lacks the network's own credentials cannot publish for anyone, so that is a 503 naming exactly what is missing.  A validated principal is required; 403 without one. Every row is keyed by the caller's org taken from that principal and never from the request, so an id belonging to another tenant reads as not found rather than as a refusal.
+     - Publishes the post immediately to the connected accounts on its channel and answers with the updated row, carrying the account and external id it published under.  It is IDEMPOTENT: a post that has already published, or that another caller is publishing right now, comes back unchanged rather than being posted twice. That claim is taken before any network call, which is what makes a double submit safe.  The two failure shapes differ on purpose. Having no connected account for the channel is the caller's to fix, so it is recorded ON the post as failed with the reason and answers normally. A deployment that lacks the network's own credentials cannot publish for anyone, so that is a 503 naming exactly what is missing.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter id: (path)  
+     - parameter id: (path) ID is the account or post to act on, taken from the path. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<SocialPost> 
      */
-    open class func postSocialPostsByIdPublishWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postSocialPostsByIdPublishWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SocialPost> {
         var localVariablePath = "/v1/social/posts/{id}/publish"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -458,95 +478,99 @@ open class SocialAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<SocialPost>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Replace one connected account
+     Replaces the account's network, handle and status with what the body carries, and answers with the stored row.
      
      - parameter id: (path)  
+     - parameter socialAccountWrite: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: SocialAccount
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putSocialAccountsById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await putSocialAccountsByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    open class func putSocialAccountsById(id: String, socialAccountWrite: SocialAccountWrite, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SocialAccount {
+        return try await putSocialAccountsByIdWithRequestBuilder(id: id, socialAccountWrite: socialAccountWrite, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Replace one connected account
+     Replaces the account's network, handle and status with what the body carries, and answers with the stored row.
      - PUT /v1/social/accounts/{id}
-     - Replaces the account's network, handle and status with what the body carries, and answers with the stored row.  This is a REPLACEMENT, not a merge, which is the rule most easily got wrong: a field the body omits is written as its default, so leaving out the handle blanks it and leaving out the status resets it to connected. Send the whole record. The same vocabularies as create apply, and an unknown network or status is refused rather than coerced.  A validated principal is required; 403 without one. Every row is keyed by the caller's org taken from that principal and never from the request, so an id belonging to another tenant reads as not found rather than as a refusal.
+     - Replaces the account's network, handle and status with what the body carries, and answers with the stored row.  This is a REPLACEMENT, not a merge, which is the rule most easily got wrong: a field the body omits is written as its default, so leaving out the handle blanks it and leaving out the status resets it to connected. Send the whole record. The same vocabularies as create apply, and an unknown network or status is refused rather than coerced.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter id: (path)  
+     - parameter socialAccountWrite: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<SocialAccount> 
      */
-    open class func putSocialAccountsByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func putSocialAccountsByIdWithRequestBuilder(id: String, socialAccountWrite: SocialAccountWrite, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SocialAccount> {
         var localVariablePath = "/v1/social/accounts/{id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: socialAccountWrite, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<SocialAccount>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Replace one post
+     Replaces the post's content, channel, status, scheduled time and media with what the body carries, and answers with the stored row.
      
      - parameter id: (path)  
+     - parameter socialPostWrite: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: SocialPost
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putSocialPostsById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await putSocialPostsByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    open class func putSocialPostsById(id: String, socialPostWrite: SocialPostWrite, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SocialPost {
+        return try await putSocialPostsByIdWithRequestBuilder(id: id, socialPostWrite: socialPostWrite, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Replace one post
+     Replaces the post's content, channel, status, scheduled time and media with what the body carries, and answers with the stored row.
      - PUT /v1/social/posts/{id}
-     - Replaces the post's content, channel, status, scheduled time and media with what the body carries, and answers with the stored row.  A REPLACEMENT, not a merge: an omitted field is written as its default, so omitting media clears it and omitting the status resets the post to draft. `content` is required on every update. Unlike create, this never triggers a publish — moving a post's scheduled time into the past here leaves it for the scheduler; publish now is its own operation.  A validated principal is required; 403 without one. Every row is keyed by the caller's org taken from that principal and never from the request, so an id belonging to another tenant reads as not found rather than as a refusal.
+     - Replaces the post's content, channel, status, scheduled time and media with what the body carries, and answers with the stored row.  A REPLACEMENT, not a merge: an omitted field is written as its default, so omitting media clears it and omitting the status resets the post to draft. `content` is required on every update. Unlike create, this never triggers a publish — moving a post's scheduled time into the past here leaves it for the scheduler; publish now is its own operation.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter id: (path)  
+     - parameter socialPostWrite: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<SocialPost> 
      */
-    open class func putSocialPostsByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func putSocialPostsByIdWithRequestBuilder(id: String, socialPostWrite: SocialPostWrite, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SocialPost> {
         var localVariablePath = "/v1/social/posts/{id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: socialPostWrite, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<SocialPost>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

@@ -9,6 +9,7 @@ import Foundation
 
 public struct StepView: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Args are the tool's default arguments, merged under whatever the caller passes at run time. */
     public var args: [String: JSONValue]?
     /** Automatable is true when the Business AI can run this step (it names a tool). */
     public var automatable: Bool?
@@ -20,7 +21,9 @@ public struct StepView: Sendable, Codable, ParameterConvertible, Hashable {
     public var deps: [String]?
     /** Detail is the prose/juncture — what the Guide asks or explains here. */
     public var detail: String?
+    /** Draft, when set, is the prompt the embedded AI answers first; its output is folded into one of Args before the tool runs. */
     public var draft: String?
+    /** DraftInto names the argument the drafted text lands in. Empty means \"brief\". */
     public var draftInto: String?
     /** Enabled is the admin on/off lever; absent reads as enabled. */
     public var enabled: Bool?
@@ -34,8 +37,9 @@ public struct StepView: Sendable, Codable, ParameterConvertible, Hashable {
     public var source: String?
     /** State is the step's per-org lifecycle state: todo|in_progress|done|skipped. */
     public var state: String?
+    /** Title is the one-line quest as a person reads it in the checklist. */
     public var title: String?
-    /** Tool is the MCP tool the Business AI runs for \"do it for me\"; Args are its default arguments, Draft an optional AI prompt whose output fills the DraftInto arg (default \"brief\"). */
+    /** Tool is the MCP tool the Business AI runs for \"do it for me\". A step naming none can only be completed by a person. */
     public var tool: String?
 
     public init(args: [String: JSONValue]? = nil, automatable: Bool? = nil, available: Bool? = nil, blockedBy: [String]? = nil, deps: [String]? = nil, detail: String? = nil, draft: String? = nil, draftInto: String? = nil, enabled: Bool? = nil, id: String? = nil, section: String? = nil, signal: String? = nil, source: String? = nil, state: String? = nil, title: String? = nil, tool: String? = nil) {

@@ -9,10 +9,15 @@ import Foundation
 
 public struct StrategyView: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Action is the tactic itself: the thing to go and do. */
     public var action: String?
+    /** Category is the growth discipline the tactic belongs to — the axis `?category=` narrows on. */
     public var category: String?
+    /** ID is the tactic's stable slug in the corpus. */
     public var id: String?
+    /** Tags are the PRECONDITIONS this tactic already satisfied to appear in the answer — `stage:<name>` and `has:<capability>` predicates over the org's observed profile. They are carried back so a caller can show why a tactic surfaced, not so it can filter again. */
     public var tags: [String]?
+    /** Workload is how much effort running the tactic costs, so a corpus can be cut to what the org has the hands for. */
     public var workload: String?
 
     public init(action: String? = nil, category: String? = nil, id: String? = nil, tags: [String]? = nil, workload: String? = nil) {

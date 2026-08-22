@@ -9,7 +9,9 @@ import Foundation
 
 public struct GithubSearchOut: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Count is how many hits Repos carries. It is that array's length, NOT GitHub's total_count, so it never exceeds limit and says nothing about how many more repositories matched. */
     public var count: Int?
+    /** Repos are the matching repositories in GitHub's own relevance order, capped at limit. Always an array, never null. */
     public var repos: [GithubSearchHit]?
 
     public init(count: Int? = nil, repos: [GithubSearchHit]? = nil) {

@@ -9,8 +9,11 @@ import Foundation
 
 public struct ArgoSpec: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Destination is which cluster and namespace it lands in. Zero-valued on a CD row: this projection reports CD's source, not its destination. */
     public var destination: ArgoDestination?
+    /** Project is the AppProject this application is grouped and filtered under. For an App CR it is the app.kubernetes.io/part-of label — the IAM project name — falling back to \"default\" when the CR carries no such label. */
     public var project: String?
+    /** Source is where the desired state is declared. */
     public var source: ArgoSource?
 
     public init(destination: ArgoDestination? = nil, project: String? = nil, source: ArgoSource? = nil) {

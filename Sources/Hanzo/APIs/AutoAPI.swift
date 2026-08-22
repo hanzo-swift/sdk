@@ -10,33 +10,33 @@ import Foundation
 open class AutoAPI {
 
     /**
-     Deletes one of the caller's flows.
+     Deletes one automation, its versions and its run history.
      
-     - parameter flow: (path) Flow is the flow&#39;s id, taken from the path. 
+     - parameter id: (path) ID is the flow to act on, from the path. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: JSONValue
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteAutoFlowsByFlow(flow: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> JSONValue {
-        return try await deleteAutoFlowsByFlowWithRequestBuilder(flow: flow, apiConfiguration: apiConfiguration).execute().body
+    open class func deleteAutoFlowsById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteAutoFlowsByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Deletes one of the caller's flows.
-     - DELETE /v1/auto/flows/{flow}
-     - Deletes one of the caller's flows. A foreign id answers 404 and deletes nothing.
+     Deletes one automation, its versions and its run history.
+     - DELETE /v1/auto/flows/{id}
+     - Deletes one automation, its versions and its run history. It answers no content, and a flow of another org answers not-found.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter flow: (path) Flow is the flow&#39;s id, taken from the path. 
+     - parameter id: (path) ID is the flow to act on, from the path. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<JSONValue> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteAutoFlowsByFlowWithRequestBuilder(flow: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<JSONValue> {
-        var localVariablePath = "/v1/auto/flows/{flow}"
-        let flowPreEscape = "\(APIHelper.mapValueToPathItem(flow))"
-        let flowPostEscape = flowPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{flow}", with: flowPostEscape, options: .literal, range: nil)
+    open class func deleteAutoFlowsByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/auto/flows/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
@@ -48,164 +48,81 @@ open class AutoAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<JSONValue>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Flows lists the caller's flows, newest first.
+     Connectors returns the connector catalogue.
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: JSONValue
+     - returns: Catalog
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAutoFlows(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> JSONValue {
-        return try await getAutoFlowsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    open class func getAutoConnectors(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Catalog {
+        return try await getAutoConnectorsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Flows lists the caller's flows, newest first.
+     Connectors returns the connector catalogue.
+     - GET /v1/auto/connectors
+     - Connectors returns the connector catalogue. Each entry is an external service a flow step can invoke, carrying its auth descriptor and the input properties of its actions and triggers. The catalogue is the same for every tenant, so the gate is a validated principal rather than a per-org view.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Catalog> 
+     */
+    open class func getAutoConnectorsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Catalog> {
+        let localVariablePath = "/v1/auto/connectors"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Catalog>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns the caller org's automations, most-recently-updated first.
+     
+     - parameter limit: (query) Limit bounds the page (default 200, maximum 1000). (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: FlowPage
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAutoFlows(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> FlowPage {
+        return try await getAutoFlowsWithRequestBuilder(limit: limit, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns the caller org's automations, most-recently-updated first.
      - GET /v1/auto/flows
-     - Flows lists the caller's flows, newest first. The list is scoped by the product to the caller's org — it can only ever hold the caller's own flows.
+     - Returns the caller org's automations, most-recently-updated first. The optional `limit` query bounds the page.
      - Bearer Token:
        - type: http
        - name: bearer
+     - parameter limit: (query) Limit bounds the page (default 200, maximum 1000). (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<JSONValue> 
+     - returns: RequestBuilder<FlowPage> 
      */
-    open class func getAutoFlowsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<JSONValue> {
+    open class func getAutoFlowsWithRequestBuilder(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<FlowPage> {
         let localVariablePath = "/v1/auto/flows"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<JSONValue>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Flow reads one of the caller's flows — the full record, graph included.
-     
-     - parameter flow: (path) Flow is the flow&#39;s id, taken from the path. 
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: JSONValue
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAutoFlowsByFlow(flow: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> JSONValue {
-        return try await getAutoFlowsByFlowWithRequestBuilder(flow: flow, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Flow reads one of the caller's flows — the full record, graph included.
-     - GET /v1/auto/flows/{flow}
-     - Flow reads one of the caller's flows — the full record, graph included. A flow outside the caller's org answers 404, indistinguishable from one that does not exist.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter flow: (path) Flow is the flow&#39;s id, taken from the path. 
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<JSONValue> 
-     */
-    open class func getAutoFlowsByFlowWithRequestBuilder(flow: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<JSONValue> {
-        var localVariablePath = "/v1/auto/flows/{flow}"
-        let flowPreEscape = "\(APIHelper.mapValueToPathItem(flow))"
-        let flowPostEscape = flowPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{flow}", with: flowPostEscape, options: .literal, range: nil)
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<JSONValue>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Pieces lists the product's built-in piece catalog: the trigger and action types a flow's nodes can use (webhook, schedule, http, set, branch), each with its input descriptors.
-     
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: JSONValue
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAutoPieces(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> JSONValue {
-        return try await getAutoPiecesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Pieces lists the product's built-in piece catalog: the trigger and action types a flow's nodes can use (webhook, schedule, http, set, branch), each with its input descriptors.
-     - GET /v1/auto/pieces
-     - Pieces lists the product's built-in piece catalog: the trigger and action types a flow's nodes can use (webhook, schedule, http, set, branch), each with its input descriptors. The catalog is compiled into the product — adding a piece is a product release, not a platform call.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<JSONValue> 
-     */
-    open class func getAutoPiecesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<JSONValue> {
-        let localVariablePath = "/v1/auto/pieces"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<JSONValue>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Runs lists the caller's run records, newest first — optionally one flow's.
-     
-     - parameter flow: (query) Flow narrows the list to one flow&#39;s runs when present. (optional)
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: JSONValue
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAutoRuns(flow: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> JSONValue {
-        return try await getAutoRunsWithRequestBuilder(flow: flow, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Runs lists the caller's run records, newest first — optionally one flow's.
-     - GET /v1/auto/runs
-     - Runs lists the caller's run records, newest first — optionally one flow's. Each record carries the run's status (queued, running, completed, failed), its input, and its output once the run finished.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter flow: (query) Flow narrows the list to one flow&#39;s runs when present. (optional)
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<JSONValue> 
-     */
-    open class func getAutoRunsWithRequestBuilder(flow: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<JSONValue> {
-        let localVariablePath = "/v1/auto/runs"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "flow": (wrappedValue: flow?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ])
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
@@ -214,39 +131,39 @@ open class AutoAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<JSONValue>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<FlowPage>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Run reads one run record: status, input, output (each executed node's result keyed by node id once completed), error detail if it failed, and timestamps.
+     Returns one automation and its latest version.
      
-     - parameter run: (path) Run is the run&#39;s id, taken from the path. 
+     - parameter id: (path) ID is the flow to act on, from the path. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: JSONValue
+     - returns: PopulatedFlow
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAutoRunsByRun(run: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> JSONValue {
-        return try await getAutoRunsByRunWithRequestBuilder(run: run, apiConfiguration: apiConfiguration).execute().body
+    open class func getAutoFlowsById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PopulatedFlow {
+        return try await getAutoFlowsByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Run reads one run record: status, input, output (each executed node's result keyed by node id once completed), error detail if it failed, and timestamps.
-     - GET /v1/auto/runs/{run}
-     - Run reads one run record: status, input, output (each executed node's result keyed by node id once completed), error detail if it failed, and timestamps. A run outside the caller's org answers 404.
+     Returns one automation and its latest version.
+     - GET /v1/auto/flows/{id}
+     - Returns one automation and its latest version. That is the flow record plus the step tree the builder edits; a flow of another org answers not-found.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter run: (path) Run is the run&#39;s id, taken from the path. 
+     - parameter id: (path) ID is the flow to act on, from the path. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<JSONValue> 
+     - returns: RequestBuilder<PopulatedFlow> 
      */
-    open class func getAutoRunsByRunWithRequestBuilder(run: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<JSONValue> {
-        var localVariablePath = "/v1/auto/runs/{run}"
-        let runPreEscape = "\(APIHelper.mapValueToPathItem(run))"
-        let runPostEscape = runPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{run}", with: runPostEscape, options: .literal, range: nil)
+    open class func getAutoFlowsByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PopulatedFlow> {
+        var localVariablePath = "/v1/auto/flows/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
@@ -258,34 +175,135 @@ open class AutoAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<JSONValue>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<PopulatedFlow>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Status reports whether the auto service is reachable — its own health endpoint as an honest lens for \"is the automation plane up\".
+     Returns one flow's versions, newest first.
      
+     - parameter id: (path) ID is the flow whose versions to list, from the path. 
+     - parameter limit: (query) Limit bounds the page (default 200, maximum 1000). (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: AutoStatus
+     - returns: VersionPage
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAutoStatus(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AutoStatus {
-        return try await getAutoStatusWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    open class func getAutoFlowsByIdVersions(id: String, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> VersionPage {
+        return try await getAutoFlowsByIdVersionsWithRequestBuilder(id: id, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Status reports whether the auto service is reachable — its own health endpoint as an honest lens for \"is the automation plane up\".
-     - GET /v1/auto/status
-     - Status reports whether the auto service is reachable — its own health endpoint as an honest lens for \"is the automation plane up\".
+     Returns one flow's versions, newest first.
+     - GET /v1/auto/flows/{id}/versions
+     - Returns one flow's versions, newest first. The optional `limit` query bounds the page.
      - Bearer Token:
        - type: http
        - name: bearer
+     - parameter id: (path) ID is the flow whose versions to list, from the path. 
+     - parameter limit: (query) Limit bounds the page (default 200, maximum 1000). (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<AutoStatus> 
+     - returns: RequestBuilder<VersionPage> 
      */
-    open class func getAutoStatusWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AutoStatus> {
-        let localVariablePath = "/v1/auto/status"
+    open class func getAutoFlowsByIdVersionsWithRequestBuilder(id: String, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<VersionPage> {
+        var localVariablePath = "/v1/auto/flows/{id}/versions"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<VersionPage>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns the caller org's run history, newest first.
+     
+     - parameter flowId: (query) FlowID narrows the history to one flow. Omit it for the whole org&#39;s runs. (optional)
+     - parameter limit: (query) Limit bounds the page (default 200, maximum 1000). (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RunPage
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAutoRuns(flowId: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RunPage {
+        return try await getAutoRunsWithRequestBuilder(flowId: flowId, limit: limit, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns the caller org's run history, newest first.
+     - GET /v1/auto/runs
+     - Returns the caller org's run history, newest first. The optional `flowId` query narrows it to one flow and `limit` bounds the page.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter flowId: (query) FlowID narrows the history to one flow. Omit it for the whole org&#39;s runs. (optional)
+     - parameter limit: (query) Limit bounds the page (default 200, maximum 1000). (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<RunPage> 
+     */
+    open class func getAutoRunsWithRequestBuilder(flowId: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RunPage> {
+        let localVariablePath = "/v1/auto/runs"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "flowId": (wrappedValue: flowId?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<RunPage>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns one run.
+     
+     - parameter id: (path) ID is the run to read, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: FlowRun
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getAutoRunsById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> FlowRun {
+        return try await getAutoRunsByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns one run.
+     - GET /v1/auto/runs/{id}
+     - Returns one run. A run that has not reached a terminal status is refreshed from the durable engine first — scoped to the org's own namespace — so the caller sees live progress rather than the last status that happened to be persisted.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the run to read, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<FlowRun> 
+     */
+    open class func getAutoRunsByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<FlowRun> {
+        var localVariablePath = "/v1/auto/runs/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
@@ -297,43 +315,43 @@ open class AutoAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<AutoStatus>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<FlowRun>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Patches one of the caller's flows: the name, the graph, or both — only the stated fields move.
+     Updates one automation's metadata in place.
      
-     - parameter flow: (path) Flow is the flow&#39;s id, taken from the path. 
-     - parameter autoUpdate: (body)  
+     - parameter id: (path) ID is the flow to update, from the path. 
+     - parameter patchFlowIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: JSONValue
+     - returns: Flow
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func patchAutoFlowsByFlow(flow: String, autoUpdate: AutoUpdate, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> JSONValue {
-        return try await patchAutoFlowsByFlowWithRequestBuilder(flow: flow, autoUpdate: autoUpdate, apiConfiguration: apiConfiguration).execute().body
+    open class func patchAutoFlowsById(id: String, patchFlowIn: PatchFlowIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Flow {
+        return try await patchAutoFlowsByIdWithRequestBuilder(id: id, patchFlowIn: patchFlowIn, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Patches one of the caller's flows: the name, the graph, or both — only the stated fields move.
-     - PATCH /v1/auto/flows/{flow}
-     - Patches one of the caller's flows: the name, the graph, or both — only the stated fields move.
+     Updates one automation's metadata in place.
+     - PATCH /v1/auto/flows/{id}
+     - Updates one automation's metadata in place. Every field is optional; a field the request omits is left alone. Publishing a version pins which one runs, and is refused unless that version belongs to this flow.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter flow: (path) Flow is the flow&#39;s id, taken from the path. 
-     - parameter autoUpdate: (body)  
+     - parameter id: (path) ID is the flow to update, from the path. 
+     - parameter patchFlowIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<JSONValue> 
+     - returns: RequestBuilder<Flow> 
      */
-    open class func patchAutoFlowsByFlowWithRequestBuilder(flow: String, autoUpdate: AutoUpdate, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<JSONValue> {
-        var localVariablePath = "/v1/auto/flows/{flow}"
-        let flowPreEscape = "\(APIHelper.mapValueToPathItem(flow))"
-        let flowPostEscape = flowPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{flow}", with: flowPostEscape, options: .literal, range: nil)
+    open class func patchAutoFlowsByIdWithRequestBuilder(id: String, patchFlowIn: PatchFlowIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Flow> {
+        var localVariablePath = "/v1/auto/flows/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: autoUpdate, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: patchFlowIn, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -343,38 +361,43 @@ open class AutoAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<JSONValue>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Flow>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Creates a flow in the caller's org.
+     Run executes one connector action in-process and answers the outcome.
      
-     - parameter autoCreate: (body)  
+     - parameter id: (path) ID is the connector to run, from the path. 
+     - parameter runIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: JSONValue
+     - returns: RunResp
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAutoFlows(autoCreate: AutoCreate, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> JSONValue {
-        return try await postAutoFlowsWithRequestBuilder(autoCreate: autoCreate, apiConfiguration: apiConfiguration).execute().body
+    open class func postAutoConnectorsByIdRun(id: String, runIn: RunIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RunResp {
+        return try await postAutoConnectorsByIdRunWithRequestBuilder(id: id, runIn: runIn, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Creates a flow in the caller's org.
-     - POST /v1/auto/flows
-     - Creates a flow in the caller's org. The org is stamped server-side from the validated principal — there is no field by which a caller could place a flow in another org.
+     Run executes one connector action in-process and answers the outcome.
+     - POST /v1/auto/connectors/{id}/run
+     - Run executes one connector action in-process and answers the outcome. The caller's resolved credential travels in `auth`, delivered to the action verbatim — the runtime resolves no credential itself. An action that ran and failed (or an action name the connector does not have) answers ok:false with the failure message, not an HTTP error; an unknown connector is 404 and a missing action 422.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter autoCreate: (body)  
+     - parameter id: (path) ID is the connector to run, from the path. 
+     - parameter runIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<JSONValue> 
+     - returns: RequestBuilder<RunResp> 
      */
-    open class func postAutoFlowsWithRequestBuilder(autoCreate: AutoCreate, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<JSONValue> {
-        let localVariablePath = "/v1/auto/flows"
+    open class func postAutoConnectorsByIdRunWithRequestBuilder(id: String, runIn: RunIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RunResp> {
+        var localVariablePath = "/v1/auto/connectors/{id}/run"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: autoCreate, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: runIn, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -384,39 +407,80 @@ open class AutoAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<JSONValue>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<RunResp>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Publish snapshots the flow's current graph as its next immutable version and arms the flow's triggers.
+     Creates an automation and its initial DRAFT version in one call.
      
-     - parameter flow: (path) Flow is the flow&#39;s id, taken from the path. 
+     - parameter createFlowReq: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: JSONValue
+     - returns: PopulatedFlow
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAutoFlowsByFlowPublish(flow: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> JSONValue {
-        return try await postAutoFlowsByFlowPublishWithRequestBuilder(flow: flow, apiConfiguration: apiConfiguration).execute().body
+    open class func postAutoFlows(createFlowReq: CreateFlowReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PopulatedFlow {
+        return try await postAutoFlowsWithRequestBuilder(createFlowReq: createFlowReq, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Publish snapshots the flow's current graph as its next immutable version and arms the flow's triggers.
-     - POST /v1/auto/flows/{flow}/publish
-     - Publish snapshots the flow's current graph as its next immutable version and arms the flow's triggers. Past versions stay addressable in the product for rollback; runs always execute the graph as it was dispatched.
+     Creates an automation and its initial DRAFT version in one call.
+     - POST /v1/auto/flows
+     - Creates an automation and its initial DRAFT version in one call. The new flow is DISABLED — creating it does not arm its trigger; POST /v1/auto/flows/{id}/enable does that.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter flow: (path) Flow is the flow&#39;s id, taken from the path. 
+     - parameter createFlowReq: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<JSONValue> 
+     - returns: RequestBuilder<PopulatedFlow> 
      */
-    open class func postAutoFlowsByFlowPublishWithRequestBuilder(flow: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<JSONValue> {
-        var localVariablePath = "/v1/auto/flows/{flow}/publish"
-        let flowPreEscape = "\(APIHelper.mapValueToPathItem(flow))"
-        let flowPostEscape = flowPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{flow}", with: flowPostEscape, options: .literal, range: nil)
+    open class func postAutoFlowsWithRequestBuilder(createFlowReq: CreateFlowReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PopulatedFlow> {
+        let localVariablePath = "/v1/auto/flows"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: createFlowReq, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<PopulatedFlow>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Disarms a flow's trigger and marks it DISABLED.
+     
+     - parameter id: (path) ID is the flow to act on, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Flow
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAutoFlowsByIdDisable(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Flow {
+        return try await postAutoFlowsByIdDisableWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Disarms a flow's trigger and marks it DISABLED.
+     - POST /v1/auto/flows/{id}/disable
+     - Disarms a flow's trigger and marks it DISABLED. Its schedule and its event subscriptions are dropped, so a disabled flow is never a live target; runs already in flight are unaffected, and it can still be started on demand.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the flow to act on, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Flow> 
+     */
+    open class func postAutoFlowsByIdDisableWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Flow> {
+        var localVariablePath = "/v1/auto/flows/{id}/disable"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
@@ -428,38 +492,175 @@ open class AutoAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<JSONValue>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Flow>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Start begins one asynchronous run of a flow: the product dispatches the graph to its durable execution engine (the hanzo tasks plane) and answers immediately with the run record in status running.
+     Arms a flow's trigger and marks it ENABLED.
      
-     - parameter autoStart: (body)  
+     - parameter id: (path) ID is the flow to act on, from the path. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: JSONValue
+     - returns: Flow
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postAutoRuns(autoStart: AutoStart, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> JSONValue {
-        return try await postAutoRunsWithRequestBuilder(autoStart: autoStart, apiConfiguration: apiConfiguration).execute().body
+    open class func postAutoFlowsByIdEnable(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Flow {
+        return try await postAutoFlowsByIdEnableWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Start begins one asynchronous run of a flow: the product dispatches the graph to its durable execution engine (the hanzo tasks plane) and answers immediately with the run record in status running.
-     - POST /v1/auto/runs
-     - Start begins one asynchronous run of a flow: the product dispatches the graph to its durable execution engine (the hanzo tasks plane) and answers immediately with the run record in status running. Poll the run until it reaches completed — its output then holds each node's result keyed by node id — or failed, with the error. A flow whose engine is unreachable answers the product's 503: dispatch is real or it is refused, never queued into the void.
+     Arms a flow's trigger and marks it ENABLED.
+     - POST /v1/auto/flows/{id}/enable
+     - Arms a flow's trigger and marks it ENABLED. A POLLING trigger gets a cron schedule on the durable engine; a WEBHOOK trigger gets a subscription in the routing index, so an inbound event starts it; a MANUAL trigger arms nothing and still runs on demand.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter autoStart: (body)  
+     - parameter id: (path) ID is the flow to act on, from the path. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<JSONValue> 
+     - returns: RequestBuilder<Flow> 
      */
-    open class func postAutoRunsWithRequestBuilder(autoStart: AutoStart, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<JSONValue> {
-        let localVariablePath = "/v1/auto/runs"
+    open class func postAutoFlowsByIdEnableWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Flow> {
+        var localVariablePath = "/v1/auto/flows/{id}/enable"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: autoStart, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Flow>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Edit a flow — rename it, retarget its trigger, or add, move and delete steps
+     
+     - parameter id: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAutoFlowsByIdOperations(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAutoFlowsByIdOperationsWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Edit a flow — rename it, retarget its trigger, or add, move and delete steps
+     - POST /v1/auto/flows/{id}/operations
+     - Applies ONE flow operation and answers the thing it changed. The operation is named by `type`, with its arguments under `request`: `CHANGE_NAME`, `UPDATE_TRIGGER`, `ADD_ACTION`, `UPDATE_ACTION`, `MOVE_ACTION`, `DELETE_ACTION` edit the flow's LATEST version and answer with that version, and `CHANGE_STATUS` instead enables or disables the flow and answers with the FLOW. Two response shapes on one address is the rule a reader would otherwise get wrong, and it is why this route is not a typed op.  Edits land on the latest version only — the published version a run executes is untouched until it is republished — and the whole resulting step tree is re-validated against the step-count and size caps after every operation, so a long sequence of `ADD_ACTION` calls cannot grow a flow past a bound one step at a time (422 when it would). Org-scoped and fails closed: a validated principal is required (403 without one), the flow and its version are read under the caller's OWN org so another tenant's id is a 404, and an operation whose `request` does not decode is a 400.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAutoFlowsByIdOperationsWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/auto/flows/{id}/operations"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Starts one durable run of a flow now.
+     
+     - parameter id: (path) ID is the flow to act on, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: FlowRun
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAutoFlowsByIdRun(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> FlowRun {
+        return try await postAutoFlowsByIdRunWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Starts one durable run of a flow now.
+     - POST /v1/auto/flows/{id}/run
+     - Starts one durable run of a flow now. It runs the flow's published version if one is pinned, else its latest, and answers the run record it created. The run is bounded by the org's per-minute run-start budget and its in-flight concurrency ceiling; over either, or with the engine not ready, no run is started and no run id is burned.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the flow to act on, from the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<FlowRun> 
+     */
+    open class func postAutoFlowsByIdRunWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<FlowRun> {
+        var localVariablePath = "/v1/auto/flows/{id}/run"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<FlowRun>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Adds a new DRAFT version to a flow.
+     
+     - parameter id: (path) ID is the flow to add a version to, from the path. 
+     - parameter createVersionIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: FlowVersion
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAutoFlowsByIdVersions(id: String, createVersionIn: CreateVersionIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> FlowVersion {
+        return try await postAutoFlowsByIdVersionsWithRequestBuilder(id: id, createVersionIn: createVersionIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Adds a new DRAFT version to a flow.
+     - POST /v1/auto/flows/{id}/versions
+     - Adds a new DRAFT version to a flow. The version is created invalid unless it carries a trigger, and it does not become the running version until it is published (PATCH the flow's publishedVersionId) or becomes the latest.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the flow to add a version to, from the path. 
+     - parameter createVersionIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<FlowVersion> 
+     */
+    open class func postAutoFlowsByIdVersionsWithRequestBuilder(id: String, createVersionIn: CreateVersionIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<FlowVersion> {
+        var localVariablePath = "/v1/auto/flows/{id}/versions"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: createVersionIn, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
@@ -469,7 +670,100 @@ open class AutoAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<JSONValue>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<FlowVersion>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Fire an event that starts every enabled flow subscribed to it
+     
+     - parameter source: (path)  
+     - parameter event: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAutoHooksBySourceByEvent(source: String, event: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAutoHooksBySourceByEventWithRequestBuilder(source: source, event: event, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Fire an event that starts every enabled flow subscribed to it
+     - POST /v1/auto/hooks/{source}/{event}
+     - Delivers one event to the org's automation triggers and answers `{matched:n}` — how many enabled flows had a webhook trigger on this `(source, event)` key and were started by it. A zero match is a success, not an error: nothing was subscribed.  The path is the trigger key and the JSON object body is the event payload, threaded into each started run as `{{trigger.*}}` with all of its keys intact — which is why this is not a typed op, since a declared input struct would silently DISCARD every payload key it had no field for. Re-delivery is a no-op: an `X-Idempotency-Key` header dedupes, and with none the body is content-hashed instead, so a hammer of identical posts collapses to ONE run rather than minting a fresh one per post. An in-platform producer may propagate `X-Causation-Depth` so a firing that a flow caused is bounded against a loop; an absent or invalid header reads as depth 0, an external origin.  Authenticated and org-scoped, unlike a provider's public webhook URL: a validated principal is required (403 without one) and the org is that principal's, never the body's, so a producer can only fire into its own tenant's flows. Both path segments are required (400) and a payload over the size limit is a 413.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter source: (path)  
+     - parameter event: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAutoHooksBySourceByEventWithRequestBuilder(source: String, event: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/auto/hooks/{source}/{event}"
+        let sourcePreEscape = "\(APIHelper.mapValueToPathItem(source))"
+        let sourcePostEscape = sourcePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{source}", with: sourcePostEscape, options: .literal, range: nil)
+        let eventPreEscape = "\(APIHelper.mapValueToPathItem(event))"
+        let eventPostEscape = eventPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{event}", with: eventPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Release a run waiting at an approval step, with the approval payload
+     
+     - parameter id: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAutoRunsByIdResume(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAutoRunsByIdResumeWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Release a run waiting at an approval step, with the approval payload
+     - POST /v1/auto/runs/{id}/resume
+     - Delivers the durable `resume` signal to a run parked on a `wait_for_approval` waitpoint and answers `{resumed:true}` once the engine has taken it.  The body is an ARBITRARY JSON value — object, array, string, number — delivered VERBATIM into the workflow as that waitpoint's output, so it is what the steps after the approval read as their input. An empty body resumes with no payload. That open shape is why this route is not a typed op: an operation's input can carry the payload or the run address, never both.  Org-scoped and fails closed: a validated principal is required (403 without one), the run is read under the caller's OWN org so another tenant's run id is a 404, a body that is not JSON is a 400, and a payload over the size limit is a 413 — it becomes durable engine state, so it is bounded here rather than after it lands. The resume is audited as `automations.run.resume`.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAutoRunsByIdResumeWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/auto/runs/{id}/resume"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

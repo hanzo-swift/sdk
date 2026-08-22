@@ -9,13 +9,14 @@ import Foundation
 
 public struct O11yMetricsResponse: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Product is the service these numbers are about, echoed back. */
     public var product: String?
-    public var range: O11yAvailabilityResponseRange?
+    public var range: O11yMetricsResponseRange?
     public var series: O11yMetricsResponseSeries?
     public var summary: O11yMetricsResponseSummary?
     public var usage: O11yMetricsResponseUsage?
 
-    public init(product: String? = nil, range: O11yAvailabilityResponseRange? = nil, series: O11yMetricsResponseSeries? = nil, summary: O11yMetricsResponseSummary? = nil, usage: O11yMetricsResponseUsage? = nil) {
+    public init(product: String? = nil, range: O11yMetricsResponseRange? = nil, series: O11yMetricsResponseSeries? = nil, summary: O11yMetricsResponseSummary? = nil, usage: O11yMetricsResponseUsage? = nil) {
         self.product = product
         self.range = range
         self.series = series

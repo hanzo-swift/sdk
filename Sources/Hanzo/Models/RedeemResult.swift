@@ -13,7 +13,9 @@ public struct RedeemResult: Sendable, Codable, ParameterConvertible, Hashable {
     public var alreadyRedeemed: Bool?
     /** ChargeCents is what month one costs after the discount, DiscountCents the discount that produced it. Both are quoted figures against the org's derived plan — NOTHING WAS CREDITED and no wallet moved. */
     public var chargeCents: Int?
+    /** DiscountCents is the discount claimed for month one, in USD cents, at the single-seat floor. It is the same figure recorded on the Redemption, and it is evidence an admin may later grant against — not a balance. */
     public var discountCents: Int?
+    /** Redemption is the row that was recorded — the org's claim on this promo, with the server-derived plan and seat count. On a replay it is the ORIGINAL row, so its redeemedAt is when the org first took the promo, not now. */
     public var redemption: Redemption?
 
     public init(alreadyRedeemed: Bool? = nil, chargeCents: Int? = nil, discountCents: Int? = nil, redemption: Redemption? = nil) {

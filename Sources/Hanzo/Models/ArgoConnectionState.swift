@@ -9,8 +9,11 @@ import Foundation
 
 public struct ArgoConnectionState: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** AttemptedAt is when the connection was last probed. Always absent: nothing is probed, and a fabricated timestamp would claim a check that never ran. */
     public var attemptedAt: String?
+    /** Message is why a connection failed. Always absent, since none does. */
     public var message: String?
+    /** Status is ArgoCD's ConnectionStatus — Successful, Failed or Unknown. Always Successful here: the destination is the cluster this process is already running in, so it is reachable by construction and there is no credential to probe. */
     public var status: String?
 
     public init(attemptedAt: String? = nil, message: String? = nil, status: String? = nil) {

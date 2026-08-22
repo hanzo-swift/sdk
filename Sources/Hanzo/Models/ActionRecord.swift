@@ -9,13 +9,21 @@ import Foundation
 
 public struct ActionRecord: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Args is the JSON the tool was called with, recorded as TEXT exactly as sent — including whatever the AI drafted into it — so a run can be read back and reproduced. It is a string, not an object. */
     public var args: String?
+    /** CreatedAt is when the run was recorded, as Unix seconds. The ledger is read newest-first on this column. */
     public var createdAt: Int?
+    /** Err is why the run failed, when it did. Empty on a successful run. */
     public var err: String?
+    /** ID identifies this one execution. The ledger is append-only, so an id is never reused and never updated. */
     public var id: String?
+    /** OK is whether the tool ran to completion. It is the ledger's own verdict, not the tool's opinion of the outcome — a tool that succeeded at reporting bad news is ok. */
     public var ok: Bool?
+    /** Result is the tool's own answer, likewise recorded as JSON text. Present on a failed run too, where the tool answered but the answer was a refusal. */
     public var result: String?
+    /** StepID is the checklist step the Business AI was acting on. */
     public var stepId: String?
+    /** Tool is the MCP tool that was dispatched, by name. */
     public var tool: String?
 
     public init(args: String? = nil, createdAt: Int? = nil, err: String? = nil, id: String? = nil, ok: Bool? = nil, result: String? = nil, stepId: String? = nil, tool: String? = nil) {

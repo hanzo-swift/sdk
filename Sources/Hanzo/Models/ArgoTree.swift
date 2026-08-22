@@ -9,8 +9,11 @@ import Foundation
 
 public struct ArgoTree: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Hosts is ArgoCD's per-node machine inventory. Always empty: this plane projects applications and serves no cluster-node view. */
     public var hosts: [JSONValue]?
+    /** Nodes is the FLAT node list, root first: the App CR, then the objects the operator owns, then their ReplicaSets and Pods. The hierarchy is in ParentRefs, not in the ordering. */
     public var nodes: [ArgoNode]?
+    /** OrphanedNodes are objects in the namespace belonging to no application. Always empty: this walk reaches an object only THROUGH ownership from the App CR, so it can never hold one that is orphaned. */
     public var orphanedNodes: [ArgoNode]?
 
     public init(hosts: [JSONValue]? = nil, nodes: [ArgoNode]? = nil, orphanedNodes: [ArgoNode]? = nil) {

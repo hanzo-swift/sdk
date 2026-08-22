@@ -9,7 +9,7 @@ import Foundation
 
 public struct ValidatorClaim: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** Nonce is the value GET /v1/validators/challenge issued for this slot. */
+    /** Nonce is the value GET /v1/validator/challenge issued for this slot. */
     public var nonce: String?
     /** Signature is the wallet's personal_sign over the challenge message, hex with a 0x prefix. */
     public var signature: String?

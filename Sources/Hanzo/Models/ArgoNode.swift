@@ -9,15 +9,21 @@ import Foundation
 
 public struct ArgoNode: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** CreatedAt is the object's creationTimestamp, RFC 3339 UTC to the second. Absent when the object carries none. */
     public var createdAt: String?
     public var group: String?
+    /** Health is the node's own derived health. Always present on a node of this tree; a kind with no health signal of its own reports Healthy, since a ConfigMap existing IS its healthy state. */
     public var health: ArgoHealth?
+    /** Images are the container images running on this node. Always absent — the tag travels as the \"Image Tag\" chip in Info instead, which is where the SPA reads it on a node. */
     public var images: [String]?
+    /** Info are the chips shown on the node. At most one: the image tag — the RUNNING tag on a Deployment, ReplicaSet or Pod, and the DECLARED tag on the App CR at the root. Absent on a node that carries no image at all. */
     public var info: [ArgoInfoItem]?
     public var kind: String?
     public var name: String?
     public var namespace: String?
+    /** ParentRefs are the node's edges UPWARD, which is how the SPA draws the DAG from this flat list. Exactly one entry where present: a depth-1 object points at the App CR, a ReplicaSet at its Deployment, a Pod at its ReplicaSet (or at the Deployment whose selector matches it, when the ReplicaSet is gone). Absent on the root. */
     public var parentRefs: [ArgoResourceRef]?
+    /** ResourceVersion is the k8s version a watch would resume from. Always empty: the tree is rebuilt from live reads on every request, including on every frame of the SSE stream, so there is no revision to resume from. */
     public var resourceVersion: String?
     public var uid: String?
     public var version: String?

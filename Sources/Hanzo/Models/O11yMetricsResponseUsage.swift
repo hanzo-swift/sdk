@@ -7,6 +7,7 @@
 
 import Foundation
 
+/** Usage is the LLM side of the same window: how many calls, how many tokens and what they cost. It counts model traffic, not HTTP requests, so it does not reconcile with series.requests. */
 public struct O11yMetricsResponseUsage: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var calls: Int?

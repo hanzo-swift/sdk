@@ -9,11 +9,17 @@ import Foundation
 
 public struct FleetSpec: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Arch is the CPU architecture, amd64 or arm64, and it is what decides whether a binary built for the fleet will run here. Only the sources that report one carry it (a linked run-target, a BYO worker). */
     public var arch: String?
+    /** CPUs is logical cores on the unit. */
     public var cpus: Int?
+    /** GPUModel names the FIRST accelerator (\"NVIDIA GB10\") as the representative of the set; GPUs carries how many. Empty for a cluster, whose cards are counted rather than modelled, and for a unit with none. */
     public var gpuModel: String?
+    /** GPUs is how many accelerators the unit has. For a cluster it is the vendor totals summed across every node, so it counts cards, not machines. */
     public var gpus: Int?
+    /** Memory is total system RAM in BYTES — not GB, and not what is free right now (fleetMetrics carries that). Absent when the source reports no RAM figure. */
     public var memory: Int?
+    /** OS is the operating system the unit runs: linux, darwin or windows. Empty when the source does not report one — a cluster row does not. */
     public var os: String?
 
     public init(arch: String? = nil, cpus: Int? = nil, gpuModel: String? = nil, gpus: Int? = nil, memory: Int? = nil, os: String? = nil) {

@@ -9,9 +9,13 @@ import Foundation
 
 public struct StateGraph: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Initial is the state a fresh document starts in — \"draft\". A stored document with no status at all is read as this too. */
     public var initial: String?
+    /** Live is the ONE state that is publicly readable — \"published\". The site pulls only documents in it, so reaching Live IS site-publish; every other state is invisible to a reader. */
     public var live: String?
+    /** States is every lifecycle state in canonical order: draft, in_review, approved, queued, published, archived. The console lays its board columns out in exactly this order, so the order is part of the answer. */
     public var states: [String]?
+    /** Transitions maps each state to the states it may move to. A target absent from a state's list is REFUSED, at the endpoint and again at the storage boundary — this is the whole rule, not a hint for the UI. A state never lists itself; a move that changes nothing is always legal. */
     public var transitions: [String: [String]]?
 
     public init(initial: String? = nil, live: String? = nil, states: [String]? = nil, transitions: [String: [String]]? = nil) {

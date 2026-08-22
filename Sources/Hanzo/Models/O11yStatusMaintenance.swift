@@ -9,14 +9,23 @@ import Foundation
 
 public struct O11yStatusMaintenance: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** AffectedComponents is what the window touches. */
     public var affectedComponents: [O11yStatusComponent]?
+    /** EndsAt is when it is expected to finish, RFC3339 UTC. */
     public var endsAt: String?
+    /** ID is the window's handle. */
     public var id: String?
+    /** LastUpdateAt is when the window was last revised, RFC3339 UTC. */
     public var lastUpdateAt: String?
+    /** LastUpdateMessage is the text of that revision. */
     public var lastUpdateMessage: String?
+    /** Name is its one-line headline. */
     public var name: String?
+    /** StartsAt is when work begins, RFC3339 UTC. */
     public var startsAt: String?
+    /** Status is where the window is in its life, in the client's own vocabulary. */
     public var status: String?
+    /** URL points at the human status page, as every link in this document does. */
     public var url: String?
 
     public init(affectedComponents: [O11yStatusComponent]? = nil, endsAt: String? = nil, id: String? = nil, lastUpdateAt: String? = nil, lastUpdateMessage: String? = nil, name: String? = nil, startsAt: String? = nil, status: String? = nil, url: String? = nil) {

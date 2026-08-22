@@ -11,6 +11,7 @@ public struct MetricsView: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** echoes the requested window (24H|7D|30D) */
     public var range: String?
+    /** Resource is the Resource Usage panel's rollup, and every field of it is currently null — see resourceUsage. It is present rather than omitted so a panel renders \"—\" instead of guessing. */
     public var resource: ResourceUsage?
     /** per-agent invocation histogram (real) */
     public var series: [SeriesLine]?

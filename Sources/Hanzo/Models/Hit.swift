@@ -9,12 +9,19 @@ import Foundation
 
 public struct Hit: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** DocType is which kind of knowledge matched: kb-page (a wiki page), kb-memory (a unit of agent memory) or kb-source (a document a connector ingested). Those three are the whole indexed set, and searchIn.DocTypes filters on them. */
     public var doctype: String?
+    /** Name is the document's name in the framework store — the id to read or open it with. Unique per (org, doctype), so it identifies the document with DocType and not alone. */
     public var name: String?
+    /** Project is the project scope the document was saved under. Absent for a document saved with none, which is also why a project-scoped query cannot reach it. */
     public var project: String?
+    /** Provider is the connector that ingested the document — github, slack, google or notion. Absent for a page or memory written in the product, which came from no connector. */
     public var provider: String?
+    /** Score is the cosine similarity between the query's embedding and the document's, from -1 to 1, higher being closer — the collection is created with Cosine distance. Hits arrive ordered by it, descending. There is no absolute cutoff: what counts as a good score moves with the query and the embedding model, so compare scores within one response and not across queries. */
     public var score: Double?
+    /** Title is the document's title as it was indexed. Empty for a document saved without one; it is a label to show, never the id (that is Name). */
     public var title: String?
+    /** URL is the document's link back into the app it was ingested from. Absent when the indexed payload carries none, which is the normal case for pages and memories. */
     public var url: String?
 
     public init(doctype: String? = nil, name: String? = nil, project: String? = nil, provider: String? = nil, score: Double? = nil, title: String? = nil, url: String? = nil) {

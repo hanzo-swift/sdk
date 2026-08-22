@@ -9,7 +9,7 @@ import Foundation
 
 public struct RunnerBuildResp: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** BuildJobID is the queued build's id, and what a release is followed by. */
+    /** BuildJobID is the queued build's id, and what its progress is read by. */
     public var buildJobId: String?
     /** Image is the ref the image lane will push. */
     public var image: String?
@@ -17,7 +17,7 @@ public struct RunnerBuildResp: Sendable, Codable, ParameterConvertible, Hashable
     public var index: String?
     /** RunnerPool is the runner class the build was placed on. */
     public var runnerPool: String?
-    /** Status is `queued` for an ordinary build, `releasing` for a self-publish. */
+    /** Status is `queued` — the build was accepted and has not finished. */
     public var status: String?
     /** Target is the multi-stage build target, echoed back. */
     public var target: String?

@@ -10,14 +10,17 @@ import Foundation
 public struct MarketItem: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var activated: Bool?
+    /** Category is that same listing's grouping. Free text chosen by the publisher, absent when there is no public listing or the publisher left it blank. */
     public var category: String?
     public var description: String?
     public var dispatchable: Bool?
     public var inputSchema: JSONValue?
+    /** Installed is whether the tool is activated for THIS caller's (org, project): the same bit as Activated, under the shop's name for it, which install and uninstall are the writes for. It is per caller, so one listing reads installed for one org and not for another. */
     public var installed: Bool?
     public var name: String?
     public var price: Price?
     public var source: String?
+    /** Title is the shop-window name, painted over the registry Name from the CHEAPEST public listing for this tool — several orgs may list the same one, and the row shown is the one a buyer would pay. Absent when no org has listed the tool publicly: that row is a plain capability, not an offer. */
     public var title: String?
 
     public init(activated: Bool? = nil, category: String? = nil, description: String? = nil, dispatchable: Bool? = nil, inputSchema: JSONValue? = nil, installed: Bool? = nil, name: String? = nil, price: Price? = nil, source: String? = nil, title: String? = nil) {

@@ -1855,6 +1855,50 @@ open class O11yAPI {
     }
 
     /**
+     Deletes one Sentry project of the caller's org.
+     
+     - parameter id: (path) ID is the project id. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deleteO11ySentinelProjectsById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteO11ySentinelProjectsByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Deletes one Sentry project of the caller's org.
+     - DELETE /v1/o11y/sentinel/projects/{id}
+     - Deletes one Sentry project of the caller's org. Its DSN stops resolving immediately, so ingest for that id fails closed exactly as an unknown project does; retained events are not touched. Answers 204.  Callers need the editor role; the runtime's own gate enforces it.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the project id. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func deleteO11ySentinelProjectsByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/o11y/sentinel/projects/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      Deletes the public-sharing config and disables public sharing of a dashboard.
      
      - parameter id: (path) ID is the resource id from the path. 
@@ -7012,7 +7056,7 @@ open class O11yAPI {
     /**
      Watch one running query's progress
      - GET /v1/o11y/query_progress
-     - Reports how far a submitted query has got — rows scanned, bytes read, elapsed — and HOLDS the connection until the next update rather than answering immediately.  The long poll is the whole point, and the reason this cannot be a typed operation: an answer that arrived only when the query finished would report progress on nothing. The websocket form of the same read is /ws/query_progress.  A validated, org-scoped principal is required; a query id belonging to another tenant is simply not found.
+     - Reports how far a submitted query has got — rows scanned, bytes read, elapsed — and HOLDS the connection until the next update rather than answering immediately.  ONE ADDRESS, TWO PROTOCOLS. Send an Upgrade and this is a websocket carrying the same progress; send an ordinary GET and it is a long poll. The Upgrade is a property of the request, not of the address, so the read that used to answer at /ws/query_progress answers here.  The long poll is the whole point, and the reason this cannot be a typed operation: an answer that arrived only when the query finished would report progress on nothing, and an upgraded connection has no JSON response to declare.  A validated, org-scoped principal is required; a query id belonging to another tenant is simply not found.
      - Bearer Token:
        - type: http
        - name: bearer
@@ -7277,6 +7321,507 @@ open class O11yAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<O11yAnnItemList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns one captured error event of a project, by its id.
+     
+     - parameter id: (path) ID is the event id. 
+     - parameter project: (query) Project is the project the event belongs to, by its id. Required. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: O11yO11ySentryEventOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getO11ySentinelEventsById(id: String, project: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11ySentryEventOut {
+        return try await getO11ySentinelEventsByIdWithRequestBuilder(id: id, project: project, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns one captured error event of a project, by its id.
+     - GET /v1/o11y/sentinel/events/{id}
+     - Returns one captured error event of a project, by its id.  Callers need the viewer role; the runtime's own gate enforces it.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the event id. 
+     - parameter project: (query) Project is the project the event belongs to, by its id. Required. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<O11yO11ySentryEventOut> 
+     */
+    open class func getO11ySentinelEventsByIdWithRequestBuilder(id: String, project: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11ySentryEventOut> {
+        var localVariablePath = "/v1/o11y/sentinel/events/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "project": (wrappedValue: project.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<O11yO11ySentryEventOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Lists the caller's org's grouped error issues, optionally narrowed to one project and one time window, and filtered by status, level, environment, service, a free-text query and a sort.
+     
+     - parameter status: (query) Status narrows to one lifecycle state: unresolved, resolved or ignored. (optional)
+     - parameter level: (query) Level narrows to one severity, e.g. error, warning, info. (optional)
+     - parameter environment: (query) Environment narrows to one deployment environment. (optional)
+     - parameter serviceName: (query) ServiceName narrows to one reporting service. (optional)
+     - parameter query: (query) Query narrows to issues whose text contains it. (optional)
+     - parameter sort: (query) Sort orders the page, e.g. lastSeen, firstSeen, count. (optional)
+     - parameter offset: (query) Offset is how many issues to skip. Zero starts at the first. (optional)
+     - parameter limit: (query) Limit caps how many issues come back. Zero means the default. (optional)
+     - parameter project: (query) Project narrows the org&#39;s issues to one project, by its id. (optional)
+     - parameter period: (query) Period is the window to read, relative to now — 1h, 24h, 7d, 14d, 30d. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: O11yO11yErrorIssuesOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getO11ySentinelIssues(status: String? = nil, level: String? = nil, environment: String? = nil, serviceName: String? = nil, query: String? = nil, sort: String? = nil, offset: Int? = nil, limit: Int? = nil, project: String? = nil, period: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yErrorIssuesOut {
+        return try await getO11ySentinelIssuesWithRequestBuilder(status: status, level: level, environment: environment, serviceName: serviceName, query: query, sort: sort, offset: offset, limit: limit, project: project, period: period, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Lists the caller's org's grouped error issues, optionally narrowed to one project and one time window, and filtered by status, level, environment, service, a free-text query and a sort.
+     - GET /v1/o11y/sentinel/issues
+     - Lists the caller's org's grouped error issues, optionally narrowed to one project and one time window, and filtered by status, level, environment, service, a free-text query and a sort.  Callers need the viewer role; the runtime's own gate enforces it.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter status: (query) Status narrows to one lifecycle state: unresolved, resolved or ignored. (optional)
+     - parameter level: (query) Level narrows to one severity, e.g. error, warning, info. (optional)
+     - parameter environment: (query) Environment narrows to one deployment environment. (optional)
+     - parameter serviceName: (query) ServiceName narrows to one reporting service. (optional)
+     - parameter query: (query) Query narrows to issues whose text contains it. (optional)
+     - parameter sort: (query) Sort orders the page, e.g. lastSeen, firstSeen, count. (optional)
+     - parameter offset: (query) Offset is how many issues to skip. Zero starts at the first. (optional)
+     - parameter limit: (query) Limit caps how many issues come back. Zero means the default. (optional)
+     - parameter project: (query) Project narrows the org&#39;s issues to one project, by its id. (optional)
+     - parameter period: (query) Period is the window to read, relative to now — 1h, 24h, 7d, 14d, 30d. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<O11yO11yErrorIssuesOut> 
+     */
+    open class func getO11ySentinelIssuesWithRequestBuilder(status: String? = nil, level: String? = nil, environment: String? = nil, serviceName: String? = nil, query: String? = nil, sort: String? = nil, offset: Int? = nil, limit: Int? = nil, project: String? = nil, period: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yErrorIssuesOut> {
+        let localVariablePath = "/v1/o11y/sentinel/issues"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "status": (wrappedValue: status?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "level": (wrappedValue: level?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "environment": (wrappedValue: environment?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "serviceName": (wrappedValue: serviceName?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "query": (wrappedValue: query?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "sort": (wrappedValue: sort?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "offset": (wrappedValue: offset?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "project": (wrappedValue: project?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "period": (wrappedValue: period?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<O11yO11yErrorIssuesOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns one grouped issue of the caller's org with its latest occurrence sample.
+     
+     - parameter id: (path) ID is the issue id. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: O11yO11yErrorGettableIssueOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getO11ySentinelIssuesById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yErrorGettableIssueOut {
+        return try await getO11ySentinelIssuesByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns one grouped issue of the caller's org with its latest occurrence sample.
+     - GET /v1/o11y/sentinel/issues/{id}
+     - Returns one grouped issue of the caller's org with its latest occurrence sample.  Callers need the viewer role; the runtime's own gate enforces it.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the issue id. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<O11yO11yErrorGettableIssueOut> 
+     */
+    open class func getO11ySentinelIssuesByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yErrorGettableIssueOut> {
+        var localVariablePath = "/v1/o11y/sentinel/issues/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<O11yO11yErrorGettableIssueOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Lists one issue's captured occurrences, scoped to a project — a project is an isolation unit, so the caller declares which project's occurrences to read.
+     
+     - parameter id: (path) ID is the issue id. 
+     - parameter project: (query) Project is the project whose occurrences to read, by its id. Required. 
+     - parameter limit: (query) Limit caps how many occurrences come back. Zero means the default. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: O11yO11ySentryIssueEventsOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getO11ySentinelIssuesByIdEvents(id: String, project: String, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11ySentryIssueEventsOut {
+        return try await getO11ySentinelIssuesByIdEventsWithRequestBuilder(id: id, project: project, limit: limit, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Lists one issue's captured occurrences, scoped to a project — a project is an isolation unit, so the caller declares which project's occurrences to read.
+     - GET /v1/o11y/sentinel/issues/{id}/events
+     - Lists one issue's captured occurrences, scoped to a project — a project is an isolation unit, so the caller declares which project's occurrences to read.  Callers need the viewer role; the runtime's own gate enforces it.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the issue id. 
+     - parameter project: (query) Project is the project whose occurrences to read, by its id. Required. 
+     - parameter limit: (query) Limit caps how many occurrences come back. Zero means the default. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<O11yO11ySentryIssueEventsOut> 
+     */
+    open class func getO11ySentinelIssuesByIdEventsWithRequestBuilder(id: String, project: String, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11ySentryIssueEventsOut> {
+        var localVariablePath = "/v1/o11y/sentinel/issues/{id}/events"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "project": (wrappedValue: project.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<O11yO11ySentryIssueEventsOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Lists a project's captured error events, newest first, optionally narrowed to those whose message or exception text contains a search string.
+     
+     - parameter project: (query) Project is the project to read, as its id. Required. 
+     - parameter query: (query) Query narrows the page to events whose text contains it. (optional)
+     - parameter period: (query) Period is the window to read, relative to now — 1h, 24h, 7d, 14d, 30d. (optional)
+     - parameter limit: (query) Limit caps how many events come back. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: O11yO11yLogsOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getO11ySentinelLogs(project: String, query: String? = nil, period: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yLogsOut {
+        return try await getO11ySentinelLogsWithRequestBuilder(project: project, query: query, period: period, limit: limit, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Lists a project's captured error events, newest first, optionally narrowed to those whose message or exception text contains a search string.
+     - GET /v1/o11y/sentinel/logs
+     - Lists a project's captured error events, newest first, optionally narrowed to those whose message or exception text contains a search string.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter project: (query) Project is the project to read, as its id. Required. 
+     - parameter query: (query) Query narrows the page to events whose text contains it. (optional)
+     - parameter period: (query) Period is the window to read, relative to now — 1h, 24h, 7d, 14d, 30d. (optional)
+     - parameter limit: (query) Limit caps how many events come back. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<O11yO11yLogsOut> 
+     */
+    open class func getO11ySentinelLogsWithRequestBuilder(project: String, query: String? = nil, period: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yLogsOut> {
+        let localVariablePath = "/v1/o11y/sentinel/logs"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "project": (wrappedValue: project.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "query": (wrappedValue: query?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "period": (wrappedValue: period?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<O11yO11yLogsOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Lists the caller's org's Sentry projects, each with its freshly-derived DSN.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: O11yO11ySentryProjectsOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getO11ySentinelProjects(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11ySentryProjectsOut {
+        return try await getO11ySentinelProjectsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Lists the caller's org's Sentry projects, each with its freshly-derived DSN.
+     - GET /v1/o11y/sentinel/projects
+     - Lists the caller's org's Sentry projects, each with its freshly-derived DSN.  Callers need the viewer role; the runtime's own gate enforces it.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<O11yO11ySentryProjectsOut> 
+     */
+    open class func getO11ySentinelProjectsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11ySentryProjectsOut> {
+        let localVariablePath = "/v1/o11y/sentinel/projects"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<O11yO11ySentryProjectsOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns one Sentry project of the caller's org, DSN included.
+     
+     - parameter id: (path) ID is the project id. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: O11yO11ySentryProjectOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getO11ySentinelProjectsById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11ySentryProjectOut {
+        return try await getO11ySentinelProjectsByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns one Sentry project of the caller's org, DSN included.
+     - GET /v1/o11y/sentinel/projects/{id}
+     - Returns one Sentry project of the caller's org, DSN included.  Callers need the viewer role; the runtime's own gate enforces it.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the project id. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<O11yO11ySentryProjectOut> 
+     */
+    open class func getO11ySentinelProjectsByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11ySentryProjectOut> {
+        var localVariablePath = "/v1/o11y/sentinel/projects/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<O11yO11ySentryProjectOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns a project's event-rate timeseries: one bucket per interval over the requested period, counting the events in it.
+     
+     - parameter project: (query) Project is the project to read, as its id. Required. 
+     - parameter field: (query) Field is the dimension to count over. Empty counts all events. (optional)
+     - parameter period: (query) Period is the window to read, relative to now — 1h, 24h, 7d, 14d, 30d. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: O11yO11yStatsOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getO11ySentinelStats(project: String, field: String? = nil, period: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yStatsOut {
+        return try await getO11ySentinelStatsWithRequestBuilder(project: project, field: field, period: period, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns a project's event-rate timeseries: one bucket per interval over the requested period, counting the events in it.
+     - GET /v1/o11y/sentinel/stats
+     - Returns a project's event-rate timeseries: one bucket per interval over the requested period, counting the events in it.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter project: (query) Project is the project to read, as its id. Required. 
+     - parameter field: (query) Field is the dimension to count over. Empty counts all events. (optional)
+     - parameter period: (query) Period is the window to read, relative to now — 1h, 24h, 7d, 14d, 30d. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<O11yO11yStatsOut> 
+     */
+    open class func getO11ySentinelStatsWithRequestBuilder(project: String, field: String? = nil, period: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yStatsOut> {
+        let localVariablePath = "/v1/o11y/sentinel/stats"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "project": (wrappedValue: project.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "field": (wrappedValue: field?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "period": (wrappedValue: period?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<O11yO11yStatsOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Lists the traces a project's captured errors reference, each with how many errors landed on it, when they started and stopped, and the latest message seen — the entry point for \"which requests are failing\".
+     
+     - parameter project: (query) Project is the project to read, as its id. Required. 
+     - parameter period: (query) Period is the window to read, relative to now — 1h, 24h, 7d, 14d, 30d. (optional)
+     - parameter limit: (query) Limit caps how many traces come back. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: O11yO11yTracesOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getO11ySentinelTraces(project: String, period: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yTracesOut {
+        return try await getO11ySentinelTracesWithRequestBuilder(project: project, period: period, limit: limit, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Lists the traces a project's captured errors reference, each with how many errors landed on it, when they started and stopped, and the latest message seen — the entry point for \"which requests are failing\".
+     - GET /v1/o11y/sentinel/traces
+     - Lists the traces a project's captured errors reference, each with how many errors landed on it, when they started and stopped, and the latest message seen — the entry point for \"which requests are failing\".
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter project: (query) Project is the project to read, as its id. Required. 
+     - parameter period: (query) Period is the window to read, relative to now — 1h, 24h, 7d, 14d, 30d. (optional)
+     - parameter limit: (query) Limit caps how many traces come back. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<O11yO11yTracesOut> 
+     */
+    open class func getO11ySentinelTracesWithRequestBuilder(project: String, period: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yTracesOut> {
+        let localVariablePath = "/v1/o11y/sentinel/traces"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "project": (wrappedValue: project.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "period": (wrappedValue: period?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<O11yO11yTracesOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns one trace's captured errors for a project — every error event that carried the trace id, in the order the events plane holds them.
+     
+     - parameter id: (path) ID is the trace id. 
+     - parameter project: (query) Project is the project the trace&#39;s errors belong to. Required. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: O11yO11yTraceOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getO11ySentinelTracesById(id: String, project: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yTraceOut {
+        return try await getO11ySentinelTracesByIdWithRequestBuilder(id: id, project: project, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns one trace's captured errors for a project — every error event that carried the trace id, in the order the events plane holds them.
+     - GET /v1/o11y/sentinel/traces/{id}
+     - Returns one trace's captured errors for a project — every error event that carried the trace id, in the order the events plane holds them.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the trace id. 
+     - parameter project: (query) Project is the project the trace&#39;s errors belong to. Required. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<O11yO11yTraceOut> 
+     */
+    open class func getO11ySentinelTracesByIdWithRequestBuilder(id: String, project: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yTraceOut> {
+        var localVariablePath = "/v1/o11y/sentinel/traces/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "project": (wrappedValue: project.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<O11yO11yTraceOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -7645,6 +8190,45 @@ open class O11yAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<O11yStatusResult>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Reports whether the platform is up.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: O11yStatusSummary
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getO11ySummary(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yStatusSummary {
+        return try await getO11ySummaryWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Reports whether the platform is up.
+     - GET /v1/o11y/summary
+     - Reports whether the platform is up. It returns the public status document: the incidents currently open against Hanzo's own services, derived from the fleet health probes, plus the address of the human status page. No authentication is required and no tenant data is involved — the answer is the same for every caller.  A service that fails its health probe becomes one incident naming that service. When the availability source itself cannot be read the endpoint answers 503 rather than an empty incident list, because \"we cannot tell\" and \"everything is fine\" are different answers and only one of them is true.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<O11yStatusSummary> 
+     */
+    open class func getO11ySummaryWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yStatusSummary> {
+        let localVariablePath = "/v1/o11y/summary"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<O11yStatusSummary>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -11505,7 +12089,7 @@ open class O11yAPI {
     /**
      Receive a Sentry envelope on the SDK's own DSN path
      - POST /v1/o11y/api/{project_id}/envelope/
-     - Accepts an application/x-sentry-envelope frame from a Sentry SDK — the batched wire format carrying events, sessions and attachments — and ingests it against the project named in the path.  THE /api/ SEGMENT IS NOT OURS TO NAME. An SDK appends its own fixed /api/<project>/envelope/ suffix to whatever DSN it is given, so this address is the SDK's, received verbatim. We receive this shape; we do not publish it. The clean spelling of the same wire is /v1/sentry/{project}/envelope/.  AUTHENTICATED BY THE DSN PUBLIC KEY, never a Hanzo session, and therefore exempt from the principal gate: the ingest verifier checks the key in constant time, fails closed, and derives the org from it. A keyless submission is a 401 from that verifier — not a 403 from the gate, and not a 404 — which is how you tell the hops apart. The exemption is matched by method plus prefix plus suffix, never a bare prefix, so no read is reachable through it.
+     - Accepts an application/x-sentry-envelope frame from a Sentry SDK — the batched wire format carrying events, sessions and attachments — and ingests it against the project named in the path.  THE /api/ SEGMENT IS NOT OURS TO NAME. An SDK appends its own fixed /api/<project>/envelope/ suffix to whatever DSN it is given, so this address is the SDK's, received verbatim. We receive this shape; we do not publish it. The clean spelling of the same wire is /v1/event/{project}/envelope/.  AUTHENTICATED BY THE DSN PUBLIC KEY, never a Hanzo session, and therefore exempt from the principal gate: the ingest verifier checks the key in constant time, fails closed, and derives the org from it. A keyless submission is a 401 from that verifier — not a 403 from the gate, and not a 404 — which is how you tell the hops apart. The exemption is matched by method plus prefix plus suffix, never a bare prefix, so no read is reachable through it.
      - Bearer Token:
        - type: http
        - name: bearer
@@ -13799,6 +14383,132 @@ open class O11yAPI {
     }
 
     /**
+     Aggregates a project's captured errors into a table — the caller names the filters, the groupings and the aggregations, and gets back the columns and rows they asked for.
+     
+     - parameter o11yO11yDiscoverIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: O11yO11yDiscoverOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postO11ySentinelDiscover(o11yO11yDiscoverIn: O11yO11yDiscoverIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yDiscoverOut {
+        return try await postO11ySentinelDiscoverWithRequestBuilder(o11yO11yDiscoverIn: o11yO11yDiscoverIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Aggregates a project's captured errors into a table — the caller names the filters, the groupings and the aggregations, and gets back the columns and rows they asked for.
+     - POST /v1/o11y/sentinel/discover
+     - Aggregates a project's captured errors into a table — the caller names the filters, the groupings and the aggregations, and gets back the columns and rows they asked for.  The project is mandatory and is checked against the caller's own org before it scopes anything, so a project id belonging to someone else reads as absent rather than as data.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter o11yO11yDiscoverIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<O11yO11yDiscoverOut> 
+     */
+    open class func postO11ySentinelDiscoverWithRequestBuilder(o11yO11yDiscoverIn: O11yO11yDiscoverIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yDiscoverOut> {
+        let localVariablePath = "/v1/o11y/sentinel/discover"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: o11yO11yDiscoverIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<O11yO11yDiscoverOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Creates a Sentry project under the caller's org and returns it, DSN included.
+     
+     - parameter o11yO11ySentryPostableProject: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: O11yO11ySentryProjectOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postO11ySentinelProjects(o11yO11ySentryPostableProject: O11yO11ySentryPostableProject, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11ySentryProjectOut {
+        return try await postO11ySentinelProjectsWithRequestBuilder(o11yO11ySentryPostableProject: o11yO11ySentryPostableProject, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Creates a Sentry project under the caller's org and returns it, DSN included.
+     - POST /v1/o11y/sentinel/projects
+     - Creates a Sentry project under the caller's org and returns it, DSN included. Only the name, and optionally a slug and platform, are the caller's to set; the org, id and key are server-assigned.  Callers need the editor role; the runtime's own gate enforces it.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter o11yO11ySentryPostableProject: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<O11yO11ySentryProjectOut> 
+     */
+    open class func postO11ySentinelProjectsWithRequestBuilder(o11yO11ySentryPostableProject: O11yO11ySentryPostableProject, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11ySentryProjectOut> {
+        let localVariablePath = "/v1/o11y/sentinel/projects"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: o11yO11ySentryPostableProject, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<O11yO11ySentryProjectOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Rotates a project's DSN key — bumping its rotation watermark so keys below it stop verifying — and returns the project with its new DSN.
+     
+     - parameter id: (path) ID is the project id. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: O11yO11ySentryProjectOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postO11ySentinelProjectsByIdKeysRotate(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11ySentryProjectOut {
+        return try await postO11ySentinelProjectsByIdKeysRotateWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Rotates a project's DSN key — bumping its rotation watermark so keys below it stop verifying — and returns the project with its new DSN.
+     - POST /v1/o11y/sentinel/projects/{id}/keys/rotate
+     - Rotates a project's DSN key — bumping its rotation watermark so keys below it stop verifying — and returns the project with its new DSN.  Callers need the editor role; the runtime's own gate enforces it.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the project id. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<O11yO11ySentryProjectOut> 
+     */
+    open class func postO11ySentinelProjectsByIdKeysRotateWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11ySentryProjectOut> {
+        var localVariablePath = "/v1/o11y/sentinel/projects/{id}/keys/rotate"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<O11yO11ySentryProjectOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      Returns one service's entry-point operations with the same latency and error profile topOperations reports.
      
      - parameter o11yO11yOperationsIn: (body)  
@@ -14414,6 +15124,52 @@ open class O11yAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<O11yO11ySavedViewOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Changes an issue's lifecycle — resolve, ignore, reopen or assign — and returns the updated issue.
+     
+     - parameter id: (path) ID is the issue id. 
+     - parameter o11yO11ySentryUpdateIssueIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: O11yO11yErrorIssueOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func putO11ySentinelIssuesById(id: String, o11yO11ySentryUpdateIssueIn: O11yO11ySentryUpdateIssueIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yErrorIssueOut {
+        return try await putO11ySentinelIssuesByIdWithRequestBuilder(id: id, o11yO11ySentryUpdateIssueIn: o11yO11ySentryUpdateIssueIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Changes an issue's lifecycle — resolve, ignore, reopen or assign — and returns the updated issue.
+     - PUT /v1/o11y/sentinel/issues/{id}
+     - Changes an issue's lifecycle — resolve, ignore, reopen or assign — and returns the updated issue. Fields left unset are left unchanged.  Callers need the editor role; the runtime's own gate enforces it.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the issue id. 
+     - parameter o11yO11ySentryUpdateIssueIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<O11yO11yErrorIssueOut> 
+     */
+    open class func putO11ySentinelIssuesByIdWithRequestBuilder(id: String, o11yO11ySentryUpdateIssueIn: O11yO11ySentryUpdateIssueIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yErrorIssueOut> {
+        var localVariablePath = "/v1/o11y/sentinel/issues/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: o11yO11ySentryUpdateIssueIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<O11yO11yErrorIssueOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

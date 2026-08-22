@@ -9,10 +9,15 @@ import Foundation
 
 public struct ArgoStatus: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Health is the application's reconciled health. */
     public var health: ArgoHealth?
+    /** ReconciledAt is when the desired state was last compared against the cluster, RFC 3339. Empty for an App CR — the projection derives its verdict at read time and nothing records a comparison — and CD's own status.reconciledAt for a CD row. */
     public var reconciledAt: String?
+    /** Resources are the objects the application owns. EMPTY on the list — filling it would walk the cluster once per row — and populated only by the read of ONE application, which is what makes that the detail view. */
     public var resources: [ArgoResourceStatus]?
+    /** Summary is the small aggregate the list column renders: the images. */
     public var summary: ArgoSummary?
+    /** Sync is the declared-versus-running verdict and what it was reached against. */
     public var sync: ArgoSyncStatus?
 
     public init(health: ArgoHealth? = nil, reconciledAt: String? = nil, resources: [ArgoResourceStatus]? = nil, summary: ArgoSummary? = nil, sync: ArgoSyncStatus? = nil) {

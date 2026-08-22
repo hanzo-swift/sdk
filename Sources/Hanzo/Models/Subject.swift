@@ -9,14 +9,21 @@ import Foundation
 
 public struct Subject: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** CreatedAt is when the subject was first recorded, Unix SECONDS. */
     public var createdAt: Int?
+    /** Email is the party's address, when the org supplied one. It is PII: sealed at rest, returned only to the owning org, and never copied into a check record. */
     public var email: String?
+    /** ID is the opaque handle every other record uses to point at this party. It is the only reference that leaves this type, which is what keeps the PII in one place: a check, an accreditation and an audit row all carry the id and none of them carry the name. */
     public var id: String?
+    /** Kind is what is being verified: \"individual\" (a natural person, so KYC) or \"business\" (a legal entity, so KYB). It decides which provider flow runs. */
     public var kind: String?
+    /** Name is the party's name, under the same PII rule as Email. For a business it is the legal entity name rather than a trading name, since that is what a provider verifies against. */
     public var name: String?
+    /** Org is the tenant that is doing the verifying — the party who must answer for this record, not the party being verified. A subject is returned only to it. */
     public var org: String?
-    /** the org's own opaque external id for this subject */
+    /** Ref is the org's OWN identifier for this party, carried so a caller can match a subject back to their system without keeping a second mapping. Opaque here: nothing in this plane parses or enforces it. */
     public var ref: String?
+    /** UpdatedAt is when the subject's own fields last changed, Unix seconds. A check moving to a new status does not touch it — that history lives on the check. */
     public var updatedAt: Int?
 
     public init(createdAt: Int? = nil, email: String? = nil, id: String? = nil, kind: String? = nil, name: String? = nil, org: String? = nil, ref: String? = nil, updatedAt: Int? = nil) {

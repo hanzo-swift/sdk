@@ -9,7 +9,9 @@ import Foundation
 
 public struct RiskDatasetVersions: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Items is every version of it, newest first — including the disposed ones, whose record outlives their rows. Never null. */
     public var items: [RiskDataset]?
+    /** Name is the dataset these versions belong to, as the register holds it. */
     public var name: String?
 
     public init(items: [RiskDataset]? = nil, name: String? = nil) {

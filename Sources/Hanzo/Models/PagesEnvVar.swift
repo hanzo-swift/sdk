@@ -9,7 +9,9 @@ import Foundation
 
 public struct PagesEnvVar: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Type is \"plain_text\" or \"secret_text\" and decides that: plain text is readable afterwards, secret text is write-only. Empty is Cloudflare's default, plain_text — so a secret with no type set is stored in the clear. */
     public var type: String?
+    /** Value is the variable's value. Under type \"secret_text\" Cloudflare encrypts it on arrival and never reads it back, so a later read of the project shows the variable without this. */
     public var value: String?
 
     public init(type: String? = nil, value: String? = nil) {

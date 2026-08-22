@@ -9,14 +9,21 @@ import Foundation
 
 public struct InboxItem: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Category is the expense account the scanner proposed, as a chart number — a PROPOSAL, not a posting: nothing is booked until it is accepted. */
     public var category: String?
+    /** Confidence is how sure the scanner is of that reading, and is the signal for whether a person needs to check it before it is booked. */
     public var confidence: String?
+    /** CreatedAt is when the document was uploaded. */
     public var createdAt: String?
+    /** Extracted is what the scanner read off the document. Absent until it has been scanned, so its absence is \"not read yet\", never \"nothing on it\". */
     public var extracted: Extracted?
+    /** Filename is the name the document was uploaded under, for a person to recognise it by. It is not part of the item's identity. */
     public var filename: String?
-    /** the file hash (== a scan's ScanID) */
+    /** ID is the CONTENT HASH of the uploaded bytes, which is what makes the queue idempotent: re-uploading the same document returns this item rather than adding a second one. It is also the id the scan of this document carries. */
     public var id: String?
+    /** Status is where the document is in the queue — unsorted until the scanner has read it, and thereafter whether it is waiting on a person or has been booked. */
     public var status: String?
+    /** Vendor is the supplier the scanner identified, surfaced beside the item so a queue renders without opening each document. */
     public var vendor: String?
 
     public init(category: String? = nil, confidence: String? = nil, createdAt: String? = nil, extracted: Extracted? = nil, filename: String? = nil, id: String? = nil, status: String? = nil, vendor: String? = nil) {

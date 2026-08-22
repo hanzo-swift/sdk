@@ -9,8 +9,11 @@ import Foundation
 
 public struct ProfileResponse: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** KeyMetrics are the org's OWN numbers behind those signals — never another org's, and never a platform aggregate. */
     public var keyMetrics: ProfileMetrics?
+    /** Signals is what was observed of the org right now, one boolean per probe. A probe that could not be run reports FALSE, not absent — the shape is stable so a caller never has to tell a missing key from a negative answer, and the cost is that \"not observed\" and \"not there\" look alike here. Keys are the probe names, including the `module:<name>` and `connected:<provider>` families. */
     public var signals: [String: Bool]?
+    /** Stage is how far the business itself has got — formed, launched, activated or scaling — decided purely from the signals below, and by what the org has ACHIEVED rather than what it has configured. It reads the STRONGEST evidence present, so money of record makes an org scaling even if an earlier rung's signal was never observed. It is unrelated to checklist progress. */
     public var stage: String?
 
     public init(keyMetrics: ProfileMetrics? = nil, signals: [String: Bool]? = nil, stage: String? = nil) {

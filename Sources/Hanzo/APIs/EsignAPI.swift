@@ -10,27 +10,27 @@ import Foundation
 open class EsignAPI {
 
     /**
-     Your org's documents, newest first
+     Returns your org's documents, newest first.
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: EsignDocuments
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getEsignDocuments(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getEsignDocuments(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> EsignDocuments {
         return try await getEsignDocumentsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Your org's documents, newest first
+     Returns your org's documents, newest first.
      - GET /v1/esign/documents
-     - Lists the caller org's documents with their status, recipients and timestamps, newest first, capped at 200 — there is no paging, so treat it as the recent window rather than a complete export. Requires a validated principal (403 without one) and reads the caller's own tenant store, so no other org's documents can appear in it.
+     - Returns your org's documents, newest first.  Each carries its status, recipients and field layout. The listing is capped at 200 and there is no paging, so treat it as the recent window rather than a complete export. It reads the caller's own tenant store, so no other org's documents can appear in it.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<EsignDocuments> 
      */
-    open class func getEsignDocumentsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getEsignDocumentsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<EsignDocuments> {
         let localVariablePath = "/v1/esign/documents"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -43,35 +43,35 @@ open class EsignAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<EsignDocuments>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     One document with its recipients and field layout
+     Returns one document with its recipients and field layout.
      
-     - parameter id: (path)  
+     - parameter id: (path) ID is the document to act on. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller&#39;s principal, so an id belonging to another tenant is simply not found. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: EsignDocument
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getEsignDocumentsById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getEsignDocumentsById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> EsignDocument {
         return try await getEsignDocumentsByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     One document with its recipients and field layout
+     Returns one document with its recipients and field layout.
      - GET /v1/esign/documents/{id}
-     - Answers the document, its recipients with each one's read and signing status, and every field with its type, page and position — the view a sender's UI renders, and where the field ids come from. Requires a validated principal (403 without one) and resolves the id in the caller's OWN tenant store, so another org's document id is a 404 rather than a refusal that would confirm it exists.
+     - Returns one document with its recipients and field layout.  It answers the document, its recipients with each one's read and signing status, and every field with its type, page and position — the view a sender's UI renders, and where the field ids come from. The id is resolved in the caller's OWN tenant store, so another org's document id is a 404 rather than a refusal that would confirm it exists.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter id: (path)  
+     - parameter id: (path) ID is the document to act on. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller&#39;s principal, so an id belonging to another tenant is simply not found. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<EsignDocument> 
      */
-    open class func getEsignDocumentsByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getEsignDocumentsByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<EsignDocument> {
         var localVariablePath = "/v1/esign/documents/{id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -87,35 +87,35 @@ open class EsignAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<EsignDocument>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     The document's full audit trail, oldest first
+     Returns the document's full audit trail, oldest first.
      
-     - parameter id: (path)  
+     - parameter id: (path) ID is the document to act on. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller&#39;s principal, so an id belonging to another tenant is simply not found. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: EsignTrail
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getEsignDocumentsByIdAudit(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getEsignDocumentsByIdAudit(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> EsignTrail {
         return try await getEsignDocumentsByIdAuditWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     The document's full audit trail, oldest first
+     Returns the document's full audit trail, oldest first.
      - GET /v1/esign/documents/{id}/audit
-     - Answers every recorded event for the document in order — created, recipient added, field created, sent, opened, each field inserted, each recipient completed or rejected, and completion — with the actor and timestamp on each. This is the evidence record behind a signature, so it is append-only and nothing in the surface edits it.  Requires a validated principal (403 without one) and resolves the id in the caller's OWN tenant store, so another org's document id is a 404.
+     - Returns the document's full audit trail, oldest first.  It answers every recorded event for the document in order — created, recipient added, field created, sent, opened, each field inserted, each recipient completed or rejected, and completion — with the actor and timestamp on each. This is the evidence record behind a signature, so it is append-only and nothing in the surface edits it.  The id is resolved in the caller's OWN tenant store, so another org's document id is a 404.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter id: (path)  
+     - parameter id: (path) ID is the document to act on. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller&#39;s principal, so an id belonging to another tenant is simply not found. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<EsignTrail> 
      */
-    open class func getEsignDocumentsByIdAuditWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getEsignDocumentsByIdAuditWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<EsignTrail> {
         var localVariablePath = "/v1/esign/documents/{id}/audit"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -131,35 +131,35 @@ open class EsignAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<EsignTrail>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Download the document — the sealed PDF once it is complete
+     Returns the document — the sealed PDF once it is complete.
      
-     - parameter id: (path)  
+     - parameter id: (path) ID is the document to act on. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller&#39;s principal, so an id belonging to another tenant is simply not found. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: EsignPDF
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getEsignDocumentsByIdDownload(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getEsignDocumentsByIdDownload(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> EsignPDF {
         return try await getEsignDocumentsByIdDownloadWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Download the document — the sealed PDF once it is complete
+     Returns the document — the sealed PDF once it is complete.
      - GET /v1/esign/documents/{id}/download
-     - Answers the document's current PDF as base64 with a `sealed` flag and a filename. Before completion that is the original upload; once every signer has finished it is the SEALED artifact — the field values rendered onto the page and a real x509 PKCS#7 digital signature applied — and `sealed` is true. There is one `pdfBase64` field either way, so `sealed` is what tells you which you are holding.  Requires a validated principal (403 without one) and resolves the id in the caller's OWN tenant store, so another org's document id is a 404.
+     - Returns the document — the sealed PDF once it is complete.  It answers the document's current PDF as base64 with a sealed flag and a filename. Before completion that is the original upload; once every signer has finished it is the SEALED artifact, with the field values rendered onto the page and a real x509 PKCS#7 digital signature applied. There is one pdfBase64 field either way, so sealed is what tells you which you are holding.  The id is resolved in the caller's OWN tenant store, so another org's document id is a 404.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter id: (path)  
+     - parameter id: (path) ID is the document to act on. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller&#39;s principal, so an id belonging to another tenant is simply not found. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<EsignPDF> 
      */
-    open class func getEsignDocumentsByIdDownloadWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getEsignDocumentsByIdDownloadWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<EsignPDF> {
         var localVariablePath = "/v1/esign/documents/{id}/download"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -175,33 +175,33 @@ open class EsignAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<EsignPDF>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Whether the e-signature surface is mounted
+     Reports whether the e-signature surface is mounted.
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: EsignHealth
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getEsignHealth(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getEsignHealth(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> EsignHealth {
         return try await getEsignHealthWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Whether the e-signature surface is mounted
+     Reports whether the e-signature surface is mounted.
      - GET /v1/esign/health
-     - Answers ok whenever the subsystem is mounted. It is unauthenticated and takes no tenant, and it is deliberately shallow: it is registered before the document host is built, so it still answers on a deployment that came up WITHOUT object storage and therefore serves nothing else. Read it as reachability, never as a promise that documents can be stored.
+     - Reports whether the e-signature surface is mounted.  It answers ok whenever the subsystem is mounted, takes no tenant and needs no principal. It is deliberately shallow: it is registered before the document host is built, so it still answers on a deployment that came up WITHOUT object storage and therefore serves nothing else. Read it as reachability, never as a promise that documents can be stored.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<EsignHealth> 
      */
-    open class func getEsignHealthWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getEsignHealthWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<EsignHealth> {
         let localVariablePath = "/v1/esign/health"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -214,37 +214,37 @@ open class EsignAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<EsignHealth>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Open a document you were asked to sign, using your signing link
+     Opens a document you were asked to sign, using your signing link.
      
      - parameter org: (path)  
      - parameter token: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: EsignSession
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getEsignOByOrgSignByToken(org: String, token: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getEsignOByOrgSignByToken(org: String, token: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> EsignSession {
         return try await getEsignOByOrgSignByTokenWithRequestBuilder(org: org, token: token, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Open a document you were asked to sign, using your signing link
+     Opens a document you were asked to sign, using your signing link.
      - GET /v1/esign/o/{org}/sign/{token}
-     - Answers the document, the recipient it identifies, the fields THAT recipient must fill, and the PDF to display. The first open also marks the recipient as having opened it and records that on the audit trail, so this read has a side effect by design.  This is the signer's door and it takes NO account: the signing token is the entire credential, and it names the recipient, so a signer sees only their own fields and never the other recipients' tokens. The `:org` segment selects which tenant's store is opened, and the token is then looked up inside it — so a token presented under the wrong org simply does not resolve. An unknown or wrong-org token is a 401, never a hint that some other document exists.
+     - Opens a document you were asked to sign, using your signing link.  It answers the document, the recipient the link identifies, the fields THAT recipient must fill, and the PDF to display. The first open also marks the recipient as having opened it and records that on the audit trail, so this read has a side effect by design.  This door takes NO account: the signing token is the entire credential, and it names the recipient, so a signer sees only their own fields and never the other recipients' tokens. The token resolves to its owning tenant FIRST, before any per-tenant store is opened, and the org segment is only checked against that answer. An unknown or wrong-org token is one and the same 404, never a hint that some other document exists.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter org: (path)  
      - parameter token: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<EsignSession> 
      */
-    open class func getEsignOByOrgSignByTokenWithRequestBuilder(org: String, token: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getEsignOByOrgSignByTokenWithRequestBuilder(org: String, token: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<EsignSession> {
         var localVariablePath = "/v1/esign/o/{org}/sign/{token}"
         let orgPreEscape = "\(APIHelper.mapValueToPathItem(org))"
         let orgPostEscape = orgPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -263,162 +263,168 @@ open class EsignAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<EsignSession>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Upload a PDF and open a draft ready for recipients and fields
+     Uploads a PDF and opens a draft ready for recipients and fields.
      
+     - parameter esignUploadIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: EsignDocument
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postEsignDocuments(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postEsignDocumentsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    open class func postEsignDocuments(esignUploadIn: EsignUploadIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> EsignDocument {
+        return try await postEsignDocumentsWithRequestBuilder(esignUploadIn: esignUploadIn, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Upload a PDF and open a draft ready for recipients and fields
+     Uploads a PDF and opens a draft ready for recipients and fields.
      - POST /v1/esign/documents
-     - Creates a document from a base64 PDF and answers 201 with it in `DRAFT` — the state where recipients and fields may still be added, and the only state they may. `title` and `pdfBase64` are required; `signingOrder` chooses `PARALLEL` (the default, everyone may sign at once) or `SEQUENTIAL`, and that choice is fixed for the document's life.  The bytes go to object storage, not into the tenant database, and the ORIGINAL is kept under its own key so it survives sealing untouched — a completed document can always be compared against what was uploaded. Creation is recorded on the audit trail.  This is the sender's door: a validated principal is required (403 without one) and the document lands in that principal's OWN org. Isolation is physical rather than a filter — each tenant has its own store — so another org's document id is simply not there. Bodies over 32 MiB are refused with 413.
+     - Uploads a PDF and opens a draft ready for recipients and fields.  It answers 201 with the document in DRAFT — the state where recipients and fields may still be added, and the only state they may. The bytes go to object storage rather than into the tenant database, and the original is kept under its own key so it survives sealing untouched: a completed document can always be compared against what was uploaded. Creation is recorded on the audit trail.  This is the sender's door: a validated principal is required, and the document lands in that principal's OWN org. Isolation is physical rather than a filter — each tenant has its own store — so another org's document id is simply not there. A body over 32 MiB is refused with 413.
      - Bearer Token:
        - type: http
        - name: bearer
+     - parameter esignUploadIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<EsignDocument> 
      */
-    open class func postEsignDocumentsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postEsignDocumentsWithRequestBuilder(esignUploadIn: EsignUploadIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<EsignDocument> {
         let localVariablePath = "/v1/esign/documents"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: esignUploadIn, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<EsignDocument>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Place a field on the page for one recipient to fill
+     Places a field on the page for one recipient to fill.
      
      - parameter id: (path)  
+     - parameter esignFieldIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: EsignPlacement
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postEsignDocumentsByIdFields(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postEsignDocumentsByIdFieldsWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    open class func postEsignDocumentsByIdFields(id: String, esignFieldIn: EsignFieldIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> EsignPlacement {
+        return try await postEsignDocumentsByIdFieldsWithRequestBuilder(id: id, esignFieldIn: esignFieldIn, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Place a field on the page for one recipient to fill
+     Places a field on the page for one recipient to fill.
      - POST /v1/esign/documents/{id}/fields
-     - Adds a field — a signature, date, name, email or text box — at a page and position for ONE named recipient, and answers 201 with its id. `recipientId` and a valid `type` are required, and the recipient must belong to this document (400 otherwise); page defaults to 1 and position defaults to the origin.  Fields are what make a recipient signable: a document cannot be sent while any signing recipient has none. Only while DRAFT — adding a field to a sent document is a 409. Requires a validated principal (403 without one), acts only on the caller's own tenant, and an unknown document is a 404. The addition is recorded on the audit trail.
+     - Places a field on the page for one recipient to fill.  It adds a signature, date, name, email or text box at a page and position for ONE named recipient, and answers 201 with its id. The recipient must belong to this document; one from elsewhere is refused.  Fields are what make a recipient signable: a document cannot be sent while any signing recipient has none. Only while DRAFT — adding a field to a sent document is a 409 — and an unknown document is a 404. The addition is recorded on the audit trail.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter id: (path)  
+     - parameter esignFieldIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<EsignPlacement> 
      */
-    open class func postEsignDocumentsByIdFieldsWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postEsignDocumentsByIdFieldsWithRequestBuilder(id: String, esignFieldIn: EsignFieldIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<EsignPlacement> {
         var localVariablePath = "/v1/esign/documents/{id}/fields"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: esignFieldIn, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<EsignPlacement>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Add someone to a draft and mint their signing token
+     Adds someone to a draft and mints their signing token.
      
      - parameter id: (path)  
+     - parameter esignRecipientIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: EsignInvite
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postEsignDocumentsByIdRecipients(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postEsignDocumentsByIdRecipientsWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    open class func postEsignDocumentsByIdRecipients(id: String, esignRecipientIn: EsignRecipientIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> EsignInvite {
+        return try await postEsignDocumentsByIdRecipientsWithRequestBuilder(id: id, esignRecipientIn: esignRecipientIn, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Add someone to a draft and mint their signing token
+     Adds someone to a draft and mints their signing token.
      - POST /v1/esign/documents/{id}/recipients
-     - Adds a recipient and answers 201 with their id and their signing TOKEN — the crypto-random capability that is the only credential the signer's door accepts, so this response is where the signing link is built from. `email` is required; `role` defaults to `SIGNER`, and a `CC` recipient is recorded as already complete because they are never asked to sign. `signingOrder` sets this recipient's position for a sequential document.  Only while DRAFT: adding a recipient to a document already sent is a 409, because the field layout and the turn order were fixed when it went out. Requires a validated principal (403 without one), acts only on the caller's own tenant, and an unknown document is a 404. The addition is recorded on the audit trail.
+     - Adds someone to a draft and mints their signing token.  It answers 201 with the recipient's id and their signing TOKEN — the crypto-random capability that is the only credential the signer's door accepts — so this response is where the signing link is built from. A CC recipient is recorded as already complete, because they are never asked to sign.  Only while DRAFT: adding a recipient to a document already sent is a 409, because the field layout and the turn order were fixed when it went out. An unknown document is a 404. The addition is recorded on the audit trail.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter id: (path)  
+     - parameter esignRecipientIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<EsignInvite> 
      */
-    open class func postEsignDocumentsByIdRecipientsWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postEsignDocumentsByIdRecipientsWithRequestBuilder(id: String, esignRecipientIn: EsignRecipientIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<EsignInvite> {
         var localVariablePath = "/v1/esign/documents/{id}/recipients"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: esignRecipientIn, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<EsignInvite>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Send the document out and get each signer's link
+     Sends the document out and answers each signer's link.
      
-     - parameter id: (path)  
+     - parameter id: (path) ID is the document to send. The URL is the addressing authority. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: EsignLinks
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postEsignDocumentsByIdSend(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func postEsignDocumentsByIdSend(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> EsignLinks {
         return try await postEsignDocumentsByIdSendWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Send the document out and get each signer's link
+     Sends the document out and answers each signer's link.
      - POST /v1/esign/documents/{id}/send
-     - Moves the document from `DRAFT` to `PENDING` and answers the signing tokens — one per signing recipient, with the path to hand them — which is how the links reach the people who must sign. Nothing is emailed by this call; delivering the links is the caller's.  It refuses to send an unsignable document: no recipients at all is a 400, and so is any signing recipient with no fields to fill, named in the error. Re-sending an already-pending document is allowed and re-issues the same links rather than restarting anything; a completed document is a 409. Requires a validated principal (403 without one) and acts only on the caller's own tenant; an unknown document is a 404. The send is recorded on the audit trail.
+     - Sends the document out and answers each signer's link.  It moves the document from DRAFT to PENDING and answers the signing tokens — one per signing recipient, with the path to hand them — which is how the links reach the people who must sign. Nothing is emailed by this call; delivering the links is the caller's.  It refuses to send an unsignable document: no recipients at all is a 400, and so is any signing recipient with no fields to fill, named in the error. Re-sending an already-pending document is allowed and re-issues the same links rather than restarting anything; a completed document is a 409, and an unknown one a 404. The send is recorded on the audit trail.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter id: (path)  
+     - parameter id: (path) ID is the document to send. The URL is the addressing authority. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<EsignLinks> 
      */
-    open class func postEsignDocumentsByIdSendWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postEsignDocumentsByIdSendWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<EsignLinks> {
         var localVariablePath = "/v1/esign/documents/{id}/send"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -434,37 +440,37 @@ open class EsignAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<EsignLinks>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Finish signing — and seal the document if you were the last
+     Finishes your signing — and seals the document if you were the last.
      
      - parameter org: (path)  
      - parameter token: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: EsignCompletion
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postEsignOByOrgSignByTokenComplete(org: String, token: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func postEsignOByOrgSignByTokenComplete(org: String, token: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> EsignCompletion {
         return try await postEsignOByOrgSignByTokenCompleteWithRequestBuilder(org: org, token: token, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Finish signing — and seal the document if you were the last
+     Finishes your signing — and seals the document if you were the last.
      - POST /v1/esign/o/{org}/sign/{token}/complete
-     - Marks this recipient as done and answers whether the DOCUMENT sealed with it. When every signing recipient has completed, sealing happens right here in the same call: the collected values are rendered onto the PDF, a real x509 PKCS#7 signature is applied, the sealed bytes are stored beside the untouched original, and the document moves to `COMPLETED`. Until then the answer is the recipient's own completion with the document still pending.  It refuses to complete a half-filled signature: a recipient with any unfilled field is a 400 naming how many remain. A document not out for signature is a 409, as is a recipient who has already completed, and under SEQUENTIAL order a signer out of turn is a 403. The token is the whole credential — no account, and a token that does not resolve under `:org` is a 401. Sealing and completion are one transaction, so a failure anywhere leaves the document exactly as it was.
+     - Finishes your signing — and seals the document if you were the last.  It marks this recipient as done and answers whether the DOCUMENT sealed with it. When every signing recipient has completed, sealing happens right here in the same call: the collected values are rendered onto the PDF, a real x509 PKCS#7 signature is applied, the sealed bytes are stored beside the untouched original, and the document moves to COMPLETED. Until then the answer is the recipient's own completion with the document still pending.  It refuses to complete a half-filled signature: a recipient with any unfilled field is a 400 naming how many remain. A document not out for signature is a 409, as is a recipient who has already completed, and under SEQUENTIAL order a signer out of turn is a 403. The token is the whole credential — no account, and a token that does not resolve under the org segment is a 404. Sealing and completion are one transaction, so a failure anywhere leaves the document exactly as it was.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter org: (path)  
      - parameter token: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<EsignCompletion> 
      */
-    open class func postEsignOByOrgSignByTokenCompleteWithRequestBuilder(org: String, token: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postEsignOByOrgSignByTokenCompleteWithRequestBuilder(org: String, token: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<EsignCompletion> {
         var localVariablePath = "/v1/esign/o/{org}/sign/{token}/complete"
         let orgPreEscape = "\(APIHelper.mapValueToPathItem(org))"
         let orgPostEscape = orgPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -483,39 +489,41 @@ open class EsignAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<EsignCompletion>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Fill in one of your fields
+     Fills in one of your fields.
      
      - parameter org: (path)  
      - parameter token: (path)  
      - parameter fieldId: (path)  
+     - parameter esignValueIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: EsignInsertion
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postEsignOByOrgSignByTokenFieldsByFieldid(org: String, token: String, fieldId: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postEsignOByOrgSignByTokenFieldsByFieldidWithRequestBuilder(org: org, token: token, fieldId: fieldId, apiConfiguration: apiConfiguration).execute().body
+    open class func postEsignOByOrgSignByTokenFieldsByFieldid(org: String, token: String, fieldId: String, esignValueIn: EsignValueIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> EsignInsertion {
+        return try await postEsignOByOrgSignByTokenFieldsByFieldidWithRequestBuilder(org: org, token: token, fieldId: fieldId, esignValueIn: esignValueIn, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Fill in one of your fields
+     Fills in one of your fields.
      - POST /v1/esign/o/{org}/sign/{token}/fields/{fieldId}
-     - Records a value for one field and marks it inserted. A signature field takes `value` with `isBase64` true for drawn image bytes, or false for a typed signature; a date, name or email field falls back to today, the recipient's name or their email when `value` is omitted; any other type requires one.  Nothing is sealed here — filling every field still leaves the document pending until the completion call. The token is the whole credential and it bounds what can be written: a field belonging to another recipient is refused with 401 even under a valid token, an unknown field is a 404, and a field already filled is a 409. A document not out for signature is a 409, as is a recipient who has already completed or rejected. Under SEQUENTIAL order a signer whose turn has not come is refused 403 until every earlier signer has signed. Each insertion is recorded on the audit trail.
+     - Fills in one of your fields.  It records a value for one field and marks it inserted. A signature field takes a value with isBase64 true for drawn image bytes, or false for a typed signature; a date, name or email field falls back to today, the recipient's name or their email when the value is omitted; any other type requires one.  Nothing is sealed here — filling every field still leaves the document pending until the completion call. The token is the whole credential and it bounds what can be written: a field belonging to another recipient is refused with 401 even under a valid token, an unknown field is a 404, and a field already filled is a 409. A document not out for signature is a 409, as is a recipient who has already completed or rejected. Under SEQUENTIAL order a signer whose turn has not come is refused 403 until every earlier signer has signed. Each insertion is recorded on the audit trail.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter org: (path)  
      - parameter token: (path)  
      - parameter fieldId: (path)  
+     - parameter esignValueIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<EsignInsertion> 
      */
-    open class func postEsignOByOrgSignByTokenFieldsByFieldidWithRequestBuilder(org: String, token: String, fieldId: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postEsignOByOrgSignByTokenFieldsByFieldidWithRequestBuilder(org: String, token: String, fieldId: String, esignValueIn: EsignValueIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<EsignInsertion> {
         var localVariablePath = "/v1/esign/o/{org}/sign/{token}/fields/{fieldId}"
         let orgPreEscape = "\(APIHelper.mapValueToPathItem(org))"
         let orgPostEscape = orgPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -527,47 +535,49 @@ open class EsignAPI {
         let fieldIdPostEscape = fieldIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{fieldId}", with: fieldIdPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: esignValueIn, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<EsignInsertion>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Decline to sign, with an optional reason
+     Declines to sign, with an optional reason.
      
      - parameter org: (path)  
      - parameter token: (path)  
+     - parameter esignRejectIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: EsignRejection
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postEsignOByOrgSignByTokenReject(org: String, token: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postEsignOByOrgSignByTokenRejectWithRequestBuilder(org: org, token: token, apiConfiguration: apiConfiguration).execute().body
+    open class func postEsignOByOrgSignByTokenReject(org: String, token: String, esignRejectIn: EsignRejectIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> EsignRejection {
+        return try await postEsignOByOrgSignByTokenRejectWithRequestBuilder(org: org, token: token, esignRejectIn: esignRejectIn, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Decline to sign, with an optional reason
+     Declines to sign, with an optional reason.
      - POST /v1/esign/o/{org}/sign/{token}/reject
-     - Records this recipient's refusal and moves the WHOLE DOCUMENT to `REJECTED` — one declining signer ends it for everyone, and there is no route back: the document cannot then be signed or completed. An optional `reason` is stored and written onto the audit trail with the rejection, which is what the sender sees.  A document not out for signature is a 409, and so is a recipient who has already signed or already rejected — a refusal cannot be taken back or repeated. The token is the whole credential; one that does not resolve under `:org` is a 401.
+     - Declines to sign, with an optional reason.  It records this recipient's refusal and moves the WHOLE DOCUMENT to REJECTED — one declining signer ends it for everyone, and there is no route back: the document cannot then be signed or completed. An optional reason is stored and written onto the audit trail with the rejection, which is what the sender sees.  A document not out for signature is a 409, and so is a recipient who has already signed or already rejected — a refusal cannot be taken back or repeated. The token is the whole credential; one that does not resolve under the org segment is a 404.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter org: (path)  
      - parameter token: (path)  
+     - parameter esignRejectIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<EsignRejection> 
      */
-    open class func postEsignOByOrgSignByTokenRejectWithRequestBuilder(org: String, token: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postEsignOByOrgSignByTokenRejectWithRequestBuilder(org: String, token: String, esignRejectIn: EsignRejectIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<EsignRejection> {
         var localVariablePath = "/v1/esign/o/{org}/sign/{token}/reject"
         let orgPreEscape = "\(APIHelper.mapValueToPathItem(org))"
         let orgPostEscape = orgPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -576,17 +586,17 @@ open class EsignAPI {
         let tokenPostEscape = tokenPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{token}", with: tokenPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: esignRejectIn, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<EsignRejection>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

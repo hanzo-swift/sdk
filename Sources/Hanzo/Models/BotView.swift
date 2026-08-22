@@ -9,7 +9,9 @@ import Foundation
 
 public struct BotView: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Agent is the cloud Agent this machine runs, lifted out of the binding so a list of bots reads without following one. Empty means the machine is a bot machine with nothing bound — it costs money and answers nothing. */
     public var agent: String?
+    /** Binding is the record joining this machine to that agent, carrying vm's own reconciled status and its reason. Absent means no runtime is bound, which is also what a stopped bot looks like: stopping unbinds and leaves the machine running. */
     public var binding: AgentBinding?
     public var createdTime: String?
     public var gpu: String?

@@ -11,7 +11,9 @@ public struct O11yStatusComponent: Sendable, Codable, ParameterConvertible, Hash
 
     /** CurrentStatus is this component's own condition: \"full_outage\" for a service that did not answer its health probe at all. */
     public var currentStatus: String?
+    /** ID is the component's stable handle, which on this platform IS the service name — there is no separate component registry to allocate ids from. */
     public var id: String?
+    /** Name is the service as the fleet prober knows it (the `service` label on hanzo_service_up), so a reader can match a component to what is being probed. */
     public var name: String?
 
     public init(currentStatus: String? = nil, id: String? = nil, name: String? = nil) {

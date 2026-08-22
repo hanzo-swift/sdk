@@ -9,22 +9,26 @@ import Foundation
 
 public struct UsagePoint: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var date: String?
+    /** Requests is how many LLM calls fell in this bucket. */
     public var requests: Int?
+    /** SpendCents is what they cost, in cents. */
     public var spendCents: Int?
+    /** T is the bucket's start, RFC3339 UTC, aligned to the interval. */
+    public var t: String?
+    /** Tokens is prompt plus completion tokens over those calls. */
     public var tokens: Int?
 
-    public init(date: String? = nil, requests: Int? = nil, spendCents: Int? = nil, tokens: Int? = nil) {
-        self.date = date
+    public init(requests: Int? = nil, spendCents: Int? = nil, t: String? = nil, tokens: Int? = nil) {
         self.requests = requests
         self.spendCents = spendCents
+        self.t = t
         self.tokens = tokens
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case date
         case requests
         case spendCents
+        case t
         case tokens
     }
 
@@ -32,9 +36,9 @@ public struct UsagePoint: Sendable, Codable, ParameterConvertible, Hashable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(date, forKey: .date)
         try container.encodeIfPresent(requests, forKey: .requests)
         try container.encodeIfPresent(spendCents, forKey: .spendCents)
+        try container.encodeIfPresent(t, forKey: .t)
         try container.encodeIfPresent(tokens, forKey: .tokens)
     }
 }

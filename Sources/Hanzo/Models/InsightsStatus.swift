@@ -13,7 +13,7 @@ public struct InsightsStatus: Sendable, Codable, ParameterConvertible, Hashable 
     public var engine: String?
     /** OK is always true — reaching this route is the liveness fact it reports. */
     public var ok: Bool?
-    /** Surface is the path prefix this status covers: /v1/insights. */
+    /** Surface is the path prefix this status covers: /v1/event/insights. */
     public var surface: String?
 
     public init(engine: String? = nil, ok: Bool? = nil, surface: String? = nil) {

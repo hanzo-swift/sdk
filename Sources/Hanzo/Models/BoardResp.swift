@@ -15,7 +15,7 @@ public struct BoardResp: Sendable, Codable, ParameterConvertible, Hashable {
     public var available: Bool?
     /** Current is the live state of each lane — the dash headline. */
     public var current: [ReadingView]?
-    /** From and To are the resolved [from, to) window, RFC 3339 UTC. */
+    /** From is when the resolved window opens, RFC 3339 UTC. */
     public var from: String?
     /** Provider is the provider whose meter answered. */
     public var provider: String?
@@ -25,6 +25,7 @@ public struct BoardResp: Sendable, Codable, ParameterConvertible, Hashable {
     public var scope: String?
     /** Source is always \"account\": the provider's own meter, not a Hanzo charge. */
     public var source: String?
+    /** To is where it closes, EXCLUSIVE, RFC 3339 UTC — the instant the read was served, so the window walks forward with the clock and two reads a minute apart do not cover the same period. */
     public var to: String?
     /** Windows is every window instance in range, newest first. */
     public var windows: [ReadingView]?

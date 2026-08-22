@@ -9,10 +9,15 @@ import Foundation
 
 public struct BlueprintCounts: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Principles is how many spine archetypes the playbook carries (64 in the shipped corpus). */
     public var principles: Int?
+    /** Sections is how many phases the journey has. */
     public var sections: Int?
+    /** Steps is how many checklist items the playbook holds, DISABLED ONES INCLUDED — this counts the authored document, not the journey an org runs, so it is normally larger than the `total` on a progress view. */
     public var steps: Int?
+    /** Strategies is how many tactics the corpus holds, again counting disabled ones. */
     public var strategies: Int?
+    /** Templates is how many reusable prompts the playbook carries. */
     public var templates: Int?
 
     public init(principles: Int? = nil, sections: Int? = nil, steps: Int? = nil, strategies: Int? = nil, templates: Int? = nil) {

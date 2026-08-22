@@ -9,34 +9,57 @@ import Foundation
 
 public struct AppView: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** BuildType is how a git app builds: `pack`, the zero-config default that detects the project, or `dockerfile`. An image app carries `image`, which means it never builds. */
     public var buildType: String?
+    /** CreatedAt is when the app was created, unix seconds. */
     public var createdAt: Int?
+    /** CurrentDeploymentID is the deployment that is live — the pointer a deploy advances monotonically by version, so it never regresses to an older one. Empty until the first deploy reaches the cluster. */
     public var currentDeploymentId: String?
+    /** Description is free text about what the app is. Nothing derives from it. */
     public var description: String?
+    /** Dockerfile is the path inside the repo to build from, for buildType `dockerfile`. The build path keys off its presence, and it is validated at create against the same allowlist the privileged build enforces. */
     public var dockerfile: String?
+    /** Domains are the ingress hosts rendered into the app's CR, its own `<slug>.<org>.<sites host>` first. That one is seeded at create and cannot be removed; a custom host joins only after add-domain and DNS verification. */
     public var domains: [String]?
+    /** Env is the app's environment variables, with every SECRET value masked to \"\" — the plaintext is in KMS and this surface never echoes it. That masking is why an empty secret value means \"keep what is sealed\" when posted back. */
     public var env: [EnvVarJSON]?
+    /** Environment is the deploy target this app names, `production` when none was given. It is a LABEL: /v1/platform/environments derives the environment list from the apps that name one, so an environment exists as long as an app points at it and no route creates or deletes one. */
     public var environment: String?
+    /** Health rolls ready-vs-desired replicas up to a colour: green (all ready), yellow (some ready, or deliberately scaled to zero), red (none), or \"\" when the cluster reports no replica counts at all — unknown, never a guessed green. */
     public var health: String?
+    /** ID is the server-minted application id (`app_…`). Routes address an app by project and slug; this is the key its deployments and builds carry. */
     public var id: String?
+    /** Image is the image a source `image` app runs. For a git app only the tag is filled, stamped by the deploy that went live; the built ref is on the deployment. */
     public var image: ImageView?
+    /** Name is the display name. It is not an address — the slug is. */
     public var name: String?
+    /** Namespace is where the app's cluster objects live, `tenant-<org>`. It is derived from the validated org and is never accepted from a request. */
     public var namespace: String?
+    /** Org is the tenant that owns the app. It comes from the validated identity, never from the request, and it is the boundary every route is scoped to. */
     public var org: String?
+    /** Phase is the operator's own `status.phase` for the app's Service CR, read from the cluster on this request. Empty when there is no CR yet or the cluster could not be read. */
     public var phase: String?
+    /** Port is the container port traffic is sent to. 8080 when the create asked for none, or for one outside 1–65535. */
     public var port: Int?
+    /** ProjectID is the IAM project the app lives under, and it is that project's NAME — the (org,name) key IAM identifies it by, which is also what the `:project` path segment carries. There is no platform-minted project id. */
     public var projectId: String?
+    /** Replicas is how many copies the CR declares. It is CLAMPED to the deployment's ceiling rather than refused, so it can be below what was asked. */
     public var replicas: Int?
+    /** Repo is the git origin a source `git` app builds from, and the repo+branch a landed push has to match to build it. */
     public var repo: GitSource?
-    /** \"\"|pending|syncing|ready|failed (secrets.go) */
+    /** SecretSync is how far the app's secret env has got into the cluster: \"\"|pending|syncing|ready|failed (secrets.go). It is best-effort and never fails a deploy, so `pending` is ordinary right after one. */
     public var secretSync: String?
-    /** honest reason when not ready */
+    /** SecretSyncDetail is the honest reason when the sync is not ready — a missing CRD, an RBAC grant, a per-tenant credential. Empty when it is. */
     public var secretSyncDetail: String?
+    /** Slug is the app's identity in the cluster: the operator CR's name, the first label of its default host, and the `:app` path segment. Unique per project. */
     public var slug: String?
+    /** Source is what the app deploys FROM: `git`, which builds Repo, or `image`, which runs Image as it is. It decides whether a deploy builds at all. */
     public var source: String?
+    /** Status is the lifecycle THIS store records: draft (created, nothing in the cluster yet), building, deploying, live, stopped or error. What the cluster itself says is Phase and Health. */
     public var status: String?
-    /** GiB; absent means stateless */
+    /** StorageGB is the persistent volume size in GiB. Absent means stateless — no volume at all — and it is clamped like Replicas. */
     public var storageGb: Int?
+    /** UpdatedAt is when it last changed, unix seconds. Every lifecycle transition moves it, so it tracks deploys as well as edits. */
     public var updatedAt: Int?
 
     public init(buildType: String? = nil, createdAt: Int? = nil, currentDeploymentId: String? = nil, description: String? = nil, dockerfile: String? = nil, domains: [String]? = nil, env: [EnvVarJSON]? = nil, environment: String? = nil, health: String? = nil, id: String? = nil, image: ImageView? = nil, name: String? = nil, namespace: String? = nil, org: String? = nil, phase: String? = nil, port: Int? = nil, projectId: String? = nil, replicas: Int? = nil, repo: GitSource? = nil, secretSync: String? = nil, secretSyncDetail: String? = nil, slug: String? = nil, source: String? = nil, status: String? = nil, storageGb: Int? = nil, updatedAt: Int? = nil) {

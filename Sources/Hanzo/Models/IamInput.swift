@@ -9,57 +9,73 @@ import Foundation
 
 public struct IamInput: Sendable, Codable, ParameterConvertible, Hashable {
 
+    public var action: String?
+    public var clientIp: String?
     public var createdTime: String?
-    public var description: String?
-    public var displayName: String?
-    public var isDefault: Bool?
-    public var metadata: String?
+    public var isTriggered: Bool?
+    public var language: String?
+    public var method: String?
     public var name: String?
+    public var object: String?
     public var organization: String?
     public var owner: String?
-    public var tags: [String]?
-    public var workspace: String?
+    public var requestUri: String?
+    public var response: String?
+    public var statusCode: Int?
+    public var user: String?
 
-    public init(createdTime: String? = nil, description: String? = nil, displayName: String? = nil, isDefault: Bool? = nil, metadata: String? = nil, name: String? = nil, organization: String? = nil, owner: String? = nil, tags: [String]? = nil, workspace: String? = nil) {
+    public init(action: String? = nil, clientIp: String? = nil, createdTime: String? = nil, isTriggered: Bool? = nil, language: String? = nil, method: String? = nil, name: String? = nil, object: String? = nil, organization: String? = nil, owner: String? = nil, requestUri: String? = nil, response: String? = nil, statusCode: Int? = nil, user: String? = nil) {
+        self.action = action
+        self.clientIp = clientIp
         self.createdTime = createdTime
-        self.description = description
-        self.displayName = displayName
-        self.isDefault = isDefault
-        self.metadata = metadata
+        self.isTriggered = isTriggered
+        self.language = language
+        self.method = method
         self.name = name
+        self.object = object
         self.organization = organization
         self.owner = owner
-        self.tags = tags
-        self.workspace = workspace
+        self.requestUri = requestUri
+        self.response = response
+        self.statusCode = statusCode
+        self.user = user
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
+        case action
+        case clientIp
         case createdTime
-        case description
-        case displayName
-        case isDefault
-        case metadata
+        case isTriggered
+        case language
+        case method
         case name
+        case object
         case organization
         case owner
-        case tags
-        case workspace
+        case requestUri
+        case response
+        case statusCode
+        case user
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(action, forKey: .action)
+        try container.encodeIfPresent(clientIp, forKey: .clientIp)
         try container.encodeIfPresent(createdTime, forKey: .createdTime)
-        try container.encodeIfPresent(description, forKey: .description)
-        try container.encodeIfPresent(displayName, forKey: .displayName)
-        try container.encodeIfPresent(isDefault, forKey: .isDefault)
-        try container.encodeIfPresent(metadata, forKey: .metadata)
+        try container.encodeIfPresent(isTriggered, forKey: .isTriggered)
+        try container.encodeIfPresent(language, forKey: .language)
+        try container.encodeIfPresent(method, forKey: .method)
         try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(object, forKey: .object)
         try container.encodeIfPresent(organization, forKey: .organization)
         try container.encodeIfPresent(owner, forKey: .owner)
-        try container.encodeIfPresent(tags, forKey: .tags)
-        try container.encodeIfPresent(workspace, forKey: .workspace)
+        try container.encodeIfPresent(requestUri, forKey: .requestUri)
+        try container.encodeIfPresent(response, forKey: .response)
+        try container.encodeIfPresent(statusCode, forKey: .statusCode)
+        try container.encodeIfPresent(user, forKey: .user)
     }
 }
 

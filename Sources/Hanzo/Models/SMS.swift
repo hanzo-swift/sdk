@@ -9,12 +9,17 @@ import Foundation
 
 public struct SMS: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** From is the sending number in E.164, and must be one this org holds. */
     public var from: String?
+    /** ID is the carrier's handle for the message. */
     public var id: String?
+    /** Org is the tenant the message was sent for or received by. */
     public var org: String?
-    /** queued | sent | delivered | failed */
+    /** Status is where the message is: \"queued\", \"sent\", \"delivered\" or \"failed\". \"sent\" means the carrier took it; \"delivered\" means the handset got it, and not every carrier or destination reports that. */
     public var status: String?
+    /** Text is the message body. Empty is legal when the message carried only media. */
     public var text: String?
+    /** To is the receiving number in E.164. */
     public var to: String?
 
     public init(from: String? = nil, id: String? = nil, org: String? = nil, status: String? = nil, text: String? = nil, to: String? = nil) {

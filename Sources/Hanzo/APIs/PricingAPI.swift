@@ -400,6 +400,45 @@ open class PricingAPI {
     }
 
     /**
+     Returns what the caller's org can actually use: every managed item with its global state, whether it is effective here, whether this org is already opted into its beta, and whether it may still opt in.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: EnablementBoard
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getPricingEnablement(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> EnablementBoard {
+        return try await getPricingEnablementWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns what the caller's org can actually use: every managed item with its global state, whether it is effective here, whether this org is already opted into its beta, and whether it may still opt in.
+     - GET /v1/pricing/enablement
+     - Returns what the caller's org can actually use: every managed item with its global state, whether it is effective here, whether this org is already opted into its beta, and whether it may still opt in. Read-only and safe for any caller — one without a validated principal simply sees the generally-available items and no opt-in affordance, never another org's state.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<EnablementBoard> 
+     */
+    open class func getPricingEnablementWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<EnablementBoard> {
+        let localVariablePath = "/v1/pricing/enablement"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<EnablementBoard>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      Returns the models the catalog highlights, filtered to what the caller's org may see.
      
      - parameter apiConfiguration: The configuration for the http request.
@@ -948,6 +987,88 @@ open class PricingAPI {
         let localVariableRequestBuilder: RequestBuilder<PricingToolList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Opts the caller's OWN org into a beta item.
+     
+     - parameter enablementOptRef: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: UserEnablementItem
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postPricingEnablementOptin(enablementOptRef: EnablementOptRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> UserEnablementItem {
+        return try await postPricingEnablementOptinWithRequestBuilder(enablementOptRef: enablementOptRef, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Opts the caller's OWN org into a beta item.
+     - POST /v1/pricing/enablement/optin
+     - Opts the caller's OWN org into a beta item. The org is the caller's validated one, so this can never target another org, and the registry refuses anything not in beta — so it can neither re-open an item an operator turned off nor touch one that is already generally available. Requires a signed-in caller with an org.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter enablementOptRef: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<UserEnablementItem> 
+     */
+    open class func postPricingEnablementOptinWithRequestBuilder(enablementOptRef: EnablementOptRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<UserEnablementItem> {
+        let localVariablePath = "/v1/pricing/enablement/optin"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: enablementOptRef, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<UserEnablementItem>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Removes the caller's OWN org from a beta item's grant list, the reverse of OptIntoBeta and idempotent.
+     
+     - parameter enablementOptRef: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: UserEnablementItem
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postPricingEnablementOptout(enablementOptRef: EnablementOptRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> UserEnablementItem {
+        return try await postPricingEnablementOptoutWithRequestBuilder(enablementOptRef: enablementOptRef, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Removes the caller's OWN org from a beta item's grant list, the reverse of OptIntoBeta and idempotent.
+     - POST /v1/pricing/enablement/optout
+     - Removes the caller's OWN org from a beta item's grant list, the reverse of OptIntoBeta and idempotent. The org is the caller's validated one, so this can never revoke another org's grant. Requires a signed-in caller with an org.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter enablementOptRef: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<UserEnablementItem> 
+     */
+    open class func postPricingEnablementOptoutWithRequestBuilder(enablementOptRef: EnablementOptRef, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<UserEnablementItem> {
+        let localVariablePath = "/v1/pricing/enablement/optout"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: enablementOptRef, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<UserEnablementItem>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**

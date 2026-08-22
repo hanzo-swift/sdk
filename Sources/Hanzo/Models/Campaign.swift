@@ -9,11 +9,11 @@ import Foundation
 
 public struct Campaign: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** Budget and Spend are minor units (USD cents), clamped to >= 0. */
+    /** Budget is what the campaign is allowed to cost, in USD cents. A negative value is clamped to 0; nothing enforces the ceiling here. */
     public var budget: Int?
     /** Channel is the delivery surface: email, sms, social, meta, google or tiktok. Empty means email. */
     public var channel: String?
-    /** CreatedAt and UpdatedAt are unix seconds, both server-assigned. */
+    /** CreatedAt is unix seconds when the campaign was registered. Server-assigned and never rewritten — an update leaves it as it was. */
     public var createdAt: Int?
     /** ID is the server-assigned campaign id (\"camp_\" + 128 random bits). */
     public var id: String?
@@ -23,9 +23,11 @@ public struct Campaign: Sendable, Codable, ParameterConvertible, Hashable {
     public var objective: String?
     /** ScheduledAt is the unix send time; 0 means unscheduled. Setting it on a campaign with no explicit status makes that status \"scheduled\". */
     public var scheduledAt: Int?
+    /** Spend is what the campaign has cost so far, in USD cents, clamped to >= 0. The CALLER owns it: no send, ad buy or invoice moves it, so it changes only when create or update carries a new value. It is summed across the org's campaigns into GET /v1/marketing/summary. */
     public var spend: Int?
     /** Status is the lifecycle: draft, scheduled, active, paused or completed. Empty means draft. */
     public var status: String?
+    /** UpdatedAt is unix seconds of the last write. Server-assigned on create and on every update or schedule change, and the campaign list is ordered by it, newest first. */
     public var updatedAt: Int?
 
     public init(budget: Int? = nil, channel: String? = nil, createdAt: Int? = nil, id: String? = nil, name: String? = nil, objective: String? = nil, scheduledAt: Int? = nil, spend: Int? = nil, status: String? = nil, updatedAt: Int? = nil) {
