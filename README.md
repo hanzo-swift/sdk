@@ -1,16 +1,10 @@
-# @hanzo swift-sdk
+# Hanzo Cloud — Swift SDK
 
-Landing page for the **Hanzo Swift SDK**. This is the thin wrapper in the Hanzo
-umbrella org — the real, generated code lives in its language org.
+Swift client for the [Hanzo Cloud](https://hanzo.ai) API, generated from the
+API's own OpenAPI document. Async/await, no external dependencies.
 
-**Real code → [hanzo-swift/sdk](https://github.com/hanzo-swift/sdk)**
-
-## What it is
-
-The **Full Cloud SDK for Swift**: the entire Hanzo `/v1` cloud surface (AI,
-agents, compute, data, network, security, platform, observe, web3, apps) as an
-idiomatic async/await SwiftPM package, generated from the
-[Hanzo OpenAPI spec](https://github.com/hanzoai/openapi).
+[`.spec-lock`](.spec-lock) names the ref and the digest of the bytes this tree
+was cut from.
 
 ## Install
 
@@ -20,16 +14,69 @@ dependencies: [
 ]
 ```
 
-## Hanzo — the Open AI Cloud
+```swift
+.target(name: "App", dependencies: [.product(name: "Hanzo", package: "sdk")])
+```
 
-Open source · every language · on-chain settlement.
-[hanzo.ai](https://hanzo.ai) · [docs.hanzo.ai](https://docs.hanzo.ai)
+Swift 6. The package declares `swiftLanguageModes: [.v6]` because the client
+throws typed errors (`async throws(ErrorResponse)`), which only Swift 6 parses.
+It builds on Linux as well as Apple platforms.
 
-**SDKs in every language** — [Python](https://github.com/hanzoai/python-sdk) (flagship) ·
-[TypeScript](https://github.com/hanzo-js/sdk) ·
-[Go](https://github.com/hanzo-go/sdk) ·
-[Rust](https://github.com/hanzo-rs/sdk) ·
-[C++](https://github.com/hanzo-cpp/sdk) ·
-[Swift](https://github.com/hanzo-swift/sdk) ·
-[Kotlin](https://github.com/hanzo-kt/sdk) ·
-[umbrella](https://github.com/hanzoai/sdk)
+## Quickstart
+
+```swift
+import Hanzo
+
+let hanzo = HanzoAPIConfiguration(
+    basePath: "https://api.hanzo.ai",
+    customHeaders: ["Authorization": "Bearer \(key)"]
+)
+
+try await AiAPI.getModels(apiConfiguration: hanzo)
+```
+
+`HanzoAPIConfiguration.shared` is the default every call falls back to, so a
+program serving one tenant can set it once instead of passing it. `basePath`
+defaults to `https://api.hanzo.ai`.
+
+`GET /v1/models` needs no credential, so it runs before you have a key. It
+returns nothing to decode — the document states that route's address and not its
+shape — so call `getModelsWithRequestBuilder(...).execute()` and read the
+response when you need the body. Operations the document does describe return
+their model.
+
+One class per tag under `Sources/Hanzo/APIs`, request and response types under
+`Sources/Hanzo/Models`. Method names are the document's operation ids, so
+`GET /v1/billing/balance` is `getBillingBalance` and a path parameter reads as
+`by`: `GET /v1/kv/{name}` is `getKvByName(name:)`.
+
+## Auth
+
+One scheme, a bearer token — an IAM access token or a Cloud API key (`sk-`
+secret, `pk-` publishable). It goes in `Authorization`, and every operation
+sends it except four: `getModels`, `getModelsProviders`, `getCommands`,
+`getOpenapiJson`.
+
+## Errors
+
+A non-2xx throws `ErrorResponse.error(Int, Data?, URLResponse?, Error)` — the
+status, the body, and the response.
+
+## Regenerate
+
+`Sources/Hanzo` and `Package.swift` are generated and replaced wholesale. To
+change a name in the output, change the `swift` row of
+[hanzoai/openapi](https://github.com/hanzoai/openapi) `sdks.yaml`.
+
+```bash
+OPENAPI=/path/to/openapi SPEC=/path/to/openapi.yaml ./scripts/generate.sh
+OPENAPI=/path/to/openapi SPEC=/path/to/openapi.yaml ./scripts/generate.sh --check
+```
+
+## Docs
+
+[docs.hanzo.ai](https://docs.hanzo.ai) for the API itself.
+
+## License
+
+Apache-2.0. See [LICENSE](LICENSE).
