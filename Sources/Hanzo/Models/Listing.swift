@@ -9,74 +9,25 @@ import Foundation
 
 public struct Listing: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** Category groups the listing in the shop window. Free text — no vocabulary, nothing validates it — and unlike Description it is silently cut to 4096 bytes rather than refused. Empty means ungrouped. */
-    public var category: String?
-    /** CreatedAt is when the listing was published, in Unix SECONDS, minted at insert. Every listing read orders by it descending, so it is the shop's ordering key as well as its age. */
-    public var createdAt: Int?
-    /** Currency is the ISO 4217 code Price is quoted in; Create defaults it to \"USD\" when the publisher names none. It is a LABEL that travels to the shop window: publish parses Price with money.ParseUSD and the x402 terms carry no currency, so another code here changes what is displayed, not what is charged. */
-    public var currency: String?
-    /** Description is the long copy. Publish REFUSES one past 4096 bytes rather than truncating it, so what is stored is what was sent; empty is allowed. */
-    public var description: String?
-    /** ID is the listing's id, minted here as \"lst_\" + 16 hex characters. A publisher cannot choose it: Create overwrites whatever arrives. It is unique within PublisherOrg (the primary key is the pair), and it is the path segment DELETE /v1/marketplace/listings/:id takes. */
-    public var id: String?
-    public var price: JSONValue?
-    /** Public is whether other orgs can discover the listing. It also decides ENFORCEMENT: only public rows reach the price table, so a private listing with a price charges nobody. False leaves the row visible to its publisher alone. */
-    public var _public: Bool?
-    /** PublisherOrg is the org that published the listing, taken from the validated principal and never off the wire. It is also the PAYEE org — Recipient is resolved inside it — and the isolation key: a publisher reads and deletes only rows carrying its own org. */
-    public var publisherOrg: String?
-    /** seller payout WALLET ID, in PublisherOrg. */
-    public var recipient: String?
-    /** Title is the shop-window name, required and refused past 200 bytes. It is what discovery paints over the tool's registry name. */
-    public var title: String?
-    /** Tool is the registry name of the offered capability, in the flat fleet-wide tool namespace. It resolved in the publisher's own scope at publish time, so no listing advertises a capability that did not exist; it is also the key the price table looks a dispatch up by. */
-    public var tool: String?
+    public var lastModified: String?
+    public var name: String?
 
-    public init(category: String? = nil, createdAt: Int? = nil, currency: String? = nil, description: String? = nil, id: String? = nil, price: JSONValue? = nil, _public: Bool? = nil, publisherOrg: String? = nil, recipient: String? = nil, title: String? = nil, tool: String? = nil) {
-        self.category = category
-        self.createdAt = createdAt
-        self.currency = currency
-        self.description = description
-        self.id = id
-        self.price = price
-        self._public = _public
-        self.publisherOrg = publisherOrg
-        self.recipient = recipient
-        self.title = title
-        self.tool = tool
+    public init(lastModified: String? = nil, name: String? = nil) {
+        self.lastModified = lastModified
+        self.name = name
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case category
-        case createdAt
-        case currency
-        case description
-        case id
-        case price
-        case _public = "public"
-        case publisherOrg
-        case recipient
-        case title
-        case tool
+        case lastModified
+        case name
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(category, forKey: .category)
-        try container.encodeIfPresent(createdAt, forKey: .createdAt)
-        try container.encodeIfPresent(currency, forKey: .currency)
-        try container.encodeIfPresent(description, forKey: .description)
-        try container.encodeIfPresent(id, forKey: .id)
-        try container.encodeIfPresent(price, forKey: .price)
-        try container.encodeIfPresent(_public, forKey: ._public)
-        try container.encodeIfPresent(publisherOrg, forKey: .publisherOrg)
-        try container.encodeIfPresent(recipient, forKey: .recipient)
-        try container.encodeIfPresent(title, forKey: .title)
-        try container.encodeIfPresent(tool, forKey: .tool)
+        try container.encodeIfPresent(lastModified, forKey: .lastModified)
+        try container.encodeIfPresent(name, forKey: .name)
     }
 }
 
-
-@available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
-extension Listing: Identifiable {}

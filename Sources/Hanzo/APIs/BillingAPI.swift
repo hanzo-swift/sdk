@@ -100,9 +100,9 @@ open class BillingAPI {
     }
 
     /**
-     Remove one spend cap
+     Removes one of the caller's spend caps and answers 204.
      
-     - parameter id: (path)  
+     - parameter id: (path) ID is the cap to remove, from the path. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
@@ -112,13 +112,13 @@ open class BillingAPI {
     }
 
     /**
-     Remove one spend cap
+     Removes one of the caller's spend caps and answers 204.
      - DELETE /v1/billing/alerts/{id}
-     - Deletes a budget the caller's org owns and answers 204.  Removing a cap REMOVES A CEILING, so it takes the same bar as setting one: a validated org admin, the platform SuperAdmin, or the trusted in-process service token. A member who could delete the org's cap would have unbounded spend.  A cap this org does not own is NOT FOUND rather than refused — the same answer whether the id is unknown or belongs to another customer — so an id cannot be probed for existence by trying to delete it.
+     - Removes one of the caller's spend caps and answers 204.  Removing a cap RAISES what the org may spend, so it takes the same authority setting one does. The caps that remain still bind: this drops one, never the whole policy.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter id: (path)  
+     - parameter id: (path) ID is the cap to remove, from the path. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
@@ -144,29 +144,29 @@ open class BillingAPI {
     }
 
     /**
-     Remove one saved card or account
+     Removes one card or account the caller has saved.
      
-     - parameter id: (path)  
+     - parameter id: (path) ID is the saved method to detach, from the path. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: Detachment
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteBillingMethodsById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func deleteBillingMethodsById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Detachment {
         return try await deleteBillingMethodsByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Remove one saved card or account
+     Removes one card or account the caller has saved.
      - DELETE /v1/billing/methods/{id}
-     - Detaches the method at the processor and drops the row.  A method the caller does not own is NOT FOUND rather than refused — the same answer whether the id names nothing or names somebody else's card — so an id cannot be probed for existence.  A platform operator or the trusted in-process service token may act on any subject inside the org; everyone else may only remove their own.
+     - Removes one card or account the caller has saved.  It detaches only the CALLER'S own — the wallet this request bills from, resolved server-side — so an id belonging to another customer of the same org is not something this operation can reach. A platform or service caller detaches on the subject's behalf, and that authority is decided HERE, where the credential is, and travels as a value: authority decided twice is authority that eventually disagrees with itself.  The card is vaulted at the processor, so what goes is our token for it.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter id: (path)  
+     - parameter id: (path) ID is the saved method to detach, from the path. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<Detachment> 
      */
-    open class func deleteBillingMethodsByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func deleteBillingMethodsByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Detachment> {
         var localVariablePath = "/v1/billing/methods/{id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -182,35 +182,35 @@ open class BillingAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Detachment>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Remove one saved card or account
+     DetachPortalMethod is DetachMethod at the address a hosted checkout addresses it by.
      
-     - parameter id: (path)  
+     - parameter id: (path) ID is the saved method to detach, from the path. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: Detachment
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteBillingPortalMethodsById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func deleteBillingPortalMethodsById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Detachment {
         return try await deleteBillingPortalMethodsByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Remove one saved card or account
+     DetachPortalMethod is DetachMethod at the address a hosted checkout addresses it by.
      - DELETE /v1/billing/portal/methods/{id}
-     - Detaches the method at the processor and drops the row.  A method the caller does not own is NOT FOUND rather than refused — the same answer whether the id names nothing or names somebody else's card — so an id cannot be probed for existence.  A platform operator or the trusted in-process service token may act on any subject inside the org; everyone else may only remove their own.
+     - DetachPortalMethod is DetachMethod at the address a hosted checkout addresses it by. One set of rows, two spellings: a card detached at either is gone from both, because there is one store behind them.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter id: (path)  
+     - parameter id: (path) ID is the saved method to detach, from the path. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<Detachment> 
      */
-    open class func deleteBillingPortalMethodsByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func deleteBillingPortalMethodsByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Detachment> {
         var localVariablePath = "/v1/billing/portal/methods/{id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -226,7 +226,7 @@ open class BillingAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Detachment>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -1589,27 +1589,27 @@ open class BillingAPI {
     }
 
     /**
-     Recharge every org that has fallen below its threshold
+     Sweeps every org's auto-recharge and answers what it did.
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: Recharge
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postBillingRechargeRunAll(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func postBillingRechargeRunAll(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Recharge {
         return try await postBillingRechargeRunAllWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Recharge every org that has fallen below its threshold
+     Sweeps every org's auto-recharge and answers what it did.
      - POST /v1/billing/recharge/run-all
-     - Sweeps every organization and, for those with auto-recharge on whose available balance has dropped below their own threshold, charges the default card and credits the balance.  It charges cards across EVERY tenant, so it is platform authority only — never an org owner, who could otherwise sweep-charge saved cards estate-wide. Its caller is a schedule, not a person.  `orgs` is the population considered, not the row count: that difference is how a reader tells 'nobody was below threshold' from 'the sweep never ran'. One org's failure is reported in its own row and does not stop the rest.
+     - Sweeps every org's auto-recharge and answers what it did.  PLATFORM AUTHORITY ONLY. It charges saved cards across every tenant, so an org owner reaching it could sweep-charge the estate; a caller without it is refused before anything is charged.  The answer explains a sweep that charged nobody as readily as one that charged: it names how many orgs were considered and how many needed charging, with a row each.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<Recharge> 
      */
-    open class func postBillingRechargeRunAllWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postBillingRechargeRunAllWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Recharge> {
         let localVariablePath = "/v1/billing/recharge/run-all"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -1622,7 +1622,7 @@ open class BillingAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Recharge>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -1667,79 +1667,89 @@ open class BillingAPI {
     }
 
     /**
-     Add funds with a card already on file
+     Charges a card the caller already saved and credits the balance.
      
+     - parameter topupIn: (body)  
+     - parameter xIdempotencyKey: (header)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: Charged
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postBillingTopup(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postBillingTopupWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    open class func postBillingTopup(topupIn: TopupIn, xIdempotencyKey: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Charged {
+        return try await postBillingTopupWithRequestBuilder(topupIn: topupIn, xIdempotencyKey: xIdempotencyKey, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Add funds with a card already on file
+     Charges a card the caller already saved and credits the balance.
      - POST /v1/billing/topup
-     - Charges a saved card and credits the caller's prepaid wallet.  The method must belong to the caller: one that does not is NOT FOUND rather than refused, so an id cannot be probed for existence. A saved row whose card is no longer chargeable is 422 — add the card again — which is a different thing to do than a decline (402) or a bad amount (400).  Retries behave exactly as they do for a token top-up: same key, same replay, same exactly-once at the processor.
+     - Charges a card the caller already saved and credits the balance. Same receipt and the same retry safety as the token door; the only difference is which card, so a caller topping up from a saved method never re-enters one.
      - Bearer Token:
        - type: http
        - name: bearer
+     - parameter topupIn: (body)  
+     - parameter xIdempotencyKey: (header)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<Charged> 
      */
-    open class func postBillingTopupWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postBillingTopupWithRequestBuilder(topupIn: TopupIn, xIdempotencyKey: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Charged> {
         let localVariablePath = "/v1/billing/topup"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: topupIn, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "Content-Type": "application/json",
+            "X-Idempotency-Key": xIdempotencyKey?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Charged>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Add funds with a single-use card token
+     Charges a single-use card token and credits the caller's balance.
      
+     - parameter topupIn: (body)  
+     - parameter xIdempotencyKey: (header)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: Charged
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postBillingTopupToken(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postBillingTopupTokenWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    open class func postBillingTopupToken(topupIn: TopupIn, xIdempotencyKey: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Charged {
+        return try await postBillingTopupTokenWithRequestBuilder(topupIn: topupIn, xIdempotencyKey: xIdempotencyKey, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Add funds with a single-use card token
+     Charges a single-use card token and credits the caller's balance.
      - POST /v1/billing/topup/token
-     - Charges a card token from the browser's payment SDK and credits the caller's prepaid wallet — the cold-customer path, where nothing has to be saved first.  The wallet credited is the CALLER'S OWN, resolved from their signed identity. It is never a value in the request: a client-set selector is how a customer once topped up one account while their usage drew from another.  `X-Idempotency-Key` makes a retry safe. With one, a repeat replays the first result; without one, the same amount from the same subject inside a short window does too. The key reaches the processor as well as our own guard, so the charge is exactly-once at the gateway even if our guard store is down.  The amount is bounded server-side. A decline is 402 and nothing is credited.
+     - Charges a single-use card token and credits the caller's balance.  The token comes from the payment form and is vaulted as part of the charge, so no card number reaches this service and none is stored here. The receipt names the ledger entry, the new balance, and the PROCESSOR's own reference — which is the only field that proves money moved at the gateway rather than only in our ledger.  Retry-safe on X-Idempotency-Key: the same key settles one charge and returns the first receipt.
      - Bearer Token:
        - type: http
        - name: bearer
+     - parameter topupIn: (body)  
+     - parameter xIdempotencyKey: (header)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<Charged> 
      */
-    open class func postBillingTopupTokenWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postBillingTopupTokenWithRequestBuilder(topupIn: TopupIn, xIdempotencyKey: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Charged> {
         let localVariablePath = "/v1/billing/topup/token"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: topupIn, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "Content-Type": "application/json",
+            "X-Idempotency-Key": xIdempotencyKey?.asParameter(codableHelper: apiConfiguration.codableHelper),
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Charged>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

@@ -236,6 +236,7 @@ Sources/Hanzo/Models/BankQuestion.swift
 Sources/Hanzo/Models/BankTally.swift
 Sources/Hanzo/Models/BankTxnRow.swift
 Sources/Hanzo/Models/BaseHealth.swift
+Sources/Hanzo/Models/BaseView.swift
 Sources/Hanzo/Models/BeginIn.swift
 Sources/Hanzo/Models/Benchmark.swift
 Sources/Hanzo/Models/BenchmarkCatalog.swift
@@ -296,6 +297,7 @@ Sources/Hanzo/Models/BusRequest.swift
 Sources/Hanzo/Models/BuyInput.swift
 Sources/Hanzo/Models/ByoGPU.swift
 Sources/Hanzo/Models/ByoWorker.swift
+Sources/Hanzo/Models/CDApp.swift
 Sources/Hanzo/Models/CalendarPost.swift
 Sources/Hanzo/Models/Call.swift
 Sources/Hanzo/Models/CallInput.swift
@@ -360,6 +362,7 @@ Sources/Hanzo/Models/CatalogPage.swift
 Sources/Hanzo/Models/Category.swift
 Sources/Hanzo/Models/CategoryIn.swift
 Sources/Hanzo/Models/CategorySpend.swift
+Sources/Hanzo/Models/CdResp.swift
 Sources/Hanzo/Models/Centre.swift
 Sources/Hanzo/Models/Chain.swift
 Sources/Hanzo/Models/ChainList.swift
@@ -373,6 +376,7 @@ Sources/Hanzo/Models/ChannelResult.swift
 Sources/Hanzo/Models/ChannelSpec.swift
 Sources/Hanzo/Models/ChannelView.swift
 Sources/Hanzo/Models/Charge.swift
+Sources/Hanzo/Models/Charged.swift
 Sources/Hanzo/Models/ChatChannels.swift
 Sources/Hanzo/Models/ChatRequest.swift
 Sources/Hanzo/Models/ChatResponse.swift
@@ -442,7 +446,9 @@ Sources/Hanzo/Models/ContextBundle.swift
 Sources/Hanzo/Models/ContextIn.swift
 Sources/Hanzo/Models/ControlCommandView.swift
 Sources/Hanzo/Models/ControlDrain.swift
+Sources/Hanzo/Models/ControlIn.swift
 Sources/Hanzo/Models/ControlList.swift
+Sources/Hanzo/Models/ControlResult.swift
 Sources/Hanzo/Models/CookieAck.swift
 Sources/Hanzo/Models/CorpusView.swift
 Sources/Hanzo/Models/CostLine.swift
@@ -490,6 +496,7 @@ Sources/Hanzo/Models/DataroomLinkCreate.swift
 Sources/Hanzo/Models/DataroomLinkOne.swift
 Sources/Hanzo/Models/DataroomLinkStats.swift
 Sources/Hanzo/Models/DataroomLinks.swift
+Sources/Hanzo/Models/DataroomLiveness.swift
 Sources/Hanzo/Models/DataroomMember.swift
 Sources/Hanzo/Models/DataroomMembership.swift
 Sources/Hanzo/Models/DataroomPageStat.swift
@@ -505,6 +512,10 @@ Sources/Hanzo/Models/DatasetView.swift
 Sources/Hanzo/Models/DecideBody.swift
 Sources/Hanzo/Models/DecisionIn.swift
 Sources/Hanzo/Models/DeckOut.swift
+Sources/Hanzo/Models/Declaration.swift
+Sources/Hanzo/Models/DeclareEnv.swift
+Sources/Hanzo/Models/Declared.swift
+Sources/Hanzo/Models/DeclaredResp.swift
 Sources/Hanzo/Models/DefRow.swift
 Sources/Hanzo/Models/Definition.swift
 Sources/Hanzo/Models/DefsOut.swift
@@ -513,6 +524,7 @@ Sources/Hanzo/Models/DeletedOut.swift
 Sources/Hanzo/Models/Delivery.swift
 Sources/Hanzo/Models/DeliveryList.swift
 Sources/Hanzo/Models/DeliveryRow.swift
+Sources/Hanzo/Models/DeployHealth.swift
 Sources/Hanzo/Models/DeployLogs.swift
 Sources/Hanzo/Models/DeployRecord.swift
 Sources/Hanzo/Models/DeployReq.swift
@@ -523,6 +535,7 @@ Sources/Hanzo/Models/DestinationField.swift
 Sources/Hanzo/Models/DestinationList.swift
 Sources/Hanzo/Models/DestinationStatus.swift
 Sources/Hanzo/Models/DestinationTest.swift
+Sources/Hanzo/Models/Detachment.swift
 Sources/Hanzo/Models/DevicePollOut.swift
 Sources/Hanzo/Models/DeviceStartIn.swift
 Sources/Hanzo/Models/DeviceStartOut.swift
@@ -602,6 +615,7 @@ Sources/Hanzo/Models/EvaluatorList.swift
 Sources/Hanzo/Models/EvaluatorReq.swift
 Sources/Hanzo/Models/EvaluatorView.swift
 Sources/Hanzo/Models/Event.swift
+Sources/Hanzo/Models/EventIn.swift
 Sources/Hanzo/Models/EventList.swift
 Sources/Hanzo/Models/EventView.swift
 Sources/Hanzo/Models/Exception.swift
@@ -1923,6 +1937,7 @@ Sources/Hanzo/Models/ProjectsRelease.swift
 Sources/Hanzo/Models/ProjectsRepo.swift
 Sources/Hanzo/Models/ProjectsSite.swift
 Sources/Hanzo/Models/ProjectsSiteDeploy.swift
+Sources/Hanzo/Models/ProjectsStar.swift
 Sources/Hanzo/Models/ProjectsUpdate.swift
 Sources/Hanzo/Models/ProjectsUpdateRepo.swift
 Sources/Hanzo/Models/ProjectsUploadGrant.swift
@@ -1976,6 +1991,8 @@ Sources/Hanzo/Models/ReadingReq.swift
 Sources/Hanzo/Models/ReadingView.swift
 Sources/Hanzo/Models/ReadmeJSON.swift
 Sources/Hanzo/Models/Receipt.swift
+Sources/Hanzo/Models/Recharge.swift
+Sources/Hanzo/Models/Recharged.swift
 Sources/Hanzo/Models/Record.swift
 Sources/Hanzo/Models/RecordList.swift
 Sources/Hanzo/Models/RedeemInput.swift
@@ -2313,6 +2330,7 @@ Sources/Hanzo/Models/ToolResult.swift
 Sources/Hanzo/Models/Top.swift
 Sources/Hanzo/Models/TopModels.swift
 Sources/Hanzo/Models/TopProducts.swift
+Sources/Hanzo/Models/TopupIn.swift
 Sources/Hanzo/Models/TotalView.swift
 Sources/Hanzo/Models/TraceList.swift
 Sources/Hanzo/Models/TraceView.swift
@@ -2354,6 +2372,7 @@ Sources/Hanzo/Models/TrustSettings.swift
 Sources/Hanzo/Models/TrustTally.swift
 Sources/Hanzo/Models/Txn.swift
 Sources/Hanzo/Models/UTM.swift
+Sources/Hanzo/Models/Unreadable.swift
 Sources/Hanzo/Models/UnreconciledOut.swift
 Sources/Hanzo/Models/Unsubscribed.swift
 Sources/Hanzo/Models/UpdateAgentIn.swift

@@ -185,6 +185,59 @@ open class GraphAPI {
     }
 
     /**
+     Find assertions by their text rather than by an entity key
+     
+     - parameter q: (query) Q is what to look for: words, matched as prefixes, all of them required. Punctuation is text here rather than syntax, so an entity key searches as itself. (optional)
+     - parameter relation: (query) Relation narrows to one relation. Absent matches every relation. (optional)
+     - parameter asOf: (query) AsOf bounds the search to what was knowable at an instant, RFC 3339. Absent searches everything this plane holds. (optional)
+     - parameter limit: (query) Limit caps how many assertions come back. Absent, zero, or anything above the walk ceiling is the ceiling. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: GraphReadOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func graphSearch(q: String? = nil, relation: String? = nil, asOf: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GraphReadOut {
+        return try await graphSearchWithRequestBuilder(q: q, relation: relation, asOf: asOf, limit: limit, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Find assertions by their text rather than by an entity key
+     - GET /v1/graph/search
+     - Finds assertions by their text where read finds them by their keys.  It is the READ with one more term, not a second way to leave the store: same order, same ceiling, same tenancy, and searching composes with narrowing by relation and by instant because all of them are terms of one filter.  It resolves nothing. What matches is what was asserted, including claims that were later corrected — which is the honest answer to \"where is this mentioned\" and the reason the caller then asks resolve about what it found.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter q: (query) Q is what to look for: words, matched as prefixes, all of them required. Punctuation is text here rather than syntax, so an entity key searches as itself. (optional)
+     - parameter relation: (query) Relation narrows to one relation. Absent matches every relation. (optional)
+     - parameter asOf: (query) AsOf bounds the search to what was knowable at an instant, RFC 3339. Absent searches everything this plane holds. (optional)
+     - parameter limit: (query) Limit caps how many assertions come back. Absent, zero, or anything above the walk ceiling is the ceiling. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<GraphReadOut> 
+     */
+    open class func graphSearchWithRequestBuilder(q: String? = nil, relation: String? = nil, asOf: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GraphReadOut> {
+        let localVariablePath = "/v1/graph/search"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "q": (wrappedValue: q?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "relation": (wrappedValue: relation?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "as_of": (wrappedValue: asOf?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<GraphReadOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      The relations in use, and the rule that resolves a conflict
      
      - parameter apiConfiguration: The configuration for the http request.

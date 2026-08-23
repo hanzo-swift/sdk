@@ -10,29 +10,29 @@ import Foundation
 open class ExecAPI {
 
     /**
-     List the files in an execution session
+     Files lists what a session holds.
      
-     - parameter sid: (path)  
+     - parameter sid: (path) SID is the session identifier — the sandbox this listing is of. The URL is the addressing authority: a path segment binds after the body and after the query, so the address decides which session is read whatever else is sent. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: [Listing]
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getExecFilesBySid(sid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getExecFilesBySid(sid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> [Listing] {
         return try await getExecFilesBySidWithRequestBuilder(sid: sid, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     List the files in an execution session
+     Files lists what a session holds.
      - GET /v1/exec/files/{sid}
-     - Lists what a session's sandbox holds — the uploads a run can read and the artifacts it produced — each then fetched from /v1/exec/download.  It answers a BARE JSON ARRAY of {name, lastModified}, where `name` is the same {session_id}/{fileId} identifier download takes, because that is what the client matches on. An object wrapper would be a wire change, which is why this is not a typed operation.
+     - Files lists what a session holds.  One recursive `find`, the same traversal the artifact sweep makes. It used to be `ls -1A` — top level only — while the sweep collected with `find`, so a run that wrote a nested artifact reported it in its reply and then omitted it here, and the client's prefix match read the file as expired. Two traversals of one directory is two answers about what a session holds; there is one now.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter sid: (path)  
+     - parameter sid: (path) SID is the session identifier — the sandbox this listing is of. The URL is the addressing authority: a path segment binds after the body and after the query, so the address decides which session is read whatever else is sent. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<[Listing]> 
      */
-    open class func getExecFilesBySidWithRequestBuilder(sid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getExecFilesBySidWithRequestBuilder(sid: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<[Listing]> {
         var localVariablePath = "/v1/exec/files/{sid}"
         let sidPreEscape = "\(APIHelper.mapValueToPathItem(sid))"
         let sidPostEscape = sidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -48,7 +48,7 @@ open class ExecAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<[Listing]>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

@@ -636,27 +636,27 @@ open class VisorAPI {
     }
 
     /**
-     The regions a machine or GPU can be launched into
+     Regions lists the regions a machine can be launched in.
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: JSONValue
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getVisorComputeRegions(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getVisorComputeRegions(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> JSONValue {
         return try await getVisorComputeRegionsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     The regions a machine or GPU can be launched into
+     Regions lists the regions a machine can be launched in.
      - GET /v1/visor/compute/regions
-     - Lists the launch regions the compute catalog offers, passed through verbatim from the provider so the shape stays the provider's single source of truth. The catalog is GLOBAL, not per-tenant: no owner is forwarded and every org sees the same list. It is still gated — a validated principal is required, 403 without one — because the catalog is what backs the launch drawer, not public marketing copy.
+     - Regions lists the regions a machine can be launched in.  The catalog is GLOBAL — identical for every tenant — so no owner is forwarded upstream. It is still org-gated, because a catalog is a map of what this deployment can spend money in and an anonymous caller has no business reading it.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<JSONValue> 
      */
-    open class func getVisorComputeRegionsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getVisorComputeRegionsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<JSONValue> {
         let localVariablePath = "/v1/visor/compute/regions"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -669,33 +669,33 @@ open class VisorAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<JSONValue>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     The machine and GPU sizes that can be launched
+     Sizes lists the machine sizes available to launch, with their specifications.
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: JSONValue
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getVisorComputeSizes(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getVisorComputeSizes(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> JSONValue {
         return try await getVisorComputeSizesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     The machine and GPU sizes that can be launched
+     Sizes lists the machine sizes available to launch, with their specifications.
      - GET /v1/visor/compute/sizes
-     - Lists the instance sizes the compute catalog offers, passed through verbatim from the provider so the shape stays the provider's single source of truth. These are the values `size` accepts on a launch. The catalog is GLOBAL, not per-tenant: no owner is forwarded and every org sees the same list. It is still gated — a validated principal is required, 403 without one.
+     - Sizes lists the machine sizes available to launch, with their specifications.  Global and org-gated, exactly as the region catalog is, and for the same reasons.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<JSONValue> 
      */
-    open class func getVisorComputeSizesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getVisorComputeSizesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<JSONValue> {
         let localVariablePath = "/v1/visor/compute/sizes"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -708,7 +708,7 @@ open class VisorAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<JSONValue>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

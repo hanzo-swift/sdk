@@ -545,29 +545,29 @@ open class GuideAPI {
     }
 
     /**
-     Mark a step of your org's journey finished
+     Marks one step of the caller org's journey complete and returns the refreshed journey.
      
-     - parameter id: (path)  
+     - parameter id: (path) ID is the step&#39;s id, as it appears in the journey (e.g. \&quot;gsuite\&quot;). 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: OverviewView
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postGuideStepsByIdDone(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func postGuideStepsByIdDone(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> OverviewView {
         return try await postGuideStepsByIdDoneWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Mark a step of your org's journey finished
+     Marks one step of the caller org's journey complete and returns the refreshed journey.
      - POST /v1/guide/steps/{id}/done
-     - Moves one step of the caller org's journey to done and answers the whole refreshed journey, which is what unblocks everything downstream of it.  Dependency-GATED like start: finishing a step whose prerequisites are themselves unfinished is 409 carrying `{error, step, blockedBy}` naming what is in the way, not a silent success. A step id the org's active journey does not contain is 404. Skipping is the ungated alternative — a founder declaring a step does not apply — and it lives at /skip.  Requires a validated org; 403 without one. The mark is recorded as `manual`, and /reset returns the step to todo.
+     - Marks one step of the caller org's journey complete and returns the refreshed journey.  Dependency-GATED, exactly as start is: a step whose prerequisites are unfinished is refused 409 carrying {error, step, blockedBy} naming what is in the way.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter id: (path)  
+     - parameter id: (path) ID is the step&#39;s id, as it appears in the journey (e.g. \&quot;gsuite\&quot;). 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<OverviewView> 
      */
-    open class func postGuideStepsByIdDoneWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postGuideStepsByIdDoneWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<OverviewView> {
         var localVariablePath = "/v1/guide/steps/{id}/done"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -583,7 +583,7 @@ open class GuideAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<OverviewView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -677,29 +677,29 @@ open class GuideAPI {
     }
 
     /**
-     Mark a step of your org's journey started
+     Marks one step of the caller org's journey in progress and returns the refreshed journey.
      
-     - parameter id: (path)  
+     - parameter id: (path) ID is the step&#39;s id, as it appears in the journey (e.g. \&quot;gsuite\&quot;). 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: OverviewView
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postGuideStepsByIdStart(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func postGuideStepsByIdStart(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> OverviewView {
         return try await postGuideStepsByIdStartWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Mark a step of your org's journey started
+     Marks one step of the caller org's journey in progress and returns the refreshed journey.
      - POST /v1/guide/steps/{id}/start
-     - Moves one step of the caller org's journey to in-progress and answers the whole refreshed journey, so a console needs no second read.  The transition is dependency-GATED, and that is why the answer set is wider than a success: a step whose prerequisites are unfinished is 409 carrying `{error, step, blockedBy}`, where `blockedBy` names the exact steps in the way — enough to render the blockage rather than merely report it. A step id the org's active journey does not contain is 404.  Requires a validated org; 403 without one, and the journey read and written is that org's alone. The mark is recorded as `manual`, and the journey is reconciled against the auto-detectors on every read, so a step the org has demonstrably completed elsewhere can still be moved to done underneath it.
+     - Marks one step of the caller org's journey in progress and returns the refreshed journey.  Dependency-GATED: a step whose prerequisites are unfinished is refused 409 carrying {error, step, blockedBy}, where blockedBy names the exact steps in the way — enough to render the reason without asking again.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter id: (path)  
+     - parameter id: (path) ID is the step&#39;s id, as it appears in the journey (e.g. \&quot;gsuite\&quot;). 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<OverviewView> 
      */
-    open class func postGuideStepsByIdStartWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postGuideStepsByIdStartWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<OverviewView> {
         var localVariablePath = "/v1/guide/steps/{id}/start"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -715,7 +715,7 @@ open class GuideAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<OverviewView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

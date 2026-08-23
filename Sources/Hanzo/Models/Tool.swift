@@ -18,7 +18,7 @@ public struct Tool: Sendable, Codable, ParameterConvertible, Hashable {
     public var inputSchema: JSONValue?
     /** Name is the tool's id in the flat, fleet-wide tool namespace — the value a tools/call passes. Unique across sources: a collision is resolved by source precedence before the caller ever sees it. */
     public var name: String?
-    /** Price is what a call costs and who is paid, absent for a free tool. Enforcement is the x402 settlement seam; this is the declaration. */
+    /** Price is what a call costs and who is paid, absent for a free tool. Enforcement is the x402 settlement client; this is the declaration. */
     public var price: Price?
     /** Source is where the tool comes from: connector, function, zap-service, agent, skill or mcp. */
     public var source: String?

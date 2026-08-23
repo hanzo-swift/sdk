@@ -308,27 +308,27 @@ open class DataroomAPI {
     }
 
     /**
-     Liveness of the dataroom subsystem
+     Health reports that the data room subsystem is up.
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: DataroomLiveness
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getDataroomHealth(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func getDataroomHealth(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> DataroomLiveness {
         return try await getDataroomHealthWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Liveness of the dataroom subsystem
+     Health reports that the data room subsystem is up.
      - GET /v1/dataroom/health
-     - Answers {service, status} unconditionally — no principal, no tenant. It is registered BEFORE the bundle, the link index and the object-storage seam are wired, so it keeps answering when any of those fail and the subsystem degrades to health-only. That is the point, and the limit: a 200 here says the process is alive, never that a data room can be read or written.
+     - Health reports that the data room subsystem is up.  It answers before the bundle loads, holds no state and touches no store, so it stays true in exactly the situation an operator is probing for. It says nothing about whether a room can be OPENED — that is what the room operations answer — because a liveness probe that fails on a dependency takes a working process out of rotation.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<DataroomLiveness> 
      */
-    open class func getDataroomHealthWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func getDataroomHealthWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<DataroomLiveness> {
         let localVariablePath = "/v1/dataroom/health"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -341,7 +341,7 @@ open class DataroomAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<DataroomLiveness>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -757,7 +757,7 @@ open class DataroomAPI {
     /**
      Upload a document's bytes and record it
      - POST /v1/dataroom/documents
-     - Takes the file ITSELF as the raw request body — not a JSON envelope, not multipart — stores it on the object-storage seam, and records the metadata row, answering with the new document. `?name=` names it (default \"document\"), the request's Content-Type becomes the recorded mime type, and `?numPages=` is optional.  Requires a validated principal; 403 without one. An empty body is 400 and anything over 64 MiB is 413 — a data room holds decks and PDFs, not a media library.  The storage key is 128 random bits under the tenant's own key prefix, minted before the bytes are written: if the system's randomness is unavailable the upload fails 500 rather than fall back to a predictable key that could overwrite another document's bytes. A storage write that fails is 502 and no metadata row is recorded, so a document never exists without its file.
+     - Takes the file ITSELF as the raw request body — not a JSON envelope, not multipart — stores it on the object-storage client, and records the metadata row, answering with the new document. `?name=` names it (default \"document\"), the request's Content-Type becomes the recorded mime type, and `?numPages=` is optional.  Requires a validated principal; 403 without one. An empty body is 400 and anything over 64 MiB is 413 — a data room holds decks and PDFs, not a media library.  The storage key is 128 random bits under the tenant's own key prefix, minted before the bytes are written: if the system's randomness is unavailable the upload fails 500 rather than fall back to a predictable key that could overwrite another document's bytes. A storage write that fails is 502 and no metadata row is recorded, so a document never exists without its file.
      - Bearer Token:
        - type: http
        - name: bearer

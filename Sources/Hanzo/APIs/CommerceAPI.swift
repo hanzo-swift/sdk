@@ -320,31 +320,36 @@ open class CommerceAPI {
     /**
      Remove a rate outright
      
-     - parameter slug: (path)  
+     - parameter product: (path)  
+     - parameter meter: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteCommerceRatesEntriesBySlug(slug: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await deleteCommerceRatesEntriesBySlugWithRequestBuilder(slug: slug, apiConfiguration: apiConfiguration).execute().body
+    open class func deleteCommerceRatesEntriesByProductByMeter(product: String, meter: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteCommerceRatesEntriesByProductByMeterWithRequestBuilder(product: product, meter: meter, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Remove a rate outright
-     - DELETE /v1/commerce/rates/entries/{slug}
+     - DELETE /v1/commerce/rates/entries/{product}/{meter}
      - Deletes the row. ARCHIVING is usually what is wanted instead — a deleted rate cannot price a historical charge, so a past invoice that has to re-resolve its rate finds nothing to read. Reach for status=archived unless the rate never priced anything. SuperAdmin only.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter slug: (path)  
+     - parameter product: (path)  
+     - parameter meter: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func deleteCommerceRatesEntriesBySlugWithRequestBuilder(slug: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        var localVariablePath = "/v1/commerce/rates/entries/{slug}"
-        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
-        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+    open class func deleteCommerceRatesEntriesByProductByMeterWithRequestBuilder(product: String, meter: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/commerce/rates/entries/{product}/{meter}"
+        let productPreEscape = "\(APIHelper.mapValueToPathItem(product))"
+        let productPostEscape = productPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{product}", with: productPostEscape, options: .literal, range: nil)
+        let meterPreEscape = "\(APIHelper.mapValueToPathItem(meter))"
+        let meterPostEscape = meterPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{meter}", with: meterPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
@@ -4900,7 +4905,7 @@ open class CommerceAPI {
     /**
      Load the published price document, reconciling rather than replacing
      - POST /v1/commerce/rates/import
-     - Takes an array of rates and seeds the authority from it. This is the seed, driven from admin rather than compiled in, because 506 published prices in an embed made a price change wait for a build. It RECONCILES: a row that matches is left alone, a row that has drifted is corrected, and a row an operator edited is skipped — so importing the same document twice is a no-op and importing a corrected one moves exactly the rows that changed. Answers what it received, created, corrected and left unchanged, so an import that changes nothing reads as nothing to do rather than as a failure. An empty array is refused 400. SuperAdmin only.
+     - Takes an array of rates and seeds the authority from it — the same reconcile the boot catalog runs, driven from admin instead. It RECONCILES: a row that matches is left alone, a row that has drifted is corrected, and a row an operator edited is skipped — so importing the same document twice is a no-op and importing a corrected one moves exactly the rows that changed. Answers what it received, created, corrected and left unchanged, so an import that changes nothing reads as nothing to do rather than as a failure. An empty array is refused 400. SuperAdmin only.
      - Bearer Token:
        - type: http
        - name: bearer
@@ -7064,31 +7069,36 @@ open class CommerceAPI {
     /**
      Edit a rate, and mark it as operator-set
      
-     - parameter slug: (path)  
+     - parameter product: (path)  
+     - parameter meter: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putCommerceRatesEntriesBySlug(slug: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await putCommerceRatesEntriesBySlugWithRequestBuilder(slug: slug, apiConfiguration: apiConfiguration).execute().body
+    open class func putCommerceRatesEntriesByProductByMeter(product: String, meter: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await putCommerceRatesEntriesByProductByMeterWithRequestBuilder(product: product, meter: meter, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
      Edit a rate, and mark it as operator-set
-     - PUT /v1/commerce/rates/entries/{slug}
+     - PUT /v1/commerce/rates/entries/{product}/{meter}
      - Edits one rate and MARKS it edited, which is the whole contract with the importer: an operator's price outranks the document it came from, so a later import leaves this row alone. Without that mark a price set here would apply, work, and silently revert on the next import. Only the editable fields move; identity and bookkeeping are not writable from the body. SuperAdmin only.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter slug: (path)  
+     - parameter product: (path)  
+     - parameter meter: (path)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func putCommerceRatesEntriesBySlugWithRequestBuilder(slug: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        var localVariablePath = "/v1/commerce/rates/entries/{slug}"
-        let slugPreEscape = "\(APIHelper.mapValueToPathItem(slug))"
-        let slugPostEscape = slugPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{slug}", with: slugPostEscape, options: .literal, range: nil)
+    open class func putCommerceRatesEntriesByProductByMeterWithRequestBuilder(product: String, meter: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/commerce/rates/entries/{product}/{meter}"
+        let productPreEscape = "\(APIHelper.mapValueToPathItem(product))"
+        let productPostEscape = productPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{product}", with: productPostEscape, options: .literal, range: nil)
+        let meterPreEscape = "\(APIHelper.mapValueToPathItem(meter))"
+        let meterPostEscape = meterPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{meter}", with: meterPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
