@@ -62,6 +62,24 @@ sends it except four: `getModels`, `getModelsProviders`, `getCommands`,
 A non-2xx throws `ErrorResponse.error(Int, Data?, URLResponse?, Error)` — the
 status, the body, and the response.
 
+## Examples
+
+Two flows under [`examples/`](examples), a package of their own so the client's
+manifest stays the generator's:
+
+```bash
+swift build --package-path examples
+swift run --package-path examples models              # no credential
+HANZO_API_KEY=sk-... swift run --package-path examples hello
+```
+
+`models` calls the open route and prints the catalogue; `hello` calls
+`GET /v1/tools`, which refuses without a credential — that is what makes it the
+proof. `HANZO_BASE_URL` points either somewhere other than api.hanzo.ai.
+
+The build compiles both against the client, so a document change that renames or
+drops an operation goes red here.
+
 ## Regenerate
 
 `Sources/Hanzo` and `Package.swift` are generated and replaced wholesale. To
