@@ -703,45 +703,47 @@ open class CaptableAPI {
     }
 
     /**
-     Amend a share class
+     Replaces one share class's terms.
      
-     - parameter id: (path)  
+     - parameter id: (path) ID addresses the resource. The URL is the addressing authority — a path segment binds after the body and after the query — so the address decides which row is written whatever a body claims. 
+     - parameter captableShareClassAmend: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: CaptableUpdated
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func patchCaptableClassesById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await patchCaptableClassesByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    open class func patchCaptableClassesById(id: String, captableShareClassAmend: CaptableShareClassAmend, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CaptableUpdated {
+        return try await patchCaptableClassesByIdWithRequestBuilder(id: id, captableShareClassAmend: captableShareClassAmend, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Amend a share class
+     Replaces one share class's terms.
      - PATCH /v1/captable/classes/{id}
-     - Rewrites one share class — the amendment path for a class whose authorized count, price, seniority or preference terms have changed.  It REPLACES the class rather than merging into it: every field is taken from this body, so an omitted field resets to the create-time default instead of keeping its current value. Send the full class. The index and the derived prefix are unchanged by an amendment. An id that is not this company's is not found.  Writes the caller's OWN cap table: the org resolved from the validated principal selects the tenant's store and scopes every row, so there is no field by which a caller can write into another company's table; a request with no validated org is refused. The whole write runs in one transaction, so a refusal leaves nothing behind. Validation is the cap-table bundle's and so is its refusal: a bad body comes back as {success:false, message, errors:[…]} with the failing fields listed, and numeric fields accept a number OR a numeric string. Bodies are capped at 1 MiB.
+     - Replaces one share class's terms.  It is a full REPLACE and not a merge, despite the PATCH: every field is written as sent, so a field omitted is written empty rather than left alone. Send the whole class. The method is PATCH because the resource is addressed by id, not because the body is partial — and getting that backwards silently blanks terms every later issuance prices against.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter id: (path)  
+     - parameter id: (path) ID addresses the resource. The URL is the addressing authority — a path segment binds after the body and after the query — so the address decides which row is written whatever a body claims. 
+     - parameter captableShareClassAmend: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<CaptableUpdated> 
      */
-    open class func patchCaptableClassesByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func patchCaptableClassesByIdWithRequestBuilder(id: String, captableShareClassAmend: CaptableShareClassAmend, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CaptableUpdated> {
         var localVariablePath = "/v1/captable/classes/{id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: captableShareClassAmend, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CaptableUpdated>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "PATCH", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -793,196 +795,206 @@ open class CaptableAPI {
     }
 
     /**
-     Define a share class
+     Defines a new class of shares.
      
+     - parameter captableShareClassIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: CaptableCreated
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postCaptableClasses(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postCaptableClassesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    open class func postCaptableClasses(captableShareClassIn: CaptableShareClassIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CaptableCreated {
+        return try await postCaptableClassesWithRequestBuilder(captableShareClassIn: captableShareClassIn, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Define a share class
+     Defines a new class of shares.
      - POST /v1/captable/classes
-     - Creates a class of stock — its authorized share count, votes per share, par and issue price, seniority, conversion rights and liquidation/participation multiples — which is what shares, priced rounds and equity plans are then issued against.  Two fields are the company's to assign, not the caller's: the class index auto-increments per company, and the certificate prefix is DERIVED from the class type (CS for COMMON, PS for anything else), so a prefix in the body is ignored.  Writes the caller's OWN cap table: the org resolved from the validated principal selects the tenant's store and scopes every row, so there is no field by which a caller can write into another company's table; a request with no validated org is refused. The whole write runs in one transaction, so a refusal leaves nothing behind. Validation is the cap-table bundle's and so is its refusal: a bad body comes back as {success:false, message, errors:[…]} with the failing fields listed, and numeric fields accept a number OR a numeric string. Bodies are capped at 1 MiB.
+     - Defines a new class of shares.  Every field but convertsToShareClassId is required — a class is the instrument every later issuance prices against, so a partially-specified one would silently mis-value every share issued into it. `seniority` orders liquidation preference with LOWER first.
      - Bearer Token:
        - type: http
        - name: bearer
+     - parameter captableShareClassIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<CaptableCreated> 
      */
-    open class func postCaptableClassesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postCaptableClassesWithRequestBuilder(captableShareClassIn: CaptableShareClassIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CaptableCreated> {
         let localVariablePath = "/v1/captable/classes"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: captableShareClassIn, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CaptableCreated>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Record a convertible note
+     Records a convertible note.
      
+     - parameter captableConvertibleIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: CaptableCreated
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postCaptableConvertibles(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postCaptableConvertiblesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    open class func postCaptableConvertibles(captableConvertibleIn: CaptableConvertibleIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CaptableCreated {
+        return try await postCaptableConvertiblesWithRequestBuilder(captableConvertibleIn: captableConvertibleIn, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Record a convertible note
+     Records a convertible note.
      - POST /v1/captable/convertibles
-     - Records a convertible note held by a stakeholder: the principal, the conversion cap, discount and interest rate, MFN, and the issue and board-approval dates.  The stakeholder must already exist in this company, and the note's public id must be unused there — a reused id is a conflict rather than an overwrite. Like a SAFE, this records the instrument only; conversion is not performed here.  Writes the caller's OWN cap table: the org resolved from the validated principal selects the tenant's store and scopes every row, so there is no field by which a caller can write into another company's table; a request with no validated org is refused. The whole write runs in one transaction, so a refusal leaves nothing behind. Validation is the cap-table bundle's and so is its refusal: a bad body comes back as {success:false, message, errors:[…]} with the failing fields listed, and numeric fields accept a number OR a numeric string. Bodies are capped at 1 MiB.
+     - Records a convertible note.
      - Bearer Token:
        - type: http
        - name: bearer
+     - parameter captableConvertibleIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<CaptableCreated> 
      */
-    open class func postCaptableConvertiblesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postCaptableConvertiblesWithRequestBuilder(captableConvertibleIn: CaptableConvertibleIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CaptableCreated> {
         let localVariablePath = "/v1/captable/convertibles"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: captableConvertibleIn, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CaptableCreated>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Grant options from an equity plan
+     Grants options to a stakeholder from an equity plan.
      
+     - parameter captableOptionIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: CaptableCreated
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postCaptableOptions(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postCaptableOptionsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    open class func postCaptableOptions(captableOptionIn: CaptableOptionIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CaptableCreated {
+        return try await postCaptableOptionsWithRequestBuilder(captableOptionIn: captableOptionIn, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Grant options from an equity plan
+     Grants options to a stakeholder from an equity plan.
      - POST /v1/captable/options
-     - Records an option grant to a stakeholder under an equity plan — quantity, exercise price, ISO/NSO type, cliff and vesting years, and the issue, expiration, vesting-start, board-approval and Rule 144 dates.  The stakeholder and the equity plan must both already exist in this company, and the grant id must be unused there — a reused grant id is a conflict, so a grant can never be overwritten by a later one carrying the same number.  Writes the caller's OWN cap table: the org resolved from the validated principal selects the tenant's store and scopes every row, so there is no field by which a caller can write into another company's table; a request with no validated org is refused. The whole write runs in one transaction, so a refusal leaves nothing behind. Validation is the cap-table bundle's and so is its refusal: a bad body comes back as {success:false, message, errors:[…]} with the failing fields listed, and numeric fields accept a number OR a numeric string. Bodies are capped at 1 MiB.
+     - Grants options to a stakeholder from an equity plan.
      - Bearer Token:
        - type: http
        - name: bearer
+     - parameter captableOptionIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<CaptableCreated> 
      */
-    open class func postCaptableOptionsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postCaptableOptionsWithRequestBuilder(captableOptionIn: CaptableOptionIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CaptableCreated> {
         let localVariablePath = "/v1/captable/options"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: captableOptionIn, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CaptableCreated>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Open an equity incentive plan
+     Opens an equity plan that options are granted from.
      
+     - parameter captableEquityPlanIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: CaptableCreated
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postCaptablePlans(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postCaptablePlansWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    open class func postCaptablePlans(captableEquityPlanIn: CaptableEquityPlanIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CaptableCreated {
+        return try await postCaptablePlansWithRequestBuilder(captableEquityPlanIn: captableEquityPlanIn, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Open an equity incentive plan
+     Opens an equity plan that options are granted from.
      - POST /v1/captable/plans
-     - Reserves a pool of shares out of a share class for option grants, with the board approval and effective dates and what happens to cancelled options.  The share class must already exist in this company — a plan cannot reserve out of nothing. Note the field name the bundle reads for the cancellation behaviour is `defaultCancellatonBehavior`; that spelling is the wire, and a correctly spelled key is simply not seen.  Writes the caller's OWN cap table: the org resolved from the validated principal selects the tenant's store and scopes every row, so there is no field by which a caller can write into another company's table; a request with no validated org is refused. The whole write runs in one transaction, so a refusal leaves nothing behind. Validation is the cap-table bundle's and so is its refusal: a bad body comes back as {success:false, message, errors:[…]} with the failing fields listed, and numeric fields accept a number OR a numeric string. Bodies are capped at 1 MiB.
+     - Opens an equity plan that options are granted from.
      - Bearer Token:
        - type: http
        - name: bearer
+     - parameter captableEquityPlanIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<CaptableCreated> 
      */
-    open class func postCaptablePlansWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postCaptablePlansWithRequestBuilder(captableEquityPlanIn: CaptableEquityPlanIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CaptableCreated> {
         let localVariablePath = "/v1/captable/plans"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: captableEquityPlanIn, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CaptableCreated>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Open a funding round
+     Opens a priced round that investments can be added to.
      
+     - parameter captableRoundIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: CaptableCreated
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postCaptableRounds(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postCaptableRoundsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    open class func postCaptableRounds(captableRoundIn: CaptableRoundIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CaptableCreated {
+        return try await postCaptableRoundsWithRequestBuilder(captableRoundIn: captableRoundIn, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Open a funding round
+     Opens a priced round that investments can be added to.
      - POST /v1/captable/rounds
-     - Opens a round with its name, type and target amount. It starts OPEN with nothing raised; investments are then added to it, and closing it is its own call.  A PRICED round is the constrained case: it requires a share class that exists in this company and a price per share above zero, because that price is what converts each investment into issued shares. Its pre-money valuation is optional. A non-priced round carries none of the three.  Writes the caller's OWN cap table: the org resolved from the validated principal selects the tenant's store and scopes every row, so there is no field by which a caller can write into another company's table; a request with no validated org is refused. The whole write runs in one transaction, so a refusal leaves nothing behind. Validation is the cap-table bundle's and so is its refusal: a bad body comes back as {success:false, message, errors:[…]} with the failing fields listed, and numeric fields accept a number OR a numeric string. Bodies are capped at 1 MiB.
+     - Opens a priced round that investments can be added to.  The round opens OPEN; investing into a closed one is refused.
      - Bearer Token:
        - type: http
        - name: bearer
+     - parameter captableRoundIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<CaptableCreated> 
      */
-    open class func postCaptableRoundsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postCaptableRoundsWithRequestBuilder(captableRoundIn: CaptableRoundIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CaptableCreated> {
         let localVariablePath = "/v1/captable/rounds"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: captableRoundIn, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CaptableCreated>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -1034,162 +1046,170 @@ open class CaptableAPI {
     }
 
     /**
-     Record an investment into a round
+     Records one investor's money into an open round.
      
-     - parameter id: (path)  
+     - parameter id: (path) ID is the round to invest in. The URL is the addressing authority — a path segment binds after the body and after the query — so the address decides which round is written whatever a body claims. 
+     - parameter captableInvestmentIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: CaptableInvested
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postCaptableRoundsByIdInvestments(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postCaptableRoundsByIdInvestmentsWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
+    open class func postCaptableRoundsByIdInvestments(id: String, captableInvestmentIn: CaptableInvestmentIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CaptableInvested {
+        return try await postCaptableRoundsByIdInvestmentsWithRequestBuilder(id: id, captableInvestmentIn: captableInvestmentIn, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Record an investment into a round
+     Records one investor's money into an open round.
      - POST /v1/captable/rounds/{id}/investments
-     - Records what a stakeholder put into a round and adds it to the round's raised total.  On a PRICED round this ISSUES SHARES as well as recording the money: the amount is divided by the round's price per share, rounded DOWN to whole shares, and a new certificate for them is issued to the investor in the round's share class — so an amount too small to buy one whole share is refused rather than recorded as a zero-share investment. On a non-priced round the money is recorded and no shares are issued.  The round must exist in this company and still be OPEN — a closed round refuses further investment — and the investor must already be a stakeholder here. The date defaults to today when omitted.  Writes the caller's OWN cap table: the org resolved from the validated principal selects the tenant's store and scopes every row, so there is no field by which a caller can write into another company's table; a request with no validated org is refused. The whole write runs in one transaction, so a refusal leaves nothing behind. Validation is the cap-table bundle's and so is its refusal: a bad body comes back as {success:false, message, errors:[…]} with the failing fields listed, and numeric fields accept a number OR a numeric string. Bodies are capped at 1 MiB.
+     - Records one investor's money into an open round.  The round must be OPEN; investing into a closed one is refused. Where the round carries a price per share, the investment also issues the shares it buys and the answer names them.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter id: (path)  
+     - parameter id: (path) ID is the round to invest in. The URL is the addressing authority — a path segment binds after the body and after the query — so the address decides which round is written whatever a body claims. 
+     - parameter captableInvestmentIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<CaptableInvested> 
      */
-    open class func postCaptableRoundsByIdInvestmentsWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postCaptableRoundsByIdInvestmentsWithRequestBuilder(id: String, captableInvestmentIn: CaptableInvestmentIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CaptableInvested> {
         var localVariablePath = "/v1/captable/rounds/{id}/investments"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: captableInvestmentIn, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CaptableInvested>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Record a SAFE
+     Records a SAFE — a simple agreement for future equity.
      
+     - parameter captableSafeIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: CaptableCreated
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postCaptableSafes(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postCaptableSafesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    open class func postCaptableSafes(captableSafeIn: CaptableSafeIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CaptableCreated {
+        return try await postCaptableSafesWithRequestBuilder(captableSafeIn: captableSafeIn, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Record a SAFE
+     Records a SAFE — a simple agreement for future equity.
      - POST /v1/captable/safes
-     - Records a Simple Agreement for Future Equity held by a stakeholder: the capital in, the valuation cap and discount, MFN and pro-rata rights, pre- or post-money type, and the issue and board-approval dates.  The stakeholder must already exist in this company, and the SAFE's public id must be unused there — a reused id is a conflict rather than an overwrite. This records the instrument; it does not convert it, so nothing is issued against a share class until a round does that.  Writes the caller's OWN cap table: the org resolved from the validated principal selects the tenant's store and scopes every row, so there is no field by which a caller can write into another company's table; a request with no validated org is refused. The whole write runs in one transaction, so a refusal leaves nothing behind. Validation is the cap-table bundle's and so is its refusal: a bad body comes back as {success:false, message, errors:[…]} with the failing fields listed, and numeric fields accept a number OR a numeric string. Bodies are capped at 1 MiB.
+     - Records a SAFE — a simple agreement for future equity.
      - Bearer Token:
        - type: http
        - name: bearer
+     - parameter captableSafeIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<CaptableCreated> 
      */
-    open class func postCaptableSafesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postCaptableSafesWithRequestBuilder(captableSafeIn: CaptableSafeIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CaptableCreated> {
         let localVariablePath = "/v1/captable/safes"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: captableSafeIn, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CaptableCreated>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Issue a share certificate
+     Issues a share certificate to a stakeholder.
      
+     - parameter captableShareIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: CaptableCreated
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postCaptableShares(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postCaptableSharesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    open class func postCaptableShares(captableShareIn: CaptableShareIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CaptableCreated {
+        return try await postCaptableSharesWithRequestBuilder(captableShareIn: captableShareIn, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Issue a share certificate
+     Issues a share certificate to a stakeholder.
      - POST /v1/captable/shares
-     - Issues shares of a class to a stakeholder as a certificate: quantity, price and capital contributed, the vesting cliff and term, the legends on the certificate, and the issue, Rule 144, vesting-start and board-approval dates.  Both the stakeholder and the share class must already exist in this company, and the certificate id must be unused there — a reused id is a conflict, never a silent overwrite of an existing certificate.  Writes the caller's OWN cap table: the org resolved from the validated principal selects the tenant's store and scopes every row, so there is no field by which a caller can write into another company's table; a request with no validated org is refused. The whole write runs in one transaction, so a refusal leaves nothing behind. Validation is the cap-table bundle's and so is its refusal: a bad body comes back as {success:false, message, errors:[…]} with the failing fields listed, and numeric fields accept a number OR a numeric string. Bodies are capped at 1 MiB.
+     - Issues a share certificate to a stakeholder.  The certificate id must be UNIQUE within the company — a duplicate is refused 409, not silently merged — and both the stakeholder and the share class must belong to this company, so an id from another tenant is a 400 rather than a cross-company issuance.
      - Bearer Token:
        - type: http
        - name: bearer
+     - parameter captableShareIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<CaptableCreated> 
      */
-    open class func postCaptableSharesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postCaptableSharesWithRequestBuilder(captableShareIn: CaptableShareIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CaptableCreated> {
         let localVariablePath = "/v1/captable/shares"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: captableShareIn, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CaptableCreated>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Transfer shares to another stakeholder
+     Moves shares from one stakeholder to another.
      
+     - parameter captableShareTransfer: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: CaptableTransferred
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postCaptableSharesTransfer(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postCaptableSharesTransferWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    open class func postCaptableSharesTransfer(captableShareTransfer: CaptableShareTransfer, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CaptableTransferred {
+        return try await postCaptableSharesTransferWithRequestBuilder(captableShareTransfer: captableShareTransfer, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Transfer shares to another stakeholder
+     Moves shares from one stakeholder to another.
      - POST /v1/captable/shares/transfer
-     - Moves shares from one certificate to another stakeholder, in one atomic step.  OMITTING `quantity` transfers the WHOLE certificate, which simply reassigns it and answers newShareId null — that is the difference between a full and a partial transfer, and it is why quantity is absent rather than zero. A partial transfer shrinks the source certificate and issues a NEW one to the recipient, so it requires a `certificateId` for that new certificate and refuses a reused one. The quantity must be between 1 and what the source certificate actually holds; the recipient must be a stakeholder of this same company.  Writes the caller's OWN cap table: the org resolved from the validated principal selects the tenant's store and scopes every row, so there is no field by which a caller can write into another company's table; a request with no validated org is refused. The whole write runs in one transaction, so a refusal leaves nothing behind. Validation is the cap-table bundle's and so is its refusal: a bad body comes back as {success:false, message, errors:[…]} with the failing fields listed, and numeric fields accept a number OR a numeric string. Bodies are capped at 1 MiB.
+     - Moves shares from one stakeholder to another.  Omit `quantity` to transfer the whole certificate, which REASSIGNS it and mints no new share. Send a quantity below the amount held to SPLIT it — the source certificate keeps the remainder, and a split additionally requires `certificateId` for the new certificate, which must be unique in the company. A quantity outside 1..held is refused, so a transfer can never over-issue.  Both outcomes answer 200: a transfer records a movement between holders and mints no security of its own, which is why this is not a 201 the way an investment is.
      - Bearer Token:
        - type: http
        - name: bearer
+     - parameter captableShareTransfer: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<CaptableTransferred> 
      */
-    open class func postCaptableSharesTransferWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postCaptableSharesTransferWithRequestBuilder(captableShareTransfer: CaptableShareTransfer, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CaptableTransferred> {
         let localVariablePath = "/v1/captable/shares/transfer"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: captableShareTransfer, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
+            "Content-Type": "application/json",
         ]
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<CaptableTransferred>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

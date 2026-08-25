@@ -30,7 +30,7 @@ public struct IamKey: Sendable, Codable, ParameterConvertible, Hashable {
     public var organization: String?
     /** Owner is the tenant that holds the key; Name is unique within Owner. */
     public var owner: String?
-    /** Scope is the key's ACCESS CLASS, orthogonal to Type (which names the bound principal). Empty (the default, \"secret\") is a full key: a pk- publishable half AND a confidential sk- half, the sk- authenticating a server-side reader. KeyScopePublish is a WRITE-ONLY publishable key — a pk- half only, no secret — that resolves to just an ORG (never a principal) at the ingest door and is safe to ship in client JS. A missing value on an existing row reads as the default, so every pre-Scope key is a secret key unchanged. */
+    /** Scope is the key's ACCESS CLASS, orthogonal to Type (which names the bound principal). Empty (the default, \"secret\") is a full key: a pk- publishable half AND a confidential sk- half, the sk- authenticating a server-side reader. KeyScopePublish is a WRITE-ONLY publishable key — a pk- half only, no secret — that resolves to just an ORG (never a principal) at the ingest endpoint and is safe to ship in client JS. A missing value on an existing row reads as the default, so every pre-Scope key is a secret key unchanged. */
     public var scope: String?
     public var state: String?
     /** Type is the scope the key is bound to — \"Organization\", \"Application\", \"User\", or \"General\" — and Organization / Application / User name the concrete principal for whichever scope Type selects. */

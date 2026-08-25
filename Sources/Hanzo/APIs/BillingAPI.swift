@@ -1682,7 +1682,7 @@ open class BillingAPI {
     /**
      Charges a card the caller already saved and credits the balance.
      - POST /v1/billing/topup
-     - Charges a card the caller already saved and credits the balance. Same receipt and the same retry safety as the token door; the only difference is which card, so a caller topping up from a saved method never re-enters one.
+     - Charges a card the caller already saved and credits the balance. Same receipt and the same retry safety as the token endpoint; the only difference is which card, so a caller topping up from a saved method never re-enters one.
      - Bearer Token:
        - type: http
        - name: bearer

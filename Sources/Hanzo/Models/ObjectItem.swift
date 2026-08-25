@@ -9,6 +9,7 @@ import Foundation
 
 public struct ObjectItem: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** ETag is the store's entity tag for the bytes currently at this key, with the quotes the store wraps it in stripped. It is an opaque VERSION and not a checksum to verify against: a single-part upload's tag happens to be the MD5 of the content and a multipart upload's is not, and nothing here says which this was. Compare two reads of one key to learn whether the object changed; absent for a folder entry, and for an object the store reports none for. */
     public var etag: String?
     /** true for a folder (common prefix) */
     public var isDir: Bool?

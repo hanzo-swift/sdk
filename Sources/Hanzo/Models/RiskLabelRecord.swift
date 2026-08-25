@@ -17,7 +17,7 @@ public struct RiskLabelRecord: Sendable, Codable, ParameterConvertible, Hashable
     public var confidence: Double?
     /** Disposition is what was concluded, from the closed set: `productive` — the event led somewhere, escalated, reported or charged back; `unproductive` — judged not suspicious; or the empty string for an explicit UNJUDGED, which is a real assertion (\"we looked and could not say\") and not the absence of one. */
     public var disposition: String?
-    /** Evidence is the pointer to the record this conclusion came from: a dispute id, a case id, a decision id. At most 512 bytes, required at the write, and opaque to this plane — stored and returned verbatim, never resolved. It is what an adverse action is defended with, which is why an assertion carrying none is refused at the door. */
+    /** Evidence is the pointer to the record this conclusion came from: a dispute id, a case id, a decision id. At most 512 bytes, required at the write, and opaque to this plane — stored and returned verbatim, never resolved. It is what an adverse action is defended with, which is why an assertion carrying none is refused at the endpoint. */
     public var evidence: String?
     /** Hold is true while a litigation hold is on this record: retention will not dispose of it, at any age. False — and it is omitted then — leaves the record disposable once it is older than the boundary a sweep names. It is a fact about the RECORD and not about the world, so it is not folded into ID, no write path can set it, and the hold op is the one way it moves in either direction. */
     public var hold: Bool?

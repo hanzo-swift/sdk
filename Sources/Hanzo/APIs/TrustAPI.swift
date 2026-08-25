@@ -72,7 +72,7 @@ open class TrustAPI {
     /**
      Reads YOUR organization's whole trust centre, including the addresses of your own gated documents.
      - GET /v1/trust
-     - Reads YOUR organization's whole trust centre, including the addresses of your own gated documents. Same shape as the published door; the difference is that this one is resolved from your validated bearer and shows you your own artifacts.
+     - Reads YOUR organization's whole trust centre, including the addresses of your own gated documents. Same shape as the published endpoint; the difference is that this one is resolved from your validated bearer and shows you your own artifacts.
      - Bearer Token:
        - type: http
        - name: bearer
@@ -277,7 +277,7 @@ open class TrustAPI {
     /**
      Lists your organization's documents.
      - GET /v1/trust/documents
-     - Lists your organization's documents. Because this is your own centre, a gated artifact carries its address here; through the published door it does not.
+     - Lists your organization's documents. Because this is your own centre, a gated artifact carries its address here; through the published endpoint it does not.
      - Bearer Token:
        - type: http
        - name: bearer
@@ -526,7 +526,7 @@ open class TrustAPI {
     /**
      Reads a published trust centre — the whole thing in one answer: the organization's profile, its control inventory, coverage computed against each framework's whole published clause list, its documents, subprocessors, policies, knowledge base, updates and risk profile.
      - GET /v1/trust/published/{org}
-     - Reads a published trust centre — the whole thing in one answer: the organization's profile, its control inventory, coverage computed against each framework's whole published clause list, its documents, subprocessors, policies, knowledge base, updates and risk profile.  This is the PUBLIC door and needs no credential, because a published trust centre is a public document. It answers only for an organization that has published one — an organization that has not is not found rather than empty, since an empty centre and a centre nobody meant to show read the same and are not the same thing.  A gated document appears here with its title, its type and its date and NO address: the listing says the artifact exists and that reading it takes a grant. Nothing an independent auditor signed is ever released through this door.
+     - Reads a published trust centre — the whole thing in one answer: the organization's profile, its control inventory, coverage computed against each framework's whole published clause list, its documents, subprocessors, policies, knowledge base, updates and risk profile.  This is the PUBLIC endpoint and needs no credential, because a published trust centre is a public document. It answers only for an organization that has published one — an organization that has not is not found rather than empty, since an empty centre and a centre nobody meant to show read the same and are not the same thing.  A gated document appears here with its title, its type and its date and NO address: the listing says the artifact exists and that reading it takes a grant. Nothing an independent auditor signed is ever released through this endpoint.
      - parameter org: (path) Org is the organization&#39;s slug — the name in its address. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Centre> 

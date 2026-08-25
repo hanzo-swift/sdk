@@ -10,9 +10,13 @@ import Foundation
 public struct WorkerScriptPut: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var bindings: JSONValue?
+    /** CompatibilityDate pins which Workers runtime behaviour the script runs under, as a plain calendar date (\"2024-01-01\"). Absent leaves the account's own default in force. */
     public var compatibilityDate: String?
+    /** CompatibilityFlags turn individual runtime behaviours on or off around that date (\"nodejs_compat\"), in Cloudflare's own flag vocabulary. Absent means the date alone decides. */
     public var compatibilityFlags: [String]?
+    /** MainModule is the module file the runtime starts at. Absent means \"worker.js\". */
     public var mainModule: String?
+    /** Script means two things on this route, and the document says so in both places it appears: the PATH segment names the Worker to publish, and the BODY field carries that Worker's ES-module source — the code itself, never a name or a URL. A blank or absent source is refused; there is no empty Worker. */
     public var script: String?
 
     public init(bindings: JSONValue? = nil, compatibilityDate: String? = nil, compatibilityFlags: [String]? = nil, mainModule: String? = nil, script: String? = nil) {

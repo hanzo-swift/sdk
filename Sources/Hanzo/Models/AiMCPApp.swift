@@ -11,7 +11,7 @@ public struct AiMCPApp: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Name is the subsystem, as the manifest names it. */
     public var name: String?
-    /** Served reports that THIS process mounted it, so its tools are on this process's door rather than behind a sibling this process only knows the name of. */
+    /** Served reports that THIS process mounted it, so its tools are on this process's MCP server rather than behind a sibling this process only knows the name of. */
     public var served: Bool?
 
     public init(name: String? = nil, served: Bool? = nil) {

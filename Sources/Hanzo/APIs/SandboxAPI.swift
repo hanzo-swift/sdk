@@ -597,7 +597,7 @@ open class SandboxAPI {
     /**
      Mints a short-lived grant to open the screen of a desktop sandbox.
      - POST /v1/sandbox/{id}/screen/ticket
-     - Mints a short-lived grant to open the screen of a desktop sandbox. Same properties as the terminal ticket, for the other door.
+     - Mints a short-lived grant to open the screen of a desktop sandbox. Same properties as the terminal ticket, for the other endpoint.
      - Bearer Token:
        - type: http
        - name: bearer

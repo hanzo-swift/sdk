@@ -9,7 +9,9 @@ import Foundation
 
 public struct D1Query: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Params are the statement's bound values, in the order its `?` placeholders appear — a string, a number, a boolean or null, whatever the column takes. Absent means the statement carries no placeholders; bind values here rather than interpolating them into the statement. */
     public var params: [JSONValue]?
+    /** SQL is the statement to run. Blank (or absent) is refused before anything reaches D1. */
     public var sql: String?
 
     public init(params: [JSONValue]? = nil, sql: String? = nil) {

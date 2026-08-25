@@ -15,7 +15,7 @@ public struct ReferenceSet: Sendable, Codable, ParameterConvertible, Hashable {
     public var asOf: String?
     /** Keys is how many members the baseline carries. */
     public var keys: Int?
-    /** Kind is how the baseline comes to exist: fetch (downloaded from a publisher), local (computed here), attest (held by the component that screens against it, freshness reported), or client (declared and NOT held, because the source needs a licence we do not have). */
+    /** Kind is how the baseline comes to exist: fetch (downloaded from a publisher), local (computed here), attest (held by the component that screens against it, freshness reported), or gap (declared and NOT held, because the source needs a licence we do not have). */
     public var kind: String?
     /** Match is how a key is tested: exact, domain, net, digits, pattern or range. */
     public var match: String?

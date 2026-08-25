@@ -9,7 +9,7 @@ import Foundation
 
 public struct SubscriptionRef: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** AtPeriodEnd cancels at the end of the paid period rather than at once. It defaults TRUE on the door, because a customer who cancels has already paid for the period they are in. */
+    /** AtPeriodEnd cancels at the end of the paid period rather than at once. It defaults TRUE on the endpoint, because a customer who cancels has already paid for the period they are in. */
     public var atPeriodEnd: Bool?
     public var id: String?
 

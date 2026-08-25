@@ -664,29 +664,29 @@ open class DeployAPI {
     }
 
     /**
-     The console's rollback control — today it requests a reconcile, nothing more
+     Serves the console's rollback control, and today it requests a reconcile and nothing more.
      
-     - parameter name: (path)  
+     - parameter name: (path) Name is the application to read, from the path. It must be a DNS-1123 label (lowercase alphanumerics and hyphens, starting and ending alphanumeric) — every operator App CR&#39;s metadata.name satisfies that, and anything else is a 400 rather than a lookup. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: ArgoApp
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postDeployApplicationsByNameRollback(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func postDeployApplicationsByNameRollback(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ArgoApp {
         return try await postDeployApplicationsByNameRollbackWithRequestBuilder(name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     The console's rollback control — today it requests a reconcile, nothing more
+     Serves the console's rollback control, and today it requests a reconcile and nothing more.
      - POST /v1/deploy/applications/{name}/rollback
-     - Performs exactly what the sync action performs: it stamps the sync-requested timestamp onto the application's App CR and answers the application re-projected. It does NOT select, pin or revert to a prior image tag, and that is the one thing to know before wiring anything to it — the name is the console's, the behaviour is the sync. Pinning a previous release rides the release client, which this address does not call yet.  SuperAdmin-only and fail-closed, reading no request body, with an unknown application name a 404 and no cluster client a 503 — the same gate and the same failures as the sync it shares a handler with.
+     - Serves the console's rollback control, and today it requests a reconcile and nothing more.  The opening verb is not style. zipdoc drops a leading CamelCase symbol only when a plain verb follows it and never before a copula (internal/zipdoc/ extract.go:811-824, \"CompleteDeployment IS the CI completion hook\" would otherwise become \"Is the CI completion hook\") — so \"RollbackDeployApplication is …\" would publish a Go symbol no caller can see into the summary an SDK docstring, an MCP tool list and a CLI help line all show.  It performs exactly what the sync action performs — the same stamp on the same App CR, the same application re-projected — and it does NOT select, pin or revert to a prior image tag. That is the one thing to know before wiring anything to it: the name is the console's, the behaviour is the sync. Pinning a previous release rides the release client, which this address does not call yet.  Same gate, same refusals and the same absent request body as the sync it shares a core with.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter name: (path)  
+     - parameter name: (path) Name is the application to read, from the path. It must be a DNS-1123 label (lowercase alphanumerics and hyphens, starting and ending alphanumeric) — every operator App CR&#39;s metadata.name satisfies that, and anything else is a 400 rather than a lookup. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<ArgoApp> 
      */
-    open class func postDeployApplicationsByNameRollbackWithRequestBuilder(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postDeployApplicationsByNameRollbackWithRequestBuilder(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ArgoApp> {
         var localVariablePath = "/v1/deploy/applications/{name}/rollback"
         let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -702,35 +702,35 @@ open class DeployAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ArgoApp>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Ask the operator to reconcile one application now
+     Asks the operator to reconcile ONE application now.
      
-     - parameter name: (path)  
+     - parameter name: (path) Name is the application to read, from the path. It must be a DNS-1123 label (lowercase alphanumerics and hyphens, starting and ending alphanumeric) — every operator App CR&#39;s metadata.name satisfies that, and anything else is a 400 rather than a lookup. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: ArgoApp
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postDeployApplicationsByNameSync(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func postDeployApplicationsByNameSync(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ArgoApp {
         return try await postDeployApplicationsByNameSyncWithRequestBuilder(name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Ask the operator to reconcile one application now
+     Asks the operator to reconcile ONE application now.
      - POST /v1/deploy/applications/{name}/sync
-     - Requests an immediate reconcile of one application by stamping a sync-requested timestamp onto its App CR, which the operator's watch observes, and answers the application re-projected. It ASKS, it does not apply: the operator performs the reconcile on its own clock, so a 200 means the request landed, not that the rollout finished — the returned row's running version still lags until it does. The CR is the desired source today, so this is a nudge; when git becomes the source the same address becomes apply-from-git.  SuperAdmin-only and fail-closed — a non-SuperAdmin is refused before any cluster object is read or patched, and the write surface stays admin-only while the tenant surface is read-only reflection. It reads no request body. An unknown application name is a 404; no cluster client configured is a 503.
+     - Asks the operator to reconcile ONE application now.  It stamps a sync-requested timestamp onto the application's App CR, which the operator's watch observes, and answers the application re-projected. It ASKS, it does not apply: the operator reconciles on its own clock, so a 200 means the request landed, not that the rollout finished — the returned row's running version still lags until it does.  SuperAdmin-only and fail-closed, and the gate is INSIDE the op rather than in middleware wrapped around the route. That is a correctness requirement, not a preference: this op is also reached by POST /mcp and by the by-name call plane, neither of which runs route middleware, so a gate that only the REST projection runs would publish an unguarded alias of a fleet-mutating write. It reads no request body — the URL names the application and nothing else does. An unknown name is a 404 (never a 403, which would confirm the application exists), a name that is not a DNS-1123 label is a 400, and no cluster client is a 503.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter name: (path)  
+     - parameter name: (path) Name is the application to read, from the path. It must be a DNS-1123 label (lowercase alphanumerics and hyphens, starting and ending alphanumeric) — every operator App CR&#39;s metadata.name satisfies that, and anything else is a 400 rather than a lookup. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<ArgoApp> 
      */
-    open class func postDeployApplicationsByNameSyncWithRequestBuilder(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postDeployApplicationsByNameSyncWithRequestBuilder(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ArgoApp> {
         var localVariablePath = "/v1/deploy/applications/{name}/sync"
         let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -746,33 +746,34 @@ open class DeployAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ArgoApp>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     End the console session on this host
+     Ends the console session on this host.
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: SessionEnded
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postDeployLogout(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func postDeployLogout(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SessionEnded {
         return try await postDeployLogoutWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     End the console session on this host
+     Ends the console session on this host.
      - POST /v1/deploy/logout
-     - Clears this console's session cookie and answers the signed-out state with the sign-in URL to start again. IAM's own session is untouched — this ends the console session only, so signing back in may not prompt for credentials.  It is a POST because it changes state. As a GET it was reachable by a cross-site top-level navigation, which a SameSite=Lax cookie still rides, so any page could sign a SuperAdmin out; a POST is not carried cross-site by that cookie.
+     - Ends the console session on this host.  It clears this console's session cookie and answers the signed-out state with the sign-in URL to start again. IAM's own session is untouched — this ends the console session only, so signing back in may not prompt for credentials.  It is a POST because it CHANGES STATE. As a GET it was reachable by a cross-site top-level navigation, which a SameSite=Lax cookie still rides, so any page could sign a SuperAdmin out; a POST is not carried cross-site by that cookie. It reads no request body and takes no argument: the session it ends is the one the request already carries.
      - Bearer Token:
        - type: http
        - name: bearer
+     - responseHeaders: [Set-Cookie(String)]
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<SessionEnded> 
      */
-    open class func postDeployLogoutWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postDeployLogoutWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SessionEnded> {
         let localVariablePath = "/v1/deploy/logout"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -785,33 +786,33 @@ open class DeployAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<SessionEnded>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
 
     /**
-     Render the configured git source and apply it to the cluster, once
+     Renders the configured git source and applies it to the cluster, once.
      
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
+     - returns: ReconcileReport
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postDeployReconcile(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func postDeployReconcile(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ReconcileReport {
         return try await postDeployReconcileWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Render the configured git source and apply it to the cluster, once
+     Renders the configured git source and applies it to the cluster, once.
      - POST /v1/deploy/reconcile
-     - Runs one full GitOps sync through the embedded engine — render the configured repo, ref and path, then three-way server-side apply with scoped prune — and answers the revision it applied, the source it came from, the declared/synced/pruned/failed counts and a per-resource result. This is the WRITE half of the plane: it mutates live cluster objects and, with prune enabled, deletes objects the source no longer declares.  SuperAdmin-only and fail-closed — a non-SuperAdmin is refused before any cluster object is read or touched. The git source is read AS THE CALLER, so the source plane scopes the answer itself rather than trusting this one to have scoped it. It reads no request body; the source is configuration, not a parameter. A deployment with the engine switched off, or with no usable cluster config, answers 503; a failure to start, render or sync is a 502.
+     - Renders the configured git source and applies it to the cluster, once.  It runs one full GitOps sync through the embedded engine — render the configured repo, ref and path, then three-way server-side apply with scoped prune — and answers the revision it applied, the source it came from, the declared/synced/pruned/failed counts and a per-resource result. This is the WRITE half of the plane: it mutates live cluster objects and, with prune enabled, deletes objects the source no longer declares.  SuperAdmin-only and fail-closed, with the gate INSIDE the op because a typed op is also reached by POST /mcp and by the by-name call plane, where no route middleware runs. The git source is read AS THE PLATFORM, not as the caller: the coordinate is this deployment's own configuration and never a parameter, which is why the op reads no request body at all. A deployment with the engine switched off, or with no usable cluster config, answers 503; a failure to start, render or sync is a 502.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
+     - returns: RequestBuilder<ReconcileReport> 
      */
-    open class func postDeployReconcileWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func postDeployReconcileWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ReconcileReport> {
         let localVariablePath = "/v1/deploy/reconcile"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -824,7 +825,7 @@ open class DeployAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+        let localVariableRequestBuilder: RequestBuilder<ReconcileReport>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

@@ -11,6 +11,7 @@ public struct PresignResponse: Sendable, Codable, ParameterConvertible, Hashable
 
     /** seconds until the URL expires */
     public var expiresIn: Int?
+    /** Key is the object key the URL was signed for, relative to the bucket root and path-cleaned — so it is what the store will actually read or write, which is not always the string the caller sent. The signature covers this one bucket and this one key: a URL minted here reaches nothing else. */
     public var key: String?
     /** \"PUT\" (upload) or \"GET\" (download) */
     public var method: String?

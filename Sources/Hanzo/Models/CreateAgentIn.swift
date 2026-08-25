@@ -25,7 +25,7 @@ public struct CreateAgentIn: Sendable, Codable, ParameterConvertible, Hashable {
     public var schedule: String?
     /** ServiceAccountID optionally names the IAM agent service account (<org>-<agent>) a scheduled run should be billed AS, so an autonomous run is attributable to a principal rather than only to the org. Same 256-character bound, also unresolved here. */
     public var serviceAccountId: String?
-    /** Tools are the tool names this agent may call. Omitted or empty grants NONE — that default is the agent's authority and is not widened anywhere. The single entry \"*\" means whatever the fleet's tool door serves at the time of each run. */
+    /** Tools are the tool names this agent may call. Omitted or empty grants NONE — that default is the agent's authority and is not widened anywhere. The single entry \"*\" means whatever the fleet's MCP server serves at the time of each run. */
     public var tools: [String]?
 
     public init(computeRef: String? = nil, description: String? = nil, executionMode: String? = nil, instructions: String? = nil, model: String? = nil, name: String? = nil, schedule: String? = nil, serviceAccountId: String? = nil, tools: [String]? = nil) {

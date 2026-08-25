@@ -13,7 +13,7 @@ public struct HealthReport: Sendable, Codable, ParameterConvertible, Hashable {
     public var datastore: Bool?
     /** Lenses is per-lens table availability, probed only when connected — so it is absent from a degraded report, which has nothing to say about tables it could not reach. */
     public var lenses: HealthLenses?
-    /** Lost is the count of facts the sink irrecoverably dropped since boot (warehouse.go). It is reported on the DEGRADED report too, and deliberately: a warehouse that is unreachable is exactly when facts start failing their deliveries, so suppressing the number here would hide it precisely when it moves. ANY NON-ZERO VALUE IS AN ALARM — it counts data the door already answered 200 for. */
+    /** Lost is the count of facts the sink irrecoverably dropped since boot (warehouse.go). It is reported on the DEGRADED report too, and deliberately: a warehouse that is unreachable is exactly when facts start failing their deliveries, so suppressing the number here would hide it precisely when it moves. ANY NON-ZERO VALUE IS AN ALARM — it counts data the endpoint already answered 200 for. */
     public var lost: Loss?
     /** Plane reports the event plane — the bus and the stream every accepted event is published to BEFORE any of it reaches the warehouse. It is load-bearing for the WRITE path, and it is here because its absence was a real outage: this endpoint answered 200/ok on warehouse connectivity alone while every POST /v1/event 503'd on a stream that could not bind, so 100% ingest loss was invisible to monitoring. A probe that cannot see the write path cannot report the write path. */
     public var plane: HealthPlane?

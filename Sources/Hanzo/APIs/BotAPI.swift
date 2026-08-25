@@ -49,7 +49,7 @@ open class BotAPI {
     }
 
     /**
-     Reserved address for launching a bot run — not implemented, always 501
+     Answers 501 to every call: launching a bot run is not implemented.
      
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
@@ -60,9 +60,9 @@ open class BotAPI {
     }
 
     /**
-     Reserved address for launching a bot run — not implemented, always 501
+     Answers 501 to every call: launching a bot run is not implemented.
      - POST /v1/bot/runs
-     - Answers 501 to every call. The bot runtime exposes no launch operation, so nothing here can start a sandbox, and this address is published rather than dropped because it is the collection every run is created in: GET lists them, POST would launch one.  The refusal is total and takes no input. The handler never reads the body, so any bytes at all — malformed JSON included — get the same 501; no run id is minted, no session URL is handed back, and no per-run fee is charged. That is the point: the earlier version minted an id the runtime had never heard of, pointed it at a VNC node that did not exist, and took real money for it.  Listing and stopping runs are live and org-scoped. Only the launch is missing, and it returns in the same change that can prove a bot boots.
+     - Answers 501 to every call: launching a bot run is not implemented.  The bot runtime exposes no launch operation, so nothing here can start a sandbox. This address is published rather than dropped because it is the collection every run is created in: GET lists them, POST would launch one.  The refusal is total and takes no input. No run id is minted, no session URL is handed back, and no per-run fee is charged. That is the point: the earlier version minted an id the runtime had never heard of, pointed it at a VNC node that did not exist, and took real money for it. 501 is the truth, and the truth is cheaper than a plausible lie.  Listing and stopping runs are live and org-scoped. Only the launch is missing, and it returns in the same change that can prove a bot boots — a runtime-side launch operation first (TS, cross-repo), with the entitlement gate and the meter beside it.
      - Bearer Token:
        - type: http
        - name: bearer
@@ -90,7 +90,7 @@ open class BotAPI {
     /**
      Stop terminates one of the caller org's own bot runs and reports its terminal state.
      
-     - parameter runId: (path)  
+     - parameter runId: (path) RunID is the run to stop, as the bot runtime named it. It is read from the URL — the &#x60;{runId}&#x60; segment the router matched on — and a body carrying a different id cannot redirect the stop. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: BotStopped
      */
@@ -106,7 +106,7 @@ open class BotAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter runId: (path)  
+     - parameter runId: (path) RunID is the run to stop, as the bot runtime named it. It is read from the URL — the &#x60;{runId}&#x60; segment the router matched on — and a body carrying a different id cannot redirect the stop. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<BotStopped> 
      */

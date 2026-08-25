@@ -11,6 +11,8 @@ public struct Sandbox: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Class is what the sandbox is FOR, and it decides the image, the working directory and the isolation: \"exec\" for a code-interpreter call (workdir /mnt/data, no project, bounded per org), \"dev\" for a workspace bound to a project (workdir /work, single-attach), \"desktop\" for one with a screen. */
     public var _class: String?
+    /** ConnectedAt is when somebody was last known to have this sandbox's project OPEN, Unix seconds. It is a fact with an EXPIRY rather than a flag: a watcher restamps it every beat of its stream, and it goes stale on its own when the stream dies, so nothing has to be turned off by a process that may not be there any more. The reaper reads it to choose WHICH idle allowance applies — see lifecycle.go.  Zero means nobody has said so, which puts the sandbox on the short clock. */
+    public var connectedAt: Int?
     /** CreatedAt is when the lease was first taken, Unix seconds. */
     public var createdAt: Int?
     /** Error is why the sandbox could not come up, in plain words. Present only with status \"error\", and it is the field to read rather than inferring a cause from the absence of a pod. */
@@ -36,8 +38,9 @@ public struct Sandbox: Sendable, Codable, ParameterConvertible, Hashable {
     /** Volume is the persistent volume attached to the sandbox, when it has one. A dev sandbox keeps its work across leases through it; an exec sandbox has none and loses everything outside /mnt/data when the lease ends. */
     public var volume: String?
 
-    public init(_class: String? = nil, createdAt: Int? = nil, error: String? = nil, expiresAt: Int? = nil, id: String? = nil, image: String? = nil, kind: String? = nil, lastUsedAt: Int? = nil, org: String? = nil, project: String? = nil, runtime: String? = nil, status: String? = nil, volume: String? = nil) {
+    public init(_class: String? = nil, connectedAt: Int? = nil, createdAt: Int? = nil, error: String? = nil, expiresAt: Int? = nil, id: String? = nil, image: String? = nil, kind: String? = nil, lastUsedAt: Int? = nil, org: String? = nil, project: String? = nil, runtime: String? = nil, status: String? = nil, volume: String? = nil) {
         self._class = _class
+        self.connectedAt = connectedAt
         self.createdAt = createdAt
         self.error = error
         self.expiresAt = expiresAt
@@ -54,6 +57,7 @@ public struct Sandbox: Sendable, Codable, ParameterConvertible, Hashable {
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case _class = "class"
+        case connectedAt
         case createdAt
         case error
         case expiresAt
@@ -73,6 +77,7 @@ public struct Sandbox: Sendable, Codable, ParameterConvertible, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(_class, forKey: ._class)
+        try container.encodeIfPresent(connectedAt, forKey: .connectedAt)
         try container.encodeIfPresent(createdAt, forKey: .createdAt)
         try container.encodeIfPresent(error, forKey: .error)
         try container.encodeIfPresent(expiresAt, forKey: .expiresAt)

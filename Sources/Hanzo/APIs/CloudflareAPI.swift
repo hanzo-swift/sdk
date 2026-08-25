@@ -989,31 +989,31 @@ open class CloudflareAPI {
     }
 
     /**
-     Run a SQL statement against a D1 database
+     Runs one SQL statement against a D1 database.
      
      - parameter database: (path)  
-     - parameter d1Query: (body)  (optional)
+     - parameter d1Query: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: JSONValue
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postCloudflareD1DatabasesByDatabaseQuery(database: String, d1Query: D1Query? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> JSONValue {
+    open class func postCloudflareD1DatabasesByDatabaseQuery(database: String, d1Query: D1Query, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> JSONValue {
         return try await postCloudflareD1DatabasesByDatabaseQueryWithRequestBuilder(database: database, d1Query: d1Query, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Run a SQL statement against a D1 database
+     Runs one SQL statement against a D1 database.
      - POST /v1/cloudflare/d1/databases/{database}/query
-     - Executes a statement on one D1 database on the org's OWN Cloudflare account and relays D1's result set. `sql` is required and `params` carries the bound values in placeholder order — use them rather than interpolating values into the statement.  The body is checked for a non-empty `sql` and then forwarded VERBATIM, so every field D1 accepts reaches D1 even though only two are named here; the declared schema is open for that reason. That verbatim forward is why this is not a typed op — decoding and re-encoding the body would drop `params`, where the query's bound values live. Requires ORG ADMIN (403 otherwise); a malformed body or missing `sql` is 400; 503 if the org has never connected a Cloudflare token.
+     - Runs one SQL statement against a D1 database. It executes on the org's OWN Cloudflare account and relays D1's result set. The body is checked for a non-empty `sql` and then forwarded VERBATIM, so every field D1 accepts reaches D1 even though only two are named here.  Requires ORG ADMIN — a statement may INSERT, UPDATE or DROP, so a query takes the write gate rather than the read one — and a caller who is only an org member is refused 403. A missing `sql` is 400; 503 if the org has never connected a Cloudflare token.
      - Bearer Token:
        - type: http
        - name: bearer
      - parameter database: (path)  
-     - parameter d1Query: (body)  (optional)
+     - parameter d1Query: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<JSONValue> 
      */
-    open class func postCloudflareD1DatabasesByDatabaseQueryWithRequestBuilder(database: String, d1Query: D1Query? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<JSONValue> {
+    open class func postCloudflareD1DatabasesByDatabaseQueryWithRequestBuilder(database: String, d1Query: D1Query, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<JSONValue> {
         var localVariablePath = "/v1/cloudflare/d1/databases/{database}/query"
         let databasePreEscape = "\(APIHelper.mapValueToPathItem(database))"
         let databasePostEscape = databasePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -1437,31 +1437,31 @@ open class CloudflareAPI {
     }
 
     /**
-     Upload or replace a module Worker script
+     Uploads or replaces a module Worker script.
      
-     - parameter script: (path)  
-     - parameter workerScriptPut: (body)  (optional)
+     - parameter script: (path) Script means two things on this route, and the document says so in both places it appears: the PATH segment names the Worker to publish, and the BODY field carries that Worker&#39;s ES-module source — the code itself, never a name or a URL. A blank or absent source is refused; there is no empty Worker. 
+     - parameter workerScriptPut: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: JSONValue
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func putCloudflareWorkersScriptsByScript(script: String, workerScriptPut: WorkerScriptPut? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> JSONValue {
+    open class func putCloudflareWorkersScriptsByScript(script: String, workerScriptPut: WorkerScriptPut, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> JSONValue {
         return try await putCloudflareWorkersScriptsByScriptWithRequestBuilder(script: script, workerScriptPut: workerScriptPut, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Upload or replace a module Worker script
+     Uploads or replaces a module Worker script.
      - PUT /v1/cloudflare/workers/scripts/{script}
-     - Publishes a module Worker to the org's OWN Cloudflare account under the name in the path, replacing whatever was there, and relays Cloudflare's result. `script` carries the module SOURCE; the optional compatibility date, compatibility flags and bindings are packed into the multipart upload Cloudflare expects.  The path names the script and the body field named `script` is its source — two different things that share a name, which is exactly why this cannot be a typed op: a binder that gives the URL the last word would overwrite the source with the script's name. Requires ORG ADMIN (403 otherwise); an unparseable body or empty source is 400; 503 if the org has never connected a Cloudflare token.
+     - Uploads or replaces a module Worker script. It publishes to the org's OWN Cloudflare account under the name in the path, replacing whatever was there, and relays Cloudflare's result. The compatibility date, compatibility flags and bindings are packed into the multipart upload Cloudflare expects, beside the module source.  Requires ORG ADMIN — a Worker is arbitrary code on the org's own account and domains — so a caller who is only an org member is refused 403. An empty source is 400, as is a `mainModule` that is not a plain file name; 503 if the org has never connected a Cloudflare token.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter script: (path)  
-     - parameter workerScriptPut: (body)  (optional)
+     - parameter script: (path) Script means two things on this route, and the document says so in both places it appears: the PATH segment names the Worker to publish, and the BODY field carries that Worker&#39;s ES-module source — the code itself, never a name or a URL. A blank or absent source is refused; there is no empty Worker. 
+     - parameter workerScriptPut: (body)  
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<JSONValue> 
      */
-    open class func putCloudflareWorkersScriptsByScriptWithRequestBuilder(script: String, workerScriptPut: WorkerScriptPut? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<JSONValue> {
+    open class func putCloudflareWorkersScriptsByScriptWithRequestBuilder(script: String, workerScriptPut: WorkerScriptPut, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<JSONValue> {
         var localVariablePath = "/v1/cloudflare/workers/scripts/{script}"
         let scriptPreEscape = "\(APIHelper.mapValueToPathItem(script))"
         let scriptPostEscape = scriptPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

@@ -35,7 +35,7 @@ public struct RunnerBuildReq: Sendable, Codable, ParameterConvertible, Hashable 
     public var repo: String?
     /** SHA is the commit to pin; it wins over Ref and Branch. */
     public var sha: String?
-    /** Tag is the publish path segment, so both front doors write ONE index at ONE URL. It defaults to the pinned ref, and must be named explicitly for a branch. */
+    /** Tag is the publish path segment, so both entry points write ONE index at ONE URL. It defaults to the pinned ref, and must be named explicitly for a branch. */
     public var tag: String?
 
     public init(arch: String? = nil, args: [String: String]? = nil, binaries: [BinarySpec]? = nil, branch: String? = nil, bucket: String? = nil, context: String? = nil, dockerTarget: String? = nil, dockerfile: String? = nil, image: String? = nil, os: String? = nil, ref: String? = nil, repo: String? = nil, sha: String? = nil, tag: String? = nil) {

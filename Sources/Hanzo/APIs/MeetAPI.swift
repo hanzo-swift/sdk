@@ -88,6 +88,135 @@ open class MeetAPI {
     }
 
     /**
+     What is being recorded in a room, and where the file goes
+     
+     - parameter room: (query) Room is the LiveKit room, named the way the office client names one (&#x60;&lt;workspace&gt;_&lt;name&gt;_&lt;id&gt;&#x60;). Its leading segment is what binds the room to a tenant, and it is the segment the caller&#39;s membership is checked against. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Recording
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func meetRecordRead(room: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Recording {
+        return try await meetRecordReadWithRequestBuilder(room: room, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     What is being recorded in a room, and where the file goes
+     - GET /v1/meet/record
+     - Answers what is being recorded in a room, and where the file went.  It reports the recording that is RUNNING, and once none is, the most recent one the media server still holds — with its final status and its object. That second case is the one that matters for finding a file: the answer to a start is the only other place the location appears, and a client that lost it, or a colleague who was not the one to press record, has nowhere else to look.  It is behind the same check as starting one: where a recording of a private conversation is kept is a fact about that conversation, so it is told to the people the room admits and to nobody else.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter room: (query) Room is the LiveKit room, named the way the office client names one (&#x60;&lt;workspace&gt;_&lt;name&gt;_&lt;id&gt;&#x60;). Its leading segment is what binds the room to a tenant, and it is the segment the caller&#39;s membership is checked against. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Recording> 
+     */
+    open class func meetRecordReadWithRequestBuilder(room: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Recording> {
+        let localVariablePath = "/v1/meet/record"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "room": (wrappedValue: room.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Recording>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Start recording a room, or return the recording already running
+     
+     - parameter recordIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Recording
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func meetRecordStart(recordIn: RecordIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Recording {
+        return try await meetRecordStartWithRequestBuilder(recordIn: recordIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Start recording a room, or return the recording already running
+     - POST /v1/meet/record
+     - Begins recording a room, or hands back the recording already running.  A recording is a durable artifact of a conversation, so only someone this room would admit may make one: the caller is authorized by the SAME decision /v1/meet/getToken makes about the same room, and refused with the same 401.  A SECOND START RETURNS THE FIRST rather than refusing it. There is at most one recording per room and this operation's job is to establish that there is one — which is already true when a colleague, or the caller's own double-click, started it a moment ago. The answer is the same shape either way, naming the recording that is actually running, so a client never has to tell the two cases apart to find the id.  A deployment with no media server address or no object store answers 503 naming which, because a recording that silently does not happen is worse than one that is refused. The reason reaches only a caller this room already admits.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter recordIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Recording> 
+     */
+    open class func meetRecordStartWithRequestBuilder(recordIn: RecordIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Recording> {
+        let localVariablePath = "/v1/meet/record"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: recordIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Recording>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Stop a room's recording
+     
+     - parameter room: (query) Room is the LiveKit room, named the way the office client names one (&#x60;&lt;workspace&gt;_&lt;name&gt;_&lt;id&gt;&#x60;). Its leading segment is what binds the room to a tenant, and it is the segment the caller&#39;s membership is checked against. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Recording
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func meetRecordStop(room: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Recording {
+        return try await meetRecordStopWithRequestBuilder(room: room, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Stop a room's recording
+     - DELETE /v1/meet/record
+     - Ends a room's recording — EVERY one of them.  Whoever the room admits may stop it, including someone who did not start it: a person being recorded has to be able to end it, and a rule that only the starter may stop would deny exactly that. Stopping is free — a caller made to pay to stop being recorded would be paying for the wrong thing.  200 MEANS THE ROOM IS NOT BEING RECORDED, and that is why this ends all of them rather than the first. \"At most one per room\" is an invariant this surface wants and cannot impose: reading the list and starting are two calls, and two replicas racing through that window both start. When the list comes back holding two, two is the truth — and ending one while answering 200 tells the person withdrawing consent that it stopped while a second worker keeps writing. A stop that cannot finish the job says so instead.  Stopping a room that is not being recorded is not an error. The answer names the room with no recording on it, which is the state the caller asked for.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter room: (query) Room is the LiveKit room, named the way the office client names one (&#x60;&lt;workspace&gt;_&lt;name&gt;_&lt;id&gt;&#x60;). Its leading segment is what binds the room to a tenant, and it is the segment the caller&#39;s membership is checked against. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Recording> 
+     */
+    open class func meetRecordStopWithRequestBuilder(room: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Recording> {
+        let localVariablePath = "/v1/meet/record"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "room": (wrappedValue: room.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Recording>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      Mint a join token for one video room
      
      - parameter apiConfiguration: The configuration for the http request.

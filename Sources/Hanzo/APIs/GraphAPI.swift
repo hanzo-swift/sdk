@@ -290,7 +290,7 @@ open class GraphAPI {
     /**
      Ask the graph in one request, traversing.
      - POST /v1/graph/graphql
-     - Runs a GraphQL query against this organization's assertions.  It is the one door here a caller can TRAVERSE: the REST ops each answer a single question, so composing them — the entities this one points at, and what each of those resolves to — costs a request per hop with the intermediate keys held by the caller. Here that is one query and the nesting is the answer's shape.  It adds no way to ask anything new. Every field runs the SAME operation the matching REST route runs, so the tenancy, the as-of bound, the traversal bounds and the conflict rule are the ones already in force; the schema is served by introspection.  A query that cannot run answers 200 with an `errors` list, which is the wire every GraphQL client parses.
+     - Runs a GraphQL query against this organization's assertions.  It is the one endpoint here a caller can TRAVERSE: the REST ops each answer a single question, so composing them — the entities this one points at, and what each of those resolves to — costs a request per hop with the intermediate keys held by the caller. Here that is one query and the nesting is the answer's shape.  It adds no way to ask anything new. Every field runs the SAME operation the matching REST route runs, so the tenancy, the as-of bound, the traversal bounds and the conflict rule are the ones already in force; the schema is served by introspection.  A query that cannot run answers 200 with an `errors` list, which is the wire every GraphQL client parses.
      - Bearer Token:
        - type: http
        - name: bearer

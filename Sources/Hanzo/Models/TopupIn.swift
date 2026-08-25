@@ -13,9 +13,9 @@ public struct TopupIn: Sendable, Codable, ParameterConvertible, Hashable {
     public var amountCents: Int?
     /** Currency is the ISO-4217 code to charge in. Empty takes the deployment's own default. */
     public var currency: String?
-    /** MethodID names a card the subject already saved, for the saved-card door. */
+    /** MethodID names a card the subject already saved, for the saved-card endpoint. */
     public var paymentMethodId: String?
-    /** SourceID is a single-use card token from the payment form, for the token door. It is vaulted as part of the charge, so a caller never holds card numbers and this service never sees one. */
+    /** SourceID is a single-use card token from the payment form, for the token endpoint. It is vaulted as part of the charge, so a caller never holds card numbers and this service never sees one. */
     public var sourceId: String?
 
     public init(amountCents: Int? = nil, currency: String? = nil, paymentMethodId: String? = nil, sourceId: String? = nil) {

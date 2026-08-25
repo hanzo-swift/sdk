@@ -17,7 +17,7 @@ public struct EsignInvite: Sendable, Codable, ParameterConvertible, Hashable {
     public var name: String?
     /** Role is the role they were recorded with — SIGNER unless another was asked for. */
     public var role: String?
-    /** Token is the crypto-random signing capability for this recipient. It is the entire credential their door accepts, so treat it as a secret and hand it only to them: the signing link is built from it. */
+    /** Token is the crypto-random signing capability for this recipient. It is the entire credential their signing endpoint accepts, so treat it as a secret and hand it only to them: the signing link is built from it. */
     public var token: String?
 
     public init(email: String? = nil, id: String? = nil, name: String? = nil, role: String? = nil, token: String? = nil) {
