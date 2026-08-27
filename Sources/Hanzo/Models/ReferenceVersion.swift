@@ -13,7 +13,7 @@ public struct ReferenceVersion: Sendable, Codable, ParameterConvertible, Hashabl
     public var asOf: String?
     /** Refusal is why it could not be consulted, when it could not. */
     public var refusal: String?
-    /** Set is the set. */
+    /** Set is the name the consulted set is addressed by. */
     public var _set: String?
     /** Stale is whether it is past its freshness bound. */
     public var stale: Bool?

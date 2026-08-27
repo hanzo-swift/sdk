@@ -581,13 +581,14 @@ open class AgentsAPI {
      - parameter parent: (query) Parent scopes the page to the direct children of one session. Ignored when root is set; with neither, only ROOT sessions come back. (optional)
      - parameter status: (query) Status filters to running, paused, done or error. (optional)
      - parameter project: (query) Project filters to the sessions tagged with one product slug. (optional)
+     - parameter room: (query) Room filters to the sessions started in one collaborative room — the query a workspace view runs to show what has been run in it. (optional)
      - parameter limit: (query) Limit caps the page. Absent, zero or over 500 reads as 100. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: SessionList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAgentsSessions(root: String? = nil, parent: String? = nil, status: String? = nil, project: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SessionList {
-        return try await getAgentsSessionsWithRequestBuilder(root: root, parent: parent, status: status, project: project, limit: limit, apiConfiguration: apiConfiguration).execute().body
+    open class func getAgentsSessions(root: String? = nil, parent: String? = nil, status: String? = nil, project: String? = nil, room: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SessionList {
+        return try await getAgentsSessionsWithRequestBuilder(root: root, parent: parent, status: status, project: project, room: room, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -601,11 +602,12 @@ open class AgentsAPI {
      - parameter parent: (query) Parent scopes the page to the direct children of one session. Ignored when root is set; with neither, only ROOT sessions come back. (optional)
      - parameter status: (query) Status filters to running, paused, done or error. (optional)
      - parameter project: (query) Project filters to the sessions tagged with one product slug. (optional)
+     - parameter room: (query) Room filters to the sessions started in one collaborative room — the query a workspace view runs to show what has been run in it. (optional)
      - parameter limit: (query) Limit caps the page. Absent, zero or over 500 reads as 100. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<SessionList> 
      */
-    open class func getAgentsSessionsWithRequestBuilder(root: String? = nil, parent: String? = nil, status: String? = nil, project: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SessionList> {
+    open class func getAgentsSessionsWithRequestBuilder(root: String? = nil, parent: String? = nil, status: String? = nil, project: String? = nil, room: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SessionList> {
         let localVariablePath = "/v1/agents/sessions"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -616,6 +618,7 @@ open class AgentsAPI {
             "parent": (wrappedValue: parent?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "status": (wrappedValue: status?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "project": (wrappedValue: project?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "room": (wrappedValue: room?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ])
 

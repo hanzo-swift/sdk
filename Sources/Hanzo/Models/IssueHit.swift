@@ -21,6 +21,8 @@ public struct IssueHit: Sendable, Codable, ParameterConvertible, Hashable {
     public var project: String?
     /** Repo is the git repository the issue is bound to, empty when it is not repo-bound. */
     public var repo: String?
+    /** Room is the collaboration room the issue belongs to, spelled \"<workspace>_<room>\" — empty when it is not room-bound, which is most of them. It is here so an org-wide search says which channel each item came from without a second read. */
+    public var room: String?
     /** Source is which surface opened it: team, git, crm, helpdesk, cms or agent. \"git\" is how the mirrored forge and GitHub rows are spelled. */
     public var source: String?
     /** Status is the board column: backlog, todo, in_progress, done or canceled. Claiming moves backlog and todo to in_progress and leaves the other three where they are. */
@@ -30,13 +32,14 @@ public struct IssueHit: Sendable, Codable, ParameterConvertible, Hashable {
     /** URL is the row's external anchor — its extRef — which is a link only when the feeder sent one. A mirrored GitHub issue carries \"github:owner/repo#123\" and an agent's PR row carries the pushed branch. Empty for a row opened here. */
     public var url: String?
 
-    public init(assignee: String? = nil, kind: String? = nil, number: Int? = nil, priority: String? = nil, project: String? = nil, repo: String? = nil, source: String? = nil, status: String? = nil, title: String? = nil, url: String? = nil) {
+    public init(assignee: String? = nil, kind: String? = nil, number: Int? = nil, priority: String? = nil, project: String? = nil, repo: String? = nil, room: String? = nil, source: String? = nil, status: String? = nil, title: String? = nil, url: String? = nil) {
         self.assignee = assignee
         self.kind = kind
         self.number = number
         self.priority = priority
         self.project = project
         self.repo = repo
+        self.room = room
         self.source = source
         self.status = status
         self.title = title
@@ -50,6 +53,7 @@ public struct IssueHit: Sendable, Codable, ParameterConvertible, Hashable {
         case priority
         case project
         case repo
+        case room
         case source
         case status
         case title
@@ -66,6 +70,7 @@ public struct IssueHit: Sendable, Codable, ParameterConvertible, Hashable {
         try container.encodeIfPresent(priority, forKey: .priority)
         try container.encodeIfPresent(project, forKey: .project)
         try container.encodeIfPresent(repo, forKey: .repo)
+        try container.encodeIfPresent(room, forKey: .room)
         try container.encodeIfPresent(source, forKey: .source)
         try container.encodeIfPresent(status, forKey: .status)
         try container.encodeIfPresent(title, forKey: .title)

@@ -9,9 +9,9 @@ import Foundation
 
 public struct CsrfResp: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** Token is the value to send back in the X-CSRF-Token header. It is bound to the caller's identity, so it authorizes writes as them and as nobody else. */
+    /** Token is the value to send back in the X-CSRF-Token header. It is bound to the caller's identity, so it authorizes changes as them and as nobody else. */
     public var csrfToken: String?
-    /** ExpiresIn is the token's lifetime in seconds. Fetch a new one when it lapses; a write with an expired token is refused. */
+    /** ExpiresIn is the token's lifetime in seconds. Fetch a new one when it lapses; a change with an expired token is refused. */
     public var expiresIn: Int?
 
     public init(csrfToken: String? = nil, expiresIn: Int? = nil) {

@@ -19,7 +19,7 @@ public struct CaptableHolding: Sendable, Codable, ParameterConvertible, Hashable
     public var ownershipPct: Double?
     /** Shares is the shares this stakeholder holds by certificate. */
     public var shares: Int?
-    /** StakeholderID is the stakeholder. */
+    /** StakeholderID addresses the stakeholder these totals are for. */
     public var stakeholderId: String?
 
     public init(fullyDiluted: Int? = nil, name: String? = nil, options: Int? = nil, ownershipPct: Double? = nil, shares: Int? = nil, stakeholderId: String? = nil) {

@@ -30,6 +30,7 @@ public struct SessionDetail: Sendable, Codable, ParameterConvertible, Hashable {
     /** RecentEvents is the 50 most recent turns, OLDEST of those first — a transcript to read down, not a feed. The promoted `events` integer says how many the log holds in total; page the rest from a seq. */
     public var recentEvents: [EventView]?
     public var repo: String?
+    public var room: String?
     public var rootSessionId: String?
     public var startedAt: String?
     public var status: String?
@@ -40,7 +41,7 @@ public struct SessionDetail: Sendable, Codable, ParameterConvertible, Hashable {
     public var title: String?
     public var updatedAt: String?
 
-    public init(account: String? = nil, actor: String? = nil, agent: String? = nil, childSessions: [SessionView]? = nil, children: Int? = nil, createdAt: String? = nil, cwd: String? = nil, endedAt: String? = nil, events: Int? = nil, host: String? = nil, id: String? = nil, lastEvent: LastEventView? = nil, org: String? = nil, parentSessionId: String? = nil, project: String? = nil, provider: String? = nil, published: Bool? = nil, recentEvents: [EventView]? = nil, repo: String? = nil, rootSessionId: String? = nil, startedAt: String? = nil, status: String? = nil, target: String? = nil, taskRunId: String? = nil, taskWorkflowId: String? = nil, terminal: String? = nil, title: String? = nil, updatedAt: String? = nil) {
+    public init(account: String? = nil, actor: String? = nil, agent: String? = nil, childSessions: [SessionView]? = nil, children: Int? = nil, createdAt: String? = nil, cwd: String? = nil, endedAt: String? = nil, events: Int? = nil, host: String? = nil, id: String? = nil, lastEvent: LastEventView? = nil, org: String? = nil, parentSessionId: String? = nil, project: String? = nil, provider: String? = nil, published: Bool? = nil, recentEvents: [EventView]? = nil, repo: String? = nil, room: String? = nil, rootSessionId: String? = nil, startedAt: String? = nil, status: String? = nil, target: String? = nil, taskRunId: String? = nil, taskWorkflowId: String? = nil, terminal: String? = nil, title: String? = nil, updatedAt: String? = nil) {
         self.account = account
         self.actor = actor
         self.agent = agent
@@ -60,6 +61,7 @@ public struct SessionDetail: Sendable, Codable, ParameterConvertible, Hashable {
         self.published = published
         self.recentEvents = recentEvents
         self.repo = repo
+        self.room = room
         self.rootSessionId = rootSessionId
         self.startedAt = startedAt
         self.status = status
@@ -91,6 +93,7 @@ public struct SessionDetail: Sendable, Codable, ParameterConvertible, Hashable {
         case published
         case recentEvents
         case repo
+        case room
         case rootSessionId
         case startedAt
         case status
@@ -125,6 +128,7 @@ public struct SessionDetail: Sendable, Codable, ParameterConvertible, Hashable {
         try container.encodeIfPresent(published, forKey: .published)
         try container.encodeIfPresent(recentEvents, forKey: .recentEvents)
         try container.encodeIfPresent(repo, forKey: .repo)
+        try container.encodeIfPresent(room, forKey: .room)
         try container.encodeIfPresent(rootSessionId, forKey: .rootSessionId)
         try container.encodeIfPresent(startedAt, forKey: .startedAt)
         try container.encodeIfPresent(status, forKey: .status)

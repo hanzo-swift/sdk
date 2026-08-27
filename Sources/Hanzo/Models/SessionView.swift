@@ -43,6 +43,8 @@ public struct SessionView: Sendable, Codable, ParameterConvertible, Hashable {
     public var published: Bool?
     /** Repo is the code the session is working on, as the surface reported it. It is truth the SURFACE states, so it is a label rather than something resolved here. */
     public var repo: String?
+    /** Room is the collaborative room this run was started in (HIP-0523), empty when it came from anywhere else — a CLI, a schedule, an API call. It is what lets a workspace view show the runs of one room beside its messages. */
+    public var room: String?
     /** RootSessionID is the top of this session's tree, inherited from the parent and shared by every node in one flow. A root session's own id, when it has no parent. It is the key one indexed read pulls a whole flow by, and what ?root= narrows a list or a stream to. */
     public var rootSessionId: String?
     /** StartedAt is when the session opened, RFC 3339 in UTC to the second. */
@@ -62,7 +64,7 @@ public struct SessionView: Sendable, Codable, ParameterConvertible, Hashable {
     /** UpdatedAt is the session's last-activity clock, same format. It moves on a write to the row — a status, a title, a re-dispatch — AND on every appended turn, because the append bumps it in the same transaction. The list is ordered on CreatedAt, so this is the field that says whether a session is still saying anything. */
     public var updatedAt: String?
 
-    public init(account: String? = nil, actor: String? = nil, agent: String? = nil, children: Int? = nil, createdAt: String? = nil, cwd: String? = nil, endedAt: String? = nil, events: Int? = nil, host: String? = nil, id: String? = nil, lastEvent: LastEventView? = nil, org: String? = nil, parentSessionId: String? = nil, project: String? = nil, provider: String? = nil, published: Bool? = nil, repo: String? = nil, rootSessionId: String? = nil, startedAt: String? = nil, status: String? = nil, target: String? = nil, taskRunId: String? = nil, taskWorkflowId: String? = nil, terminal: String? = nil, title: String? = nil, updatedAt: String? = nil) {
+    public init(account: String? = nil, actor: String? = nil, agent: String? = nil, children: Int? = nil, createdAt: String? = nil, cwd: String? = nil, endedAt: String? = nil, events: Int? = nil, host: String? = nil, id: String? = nil, lastEvent: LastEventView? = nil, org: String? = nil, parentSessionId: String? = nil, project: String? = nil, provider: String? = nil, published: Bool? = nil, repo: String? = nil, room: String? = nil, rootSessionId: String? = nil, startedAt: String? = nil, status: String? = nil, target: String? = nil, taskRunId: String? = nil, taskWorkflowId: String? = nil, terminal: String? = nil, title: String? = nil, updatedAt: String? = nil) {
         self.account = account
         self.actor = actor
         self.agent = agent
@@ -80,6 +82,7 @@ public struct SessionView: Sendable, Codable, ParameterConvertible, Hashable {
         self.provider = provider
         self.published = published
         self.repo = repo
+        self.room = room
         self.rootSessionId = rootSessionId
         self.startedAt = startedAt
         self.status = status
@@ -109,6 +112,7 @@ public struct SessionView: Sendable, Codable, ParameterConvertible, Hashable {
         case provider
         case published
         case repo
+        case room
         case rootSessionId
         case startedAt
         case status
@@ -141,6 +145,7 @@ public struct SessionView: Sendable, Codable, ParameterConvertible, Hashable {
         try container.encodeIfPresent(provider, forKey: .provider)
         try container.encodeIfPresent(published, forKey: .published)
         try container.encodeIfPresent(repo, forKey: .repo)
+        try container.encodeIfPresent(room, forKey: .room)
         try container.encodeIfPresent(rootSessionId, forKey: .rootSessionId)
         try container.encodeIfPresent(startedAt, forKey: .startedAt)
         try container.encodeIfPresent(status, forKey: .status)

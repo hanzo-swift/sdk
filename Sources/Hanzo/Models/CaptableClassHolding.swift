@@ -17,7 +17,7 @@ public struct CaptableClassHolding: Sendable, Codable, ParameterConvertible, Has
     public var issued: Int?
     /** Name is the class name. */
     public var name: String?
-    /** ShareClassID is the share class. */
+    /** ShareClassID addresses the class this position is for. */
     public var shareClassId: String?
 
     public init(authorized: Int? = nil, classType: String? = nil, issued: Int? = nil, name: String? = nil, shareClassId: String? = nil) {

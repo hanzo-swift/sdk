@@ -123,6 +123,7 @@ open class TodoAPI {
      - parameter status: (query) Status keeps one board column: backlog, todo, in_progress, done, canceled. (optional)
      - parameter kind: (query) Kind keeps one shape: issue, pr, epic. (optional)
      - parameter repo: (query) Repo keeps issues bound to one git repository. (optional)
+     - parameter room: (query) Room keeps issues bound to one collaboration room, spelled \&quot;&lt;workspace&gt;_&lt;room&gt;\&quot; — the exact value GET /v1/meet/call answers with, so a channel&#39;s call and its todo list name the room the same way. This is the read a channel view runs to draw its own list; it spans every board of the org, because the work a channel is about is not confined to one board. (optional)
      - parameter source: (query) Source keeps one origin: team, git, crm, helpdesk, cms, agent. \&quot;git\&quot; is how you ask for the mirrored GitHub issues specifically. (optional)
      - parameter assignee: (query) Assignee keeps issues held by one person. Pass \&quot;me\&quot; for yourself. (optional)
      - parameter limit: (query) Limit caps the answer; 0 means the default, and anything above the ceiling is clamped rather than refused — a search that errors on being too broad teaches people to guess. (optional)
@@ -130,8 +131,8 @@ open class TodoAPI {
      - returns: IssueHits
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getTodoIssues(q: String? = nil, project: String? = nil, status: String? = nil, kind: String? = nil, repo: String? = nil, source: String? = nil, assignee: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IssueHits {
-        return try await getTodoIssuesWithRequestBuilder(q: q, project: project, status: status, kind: kind, repo: repo, source: source, assignee: assignee, limit: limit, apiConfiguration: apiConfiguration).execute().body
+    open class func getTodoIssues(q: String? = nil, project: String? = nil, status: String? = nil, kind: String? = nil, repo: String? = nil, room: String? = nil, source: String? = nil, assignee: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IssueHits {
+        return try await getTodoIssuesWithRequestBuilder(q: q, project: project, status: status, kind: kind, repo: repo, room: room, source: source, assignee: assignee, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -146,13 +147,14 @@ open class TodoAPI {
      - parameter status: (query) Status keeps one board column: backlog, todo, in_progress, done, canceled. (optional)
      - parameter kind: (query) Kind keeps one shape: issue, pr, epic. (optional)
      - parameter repo: (query) Repo keeps issues bound to one git repository. (optional)
+     - parameter room: (query) Room keeps issues bound to one collaboration room, spelled \&quot;&lt;workspace&gt;_&lt;room&gt;\&quot; — the exact value GET /v1/meet/call answers with, so a channel&#39;s call and its todo list name the room the same way. This is the read a channel view runs to draw its own list; it spans every board of the org, because the work a channel is about is not confined to one board. (optional)
      - parameter source: (query) Source keeps one origin: team, git, crm, helpdesk, cms, agent. \&quot;git\&quot; is how you ask for the mirrored GitHub issues specifically. (optional)
      - parameter assignee: (query) Assignee keeps issues held by one person. Pass \&quot;me\&quot; for yourself. (optional)
      - parameter limit: (query) Limit caps the answer; 0 means the default, and anything above the ceiling is clamped rather than refused — a search that errors on being too broad teaches people to guess. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IssueHits> 
      */
-    open class func getTodoIssuesWithRequestBuilder(q: String? = nil, project: String? = nil, status: String? = nil, kind: String? = nil, repo: String? = nil, source: String? = nil, assignee: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IssueHits> {
+    open class func getTodoIssuesWithRequestBuilder(q: String? = nil, project: String? = nil, status: String? = nil, kind: String? = nil, repo: String? = nil, room: String? = nil, source: String? = nil, assignee: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IssueHits> {
         let localVariablePath = "/v1/todo/issues"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -164,6 +166,7 @@ open class TodoAPI {
             "status": (wrappedValue: status?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "kind": (wrappedValue: kind?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "repo": (wrappedValue: repo?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "room": (wrappedValue: room?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "source": (wrappedValue: source?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "assignee": (wrappedValue: assignee?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
@@ -372,6 +375,50 @@ open class TodoAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<IssueView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Summarises one room's work.
+     
+     - parameter room: (path) Room is the room, spelled \&quot;&lt;workspace&gt;_&lt;room&gt;\&quot; — the same value GET /v1/meet/call answers with, so a channel&#39;s call and its work name the room identically. From the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RoomWork
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getTodoRoomsByRoom(room: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RoomWork {
+        return try await getTodoRoomsByRoomWithRequestBuilder(room: room, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Summarises one room's work.
+     - GET /v1/todo/rooms/{room}
+     - Summarises one room's work.  The room is opaque here and is deliberately not resolved: this package cannot say whether a room exists — apps/team owns that document — so an unknown room answers an EMPTY board rather than a 404. That is the honest answer and the useful one: a channel that has never had an item filed in it and a channel id that was mistyped both have no work, and inventing a distinction would require this surface to hold a second copy of the room list (HIP-0523 §2 forbids it, and it would drift the first time a room was renamed).  Tenancy is the validated principal's org and nothing else, so a caller cannot read another tenant's channel by naming its room.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter room: (path) Room is the room, spelled \&quot;&lt;workspace&gt;_&lt;room&gt;\&quot; — the same value GET /v1/meet/call answers with, so a channel&#39;s call and its work name the room identically. From the path. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<RoomWork> 
+     */
+    open class func getTodoRoomsByRoomWithRequestBuilder(room: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RoomWork> {
+        var localVariablePath = "/v1/todo/rooms/{room}"
+        let roomPreEscape = "\(APIHelper.mapValueToPathItem(room))"
+        let roomPostEscape = roomPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{room}", with: roomPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<RoomWork>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

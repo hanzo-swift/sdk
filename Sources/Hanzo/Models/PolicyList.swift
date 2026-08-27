@@ -9,7 +9,7 @@ import Foundation
 
 public struct PolicyList: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** Policies is the list. */
+    /** Policies is the organization's published policy documents, each as the centre holds it. */
     public var policies: [JSONValue]?
 
     public init(policies: [JSONValue]? = nil) {

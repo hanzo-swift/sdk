@@ -29,6 +29,8 @@ public struct RegisterReq: Sendable, Codable, ParameterConvertible, Hashable {
     public var published: Bool?
     /** Repo is the code being worked on, up to 512 characters. A label the surface states; nothing resolves it against the forge. */
     public var repo: String?
+    /** Room is the collaborative room this run was started in (HIP-0523), so a workspace view can list the sessions of one room. It is PROVENANCE and is set only here: there is deliberately no way to move a session to another room, so it is absent from the patch input and from UpdateSession's SET list. */
+    public var room: String?
     /** Status opens the session in one of running, paused, done or error. Empty means running. A TERMINAL status here (done, error) records a session that has already finished — its end time is stamped now — and nothing can move it afterwards. */
     public var status: String?
     /** Target names a run-target the org has registered. Unlike Host and Repo it IS resolved: a target that does not exist in this org is a 400, so a session can never claim to run on another tenant's machine. Empty names no machine. */
@@ -42,7 +44,7 @@ public struct RegisterReq: Sendable, Codable, ParameterConvertible, Hashable {
     /** Title is the human line a card shows, up to 512 characters. Optional, and changeable later. */
     public var title: String?
 
-    public init(account: String? = nil, actor: String? = nil, agent: String? = nil, cwd: String? = nil, host: String? = nil, parentSessionId: String? = nil, project: String? = nil, provider: String? = nil, published: Bool? = nil, repo: String? = nil, status: String? = nil, target: String? = nil, taskRunId: String? = nil, taskWorkflowId: String? = nil, terminal: String? = nil, title: String? = nil) {
+    public init(account: String? = nil, actor: String? = nil, agent: String? = nil, cwd: String? = nil, host: String? = nil, parentSessionId: String? = nil, project: String? = nil, provider: String? = nil, published: Bool? = nil, repo: String? = nil, room: String? = nil, status: String? = nil, target: String? = nil, taskRunId: String? = nil, taskWorkflowId: String? = nil, terminal: String? = nil, title: String? = nil) {
         self.account = account
         self.actor = actor
         self.agent = agent
@@ -53,6 +55,7 @@ public struct RegisterReq: Sendable, Codable, ParameterConvertible, Hashable {
         self.provider = provider
         self.published = published
         self.repo = repo
+        self.room = room
         self.status = status
         self.target = target
         self.taskRunId = taskRunId
@@ -72,6 +75,7 @@ public struct RegisterReq: Sendable, Codable, ParameterConvertible, Hashable {
         case provider
         case published
         case repo
+        case room
         case status
         case target
         case taskRunId
@@ -94,6 +98,7 @@ public struct RegisterReq: Sendable, Codable, ParameterConvertible, Hashable {
         try container.encodeIfPresent(provider, forKey: .provider)
         try container.encodeIfPresent(published, forKey: .published)
         try container.encodeIfPresent(repo, forKey: .repo)
+        try container.encodeIfPresent(room, forKey: .room)
         try container.encodeIfPresent(status, forKey: .status)
         try container.encodeIfPresent(target, forKey: .target)
         try container.encodeIfPresent(taskRunId, forKey: .taskRunId)

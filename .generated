@@ -32,6 +32,7 @@ Sources/Hanzo/APIs/DataroomAPI.swift
 Sources/Hanzo/APIs/DatasetAPI.swift
 Sources/Hanzo/APIs/DeployAPI.swift
 Sources/Hanzo/APIs/DestinationAPI.swift
+Sources/Hanzo/APIs/DnsAPI.swift
 Sources/Hanzo/APIs/DomainAPI.swift
 Sources/Hanzo/APIs/EngineAPI.swift
 Sources/Hanzo/APIs/EntitlementAPI.swift
@@ -2132,6 +2133,7 @@ Sources/Hanzo/Models/RollbackReq.swift
 Sources/Hanzo/Models/Rollup.swift
 Sources/Hanzo/Models/RollupAllotment.swift
 Sources/Hanzo/Models/RollupBalance.swift
+Sources/Hanzo/Models/RoomWork.swift
 Sources/Hanzo/Models/Root.swift
 Sources/Hanzo/Models/RoundInput.swift
 Sources/Hanzo/Models/RoundOut.swift
@@ -2331,6 +2333,9 @@ Sources/Hanzo/Models/TariffIn.swift
 Sources/Hanzo/Models/Taxon.swift
 Sources/Hanzo/Models/TaxonIn.swift
 Sources/Hanzo/Models/Taxonomy.swift
+Sources/Hanzo/Models/TeamRoom.swift
+Sources/Hanzo/Models/TeamRoomBind.swift
+Sources/Hanzo/Models/TeamRooms.swift
 Sources/Hanzo/Models/TemplateCatalog.swift
 Sources/Hanzo/Models/TemplateOverride.swift
 Sources/Hanzo/Models/TemplateReply.swift

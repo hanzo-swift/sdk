@@ -435,6 +435,45 @@ open class TeamAPI {
     }
 
     /**
+     Returns every room of the caller's org, across the workspaces it owns, with the work facet each carries.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: TeamRooms
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getTeamRooms(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> TeamRooms {
+        return try await getTeamRoomsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns every room of the caller's org, across the workspaces it owns, with the work facet each carries.
+     - GET /v1/team/rooms
+     - Returns every room of the caller's org, across the workspaces it owns, with the work facet each carries.  It reads the SAME Chunter documents the transactor serves, so a room opened in the Team client appears here with no sync, and a facet written here is read by anything holding the document. Direct messages are included: a room between two people is a room with no name, not a different kind of thing.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<TeamRooms> 
+     */
+    open class func getTeamRoomsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<TeamRooms> {
+        let localVariablePath = "/v1/team/rooms"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<TeamRooms>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      Statistics returns the transactor's live sessions for the workspace the caller's credential names — the endpoint the front's workspace switcher and server panel poll on the transactor base.
      
      - parameter token: (query) Token is the workspace token minted by selectWorkspace. (optional)
@@ -771,6 +810,52 @@ open class TeamAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<CookieAck>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     States what a room is for: its lifecycle intent, and what it is about.
+     
+     - parameter id: (path) ID is the room to bind, from the path. The URL is the authority; a body carrying another id cannot redirect the write. 
+     - parameter teamRoomBind: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: TeamRoom
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func putTeamRoomsById(id: String, teamRoomBind: TeamRoomBind, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> TeamRoom {
+        return try await putTeamRoomsByIdWithRequestBuilder(id: id, teamRoomBind: teamRoomBind, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     States what a room is for: its lifecycle intent, and what it is about.
+     - PUT /v1/team/rooms/{id}
+     - States what a room is for: its lifecycle intent, and what it is about. It answers the room as it now stands.  The write is a platform MIXIN on the room document, applied through the SAME applyTx path the Team client's own writes take and broadcast to every connected client — so a room bound here updates live in an open workspace rather than on the next reload.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter id: (path) ID is the room to bind, from the path. The URL is the authority; a body carrying another id cannot redirect the write. 
+     - parameter teamRoomBind: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<TeamRoom> 
+     */
+    open class func putTeamRoomsByIdWithRequestBuilder(id: String, teamRoomBind: TeamRoomBind, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<TeamRoom> {
+        var localVariablePath = "/v1/team/rooms/{id}"
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: teamRoomBind, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<TeamRoom>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

@@ -17,7 +17,7 @@ public struct NewIssue: Sendable, Codable, ParameterConvertible, Hashable {
     public var priority: String?
     /** Status is the board column to open into: backlog, todo, in_progress, done or canceled. Empty opens into backlog. */
     public var status: String?
-    /** Title is required. */
+    /** Title is the one line the card is read by on the board. Blank or whitespace is refused — an untitled card cannot be told apart from any other. */
     public var title: String?
 
     public init(description: String? = nil, key: String? = nil, priority: String? = nil, status: String? = nil, title: String? = nil) {

@@ -11,7 +11,7 @@ public struct EsignPDF: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Filename is the name to save it under, built from the title and marked _signed once it is sealed. */
     public var filename: String?
-    /** ID is the document. */
+    /** ID is the document this PDF was rendered from. */
     public var id: String?
     /** PdfBase64 is the PDF itself, base64-encoded. There is one field either way, so Sealed is what tells you which artifact you are holding. */
     public var pdfBase64: String?

@@ -21,7 +21,7 @@ public struct FrameworkRow: Sendable, Codable, ParameterConvertible, Hashable {
     public var total: Int?
     /** Unit is what one clause is; Units is its plural. */
     public var unit: String?
-    /** Units is the plural of Unit. */
+    /** Units is Unit's plural, carried so a caller renders \"12 controls\" without having to pluralise a word it does not know. */
     public var units: String?
 
     public init(edition: String? = nil, framework: String? = nil, name: String? = nil, publisher: String? = nil, total: Int? = nil, unit: String? = nil, units: String? = nil) {

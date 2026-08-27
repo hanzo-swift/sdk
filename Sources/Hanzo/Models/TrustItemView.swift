@@ -21,9 +21,9 @@ public struct TrustItemView: Sendable, Codable, ParameterConvertible, Hashable {
     public var framework: String?
     /** ID addresses the item. */
     public var id: String?
-    /** Kind is what it is. */
+    /** Kind is one of report, letter, policy, questionnaire, subprocessor, article or update — the closed set the public centre knows how to draw. */
     public var kind: String?
-    /** Name is its title. */
+    /** Name is the label the centre lists it under. */
     public var name: String?
     /** Retired is whether it has been withdrawn. A retired item is absent from the public centre and cannot be granted; it is kept because a grant already made over it is part of the record. */
     public var retired: Bool?

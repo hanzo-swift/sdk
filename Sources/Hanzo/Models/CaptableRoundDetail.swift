@@ -11,7 +11,7 @@ public struct CaptableRoundDetail: Sendable, Codable, ParameterConvertible, Hash
 
     /** Investments is every investment into this round, oldest first. */
     public var investments: [CaptableRoundInvestment]?
-    /** Round is the round itself. */
+    /** Round is the round's own terms — name, type, valuation, target and status — as against the investments beside it. */
     public var round: CaptableRound?
 
     public init(investments: [CaptableRoundInvestment]? = nil, round: CaptableRound? = nil) {
