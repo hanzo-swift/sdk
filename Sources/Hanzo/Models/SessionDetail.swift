@@ -24,6 +24,7 @@ public struct SessionDetail: Sendable, Codable, ParameterConvertible, Hashable {
     public var lastEvent: LastEventView?
     public var org: String?
     public var parentSessionId: String?
+    public var progress: SessionProgress?
     public var project: String?
     public var provider: String?
     public var published: Bool?
@@ -41,7 +42,7 @@ public struct SessionDetail: Sendable, Codable, ParameterConvertible, Hashable {
     public var title: String?
     public var updatedAt: String?
 
-    public init(account: String? = nil, actor: String? = nil, agent: String? = nil, childSessions: [SessionView]? = nil, children: Int? = nil, createdAt: String? = nil, cwd: String? = nil, endedAt: String? = nil, events: Int? = nil, host: String? = nil, id: String? = nil, lastEvent: LastEventView? = nil, org: String? = nil, parentSessionId: String? = nil, project: String? = nil, provider: String? = nil, published: Bool? = nil, recentEvents: [EventView]? = nil, repo: String? = nil, room: String? = nil, rootSessionId: String? = nil, startedAt: String? = nil, status: String? = nil, target: String? = nil, taskRunId: String? = nil, taskWorkflowId: String? = nil, terminal: String? = nil, title: String? = nil, updatedAt: String? = nil) {
+    public init(account: String? = nil, actor: String? = nil, agent: String? = nil, childSessions: [SessionView]? = nil, children: Int? = nil, createdAt: String? = nil, cwd: String? = nil, endedAt: String? = nil, events: Int? = nil, host: String? = nil, id: String? = nil, lastEvent: LastEventView? = nil, org: String? = nil, parentSessionId: String? = nil, progress: SessionProgress? = nil, project: String? = nil, provider: String? = nil, published: Bool? = nil, recentEvents: [EventView]? = nil, repo: String? = nil, room: String? = nil, rootSessionId: String? = nil, startedAt: String? = nil, status: String? = nil, target: String? = nil, taskRunId: String? = nil, taskWorkflowId: String? = nil, terminal: String? = nil, title: String? = nil, updatedAt: String? = nil) {
         self.account = account
         self.actor = actor
         self.agent = agent
@@ -56,6 +57,7 @@ public struct SessionDetail: Sendable, Codable, ParameterConvertible, Hashable {
         self.lastEvent = lastEvent
         self.org = org
         self.parentSessionId = parentSessionId
+        self.progress = progress
         self.project = project
         self.provider = provider
         self.published = published
@@ -88,6 +90,7 @@ public struct SessionDetail: Sendable, Codable, ParameterConvertible, Hashable {
         case lastEvent
         case org
         case parentSessionId
+        case progress
         case project
         case provider
         case published
@@ -123,6 +126,7 @@ public struct SessionDetail: Sendable, Codable, ParameterConvertible, Hashable {
         try container.encodeIfPresent(lastEvent, forKey: .lastEvent)
         try container.encodeIfPresent(org, forKey: .org)
         try container.encodeIfPresent(parentSessionId, forKey: .parentSessionId)
+        try container.encodeIfPresent(progress, forKey: .progress)
         try container.encodeIfPresent(project, forKey: .project)
         try container.encodeIfPresent(provider, forKey: .provider)
         try container.encodeIfPresent(published, forKey: .published)

@@ -2231,6 +2231,7 @@ Sources/Hanzo/Models/SeriesPoint.swift
 Sources/Hanzo/Models/SessionDetail.swift
 Sources/Hanzo/Models/SessionEnded.swift
 Sources/Hanzo/Models/SessionList.swift
+Sources/Hanzo/Models/SessionProgress.swift
 Sources/Hanzo/Models/SessionUser.swift
 Sources/Hanzo/Models/SessionView.swift
 Sources/Hanzo/Models/SetEnvReq.swift

@@ -35,6 +35,8 @@ public struct SessionView: Sendable, Codable, ParameterConvertible, Hashable {
     public var org: String?
     /** ParentSessionID is the session that spawned this one, making this a subagent of it. Empty means this session is a root — a flow of its own. A parent always belongs to the same org, so a tree never crosses a tenant. */
     public var parentSessionId: String?
+    /** Progress is how far along this run is — a share of its goal, a phase, and a line saying what it is doing. Always present, so a board never branches on whether it is there; `phase` says \"unknown\" when nothing has estimated it. It is a MODEL ESTIMATE wherever `estimated` is true, and the row's own word where it is false. See progress.go. */
+    public var progress: SessionProgress?
     /** The readable build: the product this session built and whether its story is public (provenance.go). */
     public var project: String?
     /** Provider is the linked AI account's provider (claude | codex | hanzo | …) that served this run. Empty when the surface did not say. */
@@ -64,7 +66,7 @@ public struct SessionView: Sendable, Codable, ParameterConvertible, Hashable {
     /** UpdatedAt is the session's last-activity clock, same format. It moves on a write to the row — a status, a title, a re-dispatch — AND on every appended turn, because the append bumps it in the same transaction. The list is ordered on CreatedAt, so this is the field that says whether a session is still saying anything. */
     public var updatedAt: String?
 
-    public init(account: String? = nil, actor: String? = nil, agent: String? = nil, children: Int? = nil, createdAt: String? = nil, cwd: String? = nil, endedAt: String? = nil, events: Int? = nil, host: String? = nil, id: String? = nil, lastEvent: LastEventView? = nil, org: String? = nil, parentSessionId: String? = nil, project: String? = nil, provider: String? = nil, published: Bool? = nil, repo: String? = nil, room: String? = nil, rootSessionId: String? = nil, startedAt: String? = nil, status: String? = nil, target: String? = nil, taskRunId: String? = nil, taskWorkflowId: String? = nil, terminal: String? = nil, title: String? = nil, updatedAt: String? = nil) {
+    public init(account: String? = nil, actor: String? = nil, agent: String? = nil, children: Int? = nil, createdAt: String? = nil, cwd: String? = nil, endedAt: String? = nil, events: Int? = nil, host: String? = nil, id: String? = nil, lastEvent: LastEventView? = nil, org: String? = nil, parentSessionId: String? = nil, progress: SessionProgress? = nil, project: String? = nil, provider: String? = nil, published: Bool? = nil, repo: String? = nil, room: String? = nil, rootSessionId: String? = nil, startedAt: String? = nil, status: String? = nil, target: String? = nil, taskRunId: String? = nil, taskWorkflowId: String? = nil, terminal: String? = nil, title: String? = nil, updatedAt: String? = nil) {
         self.account = account
         self.actor = actor
         self.agent = agent
@@ -78,6 +80,7 @@ public struct SessionView: Sendable, Codable, ParameterConvertible, Hashable {
         self.lastEvent = lastEvent
         self.org = org
         self.parentSessionId = parentSessionId
+        self.progress = progress
         self.project = project
         self.provider = provider
         self.published = published
@@ -108,6 +111,7 @@ public struct SessionView: Sendable, Codable, ParameterConvertible, Hashable {
         case lastEvent
         case org
         case parentSessionId
+        case progress
         case project
         case provider
         case published
@@ -141,6 +145,7 @@ public struct SessionView: Sendable, Codable, ParameterConvertible, Hashable {
         try container.encodeIfPresent(lastEvent, forKey: .lastEvent)
         try container.encodeIfPresent(org, forKey: .org)
         try container.encodeIfPresent(parentSessionId, forKey: .parentSessionId)
+        try container.encodeIfPresent(progress, forKey: .progress)
         try container.encodeIfPresent(project, forKey: .project)
         try container.encodeIfPresent(provider, forKey: .provider)
         try container.encodeIfPresent(published, forKey: .published)
