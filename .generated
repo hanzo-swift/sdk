@@ -1905,7 +1905,6 @@ Sources/Hanzo/Models/PoolScale.swift
 Sources/Hanzo/Models/PopulatedFlow.swift
 Sources/Hanzo/Models/Position.swift
 Sources/Hanzo/Models/PostEventRequest.swift
-Sources/Hanzo/Models/PostIndexIndexesByUidDocumentsDeleteBatchRequest.swift
 Sources/Hanzo/Models/PostList.swift
 Sources/Hanzo/Models/PrefsView.swift
 Sources/Hanzo/Models/Preset.swift

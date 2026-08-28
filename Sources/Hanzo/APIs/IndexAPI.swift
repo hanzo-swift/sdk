@@ -628,13 +628,13 @@ open class IndexAPI {
      Delete many documents by primary key in one call
      
      - parameter uid: (path)  
-     - parameter postIndexIndexesByUidDocumentsDeleteBatchRequest: (body)  (optional)
+     - parameter requestBody: (body)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: IndexEnqueued
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postIndexIndexesByUidDocumentsDeleteBatch(uid: String, postIndexIndexesByUidDocumentsDeleteBatchRequest: PostIndexIndexesByUidDocumentsDeleteBatchRequest? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IndexEnqueued {
-        return try await postIndexIndexesByUidDocumentsDeleteBatchWithRequestBuilder(uid: uid, postIndexIndexesByUidDocumentsDeleteBatchRequest: postIndexIndexesByUidDocumentsDeleteBatchRequest, apiConfiguration: apiConfiguration).execute().body
+    open class func postIndexIndexesByUidDocumentsDeleteBatch(uid: String, requestBody: [JSONValue]? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IndexEnqueued {
+        return try await postIndexIndexesByUidDocumentsDeleteBatchWithRequestBuilder(uid: uid, requestBody: requestBody, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
@@ -645,17 +645,17 @@ open class IndexAPI {
        - type: http
        - name: bearer
      - parameter uid: (path)  
-     - parameter postIndexIndexesByUidDocumentsDeleteBatchRequest: (body)  (optional)
+     - parameter requestBody: (body)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IndexEnqueued> 
      */
-    open class func postIndexIndexesByUidDocumentsDeleteBatchWithRequestBuilder(uid: String, postIndexIndexesByUidDocumentsDeleteBatchRequest: PostIndexIndexesByUidDocumentsDeleteBatchRequest? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IndexEnqueued> {
+    open class func postIndexIndexesByUidDocumentsDeleteBatchWithRequestBuilder(uid: String, requestBody: [JSONValue]? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IndexEnqueued> {
         var localVariablePath = "/v1/index/indexes/{uid}/documents/delete-batch"
         let uidPreEscape = "\(APIHelper.mapValueToPathItem(uid))"
         let uidPostEscape = uidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{uid}", with: uidPostEscape, options: .literal, range: nil)
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: postIndexIndexesByUidDocumentsDeleteBatchRequest, codableHelper: apiConfiguration.codableHelper)
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: requestBody, codableHelper: apiConfiguration.codableHelper)
 
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
