@@ -9,7 +9,7 @@ import Foundation
 
 public struct ApprovePairingIn: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** Channel is the transport the request came in on: discord, slack, teams or telegram. */
+    /** Channel is the transport the request came in on: discord, slack, teams, telegram or whatsapp. */
     public var channel: String?
     /** Code is the pairing code from GET /v1/channels/pairing. It is a capability: holding it is what authorises the approval, alongside org admin. */
     public var code: String?
