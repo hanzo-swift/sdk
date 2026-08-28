@@ -13,7 +13,7 @@ public struct EventIn: Sendable, Codable, ParameterConvertible, Hashable {
     public var actor: String?
     /** ID is the session to append to, from the path. */
     public var id: String?
-    /** Kind is what this turn IS: message, tool-call, spawn, log, status or control. Anything else is refused — the vocabulary is closed so a reader can branch on it. */
+    /** Kind is what this turn IS: message, tool-call, spawn, log, status, control or progress. Anything else is refused — the vocabulary is closed so a reader can branch on it. */
     public var kind: String?
     public var payload: JSONValue?
 
