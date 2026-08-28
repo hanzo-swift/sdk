@@ -9,10 +9,10 @@ import Foundation
 
 public struct ModuleList: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** Data is every module compiled into this binary, with the DocTypes it installs. */
-    public var data: [ModuleInfo]?
+    /** Data is every module compiled into this binary, with the DocTypes it installs and whether the caller's org has turned it on. */
+    public var data: [Module]?
 
-    public init(data: [ModuleInfo]? = nil) {
+    public init(data: [Module]? = nil) {
         self.data = data
     }
 

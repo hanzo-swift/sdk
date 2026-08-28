@@ -129,7 +129,7 @@ open class PlanAPI {
     /**
      Returns what one plan GRANTS and not what it costs: the canonical namespaced entitlement block and the flat license-feature list derived from it.
      
-     - parameter id: (path) ID is the plan&#39;s catalog id or slug — \&quot;pro\&quot;, \&quot;team\&quot;, \&quot;world-enterprise\&quot;, \&quot;rpc-growth\&quot;. Both are matched, so a slug resolves the plan it names. 
+     - parameter id: (path) ID is the plan&#39;s catalog id or slug — \&quot;dev\&quot;, \&quot;max\&quot;, \&quot;team\&quot;, \&quot;rpc-growth\&quot;. Both are matched, so a slug resolves the plan it names. A withdrawn id still resolves for a renewal, which is why this takes an id rather than a ladder position. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: PlanEntitlements
      */
@@ -145,7 +145,7 @@ open class PlanAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter id: (path) ID is the plan&#39;s catalog id or slug — \&quot;pro\&quot;, \&quot;team\&quot;, \&quot;world-enterprise\&quot;, \&quot;rpc-growth\&quot;. Both are matched, so a slug resolves the plan it names. 
+     - parameter id: (path) ID is the plan&#39;s catalog id or slug — \&quot;dev\&quot;, \&quot;max\&quot;, \&quot;team\&quot;, \&quot;rpc-growth\&quot;. Both are matched, so a slug resolves the plan it names. A withdrawn id still resolves for a renewal, which is why this takes an id rather than a ladder position. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<PlanEntitlements> 
      */
@@ -329,7 +329,7 @@ open class PlanAPI {
     /**
      Resolves one plan to everything a consumer of the catalog needs at once: its canonical entitlement block, the flat license-feature list a signed license carries, its billing reference, and the catalog it came from.
      
-     - parameter id: (path) ID is the plan&#39;s catalog id or slug — \&quot;pro\&quot;, \&quot;team\&quot;, \&quot;world-enterprise\&quot;, \&quot;rpc-growth\&quot;. Both are matched, so a slug resolves the plan it names. 
+     - parameter id: (path) ID is the plan&#39;s catalog id or slug — \&quot;dev\&quot;, \&quot;max\&quot;, \&quot;team\&quot;, \&quot;rpc-growth\&quot;. Both are matched, so a slug resolves the plan it names. A withdrawn id still resolves for a renewal, which is why this takes an id rather than a ladder position. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: PlanResolution
      */
@@ -345,7 +345,7 @@ open class PlanAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter id: (path) ID is the plan&#39;s catalog id or slug — \&quot;pro\&quot;, \&quot;team\&quot;, \&quot;world-enterprise\&quot;, \&quot;rpc-growth\&quot;. Both are matched, so a slug resolves the plan it names. 
+     - parameter id: (path) ID is the plan&#39;s catalog id or slug — \&quot;dev\&quot;, \&quot;max\&quot;, \&quot;team\&quot;, \&quot;rpc-growth\&quot;. Both are matched, so a slug resolves the plan it names. A withdrawn id still resolves for a renewal, which is why this takes an id rather than a ladder position. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<PlanResolution> 
      */

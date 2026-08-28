@@ -474,50 +474,6 @@ open class TeamAPI {
     }
 
     /**
-     Statistics returns the transactor's live sessions for the workspace the caller's credential names — the endpoint the front's workspace switcher and server panel poll on the transactor base.
-     
-     - parameter token: (query) Token is the workspace token minted by selectWorkspace. (optional)
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: StatsOut
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getTeamTransactorApiV1Statistics(token: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> StatsOut {
-        return try await getTeamTransactorApiV1StatisticsWithRequestBuilder(token: token, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Statistics returns the transactor's live sessions for the workspace the caller's credential names — the endpoint the front's workspace switcher and server panel poll on the transactor base.
-     - GET /v1/team/transactor/api/v1/statistics
-     - Statistics returns the transactor's live sessions for the workspace the caller's credential names — the endpoint the front's workspace switcher and server panel poll on the transactor base. `token` carries the same two lanes the socket's path segment does: a workspace UUID names the workspace and is authorized against the membership rows, an HS256 workspace token names it in its signed claims. activeSessions carries ONLY that one workspace, never another tenant's sessions. An unverifiable credential, or one the caller is no member under, is 401.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter token: (query) Token is the workspace token minted by selectWorkspace. (optional)
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<StatsOut> 
-     */
-    open class func getTeamTransactorApiV1StatisticsWithRequestBuilder(token: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<StatsOut> {
-        let localVariablePath = "/v1/team/transactor/api/v1/statistics"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
-        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "token": (wrappedValue: token?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
-        ])
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<StatsOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
      Open the workspace data-plane socket
      
      - parameter token: (path)  
