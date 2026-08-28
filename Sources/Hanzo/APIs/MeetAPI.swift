@@ -93,10 +93,10 @@ open class MeetAPI {
      - parameter workspace: (query) Workspace is the workspace uuid holding the room, as GET /v1/team/rooms reports it. It is the segment the caller&#39;s membership is checked against. 
      - parameter room: (query) Room is the room&#39;s own id within that workspace, as GET /v1/team/rooms reports it. It is opaque here: meet keeps no rooms and cannot say whether one exists, only whether this caller may be seated in the workspace holding it. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: Call
+     - returns: Venue
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func meetCall(workspace: String, room: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Call {
+    open class func meetCall(workspace: String, room: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Venue {
         return try await meetCallWithRequestBuilder(workspace: workspace, room: room, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -110,9 +110,9 @@ open class MeetAPI {
      - parameter workspace: (query) Workspace is the workspace uuid holding the room, as GET /v1/team/rooms reports it. It is the segment the caller&#39;s membership is checked against. 
      - parameter room: (query) Room is the room&#39;s own id within that workspace, as GET /v1/team/rooms reports it. It is opaque here: meet keeps no rooms and cannot say whether one exists, only whether this caller may be seated in the workspace holding it. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Call> 
+     - returns: RequestBuilder<Venue> 
      */
-    open class func meetCallWithRequestBuilder(workspace: String, room: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Call> {
+    open class func meetCallWithRequestBuilder(workspace: String, room: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Venue> {
         let localVariablePath = "/v1/meet/call"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -129,7 +129,7 @@ open class MeetAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<Call>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Venue>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

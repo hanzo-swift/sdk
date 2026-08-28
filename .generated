@@ -2425,6 +2425,7 @@ Sources/Hanzo/Models/ValidatorList.swift
 Sources/Hanzo/Models/Variant.swift
 Sources/Hanzo/Models/VendorRow.swift
 Sources/Hanzo/Models/VendorsOut.swift
+Sources/Hanzo/Models/Venue.swift
 Sources/Hanzo/Models/Verdict.swift
 Sources/Hanzo/Models/VerificationDecision.swift
 Sources/Hanzo/Models/VerificationReq.swift

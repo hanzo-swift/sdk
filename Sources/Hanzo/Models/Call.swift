@@ -9,32 +9,50 @@ import Foundation
 
 public struct Call: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** Name is the media room to join: the value POST /v1/meet/getToken takes as roomName, and the value the media server keys participants on. */
-    public var name: String?
-    /** Ready reports that this deployment can mint a join token for this room. It is false on a deployment holding no media-server key, where Name is still correct — the name is a property of the room and the key is a property of the deployment, so a caller learns the room's identity either way and learns not to offer a join button. */
-    public var ready: Bool?
-    /** WS is where the media plane is — the address a client opens its own browser-to-server connection to. Empty when this deployment has not been told where its media server lives, which is reported rather than refused: a surface can say a call is unavailable without a second request. */
-    public var ws: String?
+    /** Agent names the Hanzo assistant handling the call. Set means the call was answered by that assistant rather than connected to a person. */
+    public var agent: String?
+    /** From is the calling number in E.164. It must be one this org holds: a carrier refuses an origination from a number nobody proved they own. */
+    public var from: String?
+    /** ID is the carrier's handle for the call — what a hangup or a lookup names. */
+    public var id: String?
+    /** Org is the tenant the call was placed for or received by. */
+    public var org: String?
+    /** Status is where the call is: \"queued\", \"ringing\", \"answered\", \"completed\" or \"failed\". Only the last two are terminal. */
+    public var status: String?
+    /** To is the called number in E.164. */
+    public var to: String?
 
-    public init(name: String? = nil, ready: Bool? = nil, ws: String? = nil) {
-        self.name = name
-        self.ready = ready
-        self.ws = ws
+    public init(agent: String? = nil, from: String? = nil, id: String? = nil, org: String? = nil, status: String? = nil, to: String? = nil) {
+        self.agent = agent
+        self.from = from
+        self.id = id
+        self.org = org
+        self.status = status
+        self.to = to
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case name
-        case ready
-        case ws
+        case agent
+        case from
+        case id
+        case org
+        case status
+        case to
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(name, forKey: .name)
-        try container.encodeIfPresent(ready, forKey: .ready)
-        try container.encodeIfPresent(ws, forKey: .ws)
+        try container.encodeIfPresent(agent, forKey: .agent)
+        try container.encodeIfPresent(from, forKey: .from)
+        try container.encodeIfPresent(id, forKey: .id)
+        try container.encodeIfPresent(org, forKey: .org)
+        try container.encodeIfPresent(status, forKey: .status)
+        try container.encodeIfPresent(to, forKey: .to)
     }
 }
 
+
+@available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
+extension Call: Identifiable {}
