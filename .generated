@@ -680,6 +680,7 @@ Sources/Hanzo/Models/FrameworkRow.swift
 Sources/Hanzo/Models/FunctionDetail.swift
 Sources/Hanzo/Models/FunctionView.swift
 Sources/Hanzo/Models/Funnel.swift
+Sources/Hanzo/Models/Fusion.swift
 Sources/Hanzo/Models/GLRow.swift
 Sources/Hanzo/Models/GPU.swift
 Sources/Hanzo/Models/GcOut.swift
@@ -990,7 +991,6 @@ Sources/Hanzo/Models/MachineView.swift
 Sources/Hanzo/Models/MakeIn.swift
 Sources/Hanzo/Models/MarketCatalog.swift
 Sources/Hanzo/Models/MarketItem.swift
-Sources/Hanzo/Models/Match.swift
 Sources/Hanzo/Models/McpCatalog.swift
 Sources/Hanzo/Models/McpCatalogSync.swift
 Sources/Hanzo/Models/McpServerList.swift
@@ -1020,7 +1020,6 @@ Sources/Hanzo/Models/Mode.swift
 Sources/Hanzo/Models/ModeIn.swift
 Sources/Hanzo/Models/ModelHistory.swift
 Sources/Hanzo/Models/ModelRange.swift
-Sources/Hanzo/Models/ModelResponse.swift
 Sources/Hanzo/Models/ModelRow.swift
 Sources/Hanzo/Models/ModelSequence.swift
 Sources/Hanzo/Models/ModelStat.swift
@@ -1964,6 +1963,7 @@ Sources/Hanzo/Models/PromptList.swift
 Sources/Hanzo/Models/PromptMeta.swift
 Sources/Hanzo/Models/PromptReq.swift
 Sources/Hanzo/Models/PropSpec.swift
+Sources/Hanzo/Models/Provenance.swift
 Sources/Hanzo/Models/ProviderBreakdown.swift
 Sources/Hanzo/Models/ProviderInfo.swift
 Sources/Hanzo/Models/ProviderRow.swift

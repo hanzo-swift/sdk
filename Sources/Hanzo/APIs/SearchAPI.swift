@@ -14,10 +14,10 @@ open class SearchAPI {
      
      - parameter request: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: ModelResponse
+     - returns: Fusion
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func search(request: Request, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ModelResponse {
+    open class func search(request: Request, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Fusion {
         return try await searchWithRequestBuilder(request: request, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -30,9 +30,9 @@ open class SearchAPI {
        - name: bearer
      - parameter request: (body)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<ModelResponse> 
+     - returns: RequestBuilder<Fusion> 
      */
-    open class func searchWithRequestBuilder(request: Request, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ModelResponse> {
+    open class func searchWithRequestBuilder(request: Request, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Fusion> {
         let localVariablePath = "/v1/search"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: request, codableHelper: apiConfiguration.codableHelper)
@@ -45,7 +45,7 @@ open class SearchAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<ModelResponse>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Fusion>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
