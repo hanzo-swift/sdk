@@ -581,7 +581,7 @@ open class AgentsAPI {
      - parameter parent: (query) Parent scopes the page to the direct children of one session. Ignored when root is set; with neither, only ROOT sessions come back. (optional)
      - parameter status: (query) Status filters to running, paused, done or error. (optional)
      - parameter project: (query) Project filters to the sessions tagged with one product slug. (optional)
-     - parameter room: (query) Room filters to the sessions started in one collaborative room — the query a workspace view runs to show what has been run in it. (optional)
+     - parameter room: (query) Room filters to the sessions started in one collaborative room — the query a space view runs to show what has been run in it. (optional)
      - parameter limit: (query) Limit caps the page. Absent, zero or over 500 reads as 100. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: SessionList
@@ -602,7 +602,7 @@ open class AgentsAPI {
      - parameter parent: (query) Parent scopes the page to the direct children of one session. Ignored when root is set; with neither, only ROOT sessions come back. (optional)
      - parameter status: (query) Status filters to running, paused, done or error. (optional)
      - parameter project: (query) Project filters to the sessions tagged with one product slug. (optional)
-     - parameter room: (query) Room filters to the sessions started in one collaborative room — the query a workspace view runs to show what has been run in it. (optional)
+     - parameter room: (query) Room filters to the sessions started in one collaborative room — the query a space view runs to show what has been run in it. (optional)
      - parameter limit: (query) Limit caps the page. Absent, zero or over 500 reads as 100. (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<SessionList> 
@@ -1182,6 +1182,45 @@ open class AgentsAPI {
      */
     open class func postAgentsChatWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/agents/chat"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Record turns in a conversation
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postAgentsChatConversations(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postAgentsChatConversationsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Record turns in a conversation
+     - POST /v1/agents/chat/conversations
+     - Writes turns to the caller's thread store without running a completion, and answers the `conversationId` they were written under. An absent `conversationId` opens a new thread; supplying one appends to it.  This is for a client that streams its own turn through /v1/chat/completions and still wants the conversation in its history — the round records what IT answers, and is otherwise the only writer. It takes the same store, the same per-org isolation and the same notion of a thread: what is recorded here reads back through the two GETs beside it and the round can continue it by id. A validated principal with a non-empty org is required; 403 without one.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postAgentsChatConversationsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/agents/chat/conversations"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 

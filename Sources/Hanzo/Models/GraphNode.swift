@@ -17,7 +17,7 @@ public struct GraphNode: Sendable, Codable, ParameterConvertible, Hashable {
     public var project: String?
     /** display label */
     public var title: String?
-    /** kb-page | kb-memory | kb-source | kb-connector | unresolved */
+    /** kb.page | kb.memory | kb.source | kb.connector | unresolved */
     public var type: String?
 
     public init(id: String? = nil, name: String? = nil, project: String? = nil, title: String? = nil, type: String? = nil) {

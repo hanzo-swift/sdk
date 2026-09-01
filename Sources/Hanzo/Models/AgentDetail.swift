@@ -9,9 +9,11 @@ import Foundation
 
 public struct AgentDetail: Sendable, Codable, ParameterConvertible, Hashable {
 
+    public var avatar: String?
     public var computeRef: String?
     public var createdAt: String?
     public var description: String?
+    public var emoji: String?
     public var executionMode: String?
     public var id: String?
     /** Instructions is the agent's system prompt, verbatim, up to 32 KiB. It is the one field the list read withholds, because it is the agent's whole behaviour and a page of them would be a page of prompts. */
@@ -27,10 +29,12 @@ public struct AgentDetail: Sendable, Codable, ParameterConvertible, Hashable {
     public var tools: [String]?
     public var updatedAt: String?
 
-    public init(computeRef: String? = nil, createdAt: String? = nil, description: String? = nil, executionMode: String? = nil, id: String? = nil, instructions: String? = nil, model: String? = nil, name: String? = nil, recentRuns: [AgentRunView]? = nil, runs: Int? = nil, schedule: String? = nil, serviceAccountId: String? = nil, status: String? = nil, tools: [String]? = nil, updatedAt: String? = nil) {
+    public init(avatar: String? = nil, computeRef: String? = nil, createdAt: String? = nil, description: String? = nil, emoji: String? = nil, executionMode: String? = nil, id: String? = nil, instructions: String? = nil, model: String? = nil, name: String? = nil, recentRuns: [AgentRunView]? = nil, runs: Int? = nil, schedule: String? = nil, serviceAccountId: String? = nil, status: String? = nil, tools: [String]? = nil, updatedAt: String? = nil) {
+        self.avatar = avatar
         self.computeRef = computeRef
         self.createdAt = createdAt
         self.description = description
+        self.emoji = emoji
         self.executionMode = executionMode
         self.id = id
         self.instructions = instructions
@@ -46,9 +50,11 @@ public struct AgentDetail: Sendable, Codable, ParameterConvertible, Hashable {
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
+        case avatar
         case computeRef
         case createdAt
         case description
+        case emoji
         case executionMode
         case id
         case instructions
@@ -67,9 +73,11 @@ public struct AgentDetail: Sendable, Codable, ParameterConvertible, Hashable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(avatar, forKey: .avatar)
         try container.encodeIfPresent(computeRef, forKey: .computeRef)
         try container.encodeIfPresent(createdAt, forKey: .createdAt)
         try container.encodeIfPresent(description, forKey: .description)
+        try container.encodeIfPresent(emoji, forKey: .emoji)
         try container.encodeIfPresent(executionMode, forKey: .executionMode)
         try container.encodeIfPresent(id, forKey: .id)
         try container.encodeIfPresent(instructions, forKey: .instructions)

@@ -9,6 +9,8 @@ import Foundation
 
 public struct IssueEdit: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Assignee hands the work to somebody — a person or an agent, by the name they are known by on the forge. \"\" TAKES IT OFF whoever holds it, which is why this is a pointer: absent leaves the holder alone.  It is the other half of `claim`, which that handler already named: a claim takes work for the CALLER and refuses to name anyone else, because giving work away is a different act with different authority. This is that act, and until it existed a board could only be worked by whoever clicked first — an agent could never be given anything. */
+    public var assignee: String?
     /** Description rewrites the body. */
     public var description: String?
     /** Key is the board — the repository name, from the path. */
@@ -22,7 +24,8 @@ public struct IssueEdit: Sendable, Codable, ParameterConvertible, Hashable {
     /** Title renames the work item. */
     public var title: String?
 
-    public init(description: String? = nil, key: String? = nil, num: Int? = nil, priority: String? = nil, status: String? = nil, title: String? = nil) {
+    public init(assignee: String? = nil, description: String? = nil, key: String? = nil, num: Int? = nil, priority: String? = nil, status: String? = nil, title: String? = nil) {
+        self.assignee = assignee
         self.description = description
         self.key = key
         self.num = num
@@ -32,6 +35,7 @@ public struct IssueEdit: Sendable, Codable, ParameterConvertible, Hashable {
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
+        case assignee
         case description
         case key
         case num
@@ -44,6 +48,7 @@ public struct IssueEdit: Sendable, Codable, ParameterConvertible, Hashable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(assignee, forKey: .assignee)
         try container.encodeIfPresent(description, forKey: .description)
         try container.encodeIfPresent(key, forKey: .key)
         try container.encodeIfPresent(num, forKey: .num)

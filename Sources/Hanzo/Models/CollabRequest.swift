@@ -9,7 +9,7 @@ import Foundation
 
 public struct CollabRequest: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** DocumentID addresses the document field, as \"<workspaceUuid>|<objectClass>|<objectId>|<objectAttr>\" — the collaborator-client encodeDocumentId shape, from the path. */
+    /** DocumentID addresses the document field, as \"<spaceUuid>|<objectClass>|<objectId>|<objectAttr>\" — the collaborator-client encodeDocumentId shape, from the path. */
     public var documentId: String?
     /** Method is the verb: createContent, updateContent or getContent. */
     public var method: String?

@@ -15,28 +15,28 @@ public struct IamRole: Sendable, Codable, ParameterConvertible, Hashable {
     public var description: String?
     public var displayName: String?
     public var domains: [String]?
-    public var groups: [String]?
     public var id: String?
     public var isEnabled: Bool?
     public var name: String?
     public var owner: String?
     public var roles: [String]?
+    public var teams: [String]?
     public var updatedAt: Date?
     public var users: [String]?
 
-    public init(createdAt: Date? = nil, createdTime: String? = nil, deleted: Bool? = nil, description: String? = nil, displayName: String? = nil, domains: [String]? = nil, groups: [String]? = nil, id: String? = nil, isEnabled: Bool? = nil, name: String? = nil, owner: String? = nil, roles: [String]? = nil, updatedAt: Date? = nil, users: [String]? = nil) {
+    public init(createdAt: Date? = nil, createdTime: String? = nil, deleted: Bool? = nil, description: String? = nil, displayName: String? = nil, domains: [String]? = nil, id: String? = nil, isEnabled: Bool? = nil, name: String? = nil, owner: String? = nil, roles: [String]? = nil, teams: [String]? = nil, updatedAt: Date? = nil, users: [String]? = nil) {
         self.createdAt = createdAt
         self.createdTime = createdTime
         self.deleted = deleted
         self.description = description
         self.displayName = displayName
         self.domains = domains
-        self.groups = groups
         self.id = id
         self.isEnabled = isEnabled
         self.name = name
         self.owner = owner
         self.roles = roles
+        self.teams = teams
         self.updatedAt = updatedAt
         self.users = users
     }
@@ -48,12 +48,12 @@ public struct IamRole: Sendable, Codable, ParameterConvertible, Hashable {
         case description
         case displayName
         case domains
-        case groups
         case id
         case isEnabled
         case name
         case owner
         case roles
+        case teams
         case updatedAt
         case users
     }
@@ -68,12 +68,12 @@ public struct IamRole: Sendable, Codable, ParameterConvertible, Hashable {
         try container.encodeIfPresent(description, forKey: .description)
         try container.encodeIfPresent(displayName, forKey: .displayName)
         try container.encodeIfPresent(domains, forKey: .domains)
-        try container.encodeIfPresent(groups, forKey: .groups)
         try container.encodeIfPresent(id, forKey: .id)
         try container.encodeIfPresent(isEnabled, forKey: .isEnabled)
         try container.encodeIfPresent(name, forKey: .name)
         try container.encodeIfPresent(owner, forKey: .owner)
         try container.encodeIfPresent(roles, forKey: .roles)
+        try container.encodeIfPresent(teams, forKey: .teams)
         try container.encodeIfPresent(updatedAt, forKey: .updatedAt)
         try container.encodeIfPresent(users, forKey: .users)
     }

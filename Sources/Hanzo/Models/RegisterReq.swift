@@ -29,7 +29,7 @@ public struct RegisterReq: Sendable, Codable, ParameterConvertible, Hashable {
     public var published: Bool?
     /** Repo is the code being worked on, up to 512 characters. A label the surface states; nothing resolves it against the forge. */
     public var repo: String?
-    /** Room is the collaborative room this run was started in (HIP-0523), so a workspace view can list the sessions of one room. It is PROVENANCE and is set only here: there is deliberately no way to move a session to another room, so it is absent from the patch input and from UpdateSession's SET list. */
+    /** Room is the collaborative room this run was started in (HIP-0523), so a space view can list the sessions of one room. It is PROVENANCE and is set only here: there is deliberately no way to move a session to another room, so it is absent from the patch input and from UpdateSession's SET list. */
     public var room: String?
     /** Status opens the session in one of running, paused, done or error. Empty means running. A TERMINAL status here (done, error) records a session that has already finished — its end time is stamped now — and nothing can move it afterwards. */
     public var status: String?

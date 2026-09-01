@@ -9,7 +9,7 @@ import Foundation
 
 public struct BotMember: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** Active is whether the agent projects as a LIVE workspace member, derived from its registry status: empty, \"active\" and \"ready\" are live, anything else (archived/retired) is not. An inactive bot drops out of the Team list while its past authorship survives. */
+    /** Active is whether the agent projects as a LIVE space member, derived from its registry status: empty, \"active\" and \"ready\" are live, anything else (archived/retired) is not. An inactive bot drops out of the Team list while its past authorship survives. */
     public var active: Bool?
     /** the agent id */
     public var id: String?

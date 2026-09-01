@@ -11,7 +11,7 @@ public struct AllowlistPutIn: Sendable, Codable, ParameterConvertible, Hashable 
 
     /** AccessGroups REPLACES the org's named access groups, as group name -> channel -> entries. Absent or null leaves them alone. */
     public var accessGroups: [String: [String: [String]]]?
-    /** Channel is the transport to edit: discord, slack, teams, telegram or whatsapp. Required; an unknown value is a 404. */
+    /** Channel is the transport to edit: discord, github, linear, slack, teams, telegram or whatsapp. Required; an unknown value is a 404. */
     public var channel: String?
     /** DM REPLACES the config-managed DM allow entries. Absent or null leaves them alone; an empty list clears them. It never touches senders approved through pairing — a policy edit cannot revoke an approved pairing. */
     public var dm: [String]?

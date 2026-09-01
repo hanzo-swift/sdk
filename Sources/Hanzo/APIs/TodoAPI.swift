@@ -123,7 +123,7 @@ open class TodoAPI {
      - parameter status: (query) Status keeps one board column: backlog, todo, in_progress, done, canceled. (optional)
      - parameter kind: (query) Kind keeps one shape: issue, pr, epic. (optional)
      - parameter repo: (query) Repo keeps issues bound to one git repository. (optional)
-     - parameter room: (query) Room keeps issues bound to one collaboration room, spelled \&quot;&lt;workspace&gt;_&lt;room&gt;\&quot; — the exact value GET /v1/meet/call answers with, so a channel&#39;s call and its todo list name the room the same way. This is the read a channel view runs to draw its own list; it spans every board of the org, because the work a channel is about is not confined to one board. (optional)
+     - parameter room: (query) Room keeps issues bound to one collaboration room, spelled \&quot;&lt;space&gt;_&lt;room&gt;\&quot; — the exact value GET /v1/meet/call answers with, so a channel&#39;s call and its todo list name the room the same way. This is the read a channel view runs to draw its own list; it spans every board of the org, because the work a channel is about is not confined to one board. (optional)
      - parameter source: (query) Source keeps one origin: team, git, crm, helpdesk, cms, agent. \&quot;git\&quot; is how you ask for the mirrored GitHub issues specifically. (optional)
      - parameter assignee: (query) Assignee keeps issues held by one person. Pass \&quot;me\&quot; for yourself. (optional)
      - parameter limit: (query) Limit caps the answer; 0 means the default, and anything above the ceiling is clamped rather than refused — a search that errors on being too broad teaches people to guess. (optional)
@@ -147,7 +147,7 @@ open class TodoAPI {
      - parameter status: (query) Status keeps one board column: backlog, todo, in_progress, done, canceled. (optional)
      - parameter kind: (query) Kind keeps one shape: issue, pr, epic. (optional)
      - parameter repo: (query) Repo keeps issues bound to one git repository. (optional)
-     - parameter room: (query) Room keeps issues bound to one collaboration room, spelled \&quot;&lt;workspace&gt;_&lt;room&gt;\&quot; — the exact value GET /v1/meet/call answers with, so a channel&#39;s call and its todo list name the room the same way. This is the read a channel view runs to draw its own list; it spans every board of the org, because the work a channel is about is not confined to one board. (optional)
+     - parameter room: (query) Room keeps issues bound to one collaboration room, spelled \&quot;&lt;space&gt;_&lt;room&gt;\&quot; — the exact value GET /v1/meet/call answers with, so a channel&#39;s call and its todo list name the room the same way. This is the read a channel view runs to draw its own list; it spans every board of the org, because the work a channel is about is not confined to one board. (optional)
      - parameter source: (query) Source keeps one origin: team, git, crm, helpdesk, cms, agent. \&quot;git\&quot; is how you ask for the mirrored GitHub issues specifically. (optional)
      - parameter assignee: (query) Assignee keeps issues held by one person. Pass \&quot;me\&quot; for yourself. (optional)
      - parameter limit: (query) Limit caps the answer; 0 means the default, and anything above the ceiling is clamped rather than refused — a search that errors on being too broad teaches people to guess. (optional)
@@ -382,7 +382,7 @@ open class TodoAPI {
     /**
      Summarises one room's work.
      
-     - parameter room: (path) Room is the room, spelled \&quot;&lt;workspace&gt;_&lt;room&gt;\&quot; — the same value GET /v1/meet/call answers with, so a channel&#39;s call and its work name the room identically. From the path. 
+     - parameter room: (path) Room is the room, spelled \&quot;&lt;space&gt;_&lt;room&gt;\&quot; — the same value GET /v1/meet/call answers with, so a channel&#39;s call and its work name the room identically. From the path. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RoomWork
      */
@@ -398,7 +398,7 @@ open class TodoAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter room: (path) Room is the room, spelled \&quot;&lt;workspace&gt;_&lt;room&gt;\&quot; — the same value GET /v1/meet/call answers with, so a channel&#39;s call and its work name the room identically. From the path. 
+     - parameter room: (path) Room is the room, spelled \&quot;&lt;space&gt;_&lt;room&gt;\&quot; — the same value GET /v1/meet/call answers with, so a channel&#39;s call and its work name the room identically. From the path. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<RoomWork> 
      */

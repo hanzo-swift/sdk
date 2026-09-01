@@ -15,7 +15,7 @@ public struct GenerateInput: Sendable, Codable, ParameterConvertible, Hashable {
     public var channels: String?
     /** studio design slug (asset source) */
     public var design: String?
-    /** Campaign | SocialPost | Asset */
+    /** marketing.Campaign | marketing.SocialPost | marketing.Asset */
     public var doctype: String?
     /** asset kind: ecom|product|lifestyle|hover|hero */
     public var kind: String?

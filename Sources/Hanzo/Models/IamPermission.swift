@@ -21,7 +21,6 @@ public struct IamPermission: Sendable, Codable, ParameterConvertible, Hashable {
     public var displayName: String?
     public var domains: [String]?
     public var effect: String?
-    public var groups: [String]?
     public var id: String?
     public var isEnabled: Bool?
     /** Authorization model, targets, and decision. AuthzModel carries the v1 `model` column (the named authz model); it is not the Go identifier `Model` because that name is taken by the embedded orm.Model[Permission] mixin. The HTTP contract is unchanged — json:\"model\". */
@@ -35,11 +34,12 @@ public struct IamPermission: Sendable, Codable, ParameterConvertible, Hashable {
     public var state: String?
     /** Submission / approval workflow. */
     public var submitter: String?
+    public var teams: [String]?
     public var updatedAt: Date?
     /** Subjects the grant is evaluated for. */
     public var users: [String]?
 
-    public init(actions: [String]? = nil, adapter: String? = nil, approveTime: String? = nil, approver: String? = nil, createdAt: Date? = nil, createdTime: String? = nil, deleted: Bool? = nil, description: String? = nil, displayName: String? = nil, domains: [String]? = nil, effect: String? = nil, groups: [String]? = nil, id: String? = nil, isEnabled: Bool? = nil, model: String? = nil, name: String? = nil, owner: String? = nil, resourceType: String? = nil, resources: [String]? = nil, roles: [String]? = nil, state: String? = nil, submitter: String? = nil, updatedAt: Date? = nil, users: [String]? = nil) {
+    public init(actions: [String]? = nil, adapter: String? = nil, approveTime: String? = nil, approver: String? = nil, createdAt: Date? = nil, createdTime: String? = nil, deleted: Bool? = nil, description: String? = nil, displayName: String? = nil, domains: [String]? = nil, effect: String? = nil, id: String? = nil, isEnabled: Bool? = nil, model: String? = nil, name: String? = nil, owner: String? = nil, resourceType: String? = nil, resources: [String]? = nil, roles: [String]? = nil, state: String? = nil, submitter: String? = nil, teams: [String]? = nil, updatedAt: Date? = nil, users: [String]? = nil) {
         self.actions = actions
         self.adapter = adapter
         self.approveTime = approveTime
@@ -51,7 +51,6 @@ public struct IamPermission: Sendable, Codable, ParameterConvertible, Hashable {
         self.displayName = displayName
         self.domains = domains
         self.effect = effect
-        self.groups = groups
         self.id = id
         self.isEnabled = isEnabled
         self.model = model
@@ -62,6 +61,7 @@ public struct IamPermission: Sendable, Codable, ParameterConvertible, Hashable {
         self.roles = roles
         self.state = state
         self.submitter = submitter
+        self.teams = teams
         self.updatedAt = updatedAt
         self.users = users
     }
@@ -78,7 +78,6 @@ public struct IamPermission: Sendable, Codable, ParameterConvertible, Hashable {
         case displayName
         case domains
         case effect
-        case groups
         case id
         case isEnabled
         case model
@@ -89,6 +88,7 @@ public struct IamPermission: Sendable, Codable, ParameterConvertible, Hashable {
         case roles
         case state
         case submitter
+        case teams
         case updatedAt
         case users
     }
@@ -108,7 +108,6 @@ public struct IamPermission: Sendable, Codable, ParameterConvertible, Hashable {
         try container.encodeIfPresent(displayName, forKey: .displayName)
         try container.encodeIfPresent(domains, forKey: .domains)
         try container.encodeIfPresent(effect, forKey: .effect)
-        try container.encodeIfPresent(groups, forKey: .groups)
         try container.encodeIfPresent(id, forKey: .id)
         try container.encodeIfPresent(isEnabled, forKey: .isEnabled)
         try container.encodeIfPresent(model, forKey: .model)
@@ -119,6 +118,7 @@ public struct IamPermission: Sendable, Codable, ParameterConvertible, Hashable {
         try container.encodeIfPresent(roles, forKey: .roles)
         try container.encodeIfPresent(state, forKey: .state)
         try container.encodeIfPresent(submitter, forKey: .submitter)
+        try container.encodeIfPresent(teams, forKey: .teams)
         try container.encodeIfPresent(updatedAt, forKey: .updatedAt)
         try container.encodeIfPresent(users, forKey: .users)
     }

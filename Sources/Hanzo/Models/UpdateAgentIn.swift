@@ -9,10 +9,14 @@ import Foundation
 
 public struct UpdateAgentIn: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Avatar and Emoji re-draw the agent. Sending either replaces the pair, so setting an image clears a glyph and \"\" for both goes back to the initial — there is no state where a row holds two answers. */
+    public var avatar: String?
     /** ComputeRef re-binds (or, with \"\", unbinds) the visor machine. Opaque here. */
     public var computeRef: String?
     /** Description replaces the line other agents read in the tool catalogue. */
     public var description: String?
+    /** Emoji re-draws the agent as a glyph. Sending either of the pair replaces BOTH, so setting a glyph clears an image and \"\" for both goes back to the initial — there is no state where a row holds two answers. */
+    public var emoji: String?
     /** ExecutionMode switches between one-shot and long-running. The RESULTING mode+schedule are validated together, so switching to long-running without a stored or supplied cron is refused rather than accepted into an agent the scheduler would skip forever. A switch INTO long-running counts against the per-org cap and can be a 409. */
     public var executionMode: String?
     /** Instructions replaces the system prompt whole, up to 32 KiB. There is no append: a prompt is one text, and sending \"\" clears it. */
@@ -28,9 +32,11 @@ public struct UpdateAgentIn: Sendable, Codable, ParameterConvertible, Hashable {
     /** Tools replaces the whole allow-list, it does not add to it. Sending [] takes every tool away, which is the only way to say that. */
     public var tools: [String]?
 
-    public init(computeRef: String? = nil, description: String? = nil, executionMode: String? = nil, instructions: String? = nil, model: String? = nil, ref: String? = nil, schedule: String? = nil, serviceAccountId: String? = nil, tools: [String]? = nil) {
+    public init(avatar: String? = nil, computeRef: String? = nil, description: String? = nil, emoji: String? = nil, executionMode: String? = nil, instructions: String? = nil, model: String? = nil, ref: String? = nil, schedule: String? = nil, serviceAccountId: String? = nil, tools: [String]? = nil) {
+        self.avatar = avatar
         self.computeRef = computeRef
         self.description = description
+        self.emoji = emoji
         self.executionMode = executionMode
         self.instructions = instructions
         self.model = model
@@ -41,8 +47,10 @@ public struct UpdateAgentIn: Sendable, Codable, ParameterConvertible, Hashable {
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
+        case avatar
         case computeRef
         case description
+        case emoji
         case executionMode
         case instructions
         case model
@@ -56,8 +64,10 @@ public struct UpdateAgentIn: Sendable, Codable, ParameterConvertible, Hashable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(avatar, forKey: .avatar)
         try container.encodeIfPresent(computeRef, forKey: .computeRef)
         try container.encodeIfPresent(description, forKey: .description)
+        try container.encodeIfPresent(emoji, forKey: .emoji)
         try container.encodeIfPresent(executionMode, forKey: .executionMode)
         try container.encodeIfPresent(instructions, forKey: .instructions)
         try container.encodeIfPresent(model, forKey: .model)

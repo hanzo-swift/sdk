@@ -15,21 +15,21 @@ public struct TeamRoomBind: Sendable, Codable, ParameterConvertible, Hashable {
     public var id: String?
     /** Life sets the lifecycle intent: \"standing\" or \"bound\". Any other value is refused rather than stored, so a reader never has to interpret a third one. Empty leaves the current intent unchanged. */
     public var life: String?
-    /** Workspace names the workspace holding the room. It is required, because a room id is unique only within one and searching every workspace for a matching id would make the write's target depend on iteration order. */
-    public var workspace: String?
+    /** Space names the space holding the room. It is required, because a room id is unique only within one and searching every space for a matching id would make the write's target depend on iteration order. */
+    public var space: String?
 
-    public init(bindings: [String]? = nil, id: String? = nil, life: String? = nil, workspace: String? = nil) {
+    public init(bindings: [String]? = nil, id: String? = nil, life: String? = nil, space: String? = nil) {
         self.bindings = bindings
         self.id = id
         self.life = life
-        self.workspace = workspace
+        self.space = space
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case bindings
         case id
         case life
-        case workspace
+        case space
     }
 
     // Encodable protocol methods
@@ -39,7 +39,7 @@ public struct TeamRoomBind: Sendable, Codable, ParameterConvertible, Hashable {
         try container.encodeIfPresent(bindings, forKey: .bindings)
         try container.encodeIfPresent(id, forKey: .id)
         try container.encodeIfPresent(life, forKey: .life)
-        try container.encodeIfPresent(workspace, forKey: .workspace)
+        try container.encodeIfPresent(space, forKey: .space)
     }
 }
 

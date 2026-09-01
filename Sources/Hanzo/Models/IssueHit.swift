@@ -21,7 +21,7 @@ public struct IssueHit: Sendable, Codable, ParameterConvertible, Hashable {
     public var project: String?
     /** Repo is the git repository the issue is bound to, empty when it is not repo-bound. */
     public var repo: String?
-    /** Room is the collaboration room the issue belongs to, spelled \"<workspace>_<room>\" — empty when it is not room-bound, which is most of them. It is here so an org-wide search says which channel each item came from without a second read. */
+    /** Room is the collaboration room the issue belongs to, spelled \"<space>_<room>\" — empty when it is not room-bound, which is most of them. It is here so an org-wide search says which channel each item came from without a second read. */
     public var room: String?
     /** Source is which surface opened it: team, git, crm, helpdesk, cms or agent. \"git\" is how the mirrored forge and GitHub rows are spelled. */
     public var source: String?

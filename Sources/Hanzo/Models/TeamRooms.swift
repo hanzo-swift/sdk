@@ -9,7 +9,7 @@ import Foundation
 
 public struct TeamRooms: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** Rooms is every room of every workspace the caller's org owns, each with the work facet it carries. */
+    /** Rooms is every room of every space the caller's org owns, each with the work facet it carries. */
     public var rooms: [TeamRoom]?
 
     public init(rooms: [TeamRoom]? = nil) {

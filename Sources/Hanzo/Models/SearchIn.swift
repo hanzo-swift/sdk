@@ -9,7 +9,7 @@ import Foundation
 
 public struct SearchIn: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** DocTypes restricts retrieval to a subset of the indexed knowledge doctypes (kb-page, kb-memory, kb-source). An empty or foreign list reads all of them. */
+    /** DocTypes restricts retrieval to a subset of the indexed knowledge doctypes (kb.page, kb.memory, kb.source). An empty or foreign list reads all of them. */
     public var doctypes: [String]?
     /** Limit bounds the hits returned. Default 10, maximum 50. */
     public var limit: Int?

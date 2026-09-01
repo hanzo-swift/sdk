@@ -3425,45 +3425,6 @@ open class AiAPI {
     }
 
     /**
-     List messages across tenants
-     
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: GetAiMessages200Response
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAiMessagesGlobal(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> GetAiMessages200Response {
-        return try await getAiMessagesGlobalWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     List messages across tenants
-     - GET /v1/ai/messages/global
-     - Cross-tenant listing. Admin-only; a tenant caller is refused.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<GetAiMessages200Response> 
-     */
-    open class func getAiMessagesGlobalWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<GetAiMessages200Response> {
-        let localVariablePath = "/v1/ai/messages/global"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<GetAiMessages200Response>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
      List nodes
      
      - parameter apiConfiguration: The configuration for the http request.

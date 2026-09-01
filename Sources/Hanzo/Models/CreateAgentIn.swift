@@ -9,10 +9,14 @@ import Foundation
 
 public struct CreateAgentIn: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Avatar and Emoji are how the agent APPEARS. An image wins when both are given — it is the thing somebody made — and both empty leaves the agent drawn as its initial. Validated by iam/pkg/schema, the same rule a person's avatar passes, so the 96 KiB bound and the accepted URL forms are stated once for every subject that has a face. */
+    public var avatar: String?
     /** ComputeRef optionally binds this bot to a visor machine. Opaque here, bounded at 256 characters, and not resolved — this package stores the reference and the binding's lifecycle belongs elsewhere. */
     public var computeRef: String?
     /** Description is the one line published as the description of the `agent_<name>` tool, which is how another agent decides whether to call this one. Optional, and worth writing for exactly that reason. */
     public var description: String?
+    /** Emoji is the single glyph shown when there is no image. An image WINS when both are given — it is the thing somebody made — and both empty leaves the agent drawn as its initial. */
+    public var emoji: String?
     /** ExecutionMode is one-shot or long-running. Empty takes one-shot, which runs only when something POSTs to it. long-running additionally requires Schedule, and counts against a per-org cap that answers 409 when it is full. */
     public var executionMode: String?
     /** Instructions is the system prompt, up to 32 KiB, stored verbatim. This is what the model reads; Description is what other CALLERS read. */
@@ -28,9 +32,11 @@ public struct CreateAgentIn: Sendable, Codable, ParameterConvertible, Hashable {
     /** Tools are the tool names this agent may call. Omitted or empty grants NONE — that default is the agent's authority and is not widened anywhere. The single entry \"*\" means whatever the fleet's MCP server serves at the time of each run. */
     public var tools: [String]?
 
-    public init(computeRef: String? = nil, description: String? = nil, executionMode: String? = nil, instructions: String? = nil, model: String? = nil, name: String? = nil, schedule: String? = nil, serviceAccountId: String? = nil, tools: [String]? = nil) {
+    public init(avatar: String? = nil, computeRef: String? = nil, description: String? = nil, emoji: String? = nil, executionMode: String? = nil, instructions: String? = nil, model: String? = nil, name: String? = nil, schedule: String? = nil, serviceAccountId: String? = nil, tools: [String]? = nil) {
+        self.avatar = avatar
         self.computeRef = computeRef
         self.description = description
+        self.emoji = emoji
         self.executionMode = executionMode
         self.instructions = instructions
         self.model = model
@@ -41,8 +47,10 @@ public struct CreateAgentIn: Sendable, Codable, ParameterConvertible, Hashable {
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
+        case avatar
         case computeRef
         case description
+        case emoji
         case executionMode
         case instructions
         case model
@@ -56,8 +64,10 @@ public struct CreateAgentIn: Sendable, Codable, ParameterConvertible, Hashable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(avatar, forKey: .avatar)
         try container.encodeIfPresent(computeRef, forKey: .computeRef)
         try container.encodeIfPresent(description, forKey: .description)
+        try container.encodeIfPresent(emoji, forKey: .emoji)
         try container.encodeIfPresent(executionMode, forKey: .executionMode)
         try container.encodeIfPresent(instructions, forKey: .instructions)
         try container.encodeIfPresent(model, forKey: .model)

@@ -9,7 +9,7 @@ import Foundation
 
 public struct BotRoster: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** Bots is every agent of the caller's org, projected as a workspace member. */
+    /** Bots is every agent of the caller's org, projected as a space member. */
     public var bots: [BotMember]?
 
     public init(bots: [BotMember]? = nil) {

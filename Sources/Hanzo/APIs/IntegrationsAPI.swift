@@ -1746,6 +1746,168 @@ open class IntegrationsAPI {
     }
 
     /**
+     Binds the caller's Linear organization to the org and seals the webhook secret.
+     
+     - parameter linearClaimIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: LinearClaimOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postIntegrationsLinearClaim(linearClaimIn: LinearClaimIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> LinearClaimOut {
+        return try await postIntegrationsLinearClaimWithRequestBuilder(linearClaimIn: linearClaimIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Binds the caller's Linear organization to the org and seals the webhook secret.
+     - POST /v1/integrations/linear/claim
+     - Binds the caller's Linear organization to the org and seals the webhook secret. The organization is READ from the caller's own key, never taken from the body: a person can only bind an organization they are a member of. An organization another org already holds is refused.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter linearClaimIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<LinearClaimOut> 
+     */
+    open class func postIntegrationsLinearClaimWithRequestBuilder(linearClaimIn: LinearClaimIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<LinearClaimOut> {
+        let localVariablePath = "/v1/integrations/linear/claim"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: linearClaimIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<LinearClaimOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Posts a comment on a Linear issue with the caller's own key, so it carries their name.
+     
+     - parameter linearCommentIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: LinearCommentOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postIntegrationsLinearComments(linearCommentIn: LinearCommentIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> LinearCommentOut {
+        return try await postIntegrationsLinearCommentsWithRequestBuilder(linearCommentIn: linearCommentIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Posts a comment on a Linear issue with the caller's own key, so it carries their name.
+     - POST /v1/integrations/linear/comments
+     - Posts a comment on a Linear issue with the caller's own key, so it carries their name. This is the op an agent is offered when it should answer in Linear rather than in chat.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter linearCommentIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<LinearCommentOut> 
+     */
+    open class func postIntegrationsLinearCommentsWithRequestBuilder(linearCommentIn: LinearCommentIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<LinearCommentOut> {
+        let localVariablePath = "/v1/integrations/linear/comments"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: linearCommentIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<LinearCommentOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Seeds the native todo with the EXISTING Linear issues the caller's key can see (default state=open); the webhook keeps them live thereafter.
+     
+     - parameter linearBackfillIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: LinearBackfillResult
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postIntegrationsLinearIssuesBackfill(linearBackfillIn: LinearBackfillIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> LinearBackfillResult {
+        return try await postIntegrationsLinearIssuesBackfillWithRequestBuilder(linearBackfillIn: linearBackfillIn, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Seeds the native todo with the EXISTING Linear issues the caller's key can see (default state=open); the webhook keeps them live thereafter.
+     - POST /v1/integrations/linear/issues/backfill
+     - Seeds the native todo with the EXISTING Linear issues the caller's key can see (default state=open); the webhook keeps them live thereafter. Synchronous and bounded, idempotent by ExtRef.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter linearBackfillIn: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<LinearBackfillResult> 
+     */
+    open class func postIntegrationsLinearIssuesBackfillWithRequestBuilder(linearBackfillIn: LinearBackfillIn, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<LinearBackfillResult> {
+        let localVariablePath = "/v1/integrations/linear/issues/backfill"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: linearBackfillIn, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<LinearBackfillResult>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Linear webhook
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postIntegrationsLinearWebhook(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await postIntegrationsLinearWebhookWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Linear webhook
+     - POST /v1/integrations/linear/webhook
+     - The address Linear delivers Issue and Comment events to. An issue event is mirrored into the native todo — idempotently by identifier, so ENG-123 is one row however many times it is edited, moved or closed — and every issue and comment event is handed to the automations engine as a verified trigger, which is how an org runs an agent when an issue is assigned to it or a comment mentions it. A remove is never propagated: the native side is canonical.  It answers a benign 200 for what it does not act on — an unknown organization, other event types — so Linear does not retry-storm. A bad signature and a delivery older than a minute are 401; only a sink failure is 502.  The delivery names its Linear organization; that organization's own webhook secret — sealed at /v1/integrations/linear/claim — verifies the HMAC over the raw body, so the tenant is the organization the signature proves, never a header.  The caller here is the PLATFORM, not a Hanzo tenant, so there is no bearer and no principal. The signature check IS the authentication, and it fails closed. The tenant is never read from the payload either: it is resolved from the verified platform identifier through the connection map, so an event from a workspace nobody connected does nothing. Refusals are written with their own status rather than being flattened to a 500, so a rejected signature reads as 401 and a malformed body as 400.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func postIntegrationsLinearWebhookWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        let localVariablePath = "/v1/integrations/linear/webhook"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      Receive OpenRouter Broadcast traces as usage rows
      
      - parameter requestBody: (body)  (optional)

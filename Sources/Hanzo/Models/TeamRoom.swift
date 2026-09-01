@@ -15,22 +15,22 @@ public struct TeamRoom: Sendable, Codable, ParameterConvertible, Hashable {
     public var bindings: [String]?
     /** Direct reports that this is a room between people rather than a named room. It is derived from the document's class, so it cannot disagree with what the client will render. */
     public var direct: Bool?
-    /** ID is the room document's own id, and the value the bind op addresses. It is unique within a workspace, not across the org. */
+    /** ID is the room document's own id, and the value the bind op addresses. It is unique within a space, not across the org. */
     public var id: String?
     /** Life is the room's lifecycle INTENT — \"standing\" or \"bound\" (HIP-0523 §2). Absent on the document it reads \"standing\": a room nobody classified is one that persists. */
     public var life: String?
-    /** Members are the account uuids in the room, agents included: an agent projects as a workspace member under a uuid derived from its id, so a caller comparing this against GET /v1/team/bots learns which rooms an agent is in. */
+    /** Members are the account uuids in the room, agents included: an agent projects as a space member under a uuid derived from its id, so a caller comparing this against GET /v1/team/bots learns which rooms an agent is in. */
     public var members: [String]?
     /** Name is what a person sees in a sidebar. A direct message carries none, so this is empty for one — the members are its name. */
     public var name: String?
     /** Private reports that the room is restricted to its members. */
     public var _private: Bool?
+    /** Space is the space uuid holding this room. It is part of the room's address: two spaces of one org may each hold a room with the same name, and only the pair identifies one. */
+    public var space: String?
     /** Topic is the room's own one-line subject, as the Team client sets it. */
     public var topic: String?
-    /** Workspace is the workspace uuid holding this room. It is part of the room's address: two workspaces of one org may each hold a room with the same name, and only the pair identifies one. */
-    public var workspace: String?
 
-    public init(archived: Bool? = nil, bindings: [String]? = nil, direct: Bool? = nil, id: String? = nil, life: String? = nil, members: [String]? = nil, name: String? = nil, _private: Bool? = nil, topic: String? = nil, workspace: String? = nil) {
+    public init(archived: Bool? = nil, bindings: [String]? = nil, direct: Bool? = nil, id: String? = nil, life: String? = nil, members: [String]? = nil, name: String? = nil, _private: Bool? = nil, space: String? = nil, topic: String? = nil) {
         self.archived = archived
         self.bindings = bindings
         self.direct = direct
@@ -39,8 +39,8 @@ public struct TeamRoom: Sendable, Codable, ParameterConvertible, Hashable {
         self.members = members
         self.name = name
         self._private = _private
+        self.space = space
         self.topic = topic
-        self.workspace = workspace
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -52,8 +52,8 @@ public struct TeamRoom: Sendable, Codable, ParameterConvertible, Hashable {
         case members
         case name
         case _private = "private"
+        case space
         case topic
-        case workspace
     }
 
     // Encodable protocol methods
@@ -68,8 +68,8 @@ public struct TeamRoom: Sendable, Codable, ParameterConvertible, Hashable {
         try container.encodeIfPresent(members, forKey: .members)
         try container.encodeIfPresent(name, forKey: .name)
         try container.encodeIfPresent(_private, forKey: ._private)
+        try container.encodeIfPresent(space, forKey: .space)
         try container.encodeIfPresent(topic, forKey: .topic)
-        try container.encodeIfPresent(workspace, forKey: .workspace)
     }
 }
 

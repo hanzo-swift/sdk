@@ -12,7 +12,7 @@ open class FrameworkAPI {
     /**
      Removes one document, after its on_trash hooks agree.
      
-     - parameter doctype: (path) DocType is the document&#39;s DocType, from the path. 
+     - parameter doctype: (path) DocType is the document&#39;s DocType, by ADDRESS — \&quot;module.name\&quot;, from the path. 
      - parameter name: (path) Name is the document&#39;s name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
@@ -29,7 +29,7 @@ open class FrameworkAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter doctype: (path) DocType is the document&#39;s DocType, from the path. 
+     - parameter doctype: (path) DocType is the document&#39;s DocType, by ADDRESS — \&quot;module.name\&quot;, from the path. 
      - parameter name: (path) Name is the document&#39;s name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
@@ -61,7 +61,7 @@ open class FrameworkAPI {
     /**
      Removes a DocType and every document stored under it.
      
-     - parameter name: (path) Name is the DocType&#39;s name, from the path. A name containing a space (\&quot;Sales Invoice\&quot;) arrives percent-encoded and is decoded before it is matched against the stored one. 
+     - parameter name: (path) Name is the DocType&#39;s ADDRESS — \&quot;module.name\&quot;, e.g. \&quot;kb.page\&quot;. A name containing a space (\&quot;erp.Sales Invoice\&quot;) arrives percent-encoded and is decoded before it is matched against the stored one. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: Void
      */
@@ -77,7 +77,7 @@ open class FrameworkAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter name: (path) Name is the DocType&#39;s name, from the path. A name containing a space (\&quot;Sales Invoice\&quot;) arrives percent-encoded and is decoded before it is matched against the stored one. 
+     - parameter name: (path) Name is the DocType&#39;s ADDRESS — \&quot;module.name\&quot;, e.g. \&quot;kb.page\&quot;. A name containing a space (\&quot;erp.Sales Invoice\&quot;) arrives percent-encoded and is decoded before it is matched against the stored one. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
@@ -103,58 +103,9 @@ open class FrameworkAPI {
     }
 
     /**
-     Removes one (user, role) grant in the caller's org.
-     
-     - parameter user: (path) User is the assignee whose grant is being revoked, from the path. 
-     - parameter role: (path) Role is the role to revoke, from the path. A role name containing a space (\&quot;System Manager\&quot;) arrives percent-encoded and is decoded before it is matched against the stored assignment. 
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteFrameworkRolesByUserByRole(user: String, role: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await deleteFrameworkRolesByUserByRoleWithRequestBuilder(user: user, role: role, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Removes one (user, role) grant in the caller's org.
-     - DELETE /v1/framework/roles/{user}/{role}
-     - Removes one (user, role) grant in the caller's org. Manager-only. Answers 204; a grant that does not exist is not found.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter user: (path) User is the assignee whose grant is being revoked, from the path. 
-     - parameter role: (path) Role is the role to revoke, from the path. A role name containing a space (\&quot;System Manager\&quot;) arrives percent-encoded and is decoded before it is matched against the stored assignment. 
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func deleteFrameworkRolesByUserByRoleWithRequestBuilder(user: String, role: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        var localVariablePath = "/v1/framework/roles/{user}/{role}"
-        let userPreEscape = "\(APIHelper.mapValueToPathItem(user))"
-        let userPostEscape = userPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{user}", with: userPostEscape, options: .literal, range: nil)
-        let rolePreEscape = "\(APIHelper.mapValueToPathItem(role))"
-        let rolePostEscape = rolePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{role}", with: rolePostEscape, options: .literal, range: nil)
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
      Returns the caller org's documents of one DocType, filtered, ordered and projected by the query.
      
-     - parameter doctype: (path) DocType is the DocType to list, from the path. 
+     - parameter doctype: (path) DocType is the DocType to list, by ADDRESS — \&quot;module.name\&quot;, from the path. 
      - parameter filters: (query) Filters is a JSON object of equality matches, e.g. {\&quot;priority\&quot;:\&quot;High\&quot;}. Every key must be a field the DocType declares (or the managed name / docstatus); an undeclared one is refused rather than silently ignored. (optional)
      - parameter fields: (query) Fields projects the response to a subset — a JSON array [\&quot;a\&quot;,\&quot;b\&quot;] or a comma list \&quot;a,b\&quot;. The envelope keys are always returned. (optional)
      - parameter orderBy: (query) OrderBy is \&quot;&lt;field&gt; [asc|desc]\&quot;. Empty means most-recently-updated first. (optional)
@@ -174,7 +125,7 @@ open class FrameworkAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter doctype: (path) DocType is the DocType to list, from the path. 
+     - parameter doctype: (path) DocType is the DocType to list, by ADDRESS — \&quot;module.name\&quot;, from the path. 
      - parameter filters: (query) Filters is a JSON object of equality matches, e.g. {\&quot;priority\&quot;:\&quot;High\&quot;}. Every key must be a field the DocType declares (or the managed name / docstatus); an undeclared one is refused rather than silently ignored. (optional)
      - parameter fields: (query) Fields projects the response to a subset — a JSON array [\&quot;a\&quot;,\&quot;b\&quot;] or a comma list \&quot;a,b\&quot;. The envelope keys are always returned. (optional)
      - parameter orderBy: (query) OrderBy is \&quot;&lt;field&gt; [asc|desc]\&quot;. Empty means most-recently-updated first. (optional)
@@ -212,7 +163,7 @@ open class FrameworkAPI {
     /**
      Returns one document by name, with Password fields redacted.
      
-     - parameter doctype: (path) DocType is the document&#39;s DocType, from the path. 
+     - parameter doctype: (path) DocType is the document&#39;s DocType, by ADDRESS — \&quot;module.name\&quot;, from the path. 
      - parameter name: (path) Name is the document&#39;s name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: [String: JSONValue]
@@ -229,7 +180,7 @@ open class FrameworkAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter doctype: (path) DocType is the document&#39;s DocType, from the path. 
+     - parameter doctype: (path) DocType is the document&#39;s DocType, by ADDRESS — \&quot;module.name\&quot;, from the path. 
      - parameter name: (path) Name is the document&#39;s name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<[String: JSONValue]> 
@@ -300,7 +251,7 @@ open class FrameworkAPI {
     /**
      Returns one DocType definition — its fields, naming rule, permissions and lifecycle flags.
      
-     - parameter name: (path) Name is the DocType&#39;s name, from the path. A name containing a space (\&quot;Sales Invoice\&quot;) arrives percent-encoded and is decoded before it is matched against the stored one. 
+     - parameter name: (path) Name is the DocType&#39;s ADDRESS — \&quot;module.name\&quot;, e.g. \&quot;kb.page\&quot;. A name containing a space (\&quot;erp.Sales Invoice\&quot;) arrives percent-encoded and is decoded before it is matched against the stored one. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: DocType
      */
@@ -316,7 +267,7 @@ open class FrameworkAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter name: (path) Name is the DocType&#39;s name, from the path. A name containing a space (\&quot;Sales Invoice\&quot;) arrives percent-encoded and is decoded before it is matched against the stored one. 
+     - parameter name: (path) Name is the DocType&#39;s ADDRESS — \&quot;module.name\&quot;, e.g. \&quot;kb.page\&quot;. A name containing a space (\&quot;erp.Sales Invoice\&quot;) arrives percent-encoded and is decoded before it is matched against the stored one. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<DocType> 
      */
@@ -425,45 +376,6 @@ open class FrameworkAPI {
     }
 
     /**
-     Returns every (user, role) assignment in the caller's org.
-     
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RoleList
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getFrameworkRoles(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RoleList {
-        return try await getFrameworkRolesWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Returns every (user, role) assignment in the caller's org.
-     - GET /v1/framework/roles
-     - Returns every (user, role) assignment in the caller's org. Roles are what DocType permissions are written against, so this is the grant table the permission calculus resolves a member's rights from.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<RoleList> 
-     */
-    open class func getFrameworkRolesWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RoleList> {
-        let localVariablePath = "/v1/framework/roles"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<RoleList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
      Reports how much of the DocType surface the caller's org uses: how many DocTypes it has defined, and how many documents exist across them.
      
      - parameter apiConfiguration: The configuration for the http request.
@@ -549,7 +461,7 @@ open class FrameworkAPI {
     /**
      Moves a submitted document to cancelled (docstatus 1 → 2) after its on_cancel hooks agree.
      
-     - parameter doctype: (path) DocType is the document&#39;s DocType, from the path. 
+     - parameter doctype: (path) DocType is the document&#39;s DocType, by ADDRESS — \&quot;module.name\&quot;, from the path. 
      - parameter name: (path) Name is the document&#39;s name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: [String: JSONValue]
@@ -566,7 +478,7 @@ open class FrameworkAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter doctype: (path) DocType is the document&#39;s DocType, from the path. 
+     - parameter doctype: (path) DocType is the document&#39;s DocType, by ADDRESS — \&quot;module.name\&quot;, from the path. 
      - parameter name: (path) Name is the document&#39;s name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<[String: JSONValue]> 
@@ -598,7 +510,7 @@ open class FrameworkAPI {
     /**
      Moves a draft to submitted (docstatus 0 → 1) after its on_submit hooks agree.
      
-     - parameter doctype: (path) DocType is the document&#39;s DocType, from the path. 
+     - parameter doctype: (path) DocType is the document&#39;s DocType, by ADDRESS — \&quot;module.name\&quot;, from the path. 
      - parameter name: (path) Name is the document&#39;s name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: [String: JSONValue]
@@ -615,7 +527,7 @@ open class FrameworkAPI {
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter doctype: (path) DocType is the document&#39;s DocType, from the path. 
+     - parameter doctype: (path) DocType is the document&#39;s DocType, by ADDRESS — \&quot;module.name\&quot;, from the path. 
      - parameter name: (path) Name is the document&#39;s name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one. 
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<[String: JSONValue]> 
@@ -725,47 +637,6 @@ open class FrameworkAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<Install>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Grants one user one role in the caller's org — how a member gains rights on a DocType, since permissions name roles and never users.
-     
-     - parameter roleAssignment: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RoleAssignment
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postFrameworkRoles(roleAssignment: RoleAssignment, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RoleAssignment {
-        return try await postFrameworkRolesWithRequestBuilder(roleAssignment: roleAssignment, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Grants one user one role in the caller's org — how a member gains rights on a DocType, since permissions name roles and never users.
-     - POST /v1/framework/roles
-     - Grants one user one role in the caller's org — how a member gains rights on a DocType, since permissions name roles and never users. Manager-only. Answers 201.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter roleAssignment: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<RoleAssignment> 
-     */
-    open class func postFrameworkRolesWithRequestBuilder(roleAssignment: RoleAssignment, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RoleAssignment> {
-        let localVariablePath = "/v1/framework/roles"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: roleAssignment, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<RoleAssignment>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }

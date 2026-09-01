@@ -9,7 +9,7 @@ import Foundation
 
 public struct StatsSessions: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** ActiveSessions maps a workspace uuid to its connected sessions. It carries only the token's OWN workspace, and is empty for a token that names none. */
+    /** ActiveSessions maps a space uuid to its connected sessions. It carries only the token's OWN space, and is empty for a token that names none. */
     public var activeSessions: [String: [StatsUser]]?
 
     public init(activeSessions: [String: [StatsUser]]? = nil) {

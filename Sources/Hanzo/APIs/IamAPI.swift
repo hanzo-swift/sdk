@@ -174,7 +174,7 @@ open class IamAPI {
     }
 
     /**
-     Records a sign-in.
+     Records a sign-in and answers with the cookie id it minted.
      
      - parameter iamCreateSessionIn: (body)  
      - parameter apiConfiguration: The configuration for the http request.
@@ -186,9 +186,9 @@ open class IamAPI {
     }
 
     /**
-     Records a sign-in.
+     Records a sign-in and answers with the cookie id it minted.
      - POST /v1/iam/sessions
-     - Records a sign-in. Signing in again from another browser adds to the session rather than replacing it, so one person can be signed in from a laptop and a phone at once.  Ask for an exclusive sign-in and the opposite holds: the new sign-in is the only one left and every other browser is signed out. That is the setting to use when one person may hold only one live session at a time.
+     - Records a sign-in and answers with the cookie id it minted. Signing in again from another browser adds to the session rather than replacing it, so one person can be signed in from a laptop and a phone at once.  Ask for an exclusive sign-in and the opposite holds: the new sign-in is the only one left and every other browser is signed out. That is the setting to use when one person may hold only one live session at a time.
      - Bearer Token:
        - type: http
        - name: bearer
@@ -734,6 +734,50 @@ open class IamAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Removes a team.
+     
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamTeamsDeleteOutput
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deleteIamTeamsByName(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamTeamsDeleteOutput {
+        return try await deleteIamTeamsByNameWithRequestBuilder(name: name, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Removes a team.
+     - DELETE /v1/iam/teams/{name}
+     - Removes a team. Everyone in it loses the access it carried; their accounts, and any other team they are in, are untouched.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamTeamsDeleteOutput> 
+     */
+    open class func deleteIamTeamsByNameWithRequestBuilder(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamTeamsDeleteOutput> {
+        var localVariablePath = "/v1/iam/teams/{name}"
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamTeamsDeleteOutput>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -1677,7 +1721,7 @@ open class IamAPI {
     }
 
     /**
-     Returns your organization's API keys, newest first — what each is called, what it may reach, and its publishable half.
+     Returns an organization's API keys, newest first — what each is called, what it may reach, and its publishable half.
      
      - parameter owner: (query)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
@@ -1689,9 +1733,9 @@ open class IamAPI {
     }
 
     /**
-     Returns your organization's API keys, newest first — what each is called, what it may reach, and its publishable half.
+     Returns an organization's API keys, newest first — what each is called, what it may reach, and its publishable half.
      - GET /v1/iam/keys
-     - Returns your organization's API keys, newest first — what each is called, what it may reach, and its publishable half. Secret halves are never listed.
+     - Returns an organization's API keys, newest first — what each is called, what it may reach, and its publishable half. Secret halves are never listed.  Which organization comes from your credentials, not from the request: you read your own and no one else's. The capability that admits a confidential client to this collection does not itself name a tenant, so the tenant is decided here.
      - Bearer Token:
        - type: http
        - name: bearer
@@ -1902,7 +1946,7 @@ open class IamAPI {
     /**
      Answers either question about who belongs where: which organizations one person can act in, or who can act in one organization.
      - GET /v1/iam/memberships
-     - Answers either question about who belongs where: which organizations one person can act in, or who can act in one organization.  Both are org-scoped: a non-SuperAdmin may ask about ITS OWN org's roster, or about a user whose home org is its own, and nothing else. The bound comes from the verified credential via authz.Scope, so a request parameter can never widen it — a membership row names who may act and spend in an org, so a cross-tenant read is a customer roster leak.
+     - Answers either question about who belongs where: which organizations one person can act in, or who can act in one organization.  Both are org-scoped: a non-SuperAdmin may ask about ITS OWN org's roster, or about a user whose home org is its own, and nothing else. The bound comes from the verified credential via principal.Scope, so a request parameter can never widen it — a membership row names who may act and spend in an org, so a cross-tenant read is a customer roster leak.
      - Bearer Token:
        - type: http
        - name: bearer
@@ -2790,9 +2834,92 @@ open class IamAPI {
     }
 
     /**
-     Returns a page of the people in your organization, with the total so you can page through the rest.
+     Returns your organization's teams, newest first — each a named set of people that roles and permissions are granted to.
      
-     - parameter owner: (query)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamTeamsListOutput
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getIamTeams(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamTeamsListOutput {
+        return try await getIamTeamsWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns your organization's teams, newest first — each a named set of people that roles and permissions are granted to.
+     - GET /v1/iam/teams
+     - Returns your organization's teams, newest first — each a named set of people that roles and permissions are granted to.  You see your own organization's teams and no one else's; which organization that is comes from your credentials, not from the request.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamTeamsListOutput> 
+     */
+    open class func getIamTeamsWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamTeamsListOutput> {
+        let localVariablePath = "/v1/iam/teams"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamTeamsListOutput>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns one team: who is in it.
+     
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamTeam
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getIamTeamsByName(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamTeam {
+        return try await getIamTeamsByNameWithRequestBuilder(name: name, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns one team: who is in it.
+     - GET /v1/iam/teams/{name}
+     - Returns one team: who is in it.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter name: (path)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamTeam> 
+     */
+    open class func getIamTeamsByNameWithRequestBuilder(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamTeam> {
+        var localVariablePath = "/v1/iam/teams/{name}"
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamTeam>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns a page of the people in an organization, with the total so you can page through the rest.
+     
+     - parameter owner: (query)  (optional)
      - parameter email: (query) Email narrows the page to the accounts carrying one address. Looking a person up by their address is a QUERY over the collection, not an item read: an address is not the natural key, two rows in one org can carry one, and a caller that gets a page SEES both — where a single-item read would have to choose, and choosing is how somebody joins a team under a colleague&#39;s identity. (optional)
      - parameter limit: (query)  (optional)
      - parameter offset: (query)  (optional)
@@ -2800,32 +2927,32 @@ open class IamAPI {
      - returns: IamUsersListOutput
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIamUsers(owner: String, email: String? = nil, limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamUsersListOutput {
+    open class func getIamUsers(owner: String? = nil, email: String? = nil, limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamUsersListOutput {
         return try await getIamUsersWithRequestBuilder(owner: owner, email: email, limit: limit, offset: offset, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Returns a page of the people in your organization, with the total so you can page through the rest.
+     Returns a page of the people in an organization, with the total so you can page through the rest.
      - GET /v1/iam/users
-     - Returns a page of the people in your organization, with the total so you can page through the rest. Passwords, API secrets and MFA material are stripped from every entry.
+     - Returns a page of the people in an organization, with the total so you can page through the rest. Passwords, API secrets and MFA material are stripped from every entry.  Which organization comes from your credentials, not from the request: you read your own and no one else's, and a credential whose scope spans tenants reads the tenant it names — or, naming none, every one of them.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (query)  
+     - parameter owner: (query)  (optional)
      - parameter email: (query) Email narrows the page to the accounts carrying one address. Looking a person up by their address is a QUERY over the collection, not an item read: an address is not the natural key, two rows in one org can carry one, and a caller that gets a page SEES both — where a single-item read would have to choose, and choosing is how somebody joins a team under a colleague&#39;s identity. (optional)
      - parameter limit: (query)  (optional)
      - parameter offset: (query)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IamUsersListOutput> 
      */
-    open class func getIamUsersWithRequestBuilder(owner: String, email: String? = nil, limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamUsersListOutput> {
+    open class func getIamUsersWithRequestBuilder(owner: String? = nil, email: String? = nil, limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamUsersListOutput> {
         let localVariablePath = "/v1/iam/users"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "owner": (wrappedValue: owner.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "owner": (wrappedValue: owner?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "email": (wrappedValue: email?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "offset": (wrappedValue: offset?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
@@ -3609,40 +3736,40 @@ open class IamAPI {
     }
 
     /**
-     Returns who is currently signed in to your organization, newest first, and can be narrowed to one person or one application.
+     Returns who is currently signed in to an organization, newest first, and can be narrowed to one person or one application.
      
-     - parameter owner: (query)  
+     - parameter owner: (query)  (optional)
      - parameter name: (query)  (optional)
      - parameter application: (query)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: IamListSessionsOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func listSessions(owner: String, name: String? = nil, application: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamListSessionsOut {
+    open class func listSessions(owner: String? = nil, name: String? = nil, application: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamListSessionsOut {
         return try await listSessionsWithRequestBuilder(owner: owner, name: name, application: application, apiConfiguration: apiConfiguration).execute().body
     }
 
     /**
-     Returns who is currently signed in to your organization, newest first, and can be narrowed to one person or one application.
+     Returns who is currently signed in to an organization, newest first, and can be narrowed to one person or one application.
      - GET /v1/iam/sessions
-     - Returns who is currently signed in to your organization, newest first, and can be narrowed to one person or one application. It is what you read before signing someone out.
+     - Returns who is currently signed in to an organization, newest first, and can be narrowed to one person or one application. It is what you read before signing someone out.  Which organization comes from your credentials, not from the request: you read your own and no one else's. A session row names a live account and the applications it is signed in to, so the tenant is decided here rather than taken from the query.
      - Bearer Token:
        - type: http
        - name: bearer
-     - parameter owner: (query)  
+     - parameter owner: (query)  (optional)
      - parameter name: (query)  (optional)
      - parameter application: (query)  (optional)
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IamListSessionsOut> 
      */
-    open class func listSessionsWithRequestBuilder(owner: String, name: String? = nil, application: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamListSessionsOut> {
+    open class func listSessionsWithRequestBuilder(owner: String? = nil, name: String? = nil, application: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamListSessionsOut> {
         let localVariablePath = "/v1/iam/sessions"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 
         var localVariableUrlComponents = URLComponents(string: localVariableURLString)
         localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
-            "owner": (wrappedValue: owner.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "owner": (wrappedValue: owner?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "name": (wrappedValue: name?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
             "application": (wrappedValue: application?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
         ])
@@ -5201,6 +5328,47 @@ open class IamAPI {
     }
 
     /**
+     Makes a team — a named set of people that roles and permissions grant to.
+     
+     - parameter iamTeamsInput: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamTeam
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postIamTeams(iamTeamsInput: IamTeamsInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamTeam {
+        return try await postIamTeamsWithRequestBuilder(iamTeamsInput: iamTeamsInput, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Makes a team — a named set of people that roles and permissions grant to.
+     - POST /v1/iam/teams
+     - Makes a team — a named set of people that roles and permissions grant to. Granting to a team rather than to each person keeps access correct as people come and go: add someone and they inherit what the team can do. A name already used in your organization is refused.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter iamTeamsInput: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamTeam> 
+     */
+    open class func postIamTeamsWithRequestBuilder(iamTeamsInput: IamTeamsInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamTeam> {
+        let localVariablePath = "/v1/iam/teams"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamTeamsInput, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamTeam>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      Mints an access token for the `?id=<owner>/<name>` target user (optional `?aud=` resource, RFC 8707), issued by the authenticated + allow-listed confidential client.
      
      - parameter apiConfiguration: The configuration for the http request.
@@ -6156,6 +6324,52 @@ open class IamAPI {
     }
 
     /**
+     Changes who is in a team.
+     
+     - parameter name: (path) Name addresses the team on update and names it on create; every other field is content and binds from the BODY, never the URL. 
+     - parameter iamTeamsInput: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamTeam
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func putIamTeamsByName(name: String, iamTeamsInput: IamTeamsInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamTeam {
+        return try await putIamTeamsByNameWithRequestBuilder(name: name, iamTeamsInput: iamTeamsInput, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Changes who is in a team.
+     - PUT /v1/iam/teams/{name}
+     - Changes who is in a team. Access changes for everyone in it as soon as the write lands. The name and the created stamp do not change.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter name: (path) Name addresses the team on update and names it on create; every other field is content and binds from the BODY, never the URL. 
+     - parameter iamTeamsInput: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamTeam> 
+     */
+    open class func putIamTeamsByNameWithRequestBuilder(name: String, iamTeamsInput: IamTeamsInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamTeam> {
+        var localVariablePath = "/v1/iam/teams/{name}"
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamTeamsInput, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamTeam>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "PUT", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      Changes a person's profile, their roles, or the credentials they sign in with.
      
      - parameter owner: (path)  
@@ -6299,6 +6513,47 @@ open class IamAPI {
     }
 
     /**
+     Changes how an organization reads: its display name, its website and its favicon.
+     
+     - parameter iamSetProfileInput: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: IamOrganization
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func setOrganizationProfile(iamSetProfileInput: IamSetProfileInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamOrganization {
+        return try await setOrganizationProfileWithRequestBuilder(iamSetProfileInput: iamSetProfileInput, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Changes how an organization reads: its display name, its website and its favicon.
+     - POST /v1/iam/organizations/profile
+     - Changes how an organization reads: its display name, its website and its favicon.  IT EXISTS FOR THE REASON SetAvatar DOES, and the reason is worth stating because the obvious alternative is a trap. Update REPLACES the whole record, so a caller that wants to change one field has to send every other field back — and a record read back first arrives MASKED, so the read half of that read-modify-write hands you \"***\" for the master password and the salt, and the write half stores it. Renaming an organization through Update therefore costs it its credential settings; sending only the new name costs it everything else. Neither is a rename.  So this writes the fields it names and touches nothing else. A nil pointer is not sent and not changed; an empty string is sent and clears the field.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter iamSetProfileInput: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<IamOrganization> 
+     */
+    open class func setOrganizationProfileWithRequestBuilder(iamSetProfileInput: IamSetProfileInput, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamOrganization> {
+        let localVariablePath = "/v1/iam/organizations/profile"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: iamSetProfileInput, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<IamOrganization>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      Changes an organization's display, its defaults and the sign-in rules everyone in it inherits.
      
      - parameter owner: (path)  
@@ -6401,7 +6656,7 @@ open class IamAPI {
     }
 
     /**
-     Replaces the set of browsers a session covers — signing out the ones you leave off while the session itself stays live.
+     Names the browsers a session keeps — signing out the ones you leave off while the session itself stays live.
      
      - parameter owner: (path)  
      - parameter name: (path)  
@@ -6416,9 +6671,9 @@ open class IamAPI {
     }
 
     /**
-     Replaces the set of browsers a session covers — signing out the ones you leave off while the session itself stays live.
+     Names the browsers a session keeps — signing out the ones you leave off while the session itself stays live.
      - PUT /v1/iam/sessions/{owner}/{name}/{application}
-     - Replaces the set of browsers a session covers — signing out the ones you leave off while the session itself stays live. A session that does not exist is reported as missing rather than created.
+     - Names the browsers a session keeps — signing out the ones you leave off while the session itself stays live. A session that does not exist is reported as missing rather than created.
      - Bearer Token:
        - type: http
        - name: bearer

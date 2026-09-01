@@ -9,12 +9,16 @@ import Foundation
 
 public struct AgentView: Sendable, Codable, ParameterConvertible, Hashable {
 
+    /** Avatar is an image the agent is drawn as — a link to one, or the bytes inline as a data URL, up to 96 KiB. Emoji is the one glyph a caller picked when they had no image. At most one is ever set; neither means the agent is drawn as its initial, the same way a person with no photo is. Both are iam/pkg/schema's Mark, so a face means the same thing on an agent as it does on a person or an org. Avatar is the agent's picture: an image URL, or the image itself inline as a data URL up to 96 KiB. Empty when the agent has no image. */
+    public var avatar: String?
     /** ComputeRef is the visor machine this bot is bound to, opaque here: this package stores and echoes it, and the binding's lifecycle belongs elsewhere. Empty means unbound, which is what every one-shot agent is. */
     public var computeRef: String?
     /** CreatedAt is when the agent was defined, RFC 3339 in UTC to the second. */
     public var createdAt: String?
     /** Description is the one line another agent reads when deciding whether to call this one: the tool catalogue publishes it as the description of `agent_<name>`, falling back to \"agent <name>\" when it is empty. It is not part of the prompt — Instructions is — so writing the behaviour here reaches the caller and not the model. */
     public var description: String?
+    /** Emoji is the single glyph a caller picked when they had no image. At most one of avatar and emoji is ever set; neither means the agent is drawn as its initial, the same way a person with no photo is. */
+    public var emoji: String?
     /** ExecutionMode is one-shot or long-running, and it decides who may start this agent. one-shot runs only when something POSTs to it; long-running is additionally invoked by the scheduler on Schedule, once a minute against the cron. An org's long-running agents are capped, so a switch INTO it can be refused with 409. */
     public var executionMode: String?
     /** ID is the agent's stable handle, minted here as \"agent_\" + 32 hex characters of crypto/rand. A caller cannot choose it, and it never changes — unlike Name, which is the other way to address the same agent. */
@@ -36,10 +40,12 @@ public struct AgentView: Sendable, Codable, ParameterConvertible, Hashable {
     /** UpdatedAt is the last time any field above was written, same format. It moves on an update to the DEFINITION and never on a run, so a busy agent nobody has edited keeps an old one. */
     public var updatedAt: String?
 
-    public init(computeRef: String? = nil, createdAt: String? = nil, description: String? = nil, executionMode: String? = nil, id: String? = nil, model: String? = nil, name: String? = nil, runs: Int? = nil, schedule: String? = nil, serviceAccountId: String? = nil, status: String? = nil, tools: [String]? = nil, updatedAt: String? = nil) {
+    public init(avatar: String? = nil, computeRef: String? = nil, createdAt: String? = nil, description: String? = nil, emoji: String? = nil, executionMode: String? = nil, id: String? = nil, model: String? = nil, name: String? = nil, runs: Int? = nil, schedule: String? = nil, serviceAccountId: String? = nil, status: String? = nil, tools: [String]? = nil, updatedAt: String? = nil) {
+        self.avatar = avatar
         self.computeRef = computeRef
         self.createdAt = createdAt
         self.description = description
+        self.emoji = emoji
         self.executionMode = executionMode
         self.id = id
         self.model = model
@@ -53,9 +59,11 @@ public struct AgentView: Sendable, Codable, ParameterConvertible, Hashable {
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
+        case avatar
         case computeRef
         case createdAt
         case description
+        case emoji
         case executionMode
         case id
         case model
@@ -72,9 +80,11 @@ public struct AgentView: Sendable, Codable, ParameterConvertible, Hashable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(avatar, forKey: .avatar)
         try container.encodeIfPresent(computeRef, forKey: .computeRef)
         try container.encodeIfPresent(createdAt, forKey: .createdAt)
         try container.encodeIfPresent(description, forKey: .description)
+        try container.encodeIfPresent(emoji, forKey: .emoji)
         try container.encodeIfPresent(executionMode, forKey: .executionMode)
         try container.encodeIfPresent(id, forKey: .id)
         try container.encodeIfPresent(model, forKey: .model)
