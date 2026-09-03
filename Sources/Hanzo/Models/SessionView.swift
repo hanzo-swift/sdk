@@ -16,7 +16,7 @@ public struct SessionView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Agent is the label the surface running this session calls itself by (\"hanzo-dev\"), up to 128 characters. Required at register. It is free text, not a reference: it need not name a defined agent, and nothing resolves it. */
     public var agent: String?
     /** Children is the DIRECT fan-out — how many sessions name this one as parent — and not the size of the subtree. Read the tree for that. */
-    public var children: Int?
+    public var children: Int64?
     /** CreatedAt is when the row was written, same format. Every path that opens a session stamps it and StartedAt from one clock reading, so the two are equal on every session this surface has ever produced. */
     public var createdAt: String?
     /** Cwd is the directory the session is working in NOW, not the one it started in: a linked shell moves around, and a card showing where `hanzo link` was run answers \"which work is this\" with something that was true once. */
@@ -24,7 +24,7 @@ public struct SessionView: Sendable, Codable, ParameterConvertible, Hashable {
     /** EndedAt is when it reached done or error, same format. Empty while it is still running or paused, which is how absence reads here: not over yet. */
     public var endedAt: String?
     /** Events is how many turns the session's log holds, counted at read time. It is the whole log, however few of them RecentEvents carries. */
-    public var events: Int?
+    public var events: Int64?
     /** Execution context (mission-control): the machine/repo/cwd a card shows and the run-target a session is dispatched to. Omitted when a surface didn't report it. */
     public var host: String?
     /** ID is the session's handle, minted here as \"sess_\" + 32 hex characters. Every later read, patch, event append and control command is addressed with it, and a caller cannot choose it. */
@@ -66,7 +66,7 @@ public struct SessionView: Sendable, Codable, ParameterConvertible, Hashable {
     /** UpdatedAt is the session's last-activity clock, same format. It moves on a write to the row — a status, a title, a re-dispatch — AND on every appended turn, because the append bumps it in the same transaction. The list is ordered on CreatedAt, so this is the field that says whether a session is still saying anything. */
     public var updatedAt: String?
 
-    public init(account: String? = nil, actor: String? = nil, agent: String? = nil, children: Int? = nil, createdAt: String? = nil, cwd: String? = nil, endedAt: String? = nil, events: Int? = nil, host: String? = nil, id: String? = nil, lastEvent: LastEventView? = nil, org: String? = nil, parentSessionId: String? = nil, progress: SessionProgress? = nil, project: String? = nil, provider: String? = nil, published: Bool? = nil, repo: String? = nil, room: String? = nil, rootSessionId: String? = nil, startedAt: String? = nil, status: String? = nil, target: String? = nil, taskRunId: String? = nil, taskWorkflowId: String? = nil, terminal: String? = nil, title: String? = nil, updatedAt: String? = nil) {
+    public init(account: String? = nil, actor: String? = nil, agent: String? = nil, children: Int64? = nil, createdAt: String? = nil, cwd: String? = nil, endedAt: String? = nil, events: Int64? = nil, host: String? = nil, id: String? = nil, lastEvent: LastEventView? = nil, org: String? = nil, parentSessionId: String? = nil, progress: SessionProgress? = nil, project: String? = nil, provider: String? = nil, published: Bool? = nil, repo: String? = nil, room: String? = nil, rootSessionId: String? = nil, startedAt: String? = nil, status: String? = nil, target: String? = nil, taskRunId: String? = nil, taskWorkflowId: String? = nil, terminal: String? = nil, title: String? = nil, updatedAt: String? = nil) {
         self.account = account
         self.actor = actor
         self.agent = agent

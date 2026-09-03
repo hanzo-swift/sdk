@@ -20,15 +20,15 @@ public struct IngressStatus: Sendable, Codable, ParameterConvertible, Hashable {
     /** HTTPSAddr is the address the SNI TLS terminator listens on. */
     public var httpsAddr: String?
     /** LiveHosts is how many hosts the compiled table routes. */
-    public var liveHosts: Int?
+    public var liveHosts: Int64?
     /** Proxy names the reverse-proxy implementation behind every route. */
     public var proxy: String?
     /** Role is \"edge\" when CLOUD_INGRESS_EDGE_ENABLED is set, else \"app\". */
     public var role: String?
     /** TLSHosts is how many hosts the ACME HostPolicy will issue a certificate for. NOT a subset of LiveHosts: an extraHost owns no route, and a TLS route naming a missing service is skipped while its host still wants a cert. */
-    public var tlsHosts: Int?
+    public var tlsHosts: Int64?
 
-    public init(acmeCacheDir: String? = nil, acmeStaging: Bool? = nil, edgeEnabled: Bool? = nil, httpAddr: String? = nil, httpsAddr: String? = nil, liveHosts: Int? = nil, proxy: String? = nil, role: String? = nil, tlsHosts: Int? = nil) {
+    public init(acmeCacheDir: String? = nil, acmeStaging: Bool? = nil, edgeEnabled: Bool? = nil, httpAddr: String? = nil, httpsAddr: String? = nil, liveHosts: Int64? = nil, proxy: String? = nil, role: String? = nil, tlsHosts: Int64? = nil) {
         self.acmeCacheDir = acmeCacheDir
         self.acmeStaging = acmeStaging
         self.edgeEnabled = edgeEnabled

@@ -19,9 +19,9 @@ public struct CampaignResults: Sendable, Codable, ParameterConvertible, Hashable
     /** Channels is the per-channel spend breakdown that SpendCents sums, one row per channel on the campaign including the ones that never launched. */
     public var channels: [ChannelMetric]?
     /** Clicks is the campaign's click events over the window. */
-    public var clicks: Int?
+    public var clicks: Int64?
     /** Conversions is the terminal funnel events attributed to the campaign — orders completed, signups completed, explicit conversion events. */
-    public var conversions: Int?
+    public var conversions: Int64?
     /** CTR is clicks per impression, a fraction rounded to 4 places (0.0123 = 1.23%), not a percentage. 0 when there were no impressions to divide by. */
     public var ctr: Double?
     /** CVR is conversions per click, a fraction rounded to 4 places. 0 when there were no clicks. */
@@ -29,7 +29,7 @@ public struct CampaignResults: Sendable, Codable, ParameterConvertible, Hashable
     /** End is the window's end, RFC3339 UTC — the read's own clock unless an explicit pair was given. The window is a LOOKBACK, not the campaign's own lifetime. */
     public var end: String?
     /** Impressions is how many times the campaign's creatives were shown, counted from its utm_campaign-tagged impression events. */
-    public var impressions: Int?
+    public var impressions: Int64?
     /** Name is the campaign's display name at read time, so a result can be labelled without a second fetch. */
     public var name: String?
     /** Range is the window actually used: 24h, 7d, 30d, 90d, or \"custom\" when an explicit start/end pair was honored. An unparseable or absent range reads 30d, so this is the value to trust, not the one that was sent. */
@@ -41,15 +41,15 @@ public struct CampaignResults: Sendable, Codable, ParameterConvertible, Hashable
     /** Source names the analytics table the funnel was read from, so an operator can see exactly what was counted. Set even when Available is false. */
     public var source: String?
     /** SpendCents is the campaign's total spend in CENTS: the sum of what each live channel's provider reports. A channel whose spend could not be read contributes 0 and says so on its own row. */
-    public var spendCents: Int?
+    public var spendCents: Int64?
     /** Start is the window's inclusive start, RFC3339 UTC. */
     public var start: String?
     /** Status is the campaign's lifecycle state at read time — draft, live, paused, completed or failed. A draft has never run, so its funnel is legitimately zero. */
     public var status: String?
     /** Visitors is how many distinct people the campaign reached, counted by event identity across ALL its events in the window — not a subset of Impressions, so it can exceed them for a campaign whose provider reports clicks but not views. */
-    public var visitors: Int?
+    public var visitors: Int64?
 
-    public init(abTest: JSONValue? = nil, available: Bool? = nil, cac: Double? = nil, campaignId: String? = nil, channels: [ChannelMetric]? = nil, clicks: Int? = nil, conversions: Int? = nil, ctr: Double? = nil, cvr: Double? = nil, end: String? = nil, impressions: Int? = nil, name: String? = nil, range: String? = nil, revenue: Double? = nil, roas: Double? = nil, source: String? = nil, spendCents: Int? = nil, start: String? = nil, status: String? = nil, visitors: Int? = nil) {
+    public init(abTest: JSONValue? = nil, available: Bool? = nil, cac: Double? = nil, campaignId: String? = nil, channels: [ChannelMetric]? = nil, clicks: Int64? = nil, conversions: Int64? = nil, ctr: Double? = nil, cvr: Double? = nil, end: String? = nil, impressions: Int64? = nil, name: String? = nil, range: String? = nil, revenue: Double? = nil, roas: Double? = nil, source: String? = nil, spendCents: Int64? = nil, start: String? = nil, status: String? = nil, visitors: Int64? = nil) {
         self.abTest = abTest
         self.available = available
         self.cac = cac

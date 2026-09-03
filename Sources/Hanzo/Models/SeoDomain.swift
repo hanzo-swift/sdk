@@ -12,7 +12,7 @@ public struct SeoDomain: Sendable, Codable, ParameterConvertible, Hashable {
     /** Domain is the competitor. */
     public var domain: String?
     /** Keywords is how many of the phrases it places for. */
-    public var keywords: Int?
+    public var keywords: Int64?
     /** Position is its average rank across the phrases. */
     public var position: Double?
     /** Traffic is the estimated monthly visits those placements earn. */
@@ -20,7 +20,7 @@ public struct SeoDomain: Sendable, Codable, ParameterConvertible, Hashable {
     /** Visibility is its share of the possible attention across those phrases. */
     public var visibility: Double?
 
-    public init(domain: String? = nil, keywords: Int? = nil, position: Double? = nil, traffic: Double? = nil, visibility: Double? = nil) {
+    public init(domain: String? = nil, keywords: Int64? = nil, position: Double? = nil, traffic: Double? = nil, visibility: Double? = nil) {
         self.domain = domain
         self.keywords = keywords
         self.position = position

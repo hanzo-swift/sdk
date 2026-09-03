@@ -10,7 +10,7 @@ import Foundation
 public struct Txn: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** AmountCents is the voucher's total, in whole cents — its total debit, which equals its total credit because every voucher balances. It is the size of the entry and carries no direction; the category says which way it went. */
-    public var amountCents: Int?
+    public var amountCents: Int64?
     /** Category is the chart-of-accounts NUMBER of the income or expense account this voucher touched — where it lands on the P&L, not a free-text label. */
     public var category: String?
     /** CategoryName is that account's human name, so a caller need not carry the chart to render the row. */
@@ -24,9 +24,9 @@ public struct Txn: Sendable, Codable, ParameterConvertible, Hashable {
     /** Vendor is the counterparty, resolved from whatever the source knew — a bank row's merchant, a scanned bill's supplier. Absent when the source named none. */
     public var vendor: String?
     /** VoucherID identifies the underlying double-entry voucher, so a caller can open the full set of legs behind this single register line. */
-    public var voucherId: Int?
+    public var voucherId: Int64?
 
-    public init(amountCents: Int? = nil, category: String? = nil, categoryName: String? = nil, date: String? = nil, description: String? = nil, source: String? = nil, vendor: String? = nil, voucherId: Int? = nil) {
+    public init(amountCents: Int64? = nil, category: String? = nil, categoryName: String? = nil, date: String? = nil, description: String? = nil, source: String? = nil, vendor: String? = nil, voucherId: Int64? = nil) {
         self.amountCents = amountCents
         self.category = category
         self.categoryName = categoryName

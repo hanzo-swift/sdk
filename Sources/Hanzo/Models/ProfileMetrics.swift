@@ -14,11 +14,11 @@ public struct ProfileMetrics: Sendable, Codable, ParameterConvertible, Hashable 
     /** LaunchProgress is the org's own position in the launch checklist, folded in so a profile carries both what the org has BUILT and what it has DONE. */
     public var launchProgress: ProgressView?
     /** Records is how many business records the org holds — the volume that tells a real book of customers from an empty account. It feeds the `customers` signal, which crosses at a threshold rather than at one row. */
-    public var records: Int?
+    public var records: Int64?
     /** RevenueCents is the org's money OF RECORD — what its books say, in whole cents, never a float and never a display string. This is the number the scaling stage is decided on; funnel.revenue is the beacon's separate, unreconciled view of the same business. Zero when the org has none, and also zero when the books could not be read, which is why the `revenue` signal beside it is the thing to trust. */
-    public var revenueCents: Int?
+    public var revenueCents: Int64?
 
-    public init(funnel: Funnel? = nil, launchProgress: ProgressView? = nil, records: Int? = nil, revenueCents: Int? = nil) {
+    public init(funnel: Funnel? = nil, launchProgress: ProgressView? = nil, records: Int64? = nil, revenueCents: Int64? = nil) {
         self.funnel = funnel
         self.launchProgress = launchProgress
         self.records = records

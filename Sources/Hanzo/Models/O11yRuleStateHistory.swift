@@ -19,10 +19,10 @@ public struct O11yRuleStateHistory: Sendable, Codable, ParameterConvertible, Has
     public var ruleName: String?
     public var state: JSONValue?
     public var stateChanged: Bool?
-    public var unixMilli: Int?
+    public var unixMilli: Int64?
     public var value: Double?
 
-    public init(fingerprint: Int? = nil, labels: JSONValue? = nil, overallState: JSONValue? = nil, overallStateChanged: Bool? = nil, relatedLogsLink: String? = nil, relatedTracesLink: String? = nil, ruleID: String? = nil, ruleName: String? = nil, state: JSONValue? = nil, stateChanged: Bool? = nil, unixMilli: Int? = nil, value: Double? = nil) {
+    public init(fingerprint: Int? = nil, labels: JSONValue? = nil, overallState: JSONValue? = nil, overallStateChanged: Bool? = nil, relatedLogsLink: String? = nil, relatedTracesLink: String? = nil, ruleID: String? = nil, ruleName: String? = nil, state: JSONValue? = nil, stateChanged: Bool? = nil, unixMilli: Int64? = nil, value: Double? = nil) {
         self.fingerprint = fingerprint
         self.labels = labels
         self.overallState = overallState

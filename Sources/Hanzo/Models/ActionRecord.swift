@@ -12,7 +12,7 @@ public struct ActionRecord: Sendable, Codable, ParameterConvertible, Hashable {
     /** Args is the JSON the tool was called with, recorded as TEXT exactly as sent — including whatever the AI drafted into it — so a run can be read back and reproduced. It is a string, not an object. */
     public var args: String?
     /** CreatedAt is when the run was recorded, as Unix seconds. The ledger is read newest-first on this column. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** Err is why the run failed, when it did. Empty on a successful run. */
     public var err: String?
     /** ID identifies this one execution. The ledger is append-only, so an id is never reused and never updated. */
@@ -26,7 +26,7 @@ public struct ActionRecord: Sendable, Codable, ParameterConvertible, Hashable {
     /** Tool is the MCP tool that was dispatched, by name. */
     public var tool: String?
 
-    public init(args: String? = nil, createdAt: Int? = nil, err: String? = nil, id: String? = nil, ok: Bool? = nil, result: String? = nil, stepId: String? = nil, tool: String? = nil) {
+    public init(args: String? = nil, createdAt: Int64? = nil, err: String? = nil, id: String? = nil, ok: Bool? = nil, result: String? = nil, stepId: String? = nil, tool: String? = nil) {
         self.args = args
         self.createdAt = createdAt
         self.err = err

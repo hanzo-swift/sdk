@@ -16,11 +16,11 @@ public struct ProjectsSite: Sendable, Codable, ParameterConvertible, Hashable {
     /** Status is the project's state behind the site — whether it is serving, still building, or failed its last build. A site that is listed is not necessarily one that answers. */
     public var status: String?
     /** UpdatedAt is when the project last changed, as Unix seconds. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
     /** URL is the pretty address readers use, not the object-store path behind it. */
     public var url: String?
 
-    public init(name: String? = nil, slug: String? = nil, status: String? = nil, updatedAt: Int? = nil, url: String? = nil) {
+    public init(name: String? = nil, slug: String? = nil, status: String? = nil, updatedAt: Int64? = nil, url: String? = nil) {
         self.name = name
         self.slug = slug
         self.status = status

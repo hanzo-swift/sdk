@@ -10,19 +10,19 @@ import Foundation
 public struct BankTally: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** transactions seen */
-    public var ingested: Int?
+    public var ingested: Int64?
     /** vouchers newly posted (outflow + reconciled) */
-    public var posted: Int?
+    public var posted: Int64?
     /** unmatched inflows that raised a question */
-    public var questions: Int?
+    public var questions: Int64?
     /** inflows cleared against Square-clearing */
-    public var reconciled: Int?
+    public var reconciled: Int64?
     /** already-processed idempotent no-ops */
-    public var skipped: Int?
+    public var skipped: Int64?
     /** own-account moves recorded (no P&L) */
-    public var transfers: Int?
+    public var transfers: Int64?
 
-    public init(ingested: Int? = nil, posted: Int? = nil, questions: Int? = nil, reconciled: Int? = nil, skipped: Int? = nil, transfers: Int? = nil) {
+    public init(ingested: Int64? = nil, posted: Int64? = nil, questions: Int64? = nil, reconciled: Int64? = nil, skipped: Int64? = nil, transfers: Int64? = nil) {
         self.ingested = ingested
         self.posted = posted
         self.questions = questions

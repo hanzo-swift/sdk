@@ -18,9 +18,9 @@ public struct Fusion: Sendable, Codable, ParameterConvertible, Hashable {
     /** Status is the query's overall honesty signal:   ok          every consulted leg answered.   partial     at least one leg failed; Hits holds the survivors' results.   unavailable every consulted leg failed; Hits is empty AND that is stated. */
     public var status: String?
     /** TookMS is the whole query's wall time in milliseconds — every leg it consulted, plus fusion and paging. Each leg's own share is in Backends[].TookMS; the legs run in sequence, so this is at least their sum. */
-    public var tookMs: Int?
+    public var tookMs: Int64?
 
-    public init(backends: [BackendStatus]? = nil, hits: [Hit]? = nil, mode: String? = nil, status: String? = nil, tookMs: Int? = nil) {
+    public init(backends: [BackendStatus]? = nil, hits: [Hit]? = nil, mode: String? = nil, status: String? = nil, tookMs: Int64? = nil) {
         self.backends = backends
         self.hits = hits
         self.mode = mode

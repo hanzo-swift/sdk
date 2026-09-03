@@ -9,10 +9,10 @@ import Foundation
 
 public struct O11yNodeCountsByReadiness: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var notReady: Int?
-    public var ready: Int?
+    public var notReady: Int64?
+    public var ready: Int64?
 
-    public init(notReady: Int? = nil, ready: Int? = nil) {
+    public init(notReady: Int64? = nil, ready: Int64? = nil) {
         self.notReady = notReady
         self.ready = ready
     }

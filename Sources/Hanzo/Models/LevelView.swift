@@ -10,13 +10,13 @@ import Foundation
 public struct LevelView: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** DownlineCount is how many orgs sit exactly this many hops below the caller. It is 0 in the schedule quoted to a caller that has not applied, which has no downline to count. */
-    public var downlineCount: Int?
+    public var downlineCount: Int64?
     /** Level is the upline distance from the org whose spend is being shared: 1 is the direct referrer, 2 and 3 the referrers above it. Nothing accrues past 3. */
-    public var level: Int?
+    public var level: Int64?
     /** RateBps is the commission paid at this level, in basis points OF Hanzo's margin (2000 = 20% of margin, never of the customer's bill). Level 1 is the affiliate's own negotiated rate; 2 and 3 are platform switches read live, so this is the schedule actually in force, not one compiled in. */
-    public var rateBps: Int?
+    public var rateBps: Int64?
 
-    public init(downlineCount: Int? = nil, level: Int? = nil, rateBps: Int? = nil) {
+    public init(downlineCount: Int64? = nil, level: Int64? = nil, rateBps: Int64? = nil) {
         self.downlineCount = downlineCount
         self.level = level
         self.rateBps = rateBps

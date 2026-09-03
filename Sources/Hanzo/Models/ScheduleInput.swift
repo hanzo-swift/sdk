@@ -12,9 +12,9 @@ public struct ScheduleInput: Sendable, Codable, ParameterConvertible, Hashable {
     /** ID is the campaign id from the path. */
     public var id: String?
     /** ScheduledAt is the unix send time. 0 clears the schedule. */
-    public var scheduledAt: Int?
+    public var scheduledAt: Int64?
 
-    public init(id: String? = nil, scheduledAt: Int? = nil) {
+    public init(id: String? = nil, scheduledAt: Int64? = nil) {
         self.id = id
         self.scheduledAt = scheduledAt
     }

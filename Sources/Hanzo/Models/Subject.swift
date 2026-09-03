@@ -10,7 +10,7 @@ import Foundation
 public struct Subject: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CreatedAt is when the subject was first recorded, Unix SECONDS. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** Email is the party's address, when the org supplied one. It is PII: sealed at rest, returned only to the owning org, and never copied into a check record. */
     public var email: String?
     /** ID is the opaque handle every other record uses to point at this party. It is the only reference that leaves this type, which is what keeps the PII in one place: a check, an accreditation and an audit row all carry the id and none of them carry the name. */
@@ -24,9 +24,9 @@ public struct Subject: Sendable, Codable, ParameterConvertible, Hashable {
     /** Ref is the org's OWN identifier for this party, carried so a caller can match a subject back to their system without keeping a second mapping. Opaque here: nothing in this plane parses or enforces it. */
     public var ref: String?
     /** UpdatedAt is when the subject's own fields last changed, Unix seconds. A check moving to a new status does not touch it — that history lives on the check. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
 
-    public init(createdAt: Int? = nil, email: String? = nil, id: String? = nil, kind: String? = nil, name: String? = nil, org: String? = nil, ref: String? = nil, updatedAt: Int? = nil) {
+    public init(createdAt: Int64? = nil, email: String? = nil, id: String? = nil, kind: String? = nil, name: String? = nil, org: String? = nil, ref: String? = nil, updatedAt: Int64? = nil) {
         self.createdAt = createdAt
         self.email = email
         self.id = id

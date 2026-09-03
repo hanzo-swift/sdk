@@ -9,11 +9,11 @@ import Foundation
 
 public struct RollupBalance: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var availableCents: Int?
-    public var balanceCents: Int?
-    public var holdsCents: Int?
+    public var availableCents: Int64?
+    public var balanceCents: Int64?
+    public var holdsCents: Int64?
 
-    public init(availableCents: Int? = nil, balanceCents: Int? = nil, holdsCents: Int? = nil) {
+    public init(availableCents: Int64? = nil, balanceCents: Int64? = nil, holdsCents: Int64? = nil) {
         self.availableCents = availableCents
         self.balanceCents = balanceCents
         self.holdsCents = holdsCents

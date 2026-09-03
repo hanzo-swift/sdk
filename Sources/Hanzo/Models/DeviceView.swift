@@ -12,7 +12,7 @@ public struct DeviceView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Accounts is every account the caller has signed in on this machine. */
     public var accounts: [LinkView]?
     /** ActiveSessions is how many agent sessions the caller currently has running on this machine; 0 where the agent plane is not mounted. */
-    public var activeSessions: Int?
+    public var activeSessions: Int64?
     /** Host is the machine's hostname label, from its most-recently-seen account. */
     public var host: String?
     /** LastSeen is when any account on this machine last reported, RFC 3339 UTC. */
@@ -22,7 +22,7 @@ public struct DeviceView: Sendable, Codable, ParameterConvertible, Hashable {
     /** OS is the machine's operating system label. */
     public var os: String?
 
-    public init(accounts: [LinkView]? = nil, activeSessions: Int? = nil, host: String? = nil, lastSeen: String? = nil, machine: String? = nil, os: String? = nil) {
+    public init(accounts: [LinkView]? = nil, activeSessions: Int64? = nil, host: String? = nil, lastSeen: String? = nil, machine: String? = nil, os: String? = nil) {
         self.accounts = accounts
         self.activeSessions = activeSessions
         self.host = host

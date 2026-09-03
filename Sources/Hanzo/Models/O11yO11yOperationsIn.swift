@@ -12,7 +12,7 @@ public struct O11yO11yOperationsIn: Sendable, Codable, ParameterConvertible, Has
     /** End is the window's end, epoch nanoseconds as a string. */
     public var end: String?
     /** Limit caps how many operations come back. */
-    public var limit: Int?
+    public var limit: Int64?
     /** Service is the service whose operations are read. */
     public var service: String?
     /** Start is the window's start, epoch nanoseconds as a string. */
@@ -20,7 +20,7 @@ public struct O11yO11yOperationsIn: Sendable, Codable, ParameterConvertible, Has
     /** Tags narrow the spans counted, each a span-attribute predicate. */
     public var tags: [O11yO11yServiceTag]?
 
-    public init(end: String? = nil, limit: Int? = nil, service: String? = nil, start: String? = nil, tags: [O11yO11yServiceTag]? = nil) {
+    public init(end: String? = nil, limit: Int64? = nil, service: String? = nil, start: String? = nil, tags: [O11yO11yServiceTag]? = nil) {
         self.end = end
         self.limit = limit
         self.service = service

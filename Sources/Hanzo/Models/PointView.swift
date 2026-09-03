@@ -12,9 +12,9 @@ public struct PointView: Sendable, Codable, ParameterConvertible, Hashable {
     /** the bucket's start, RFC3339 (UTC) */
     public var t: String?
     /** how many invocations fell in it — a real count, never interpolated */
-    public var v: Int?
+    public var v: Int64?
 
-    public init(t: String? = nil, v: Int? = nil) {
+    public init(t: String? = nil, v: Int64? = nil) {
         self.t = t
         self.v = v
     }

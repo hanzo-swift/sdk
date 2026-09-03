@@ -12,11 +12,11 @@ public struct NodePoolView: Sendable, Codable, ParameterConvertible, Hashable {
     /** AutoScale reports whether the provider's cluster autoscaler owns this pool's size, moving Count between MinNodes and MaxNodes as workloads demand. False means Count changes only when someone scales the pool. */
     public var autoScale: Bool?
     /** Count is how many nodes the pool has right now. Always present, so 0 means a pool that is genuinely empty rather than a figure the provider withheld. */
-    public var count: Int?
+    public var count: Int64?
     /** MaxNodes is the ceiling the autoscaler will not grow the pool past, and so the bound on what this pool can cost. Read it only with AutoScale set. */
-    public var maxNodes: Int?
+    public var maxNodes: Int64?
     /** MinNodes is the floor the autoscaler will not shrink the pool below. Read it only with AutoScale set — the provider ignores it otherwise. */
-    public var minNodes: Int?
+    public var minNodes: Int64?
     /** Name is the pool's name as the provider knows it. */
     public var name: String?
     /** PoolID is the provider's id for the pool — the value the scale and delete routes address it by. It falls back to the pool's name when the provider answered without one, so it is always something the routes accept. */
@@ -24,7 +24,7 @@ public struct NodePoolView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Size is the provider size slug every node in the pool runs at (\"s-4vcpu-8gb\", \"gpu-h100x8-640gb\"). One pool is one size — a mixed cluster is several pools. */
     public var size: String?
 
-    public init(autoScale: Bool? = nil, count: Int? = nil, maxNodes: Int? = nil, minNodes: Int? = nil, name: String? = nil, poolId: String? = nil, size: String? = nil) {
+    public init(autoScale: Bool? = nil, count: Int64? = nil, maxNodes: Int64? = nil, minNodes: Int64? = nil, name: String? = nil, poolId: String? = nil, size: String? = nil) {
         self.autoScale = autoScale
         self.count = count
         self.maxNodes = maxNodes

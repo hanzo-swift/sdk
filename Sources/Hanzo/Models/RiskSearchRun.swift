@@ -10,13 +10,13 @@ import Foundation
 public struct RiskSearchRun: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Candidates is how many model shapes will be tried. */
-    public var candidates: Int?
+    public var candidates: Int64?
     /** Events is how much of the organisation's own history the run will replay. */
-    public var events: Int?
+    public var events: Int64?
     /** ID addresses the run. Read the result back with it. */
     public var id: String?
 
-    public init(candidates: Int? = nil, events: Int? = nil, id: String? = nil) {
+    public init(candidates: Int64? = nil, events: Int64? = nil, id: String? = nil) {
         self.candidates = candidates
         self.events = events
         self.id = id

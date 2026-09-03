@@ -10,11 +10,11 @@ import Foundation
 public struct PutClaimsOut: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Recorded is how many rows were written. */
-    public var recorded: Int?
+    public var recorded: Int64?
     /** Rejected names the rows that were not, and why. */
     public var rejected: [String]?
 
-    public init(recorded: Int? = nil, rejected: [String]? = nil) {
+    public init(recorded: Int64? = nil, rejected: [String]? = nil) {
         self.recorded = recorded
         self.rejected = rejected
     }

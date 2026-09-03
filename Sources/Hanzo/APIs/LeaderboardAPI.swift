@@ -20,7 +20,7 @@ open class LeaderboardAPI {
      - returns: LeaderboardView
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getLeaderboard(scope: String? = nil, metric: String? = nil, period: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> LeaderboardView {
+    open class func getLeaderboard(scope: String? = nil, metric: String? = nil, period: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> LeaderboardView {
         return try await getLeaderboardWithRequestBuilder(scope: scope, metric: metric, period: period, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -38,7 +38,7 @@ open class LeaderboardAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<LeaderboardView> 
      */
-    open class func getLeaderboardWithRequestBuilder(scope: String? = nil, metric: String? = nil, period: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<LeaderboardView> {
+    open class func getLeaderboardWithRequestBuilder(scope: String? = nil, metric: String? = nil, period: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<LeaderboardView> {
         let localVariablePath = "/v1/leaderboard"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil

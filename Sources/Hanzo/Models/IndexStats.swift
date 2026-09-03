@@ -10,11 +10,11 @@ import Foundation
 public struct IndexStats: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** DatabaseSize is the org's total document count across its indexes. It is a count, not bytes: the store is shared by every tenant, so a byte figure would either be the whole file (another tenant's size) or a fiction. */
-    public var databaseSize: Int?
+    public var databaseSize: Int64?
     /** Indexes maps each index uid to its own count. */
     public var indexes: [String: IndexCount]?
 
-    public init(databaseSize: Int? = nil, indexes: [String: IndexCount]? = nil) {
+    public init(databaseSize: Int64? = nil, indexes: [String: IndexCount]? = nil) {
         self.databaseSize = databaseSize
         self.indexes = indexes
     }

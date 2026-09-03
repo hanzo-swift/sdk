@@ -10,15 +10,15 @@ import Foundation
 public struct ProductRow: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Orders is how many order_completed events carried it. */
-    public var orders: Int?
+    public var orders: Int64?
     /** ProductID is the product the order events named. */
     public var productId: String?
     /** Revenue is the total they carried, in the events' own currency unit. */
     public var revenue: Double?
     /** Units is the summed quantity sold. */
-    public var units: Int?
+    public var units: Int64?
 
-    public init(orders: Int? = nil, productId: String? = nil, revenue: Double? = nil, units: Int? = nil) {
+    public init(orders: Int64? = nil, productId: String? = nil, revenue: Double? = nil, units: Int64? = nil) {
         self.orders = orders
         self.productId = productId
         self.revenue = revenue

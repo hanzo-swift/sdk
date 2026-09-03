@@ -18,13 +18,13 @@ public struct FrameworkRow: Sendable, Codable, ParameterConvertible, Hashable {
     /** Publisher is who publishes it. */
     public var publisher: String?
     /** Total is how many clauses the standard publishes. */
-    public var total: Int?
+    public var total: Int64?
     /** Unit is what one clause is; Units is its plural. */
     public var unit: String?
     /** Units is Unit's plural, carried so a caller renders \"12 controls\" without having to pluralise a word it does not know. */
     public var units: String?
 
-    public init(edition: String? = nil, framework: String? = nil, name: String? = nil, publisher: String? = nil, total: Int? = nil, unit: String? = nil, units: String? = nil) {
+    public init(edition: String? = nil, framework: String? = nil, name: String? = nil, publisher: String? = nil, total: Int64? = nil, unit: String? = nil, units: String? = nil) {
         self.edition = edition
         self.framework = framework
         self.name = name

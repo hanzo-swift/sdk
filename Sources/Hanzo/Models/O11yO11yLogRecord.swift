@@ -14,7 +14,7 @@ public struct O11yO11yLogRecord: Sendable, Codable, ParameterConvertible, Hashab
     /** AttributesFloat are the record's float attributes. */
     public var attributesFloat: [String: Double]?
     /** AttributesInt are the record's integer attributes. */
-    public var attributesInt: [String: Int]?
+    public var attributesInt: [String: Int64]?
     /** AttributesString are the record's string attributes. */
     public var attributesString: [String: String]?
     /** Body is the record's body. */
@@ -36,7 +36,7 @@ public struct O11yO11yLogRecord: Sendable, Codable, ParameterConvertible, Hashab
     /** TraceID is the trace the record belongs to. */
     public var traceId: String?
 
-    public init(attributesBool: [String: Bool]? = nil, attributesFloat: [String: Double]? = nil, attributesInt: [String: Int]? = nil, attributesString: [String: String]? = nil, body: String? = nil, id: String? = nil, resourcesString: [String: String]? = nil, severityNumber: Int? = nil, severityText: String? = nil, spanId: String? = nil, timestamp: Int? = nil, traceFlags: Int? = nil, traceId: String? = nil) {
+    public init(attributesBool: [String: Bool]? = nil, attributesFloat: [String: Double]? = nil, attributesInt: [String: Int64]? = nil, attributesString: [String: String]? = nil, body: String? = nil, id: String? = nil, resourcesString: [String: String]? = nil, severityNumber: Int? = nil, severityText: String? = nil, spanId: String? = nil, timestamp: Int? = nil, traceFlags: Int? = nil, traceId: String? = nil) {
         self.attributesBool = attributesBool
         self.attributesFloat = attributesFloat
         self.attributesInt = attributesInt

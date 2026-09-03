@@ -12,10 +12,10 @@ public struct O11yO11yLogAggregateBucket: Sendable, Codable, ParameterConvertibl
     /** GroupBy carries the group's key values when the aggregate grouped. */
     public var groupBy: [String: JSONValue]?
     /** Timestamp is the start of the bucket. */
-    public var timestamp: Int?
+    public var timestamp: Int64?
     public var value: JSONValue?
 
-    public init(groupBy: [String: JSONValue]? = nil, timestamp: Int? = nil, value: JSONValue? = nil) {
+    public init(groupBy: [String: JSONValue]? = nil, timestamp: Int64? = nil, value: JSONValue? = nil) {
         self.groupBy = groupBy
         self.timestamp = timestamp
         self.value = value

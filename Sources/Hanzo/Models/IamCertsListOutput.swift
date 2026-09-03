@@ -10,9 +10,9 @@ import Foundation
 public struct IamCertsListOutput: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var certs: [IamCert]?
-    public var total: Int?
+    public var total: Int64?
 
-    public init(certs: [IamCert]? = nil, total: Int? = nil) {
+    public init(certs: [IamCert]? = nil, total: Int64? = nil) {
         self.certs = certs
         self.total = total
     }

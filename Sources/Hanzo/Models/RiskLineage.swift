@@ -16,9 +16,9 @@ public struct RiskLineage: Sendable, Codable, ParameterConvertible, Hashable {
     /** From is where the window actually read opens, RFC 3339. Same as the spec's. */
     public var from: String?
     /** Holds is what the source holds for the same window NOW. The difference between it and Rows is the whole of the reproducibility claim. */
-    public var holds: Int?
+    public var holds: Int64?
     /** Oversize is how many subjects the window held that were too large to represent when this version was built. It is part of the fingerprint, so it is part of what \"reproducible\" is measured over. */
-    public var oversize: Int?
+    public var oversize: Int64?
     /** Refusal says which way it failed — the window expired, or the source now holds a different count. Absent when Reproducible is true. */
     public var refusal: String?
     /** Reproducible is true when the source still holds what this version was built from — measured by asking it again, not recalled. False is ordinary: the source is fed by a rollup that runs behind the events, so \"it holds more now\" is the common case and it means re-running the spec would not produce this version. */
@@ -26,19 +26,19 @@ public struct RiskLineage: Sendable, Codable, ParameterConvertible, Hashable {
     /** Retention is the source's own expiry rule as the store reports it, read at materialisation time rather than assumed. A source whose retention is shorter than this window cannot re-derive it. */
     public var retention: String?
     /** Rows is how many rows the source held for that window at materialisation time. Holds is the same question asked now, and the difference between them is the whole of the reproducibility claim. */
-    public var rows: Int?
+    public var rows: Int64?
     /** Share is the fraction of subjects admitted, in thousandths. */
-    public var share: Int?
+    public var share: Int64?
     /** Source is the plane the rows were derived from. */
     public var source: String?
     /** Subjects is how many distinct subjects those rows belonged to. It is the real sample size — the row count flatters it whenever a subject is active. */
-    public var subjects: Int?
+    public var subjects: Int64?
     /** To is where it ends: the spec's own end pulled BACK by the maturity horizon, so it is usually earlier than the spec says. This is the window a reproduction has to ask for — asking the spec's would not return these rows. */
     public var to: String?
     /** Version is the version traced — the one asked for, or the newest published one when the request named none. */
-    public var version: Int?
+    public var version: Int64?
 
-    public init(dataset: String? = nil, digest: String? = nil, from: String? = nil, holds: Int? = nil, oversize: Int? = nil, refusal: String? = nil, reproducible: Bool? = nil, retention: String? = nil, rows: Int? = nil, share: Int? = nil, source: String? = nil, subjects: Int? = nil, to: String? = nil, version: Int? = nil) {
+    public init(dataset: String? = nil, digest: String? = nil, from: String? = nil, holds: Int64? = nil, oversize: Int64? = nil, refusal: String? = nil, reproducible: Bool? = nil, retention: String? = nil, rows: Int64? = nil, share: Int64? = nil, source: String? = nil, subjects: Int64? = nil, to: String? = nil, version: Int64? = nil) {
         self.dataset = dataset
         self.digest = digest
         self.from = from

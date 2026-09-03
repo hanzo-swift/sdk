@@ -9,10 +9,10 @@ import Foundation
 
 public struct SharePolicy: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var revenueShareBps: Int?
-    public var updatedAt: Int?
+    public var revenueShareBps: Int64?
+    public var updatedAt: Int64?
 
-    public init(revenueShareBps: Int? = nil, updatedAt: Int? = nil) {
+    public init(revenueShareBps: Int64? = nil, updatedAt: Int64? = nil) {
         self.revenueShareBps = revenueShareBps
         self.updatedAt = updatedAt
     }

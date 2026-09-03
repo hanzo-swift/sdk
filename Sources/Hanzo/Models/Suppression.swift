@@ -14,11 +14,11 @@ public struct Suppression: Sendable, Codable, ParameterConvertible, Hashable {
     /** Channel is the surface opted out of: email, sms, social, meta, google or tiktok. Empty means email. Opting out of one leaves the others reachable. */
     public var channel: String?
     /** CreatedAt is unix seconds, server-assigned. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** Reason is a free-text note, capped at 1024 bytes. The public one-click endpoint records \"one-click unsubscribe\". */
     public var reason: String?
 
-    public init(address: String? = nil, channel: String? = nil, createdAt: Int? = nil, reason: String? = nil) {
+    public init(address: String? = nil, channel: String? = nil, createdAt: Int64? = nil, reason: String? = nil) {
         self.address = address
         self.channel = channel
         self.createdAt = createdAt

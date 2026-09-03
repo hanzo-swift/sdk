@@ -14,13 +14,13 @@ public struct RunRequest: Sendable, Codable, ParameterConvertible, Hashable {
     /** Judge is the judge to grade with. Omitted, the model under test grades itself against a default correctness criterion under the score name \"llm-judge\". */
     public var judge: JudgeSpec?
     /** Limit caps how many examples this run scores. It defaults to 20, and anything above 100 falls back to that default. */
-    public var limit: Int?
+    public var limit: Int64?
     /** Model is the model under test. */
     public var model: String
     /** RunName labels the run and is generated from the clock when omitted. It must match ^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$. */
     public var runName: String?
 
-    public init(dataset: String, judge: JudgeSpec? = nil, limit: Int? = nil, model: String, runName: String? = nil) {
+    public init(dataset: String, judge: JudgeSpec? = nil, limit: Int64? = nil, model: String, runName: String? = nil) {
         self.dataset = dataset
         self.judge = judge
         self.limit = limit

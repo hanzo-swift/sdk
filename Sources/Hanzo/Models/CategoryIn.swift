@@ -16,11 +16,11 @@ public struct CategoryIn: Sendable, Codable, ParameterConvertible, Hashable {
     /** Label is the display name. Required. */
     public var label: String?
     /** Order is where the category sits among its siblings, ascending. */
-    public var order: Int?
+    public var order: Int64?
     /** Summary is the one line describing what the category groups. */
     public var summary: String?
 
-    public init(brands: [String]? = nil, id: String? = nil, label: String? = nil, order: Int? = nil, summary: String? = nil) {
+    public init(brands: [String]? = nil, id: String? = nil, label: String? = nil, order: Int64? = nil, summary: String? = nil) {
         self.brands = brands
         self.id = id
         self.label = label

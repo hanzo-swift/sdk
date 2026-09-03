@@ -34,7 +34,7 @@ public struct MCPListing: Sendable, Codable, ParameterConvertible, Hashable {
     /** Site is the project's homepage, when the entry names one. */
     public var site: String?
     /** Synced is when this row was last confirmed against upstream, Unix seconds. */
-    public var synced: Int?
+    public var synced: Int64?
     /** Title is the human-readable display name, when the entry carries one. */
     public var title: String?
     /** Transports are the distinct transports this server can be reached over, sorted: some of \"stdio\", \"streamable-http\", \"sse\". A listing with \"streamable-http\" is one an org can enable here and now; a listing that is only \"stdio\" needs a process to run it. */
@@ -44,7 +44,7 @@ public struct MCPListing: Sendable, Codable, ParameterConvertible, Hashable {
     /** Version is the published version of this listing. */
     public var version: String?
 
-    public init(description: String? = nil, featured: Bool? = nil, hidden: Bool? = nil, id: String? = nil, logo: String? = nil, name: String? = nil, official: Bool? = nil, packages: [MCPPackage]? = nil, registry: String? = nil, remotes: [MCPRemote]? = nil, repo: String? = nil, site: String? = nil, synced: Int? = nil, title: String? = nil, transports: [String]? = nil, vendor: String? = nil, version: String? = nil) {
+    public init(description: String? = nil, featured: Bool? = nil, hidden: Bool? = nil, id: String? = nil, logo: String? = nil, name: String? = nil, official: Bool? = nil, packages: [MCPPackage]? = nil, registry: String? = nil, remotes: [MCPRemote]? = nil, repo: String? = nil, site: String? = nil, synced: Int64? = nil, title: String? = nil, transports: [String]? = nil, vendor: String? = nil, version: String? = nil) {
         self.description = description
         self.featured = featured
         self.hidden = hidden

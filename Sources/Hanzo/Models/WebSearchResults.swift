@@ -12,13 +12,13 @@ public struct WebSearchResults: Sendable, Codable, ParameterConvertible, Hashabl
     /** Engines is one entry per engine asked, in the order they were asked. It is ADDITIVE to the SearXNG contract, which the LibreChat client ignores as an unknown field exactly as it ignores `engine` on a result. */
     public var engines: [WebEngine]?
     /** NumberOfResults is len(results) — what this answer carries, never an estimate of what the web holds. */
-    public var numberOfResults: Int?
+    public var numberOfResults: Int64?
     /** Query is the query that ran, echoed back. */
     public var query: String?
     /** Results are the merged hits, deduplicated by normalised URL and capped at 30. Always an array and never null: no hits is an ANSWER, not a fault. */
     public var results: [WebResult]?
 
-    public init(engines: [WebEngine]? = nil, numberOfResults: Int? = nil, query: String? = nil, results: [WebResult]? = nil) {
+    public init(engines: [WebEngine]? = nil, numberOfResults: Int64? = nil, query: String? = nil, results: [WebResult]? = nil) {
         self.engines = engines
         self.numberOfResults = numberOfResults
         self.query = query

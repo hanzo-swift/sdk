@@ -10,17 +10,17 @@ import Foundation
 public struct LeaderboardRow: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** AccruedCents is that affiliate's lifetime commission accrued, in cents, and what the board is ordered by. An aggregate: no per-customer figure is exposed. */
-    public var accruedCents: Int?
+    public var accruedCents: Int64?
     /** Handle is the affiliate's self-chosen display name — the only identity the board ever carries. The org behind it is never disclosed. */
     public var handle: String?
     /** IsYou marks the caller's own row, so a client can highlight it without matching on a handle. Absent on every other row. */
     public var isYou: Bool?
     /** Rank is the position in the GLOBAL approved set ordered by lifetime accrued commission, 1-based. Affiliates that set no handle still occupy their rank and are simply not listed, so the visible ranks have gaps and the board is not a complete roster. On the caller's own row the rank is computed over the whole set, so it is exact well outside the top page. */
-    public var rank: Int?
+    public var rank: Int64?
     /** ReferredCount is how many orgs that affiliate directly referred — a count only, never which orgs. */
-    public var referredCount: Int?
+    public var referredCount: Int64?
 
-    public init(accruedCents: Int? = nil, handle: String? = nil, isYou: Bool? = nil, rank: Int? = nil, referredCount: Int? = nil) {
+    public init(accruedCents: Int64? = nil, handle: String? = nil, isYou: Bool? = nil, rank: Int64? = nil, referredCount: Int64? = nil) {
         self.accruedCents = accruedCents
         self.handle = handle
         self.isYou = isYou

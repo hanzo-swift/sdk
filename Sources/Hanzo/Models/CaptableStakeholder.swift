@@ -16,7 +16,7 @@ public struct CaptableStakeholder: Sendable, Codable, ParameterConvertible, Hash
     /** Country is the stakeholder's two-letter country code. */
     public var country: String?
     /** CreatedAt is when the stakeholder was added, in unix milliseconds. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** CurrentRelationship is how the stakeholder relates to the company, e.g. FOUNDER, INVESTOR or EMPLOYEE. */
     public var currentRelationship: String?
     /** Email is the stakeholder's email, unique within the company. */
@@ -38,7 +38,7 @@ public struct CaptableStakeholder: Sendable, Codable, ParameterConvertible, Hash
     /** Zipcode is the stakeholder's postal code, if recorded. */
     public var zipcode: String?
 
-    public init(city: String? = nil, companyName: String? = nil, country: String? = nil, createdAt: Int? = nil, currentRelationship: String? = nil, email: String? = nil, id: String? = nil, institutionName: String? = nil, name: String? = nil, stakeholderType: String? = nil, state: String? = nil, streetAddress: String? = nil, taxId: String? = nil, zipcode: String? = nil) {
+    public init(city: String? = nil, companyName: String? = nil, country: String? = nil, createdAt: Int64? = nil, currentRelationship: String? = nil, email: String? = nil, id: String? = nil, institutionName: String? = nil, name: String? = nil, stakeholderType: String? = nil, state: String? = nil, streetAddress: String? = nil, taxId: String? = nil, zipcode: String? = nil) {
         self.city = city
         self.companyName = companyName
         self.country = country

@@ -10,13 +10,13 @@ import Foundation
 public struct CryptoAsset: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** AmountCents is what the payer intends to send, for the record. Optional — the credit is what actually arrives, never what was announced. */
-    public var amountCents: Int?
+    public var amountCents: Int64?
     /** Chain is the network to receive on. Empty takes the rail's default. */
     public var chain: String?
     /** Token is the asset on that chain. Empty takes the chain's native one. */
     public var token: String?
 
-    public init(amountCents: Int? = nil, chain: String? = nil, token: String? = nil) {
+    public init(amountCents: Int64? = nil, chain: String? = nil, token: String? = nil) {
         self.amountCents = amountCents
         self.chain = chain
         self.token = token

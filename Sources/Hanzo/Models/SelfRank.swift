@@ -10,25 +10,25 @@ import Foundation
 public struct SelfRank: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CostCents is the caller's own spend in whole US cents. Always populated — your own spend is never withheld from you — so here 0 really does mean zero. */
-    public var costCents: Int?
+    public var costCents: Int64?
     /** Handle is how the caller appears on this board: their chosen handle, falling back to their username, on a user board; their org id on the global board. Present even when unlisted — this is the caller looking at themselves. */
     public var handle: String?
     /** Listed says whether the caller is publicly visible on this board: opted in on a user board, org opted in (or the viewer is a platform admin) on the global one. False is the prompt to offer the opt-in, and explains an unranked global self. */
     public var listed: Bool?
     /** Metric is whichever of the three values above the board was ranked by, so a client can compare the caller against the rows without re-reading the request. Metric <= 0 is exactly the case that leaves Ranked false. */
-    public var metric: Int?
+    public var metric: Int64?
     /** OfTotal is the size of the universe Rank is out of — \"rank N of OfTotal\". On a user board that is the org's users with any usage in the window; on the global board it is every active org for a platform admin, and the count of opted-in orgs for everyone else. */
-    public var ofTotal: Int?
+    public var ofTotal: Int64?
     /** Rank is the caller's 1-based standing, computed as (subjects whose windowed metric strictly exceeds the caller's) + 1. It is exact against the whole ranked universe, not just the returned page, so it can far exceed len(rows). Read it only when Ranked. */
-    public var rank: Int?
+    public var rank: Int64?
     /** Ranked is false when the caller holds no position: they had no usage in the window, or (on the global board) their org has not opted into public listing and so is not ranked against a set it never joined. Rank is then 0 and means nothing. */
     public var ranked: Bool?
     /** Requests is the caller's own request count in the window, 0 if they were idle. */
-    public var requests: Int?
+    public var requests: Int64?
     /** Tokens is the caller's own prompt+completion tokens in the window. */
-    public var tokens: Int?
+    public var tokens: Int64?
 
-    public init(costCents: Int? = nil, handle: String? = nil, listed: Bool? = nil, metric: Int? = nil, ofTotal: Int? = nil, rank: Int? = nil, ranked: Bool? = nil, requests: Int? = nil, tokens: Int? = nil) {
+    public init(costCents: Int64? = nil, handle: String? = nil, listed: Bool? = nil, metric: Int64? = nil, ofTotal: Int64? = nil, rank: Int64? = nil, ranked: Bool? = nil, requests: Int64? = nil, tokens: Int64? = nil) {
         self.costCents = costCents
         self.handle = handle
         self.listed = listed

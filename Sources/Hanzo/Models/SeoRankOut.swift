@@ -14,9 +14,9 @@ public struct SeoRankOut: Sendable, Codable, ParameterConvertible, Hashable {
     /** Rankings is one row per phrase the domain places for. */
     public var rankings: [SeoRanking]?
     /** Total is how many placements the upstream holds for this domain. */
-    public var total: Int?
+    public var total: Int64?
 
-    public init(cost: String? = nil, rankings: [SeoRanking]? = nil, total: Int? = nil) {
+    public init(cost: String? = nil, rankings: [SeoRanking]? = nil, total: Int64? = nil) {
         self.cost = cost
         self.rankings = rankings
         self.total = total

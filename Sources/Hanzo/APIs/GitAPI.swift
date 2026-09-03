@@ -98,55 +98,6 @@ open class GitAPI {
     }
 
     /**
-     Removes one outbound mirror target; later pushes stop being forwarded to it.
-     
-     - parameter name: (path) Name is the repo, from the :name path segment. 
-     - parameter id: (path) ID is the row to remove, from the :id path segment. 
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteGitReposByNameMirrorsById(name: String, id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await deleteGitReposByNameMirrorsByIdWithRequestBuilder(name: name, id: id, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Removes one outbound mirror target; later pushes stop being forwarded to it.
-     - DELETE /v1/git/repos/{name}/mirrors/{id}
-     - Removes one outbound mirror target; later pushes stop being forwarded to it. Answers 204 with no body. Nothing is done to the downstream remote itself — only this repo's intent to push there is dropped.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter name: (path) Name is the repo, from the :name path segment. 
-     - parameter id: (path) ID is the row to remove, from the :id path segment. 
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func deleteGitReposByNameMirrorsByIdWithRequestBuilder(name: String, id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        var localVariablePath = "/v1/git/repos/{name}/mirrors/{id}"
-        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
-        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
-        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
-        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
      Removes one Slack subscription from a repo; the notifier stops posting that repo's events to that channel.
      
      - parameter name: (path) Name is the repo, from the :name path segment. 
@@ -173,6 +124,55 @@ open class GitAPI {
      */
     open class func deleteGitReposByNameSubscriptionsByIdWithRequestBuilder(name: String, id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/git/repos/{name}/subscriptions/{id}"
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+        let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
+
+        return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Removes one outbound mirror target; later pushes stop being forwarded to it.
+     
+     - parameter name: (path) Name is the repo, from the :name path segment. 
+     - parameter id: (path) ID is the row to remove, from the :id path segment. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: Void
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func deleteGitReposByNameTargetsById(name: String, id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+        return try await deleteGitReposByNameTargetsByIdWithRequestBuilder(name: name, id: id, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Removes one outbound mirror target; later pushes stop being forwarded to it.
+     - DELETE /v1/git/repos/{name}/targets/{id}
+     - Removes one outbound mirror target; later pushes stop being forwarded to it. Answers 204 with no body. Nothing is done to the downstream remote itself — only this repo's intent to push there is dropped.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter name: (path) Name is the repo, from the :name path segment. 
+     - parameter id: (path) ID is the row to remove, from the :id path segment. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<Void> 
+     */
+    open class func deleteGitReposByNameTargetsByIdWithRequestBuilder(name: String, id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+        var localVariablePath = "/v1/git/repos/{name}/targets/{id}"
         let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
         localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
@@ -659,7 +659,7 @@ open class GitAPI {
      - returns: CommitsJSON
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getGitReposByNameCommits(name: String, ref: String? = nil, path: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CommitsJSON {
+    open class func getGitReposByNameCommits(name: String, ref: String? = nil, path: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CommitsJSON {
         return try await getGitReposByNameCommitsWithRequestBuilder(name: name, ref: ref, path: path, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -677,7 +677,7 @@ open class GitAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<CommitsJSON> 
      */
-    open class func getGitReposByNameCommitsWithRequestBuilder(name: String, ref: String? = nil, path: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CommitsJSON> {
+    open class func getGitReposByNameCommitsWithRequestBuilder(name: String, ref: String? = nil, path: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CommitsJSON> {
         var localVariablePath = "/v1/git/repos/{name}/commits"
         let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -756,50 +756,6 @@ open class GitAPI {
     }
 
     /**
-     Returns a repo's outbound mirror targets — the downstream remotes the mirror reactor pushes to whenever a push lands here.
-     
-     - parameter name: (path) Name is the repo&#39;s org-unique handle, from the :name path segment. A trailing \&quot;.git\&quot; is stripped. 
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: MirrorList
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getGitReposByNameMirrors(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> MirrorList {
-        return try await getGitReposByNameMirrorsWithRequestBuilder(name: name, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Returns a repo's outbound mirror targets — the downstream remotes the mirror reactor pushes to whenever a push lands here.
-     - GET /v1/git/repos/{name}/mirrors
-     - Returns a repo's outbound mirror targets — the downstream remotes the mirror reactor pushes to whenever a push lands here.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter name: (path) Name is the repo&#39;s org-unique handle, from the :name path segment. A trailing \&quot;.git\&quot; is stripped. 
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<MirrorList> 
-     */
-    open class func getGitReposByNameMirrorsWithRequestBuilder(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<MirrorList> {
-        var localVariablePath = "/v1/git/repos/{name}/mirrors"
-        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
-        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<MirrorList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
      Returns a repo's pull requests, newest number first — what is waiting to be reviewed, and what has already landed.
      
      - parameter name: (path) Name is the repo, from the :name path segment. 
@@ -857,7 +813,7 @@ open class GitAPI {
      - returns: PullView
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getGitReposByNamePullsByNumber(name: String, number: Int, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PullView {
+    open class func getGitReposByNamePullsByNumber(name: String, number: Int64, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PullView {
         return try await getGitReposByNamePullsByNumberWithRequestBuilder(name: name, number: number, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -873,7 +829,7 @@ open class GitAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<PullView> 
      */
-    open class func getGitReposByNamePullsByNumberWithRequestBuilder(name: String, number: Int, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PullView> {
+    open class func getGitReposByNamePullsByNumberWithRequestBuilder(name: String, number: Int64, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PullView> {
         var localVariablePath = "/v1/git/repos/{name}/pulls/{number}"
         let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -1030,6 +986,50 @@ open class GitAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<SubscriptionList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
+     Returns a repo's outbound mirror targets — the downstream remotes the mirror reactor pushes to whenever a push lands here.
+     
+     - parameter name: (path) Name is the repo&#39;s org-unique handle, from the :name path segment. A trailing \&quot;.git\&quot; is stripped. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: MirrorList
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getGitReposByNameTargets(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> MirrorList {
+        return try await getGitReposByNameTargetsWithRequestBuilder(name: name, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Returns a repo's outbound mirror targets — the downstream remotes the mirror reactor pushes to whenever a push lands here.
+     - GET /v1/git/repos/{name}/targets
+     - Returns a repo's outbound mirror targets — the downstream remotes the mirror reactor pushes to whenever a push lands here.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter name: (path) Name is the repo&#39;s org-unique handle, from the :name path segment. A trailing \&quot;.git\&quot; is stripped. 
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<MirrorList> 
+     */
+    open class func getGitReposByNameTargetsWithRequestBuilder(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<MirrorList> {
+        var localVariablePath = "/v1/git/repos/{name}/targets"
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<MirrorList>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -1558,52 +1558,6 @@ open class GitAPI {
     }
 
     /**
-     Registers a downstream remote the repo's advanced refs are pushed to whenever a push lands here.
-     
-     - parameter name: (path) Name is the repo whose advanced refs are pushed downstream, from the :name path segment. 
-     - parameter mirrorTargetReq: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: MirrorTargetView
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postGitReposByNameMirrors(name: String, mirrorTargetReq: MirrorTargetReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> MirrorTargetView {
-        return try await postGitReposByNameMirrorsWithRequestBuilder(name: name, mirrorTargetReq: mirrorTargetReq, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Registers a downstream remote the repo's advanced refs are pushed to whenever a push lands here.
-     - POST /v1/git/repos/{name}/mirrors
-     - Registers a downstream remote the repo's advanced refs are pushed to whenever a push lands here. Answers 201. The URL must be https to a host on the mirror allowlist (github.com / gitlab.com): the same set the mirror credential may be sent to, so a target can never capture the shared token or point the push at an internal service. Any embedded userinfo is stripped — credentials ride env-only at push time and never enter the stored URL. One mirror per host per repo; a second is a 409.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter name: (path) Name is the repo whose advanced refs are pushed downstream, from the :name path segment. 
-     - parameter mirrorTargetReq: (body)  
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<MirrorTargetView> 
-     */
-    open class func postGitReposByNameMirrorsWithRequestBuilder(name: String, mirrorTargetReq: MirrorTargetReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<MirrorTargetView> {
-        var localVariablePath = "/v1/git/repos/{name}/mirrors"
-        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
-        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: mirrorTargetReq, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<MirrorTargetView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
      Proposes a branch for merging and returns it with its number.
      
      - parameter name: (path) Name is the repo the proposal belongs to, from the :name path segment. 
@@ -1658,7 +1612,7 @@ open class GitAPI {
      - returns: PullView
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postGitReposByNamePullsByNumberMerge(name: String, number: Int, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PullView {
+    open class func postGitReposByNamePullsByNumberMerge(name: String, number: Int64, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PullView {
         return try await postGitReposByNamePullsByNumberMergeWithRequestBuilder(name: name, number: number, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -1674,7 +1628,7 @@ open class GitAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<PullView> 
      */
-    open class func postGitReposByNamePullsByNumberMergeWithRequestBuilder(name: String, number: Int, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PullView> {
+    open class func postGitReposByNamePullsByNumberMergeWithRequestBuilder(name: String, number: Int64, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PullView> {
         var localVariablePath = "/v1/git/repos/{name}/pulls/{number}/merge"
         let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -1791,6 +1745,52 @@ open class GitAPI {
     }
 
     /**
+     Registers a downstream remote the repo's advanced refs are pushed to whenever a push lands here.
+     
+     - parameter name: (path) Name is the repo whose advanced refs are pushed downstream, from the :name path segment. 
+     - parameter mirrorTargetReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: MirrorTargetView
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postGitReposByNameTargets(name: String, mirrorTargetReq: MirrorTargetReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> MirrorTargetView {
+        return try await postGitReposByNameTargetsWithRequestBuilder(name: name, mirrorTargetReq: mirrorTargetReq, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Registers a downstream remote the repo's advanced refs are pushed to whenever a push lands here.
+     - POST /v1/git/repos/{name}/targets
+     - Registers a downstream remote the repo's advanced refs are pushed to whenever a push lands here. Answers 201. The URL must be https to a host on the mirror allowlist (github.com / gitlab.com): the same set the mirror credential may be sent to, so a target can never capture the shared token or point the push at an internal service. Any embedded userinfo is stripped — credentials ride env-only at push time and never enter the stored URL. One mirror per host per repo; a second is a 409.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter name: (path) Name is the repo whose advanced refs are pushed downstream, from the :name path segment. 
+     - parameter mirrorTargetReq: (body)  
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<MirrorTargetView> 
+     */
+    open class func postGitReposByNameTargetsWithRequestBuilder(name: String, mirrorTargetReq: MirrorTargetReq, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<MirrorTargetView> {
+        var localVariablePath = "/v1/git/repos/{name}/targets"
+        let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
+        let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        localVariablePath = localVariablePath.replacingOccurrences(of: "{name}", with: namePostEscape, options: .literal, range: nil)
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: mirrorTargetReq, codableHelper: apiConfiguration.codableHelper)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<MirrorTargetView>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      Retired — forge pushes build via platform.hanzo.ai
      
      - parameter apiConfiguration: The configuration for the http request.
@@ -1813,207 +1813,6 @@ open class GitAPI {
      */
     open class func postGitWebhookWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/git/webhook"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Create a repository over the ZAP transport
-     
-     - parameter zapProcReq: (body)  (optional)
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postGitZapCreaterepo(zapProcReq: ZapProcReq? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postGitZapCreaterepoWithRequestBuilder(zapProcReq: zapProcReq, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Create a repository over the ZAP transport
-     - POST /v1/git/zap/createRepo
-     - Creates a repository in the caller's org and project scope and answers with its record. `name` is required and `description` is optional; `project` narrows the scope within the org. A name already taken in that scope is a 409 envelope and an invalid name a 400.  A ZAP PROCEDURE, not a REST resource. It answers the bridge's {status, msg, data} envelope rather than the raw view the /v1 route returns, and it calls the SAME core function the REST route calls, so the two transports cannot diverge in behaviour. Org and project scope come from the request identity and NEVER from the body: the body cannot widen the caller's scope. Without a validated org the answer is a 403 envelope.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter zapProcReq: (body)  (optional)
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func postGitZapCreaterepoWithRequestBuilder(zapProcReq: ZapProcReq? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        let localVariablePath = "/v1/git/zap/createRepo"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: zapProcReq, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Delete a repository over the ZAP transport
-     
-     - parameter zapProcReq: (body)  (optional)
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postGitZapDeleterepo(zapProcReq: ZapProcReq? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postGitZapDeleterepoWithRequestBuilder(zapProcReq: zapProcReq, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Delete a repository over the ZAP transport
-     - POST /v1/git/zap/deleteRepo
-     - Deletes the repository named by `name` and answers with the deleted name. A repository outside the caller's org and project scope is a 404 envelope, so a delete can never reach another tenant's repository.  A ZAP PROCEDURE, not a REST resource. It answers the bridge's {status, msg, data} envelope rather than the raw view the /v1 route returns, and it calls the SAME core function the REST route calls, so the two transports cannot diverge in behaviour. Org and project scope come from the request identity and NEVER from the body: the body cannot widen the caller's scope. Without a validated org the answer is a 403 envelope.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter zapProcReq: (body)  (optional)
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func postGitZapDeleterepoWithRequestBuilder(zapProcReq: ZapProcReq? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        let localVariablePath = "/v1/git/zap/deleteRepo"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: zapProcReq, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Read one repository over the ZAP transport
-     
-     - parameter zapProcReq: (body)  (optional)
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postGitZapGetrepo(zapProcReq: ZapProcReq? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postGitZapGetrepoWithRequestBuilder(zapProcReq: zapProcReq, apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Read one repository over the ZAP transport
-     - POST /v1/git/zap/getRepo
-     - Answers a single repository's record, named by `name`. A repository outside the caller's org and project scope is a 404 envelope, the same answer one that does not exist gets.  A ZAP PROCEDURE, not a REST resource. It answers the bridge's {status, msg, data} envelope rather than the raw view the /v1 route returns, and it calls the SAME core function the REST route calls, so the two transports cannot diverge in behaviour. Org and project scope come from the request identity and NEVER from the body: the body cannot widen the caller's scope. Without a validated org the answer is a 403 envelope.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter zapProcReq: (body)  (optional)
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func postGitZapGetrepoWithRequestBuilder(zapProcReq: ZapProcReq? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        let localVariablePath = "/v1/git/zap/getRepo"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: zapProcReq, codableHelper: apiConfiguration.codableHelper)
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            "Content-Type": "application/json",
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     List your repositories over the ZAP transport
-     
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postGitZapListrepos(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postGitZapListreposWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     List your repositories over the ZAP transport
-     - POST /v1/git/zap/listRepos
-     - Answers every repository in the caller's org and project scope. It reads NO body — the scope is entirely the caller's identity — so a request with an empty object is correct.  A ZAP PROCEDURE, not a REST resource. It answers the bridge's {status, msg, data} envelope rather than the raw view the /v1 route returns, and it calls the SAME core function the REST route calls, so the two transports cannot diverge in behaviour. Org and project scope come from the request identity and NEVER from the body: the body cannot widen the caller's scope. Without a validated org the answer is a 403 envelope.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func postGitZapListreposWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        let localVariablePath = "/v1/git/zap/listRepos"
-        let localVariableURLString = apiConfiguration.basePath + localVariablePath
-        let localVariableParameters: [String: any Sendable]? = nil
-
-        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
-
-        let localVariableNillableHeaders: [String: (any Sendable)?] = [
-            :
-        ]
-
-        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
-
-        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
-    }
-
-    /**
-     Report your org's git storage footprint over the ZAP transport
-     
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: Void
-     */
-    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postGitZapUsage(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
-        return try await postGitZapUsageWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
-    }
-
-    /**
-     Report your org's git storage footprint over the ZAP transport
-     - POST /v1/git/zap/usage
-     - Answers every repository in the caller's org with its size in bytes, plus the org's total — what git storage is actually being used, and by which repository. It reads NO body, and it is scoped to the caller's own org, so it is that org's footprint and never the fleet's.  A ZAP PROCEDURE, not a REST resource. It answers the bridge's {status, msg, data} envelope rather than the raw view the /v1 route returns, and it calls the SAME core function the REST route calls, so the two transports cannot diverge in behaviour. Org and project scope come from the request identity and NEVER from the body: the body cannot widen the caller's scope. Without a validated org the answer is a 403 envelope.
-     - Bearer Token:
-       - type: http
-       - name: bearer
-     - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<Void> 
-     */
-    open class func postGitZapUsageWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
-        let localVariablePath = "/v1/git/zap/usage"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
 

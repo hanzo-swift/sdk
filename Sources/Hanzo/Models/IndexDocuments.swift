@@ -10,15 +10,15 @@ import Foundation
 public struct IndexDocuments: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Limit is how many documents this page could hold. */
-    public var limit: Int?
+    public var limit: Int64?
     /** Offset is where this page starts. */
-    public var offset: Int?
+    public var offset: Int64?
     /** Results are the documents themselves, exactly as they were stored. */
     public var results: [JSONValue]?
     /** Total is how many documents the index holds altogether. */
-    public var total: Int?
+    public var total: Int64?
 
-    public init(limit: Int? = nil, offset: Int? = nil, results: [JSONValue]? = nil, total: Int? = nil) {
+    public init(limit: Int64? = nil, offset: Int64? = nil, results: [JSONValue]? = nil, total: Int64? = nil) {
         self.limit = limit
         self.offset = offset
         self.results = results

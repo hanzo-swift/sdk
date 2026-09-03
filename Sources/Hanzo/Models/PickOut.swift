@@ -12,9 +12,9 @@ public struct PickOut: Sendable, Codable, ParameterConvertible, Hashable {
     /** Consumers is the page, ordered by name. */
     public var consumers: [Consumer]?
     /** Total is the stream's consumer count before paging. */
-    public var total: Int?
+    public var total: Int64?
 
-    public init(consumers: [Consumer]? = nil, total: Int? = nil) {
+    public init(consumers: [Consumer]? = nil, total: Int64? = nil) {
         self.consumers = consumers
         self.total = total
     }

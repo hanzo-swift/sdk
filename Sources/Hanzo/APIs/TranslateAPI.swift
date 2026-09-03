@@ -19,7 +19,7 @@ open class TranslateAPI {
      - returns: MemoryPage
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getTranslateMemory(target: String? = nil, state: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> MemoryPage {
+    open class func getTranslateMemory(target: String? = nil, state: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> MemoryPage {
         return try await getTranslateMemoryWithRequestBuilder(target: target, state: state, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -36,7 +36,7 @@ open class TranslateAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<MemoryPage> 
      */
-    open class func getTranslateMemoryWithRequestBuilder(target: String? = nil, state: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<MemoryPage> {
+    open class func getTranslateMemoryWithRequestBuilder(target: String? = nil, state: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<MemoryPage> {
         let localVariablePath = "/v1/translate/memory"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil

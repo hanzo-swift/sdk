@@ -10,16 +10,16 @@ import Foundation
 public struct O11yDaemonSetListRequest: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** epoch time in ms */
-    public var end: Int?
+    public var end: Int64?
     public var filters: O11yFilterSet?
     public var groupBy: [O11yAttributeKey]?
-    public var limit: Int?
-    public var offset: Int?
+    public var limit: Int64?
+    public var offset: Int64?
     public var orderBy: O11yOrderBy?
     /** epoch time in ms */
-    public var start: Int?
+    public var start: Int64?
 
-    public init(end: Int? = nil, filters: O11yFilterSet? = nil, groupBy: [O11yAttributeKey]? = nil, limit: Int? = nil, offset: Int? = nil, orderBy: O11yOrderBy? = nil, start: Int? = nil) {
+    public init(end: Int64? = nil, filters: O11yFilterSet? = nil, groupBy: [O11yAttributeKey]? = nil, limit: Int64? = nil, offset: Int64? = nil, orderBy: O11yOrderBy? = nil, start: Int64? = nil) {
         self.end = end
         self.filters = filters
         self.groupBy = groupBy

@@ -22,9 +22,9 @@ public struct BuildTurn: Sendable, Codable, ParameterConvertible, Hashable {
     /** Subject is that commit's subject line, from the same transcript, so a reader sees what the commit says without fetching the repository. */
     public var subject: String?
     /** Seq is this turn's POSITION in the session's log — monotonic from 1, per session — and it is what a commit's `Hanzo-Turn:` trailer names. It is not a count of anything: the count is `turns` on the summary beside it. */
-    public var turn: Int?
+    public var turn: Int64?
 
-    public init(actor: String? = nil, at: String? = nil, body: String? = nil, commit: String? = nil, kind: String? = nil, subject: String? = nil, turn: Int? = nil) {
+    public init(actor: String? = nil, at: String? = nil, body: String? = nil, commit: String? = nil, kind: String? = nil, subject: String? = nil, turn: Int64? = nil) {
         self.actor = actor
         self.at = at
         self.body = body

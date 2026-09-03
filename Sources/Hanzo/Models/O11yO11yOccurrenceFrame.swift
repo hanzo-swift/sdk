@@ -12,7 +12,7 @@ public struct O11yO11yOccurrenceFrame: Sendable, Codable, ParameterConvertible, 
     /** AbsPath is the file's absolute path. */
     public var absPath: String?
     /** Colno is the column number. */
-    public var colno: Int?
+    public var colno: Int64?
     /** Filename is the file it is in. */
     public var filename: String?
     /** Function is the function the frame is in. */
@@ -20,11 +20,11 @@ public struct O11yO11yOccurrenceFrame: Sendable, Codable, ParameterConvertible, 
     /** InApp marks a frame in the reporting application's own code. */
     public var inApp: Bool?
     /** Lineno is the line number. */
-    public var lineno: Int?
+    public var lineno: Int64?
     /** Module is the module the function is in. */
     public var module: String?
 
-    public init(absPath: String? = nil, colno: Int? = nil, filename: String? = nil, function: String? = nil, inApp: Bool? = nil, lineno: Int? = nil, module: String? = nil) {
+    public init(absPath: String? = nil, colno: Int64? = nil, filename: String? = nil, function: String? = nil, inApp: Bool? = nil, lineno: Int64? = nil, module: String? = nil) {
         self.absPath = absPath
         self.colno = colno
         self.filename = filename

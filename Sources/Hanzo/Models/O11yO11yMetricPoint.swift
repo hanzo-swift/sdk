@@ -12,13 +12,13 @@ public struct O11yO11yMetricPoint: Sendable, Codable, ParameterConvertible, Hash
     /** Partial marks a point whose bucket the window only partly covers. */
     public var partial: Bool?
     /** Timestamp is the point's time as a Unix timestamp in milliseconds. */
-    public var timestamp: Int?
+    public var timestamp: Int64?
     /** Value is the point's value. */
     public var value: Double?
     /** Values carries the bucket values of a heatmap point. */
     public var values: [Double]?
 
-    public init(partial: Bool? = nil, timestamp: Int? = nil, value: Double? = nil, values: [Double]? = nil) {
+    public init(partial: Bool? = nil, timestamp: Int64? = nil, value: Double? = nil, values: [Double]? = nil) {
         self.partial = partial
         self.timestamp = timestamp
         self.value = value

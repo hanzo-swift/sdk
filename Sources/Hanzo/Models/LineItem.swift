@@ -10,11 +10,11 @@ import Foundation
 public struct LineItem: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** AmountCents is that line's amount in whole cents. The scanner is instructed to return integer cents rather than a decimal, so no float rounding can enter the ledger through here. */
-    public var amountCents: Int?
+    public var amountCents: Int64?
     /** Description is the line as it appears on the document. */
     public var description: String?
 
-    public init(amountCents: Int? = nil, description: String? = nil) {
+    public init(amountCents: Int64? = nil, description: String? = nil) {
         self.amountCents = amountCents
         self.description = description
     }

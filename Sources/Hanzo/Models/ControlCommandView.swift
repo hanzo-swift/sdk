@@ -15,9 +15,9 @@ public struct ControlCommandView: Sendable, Codable, ParameterConvertible, Hasha
     public var message: String?
     public var payload: JSONValue?
     /** Seq is this command's position in the session's log — the same monotonic number every other turn is ordered by, so a command sits in the transcript where it was issued. Send the highest one you applied back as `after` and it is never redelivered. */
-    public var seq: Int?
+    public var seq: Int64?
 
-    public init(command: String? = nil, message: String? = nil, payload: JSONValue? = nil, seq: Int? = nil) {
+    public init(command: String? = nil, message: String? = nil, payload: JSONValue? = nil, seq: Int64? = nil) {
         self.command = command
         self.message = message
         self.payload = payload

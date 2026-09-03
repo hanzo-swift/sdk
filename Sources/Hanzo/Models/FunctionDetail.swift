@@ -12,11 +12,11 @@ public struct FunctionDetail: Sendable, Codable, ParameterConvertible, Hashable 
     public var avgDurationMs: Double?
     public var createdAt: String?
     public var endpoint: String?
-    public var envCount: Int?
+    public var envCount: Int64?
     public var environment: String?
-    public var errors7d: Int?
+    public var errors7d: Int64?
     public var image: String?
-    public var invocations7d: Int?
+    public var invocations7d: Int64?
     public var lastDeployedAt: String?
     public var memoryLimit: String?
     public var name: String?
@@ -28,11 +28,11 @@ public struct FunctionDetail: Sendable, Codable, ParameterConvertible, Hashable 
     public var status: String?
     public var successRate: Double?
     public var target: String?
-    public var timeoutSec: Int?
+    public var timeoutSec: Int64?
     /** Triggers is how this function is reached. */
     public var triggers: [TriggerView]?
 
-    public init(avgDurationMs: Double? = nil, createdAt: String? = nil, endpoint: String? = nil, envCount: Int? = nil, environment: String? = nil, errors7d: Int? = nil, image: String? = nil, invocations7d: Int? = nil, lastDeployedAt: String? = nil, memoryLimit: String? = nil, name: String? = nil, namespace: String? = nil, recentInvocations: [InvocationView]? = nil, secrets: [String]? = nil, status: String? = nil, successRate: Double? = nil, target: String? = nil, timeoutSec: Int? = nil, triggers: [TriggerView]? = nil) {
+    public init(avgDurationMs: Double? = nil, createdAt: String? = nil, endpoint: String? = nil, envCount: Int64? = nil, environment: String? = nil, errors7d: Int64? = nil, image: String? = nil, invocations7d: Int64? = nil, lastDeployedAt: String? = nil, memoryLimit: String? = nil, name: String? = nil, namespace: String? = nil, recentInvocations: [InvocationView]? = nil, secrets: [String]? = nil, status: String? = nil, successRate: Double? = nil, target: String? = nil, timeoutSec: Int64? = nil, triggers: [TriggerView]? = nil) {
         self.avgDurationMs = avgDurationMs
         self.createdAt = createdAt
         self.endpoint = endpoint

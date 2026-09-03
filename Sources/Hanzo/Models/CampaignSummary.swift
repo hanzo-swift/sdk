@@ -10,15 +10,15 @@ import Foundation
 public struct CampaignSummary: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Budget is the sum of every campaign's budget, in CENTS. */
-    public var budget: Int?
+    public var budget: Int64?
     /** Campaigns is how many campaigns the org has, in any state. */
-    public var campaigns: Int?
+    public var campaigns: Int64?
     /** Channels are the channel kinds this deployment has an executor wired for. A kind absent here is a kind a launch will honestly record as unavailable. */
     public var channels: [String]?
     /** Live is how many of them are currently live. */
-    public var live: Int?
+    public var live: Int64?
 
-    public init(budget: Int? = nil, campaigns: Int? = nil, channels: [String]? = nil, live: Int? = nil) {
+    public init(budget: Int64? = nil, campaigns: Int64? = nil, channels: [String]? = nil, live: Int64? = nil) {
         self.budget = budget
         self.campaigns = campaigns
         self.channels = channels

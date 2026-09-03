@@ -16,19 +16,19 @@ public struct RiskDatasetSpec: Sendable, Codable, ParameterConvertible, Hashable
     /** From is where the event window opens, RFC 3339, INCLUSIVE. The window may not be longer than the source's own retention: past that, its older half is already gone and the dataset would silently be shorter than it says. */
     public var from: String?
     /** Horizon is how many days a row must have aged before it may be admitted. It is what keeps a fact that was not yet knowable at scoring time out of a training set: a chargeback lands 30 to 120 days after the transaction it condemns, so 120 for the payment lane and 14 for signup abuse. Zero admits the whole window and is honest only where the outcome is immediate. */
-    public var horizon: Int?
+    public var horizon: Int64?
     /** Kind narrows to one subject kind — person, session or account. Empty takes every kind. */
     public var kind: String?
     /** Name identifies the dataset across its versions: lower-case letters, digits and hyphens, starting with a letter. */
     public var name: String?
     /** Rows caps the materialisation. Zero takes the plane's own bound. */
-    public var rows: Int?
+    public var rows: Int64?
     /** Seed decides WHICH subjects are admitted when the window holds more rows than the cap allows. It is recorded on the version, so a capped dataset is reproducible rather than being whichever rows the store returned first. Omit it to seed from the dataset's name. */
     public var seed: String?
     /** To is where the window ends, EXCLUSIVE, so two datasets meeting at one instant share no row. A materialisation reads less than this — the end is pulled back by Horizon, and the lineage reports the window it actually read. */
     public var to: String?
 
-    public init(cuts: [String]? = nil, dims: [String]? = nil, from: String? = nil, horizon: Int? = nil, kind: String? = nil, name: String? = nil, rows: Int? = nil, seed: String? = nil, to: String? = nil) {
+    public init(cuts: [String]? = nil, dims: [String]? = nil, from: String? = nil, horizon: Int64? = nil, kind: String? = nil, name: String? = nil, rows: Int64? = nil, seed: String? = nil, to: String? = nil) {
         self.cuts = cuts
         self.dims = dims
         self.from = from

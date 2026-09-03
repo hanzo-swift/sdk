@@ -14,7 +14,7 @@ public struct Cart: Sendable, Codable, ParameterConvertible, Hashable {
     /** Currency is the ISO 4217 code every amount below is denominated in. */
     public var currency: String?
     /** DiscountCents is what coupons and promotions took off, in whole cents. */
-    public var discountCents: Int?
+    public var discountCents: Int64?
     /** Email is the shopper's address, when the cart carries one. */
     public var email: String?
     /** ID is the cart's id — what every other cart op addresses it by, and what a storefront persists against the browser session. */
@@ -22,27 +22,27 @@ public struct Cart: Sendable, Codable, ParameterConvertible, Hashable {
     /** Items are the cart's lines, in the order they were added. */
     public var items: [CartItem]?
     /** LineTotalCents is the sum of the lines before any discount, in whole cents. */
-    public var lineTotalCents: Int?
+    public var lineTotalCents: Int64?
     /** Order is the order this cart became, once checkout completed it. Empty until then, and its presence is what makes a cart final. */
     public var order: String?
     /** ShippingCents is the shipping charge, in whole cents. It stays zero until a shipping option is priced at checkout. */
-    public var shippingCents: Int?
+    public var shippingCents: Int64?
     /** Status is \"active\" for a cart still being filled, \"ordered\" once checkout turned it into an order, and \"discarded\" when the shopper abandoned it. */
     public var status: String?
     /** Store is the storefront the cart is being filled on. */
     public var store: String?
     /** SubtotalCents is LineTotalCents less DiscountCents, in whole cents. */
-    public var subtotalCents: Int?
+    public var subtotalCents: Int64?
     /** TaxCents is the sales tax, in whole cents. It stays zero until checkout resolves the shopper's tax region. */
-    public var taxCents: Int?
+    public var taxCents: Int64?
     /** TotalCents is what the shopper pays: subtotal plus shipping plus tax, in whole cents. */
-    public var totalCents: Int?
+    public var totalCents: Int64?
     /** UpdatedAt is when the cart was last amended, RFC3339. */
     public var updatedAt: String?
     /** User is the signed-in shopper this cart belongs to, empty for a guest cart. */
     public var user: String?
 
-    public init(createdAt: String? = nil, currency: String? = nil, discountCents: Int? = nil, email: String? = nil, id: String? = nil, items: [CartItem]? = nil, lineTotalCents: Int? = nil, order: String? = nil, shippingCents: Int? = nil, status: String? = nil, store: String? = nil, subtotalCents: Int? = nil, taxCents: Int? = nil, totalCents: Int? = nil, updatedAt: String? = nil, user: String? = nil) {
+    public init(createdAt: String? = nil, currency: String? = nil, discountCents: Int64? = nil, email: String? = nil, id: String? = nil, items: [CartItem]? = nil, lineTotalCents: Int64? = nil, order: String? = nil, shippingCents: Int64? = nil, status: String? = nil, store: String? = nil, subtotalCents: Int64? = nil, taxCents: Int64? = nil, totalCents: Int64? = nil, updatedAt: String? = nil, user: String? = nil) {
         self.createdAt = createdAt
         self.currency = currency
         self.discountCents = discountCents

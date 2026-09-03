@@ -142,7 +142,7 @@ open class LabelAPI {
      - returns: RiskLabelCoverage
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func riskLabelCoverage(from: String? = nil, to: String? = nil, horizon: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RiskLabelCoverage {
+    open class func riskLabelCoverage(from: String? = nil, to: String? = nil, horizon: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RiskLabelCoverage {
         return try await riskLabelCoverageWithRequestBuilder(from: from, to: to, horizon: horizon, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -159,7 +159,7 @@ open class LabelAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<RiskLabelCoverage> 
      */
-    open class func riskLabelCoverageWithRequestBuilder(from: String? = nil, to: String? = nil, horizon: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RiskLabelCoverage> {
+    open class func riskLabelCoverageWithRequestBuilder(from: String? = nil, to: String? = nil, horizon: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RiskLabelCoverage> {
         let localVariablePath = "/v1/label/coverage"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -234,7 +234,7 @@ open class LabelAPI {
      - returns: RiskLabelsOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func riskLabels(kind: String? = nil, subject: String? = nil, source: String? = nil, from: String? = nil, to: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RiskLabelsOut {
+    open class func riskLabels(kind: String? = nil, subject: String? = nil, source: String? = nil, from: String? = nil, to: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RiskLabelsOut {
         return try await riskLabelsWithRequestBuilder(kind: kind, subject: subject, source: source, from: from, to: to, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -254,7 +254,7 @@ open class LabelAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<RiskLabelsOut> 
      */
-    open class func riskLabelsWithRequestBuilder(kind: String? = nil, subject: String? = nil, source: String? = nil, from: String? = nil, to: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RiskLabelsOut> {
+    open class func riskLabelsWithRequestBuilder(kind: String? = nil, subject: String? = nil, source: String? = nil, from: String? = nil, to: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RiskLabelsOut> {
         let localVariablePath = "/v1/label"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil

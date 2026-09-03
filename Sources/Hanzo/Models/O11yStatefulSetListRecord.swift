@@ -9,19 +9,19 @@ import Foundation
 
 public struct O11yStatefulSetListRecord: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var availablePods: Int?
+    public var availablePods: Int64?
     public var cpuLimit: Double?
     public var cpuRequest: Double?
     public var cpuUsage: Double?
-    public var desiredPods: Int?
+    public var desiredPods: Int64?
     public var memoryLimit: Double?
     public var memoryRequest: Double?
     public var memoryUsage: Double?
     public var meta: [String: String]?
-    public var restarts: Int?
+    public var restarts: Int64?
     public var statefulSetName: String?
 
-    public init(availablePods: Int? = nil, cpuLimit: Double? = nil, cpuRequest: Double? = nil, cpuUsage: Double? = nil, desiredPods: Int? = nil, memoryLimit: Double? = nil, memoryRequest: Double? = nil, memoryUsage: Double? = nil, meta: [String: String]? = nil, restarts: Int? = nil, statefulSetName: String? = nil) {
+    public init(availablePods: Int64? = nil, cpuLimit: Double? = nil, cpuRequest: Double? = nil, cpuUsage: Double? = nil, desiredPods: Int64? = nil, memoryLimit: Double? = nil, memoryRequest: Double? = nil, memoryUsage: Double? = nil, meta: [String: String]? = nil, restarts: Int64? = nil, statefulSetName: String? = nil) {
         self.availablePods = availablePods
         self.cpuLimit = cpuLimit
         self.cpuRequest = cpuRequest

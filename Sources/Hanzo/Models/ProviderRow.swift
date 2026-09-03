@@ -10,15 +10,15 @@ import Foundation
 public struct ProviderRow: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CostCents is what they cost the org, in US cents. */
-    public var costCents: Int?
+    public var costCents: Int64?
     /** Provider is the upstream the requests were routed to, e.g. anthropic. */
     public var provider: String?
     /** Requests is how many completions the org made against that provider. */
-    public var requests: Int?
+    public var requests: Int64?
     /** Tokens is the total tokens those completions consumed, prompt plus completion. */
-    public var tokens: Int?
+    public var tokens: Int64?
 
-    public init(costCents: Int? = nil, provider: String? = nil, requests: Int? = nil, tokens: Int? = nil) {
+    public init(costCents: Int64? = nil, provider: String? = nil, requests: Int64? = nil, tokens: Int64? = nil) {
         self.costCents = costCents
         self.provider = provider
         self.requests = requests

@@ -12,7 +12,7 @@ public struct TrustGrantView: Sendable, Codable, ParameterConvertible, Hashable 
     /** Email is the one address the link admits. */
     public var email: String?
     /** ExpiresAt is when the grant closes, in unix milliseconds. */
-    public var expiresAt: Int?
+    public var expiresAt: Int64?
     /** Item is the item granted, empty when the whole released tier was granted. */
     public var item: String?
     /** Link is the share link's id — the token the party opens. Reading it here does not widen it: the link admits only Email whoever holds the id. */
@@ -20,7 +20,7 @@ public struct TrustGrantView: Sendable, Codable, ParameterConvertible, Hashable 
     /** Live is whether the grant is still open at the time of reading. */
     public var live: Bool?
 
-    public init(email: String? = nil, expiresAt: Int? = nil, item: String? = nil, link: String? = nil, live: Bool? = nil) {
+    public init(email: String? = nil, expiresAt: Int64? = nil, item: String? = nil, link: String? = nil, live: Bool? = nil) {
         self.email = email
         self.expiresAt = expiresAt
         self.item = item

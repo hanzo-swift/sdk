@@ -18,11 +18,11 @@ public struct ActivityRow: Sendable, Codable, ParameterConvertible, Hashable {
     /** Detail is free-form context about the change. Nothing writes it today, so it is absent from every row the store serves. */
     public var detail: String?
     /** ID is the log's own sequence number, rising with each entry. The log is served newest-first, which is this descending. */
-    public var id: Int?
+    public var id: Int64?
     /** Key is the flag that changed. It survives a delete, so the log still names flags the definition store no longer holds. */
     public var key: String?
 
-    public init(action: String? = nil, actor: String? = nil, at: String? = nil, detail: String? = nil, id: Int? = nil, key: String? = nil) {
+    public init(action: String? = nil, actor: String? = nil, at: String? = nil, detail: String? = nil, id: Int64? = nil, key: String? = nil) {
         self.action = action
         self.actor = actor
         self.at = at

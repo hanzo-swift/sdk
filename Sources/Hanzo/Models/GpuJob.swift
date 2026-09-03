@@ -10,7 +10,7 @@ import Foundation
 public struct GpuJob: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Attempt is which try this is, counting from 1. Above 1 means the job was retried after a failed or abandoned run. */
-    public var attempt: Int?
+    public var attempt: Int64?
     /** CloseTime is when the job reached a terminal state, RFC 3339. Empty means it is still live — queued, running or stalled. */
     public var closeTime: String?
     /** FailureCause is the engine's reason the job failed. Empty unless it did. */
@@ -36,7 +36,7 @@ public struct GpuJob: Sendable, Codable, ParameterConvertible, Hashable {
     /** Worker is the node that actually CLAIMED the job, which is not always the one it was aimed at: a shared-lane job has no GPU but does have a Worker once picked up. Empty while the job is still waiting. */
     public var worker: String?
 
-    public init(attempt: Int? = nil, closeTime: String? = nil, failureCause: String? = nil, gpu: String? = nil, id: String? = nil, label: String? = nil, lastHeartbeat: String? = nil, leaseExpiry: String? = nil, runId: String? = nil, startTime: String? = nil, status: String? = nil, type: String? = nil, worker: String? = nil) {
+    public init(attempt: Int64? = nil, closeTime: String? = nil, failureCause: String? = nil, gpu: String? = nil, id: String? = nil, label: String? = nil, lastHeartbeat: String? = nil, leaseExpiry: String? = nil, runId: String? = nil, startTime: String? = nil, status: String? = nil, type: String? = nil, worker: String? = nil) {
         self.attempt = attempt
         self.closeTime = closeTime
         self.failureCause = failureCause

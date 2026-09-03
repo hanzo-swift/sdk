@@ -12,11 +12,11 @@ public struct O11yO11yLLMObservationsPage: Sendable, Codable, ParameterConvertib
     /** Items are the observations, newest first. */
     public var items: [O11yO11yLLMObservation]?
     /** Limit is the page cap the read ran with. */
-    public var limit: Int?
+    public var limit: Int64?
     /** Offset is the row offset this page started at. */
-    public var offset: Int?
+    public var offset: Int64?
 
-    public init(items: [O11yO11yLLMObservation]? = nil, limit: Int? = nil, offset: Int? = nil) {
+    public init(items: [O11yO11yLLMObservation]? = nil, limit: Int64? = nil, offset: Int64? = nil) {
         self.items = items
         self.limit = limit
         self.offset = offset

@@ -12,9 +12,9 @@ public struct ImportDocumentsOut: Sendable, Codable, ParameterConvertible, Hasha
     /** Formation is the org's incorporation record with the imported document ids. */
     public var formation: Formation?
     /** Ingested is how many files this call put in the data room. */
-    public var ingested: Int?
+    public var ingested: Int64?
 
-    public init(formation: Formation? = nil, ingested: Int? = nil) {
+    public init(formation: Formation? = nil, ingested: Int64? = nil) {
         self.formation = formation
         self.ingested = ingested
     }

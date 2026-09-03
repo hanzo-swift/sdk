@@ -10,9 +10,9 @@ import Foundation
 public struct RiskSearchIn: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Days is how much of the organisation's own history to replay, 1 to 400. Zero takes thirty. */
-    public var days: Int?
+    public var days: Int64?
 
-    public init(days: Int? = nil) {
+    public init(days: Int64? = nil) {
         self.days = days
     }
 

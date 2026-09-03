@@ -9,10 +9,10 @@ import Foundation
 
 public struct IamUsersListOutput: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var total: Int?
+    public var total: Int64?
     public var users: [IamUser]?
 
-    public init(total: Int? = nil, users: [IamUser]? = nil) {
+    public init(total: Int64? = nil, users: [IamUser]? = nil) {
         self.total = total
         self.users = users
     }

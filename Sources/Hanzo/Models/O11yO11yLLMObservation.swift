@@ -10,7 +10,7 @@ import Foundation
 public struct O11yO11yLLMObservation: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CompletionTokens is the output token count. */
-    public var completionTokens: Int?
+    public var completionTokens: Int64?
     /** ID is the observation's id (the span id). */
     public var id: String?
     /** LatencyMs is how long it took, in milliseconds. */
@@ -22,7 +22,7 @@ public struct O11yO11yLLMObservation: Sendable, Codable, ParameterConvertible, H
     /** ParentID is the parent observation, when the span has one. */
     public var parentObservationId: String?
     /** PromptTokens is the input token count. */
-    public var promptTokens: Int?
+    public var promptTokens: Int64?
     /** Provider is the model's provider. */
     public var provider: String?
     /** ServiceName is the app that emitted it. */
@@ -36,7 +36,7 @@ public struct O11yO11yLLMObservation: Sendable, Codable, ParameterConvertible, H
     /** TotalCost is the observation's cost. */
     public var totalCost: Double?
     /** TotalTokens is the sum of prompt and completion tokens. */
-    public var totalTokens: Int?
+    public var totalTokens: Int64?
     /** TraceID is the trace the observation belongs to. */
     public var traceId: String?
     /** Type is the observation kind, e.g. chat, embeddings, tool. */
@@ -44,7 +44,7 @@ public struct O11yO11yLLMObservation: Sendable, Codable, ParameterConvertible, H
     /** UserID is the end user the observation is attributed to. */
     public var userId: String?
 
-    public init(completionTokens: Int? = nil, id: String? = nil, latencyMs: Double? = nil, model: String? = nil, name: String? = nil, parentObservationId: String? = nil, promptTokens: Int? = nil, provider: String? = nil, serviceName: String? = nil, sessionId: String? = nil, startTime: Date? = nil, statusCode: String? = nil, totalCost: Double? = nil, totalTokens: Int? = nil, traceId: String? = nil, type: String? = nil, userId: String? = nil) {
+    public init(completionTokens: Int64? = nil, id: String? = nil, latencyMs: Double? = nil, model: String? = nil, name: String? = nil, parentObservationId: String? = nil, promptTokens: Int64? = nil, provider: String? = nil, serviceName: String? = nil, sessionId: String? = nil, startTime: Date? = nil, statusCode: String? = nil, totalCost: Double? = nil, totalTokens: Int64? = nil, traceId: String? = nil, type: String? = nil, userId: String? = nil) {
         self.completionTokens = completionTokens
         self.id = id
         self.latencyMs = latencyMs

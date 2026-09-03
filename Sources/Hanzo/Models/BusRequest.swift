@@ -16,9 +16,9 @@ public struct BusRequest: Sendable, Codable, ParameterConvertible, Hashable {
     /** Subject is the subject a responder listens on, in the org's namespace. */
     public var subject: String?
     /** TimeoutMs bounds the wait for a reply. 0 or less means the default of 5000; anything above 30000 is clamped to 30000. */
-    public var timeoutMs: Int?
+    public var timeoutMs: Int64?
 
-    public init(data: String? = nil, headers: [String: String]? = nil, subject: String? = nil, timeoutMs: Int? = nil) {
+    public init(data: String? = nil, headers: [String: String]? = nil, subject: String? = nil, timeoutMs: Int64? = nil) {
         self.data = data
         self.headers = headers
         self.subject = subject

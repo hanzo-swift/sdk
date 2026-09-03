@@ -10,9 +10,9 @@ import Foundation
 public struct Remittance: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** AmountCents is the amount disbursed, in cents. It was reserved against pending commission atomically when recorded, so it never exceeds what was owed. */
-    public var amountCents: Int?
+    public var amountCents: Int64?
     /** CreatedAt is when the payout was recorded, Unix seconds UTC — when the balance moved, not necessarily when the cash landed. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** ID is the payout row's server-minted handle, \"apo_\"-prefixed. */
     public var id: String?
     /** Method is how it was settled. \"credits\" issued a commerce grant into the affiliate org's own wallet; any other value (wire, paypal, check, …) is a RECORD of cash a human moved out of band. */
@@ -22,7 +22,7 @@ public struct Remittance: Sendable, Codable, ParameterConvertible, Hashable {
     /** Txn is the commerce ledger transaction id, set ONLY where a \"credits\" payout actually issued the grant. Absent for cash methods, which write no ledger row. */
     public var txn: String?
 
-    public init(amountCents: Int? = nil, createdAt: Int? = nil, id: String? = nil, method: String? = nil, reference: String? = nil, txn: String? = nil) {
+    public init(amountCents: Int64? = nil, createdAt: Int64? = nil, id: String? = nil, method: String? = nil, reference: String? = nil, txn: String? = nil) {
         self.amountCents = amountCents
         self.createdAt = createdAt
         self.id = id

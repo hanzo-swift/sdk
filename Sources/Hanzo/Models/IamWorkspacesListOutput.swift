@@ -9,10 +9,10 @@ import Foundation
 
 public struct IamWorkspacesListOutput: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var total: Int?
+    public var total: Int64?
     public var workspaces: [IamWorkspace]?
 
-    public init(total: Int? = nil, workspaces: [IamWorkspace]? = nil) {
+    public init(total: Int64? = nil, workspaces: [IamWorkspace]? = nil) {
         self.total = total
         self.workspaces = workspaces
     }

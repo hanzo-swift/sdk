@@ -14,9 +14,9 @@ public struct O11yO11yDashboardList: Sendable, Codable, ParameterConvertible, Ha
     /** Tags are all tags in use across the org's dashboards. */
     public var tags: [O11yO11yDashboardTag]?
     /** Total is the count across all pages. */
-    public var total: Int?
+    public var total: Int64?
 
-    public init(dashboards: [O11yO11yDashboardListItem]? = nil, tags: [O11yO11yDashboardTag]? = nil, total: Int? = nil) {
+    public init(dashboards: [O11yO11yDashboardListItem]? = nil, tags: [O11yO11yDashboardTag]? = nil, total: Int64? = nil) {
         self.dashboards = dashboards
         self.tags = tags
         self.total = total

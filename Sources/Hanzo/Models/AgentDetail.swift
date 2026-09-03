@@ -22,14 +22,14 @@ public struct AgentDetail: Sendable, Codable, ParameterConvertible, Hashable {
     public var name: String?
     /** RecentRuns is the agent's 20 most recent executions, newest first. It is a window on the history, not the history: the count beside it is `runs`. */
     public var recentRuns: [AgentRunView]?
-    public var runs: Int?
+    public var runs: Int64?
     public var schedule: String?
     public var serviceAccountId: String?
     public var status: String?
     public var tools: [String]?
     public var updatedAt: String?
 
-    public init(avatar: String? = nil, computeRef: String? = nil, createdAt: String? = nil, description: String? = nil, emoji: String? = nil, executionMode: String? = nil, id: String? = nil, instructions: String? = nil, model: String? = nil, name: String? = nil, recentRuns: [AgentRunView]? = nil, runs: Int? = nil, schedule: String? = nil, serviceAccountId: String? = nil, status: String? = nil, tools: [String]? = nil, updatedAt: String? = nil) {
+    public init(avatar: String? = nil, computeRef: String? = nil, createdAt: String? = nil, description: String? = nil, emoji: String? = nil, executionMode: String? = nil, id: String? = nil, instructions: String? = nil, model: String? = nil, name: String? = nil, recentRuns: [AgentRunView]? = nil, runs: Int64? = nil, schedule: String? = nil, serviceAccountId: String? = nil, status: String? = nil, tools: [String]? = nil, updatedAt: String? = nil) {
         self.avatar = avatar
         self.computeRef = computeRef
         self.createdAt = createdAt

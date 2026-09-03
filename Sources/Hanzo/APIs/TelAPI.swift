@@ -14,10 +14,10 @@ open class TelAPI {
      
      - parameter id: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: JSONValue
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteTelCallsById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> JSONValue {
+    open class func deleteTelCallsById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteTelCallsByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -30,9 +30,9 @@ open class TelAPI {
        - name: bearer
      - parameter id: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<JSONValue> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteTelCallsByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<JSONValue> {
+    open class func deleteTelCallsByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/tel/calls/{id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -48,7 +48,7 @@ open class TelAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<JSONValue>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -58,10 +58,10 @@ open class TelAPI {
      
      - parameter id: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: JSONValue
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteTelNumbersById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> JSONValue {
+    open class func deleteTelNumbersById(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteTelNumbersByIdWithRequestBuilder(id: id, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -74,9 +74,9 @@ open class TelAPI {
        - name: bearer
      - parameter id: (path)  
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<JSONValue> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteTelNumbersByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<JSONValue> {
+    open class func deleteTelNumbersByIdWithRequestBuilder(id: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/tel/numbers/{id}"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -92,7 +92,7 @@ open class TelAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<JSONValue>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -225,7 +225,7 @@ open class TelAPI {
      - returns: NumberList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getTelNumbersAvailable(country: String? = nil, area: String? = nil, type: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> NumberList {
+    open class func getTelNumbersAvailable(country: String? = nil, area: String? = nil, type: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> NumberList {
         return try await getTelNumbersAvailableWithRequestBuilder(country: country, area: area, type: type, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -243,7 +243,7 @@ open class TelAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<NumberList> 
      */
-    open class func getTelNumbersAvailableWithRequestBuilder(country: String? = nil, area: String? = nil, type: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<NumberList> {
+    open class func getTelNumbersAvailableWithRequestBuilder(country: String? = nil, area: String? = nil, type: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<NumberList> {
         let localVariablePath = "/v1/tel/numbers/available"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil

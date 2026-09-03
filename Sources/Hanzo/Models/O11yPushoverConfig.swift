@@ -11,24 +11,24 @@ public struct O11yPushoverConfig: Sendable, Codable, ParameterConvertible, Hasha
 
     public var notifierConfig: O11yNotifierConfig?
     public var device: String?
-    public var expire: Int?
+    public var expire: Int64?
     public var html: Bool?
     public var httpConfig: O11yHTTPClientConfig?
     public var message: String?
     public var monospace: Bool?
     public var priority: String?
-    public var retry: Int?
+    public var retry: Int64?
     public var sound: String?
     public var title: String?
     public var token: JSONValue?
     public var tokenFile: String?
-    public var ttl: Int?
+    public var ttl: Int64?
     public var url: String?
     public var urlTitle: String?
     public var userKey: JSONValue?
     public var userKeyFile: String?
 
-    public init(notifierConfig: O11yNotifierConfig? = nil, device: String? = nil, expire: Int? = nil, html: Bool? = nil, httpConfig: O11yHTTPClientConfig? = nil, message: String? = nil, monospace: Bool? = nil, priority: String? = nil, retry: Int? = nil, sound: String? = nil, title: String? = nil, token: JSONValue? = nil, tokenFile: String? = nil, ttl: Int? = nil, url: String? = nil, urlTitle: String? = nil, userKey: JSONValue? = nil, userKeyFile: String? = nil) {
+    public init(notifierConfig: O11yNotifierConfig? = nil, device: String? = nil, expire: Int64? = nil, html: Bool? = nil, httpConfig: O11yHTTPClientConfig? = nil, message: String? = nil, monospace: Bool? = nil, priority: String? = nil, retry: Int64? = nil, sound: String? = nil, title: String? = nil, token: JSONValue? = nil, tokenFile: String? = nil, ttl: Int64? = nil, url: String? = nil, urlTitle: String? = nil, userKey: JSONValue? = nil, userKeyFile: String? = nil) {
         self.notifierConfig = notifierConfig
         self.device = device
         self.expire = expire

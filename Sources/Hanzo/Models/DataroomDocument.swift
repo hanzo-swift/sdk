@@ -12,23 +12,23 @@ public struct DataroomDocument: Sendable, Codable, ParameterConvertible, Hashabl
     /** ContentType is the mime type recorded at upload, null when none was sent. */
     public var contentType: String?
     /** CreatedAt is when the document was uploaded, in unix milliseconds. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** FileKey is the opaque object-storage key the bytes are stored under. It is scoped to the tenant's own key prefix and is not a URL. */
     public var fileKey: String?
     /** FileSize is the stored byte count, null when it was not recorded. */
-    public var fileSize: Int?
+    public var fileSize: Int64?
     /** ID is the document id. */
     public var id: String?
     /** Name is the document's display name. */
     public var name: String?
     /** NumPages is the page count, null when it was not supplied at upload. */
-    public var numPages: Int?
+    public var numPages: Int64?
     /** Type is the document's kind, null when it was not recorded. */
     public var type: String?
     /** UpdatedAt is when the document row last changed, in unix milliseconds. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
 
-    public init(contentType: String? = nil, createdAt: Int? = nil, fileKey: String? = nil, fileSize: Int? = nil, id: String? = nil, name: String? = nil, numPages: Int? = nil, type: String? = nil, updatedAt: Int? = nil) {
+    public init(contentType: String? = nil, createdAt: Int64? = nil, fileKey: String? = nil, fileSize: Int64? = nil, id: String? = nil, name: String? = nil, numPages: Int64? = nil, type: String? = nil, updatedAt: Int64? = nil) {
         self.contentType = contentType
         self.createdAt = createdAt
         self.fileKey = fileKey

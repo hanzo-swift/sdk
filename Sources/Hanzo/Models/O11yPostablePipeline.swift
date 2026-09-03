@@ -16,9 +16,9 @@ public struct O11yPostablePipeline: Sendable, Codable, ParameterConvertible, Has
     public var filter: O11yFilterSet?
     public var id: String?
     public var name: String?
-    public var orderId: Int?
+    public var orderId: Int64?
 
-    public init(alias: String? = nil, config: [JSONValue]? = nil, description: String? = nil, enabled: Bool? = nil, filter: O11yFilterSet? = nil, id: String? = nil, name: String? = nil, orderId: Int? = nil) {
+    public init(alias: String? = nil, config: [JSONValue]? = nil, description: String? = nil, enabled: Bool? = nil, filter: O11yFilterSet? = nil, id: String? = nil, name: String? = nil, orderId: Int64? = nil) {
         self.alias = alias
         self.config = config
         self.description = description

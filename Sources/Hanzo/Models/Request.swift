@@ -14,17 +14,17 @@ public struct Request: Sendable, Codable, ParameterConvertible, Hashable {
     /** Index names the lexical index to query. Defaults to \"kb\". */
     public var index: String?
     /** Limit bounds the FUSED result set (default 10, max 50). */
-    public var limit: Int?
+    public var limit: Int64?
     /** Mode selects the legs: auto (default) | text | semantic | hybrid. */
     public var mode: String?
     /** Offset pages the fused result set. */
-    public var offset: Int?
+    public var offset: Int64?
     /** Project narrows to one project scope within the org. */
     public var project: String?
     /** Query is the natural-language or keyword query. Required. */
     public var query: String?
 
-    public init(doctypes: [String]? = nil, index: String? = nil, limit: Int? = nil, mode: String? = nil, offset: Int? = nil, project: String? = nil, query: String? = nil) {
+    public init(doctypes: [String]? = nil, index: String? = nil, limit: Int64? = nil, mode: String? = nil, offset: Int64? = nil, project: String? = nil, query: String? = nil) {
         self.doctypes = doctypes
         self.index = index
         self.limit = limit

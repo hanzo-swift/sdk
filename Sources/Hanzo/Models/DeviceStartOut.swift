@@ -14,13 +14,13 @@ public struct DeviceStartOut: Sendable, Codable, ParameterConvertible, Hashable 
     /** Flow is the id to poll with. */
     public var flow: String?
     /** Interval is the seconds to wait between polls. */
-    public var interval: Int?
+    public var interval: Int64?
     /** UserCode is the short code the user types at VerifyURL. */
     public var userCode: String?
     /** VerifyURL is the page the user opens to enter UserCode. */
     public var verifyUrl: String?
 
-    public init(expiresAt: String? = nil, flow: String? = nil, interval: Int? = nil, userCode: String? = nil, verifyUrl: String? = nil) {
+    public init(expiresAt: String? = nil, flow: String? = nil, interval: Int64? = nil, userCode: String? = nil, verifyUrl: String? = nil) {
         self.expiresAt = expiresAt
         self.flow = flow
         self.interval = interval

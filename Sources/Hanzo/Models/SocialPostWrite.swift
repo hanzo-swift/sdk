@@ -16,11 +16,11 @@ public struct SocialPostWrite: Sendable, Codable, ParameterConvertible, Hashable
     /** Media is the post's attached media as URLs, at most 10. Omitting it CLEARS any stored media: this is a replacement, not a merge. */
     public var media: [String]?
     /** ScheduleAt is when to publish, as a unix timestamp in SECONDS. 0 means unscheduled. Moving it into the past here does NOT publish the post — that is the scheduler's to notice, or the publish operation's. */
-    public var scheduleAt: Int?
+    public var scheduleAt: Int64?
     /** Status is the post's lifecycle state: draft, scheduled, published or failed. Omitting it RESETS the post to draft. */
     public var status: String?
 
-    public init(channel: String? = nil, content: String? = nil, media: [String]? = nil, scheduleAt: Int? = nil, status: String? = nil) {
+    public init(channel: String? = nil, content: String? = nil, media: [String]? = nil, scheduleAt: Int64? = nil, status: String? = nil) {
         self.channel = channel
         self.content = content
         self.media = media

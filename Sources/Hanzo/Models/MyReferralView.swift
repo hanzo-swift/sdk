@@ -10,17 +10,17 @@ import Foundation
 public struct MyReferralView: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CreatedAt is when the referral was recorded, as a Unix timestamp. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** ID is the referral's handle. */
     public var id: String?
     /** QualifiedAt is when the referee first made metered spend, as a Unix timestamp; 0 while the referral is still pending. */
-    public var qualifiedAt: Int?
+    public var qualifiedAt: Int64?
     /** Referee is the org that signed up with my code. */
     public var referee: String?
     /** Status is the referral's lifecycle state: \"signup\" until the referee makes metered spend, then \"qualified\". */
     public var status: String?
 
-    public init(createdAt: Int? = nil, id: String? = nil, qualifiedAt: Int? = nil, referee: String? = nil, status: String? = nil) {
+    public init(createdAt: Int64? = nil, id: String? = nil, qualifiedAt: Int64? = nil, referee: String? = nil, status: String? = nil) {
         self.createdAt = createdAt
         self.id = id
         self.qualifiedAt = qualifiedAt

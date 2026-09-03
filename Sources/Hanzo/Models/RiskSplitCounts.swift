@@ -10,23 +10,23 @@ import Foundation
 public struct RiskSplitCounts: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Judged is how many rows carry a disposition. It is zero until a label plane writes one, and reporting it plainly is what lets a model plane refuse to rank rather than name a winner it cannot justify. */
-    public var judged: Int?
+    public var judged: Int64?
     /** Productive is how many judged rows carry the one disposition. */
-    public var productive: Int?
+    public var productive: Int64?
     /** Rows is how many rows the version holds across every split. It is the size of the version, not of the source window — the horizon, the cuts and the row cap all bind before this number. */
-    public var rows: Int?
+    public var rows: Int64?
     /** Subjects is how many distinct subjects the rows belong to. Every row of one subject is in ONE split, so this is the real sample size — the row count flatters it whenever a subject is active. */
-    public var subjects: Int?
+    public var subjects: Int64?
     /** Test is how many fall after the second cut — the LATEST slice, and the only one a score is honest about, since the split is temporal. */
-    public var test: Int?
+    public var test: Int64?
     /** Train is how many rows fall before the first cut — the EARLIEST slice of the window, which is what a model is fitted on. */
-    public var train: Int?
+    public var train: Int64?
     /** Unproductive is how many carry the other. With Productive it accounts for Judged, so the class imbalance is visible before anyone trains on it; both stay 0 while Judged is 0. */
-    public var unproductive: Int?
+    public var unproductive: Int64?
     /** Val is how many fall between the two cuts, held out for tuning. */
-    public var val: Int?
+    public var val: Int64?
 
-    public init(judged: Int? = nil, productive: Int? = nil, rows: Int? = nil, subjects: Int? = nil, test: Int? = nil, train: Int? = nil, unproductive: Int? = nil, val: Int? = nil) {
+    public init(judged: Int64? = nil, productive: Int64? = nil, rows: Int64? = nil, subjects: Int64? = nil, test: Int64? = nil, train: Int64? = nil, unproductive: Int64? = nil, val: Int64? = nil) {
         self.judged = judged
         self.productive = productive
         self.rows = rows

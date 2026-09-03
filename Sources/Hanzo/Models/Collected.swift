@@ -10,11 +10,11 @@ import Foundation
 public struct Collected: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** BalanceUsedCents is how much was covered by prepaid balance. */
-    public var balanceUsedCents: Int?
+    public var balanceUsedCents: Int64?
     /** CardChargedCents is how much was charged to the card on file. */
-    public var cardChargedCents: Int?
+    public var cardChargedCents: Int64?
     /** CreditUsedCents is how much was covered by credit grants. */
-    public var creditUsedCents: Int?
+    public var creditUsedCents: Int64?
     /** Invoice is the invoice AFTER the attempt — its status is the authority on what happened, not this struct's other fields. */
     public var invoice: Invoice?
     /** Paid reports whether the invoice is now settled in full. A false here with no error is a DECLINE: the invoice stays open and may be collected again. */
@@ -24,7 +24,7 @@ public struct Collected: Sendable, Codable, ParameterConvertible, Hashable {
     /** Reason explains a decline or partial collection. Empty on success. */
     public var reason: String?
 
-    public init(balanceUsedCents: Int? = nil, cardChargedCents: Int? = nil, creditUsedCents: Int? = nil, invoice: Invoice? = nil, paid: Bool? = nil, processorRef: String? = nil, reason: String? = nil) {
+    public init(balanceUsedCents: Int64? = nil, cardChargedCents: Int64? = nil, creditUsedCents: Int64? = nil, invoice: Invoice? = nil, paid: Bool? = nil, processorRef: String? = nil, reason: String? = nil) {
         self.balanceUsedCents = balanceUsedCents
         self.cardChargedCents = cardChargedCents
         self.creditUsedCents = creditUsedCents

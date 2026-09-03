@@ -12,11 +12,11 @@ public struct ImportCapTableOut: Sendable, Codable, ParameterConvertible, Hashab
     /** Formation is the org's incorporation record, now marked cap-table-imported. */
     public var formation: Formation?
     /** Rows is how many rows were read from the sheet, header included. */
-    public var rows: Int?
+    public var rows: Int64?
     /** StakeholdersImported is how many stakeholders the cap table accepted. */
-    public var stakeholdersImported: Int?
+    public var stakeholdersImported: Int64?
 
-    public init(formation: Formation? = nil, rows: Int? = nil, stakeholdersImported: Int? = nil) {
+    public init(formation: Formation? = nil, rows: Int64? = nil, stakeholdersImported: Int64? = nil) {
         self.formation = formation
         self.rows = rows
         self.stakeholdersImported = stakeholdersImported

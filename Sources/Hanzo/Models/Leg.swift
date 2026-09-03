@@ -12,11 +12,11 @@ public struct Leg: Sendable, Codable, ParameterConvertible, Hashable {
     /** Account is the chart-of-accounts number this side posts to, e.g. \"5300\". */
     public var account: String?
     /** Credit is the leg's credit in exact cents. Set this or Debit, not both. */
-    public var credit: Int?
+    public var credit: Int64?
     /** Debit is the leg's debit in exact cents. Set this or Credit, not both. */
-    public var debit: Int?
+    public var debit: Int64?
 
-    public init(account: String? = nil, credit: Int? = nil, debit: Int? = nil) {
+    public init(account: String? = nil, credit: Int64? = nil, debit: Int64? = nil) {
         self.account = account
         self.credit = credit
         self.debit = debit

@@ -20,9 +20,9 @@ public struct Suggestion: Sendable, Codable, ParameterConvertible, Hashable {
     /** Title is the step's own one-line quest. */
     public var title: String?
     /** Unlocks is how many downstream steps completing this one immediately makes available (its leverage) — the primary ranking key. */
-    public var unlocks: Int?
+    public var unlocks: Int64?
 
-    public init(automatable: Bool? = nil, detail: String? = nil, rationale: String? = nil, stepId: String? = nil, title: String? = nil, unlocks: Int? = nil) {
+    public init(automatable: Bool? = nil, detail: String? = nil, rationale: String? = nil, stepId: String? = nil, title: String? = nil, unlocks: Int64? = nil) {
         self.automatable = automatable
         self.detail = detail
         self.rationale = rationale

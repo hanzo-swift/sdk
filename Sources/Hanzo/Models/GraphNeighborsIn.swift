@@ -12,7 +12,7 @@ public struct GraphNeighborsIn: Sendable, Codable, ParameterConvertible, Hashabl
     /** AsOf walks the graph as it stood at an instant, RFC 3339. Absent walks it as it stands now. */
     public var asOf: String?
     /** Depth is how many hops. Absent is one. */
-    public var depth: Int?
+    public var depth: Int64?
     /** Direction is out, in or both. Out follows an edge from its entity to its value — what the node points at; in follows it the other way — what points at the node; both is the union of the two, not a third rule. Absent is out. */
     public var direction: String?
     /** Relation narrows the walk to one edge relation. Absent follows all. Only edges are ever followed: an assertion whose value is a scalar is a property and is never a hop. */
@@ -20,7 +20,7 @@ public struct GraphNeighborsIn: Sendable, Codable, ParameterConvertible, Hashabl
     /** Seeds is where the walk starts. At least one. */
     public var seeds: [String]?
 
-    public init(asOf: String? = nil, depth: Int? = nil, direction: String? = nil, relation: String? = nil, seeds: [String]? = nil) {
+    public init(asOf: String? = nil, depth: Int64? = nil, direction: String? = nil, relation: String? = nil, seeds: [String]? = nil) {
         self.asOf = asOf
         self.depth = depth
         self.direction = direction

@@ -10,15 +10,15 @@ import Foundation
 public struct InvoiceLine: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Amount is the line total in whole cents (250000 is $2,500.00). */
-    public var amount: Int?
+    public var amount: Int64?
     /** Description is the human-readable line, e.g. \"Advisory retainer — August\". */
     public var description: String?
     /** Quantity is the number of units, when the line is metered. Optional. */
-    public var quantity: Int?
+    public var quantity: Int64?
     /** UnitPrice is the per-unit price in cents, when the line is metered. Optional. */
-    public var unitPrice: Int?
+    public var unitPrice: Int64?
 
-    public init(amount: Int? = nil, description: String? = nil, quantity: Int? = nil, unitPrice: Int? = nil) {
+    public init(amount: Int64? = nil, description: String? = nil, quantity: Int64? = nil, unitPrice: Int64? = nil) {
         self.amount = amount
         self.description = description
         self.quantity = quantity

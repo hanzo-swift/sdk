@@ -10,15 +10,15 @@ import Foundation
 public struct O11yQueryRangeParamsV3: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var compositeQuery: O11yCompositeQuery?
-    public var end: Int?
+    public var end: Int64?
     public var formatForWeb: Bool?
     public var noCache: Bool?
-    public var start: Int?
+    public var start: Int64?
     /** step is in seconds; used for prometheus queries */
-    public var step: Int?
+    public var step: Int64?
     public var variables: [String: JSONValue]?
 
-    public init(compositeQuery: O11yCompositeQuery? = nil, end: Int? = nil, formatForWeb: Bool? = nil, noCache: Bool? = nil, start: Int? = nil, step: Int? = nil, variables: [String: JSONValue]? = nil) {
+    public init(compositeQuery: O11yCompositeQuery? = nil, end: Int64? = nil, formatForWeb: Bool? = nil, noCache: Bool? = nil, start: Int64? = nil, step: Int64? = nil, variables: [String: JSONValue]? = nil) {
         self.compositeQuery = compositeQuery
         self.end = end
         self.formatForWeb = formatForWeb

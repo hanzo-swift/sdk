@@ -20,7 +20,7 @@ open class ContentAPI {
      - returns: BoardPage
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getContentBoard(status: String? = nil, project: String? = nil, doctype: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> BoardPage {
+    open class func getContentBoard(status: String? = nil, project: String? = nil, doctype: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> BoardPage {
         return try await getContentBoardWithRequestBuilder(status: status, project: project, doctype: doctype, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -38,7 +38,7 @@ open class ContentAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<BoardPage> 
      */
-    open class func getContentBoardWithRequestBuilder(status: String? = nil, project: String? = nil, doctype: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<BoardPage> {
+    open class func getContentBoardWithRequestBuilder(status: String? = nil, project: String? = nil, doctype: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<BoardPage> {
         let localVariablePath = "/v1/content/board"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil

@@ -9,21 +9,21 @@ import Foundation
 
 public struct O11yJobListRecord: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var activePods: Int?
+    public var activePods: Int64?
     public var cpuLimit: Double?
     public var cpuRequest: Double?
     public var cpuUsage: Double?
-    public var desiredSuccessfulPods: Int?
-    public var failedPods: Int?
+    public var desiredSuccessfulPods: Int64?
+    public var failedPods: Int64?
     public var jobName: String?
     public var memoryLimit: Double?
     public var memoryRequest: Double?
     public var memoryUsage: Double?
     public var meta: [String: String]?
-    public var restarts: Int?
-    public var successfulPods: Int?
+    public var restarts: Int64?
+    public var successfulPods: Int64?
 
-    public init(activePods: Int? = nil, cpuLimit: Double? = nil, cpuRequest: Double? = nil, cpuUsage: Double? = nil, desiredSuccessfulPods: Int? = nil, failedPods: Int? = nil, jobName: String? = nil, memoryLimit: Double? = nil, memoryRequest: Double? = nil, memoryUsage: Double? = nil, meta: [String: String]? = nil, restarts: Int? = nil, successfulPods: Int? = nil) {
+    public init(activePods: Int64? = nil, cpuLimit: Double? = nil, cpuRequest: Double? = nil, cpuUsage: Double? = nil, desiredSuccessfulPods: Int64? = nil, failedPods: Int64? = nil, jobName: String? = nil, memoryLimit: Double? = nil, memoryRequest: Double? = nil, memoryUsage: Double? = nil, meta: [String: String]? = nil, restarts: Int64? = nil, successfulPods: Int64? = nil) {
         self.activePods = activePods
         self.cpuLimit = cpuLimit
         self.cpuRequest = cpuRequest

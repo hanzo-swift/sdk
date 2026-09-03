@@ -14,9 +14,9 @@ public struct AiMCPSurface: Sendable, Codable, ParameterConvertible, Hashable {
     /** Names are this process's own tool names, present only when the query asked for them. */
     public var names: [String]?
     /** Tools is how many tools THIS PROCESS's MCP server carries: its own typed-op registry, projected. It is the only number a subsystem can state honestly — what the FLEET's server carries is a question only the host can ask, and it asks it by asking every subsystem (POST /v1/mcp, tools/list). */
-    public var tools: Int?
+    public var tools: Int64?
 
-    public init(apps: [AiMCPApp]? = nil, names: [String]? = nil, tools: Int? = nil) {
+    public init(apps: [AiMCPApp]? = nil, names: [String]? = nil, tools: Int64? = nil) {
         self.apps = apps
         self.names = names
         self.tools = tools

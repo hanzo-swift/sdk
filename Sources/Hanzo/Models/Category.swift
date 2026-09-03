@@ -16,7 +16,7 @@ public struct Category: Sendable, Codable, ParameterConvertible, Hashable {
     /** Label is the display name, e.g. \"Observe\". */
     public var label: String?
     /** Order is where the category sits among its siblings, ascending. */
-    public var order: Int?
+    public var order: Int64?
     /** Owner is the org this category belongs to: the platform's own org for a category every tenant sees, or your org for one you added. It tells a console which rows it may offer to edit. */
     public var owner: String?
     /** Summary is the one line describing what the category groups, shown as the header copy on its landing page. */
@@ -24,7 +24,7 @@ public struct Category: Sendable, Codable, ParameterConvertible, Hashable {
     /** Taxa are the products filed under this category, in display order. */
     public var taxa: [Taxon]?
 
-    public init(brands: [String]? = nil, id: String? = nil, label: String? = nil, order: Int? = nil, owner: String? = nil, summary: String? = nil, taxa: [Taxon]? = nil) {
+    public init(brands: [String]? = nil, id: String? = nil, label: String? = nil, order: Int64? = nil, owner: String? = nil, summary: String? = nil, taxa: [Taxon]? = nil) {
         self.brands = brands
         self.id = id
         self.label = label

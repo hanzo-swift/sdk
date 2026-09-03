@@ -10,7 +10,7 @@ import Foundation
 public struct TodoProject: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CreatedAt is when the board was created, in unix seconds. 0 on a forge board for the same reason Description is absent. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** Description is whatever an index board was created with. Absent on a forge board: this projection takes the repository's name and nothing else about the repository. */
     public var description: String?
     /** ID is the board's opaque handle, and it is NOT how you address it — Key is. Its shape says which source answered: a forge board's is the repository's full name (\"hanzoai/cloud\"), an index board's a minted \"prj_\" id. */
@@ -22,9 +22,9 @@ public struct TodoProject: Sendable, Codable, ParameterConvertible, Hashable {
     /** Org is the IAM org the board belongs to, taken from the validated principal and never from the request. Every board a caller can see is in it. */
     public var org: String?
     /** UpdatedAt is when the board record last changed, in unix seconds — the BOARD, not the work on it, so filing an issue does not move it. 0 on a forge board. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
 
-    public init(createdAt: Int? = nil, description: String? = nil, id: String? = nil, key: String? = nil, name: String? = nil, org: String? = nil, updatedAt: Int? = nil) {
+    public init(createdAt: Int64? = nil, description: String? = nil, id: String? = nil, key: String? = nil, name: String? = nil, org: String? = nil, updatedAt: Int64? = nil) {
         self.createdAt = createdAt
         self.description = description
         self.id = id

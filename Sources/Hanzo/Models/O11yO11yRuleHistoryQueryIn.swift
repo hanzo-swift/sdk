@@ -9,15 +9,15 @@ import Foundation
 
 public struct O11yO11yRuleHistoryQueryIn: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var end: Int?
+    public var end: Int64?
     public var filters: O11yFilterSet?
-    public var limit: Int?
-    public var offset: Int?
+    public var limit: Int64?
+    public var offset: Int64?
     public var order: String?
-    public var start: Int?
+    public var start: Int64?
     public var state: String?
 
-    public init(end: Int? = nil, filters: O11yFilterSet? = nil, limit: Int? = nil, offset: Int? = nil, order: String? = nil, start: Int? = nil, state: String? = nil) {
+    public init(end: Int64? = nil, filters: O11yFilterSet? = nil, limit: Int64? = nil, offset: Int64? = nil, order: String? = nil, start: Int64? = nil, state: String? = nil) {
         self.end = end
         self.filters = filters
         self.limit = limit

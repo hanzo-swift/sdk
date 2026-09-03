@@ -16,7 +16,7 @@ public struct Enrolment: Sendable, Codable, ParameterConvertible, Hashable {
     /** ID is the author record's server-minted handle, \"aut_\"-prefixed. */
     public var id: String?
     /** ShareBps is this author's royalty share in basis points of the spend their deployed work generates. */
-    public var shareBps: Int?
+    public var shareBps: Int64?
     /** Status is connected, approved or suspended. Only an approved author earns. */
     public var status: String?
     /** Verified reports whether any repository or owner claim has been proven yet. */
@@ -28,7 +28,7 @@ public struct Enrolment: Sendable, Codable, ParameterConvertible, Hashable {
     /** VerifySnippet is that file's exact contents, ready to commit. */
     public var verifySnippet: String?
 
-    public init(created: Bool? = nil, githubLogin: String? = nil, id: String? = nil, shareBps: Int? = nil, status: String? = nil, verified: Bool? = nil, verifyCode: String? = nil, verifyFile: String? = nil, verifySnippet: String? = nil) {
+    public init(created: Bool? = nil, githubLogin: String? = nil, id: String? = nil, shareBps: Int64? = nil, status: String? = nil, verified: Bool? = nil, verifyCode: String? = nil, verifyFile: String? = nil, verifySnippet: String? = nil) {
         self.created = created
         self.githubLogin = githubLogin
         self.id = id

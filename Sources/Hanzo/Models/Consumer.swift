@@ -20,17 +20,17 @@ public struct Consumer: Sendable, Codable, ParameterConvertible, Hashable {
     /** Name is the consumer name. */
     public var name: String?
     /** AckPending is the number of delivered, not yet acknowledged messages. */
-    public var numAckPending: Int?
+    public var numAckPending: Int64?
     /** Pending is the number of messages yet to be delivered. */
     public var numPending: Int?
     /** Redelivered is the number of messages currently being redelivered. */
-    public var numRedelivered: Int?
+    public var numRedelivered: Int64?
     /** Waiting is the number of pull requests waiting for messages. */
-    public var numWaiting: Int?
+    public var numWaiting: Int64?
     /** Stream is the stream this consumer reads. */
     public var streamName: String?
 
-    public init(ackFloor: Sequences? = nil, config: Durable? = nil, created: Date? = nil, delivered: Sequences? = nil, name: String? = nil, numAckPending: Int? = nil, numPending: Int? = nil, numRedelivered: Int? = nil, numWaiting: Int? = nil, streamName: String? = nil) {
+    public init(ackFloor: Sequences? = nil, config: Durable? = nil, created: Date? = nil, delivered: Sequences? = nil, name: String? = nil, numAckPending: Int64? = nil, numPending: Int? = nil, numRedelivered: Int64? = nil, numWaiting: Int64? = nil, streamName: String? = nil) {
         self.ackFloor = ackFloor
         self.config = config
         self.created = created

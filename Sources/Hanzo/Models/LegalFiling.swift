@@ -9,7 +9,7 @@ import Foundation
 
 public struct LegalFiling: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var createdAt: Int?
+    public var createdAt: Int64?
     public var documentIds: [String]?
     public var id: String?
     public var jurisdiction: String?
@@ -17,9 +17,9 @@ public struct LegalFiling: Sendable, Codable, ParameterConvertible, Hashable {
     public var org: String?
     public var provider: String?
     public var status: String?
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
 
-    public init(createdAt: Int? = nil, documentIds: [String]? = nil, id: String? = nil, jurisdiction: String? = nil, note: String? = nil, org: String? = nil, provider: String? = nil, status: String? = nil, updatedAt: Int? = nil) {
+    public init(createdAt: Int64? = nil, documentIds: [String]? = nil, id: String? = nil, jurisdiction: String? = nil, note: String? = nil, org: String? = nil, provider: String? = nil, status: String? = nil, updatedAt: Int64? = nil) {
         self.createdAt = createdAt
         self.documentIds = documentIds
         self.id = id

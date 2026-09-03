@@ -22,7 +22,7 @@ public struct CaptableShare: Sendable, Codable, ParameterConvertible, Hashable {
     /** PricePerShare is the price paid per share, if recorded. */
     public var pricePerShare: Double?
     /** Quantity is how many shares the certificate covers. */
-    public var quantity: Int?
+    public var quantity: Int64?
     /** ShareClassID is the class the shares belong to. */
     public var shareClassId: String?
     /** ShareClassName is that class's name. */
@@ -36,7 +36,7 @@ public struct CaptableShare: Sendable, Codable, ParameterConvertible, Hashable {
     /** Status is ACTIVE or DRAFT. */
     public var status: String?
 
-    public init(capitalContribution: Double? = nil, certificateId: String? = nil, companyLegends: [String]? = nil, id: String? = nil, issueDate: String? = nil, pricePerShare: Double? = nil, quantity: Int? = nil, shareClassId: String? = nil, shareClassName: String? = nil, shareClassType: String? = nil, stakeholderId: String? = nil, stakeholderName: String? = nil, status: String? = nil) {
+    public init(capitalContribution: Double? = nil, certificateId: String? = nil, companyLegends: [String]? = nil, id: String? = nil, issueDate: String? = nil, pricePerShare: Double? = nil, quantity: Int64? = nil, shareClassId: String? = nil, shareClassName: String? = nil, shareClassType: String? = nil, stakeholderId: String? = nil, stakeholderName: String? = nil, status: String? = nil) {
         self.capitalContribution = capitalContribution
         self.certificateId = certificateId
         self.companyLegends = companyLegends

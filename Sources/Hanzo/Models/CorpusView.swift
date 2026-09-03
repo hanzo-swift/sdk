@@ -10,13 +10,13 @@ import Foundation
 public struct CorpusView: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Count is how many tactics survived every filter. */
-    public var count: Int?
+    public var count: Int64?
     /** Stage is the growth stage the tag join ran at — the org's observed stage, or the one ?stage= previewed. */
     public var stage: String?
     /** Strategies are the surviving tactics, in corpus authoring order. */
     public var strategies: [StrategyView]?
 
-    public init(count: Int? = nil, stage: String? = nil, strategies: [StrategyView]? = nil) {
+    public init(count: Int64? = nil, stage: String? = nil, strategies: [StrategyView]? = nil) {
         self.count = count
         self.stage = stage
         self.strategies = strategies

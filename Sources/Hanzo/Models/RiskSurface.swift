@@ -10,19 +10,19 @@ import Foundation
 public struct RiskSurface: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Folded is how many buckets of the tenant's own feature surface were folded into the model when it became resident. */
-    public var folded: Int?
+    public var folded: Int64?
     /** Gap says why the fold did not happen or did not complete, when that is the case. An empty surface and an unreachable warehouse are different facts and a model must not report them as the same one. */
     public var gap: String?
     /** Refused is how many buckets of this organisation's own surface the fold could not fold, because a subject on them is longer than this plane's own field bound. It is history the model does not have, said out loud. */
-    public var refused: Int?
+    public var refused: Int64?
     /** Replayed is how many of this organisation's own recorded observations rebuilt its sliding aggregates when the model became resident. It is what says a rollout was a rebuild rather than a blindness: the aggregates are a projection of a durable record, so a restart costs a replay and not a control. */
-    public var replayed: Int?
+    public var replayed: Int64?
     /** Rolled is how many windows of this organisation's own source planes — product events, captured failures, metered inference — were rolled up into its feature surface before that fold. Zero with no gap means the surface was already current, which is a different fact from the rollup never running. */
-    public var rolled: Int?
+    public var rolled: Int64?
     /** Window is the lookback the fold covered. */
     public var window: String?
 
-    public init(folded: Int? = nil, gap: String? = nil, refused: Int? = nil, replayed: Int? = nil, rolled: Int? = nil, window: String? = nil) {
+    public init(folded: Int64? = nil, gap: String? = nil, refused: Int64? = nil, replayed: Int64? = nil, rolled: Int64? = nil, window: String? = nil) {
         self.folded = folded
         self.gap = gap
         self.refused = refused

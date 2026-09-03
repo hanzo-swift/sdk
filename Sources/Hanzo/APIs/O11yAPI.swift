@@ -3221,7 +3221,7 @@ open class O11yAPI {
      - returns: O11yO11yIngestionKeysOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIngestionKeys(page: Int? = nil, perPage: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yIngestionKeysOut {
+    open class func getIngestionKeys(page: Int64? = nil, perPage: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yIngestionKeysOut {
         return try await getIngestionKeysWithRequestBuilder(page: page, perPage: perPage, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -3237,7 +3237,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yIngestionKeysOut> 
      */
-    open class func getIngestionKeysWithRequestBuilder(page: Int? = nil, perPage: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yIngestionKeysOut> {
+    open class func getIngestionKeysWithRequestBuilder(page: Int64? = nil, perPage: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yIngestionKeysOut> {
         let localVariablePath = "/v1/o11y/gateway/ingestion_keys"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -3312,7 +3312,7 @@ open class O11yAPI {
      - returns: O11yO11yConnectionStatusOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIntegrationConnectionStatus(integrationId: String, lookbackSeconds: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yConnectionStatusOut {
+    open class func getIntegrationConnectionStatus(integrationId: String, lookbackSeconds: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yConnectionStatusOut {
         return try await getIntegrationConnectionStatusWithRequestBuilder(integrationId: integrationId, lookbackSeconds: lookbackSeconds, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -3328,7 +3328,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yConnectionStatusOut> 
      */
-    open class func getIntegrationConnectionStatusWithRequestBuilder(integrationId: String, lookbackSeconds: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yConnectionStatusOut> {
+    open class func getIntegrationConnectionStatusWithRequestBuilder(integrationId: String, lookbackSeconds: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yConnectionStatusOut> {
         var localVariablePath = "/v1/o11y/integrations/{integrationId}/connection_status"
         let integrationIdPreEscape = "\(APIHelper.mapValueToPathItem(integrationId))"
         let integrationIdPostEscape = integrationIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -3494,7 +3494,7 @@ open class O11yAPI {
      - returns: O11yO11yMetricAttributesOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getMetricAttributes(metricName: String, start: Int? = nil, end: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yMetricAttributesOut {
+    open class func getMetricAttributes(metricName: String, start: Int64? = nil, end: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yMetricAttributesOut {
         return try await getMetricAttributesWithRequestBuilder(metricName: metricName, start: start, end: end, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -3511,7 +3511,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yMetricAttributesOut> 
      */
-    open class func getMetricAttributesWithRequestBuilder(metricName: String, start: Int? = nil, end: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yMetricAttributesOut> {
+    open class func getMetricAttributesWithRequestBuilder(metricName: String, start: Int64? = nil, end: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yMetricAttributesOut> {
         let localVariablePath = "/v1/o11y/metrics/attributes"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -4115,7 +4115,7 @@ open class O11yAPI {
      - returns: O11yO11yAggregateAttributesOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yAutocompleteAggregateAttributes(dataSource: String? = nil, aggregateOperator: String? = nil, searchText: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yAggregateAttributesOut {
+    open class func getO11yAutocompleteAggregateAttributes(dataSource: String? = nil, aggregateOperator: String? = nil, searchText: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yAggregateAttributesOut {
         return try await getO11yAutocompleteAggregateAttributesWithRequestBuilder(dataSource: dataSource, aggregateOperator: aggregateOperator, searchText: searchText, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4133,7 +4133,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yAggregateAttributesOut> 
      */
-    open class func getO11yAutocompleteAggregateAttributesWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, searchText: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yAggregateAttributesOut> {
+    open class func getO11yAutocompleteAggregateAttributesWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, searchText: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yAggregateAttributesOut> {
         let localVariablePath = "/v1/o11y/autocomplete/aggregate_attributes"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -4170,7 +4170,7 @@ open class O11yAPI {
      - returns: O11yO11yAttributeKeysOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yAutocompleteAttributeKeys(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yAttributeKeysOut {
+    open class func getO11yAutocompleteAttributeKeys(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yAttributeKeysOut {
         return try await getO11yAutocompleteAttributeKeysWithRequestBuilder(dataSource: dataSource, aggregateOperator: aggregateOperator, aggregateAttribute: aggregateAttribute, searchText: searchText, tagType: tagType, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4190,7 +4190,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yAttributeKeysOut> 
      */
-    open class func getO11yAutocompleteAttributeKeysWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yAttributeKeysOut> {
+    open class func getO11yAutocompleteAttributeKeysWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yAttributeKeysOut> {
         let localVariablePath = "/v1/o11y/autocomplete/attribute_keys"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -4231,7 +4231,7 @@ open class O11yAPI {
      - returns: O11yO11yAttributeValuesOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yAutocompleteAttributeValues(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yAttributeValuesOut {
+    open class func getO11yAutocompleteAttributeValues(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yAttributeValuesOut {
         return try await getO11yAutocompleteAttributeValuesWithRequestBuilder(dataSource: dataSource, aggregateOperator: aggregateOperator, aggregateAttribute: aggregateAttribute, attributeKey: attributeKey, filterAttributeKeyDataType: filterAttributeKeyDataType, searchText: searchText, tagType: tagType, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4253,7 +4253,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yAttributeValuesOut> 
      */
-    open class func getO11yAutocompleteAttributeValuesWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yAttributeValuesOut> {
+    open class func getO11yAutocompleteAttributeValuesWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yAttributeValuesOut> {
         let localVariablePath = "/v1/o11y/autocomplete/attribute_values"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -4290,7 +4290,7 @@ open class O11yAPI {
      - returns: O11yAvailabilityResponse
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yAvailability(range: Int? = nil, stepSec: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yAvailabilityResponse {
+    open class func getO11yAvailability(range: Int64? = nil, stepSec: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yAvailabilityResponse {
         return try await getO11yAvailabilityWithRequestBuilder(range: range, stepSec: stepSec, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4306,7 +4306,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yAvailabilityResponse> 
      */
-    open class func getO11yAvailabilityWithRequestBuilder(range: Int? = nil, stepSec: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yAvailabilityResponse> {
+    open class func getO11yAvailabilityWithRequestBuilder(range: Int64? = nil, stepSec: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yAvailabilityResponse> {
         let localVariablePath = "/v1/o11y/availability"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -4341,7 +4341,7 @@ open class O11yAPI {
      - returns: O11yO11yInfraAttributeKeysOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yClustersAttributeKeys(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeKeysOut {
+    open class func getO11yClustersAttributeKeys(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeKeysOut {
         return try await getO11yClustersAttributeKeysWithRequestBuilder(dataSource: dataSource, aggregateOperator: aggregateOperator, aggregateAttribute: aggregateAttribute, searchText: searchText, tagType: tagType, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4361,7 +4361,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yInfraAttributeKeysOut> 
      */
-    open class func getO11yClustersAttributeKeysWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeKeysOut> {
+    open class func getO11yClustersAttributeKeysWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeKeysOut> {
         let localVariablePath = "/v1/o11y/clusters/attribute_keys"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -4402,7 +4402,7 @@ open class O11yAPI {
      - returns: O11yO11yInfraAttributeValuesOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yClustersAttributeValues(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeValuesOut {
+    open class func getO11yClustersAttributeValues(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeValuesOut {
         return try await getO11yClustersAttributeValuesWithRequestBuilder(dataSource: dataSource, aggregateOperator: aggregateOperator, aggregateAttribute: aggregateAttribute, attributeKey: attributeKey, filterAttributeKeyDataType: filterAttributeKeyDataType, searchText: searchText, tagType: tagType, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4424,7 +4424,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yInfraAttributeValuesOut> 
      */
-    open class func getO11yClustersAttributeValuesWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeValuesOut> {
+    open class func getO11yClustersAttributeValuesWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeValuesOut> {
         let localVariablePath = "/v1/o11y/clusters/attribute_values"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -4543,7 +4543,7 @@ open class O11yAPI {
      - returns: O11yO11yInfraAttributeKeysOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yDaemonsetsAttributeKeys(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeKeysOut {
+    open class func getO11yDaemonsetsAttributeKeys(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeKeysOut {
         return try await getO11yDaemonsetsAttributeKeysWithRequestBuilder(dataSource: dataSource, aggregateOperator: aggregateOperator, aggregateAttribute: aggregateAttribute, searchText: searchText, tagType: tagType, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4563,7 +4563,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yInfraAttributeKeysOut> 
      */
-    open class func getO11yDaemonsetsAttributeKeysWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeKeysOut> {
+    open class func getO11yDaemonsetsAttributeKeysWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeKeysOut> {
         let localVariablePath = "/v1/o11y/daemonsets/attribute_keys"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -4604,7 +4604,7 @@ open class O11yAPI {
      - returns: O11yO11yInfraAttributeValuesOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yDaemonsetsAttributeValues(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeValuesOut {
+    open class func getO11yDaemonsetsAttributeValues(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeValuesOut {
         return try await getO11yDaemonsetsAttributeValuesWithRequestBuilder(dataSource: dataSource, aggregateOperator: aggregateOperator, aggregateAttribute: aggregateAttribute, attributeKey: attributeKey, filterAttributeKeyDataType: filterAttributeKeyDataType, searchText: searchText, tagType: tagType, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4626,7 +4626,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yInfraAttributeValuesOut> 
      */
-    open class func getO11yDaemonsetsAttributeValuesWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeValuesOut> {
+    open class func getO11yDaemonsetsAttributeValuesWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeValuesOut> {
         let localVariablePath = "/v1/o11y/daemonsets/attribute_values"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -4667,7 +4667,7 @@ open class O11yAPI {
      - returns: O11yO11yInfraAttributeKeysOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yDeploymentsAttributeKeys(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeKeysOut {
+    open class func getO11yDeploymentsAttributeKeys(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeKeysOut {
         return try await getO11yDeploymentsAttributeKeysWithRequestBuilder(dataSource: dataSource, aggregateOperator: aggregateOperator, aggregateAttribute: aggregateAttribute, searchText: searchText, tagType: tagType, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4687,7 +4687,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yInfraAttributeKeysOut> 
      */
-    open class func getO11yDeploymentsAttributeKeysWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeKeysOut> {
+    open class func getO11yDeploymentsAttributeKeysWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeKeysOut> {
         let localVariablePath = "/v1/o11y/deployments/attribute_keys"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -4728,7 +4728,7 @@ open class O11yAPI {
      - returns: O11yO11yInfraAttributeValuesOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yDeploymentsAttributeValues(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeValuesOut {
+    open class func getO11yDeploymentsAttributeValues(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeValuesOut {
         return try await getO11yDeploymentsAttributeValuesWithRequestBuilder(dataSource: dataSource, aggregateOperator: aggregateOperator, aggregateAttribute: aggregateAttribute, attributeKey: attributeKey, filterAttributeKeyDataType: filterAttributeKeyDataType, searchText: searchText, tagType: tagType, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4750,7 +4750,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yInfraAttributeValuesOut> 
      */
-    open class func getO11yDeploymentsAttributeValuesWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeValuesOut> {
+    open class func getO11yDeploymentsAttributeValuesWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeValuesOut> {
         let localVariablePath = "/v1/o11y/deployments/attribute_values"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -4932,7 +4932,7 @@ open class O11yAPI {
      - returns: O11yO11yErrorIssuesOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yErrortrackingIssues(status: String? = nil, level: String? = nil, environment: String? = nil, serviceName: String? = nil, query: String? = nil, sort: String? = nil, offset: Int? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yErrorIssuesOut {
+    open class func getO11yErrortrackingIssues(status: String? = nil, level: String? = nil, environment: String? = nil, serviceName: String? = nil, query: String? = nil, sort: String? = nil, offset: Int64? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yErrorIssuesOut {
         return try await getO11yErrortrackingIssuesWithRequestBuilder(status: status, level: level, environment: environment, serviceName: serviceName, query: query, sort: sort, offset: offset, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -4954,7 +4954,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yErrorIssuesOut> 
      */
-    open class func getO11yErrortrackingIssuesWithRequestBuilder(status: String? = nil, level: String? = nil, environment: String? = nil, serviceName: String? = nil, query: String? = nil, sort: String? = nil, offset: Int? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yErrorIssuesOut> {
+    open class func getO11yErrortrackingIssuesWithRequestBuilder(status: String? = nil, level: String? = nil, environment: String? = nil, serviceName: String? = nil, query: String? = nil, sort: String? = nil, offset: Int64? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yErrorIssuesOut> {
         let localVariablePath = "/v1/o11y/errortracking/issues"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -5176,7 +5176,7 @@ open class O11yAPI {
      - returns: O11yO11yFieldKeysOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yFieldsKeys(signal: String? = nil, source: String? = nil, limit: Int? = nil, startUnixMilli: Int? = nil, endUnixMilli: Int? = nil, fieldContext: String? = nil, fieldDataType: String? = nil, metricName: String? = nil, metricNamespace: String? = nil, searchText: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yFieldKeysOut {
+    open class func getO11yFieldsKeys(signal: String? = nil, source: String? = nil, limit: Int64? = nil, startUnixMilli: Int64? = nil, endUnixMilli: Int64? = nil, fieldContext: String? = nil, fieldDataType: String? = nil, metricName: String? = nil, metricNamespace: String? = nil, searchText: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yFieldKeysOut {
         return try await getO11yFieldsKeysWithRequestBuilder(signal: signal, source: source, limit: limit, startUnixMilli: startUnixMilli, endUnixMilli: endUnixMilli, fieldContext: fieldContext, fieldDataType: fieldDataType, metricName: metricName, metricNamespace: metricNamespace, searchText: searchText, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -5200,7 +5200,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yFieldKeysOut> 
      */
-    open class func getO11yFieldsKeysWithRequestBuilder(signal: String? = nil, source: String? = nil, limit: Int? = nil, startUnixMilli: Int? = nil, endUnixMilli: Int? = nil, fieldContext: String? = nil, fieldDataType: String? = nil, metricName: String? = nil, metricNamespace: String? = nil, searchText: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yFieldKeysOut> {
+    open class func getO11yFieldsKeysWithRequestBuilder(signal: String? = nil, source: String? = nil, limit: Int64? = nil, startUnixMilli: Int64? = nil, endUnixMilli: Int64? = nil, fieldContext: String? = nil, fieldDataType: String? = nil, metricName: String? = nil, metricNamespace: String? = nil, searchText: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yFieldKeysOut> {
         let localVariablePath = "/v1/o11y/fields/keys"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -5249,7 +5249,7 @@ open class O11yAPI {
      - returns: O11yO11yFieldValuesOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yFieldsValues(signal: String? = nil, source: String? = nil, limit: Int? = nil, startUnixMilli: Int? = nil, endUnixMilli: Int? = nil, fieldContext: String? = nil, fieldDataType: String? = nil, metricName: String? = nil, metricNamespace: String? = nil, searchText: String? = nil, name: String? = nil, existingQuery: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yFieldValuesOut {
+    open class func getO11yFieldsValues(signal: String? = nil, source: String? = nil, limit: Int64? = nil, startUnixMilli: Int64? = nil, endUnixMilli: Int64? = nil, fieldContext: String? = nil, fieldDataType: String? = nil, metricName: String? = nil, metricNamespace: String? = nil, searchText: String? = nil, name: String? = nil, existingQuery: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yFieldValuesOut {
         return try await getO11yFieldsValuesWithRequestBuilder(signal: signal, source: source, limit: limit, startUnixMilli: startUnixMilli, endUnixMilli: endUnixMilli, fieldContext: fieldContext, fieldDataType: fieldDataType, metricName: metricName, metricNamespace: metricNamespace, searchText: searchText, name: name, existingQuery: existingQuery, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -5275,7 +5275,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yFieldValuesOut> 
      */
-    open class func getO11yFieldsValuesWithRequestBuilder(signal: String? = nil, source: String? = nil, limit: Int? = nil, startUnixMilli: Int? = nil, endUnixMilli: Int? = nil, fieldContext: String? = nil, fieldDataType: String? = nil, metricName: String? = nil, metricNamespace: String? = nil, searchText: String? = nil, name: String? = nil, existingQuery: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yFieldValuesOut> {
+    open class func getO11yFieldsValuesWithRequestBuilder(signal: String? = nil, source: String? = nil, limit: Int64? = nil, startUnixMilli: Int64? = nil, endUnixMilli: Int64? = nil, fieldContext: String? = nil, fieldDataType: String? = nil, metricName: String? = nil, metricNamespace: String? = nil, searchText: String? = nil, name: String? = nil, existingQuery: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yFieldValuesOut> {
         let localVariablePath = "/v1/o11y/fields/values"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -5319,7 +5319,7 @@ open class O11yAPI {
      - returns: O11yO11yFilterSuggestionsOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yFilterSuggestions(dataSource: String, searchText: String? = nil, existingFilter: String? = nil, attributesLimit: Int? = nil, examplesLimit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yFilterSuggestionsOut {
+    open class func getO11yFilterSuggestions(dataSource: String, searchText: String? = nil, existingFilter: String? = nil, attributesLimit: Int64? = nil, examplesLimit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yFilterSuggestionsOut {
         return try await getO11yFilterSuggestionsWithRequestBuilder(dataSource: dataSource, searchText: searchText, existingFilter: existingFilter, attributesLimit: attributesLimit, examplesLimit: examplesLimit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -5338,7 +5338,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yFilterSuggestionsOut> 
      */
-    open class func getO11yFilterSuggestionsWithRequestBuilder(dataSource: String, searchText: String? = nil, existingFilter: String? = nil, attributesLimit: Int? = nil, examplesLimit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yFilterSuggestionsOut> {
+    open class func getO11yFilterSuggestionsWithRequestBuilder(dataSource: String, searchText: String? = nil, existingFilter: String? = nil, attributesLimit: Int64? = nil, examplesLimit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yFilterSuggestionsOut> {
         let localVariablePath = "/v1/o11y/filter_suggestions"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -5498,7 +5498,7 @@ open class O11yAPI {
      - returns: O11yO11yInfraAttributeKeysOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yHostsAttributeKeys(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeKeysOut {
+    open class func getO11yHostsAttributeKeys(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeKeysOut {
         return try await getO11yHostsAttributeKeysWithRequestBuilder(dataSource: dataSource, aggregateOperator: aggregateOperator, aggregateAttribute: aggregateAttribute, searchText: searchText, tagType: tagType, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -5518,7 +5518,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yInfraAttributeKeysOut> 
      */
-    open class func getO11yHostsAttributeKeysWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeKeysOut> {
+    open class func getO11yHostsAttributeKeysWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeKeysOut> {
         let localVariablePath = "/v1/o11y/hosts/attribute_keys"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -5559,7 +5559,7 @@ open class O11yAPI {
      - returns: O11yO11yInfraAttributeValuesOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yHostsAttributeValues(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeValuesOut {
+    open class func getO11yHostsAttributeValues(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeValuesOut {
         return try await getO11yHostsAttributeValuesWithRequestBuilder(dataSource: dataSource, aggregateOperator: aggregateOperator, aggregateAttribute: aggregateAttribute, attributeKey: attributeKey, filterAttributeKeyDataType: filterAttributeKeyDataType, searchText: searchText, tagType: tagType, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -5581,7 +5581,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yInfraAttributeValuesOut> 
      */
-    open class func getO11yHostsAttributeValuesWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeValuesOut> {
+    open class func getO11yHostsAttributeValuesWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeValuesOut> {
         let localVariablePath = "/v1/o11y/hosts/attribute_values"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -5705,7 +5705,7 @@ open class O11yAPI {
      - returns: O11yO11yInfraAttributeKeysOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yJobsAttributeKeys(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeKeysOut {
+    open class func getO11yJobsAttributeKeys(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeKeysOut {
         return try await getO11yJobsAttributeKeysWithRequestBuilder(dataSource: dataSource, aggregateOperator: aggregateOperator, aggregateAttribute: aggregateAttribute, searchText: searchText, tagType: tagType, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -5725,7 +5725,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yInfraAttributeKeysOut> 
      */
-    open class func getO11yJobsAttributeKeysWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeKeysOut> {
+    open class func getO11yJobsAttributeKeysWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeKeysOut> {
         let localVariablePath = "/v1/o11y/jobs/attribute_keys"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -5766,7 +5766,7 @@ open class O11yAPI {
      - returns: O11yO11yInfraAttributeValuesOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yJobsAttributeValues(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeValuesOut {
+    open class func getO11yJobsAttributeValues(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeValuesOut {
         return try await getO11yJobsAttributeValuesWithRequestBuilder(dataSource: dataSource, aggregateOperator: aggregateOperator, aggregateAttribute: aggregateAttribute, attributeKey: attributeKey, filterAttributeKeyDataType: filterAttributeKeyDataType, searchText: searchText, tagType: tagType, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -5788,7 +5788,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yInfraAttributeValuesOut> 
      */
-    open class func getO11yJobsAttributeValuesWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeValuesOut> {
+    open class func getO11yJobsAttributeValuesWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeValuesOut> {
         let localVariablePath = "/v1/o11y/jobs/attribute_values"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -5982,7 +5982,7 @@ open class O11yAPI {
      - returns: O11yO11yLogRecordsOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yLogs(limit: Int? = nil, timestampStart: Int? = nil, timestampEnd: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yLogRecordsOut {
+    open class func getO11yLogs(limit: Int64? = nil, timestampStart: Int64? = nil, timestampEnd: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yLogRecordsOut {
         return try await getO11yLogsWithRequestBuilder(limit: limit, timestampStart: timestampStart, timestampEnd: timestampEnd, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -5999,7 +5999,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yLogRecordsOut> 
      */
-    open class func getO11yLogsWithRequestBuilder(limit: Int? = nil, timestampStart: Int? = nil, timestampEnd: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yLogRecordsOut> {
+    open class func getO11yLogsWithRequestBuilder(limit: Int64? = nil, timestampStart: Int64? = nil, timestampEnd: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yLogRecordsOut> {
         let localVariablePath = "/v1/o11y/logs"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -6282,7 +6282,7 @@ open class O11yAPI {
      - returns: O11yO11yInfraAttributeKeysOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yNamespacesAttributeKeys(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeKeysOut {
+    open class func getO11yNamespacesAttributeKeys(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeKeysOut {
         return try await getO11yNamespacesAttributeKeysWithRequestBuilder(dataSource: dataSource, aggregateOperator: aggregateOperator, aggregateAttribute: aggregateAttribute, searchText: searchText, tagType: tagType, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -6302,7 +6302,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yInfraAttributeKeysOut> 
      */
-    open class func getO11yNamespacesAttributeKeysWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeKeysOut> {
+    open class func getO11yNamespacesAttributeKeysWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeKeysOut> {
         let localVariablePath = "/v1/o11y/namespaces/attribute_keys"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -6343,7 +6343,7 @@ open class O11yAPI {
      - returns: O11yO11yInfraAttributeValuesOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yNamespacesAttributeValues(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeValuesOut {
+    open class func getO11yNamespacesAttributeValues(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeValuesOut {
         return try await getO11yNamespacesAttributeValuesWithRequestBuilder(dataSource: dataSource, aggregateOperator: aggregateOperator, aggregateAttribute: aggregateAttribute, attributeKey: attributeKey, filterAttributeKeyDataType: filterAttributeKeyDataType, searchText: searchText, tagType: tagType, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -6365,7 +6365,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yInfraAttributeValuesOut> 
      */
-    open class func getO11yNamespacesAttributeValuesWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeValuesOut> {
+    open class func getO11yNamespacesAttributeValuesWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeValuesOut> {
         let localVariablePath = "/v1/o11y/namespaces/attribute_values"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -6456,7 +6456,7 @@ open class O11yAPI {
      - returns: O11yO11yInfraAttributeKeysOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yNodesAttributeKeys(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeKeysOut {
+    open class func getO11yNodesAttributeKeys(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeKeysOut {
         return try await getO11yNodesAttributeKeysWithRequestBuilder(dataSource: dataSource, aggregateOperator: aggregateOperator, aggregateAttribute: aggregateAttribute, searchText: searchText, tagType: tagType, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -6476,7 +6476,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yInfraAttributeKeysOut> 
      */
-    open class func getO11yNodesAttributeKeysWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeKeysOut> {
+    open class func getO11yNodesAttributeKeysWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeKeysOut> {
         let localVariablePath = "/v1/o11y/nodes/attribute_keys"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -6517,7 +6517,7 @@ open class O11yAPI {
      - returns: O11yO11yInfraAttributeValuesOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yNodesAttributeValues(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeValuesOut {
+    open class func getO11yNodesAttributeValues(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeValuesOut {
         return try await getO11yNodesAttributeValuesWithRequestBuilder(dataSource: dataSource, aggregateOperator: aggregateOperator, aggregateAttribute: aggregateAttribute, attributeKey: attributeKey, filterAttributeKeyDataType: filterAttributeKeyDataType, searchText: searchText, tagType: tagType, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -6539,7 +6539,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yInfraAttributeValuesOut> 
      */
-    open class func getO11yNodesAttributeValuesWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeValuesOut> {
+    open class func getO11yNodesAttributeValuesWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeValuesOut> {
         let localVariablePath = "/v1/o11y/nodes/attribute_values"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -6580,7 +6580,7 @@ open class O11yAPI {
      - returns: O11yO11yInfraAttributeKeysOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yPodsAttributeKeys(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeKeysOut {
+    open class func getO11yPodsAttributeKeys(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeKeysOut {
         return try await getO11yPodsAttributeKeysWithRequestBuilder(dataSource: dataSource, aggregateOperator: aggregateOperator, aggregateAttribute: aggregateAttribute, searchText: searchText, tagType: tagType, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -6600,7 +6600,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yInfraAttributeKeysOut> 
      */
-    open class func getO11yPodsAttributeKeysWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeKeysOut> {
+    open class func getO11yPodsAttributeKeysWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeKeysOut> {
         let localVariablePath = "/v1/o11y/pods/attribute_keys"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -6641,7 +6641,7 @@ open class O11yAPI {
      - returns: O11yO11yInfraAttributeValuesOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yPodsAttributeValues(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeValuesOut {
+    open class func getO11yPodsAttributeValues(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeValuesOut {
         return try await getO11yPodsAttributeValuesWithRequestBuilder(dataSource: dataSource, aggregateOperator: aggregateOperator, aggregateAttribute: aggregateAttribute, attributeKey: attributeKey, filterAttributeKeyDataType: filterAttributeKeyDataType, searchText: searchText, tagType: tagType, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -6663,7 +6663,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yInfraAttributeValuesOut> 
      */
-    open class func getO11yPodsAttributeValuesWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeValuesOut> {
+    open class func getO11yPodsAttributeValuesWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeValuesOut> {
         let localVariablePath = "/v1/o11y/pods/attribute_values"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -6704,7 +6704,7 @@ open class O11yAPI {
      - returns: O11yO11yInfraAttributeKeysOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yProcessesAttributeKeys(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeKeysOut {
+    open class func getO11yProcessesAttributeKeys(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeKeysOut {
         return try await getO11yProcessesAttributeKeysWithRequestBuilder(dataSource: dataSource, aggregateOperator: aggregateOperator, aggregateAttribute: aggregateAttribute, searchText: searchText, tagType: tagType, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -6724,7 +6724,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yInfraAttributeKeysOut> 
      */
-    open class func getO11yProcessesAttributeKeysWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeKeysOut> {
+    open class func getO11yProcessesAttributeKeysWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeKeysOut> {
         let localVariablePath = "/v1/o11y/processes/attribute_keys"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -6765,7 +6765,7 @@ open class O11yAPI {
      - returns: O11yO11yInfraAttributeValuesOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yProcessesAttributeValues(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeValuesOut {
+    open class func getO11yProcessesAttributeValues(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeValuesOut {
         return try await getO11yProcessesAttributeValuesWithRequestBuilder(dataSource: dataSource, aggregateOperator: aggregateOperator, aggregateAttribute: aggregateAttribute, attributeKey: attributeKey, filterAttributeKeyDataType: filterAttributeKeyDataType, searchText: searchText, tagType: tagType, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -6787,7 +6787,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yInfraAttributeValuesOut> 
      */
-    open class func getO11yProcessesAttributeValuesWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeValuesOut> {
+    open class func getO11yProcessesAttributeValuesWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeValuesOut> {
         let localVariablePath = "/v1/o11y/processes/attribute_values"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -6825,7 +6825,7 @@ open class O11yAPI {
      - returns: O11yMetricsResponse
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yProductMetrics(product: String? = nil, range: Int? = nil, stepSec: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yMetricsResponse {
+    open class func getO11yProductMetrics(product: String? = nil, range: Int64? = nil, stepSec: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yMetricsResponse {
         return try await getO11yProductMetricsWithRequestBuilder(product: product, range: range, stepSec: stepSec, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -6842,7 +6842,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yMetricsResponse> 
      */
-    open class func getO11yProductMetricsWithRequestBuilder(product: String? = nil, range: Int? = nil, stepSec: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yMetricsResponse> {
+    open class func getO11yProductMetricsWithRequestBuilder(product: String? = nil, range: Int64? = nil, stepSec: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yMetricsResponse> {
         let localVariablePath = "/v1/o11y/product/metrics"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -6878,7 +6878,7 @@ open class O11yAPI {
      - returns: O11yO11yInfraAttributeKeysOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yPvcsAttributeKeys(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeKeysOut {
+    open class func getO11yPvcsAttributeKeys(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeKeysOut {
         return try await getO11yPvcsAttributeKeysWithRequestBuilder(dataSource: dataSource, aggregateOperator: aggregateOperator, aggregateAttribute: aggregateAttribute, searchText: searchText, tagType: tagType, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -6898,7 +6898,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yInfraAttributeKeysOut> 
      */
-    open class func getO11yPvcsAttributeKeysWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeKeysOut> {
+    open class func getO11yPvcsAttributeKeysWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeKeysOut> {
         let localVariablePath = "/v1/o11y/pvcs/attribute_keys"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -6939,7 +6939,7 @@ open class O11yAPI {
      - returns: O11yO11yInfraAttributeValuesOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yPvcsAttributeValues(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeValuesOut {
+    open class func getO11yPvcsAttributeValues(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeValuesOut {
         return try await getO11yPvcsAttributeValuesWithRequestBuilder(dataSource: dataSource, aggregateOperator: aggregateOperator, aggregateAttribute: aggregateAttribute, attributeKey: attributeKey, filterAttributeKeyDataType: filterAttributeKeyDataType, searchText: searchText, tagType: tagType, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -6961,7 +6961,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yInfraAttributeValuesOut> 
      */
-    open class func getO11yPvcsAttributeValuesWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeValuesOut> {
+    open class func getO11yPvcsAttributeValuesWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeValuesOut> {
         let localVariablePath = "/v1/o11y/pvcs/attribute_values"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -7188,7 +7188,7 @@ open class O11yAPI {
      - returns: O11yAnnQueueList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yReviews(page: Int? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yAnnQueueList {
+    open class func getO11yReviews(page: Int64? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yAnnQueueList {
         return try await getO11yReviewsWithRequestBuilder(page: page, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -7204,7 +7204,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yAnnQueueList> 
      */
-    open class func getO11yReviewsWithRequestBuilder(page: Int? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yAnnQueueList> {
+    open class func getO11yReviewsWithRequestBuilder(page: Int64? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yAnnQueueList> {
         let localVariablePath = "/v1/o11y/reviews"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -7281,7 +7281,7 @@ open class O11yAPI {
      - returns: O11yAnnItemList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yReviewsByIdItems(id: String, status: String? = nil, page: Int? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yAnnItemList {
+    open class func getO11yReviewsByIdItems(id: String, status: String? = nil, page: Int64? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yAnnItemList {
         return try await getO11yReviewsByIdItemsWithRequestBuilder(id: id, status: status, page: page, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -7299,7 +7299,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yAnnItemList> 
      */
-    open class func getO11yReviewsByIdItemsWithRequestBuilder(id: String, status: String? = nil, page: Int? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yAnnItemList> {
+    open class func getO11yReviewsByIdItemsWithRequestBuilder(id: String, status: String? = nil, page: Int64? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yAnnItemList> {
         var localVariablePath = "/v1/o11y/reviews/{id}/items"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -7391,7 +7391,7 @@ open class O11yAPI {
      - returns: O11yO11yErrorIssuesOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11ySentinelIssues(status: String? = nil, level: String? = nil, environment: String? = nil, serviceName: String? = nil, query: String? = nil, sort: String? = nil, offset: Int? = nil, limit: Int? = nil, project: String? = nil, period: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yErrorIssuesOut {
+    open class func getO11ySentinelIssues(status: String? = nil, level: String? = nil, environment: String? = nil, serviceName: String? = nil, query: String? = nil, sort: String? = nil, offset: Int64? = nil, limit: Int64? = nil, project: String? = nil, period: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yErrorIssuesOut {
         return try await getO11ySentinelIssuesWithRequestBuilder(status: status, level: level, environment: environment, serviceName: serviceName, query: query, sort: sort, offset: offset, limit: limit, project: project, period: period, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -7415,7 +7415,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yErrorIssuesOut> 
      */
-    open class func getO11ySentinelIssuesWithRequestBuilder(status: String? = nil, level: String? = nil, environment: String? = nil, serviceName: String? = nil, query: String? = nil, sort: String? = nil, offset: Int? = nil, limit: Int? = nil, project: String? = nil, period: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yErrorIssuesOut> {
+    open class func getO11ySentinelIssuesWithRequestBuilder(status: String? = nil, level: String? = nil, environment: String? = nil, serviceName: String? = nil, query: String? = nil, sort: String? = nil, offset: Int64? = nil, limit: Int64? = nil, project: String? = nil, period: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yErrorIssuesOut> {
         let localVariablePath = "/v1/o11y/sentinel/issues"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -7499,7 +7499,7 @@ open class O11yAPI {
      - returns: O11yO11ySentryIssueEventsOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11ySentinelIssuesByIdEvents(id: String, project: String, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11ySentryIssueEventsOut {
+    open class func getO11ySentinelIssuesByIdEvents(id: String, project: String, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11ySentryIssueEventsOut {
         return try await getO11ySentinelIssuesByIdEventsWithRequestBuilder(id: id, project: project, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -7516,7 +7516,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11ySentryIssueEventsOut> 
      */
-    open class func getO11ySentinelIssuesByIdEventsWithRequestBuilder(id: String, project: String, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11ySentryIssueEventsOut> {
+    open class func getO11ySentinelIssuesByIdEventsWithRequestBuilder(id: String, project: String, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11ySentryIssueEventsOut> {
         var localVariablePath = "/v1/o11y/sentinel/issues/{id}/events"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -7552,7 +7552,7 @@ open class O11yAPI {
      - returns: O11yO11yLogsOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11ySentinelLogs(project: String, query: String? = nil, period: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yLogsOut {
+    open class func getO11ySentinelLogs(project: String, query: String? = nil, period: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yLogsOut {
         return try await getO11ySentinelLogsWithRequestBuilder(project: project, query: query, period: period, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -7570,7 +7570,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yLogsOut> 
      */
-    open class func getO11ySentinelLogsWithRequestBuilder(project: String, query: String? = nil, period: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yLogsOut> {
+    open class func getO11ySentinelLogsWithRequestBuilder(project: String, query: String? = nil, period: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yLogsOut> {
         let localVariablePath = "/v1/o11y/sentinel/logs"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -7737,7 +7737,7 @@ open class O11yAPI {
      - returns: O11yO11yTracesOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11ySentinelTraces(project: String, period: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yTracesOut {
+    open class func getO11ySentinelTraces(project: String, period: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yTracesOut {
         return try await getO11ySentinelTracesWithRequestBuilder(project: project, period: period, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -7754,7 +7754,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yTracesOut> 
      */
-    open class func getO11ySentinelTracesWithRequestBuilder(project: String, period: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yTracesOut> {
+    open class func getO11ySentinelTracesWithRequestBuilder(project: String, period: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yTracesOut> {
         let localVariablePath = "/v1/o11y/sentinel/traces"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -8000,7 +8000,7 @@ open class O11yAPI {
      - returns: O11yO11yInfraAttributeKeysOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yStatefulsetsAttributeKeys(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeKeysOut {
+    open class func getO11yStatefulsetsAttributeKeys(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeKeysOut {
         return try await getO11yStatefulsetsAttributeKeysWithRequestBuilder(dataSource: dataSource, aggregateOperator: aggregateOperator, aggregateAttribute: aggregateAttribute, searchText: searchText, tagType: tagType, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -8020,7 +8020,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yInfraAttributeKeysOut> 
      */
-    open class func getO11yStatefulsetsAttributeKeysWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeKeysOut> {
+    open class func getO11yStatefulsetsAttributeKeysWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeKeysOut> {
         let localVariablePath = "/v1/o11y/statefulsets/attribute_keys"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -8061,7 +8061,7 @@ open class O11yAPI {
      - returns: O11yO11yInfraAttributeValuesOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yStatefulsetsAttributeValues(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeValuesOut {
+    open class func getO11yStatefulsetsAttributeValues(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yInfraAttributeValuesOut {
         return try await getO11yStatefulsetsAttributeValuesWithRequestBuilder(dataSource: dataSource, aggregateOperator: aggregateOperator, aggregateAttribute: aggregateAttribute, attributeKey: attributeKey, filterAttributeKeyDataType: filterAttributeKeyDataType, searchText: searchText, tagType: tagType, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -8083,7 +8083,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yInfraAttributeValuesOut> 
      */
-    open class func getO11yStatefulsetsAttributeValuesWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeValuesOut> {
+    open class func getO11yStatefulsetsAttributeValuesWithRequestBuilder(dataSource: String? = nil, aggregateOperator: String? = nil, aggregateAttribute: String? = nil, attributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, searchText: String? = nil, tagType: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yInfraAttributeValuesOut> {
         let localVariablePath = "/v1/o11y/statefulsets/attribute_values"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -8243,7 +8243,7 @@ open class O11yAPI {
      - returns: O11yTracesOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yTraces(range: Int? = nil, limit: Int? = nil, minDurationMs: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yTracesOut {
+    open class func getO11yTraces(range: Int64? = nil, limit: Int64? = nil, minDurationMs: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yTracesOut {
         return try await getO11yTracesWithRequestBuilder(range: range, limit: limit, minDurationMs: minDurationMs, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -8260,7 +8260,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yTracesOut> 
      */
-    open class func getO11yTracesWithRequestBuilder(range: Int? = nil, limit: Int? = nil, minDurationMs: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yTracesOut> {
+    open class func getO11yTracesWithRequestBuilder(range: Int64? = nil, limit: Int64? = nil, minDurationMs: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yTracesOut> {
         let localVariablePath = "/v1/o11y/traces"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -8294,7 +8294,7 @@ open class O11yAPI {
      - returns: [O11yO11yUsageItem]
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getO11yUsage(start: String, end: String, step: Int? = nil, service: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> [O11yO11yUsageItem] {
+    open class func getO11yUsage(start: String, end: String, step: Int64? = nil, service: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> [O11yO11yUsageItem] {
         return try await getO11yUsageWithRequestBuilder(start: start, end: end, step: step, service: service, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -8312,7 +8312,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<[O11yO11yUsageItem]> 
      */
-    open class func getO11yUsageWithRequestBuilder(start: String, end: String, step: Int? = nil, service: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<[O11yO11yUsageItem]> {
+    open class func getO11yUsageWithRequestBuilder(start: String, end: String, step: Int64? = nil, service: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<[O11yO11yUsageItem]> {
         let localVariablePath = "/v1/o11y/usage"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -8925,7 +8925,7 @@ open class O11yAPI {
      - returns: O11yO11yRuleHistoryFilterKeysOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getRuleHistoryFilterKeys(id: String, startUnixMilli: Int? = nil, endUnixMilli: Int? = nil, searchText: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yRuleHistoryFilterKeysOut {
+    open class func getRuleHistoryFilterKeys(id: String, startUnixMilli: Int64? = nil, endUnixMilli: Int64? = nil, searchText: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yRuleHistoryFilterKeysOut {
         return try await getRuleHistoryFilterKeysWithRequestBuilder(id: id, startUnixMilli: startUnixMilli, endUnixMilli: endUnixMilli, searchText: searchText, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -8944,7 +8944,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yRuleHistoryFilterKeysOut> 
      */
-    open class func getRuleHistoryFilterKeysWithRequestBuilder(id: String, startUnixMilli: Int? = nil, endUnixMilli: Int? = nil, searchText: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yRuleHistoryFilterKeysOut> {
+    open class func getRuleHistoryFilterKeysWithRequestBuilder(id: String, startUnixMilli: Int64? = nil, endUnixMilli: Int64? = nil, searchText: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yRuleHistoryFilterKeysOut> {
         var localVariablePath = "/v1/o11y/rules/{id}/history/filter_keys"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -8985,7 +8985,7 @@ open class O11yAPI {
      - returns: O11yO11yRuleHistoryFilterValuesOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getRuleHistoryFilterValues(id: String, name: String, startUnixMilli: Int? = nil, endUnixMilli: Int? = nil, searchText: String? = nil, limit: Int? = nil, existingQuery: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yRuleHistoryFilterValuesOut {
+    open class func getRuleHistoryFilterValues(id: String, name: String, startUnixMilli: Int64? = nil, endUnixMilli: Int64? = nil, searchText: String? = nil, limit: Int64? = nil, existingQuery: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yRuleHistoryFilterValuesOut {
         return try await getRuleHistoryFilterValuesWithRequestBuilder(id: id, name: name, startUnixMilli: startUnixMilli, endUnixMilli: endUnixMilli, searchText: searchText, limit: limit, existingQuery: existingQuery, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -9006,7 +9006,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yRuleHistoryFilterValuesOut> 
      */
-    open class func getRuleHistoryFilterValuesWithRequestBuilder(id: String, name: String, startUnixMilli: Int? = nil, endUnixMilli: Int? = nil, searchText: String? = nil, limit: Int? = nil, existingQuery: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yRuleHistoryFilterValuesOut> {
+    open class func getRuleHistoryFilterValuesWithRequestBuilder(id: String, name: String, startUnixMilli: Int64? = nil, endUnixMilli: Int64? = nil, searchText: String? = nil, limit: Int64? = nil, existingQuery: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yRuleHistoryFilterValuesOut> {
         var localVariablePath = "/v1/o11y/rules/{id}/history/filter_values"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -9045,7 +9045,7 @@ open class O11yAPI {
      - returns: O11yO11yRuleHistoryOverallStatusOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getRuleHistoryOverallStatus(id: String, start: Int? = nil, end: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yRuleHistoryOverallStatusOut {
+    open class func getRuleHistoryOverallStatus(id: String, start: Int64? = nil, end: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yRuleHistoryOverallStatusOut {
         return try await getRuleHistoryOverallStatusWithRequestBuilder(id: id, start: start, end: end, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -9062,7 +9062,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yRuleHistoryOverallStatusOut> 
      */
-    open class func getRuleHistoryOverallStatusWithRequestBuilder(id: String, start: Int? = nil, end: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yRuleHistoryOverallStatusOut> {
+    open class func getRuleHistoryOverallStatusWithRequestBuilder(id: String, start: Int64? = nil, end: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yRuleHistoryOverallStatusOut> {
         var localVariablePath = "/v1/o11y/rules/{id}/history/overall_status"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -9097,7 +9097,7 @@ open class O11yAPI {
      - returns: O11yO11yRuleHistoryStatsOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getRuleHistoryStats(id: String, start: Int? = nil, end: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yRuleHistoryStatsOut {
+    open class func getRuleHistoryStats(id: String, start: Int64? = nil, end: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yRuleHistoryStatsOut {
         return try await getRuleHistoryStatsWithRequestBuilder(id: id, start: start, end: end, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -9114,7 +9114,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yRuleHistoryStatsOut> 
      */
-    open class func getRuleHistoryStatsWithRequestBuilder(id: String, start: Int? = nil, end: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yRuleHistoryStatsOut> {
+    open class func getRuleHistoryStatsWithRequestBuilder(id: String, start: Int64? = nil, end: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yRuleHistoryStatsOut> {
         var localVariablePath = "/v1/o11y/rules/{id}/history/stats"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -9154,7 +9154,7 @@ open class O11yAPI {
      - returns: O11yO11yRuleHistoryTimelineOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getRuleHistoryTimeline(id: String, start: Int? = nil, end: Int? = nil, state: String? = nil, filterExpression: String? = nil, limit: Int? = nil, order: String? = nil, cursor: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yRuleHistoryTimelineOut {
+    open class func getRuleHistoryTimeline(id: String, start: Int64? = nil, end: Int64? = nil, state: String? = nil, filterExpression: String? = nil, limit: Int64? = nil, order: String? = nil, cursor: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yRuleHistoryTimelineOut {
         return try await getRuleHistoryTimelineWithRequestBuilder(id: id, start: start, end: end, state: state, filterExpression: filterExpression, limit: limit, order: order, cursor: cursor, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -9176,7 +9176,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yRuleHistoryTimelineOut> 
      */
-    open class func getRuleHistoryTimelineWithRequestBuilder(id: String, start: Int? = nil, end: Int? = nil, state: String? = nil, filterExpression: String? = nil, limit: Int? = nil, order: String? = nil, cursor: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yRuleHistoryTimelineOut> {
+    open class func getRuleHistoryTimelineWithRequestBuilder(id: String, start: Int64? = nil, end: Int64? = nil, state: String? = nil, filterExpression: String? = nil, limit: Int64? = nil, order: String? = nil, cursor: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yRuleHistoryTimelineOut> {
         var localVariablePath = "/v1/o11y/rules/{id}/history/timeline"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -9216,7 +9216,7 @@ open class O11yAPI {
      - returns: O11yO11yRuleHistoryContributorsOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getRuleHistoryTopContributors(id: String, start: Int? = nil, end: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yRuleHistoryContributorsOut {
+    open class func getRuleHistoryTopContributors(id: String, start: Int64? = nil, end: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yRuleHistoryContributorsOut {
         return try await getRuleHistoryTopContributorsWithRequestBuilder(id: id, start: start, end: end, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -9233,7 +9233,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yRuleHistoryContributorsOut> 
      */
-    open class func getRuleHistoryTopContributorsWithRequestBuilder(id: String, start: Int? = nil, end: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yRuleHistoryContributorsOut> {
+    open class func getRuleHistoryTopContributorsWithRequestBuilder(id: String, start: Int64? = nil, end: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yRuleHistoryContributorsOut> {
         var localVariablePath = "/v1/o11y/rules/{id}/history/top_contributors"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -10514,7 +10514,7 @@ open class O11yAPI {
      - returns: O11yO11yDashboardListForUserOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func listDashboardsForUserV2(query: String? = nil, sort: String? = nil, order: String? = nil, limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yDashboardListForUserOut {
+    open class func listDashboardsForUserV2(query: String? = nil, sort: String? = nil, order: String? = nil, limit: Int64? = nil, offset: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yDashboardListForUserOut {
         return try await listDashboardsForUserV2WithRequestBuilder(query: query, sort: sort, order: order, limit: limit, offset: offset, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -10533,7 +10533,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yDashboardListForUserOut> 
      */
-    open class func listDashboardsForUserV2WithRequestBuilder(query: String? = nil, sort: String? = nil, order: String? = nil, limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yDashboardListForUserOut> {
+    open class func listDashboardsForUserV2WithRequestBuilder(query: String? = nil, sort: String? = nil, order: String? = nil, limit: Int64? = nil, offset: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yDashboardListForUserOut> {
         let localVariablePath = "/v1/o11y/users/me/dashboards"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -10570,7 +10570,7 @@ open class O11yAPI {
      - returns: O11yO11yDashboardListOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func listDashboardsV2(query: String? = nil, sort: String? = nil, order: String? = nil, limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yDashboardListOut {
+    open class func listDashboardsV2(query: String? = nil, sort: String? = nil, order: String? = nil, limit: Int64? = nil, offset: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yDashboardListOut {
         return try await listDashboardsV2WithRequestBuilder(query: query, sort: sort, order: order, limit: limit, offset: offset, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -10589,7 +10589,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yDashboardListOut> 
      */
-    open class func listDashboardsV2WithRequestBuilder(query: String? = nil, sort: String? = nil, order: String? = nil, limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yDashboardListOut> {
+    open class func listDashboardsV2WithRequestBuilder(query: String? = nil, sort: String? = nil, order: String? = nil, limit: Int64? = nil, offset: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yDashboardListOut> {
         let localVariablePath = "/v1/o11y/dashboards"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -10717,7 +10717,7 @@ open class O11yAPI {
      - returns: O11yO11yLLMAnnotationsOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func listLLMAnnotations(traceId: String? = nil, queue: String? = nil, status: String? = nil, offset: Int? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yLLMAnnotationsOut {
+    open class func listLLMAnnotations(traceId: String? = nil, queue: String? = nil, status: String? = nil, offset: Int64? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yLLMAnnotationsOut {
         return try await listLLMAnnotationsWithRequestBuilder(traceId: traceId, queue: queue, status: status, offset: offset, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -10736,7 +10736,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yLLMAnnotationsOut> 
      */
-    open class func listLLMAnnotationsWithRequestBuilder(traceId: String? = nil, queue: String? = nil, status: String? = nil, offset: Int? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yLLMAnnotationsOut> {
+    open class func listLLMAnnotationsWithRequestBuilder(traceId: String? = nil, queue: String? = nil, status: String? = nil, offset: Int64? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yLLMAnnotationsOut> {
         let localVariablePath = "/v1/o11y/llm/annotation"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -10777,7 +10777,7 @@ open class O11yAPI {
      - returns: O11yO11yLLMObservationsOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func listLLMObservations(start: Int? = nil, end: Int? = nil, traceId: String? = nil, sessionId: String? = nil, userId: String? = nil, name: String? = nil, model: String? = nil, offset: Int? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yLLMObservationsOut {
+    open class func listLLMObservations(start: Int64? = nil, end: Int64? = nil, traceId: String? = nil, sessionId: String? = nil, userId: String? = nil, name: String? = nil, model: String? = nil, offset: Int64? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yLLMObservationsOut {
         return try await listLLMObservationsWithRequestBuilder(start: start, end: end, traceId: traceId, sessionId: sessionId, userId: userId, name: name, model: model, offset: offset, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -10800,7 +10800,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yLLMObservationsOut> 
      */
-    open class func listLLMObservationsWithRequestBuilder(start: Int? = nil, end: Int? = nil, traceId: String? = nil, sessionId: String? = nil, userId: String? = nil, name: String? = nil, model: String? = nil, offset: Int? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yLLMObservationsOut> {
+    open class func listLLMObservationsWithRequestBuilder(start: Int64? = nil, end: Int64? = nil, traceId: String? = nil, sessionId: String? = nil, userId: String? = nil, name: String? = nil, model: String? = nil, offset: Int64? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yLLMObservationsOut> {
         let localVariablePath = "/v1/o11y/llm/observations"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -10840,7 +10840,7 @@ open class O11yAPI {
      - returns: O11yO11yLLMPricingRulesOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func listLLMPricingRules(q: String? = nil, isOverride: String? = nil, offset: Int? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yLLMPricingRulesOut {
+    open class func listLLMPricingRules(q: String? = nil, isOverride: String? = nil, offset: Int64? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yLLMPricingRulesOut {
         return try await listLLMPricingRulesWithRequestBuilder(q: q, isOverride: isOverride, offset: offset, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -10858,7 +10858,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yLLMPricingRulesOut> 
      */
-    open class func listLLMPricingRulesWithRequestBuilder(q: String? = nil, isOverride: String? = nil, offset: Int? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yLLMPricingRulesOut> {
+    open class func listLLMPricingRulesWithRequestBuilder(q: String? = nil, isOverride: String? = nil, offset: Int64? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yLLMPricingRulesOut> {
         let localVariablePath = "/v1/o11y/llm_pricing_rules"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -10895,7 +10895,7 @@ open class O11yAPI {
      - returns: O11yO11yLLMScoresOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func listLLMScores(traceId: String? = nil, observationId: String? = nil, name: String? = nil, source: String? = nil, offset: Int? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yLLMScoresOut {
+    open class func listLLMScores(traceId: String? = nil, observationId: String? = nil, name: String? = nil, source: String? = nil, offset: Int64? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yLLMScoresOut {
         return try await listLLMScoresWithRequestBuilder(traceId: traceId, observationId: observationId, name: name, source: source, offset: offset, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -10915,7 +10915,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yLLMScoresOut> 
      */
-    open class func listLLMScoresWithRequestBuilder(traceId: String? = nil, observationId: String? = nil, name: String? = nil, source: String? = nil, offset: Int? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yLLMScoresOut> {
+    open class func listLLMScoresWithRequestBuilder(traceId: String? = nil, observationId: String? = nil, name: String? = nil, source: String? = nil, offset: Int64? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yLLMScoresOut> {
         let localVariablePath = "/v1/o11y/llm/scores"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -10957,7 +10957,7 @@ open class O11yAPI {
      - returns: O11yO11yLLMSessionsOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func listLLMSessions(start: Int? = nil, end: Int? = nil, traceId: String? = nil, sessionId: String? = nil, userId: String? = nil, name: String? = nil, model: String? = nil, offset: Int? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yLLMSessionsOut {
+    open class func listLLMSessions(start: Int64? = nil, end: Int64? = nil, traceId: String? = nil, sessionId: String? = nil, userId: String? = nil, name: String? = nil, model: String? = nil, offset: Int64? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yLLMSessionsOut {
         return try await listLLMSessionsWithRequestBuilder(start: start, end: end, traceId: traceId, sessionId: sessionId, userId: userId, name: name, model: model, offset: offset, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -10980,7 +10980,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yLLMSessionsOut> 
      */
-    open class func listLLMSessionsWithRequestBuilder(start: Int? = nil, end: Int? = nil, traceId: String? = nil, sessionId: String? = nil, userId: String? = nil, name: String? = nil, model: String? = nil, offset: Int? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yLLMSessionsOut> {
+    open class func listLLMSessionsWithRequestBuilder(start: Int64? = nil, end: Int64? = nil, traceId: String? = nil, sessionId: String? = nil, userId: String? = nil, name: String? = nil, model: String? = nil, offset: Int64? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yLLMSessionsOut> {
         let localVariablePath = "/v1/o11y/llm/sessions"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -11025,7 +11025,7 @@ open class O11yAPI {
      - returns: O11yO11yLLMTracesOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func listLLMTraces(start: Int? = nil, end: Int? = nil, traceId: String? = nil, sessionId: String? = nil, userId: String? = nil, name: String? = nil, model: String? = nil, offset: Int? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yLLMTracesOut {
+    open class func listLLMTraces(start: Int64? = nil, end: Int64? = nil, traceId: String? = nil, sessionId: String? = nil, userId: String? = nil, name: String? = nil, model: String? = nil, offset: Int64? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yLLMTracesOut {
         return try await listLLMTracesWithRequestBuilder(start: start, end: end, traceId: traceId, sessionId: sessionId, userId: userId, name: name, model: model, offset: offset, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -11048,7 +11048,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yLLMTracesOut> 
      */
-    open class func listLLMTracesWithRequestBuilder(start: Int? = nil, end: Int? = nil, traceId: String? = nil, sessionId: String? = nil, userId: String? = nil, name: String? = nil, model: String? = nil, offset: Int? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yLLMTracesOut> {
+    open class func listLLMTracesWithRequestBuilder(start: Int64? = nil, end: Int64? = nil, traceId: String? = nil, sessionId: String? = nil, userId: String? = nil, name: String? = nil, model: String? = nil, offset: Int64? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yLLMTracesOut> {
         let localVariablePath = "/v1/o11y/llm/traces"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -11093,7 +11093,7 @@ open class O11yAPI {
      - returns: O11yO11yLLMUsersOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func listLLMUsers(start: Int? = nil, end: Int? = nil, traceId: String? = nil, sessionId: String? = nil, userId: String? = nil, name: String? = nil, model: String? = nil, offset: Int? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yLLMUsersOut {
+    open class func listLLMUsers(start: Int64? = nil, end: Int64? = nil, traceId: String? = nil, sessionId: String? = nil, userId: String? = nil, name: String? = nil, model: String? = nil, offset: Int64? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yLLMUsersOut {
         return try await listLLMUsersWithRequestBuilder(start: start, end: end, traceId: traceId, sessionId: sessionId, userId: userId, name: name, model: model, offset: offset, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -11116,7 +11116,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yLLMUsersOut> 
      */
-    open class func listLLMUsersWithRequestBuilder(start: Int? = nil, end: Int? = nil, traceId: String? = nil, sessionId: String? = nil, userId: String? = nil, name: String? = nil, model: String? = nil, offset: Int? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yLLMUsersOut> {
+    open class func listLLMUsersWithRequestBuilder(start: Int64? = nil, end: Int64? = nil, traceId: String? = nil, sessionId: String? = nil, userId: String? = nil, name: String? = nil, model: String? = nil, offset: Int64? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yLLMUsersOut> {
         let localVariablePath = "/v1/o11y/llm/users"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -11158,7 +11158,7 @@ open class O11yAPI {
      - returns: O11yO11yReductionRuleListOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func listMetricReductionRules(orderBy: String? = nil, order: String? = nil, search: String? = nil, metricName: String? = nil, offset: Int? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yReductionRuleListOut {
+    open class func listMetricReductionRules(orderBy: String? = nil, order: String? = nil, search: String? = nil, metricName: String? = nil, offset: Int64? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yReductionRuleListOut {
         return try await listMetricReductionRulesWithRequestBuilder(orderBy: orderBy, order: order, search: search, metricName: metricName, offset: offset, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -11178,7 +11178,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yReductionRuleListOut> 
      */
-    open class func listMetricReductionRulesWithRequestBuilder(orderBy: String? = nil, order: String? = nil, search: String? = nil, metricName: String? = nil, offset: Int? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yReductionRuleListOut> {
+    open class func listMetricReductionRulesWithRequestBuilder(orderBy: String? = nil, order: String? = nil, search: String? = nil, metricName: String? = nil, offset: Int64? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yReductionRuleListOut> {
         let localVariablePath = "/v1/o11y/metric_reduction_rules"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -11216,7 +11216,7 @@ open class O11yAPI {
      - returns: O11yO11yMetricListOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func listMetrics(start: Int? = nil, end: Int? = nil, limit: Int? = nil, searchText: String? = nil, source: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yMetricListOut {
+    open class func listMetrics(start: Int64? = nil, end: Int64? = nil, limit: Int64? = nil, searchText: String? = nil, source: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yMetricListOut {
         return try await listMetricsWithRequestBuilder(start: start, end: end, limit: limit, searchText: searchText, source: source, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -11235,7 +11235,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yMetricListOut> 
      */
-    open class func listMetricsWithRequestBuilder(start: Int? = nil, end: Int? = nil, limit: Int? = nil, searchText: String? = nil, source: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yMetricListOut> {
+    open class func listMetricsWithRequestBuilder(start: Int64? = nil, end: Int64? = nil, limit: Int64? = nil, searchText: String? = nil, source: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yMetricListOut> {
         let localVariablePath = "/v1/o11y/metrics"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -15405,7 +15405,7 @@ open class O11yAPI {
      - returns: O11yO11yIngestionKeysOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func searchIngestionKeys(name: String? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yIngestionKeysOut {
+    open class func searchIngestionKeys(name: String? = nil, page: Int64? = nil, perPage: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> O11yO11yIngestionKeysOut {
         return try await searchIngestionKeysWithRequestBuilder(name: name, page: page, perPage: perPage, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -15422,7 +15422,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<O11yO11yIngestionKeysOut> 
      */
-    open class func searchIngestionKeysWithRequestBuilder(name: String? = nil, page: Int? = nil, perPage: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yIngestionKeysOut> {
+    open class func searchIngestionKeysWithRequestBuilder(name: String? = nil, page: Int64? = nil, perPage: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<O11yO11yIngestionKeysOut> {
         let localVariablePath = "/v1/o11y/gateway/ingestion_keys/search"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -15457,7 +15457,7 @@ open class O11yAPI {
      - returns: [O11yO11yTraceSpanWindow]
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func searchTraces(traceId: String, spanId: String? = nil, levelUp: Int? = nil, levelDown: Int? = nil, spanRenderLimit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> [O11yO11yTraceSpanWindow] {
+    open class func searchTraces(traceId: String, spanId: String? = nil, levelUp: Int64? = nil, levelDown: Int64? = nil, spanRenderLimit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> [O11yO11yTraceSpanWindow] {
         return try await searchTracesWithRequestBuilder(traceId: traceId, spanId: spanId, levelUp: levelUp, levelDown: levelDown, spanRenderLimit: spanRenderLimit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -15476,7 +15476,7 @@ open class O11yAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<[O11yO11yTraceSpanWindow]> 
      */
-    open class func searchTracesWithRequestBuilder(traceId: String, spanId: String? = nil, levelUp: Int? = nil, levelDown: Int? = nil, spanRenderLimit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<[O11yO11yTraceSpanWindow]> {
+    open class func searchTracesWithRequestBuilder(traceId: String, spanId: String? = nil, levelUp: Int64? = nil, levelDown: Int64? = nil, spanRenderLimit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<[O11yO11yTraceSpanWindow]> {
         var localVariablePath = "/v1/o11y/traces/{traceId}"
         let traceIdPreEscape = "\(APIHelper.mapValueToPathItem(traceId))"
         let traceIdPostEscape = traceIdPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

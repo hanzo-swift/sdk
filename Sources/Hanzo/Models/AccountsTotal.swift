@@ -10,19 +10,19 @@ import Foundation
 public struct AccountsTotal: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Accounts is how many linked accounts the total folds. */
-    public var accounts: Int?
+    public var accounts: Int64?
     /** CompletionTokens is the total completion-token count. */
-    public var completionTokens: Int?
+    public var completionTokens: Int64?
     /** CostCents is the total cost in cents. */
-    public var costCents: Int?
+    public var costCents: Int64?
     /** PromptTokens is the total prompt-token count. */
-    public var promptTokens: Int?
+    public var promptTokens: Int64?
     /** Requests is the total request count the gateway routed. */
-    public var requests: Int?
+    public var requests: Int64?
     /** TotalTokens is the total token count. */
-    public var totalTokens: Int?
+    public var totalTokens: Int64?
 
-    public init(accounts: Int? = nil, completionTokens: Int? = nil, costCents: Int? = nil, promptTokens: Int? = nil, requests: Int? = nil, totalTokens: Int? = nil) {
+    public init(accounts: Int64? = nil, completionTokens: Int64? = nil, costCents: Int64? = nil, promptTokens: Int64? = nil, requests: Int64? = nil, totalTokens: Int64? = nil) {
         self.accounts = accounts
         self.completionTokens = completionTokens
         self.costCents = costCents

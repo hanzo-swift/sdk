@@ -10,7 +10,7 @@ import Foundation
 public struct RiskModelFeature: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Blind is how often this dimension took that neutral value for THIS organisation. */
-    public var blind: Int?
+    public var blind: Int64?
     /** Citation is where those words come from, so the claim is checkable rather than asserted. */
     public var citation: String?
     /** Indicator is the supervisor's own words for the thing being looked for. */
@@ -28,7 +28,7 @@ public struct RiskModelFeature: Sendable, Codable, ParameterConvertible, Hashabl
     /** Window is the sliding aggregate it reads. */
     public var window: String?
 
-    public init(blind: Int? = nil, citation: String? = nil, indicator: String? = nil, name: String? = nil, neutral: Double? = nil, severity: String? = nil, typology: String? = nil, unit: String? = nil, window: String? = nil) {
+    public init(blind: Int64? = nil, citation: String? = nil, indicator: String? = nil, name: String? = nil, neutral: Double? = nil, severity: String? = nil, typology: String? = nil, unit: String? = nil, window: String? = nil) {
         self.blind = blind
         self.citation = citation
         self.indicator = indicator

@@ -12,13 +12,13 @@ public struct O11yO11yLLMAnnotationsPage: Sendable, Codable, ParameterConvertibl
     /** Items are the annotations, newest first. */
     public var items: [O11yO11yLLMAnnotation]?
     /** Limit is the page cap the read ran with. */
-    public var limit: Int?
+    public var limit: Int64?
     /** Offset is the row offset this page started at. */
-    public var offset: Int?
+    public var offset: Int64?
     /** Total is how many annotations match, across all pages. */
-    public var total: Int?
+    public var total: Int64?
 
-    public init(items: [O11yO11yLLMAnnotation]? = nil, limit: Int? = nil, offset: Int? = nil, total: Int? = nil) {
+    public init(items: [O11yO11yLLMAnnotation]? = nil, limit: Int64? = nil, offset: Int64? = nil, total: Int64? = nil) {
         self.items = items
         self.limit = limit
         self.offset = offset

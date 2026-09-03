@@ -14,11 +14,11 @@ public struct GLRow: Sendable, Codable, ParameterConvertible, Hashable {
     /** Against names the OTHER accounts in the same voucher — the contra side of this leg — so a single row reads as an entry rather than as half of one. */
     public var against: String?
     /** Credit is the amount credited to that account, in whole cents. */
-    public var credit: Int?
+    public var credit: Int64?
     /** Debit is the amount debited to that account, in whole cents. Exactly one of debit and credit is non-zero on a leg; a negative amount is never used to mean the other side. */
-    public var debit: Int?
+    public var debit: Int64?
     /** ID is the entry's position in the ledger. The ledger is append-only, so ids ascend with posting order and a higher id is a later entry. */
-    public var id: Int?
+    public var id: Int64?
     /** PostingAt is the accounting date this entry belongs to — what the reports window on, which need not be when the row was written. */
     public var postingAt: String?
     /** Remarks is the memo carried onto the entry, for a human reading the ledger. */
@@ -28,7 +28,7 @@ public struct GLRow: Sendable, Codable, ParameterConvertible, Hashable {
     /** SourceKind is what caused the posting: a bank line, a scanned document, a commerce sale. With sourceId it traces the entry back to the thing that produced it. */
     public var sourceKind: String?
 
-    public init(account: String? = nil, against: String? = nil, credit: Int? = nil, debit: Int? = nil, id: Int? = nil, postingAt: String? = nil, remarks: String? = nil, sourceId: String? = nil, sourceKind: String? = nil) {
+    public init(account: String? = nil, against: String? = nil, credit: Int64? = nil, debit: Int64? = nil, id: Int64? = nil, postingAt: String? = nil, remarks: String? = nil, sourceId: String? = nil, sourceKind: String? = nil) {
         self.account = account
         self.against = against
         self.credit = credit

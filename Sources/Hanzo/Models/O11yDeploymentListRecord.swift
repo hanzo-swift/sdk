@@ -9,19 +9,19 @@ import Foundation
 
 public struct O11yDeploymentListRecord: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var availablePods: Int?
+    public var availablePods: Int64?
     public var cpuLimit: Double?
     public var cpuRequest: Double?
     public var cpuUsage: Double?
     public var deploymentName: String?
-    public var desiredPods: Int?
+    public var desiredPods: Int64?
     public var memoryLimit: Double?
     public var memoryRequest: Double?
     public var memoryUsage: Double?
     public var meta: [String: String]?
-    public var restarts: Int?
+    public var restarts: Int64?
 
-    public init(availablePods: Int? = nil, cpuLimit: Double? = nil, cpuRequest: Double? = nil, cpuUsage: Double? = nil, deploymentName: String? = nil, desiredPods: Int? = nil, memoryLimit: Double? = nil, memoryRequest: Double? = nil, memoryUsage: Double? = nil, meta: [String: String]? = nil, restarts: Int? = nil) {
+    public init(availablePods: Int64? = nil, cpuLimit: Double? = nil, cpuRequest: Double? = nil, cpuUsage: Double? = nil, deploymentName: String? = nil, desiredPods: Int64? = nil, memoryLimit: Double? = nil, memoryRequest: Double? = nil, memoryUsage: Double? = nil, meta: [String: String]? = nil, restarts: Int64? = nil) {
         self.availablePods = availablePods
         self.cpuLimit = cpuLimit
         self.cpuRequest = cpuRequest

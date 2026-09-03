@@ -9,11 +9,11 @@ import Foundation
 
 public struct IamBulk: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var maxOperations: Int?
-    public var maxPayloadSize: Int?
+    public var maxOperations: Int64?
+    public var maxPayloadSize: Int64?
     public var supported: Bool?
 
-    public init(maxOperations: Int? = nil, maxPayloadSize: Int? = nil, supported: Bool? = nil) {
+    public init(maxOperations: Int64? = nil, maxPayloadSize: Int64? = nil, supported: Bool? = nil) {
         self.maxOperations = maxOperations
         self.maxPayloadSize = maxPayloadSize
         self.supported = supported

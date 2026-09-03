@@ -12,21 +12,21 @@ public struct LLM: Sendable, Codable, ParameterConvertible, Hashable {
     /** Available is false when the warehouse was not connected or a query blipped. The totals below are then honest zeros, NOT measured ones. */
     public var available: Bool?
     /** CompletionTokens is the output half. */
-    public var completionTokens: Int?
+    public var completionTokens: Int64?
     /** CostCents is what they cost the org, in US cents. This IS a Hanzo charge. */
-    public var costCents: Int?
+    public var costCents: Int64?
     /** Models is how many distinct models were used. */
-    public var models: Int?
+    public var models: Int64?
     /** PromptTokens is the input half of that total. */
-    public var promptTokens: Int?
+    public var promptTokens: Int64?
     /** Requests is how many completions the org made in the window. */
-    public var requests: Int?
+    public var requests: Int64?
     /** Source names the warehouse table the totals came from. */
     public var source: String?
     /** Tokens is the total tokens those completions consumed. */
-    public var tokens: Int?
+    public var tokens: Int64?
 
-    public init(available: Bool? = nil, completionTokens: Int? = nil, costCents: Int? = nil, models: Int? = nil, promptTokens: Int? = nil, requests: Int? = nil, source: String? = nil, tokens: Int? = nil) {
+    public init(available: Bool? = nil, completionTokens: Int64? = nil, costCents: Int64? = nil, models: Int64? = nil, promptTokens: Int64? = nil, requests: Int64? = nil, source: String? = nil, tokens: Int64? = nil) {
         self.available = available
         self.completionTokens = completionTokens
         self.costCents = costCents

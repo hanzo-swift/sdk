@@ -10,11 +10,11 @@ import Foundation
 public struct CaptableRoundTotals: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Count is how many rounds the company has recorded. */
-    public var count: Int?
+    public var count: Int64?
     /** TotalRaised is the sum of every round's raised amount. */
     public var totalRaised: Double?
 
-    public init(count: Int? = nil, totalRaised: Double? = nil) {
+    public init(count: Int64? = nil, totalRaised: Double? = nil) {
         self.count = count
         self.totalRaised = totalRaised
     }

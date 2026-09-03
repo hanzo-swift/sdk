@@ -16,7 +16,7 @@ public struct Principle: Sendable, Codable, ParameterConvertible, Hashable {
     /** the I-Ching hexagram (pinyin + gloss) */
     public var hexagram: String?
     /** 1..64, the hexagram number + canonical order */
-    public var n: Int?
+    public var n: Int64?
     /** the principle's short name */
     public var name: String?
     /** the actionable growth law */
@@ -26,7 +26,7 @@ public struct Principle: Sendable, Codable, ParameterConvertible, Hashable {
     /** the Art of War teaching */
     public var sunTzu: String?
 
-    public init(change: String? = nil, domain: String? = nil, hexagram: String? = nil, n: Int? = nil, name: String? = nil, principle: String? = nil, slug: String? = nil, sunTzu: String? = nil) {
+    public init(change: String? = nil, domain: String? = nil, hexagram: String? = nil, n: Int64? = nil, name: String? = nil, principle: String? = nil, slug: String? = nil, sunTzu: String? = nil) {
         self.change = change
         self.domain = domain
         self.hexagram = hexagram

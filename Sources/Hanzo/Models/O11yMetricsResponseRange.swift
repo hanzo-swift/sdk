@@ -10,10 +10,10 @@ import Foundation
 /** Range is the window actually used, after clamping — not what was asked for. A caller that wants to know what it got reads this rather than its own query. */
 public struct O11yMetricsResponseRange: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var sinceSec: Int?
-    public var stepSec: Int?
+    public var sinceSec: Int64?
+    public var stepSec: Int64?
 
-    public init(sinceSec: Int? = nil, stepSec: Int? = nil) {
+    public init(sinceSec: Int64? = nil, stepSec: Int64? = nil) {
         self.sinceSec = sinceSec
         self.stepSec = stepSec
     }

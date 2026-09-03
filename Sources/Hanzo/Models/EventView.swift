@@ -19,11 +19,11 @@ public struct EventView: Sendable, Codable, ParameterConvertible, Hashable {
     public var kind: String?
     public var payload: JSONValue?
     /** Seq is the turn's position in this session's log: monotonic from 1, assigned by the store inside the insert, and unique PER SESSION rather than globally. It is the cursor a reader resumes from after a reconnect — ask for everything after your last-seen seq. */
-    public var seq: Int?
+    public var seq: Int64?
     /** SessionID is the session this turn belongs to. Carried on every event so a stream frame stands alone — a subscriber watching a whole tree gets turns from several sessions down one connection. */
     public var sessionId: String?
 
-    public init(actor: String? = nil, createdAt: String? = nil, id: String? = nil, kind: String? = nil, payload: JSONValue? = nil, seq: Int? = nil, sessionId: String? = nil) {
+    public init(actor: String? = nil, createdAt: String? = nil, id: String? = nil, kind: String? = nil, payload: JSONValue? = nil, seq: Int64? = nil, sessionId: String? = nil) {
         self.actor = actor
         self.createdAt = createdAt
         self.id = id

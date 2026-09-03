@@ -10,20 +10,20 @@ import Foundation
 public struct CreditGrant: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var active: Bool?
-    public var amountCents: Int?
+    public var amountCents: Int64?
     public var createdAt: String?
     public var currency: String?
     public var effectiveAt: String?
     public var expiresAt: String?
     public var id: String?
     public var name: String?
-    public var priority: Int?
-    public var remainingCents: Int?
+    public var priority: Int64?
+    public var remainingCents: Int64?
     public var tags: String?
     public var userId: String?
     public var voided: Bool?
 
-    public init(active: Bool? = nil, amountCents: Int? = nil, createdAt: String? = nil, currency: String? = nil, effectiveAt: String? = nil, expiresAt: String? = nil, id: String? = nil, name: String? = nil, priority: Int? = nil, remainingCents: Int? = nil, tags: String? = nil, userId: String? = nil, voided: Bool? = nil) {
+    public init(active: Bool? = nil, amountCents: Int64? = nil, createdAt: String? = nil, currency: String? = nil, effectiveAt: String? = nil, expiresAt: String? = nil, id: String? = nil, name: String? = nil, priority: Int64? = nil, remainingCents: Int64? = nil, tags: String? = nil, userId: String? = nil, voided: Bool? = nil) {
         self.active = active
         self.amountCents = amountCents
         self.createdAt = createdAt

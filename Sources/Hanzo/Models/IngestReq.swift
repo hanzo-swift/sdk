@@ -10,30 +10,30 @@ import Foundation
 public struct IngestReq: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var account: String?
-    public var cachedInputTokens: Int?
+    public var cachedInputTokens: Int64?
     public var confidence: String?
-    public var costCents: Int?
-    public var costLimitCents: Int?
+    public var costCents: Int64?
+    public var costLimitCents: Int64?
     public var currency: String?
-    public var inputTokens: Int?
+    public var inputTokens: Int64?
     public var kind: String?
     public var lane: String?
     public var machine: String?
-    public var outputTokens: Int?
+    public var outputTokens: Int64?
     public var plan: String?
     public var provider: String?
-    public var requests: Int?
+    public var requests: Int64?
     public var resetsAt: String?
     /** Samples is the batch form, up to 256 samples; leave it empty to send one sample inline on the same fields. */
     public var samples: [ReadingReq]?
     public var synthetic: Bool?
-    public var totalTokens: Int?
+    public var totalTokens: Int64?
     public var usedPct: Double?
     public var window: String?
     public var windowMinutes: Int?
     public var windowStart: String?
 
-    public init(account: String? = nil, cachedInputTokens: Int? = nil, confidence: String? = nil, costCents: Int? = nil, costLimitCents: Int? = nil, currency: String? = nil, inputTokens: Int? = nil, kind: String? = nil, lane: String? = nil, machine: String? = nil, outputTokens: Int? = nil, plan: String? = nil, provider: String? = nil, requests: Int? = nil, resetsAt: String? = nil, samples: [ReadingReq]? = nil, synthetic: Bool? = nil, totalTokens: Int? = nil, usedPct: Double? = nil, window: String? = nil, windowMinutes: Int? = nil, windowStart: String? = nil) {
+    public init(account: String? = nil, cachedInputTokens: Int64? = nil, confidence: String? = nil, costCents: Int64? = nil, costLimitCents: Int64? = nil, currency: String? = nil, inputTokens: Int64? = nil, kind: String? = nil, lane: String? = nil, machine: String? = nil, outputTokens: Int64? = nil, plan: String? = nil, provider: String? = nil, requests: Int64? = nil, resetsAt: String? = nil, samples: [ReadingReq]? = nil, synthetic: Bool? = nil, totalTokens: Int64? = nil, usedPct: Double? = nil, window: String? = nil, windowMinutes: Int? = nil, windowStart: String? = nil) {
         self.account = account
         self.cachedInputTokens = cachedInputTokens
         self.confidence = confidence

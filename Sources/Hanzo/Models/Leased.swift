@@ -11,6 +11,8 @@ public struct Leased: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Class is what was actually leased, from the closed set LeaseIn.Class names: exec | dev | desktop | android. A request that named none leased an `exec`, so this is where a caller learns which kind of computer it is holding, and it is what Workdir below follows from. */
     public var _class: String?
+    /** Cluster is the attached cluster this sandbox runs on, when one was named. Empty is the home cluster. */
+    public var cluster: String?
     /** ID names this computer for every later call — run, read, write, stop and end all take it, and a LeaseIn carrying it resumes THIS sandbox instead of leasing a second one. Minted here; a caller cannot choose it, and a resumed lease that had expired comes back under a new one. */
     public var id: String?
     /** Runtime is the boundary this sandbox GOT, which need not be the one asked for — carried for the same reason Workdir is, that it is a fact only the owner knows and a caller assuming it would be holding a second copy. Empty is the node's default runtime, and a real answer. */
@@ -20,8 +22,9 @@ public struct Leased: Sendable, Codable, ParameterConvertible, Hashable {
     /** Workdir is the absolute directory this sandbox keeps files in, and what a relative path in a later read, write or run resolves against — /work for dev, desktop and android (the project volume's mount point), /mnt/data for exec (the artifact directory the code tool tells the model to write to). A path that climbs above it is refused rather than rewritten. */
     public var workdir: String?
 
-    public init(_class: String? = nil, id: String? = nil, runtime: String? = nil, status: String? = nil, workdir: String? = nil) {
+    public init(_class: String? = nil, cluster: String? = nil, id: String? = nil, runtime: String? = nil, status: String? = nil, workdir: String? = nil) {
         self._class = _class
+        self.cluster = cluster
         self.id = id
         self.runtime = runtime
         self.status = status
@@ -30,6 +33,7 @@ public struct Leased: Sendable, Codable, ParameterConvertible, Hashable {
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case _class = "class"
+        case cluster
         case id
         case runtime
         case status
@@ -41,6 +45,7 @@ public struct Leased: Sendable, Codable, ParameterConvertible, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(_class, forKey: ._class)
+        try container.encodeIfPresent(cluster, forKey: .cluster)
         try container.encodeIfPresent(id, forKey: .id)
         try container.encodeIfPresent(runtime, forKey: .runtime)
         try container.encodeIfPresent(status, forKey: .status)

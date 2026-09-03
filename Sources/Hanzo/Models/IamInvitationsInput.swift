@@ -19,14 +19,14 @@ public struct IamInvitationsInput: Sendable, Codable, ParameterConvertible, Hash
     public var name: String?
     public var owner: String?
     public var phone: String?
-    public var quota: Int?
+    public var quota: Int64?
     public var signupGroup: String?
     public var state: String?
     public var updatedTime: String?
-    public var usedCount: Int?
+    public var usedCount: Int64?
     public var username: String?
 
-    public init(application: String? = nil, code: String? = nil, createdTime: String? = nil, defaultCode: String? = nil, displayName: String? = nil, email: String? = nil, isRegexp: Bool? = nil, name: String? = nil, owner: String? = nil, phone: String? = nil, quota: Int? = nil, signupGroup: String? = nil, state: String? = nil, updatedTime: String? = nil, usedCount: Int? = nil, username: String? = nil) {
+    public init(application: String? = nil, code: String? = nil, createdTime: String? = nil, defaultCode: String? = nil, displayName: String? = nil, email: String? = nil, isRegexp: Bool? = nil, name: String? = nil, owner: String? = nil, phone: String? = nil, quota: Int64? = nil, signupGroup: String? = nil, state: String? = nil, updatedTime: String? = nil, usedCount: Int64? = nil, username: String? = nil) {
         self.application = application
         self.code = code
         self.createdTime = createdTime

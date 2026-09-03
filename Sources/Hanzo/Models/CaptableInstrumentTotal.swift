@@ -12,9 +12,9 @@ public struct CaptableInstrumentTotal: Sendable, Codable, ParameterConvertible, 
     /** Capital is the total capital across those instruments. */
     public var capital: Double?
     /** Count is how many instruments there are. */
-    public var count: Int?
+    public var count: Int64?
 
-    public init(capital: Double? = nil, count: Int? = nil) {
+    public init(capital: Double? = nil, count: Int64? = nil) {
         self.capital = capital
         self.count = count
     }

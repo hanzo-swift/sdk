@@ -10,19 +10,19 @@ import Foundation
 public struct GithubBackfillResult: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Created is how many native issues this pass created. */
-    public var created: Int?
+    public var created: Int64?
     /** Failed is how many repos or issues errored; the pass continues past each. */
-    public var failed: Int?
+    public var failed: Int64?
     /** Issues is how many upstream issues were seen. */
-    public var issues: Int?
+    public var issues: Int64?
     /** Repos is how many granted repos were walked (archived/disabled are skipped). */
-    public var repos: Int?
+    public var repos: Int64?
     /** Truncated is set when the time budget or the issue cap stopped the pass early. Re-run to continue — the mirror is idempotent by ExtRef, so nothing duplicates. */
     public var truncated: Bool?
     /** Updated is how many existing native issues this pass refreshed. */
-    public var updated: Int?
+    public var updated: Int64?
 
-    public init(created: Int? = nil, failed: Int? = nil, issues: Int? = nil, repos: Int? = nil, truncated: Bool? = nil, updated: Int? = nil) {
+    public init(created: Int64? = nil, failed: Int64? = nil, issues: Int64? = nil, repos: Int64? = nil, truncated: Bool? = nil, updated: Int64? = nil) {
         self.created = created
         self.failed = failed
         self.issues = issues

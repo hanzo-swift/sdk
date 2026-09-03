@@ -10,15 +10,15 @@ import Foundation
 public struct EnrollResult: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** AlreadyEnrolled is how many this sequence had already taken and were left alone. */
-    public var alreadyEnrolled: Int?
+    public var alreadyEnrolled: Int64?
     /** Enrolled is how many started a walk on this call. */
-    public var enrolled: Int?
+    public var enrolled: Int64?
     /** EnrollmentID names the walk, and is present ONLY for a single-address enroll — a fan-out has many, and reporting one of them would be a lie. */
     public var enrollmentId: String?
     /** Resolved is how many addresses the request named — 1 for an address, the audience's deliverable count for an audience. */
-    public var resolved: Int?
+    public var resolved: Int64?
 
-    public init(alreadyEnrolled: Int? = nil, enrolled: Int? = nil, enrollmentId: String? = nil, resolved: Int? = nil) {
+    public init(alreadyEnrolled: Int64? = nil, enrolled: Int64? = nil, enrollmentId: String? = nil, resolved: Int64? = nil) {
         self.alreadyEnrolled = alreadyEnrolled
         self.enrolled = enrolled
         self.enrollmentId = enrollmentId

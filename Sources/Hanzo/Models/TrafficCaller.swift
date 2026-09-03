@@ -14,17 +14,17 @@ public struct TrafficCaller: Sendable, Codable, ParameterConvertible, Hashable {
     /** Cred is the caller's key: a credential fingerprint (a per-process one-way digest, not a key) for a validated caller, and \"ip:<addr>\" for one that presented no credential we could validate. */
     public var cred: String?
     /** Failures is how many ended 401 or 403. */
-    public var failures: Int?
+    public var failures: Int64?
     /** HeldUntil is when the held verdict lapses, unix seconds. */
-    public var heldUntil: Int?
+    public var heldUntil: Int64?
     /** Paths is the approximate number of distinct paths it touched (max 64). */
-    public var paths: Int?
+    public var paths: Int64?
     /** Reason is why that verdict was reached. */
     public var reason: String?
     /** Requests is its request count in the window. */
-    public var requests: Int?
+    public var requests: Int64?
 
-    public init(action: String? = nil, cred: String? = nil, failures: Int? = nil, heldUntil: Int? = nil, paths: Int? = nil, reason: String? = nil, requests: Int? = nil) {
+    public init(action: String? = nil, cred: String? = nil, failures: Int64? = nil, heldUntil: Int64? = nil, paths: Int64? = nil, reason: String? = nil, requests: Int64? = nil) {
         self.action = action
         self.cred = cred
         self.failures = failures

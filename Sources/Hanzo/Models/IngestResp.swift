@@ -10,13 +10,13 @@ import Foundation
 public struct IngestResp: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Accepted is how many samples this report landed. */
-    public var accepted: Int?
+    public var accepted: Int64?
     /** Links is the link row each distinct (machine, provider, account) in the batch refreshed. */
     public var links: [LinkView]?
     /** Stored reports whether history was durably written; false means the warehouse was unavailable and only the link rows were refreshed. */
     public var stored: Bool?
 
-    public init(accepted: Int? = nil, links: [LinkView]? = nil, stored: Bool? = nil) {
+    public init(accepted: Int64? = nil, links: [LinkView]? = nil, stored: Bool? = nil) {
         self.accepted = accepted
         self.links = links
         self.stored = stored

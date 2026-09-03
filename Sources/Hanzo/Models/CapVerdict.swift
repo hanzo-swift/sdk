@@ -10,12 +10,12 @@ import Foundation
 public struct CapVerdict: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var allow: Bool?
-    public var capCents: Int?
+    public var capCents: Int64?
     public var reason: String?
-    public var spentCents: Int?
-    public var warnPct: Int?
+    public var spentCents: Int64?
+    public var warnPct: Int64?
 
-    public init(allow: Bool? = nil, capCents: Int? = nil, reason: String? = nil, spentCents: Int? = nil, warnPct: Int? = nil) {
+    public init(allow: Bool? = nil, capCents: Int64? = nil, reason: String? = nil, spentCents: Int64? = nil, warnPct: Int64? = nil) {
         self.allow = allow
         self.capCents = capCents
         self.reason = reason

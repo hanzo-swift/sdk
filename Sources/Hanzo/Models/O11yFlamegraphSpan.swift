@@ -13,14 +13,14 @@ public struct O11yFlamegraphSpan: Sendable, Codable, ParameterConvertible, Hasha
     public var durationNano: Int?
     public var event: [O11yEvent]?
     public var hasError: Bool?
-    public var level: Int?
+    public var level: Int64?
     public var name: String?
     public var parentSpanId: String?
     public var resource: [String: String]?
     public var spanId: String?
     public var timestamp: Int?
 
-    public init(attributes: [String: JSONValue]? = nil, durationNano: Int? = nil, event: [O11yEvent]? = nil, hasError: Bool? = nil, level: Int? = nil, name: String? = nil, parentSpanId: String? = nil, resource: [String: String]? = nil, spanId: String? = nil, timestamp: Int? = nil) {
+    public init(attributes: [String: JSONValue]? = nil, durationNano: Int? = nil, event: [O11yEvent]? = nil, hasError: Bool? = nil, level: Int64? = nil, name: String? = nil, parentSpanId: String? = nil, resource: [String: String]? = nil, spanId: String? = nil, timestamp: Int? = nil) {
         self.attributes = attributes
         self.durationNano = durationNano
         self.event = event

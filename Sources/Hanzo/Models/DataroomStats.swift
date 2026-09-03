@@ -14,11 +14,11 @@ public struct DataroomStats: Sendable, Codable, ParameterConvertible, Hashable {
     /** Links is the same per-page breakdown for each link into the room. */
     public var links: [DataroomLinkStats]?
     /** TotalPageViews is the room's page views across every link. */
-    public var totalPageViews: Int?
+    public var totalPageViews: Int64?
     /** TotalViews is the room's viewing sessions across every link. */
-    public var totalViews: Int?
+    public var totalViews: Int64?
 
-    public init(dataroomId: String? = nil, links: [DataroomLinkStats]? = nil, totalPageViews: Int? = nil, totalViews: Int? = nil) {
+    public init(dataroomId: String? = nil, links: [DataroomLinkStats]? = nil, totalPageViews: Int64? = nil, totalViews: Int64? = nil) {
         self.dataroomId = dataroomId
         self.links = links
         self.totalPageViews = totalPageViews

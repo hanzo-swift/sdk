@@ -9,13 +9,13 @@ import Foundation
 
 public struct Window: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var limit: Int?
-    public var remaining: Int?
+    public var limit: Int64?
+    public var remaining: Int64?
     public var resets: String?
     public var span: String?
-    public var used: Int?
+    public var used: Int64?
 
-    public init(limit: Int? = nil, remaining: Int? = nil, resets: String? = nil, span: String? = nil, used: Int? = nil) {
+    public init(limit: Int64? = nil, remaining: Int64? = nil, resets: String? = nil, span: String? = nil, used: Int64? = nil) {
         self.limit = limit
         self.remaining = remaining
         self.resets = resets

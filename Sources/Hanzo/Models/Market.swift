@@ -20,7 +20,7 @@ public struct Market: Sendable, Codable, ParameterConvertible, Hashable {
     /** Graph is where this chain's indexer answers, empty where it has none. */
     public var graph: String?
     /** ID is the EVM chain id, which is what a wallet must agree with. */
-    public var id: Int?
+    public var id: Int64?
     public var name: String?
     /** Reach is how far the read of this chain's FIGURES got — its own, so one indexer being down describes one row and leaves the others to answer. */
     public var reach: Reach?
@@ -29,7 +29,7 @@ public struct Market: Sendable, Codable, ParameterConvertible, Hashable {
     /** Slug is the chain's word in every indexer path — `cchain`, `zoo`. It is the value a caller passes back as `chain`, and it is NOT the chain id: `96369`, `C` and `c-chain` all answer 404 in that position. */
     public var slug: String?
 
-    public init(amm: Bool? = nil, coin: String? = nil, day: Day? = nil, factory: [String: String]? = nil, figures: Figures? = nil, graph: String? = nil, id: Int? = nil, name: String? = nil, reach: Reach? = nil, rpc: String? = nil, slug: String? = nil) {
+    public init(amm: Bool? = nil, coin: String? = nil, day: Day? = nil, factory: [String: String]? = nil, figures: Figures? = nil, graph: String? = nil, id: Int64? = nil, name: String? = nil, reach: Reach? = nil, rpc: String? = nil, slug: String? = nil) {
         self.amm = amm
         self.coin = coin
         self.day = day

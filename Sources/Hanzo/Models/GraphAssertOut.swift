@@ -10,15 +10,15 @@ import Foundation
 public struct GraphAssertOut: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Duplicate is how many members this plane already held. A redelivery collides on its content address and is counted here, not refused: it is the success a retrying caller depends on. */
-    public var duplicate: Int?
+    public var duplicate: Int64?
     /** Reasons names why each refused member was refused, in the order sent. */
     public var reasons: [String]?
     /** Recorded is how many members became new rows. */
-    public var recorded: Int?
+    public var recorded: Int64?
     /** Refused is how many members were turned away on arrival, before the store was touched — a missing entity, a timestamp that is not RFC 3339, a confidence outside [0,1]. The rest of the batch was still recorded. */
-    public var refused: Int?
+    public var refused: Int64?
 
-    public init(duplicate: Int? = nil, reasons: [String]? = nil, recorded: Int? = nil, refused: Int? = nil) {
+    public init(duplicate: Int64? = nil, reasons: [String]? = nil, recorded: Int64? = nil, refused: Int64? = nil) {
         self.duplicate = duplicate
         self.reasons = reasons
         self.recorded = recorded

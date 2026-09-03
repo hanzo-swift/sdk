@@ -12,33 +12,33 @@ public struct ReadingView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Account is the provider-side account the sample belongs to. */
     public var account: String?
     /** CachedInputTokens is the window's cached-prompt-token count. */
-    public var cachedInputTokens: Int?
+    public var cachedInputTokens: Int64?
     /** Confidence says whether the counters that remain mean anything, as the meter graded itself. */
     public var confidence: String?
     /** CostCents is the window's spend in cents, as the provider's meter states it. */
-    public var costCents: Int?
+    public var costCents: Int64?
     /** CostLimitCents is the window's spend cap in cents, when the meter knows one. */
-    public var costLimitCents: Int?
+    public var costLimitCents: Int64?
     /** Currency is the ISO currency the cost fields are stated in. */
     public var currency: String?
     /** InputTokens is the window's prompt-token count. */
-    public var inputTokens: Int?
+    public var inputTokens: Int64?
     /** Lane names the meter's own lane label for this measurement. */
     public var lane: String?
     /** Machine is the machine the collector observed the account on. */
     public var machine: String?
     /** OutputTokens is the window's completion-token count. */
-    public var outputTokens: Int?
+    public var outputTokens: Int64?
     /** Plan is the provider plan label the account is on. */
     public var plan: String?
     /** Requests is the window's request count. */
-    public var requests: Int?
+    public var requests: Int64?
     /** ResetsAt is when the window resets, RFC 3339 UTC. */
     public var resetsAt: String?
     /** Synthetic marks a sample the collector derived rather than observed. */
     public var synthetic: Bool?
     /** TotalTokens is the window's total token count. */
-    public var totalTokens: Int?
+    public var totalTokens: Int64?
     /** UsedPct is how much of the window's allowance is consumed, 0..100. */
     public var usedPct: Double?
     /** Window is the window class: 6h, day, week or month. */
@@ -48,7 +48,7 @@ public struct ReadingView: Sendable, Codable, ParameterConvertible, Hashable {
     /** WindowStart is when the measured window opened, RFC 3339 UTC. */
     public var windowStart: String?
 
-    public init(account: String? = nil, cachedInputTokens: Int? = nil, confidence: String? = nil, costCents: Int? = nil, costLimitCents: Int? = nil, currency: String? = nil, inputTokens: Int? = nil, lane: String? = nil, machine: String? = nil, outputTokens: Int? = nil, plan: String? = nil, requests: Int? = nil, resetsAt: String? = nil, synthetic: Bool? = nil, totalTokens: Int? = nil, usedPct: Double? = nil, window: String? = nil, windowMinutes: Int? = nil, windowStart: String? = nil) {
+    public init(account: String? = nil, cachedInputTokens: Int64? = nil, confidence: String? = nil, costCents: Int64? = nil, costLimitCents: Int64? = nil, currency: String? = nil, inputTokens: Int64? = nil, lane: String? = nil, machine: String? = nil, outputTokens: Int64? = nil, plan: String? = nil, requests: Int64? = nil, resetsAt: String? = nil, synthetic: Bool? = nil, totalTokens: Int64? = nil, usedPct: Double? = nil, window: String? = nil, windowMinutes: Int? = nil, windowStart: String? = nil) {
         self.account = account
         self.cachedInputTokens = cachedInputTokens
         self.confidence = confidence

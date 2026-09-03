@@ -10,15 +10,15 @@ import Foundation
 public struct O11yTracesOut: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Count is how many traces this page carries. */
-    public var count: Int?
+    public var count: Int64?
     /** Limit is the page cap actually applied, after clamping. */
-    public var limit: Int?
+    public var limit: Int64?
     /** SinceSec is the window actually read, in seconds, after clamping. */
-    public var sinceSec: Int?
+    public var sinceSec: Int64?
     /** Traces are the caller org's traces, most recently active first. */
     public var traces: [O11yTraceRow]?
 
-    public init(count: Int? = nil, limit: Int? = nil, sinceSec: Int? = nil, traces: [O11yTraceRow]? = nil) {
+    public init(count: Int64? = nil, limit: Int64? = nil, sinceSec: Int64? = nil, traces: [O11yTraceRow]? = nil) {
         self.count = count
         self.limit = limit
         self.sinceSec = sinceSec

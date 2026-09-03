@@ -9,11 +9,11 @@ import Foundation
 
 public struct Transactions: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var count: Int?
+    public var count: Int64?
     public var transactions: [Transaction]?
     public var user: String?
 
-    public init(count: Int? = nil, transactions: [Transaction]? = nil, user: String? = nil) {
+    public init(count: Int64? = nil, transactions: [Transaction]? = nil, user: String? = nil) {
         self.count = count
         self.transactions = transactions
         self.user = user

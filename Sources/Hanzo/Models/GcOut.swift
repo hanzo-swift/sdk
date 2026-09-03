@@ -14,9 +14,9 @@ public struct GcOut: Sendable, Codable, ParameterConvertible, Hashable {
     /** Repo is the repo that was repacked. */
     public var repo: String?
     /** SizeBytes is the size measured AFTER the repack — usually smaller, since repacking drops the packs it supersedes. */
-    public var sizeBytes: Int?
+    public var sizeBytes: Int64?
 
-    public init(maintained: Bool? = nil, repo: String? = nil, sizeBytes: Int? = nil) {
+    public init(maintained: Bool? = nil, repo: String? = nil, sizeBytes: Int64? = nil) {
         self.maintained = maintained
         self.repo = repo
         self.sizeBytes = sizeBytes

@@ -16,11 +16,11 @@ public struct TreeEntryJSON: Sendable, Codable, ParameterConvertible, Hashable {
     /** Path is the entry's full repo-relative path. */
     public var path: String?
     /** Size is the file's byte length; 0 for a directory. */
-    public var size: Int?
+    public var size: Int64?
     /** Type is \"tree\" for a directory, \"blob\" for a file. */
     public var type: String?
 
-    public init(mode: String? = nil, name: String? = nil, path: String? = nil, size: Int? = nil, type: String? = nil) {
+    public init(mode: String? = nil, name: String? = nil, path: String? = nil, size: Int64? = nil, type: String? = nil) {
         self.mode = mode
         self.name = name
         self.path = path

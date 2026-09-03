@@ -12,7 +12,7 @@ public struct TeamMessage: Sendable, Codable, ParameterConvertible, Hashable {
     /** Author is the team account uuid that wrote it. It is an ACCOUNT and not a display name: what to call somebody is the roster's answer, and copying it onto every message is how the two come to disagree. An agent's messages carry the account derived from its id, so the same field answers for both. */
     public var author: String?
     /** CreatedOn is unix MILLIseconds, which is what the platform stamps. */
-    public var createdOn: Int?
+    public var createdOn: Int64?
     /** ID is the message document's own id. */
     public var id: String?
     /** Room is the room it was said in — the same id the room listing answers with, so a caller holding a message can name its room without a second read. */
@@ -20,7 +20,7 @@ public struct TeamMessage: Sendable, Codable, ParameterConvertible, Hashable {
     /** Text is the message as PLAIN TEXT. The document stores markup; this is the same `plainText` reduction the agent responder reads a prompt with, so a caller never has to parse the client's markup to know what was said. */
     public var text: String?
 
-    public init(author: String? = nil, createdOn: Int? = nil, id: String? = nil, room: String? = nil, text: String? = nil) {
+    public init(author: String? = nil, createdOn: Int64? = nil, id: String? = nil, room: String? = nil, text: String? = nil) {
         self.author = author
         self.createdOn = createdOn
         self.id = id

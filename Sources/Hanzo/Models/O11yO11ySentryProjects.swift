@@ -12,9 +12,9 @@ public struct O11yO11ySentryProjects: Sendable, Codable, ParameterConvertible, H
     /** Items are the projects. */
     public var items: [O11yO11ySentryProject]?
     /** Total is how many the org has. */
-    public var total: Int?
+    public var total: Int64?
 
-    public init(items: [O11yO11ySentryProject]? = nil, total: Int? = nil) {
+    public init(items: [O11yO11ySentryProject]? = nil, total: Int64? = nil) {
         self.items = items
         self.total = total
     }

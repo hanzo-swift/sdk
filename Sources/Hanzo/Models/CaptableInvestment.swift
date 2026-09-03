@@ -20,13 +20,13 @@ public struct CaptableInvestment: Sendable, Codable, ParameterConvertible, Hasha
     /** ShareClassID is the class shares were issued in, for a priced round. */
     public var shareClassId: String?
     /** Shares is how many shares the investment bought; 0 when the round issues no equity at the time of investment. */
-    public var shares: Int?
+    public var shares: Int64?
     /** StakeholderID is the investor. */
     public var stakeholderId: String?
     /** StakeholderName is that investor's name. */
     public var stakeholderName: String?
 
-    public init(amount: Double? = nil, date: String? = nil, id: String? = nil, roundId: String? = nil, shareClassId: String? = nil, shares: Int? = nil, stakeholderId: String? = nil, stakeholderName: String? = nil) {
+    public init(amount: Double? = nil, date: String? = nil, id: String? = nil, roundId: String? = nil, shareClassId: String? = nil, shares: Int64? = nil, stakeholderId: String? = nil, stakeholderName: String? = nil) {
         self.amount = amount
         self.date = date
         self.id = id

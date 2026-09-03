@@ -10,11 +10,11 @@ import Foundation
 public struct SbomIngested: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** ComponentCount is how many components the CycloneDX document yielded and this call persisted. */
-    public var componentCount: Int?
+    public var componentCount: Int64?
     /** ImageDigest is the content-addressed digest the components were keyed under. */
     public var imageDigest: String?
 
-    public init(componentCount: Int? = nil, imageDigest: String? = nil) {
+    public init(componentCount: Int64? = nil, imageDigest: String? = nil) {
         self.componentCount = componentCount
         self.imageDigest = imageDigest
     }

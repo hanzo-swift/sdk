@@ -24,11 +24,11 @@ public struct PromptDetail: Sendable, Codable, ParameterConvertible, Hashable {
     /** Type labels the current version's kind; \"text\" unless the creator said otherwise. */
     public var type: String?
     /** Version is the current version number, starting at 1 and incremented by one on every create against an existing name. */
-    public var version: Int?
+    public var version: Int64?
     /** Versions is the history METADATA, newest first, capped at the last 100 — no bodies, so a long history cannot inflate this response. It always includes the current version as its first entry. */
     public var versionHistory: [VersionView]?
 
-    public init(createdAt: String? = nil, labels: [String]? = nil, lastUpdatedAt: String? = nil, name: String? = nil, prompt: String? = nil, tags: [String]? = nil, type: String? = nil, version: Int? = nil, versionHistory: [VersionView]? = nil) {
+    public init(createdAt: String? = nil, labels: [String]? = nil, lastUpdatedAt: String? = nil, name: String? = nil, prompt: String? = nil, tags: [String]? = nil, type: String? = nil, version: Int64? = nil, versionHistory: [VersionView]? = nil) {
         self.createdAt = createdAt
         self.labels = labels
         self.lastUpdatedAt = lastUpdatedAt

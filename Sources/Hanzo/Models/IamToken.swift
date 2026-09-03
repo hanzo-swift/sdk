@@ -15,12 +15,12 @@ public struct IamToken: Sendable, Codable, ParameterConvertible, Hashable {
     public var code: String?
     public var codeChallenge: String?
     public var codeChallengeMethod: String?
-    public var codeExpireIn: Int?
+    public var codeExpireIn: Int64?
     public var codeIsUsed: Bool?
     public var createdAt: Date?
     public var createdTime: String?
     public var deleted: Bool?
-    public var expiresIn: Int?
+    public var expiresIn: Int64?
     public var id: String?
     public var name: String?
     /** Nonce is the OIDC authorize nonce, stored on the code and echoed into the id_token minted at the exchange (OIDC Core §3.1.3.6) so a relying party binds the id_token to its own request and detects replay. */
@@ -32,7 +32,7 @@ public struct IamToken: Sendable, Codable, ParameterConvertible, Hashable {
     /** RedirectUri binds the authorization code to the exact redirect URI of the authorize request (RFC 6749 §4.1.3): the token endpoint refuses a code redeemed with a different redirect_uri, closing code-injection across a client's registered URIs. */
     public var redirectUri: String?
     public var refreshConsumed: Bool?
-    public var refreshExpireIn: Int?
+    public var refreshExpireIn: Int64?
     /** Refresh-token rotation state (v2). Each refresh belongs to a family (the grant); rotation mints a new row in the same family and marks the prior one consumed. Presenting a consumed refresh is reuse — the whole family is revoked (RFC 9700 §4.14.2). RefreshExpireIn is the refresh token's own absolute expiry (unix), independent of the access token's shorter life. */
     public var refreshFamily: String?
     public var refreshToken: String?
@@ -45,7 +45,7 @@ public struct IamToken: Sendable, Codable, ParameterConvertible, Hashable {
     public var user: String?
     public var userCode: String?
 
-    public init(accessToken: String? = nil, accessTokenHash: String? = nil, application: String? = nil, code: String? = nil, codeChallenge: String? = nil, codeChallengeMethod: String? = nil, codeExpireIn: Int? = nil, codeIsUsed: Bool? = nil, createdAt: Date? = nil, createdTime: String? = nil, deleted: Bool? = nil, expiresIn: Int? = nil, id: String? = nil, name: String? = nil, nonce: String? = nil, organization: String? = nil, owner: String? = nil, publicGrant: Bool? = nil, redirectUri: String? = nil, refreshConsumed: Bool? = nil, refreshExpireIn: Int? = nil, refreshFamily: String? = nil, refreshToken: String? = nil, refreshTokenHash: String? = nil, resource: String? = nil, scope: String? = nil, tokenType: String? = nil, updatedAt: Date? = nil, user: String? = nil, userCode: String? = nil) {
+    public init(accessToken: String? = nil, accessTokenHash: String? = nil, application: String? = nil, code: String? = nil, codeChallenge: String? = nil, codeChallengeMethod: String? = nil, codeExpireIn: Int64? = nil, codeIsUsed: Bool? = nil, createdAt: Date? = nil, createdTime: String? = nil, deleted: Bool? = nil, expiresIn: Int64? = nil, id: String? = nil, name: String? = nil, nonce: String? = nil, organization: String? = nil, owner: String? = nil, publicGrant: Bool? = nil, redirectUri: String? = nil, refreshConsumed: Bool? = nil, refreshExpireIn: Int64? = nil, refreshFamily: String? = nil, refreshToken: String? = nil, refreshTokenHash: String? = nil, resource: String? = nil, scope: String? = nil, tokenType: String? = nil, updatedAt: Date? = nil, user: String? = nil, userCode: String? = nil) {
         self.accessToken = accessToken
         self.accessTokenHash = accessTokenHash
         self.application = application

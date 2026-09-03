@@ -416,7 +416,7 @@ open class IndexAPI {
      - returns: IndexTask
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIndexTasksByUid(uid: Int, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IndexTask {
+    open class func getIndexTasksByUid(uid: Int64, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IndexTask {
         return try await getIndexTasksByUidWithRequestBuilder(uid: uid, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -431,7 +431,7 @@ open class IndexAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IndexTask> 
      */
-    open class func getIndexTasksByUidWithRequestBuilder(uid: Int, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IndexTask> {
+    open class func getIndexTasksByUidWithRequestBuilder(uid: Int64, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IndexTask> {
         var localVariablePath = "/v1/index/tasks/{uid}"
         let uidPreEscape = "\(APIHelper.mapValueToPathItem(uid))"
         let uidPostEscape = uidPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

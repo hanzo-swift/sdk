@@ -20,7 +20,7 @@ public struct O11yO11yLogPipelines: Sendable, Codable, ParameterConvertible, Has
     /** DeployResult is the deployment's outcome message. */
     public var deployResult: String?
     /** DeploySequence orders this deployment among the version's deployments. */
-    public var deploySequence: Int?
+    public var deploySequence: Int64?
     /** DeployStatus is where the deployment stands, e.g. dirty, deploying, deployed, in_progress, failed, unknown. */
     public var deployStatus: String?
     /** ElementType is the config element this version carries — log_pipelines. */
@@ -40,9 +40,9 @@ public struct O11yO11yLogPipelines: Sendable, Codable, ParameterConvertible, Has
     /** UpdatedBy is the id of who last changed it. */
     public var updatedBy: String?
     /** Version is the config version number. */
-    public var version: Int?
+    public var version: Int64?
 
-    public init(config: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, createdByName: String? = nil, deployResult: String? = nil, deploySequence: Int? = nil, deployStatus: String? = nil, elementType: String? = nil, history: [O11yO11yLogConfigVersion]? = nil, id: String? = nil, lastHash: String? = nil, orgId: String? = nil, pipelines: [O11yO11yLogPipeline]? = nil, updatedAt: Date? = nil, updatedBy: String? = nil, version: Int? = nil) {
+    public init(config: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, createdByName: String? = nil, deployResult: String? = nil, deploySequence: Int64? = nil, deployStatus: String? = nil, elementType: String? = nil, history: [O11yO11yLogConfigVersion]? = nil, id: String? = nil, lastHash: String? = nil, orgId: String? = nil, pipelines: [O11yO11yLogPipeline]? = nil, updatedAt: Date? = nil, updatedBy: String? = nil, version: Int64? = nil) {
         self.config = config
         self.createdAt = createdAt
         self.createdBy = createdBy

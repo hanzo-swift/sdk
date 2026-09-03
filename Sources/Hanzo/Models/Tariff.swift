@@ -12,7 +12,7 @@ public struct Tariff: Sendable, Codable, ParameterConvertible, Hashable {
     /** Currency is the ISO code every amount on this quote is denominated in. */
     public var currency: String?
     /** DueNowCents is what is charged to begin: every non-recurring line. */
-    public var dueNowCents: Int?
+    public var dueNowCents: Int64?
     /** Jurisdiction is the state of formation the filing fee belongs to. */
     public var jurisdiction: String?
     /** Lines are the charges, in the order a reader should see them. */
@@ -20,11 +20,11 @@ public struct Tariff: Sendable, Codable, ParameterConvertible, Hashable {
     /** Recurring is how often RecurringCents repeats — \"yearly\" for an agent of record. Empty when nothing on this quote recurs. */
     public var recurring: String?
     /** RecurringCents is what repeats, and Recurring says how often. */
-    public var recurringCents: Int?
+    public var recurringCents: Int64?
     /** Structure is the entity this prices: c-corp, llc or dao-llc. */
     public var structure: String?
 
-    public init(currency: String? = nil, dueNowCents: Int? = nil, jurisdiction: String? = nil, lines: [Charge]? = nil, recurring: String? = nil, recurringCents: Int? = nil, structure: String? = nil) {
+    public init(currency: String? = nil, dueNowCents: Int64? = nil, jurisdiction: String? = nil, lines: [Charge]? = nil, recurring: String? = nil, recurringCents: Int64? = nil, structure: String? = nil) {
         self.currency = currency
         self.dueNowCents = dueNowCents
         self.jurisdiction = jurisdiction

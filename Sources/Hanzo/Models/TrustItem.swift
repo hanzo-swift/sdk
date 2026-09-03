@@ -26,9 +26,9 @@ public struct TrustItem: Sendable, Codable, ParameterConvertible, Hashable {
     /** Summary is a line about the item. */
     public var summary: String?
     /** UpdatedAt is when the item last changed, in unix milliseconds. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
 
-    public init(available: String? = nil, body: String? = nil, framework: String? = nil, id: String? = nil, kind: String? = nil, name: String? = nil, signed: String? = nil, summary: String? = nil, updatedAt: Int? = nil) {
+    public init(available: String? = nil, body: String? = nil, framework: String? = nil, id: String? = nil, kind: String? = nil, name: String? = nil, signed: String? = nil, summary: String? = nil, updatedAt: Int64? = nil) {
         self.available = available
         self.body = body
         self.framework = framework

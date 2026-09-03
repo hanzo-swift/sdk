@@ -10,17 +10,17 @@ import Foundation
 public struct O11yO11yMetricTreemapIn: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** End is the end of the window as a Unix timestamp in milliseconds. Required. */
-    public var end: Int
+    public var end: Int64
     /** Filter narrows the metrics counted. */
     public var filter: O11yO11yMetricFilter?
     /** Limit caps how many entries come back, between 1 and 5000. Required. */
-    public var limit: Int
+    public var limit: Int64
     /** Mode picks the measure: timeseries or samples. Required. */
     public var mode: String
     /** Start is the start of the window as a Unix timestamp in milliseconds. Required. */
-    public var start: Int
+    public var start: Int64
 
-    public init(end: Int, filter: O11yO11yMetricFilter? = nil, limit: Int, mode: String, start: Int) {
+    public init(end: Int64, filter: O11yO11yMetricFilter? = nil, limit: Int64, mode: String, start: Int64) {
         self.end = end
         self.filter = filter
         self.limit = limit

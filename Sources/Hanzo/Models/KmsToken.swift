@@ -12,11 +12,11 @@ public struct KmsToken: Sendable, Codable, ParameterConvertible, Hashable {
     /** AccessToken is IAM's own JWT, verbatim. Its `owner` claim scopes it to exactly one org, which is what every secret operation then reads. */
     public var accessToken: String?
     /** ExpiresIn is the token's lifetime in seconds, as IAM reported it. */
-    public var expiresIn: Int?
+    public var expiresIn: Int64?
     /** TokenType is `Bearer`. */
     public var tokenType: String?
 
-    public init(accessToken: String? = nil, expiresIn: Int? = nil, tokenType: String? = nil) {
+    public init(accessToken: String? = nil, expiresIn: Int64? = nil, tokenType: String? = nil) {
         self.accessToken = accessToken
         self.expiresIn = expiresIn
         self.tokenType = tokenType

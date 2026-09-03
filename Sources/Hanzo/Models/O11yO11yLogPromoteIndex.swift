@@ -12,11 +12,11 @@ public struct O11yO11yLogPromoteIndex: Sendable, Codable, ParameterConvertible, 
     /** FieldDataType is the path's data type, e.g. string, number, bool. */
     public var fieldDataType: String?
     /** Granularity is the index granularity in rows. */
-    public var granularity: Int?
+    public var granularity: Int64?
     /** Type is the index type, e.g. minmax, set(N), bloom_filter(P). */
     public var type: String?
 
-    public init(fieldDataType: String? = nil, granularity: Int? = nil, type: String? = nil) {
+    public init(fieldDataType: String? = nil, granularity: Int64? = nil, type: String? = nil) {
         self.fieldDataType = fieldDataType
         self.granularity = granularity
         self.type = type

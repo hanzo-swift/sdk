@@ -10,15 +10,15 @@ import Foundation
 public struct RegisterPage: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Count is how many rows this page holds. */
-    public var count: Int?
+    public var count: Int64?
     /** Formations are the rows, newest activity first. */
     public var formations: [Registration]?
     /** Limit is the page size that was applied. */
-    public var limit: Int?
+    public var limit: Int64?
     /** Offset is the offset that was applied. */
-    public var offset: Int?
+    public var offset: Int64?
 
-    public init(count: Int? = nil, formations: [Registration]? = nil, limit: Int? = nil, offset: Int? = nil) {
+    public init(count: Int64? = nil, formations: [Registration]? = nil, limit: Int64? = nil, offset: Int64? = nil) {
         self.count = count
         self.formations = formations
         self.limit = limit

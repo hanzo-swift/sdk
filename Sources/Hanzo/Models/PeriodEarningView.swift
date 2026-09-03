@@ -10,13 +10,13 @@ import Foundation
 public struct PeriodEarningView: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CommissionCents is what the caller earned that period, in cents: the sum over each referred org and upline level of margin × that level's rate. Always ≤ marginCents, by construction. */
-    public var commissionCents: Int?
+    public var commissionCents: Int64?
     /** MarginCents is the margin Hanzo earned in that period on the spend of every org the caller referred, in cents — the base commission is a rate OF. It is the aggregate base, never any one customer's bill. */
-    public var marginCents: Int?
+    public var marginCents: Int64?
     /** Period is the accrual bucket: the UTC year-month, \"YYYY-MM\". Commission is latched at most once per referred org per period, so one row is one month. */
     public var period: String?
 
-    public init(commissionCents: Int? = nil, marginCents: Int? = nil, period: String? = nil) {
+    public init(commissionCents: Int64? = nil, marginCents: Int64? = nil, period: String? = nil) {
         self.commissionCents = commissionCents
         self.marginCents = marginCents
         self.period = period

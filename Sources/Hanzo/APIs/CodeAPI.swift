@@ -114,7 +114,7 @@ open class CodeAPI {
      - returns: SearchResults
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getCodeSearch(q: String? = nil, type: String? = nil, repo: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SearchResults {
+    open class func getCodeSearch(q: String? = nil, type: String? = nil, repo: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SearchResults {
         return try await getCodeSearchWithRequestBuilder(q: q, type: type, repo: repo, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -132,7 +132,7 @@ open class CodeAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<SearchResults> 
      */
-    open class func getCodeSearchWithRequestBuilder(q: String? = nil, type: String? = nil, repo: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SearchResults> {
+    open class func getCodeSearchWithRequestBuilder(q: String? = nil, type: String? = nil, repo: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SearchResults> {
         let localVariablePath = "/v1/code/search"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil

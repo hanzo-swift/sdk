@@ -24,7 +24,7 @@ public struct TaxonIn: Sendable, Codable, ParameterConvertible, Hashable {
     /** Name is the display name. Required. */
     public var name: String?
     /** Order is where it sits within its category, ascending. */
-    public var order: Int?
+    public var order: Int64?
     /** Published is whether it is shown. Omitted means published — a taxon someone took the trouble to write is meant to be seen, and hiding one is the deliberate act. */
     public var published: Bool?
     /** Route is the in-console path it opens, e.g. \"/vector\". Give this or href, never both. */
@@ -32,7 +32,7 @@ public struct TaxonIn: Sendable, Codable, ParameterConvertible, Hashable {
     /** Tags are free-form labels for search and grouping across categories. */
     public var tags: [String]?
 
-    public init(brands: [String]? = nil, category: String? = nil, description: String? = nil, href: String? = nil, icon: String? = nil, id: String? = nil, name: String? = nil, order: Int? = nil, published: Bool? = nil, route: String? = nil, tags: [String]? = nil) {
+    public init(brands: [String]? = nil, category: String? = nil, description: String? = nil, href: String? = nil, icon: String? = nil, id: String? = nil, name: String? = nil, order: Int64? = nil, published: Bool? = nil, route: String? = nil, tags: [String]? = nil) {
         self.brands = brands
         self.category = category
         self.description = description

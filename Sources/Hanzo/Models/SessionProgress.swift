@@ -16,11 +16,11 @@ public struct SessionProgress: Sendable, Codable, ParameterConvertible, Hashable
     /** Estimated says a MODEL produced this, from the run's transcript, and it may be wrong. False means the session's own row said it: a finished run is 100% because it finished, not because anything guessed. Never treat a true here as a measurement — it is the reason to look, not the answer. */
     public var estimated: Bool?
     /** Pct is how much of the run is done, 0 to 100. THE KEY IS ABSENT when progress is indeterminate — a run nobody can estimate is not a run that has done nothing, and rendering the second for the first is the mistake this omission exists to make impossible. Read `phase` before reaching for it. */
-    public var pct: Int?
+    public var pct: Int64?
     /** Phase is what shape the run is in: running, blocked, done, error, or unknown when nothing has estimated it yet. blocked means the transcript shows the run waiting on something — an approval, a credential, an answer — which is the one state the running surface cannot report about itself. error only ever comes from the session's own terminal status. */
     public var phase: String?
 
-    public init(activity: String? = nil, at: String? = nil, estimated: Bool? = nil, pct: Int? = nil, phase: String? = nil) {
+    public init(activity: String? = nil, at: String? = nil, estimated: Bool? = nil, pct: Int64? = nil, phase: String? = nil) {
         self.activity = activity
         self.at = at
         self.estimated = estimated

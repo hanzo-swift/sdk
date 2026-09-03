@@ -100,7 +100,7 @@ open class AutoAPI {
      - returns: FlowPage
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAutoFlows(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> FlowPage {
+    open class func getAutoFlows(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> FlowPage {
         return try await getAutoFlowsWithRequestBuilder(limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -115,7 +115,7 @@ open class AutoAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<FlowPage> 
      */
-    open class func getAutoFlowsWithRequestBuilder(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<FlowPage> {
+    open class func getAutoFlowsWithRequestBuilder(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<FlowPage> {
         let localVariablePath = "/v1/auto/flows"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -189,7 +189,7 @@ open class AutoAPI {
      - returns: VersionPage
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAutoFlowsByIdVersions(id: String, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> VersionPage {
+    open class func getAutoFlowsByIdVersions(id: String, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> VersionPage {
         return try await getAutoFlowsByIdVersionsWithRequestBuilder(id: id, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -205,7 +205,7 @@ open class AutoAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<VersionPage> 
      */
-    open class func getAutoFlowsByIdVersionsWithRequestBuilder(id: String, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<VersionPage> {
+    open class func getAutoFlowsByIdVersionsWithRequestBuilder(id: String, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<VersionPage> {
         var localVariablePath = "/v1/auto/flows/{id}/versions"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -238,7 +238,7 @@ open class AutoAPI {
      - returns: RunPage
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAutoRuns(flowId: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RunPage {
+    open class func getAutoRuns(flowId: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RunPage {
         return try await getAutoRunsWithRequestBuilder(flowId: flowId, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -254,7 +254,7 @@ open class AutoAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<RunPage> 
      */
-    open class func getAutoRunsWithRequestBuilder(flowId: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RunPage> {
+    open class func getAutoRunsWithRequestBuilder(flowId: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RunPage> {
         let localVariablePath = "/v1/auto/runs"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil

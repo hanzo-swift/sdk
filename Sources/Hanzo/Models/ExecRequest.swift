@@ -20,9 +20,9 @@ public struct ExecRequest: Sendable, Codable, ParameterConvertible, Hashable {
     /** Stdin is fed to the command on its standard input. */
     public var stdin: String?
     /** TimeoutSec bounds the run in seconds. Zero takes the default. */
-    public var timeoutSec: Int?
+    public var timeoutSec: Int64?
 
-    public init(argv: [String]? = nil, command: String? = nil, dir: String? = nil, id: String? = nil, stdin: String? = nil, timeoutSec: Int? = nil) {
+    public init(argv: [String]? = nil, command: String? = nil, dir: String? = nil, id: String? = nil, stdin: String? = nil, timeoutSec: Int64? = nil) {
         self.argv = argv
         self.command = command
         self.dir = dir

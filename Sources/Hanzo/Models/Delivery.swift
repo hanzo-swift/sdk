@@ -14,7 +14,7 @@ public struct Delivery: Sendable, Codable, ParameterConvertible, Hashable {
     /** Headers are the message headers, when any were published. */
     public var headers: [String: [String]]?
     /** Delivered is how many times a consumer has been handed this message (pulls only). */
-    public var numDelivered: Int?
+    public var numDelivered: Int64?
     /** Remaining is how many messages follow this one for the consumer (pulls only). */
     public var numPending: Int?
     /** Sequence is the message's stream sequence. */
@@ -24,7 +24,7 @@ public struct Delivery: Sendable, Codable, ParameterConvertible, Hashable {
     /** Timestamp is when the broker stored the message. */
     public var timestamp: Date?
 
-    public init(data: String? = nil, headers: [String: [String]]? = nil, numDelivered: Int? = nil, numPending: Int? = nil, sequence: Int? = nil, subject: String? = nil, timestamp: Date? = nil) {
+    public init(data: String? = nil, headers: [String: [String]]? = nil, numDelivered: Int64? = nil, numPending: Int? = nil, sequence: Int? = nil, subject: String? = nil, timestamp: Date? = nil) {
         self.data = data
         self.headers = headers
         self.numDelivered = numDelivered

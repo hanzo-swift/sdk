@@ -12,9 +12,9 @@ public struct ControlDrain: Sendable, Codable, ParameterConvertible, Hashable {
     /** Commands is the session's control commands newer than the cursor, oldest first. */
     public var commands: [ControlCommandView]?
     /** Cursor is the seq to send as `after` on the next poll — the highest seq in this page, or the cursor sent in when the page is empty. */
-    public var cursor: Int?
+    public var cursor: Int64?
 
-    public init(commands: [ControlCommandView]? = nil, cursor: Int? = nil) {
+    public init(commands: [ControlCommandView]? = nil, cursor: Int64? = nil) {
         self.commands = commands
         self.cursor = cursor
     }

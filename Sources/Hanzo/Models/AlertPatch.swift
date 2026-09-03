@@ -12,14 +12,14 @@ public struct AlertPatch: Sendable, Codable, ParameterConvertible, Hashable {
     public var enforce: Bool?
     public var id: String?
     public var project: String?
-    public var rateLimitRpm: Int?
+    public var rateLimitRpm: Int64?
     public var service: String?
-    public var softPct: Int?
+    public var softPct: Int64?
     public var subject: String?
-    public var threshold: Int?
+    public var threshold: Int64?
     public var title: String?
 
-    public init(enforce: Bool? = nil, id: String? = nil, project: String? = nil, rateLimitRpm: Int? = nil, service: String? = nil, softPct: Int? = nil, subject: String? = nil, threshold: Int? = nil, title: String? = nil) {
+    public init(enforce: Bool? = nil, id: String? = nil, project: String? = nil, rateLimitRpm: Int64? = nil, service: String? = nil, softPct: Int64? = nil, subject: String? = nil, threshold: Int64? = nil, title: String? = nil) {
         self.enforce = enforce
         self.id = id
         self.project = project

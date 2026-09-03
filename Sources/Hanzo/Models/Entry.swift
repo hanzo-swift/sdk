@@ -36,7 +36,7 @@ public struct Entry: Sendable, Codable, ParameterConvertible, Hashable {
     /** Scope is provenance, not storage: \"public\" for a row from the published corpus, \"org\" for one only this caller can see. A UI that cannot tell them apart cannot warn before sharing a link. */
     public var scope: String?
     /** Stars is GitHub's stargazer count for the source repository, read at the last sync and never accumulated here. It is not a ranking — the page sorts on Updated — but it is the tiebreak when two orgs claim one ID. Absent for a site with no repository behind it, and for a repository nobody has starred. */
-    public var stars: Int?
+    public var stars: Int64?
     /** lineage, if forked from one */
     public var template: String?
     /** Title is what to SHOW. A site's human name wins where it has one; a repo row falls back to the repository name, so on a repo this usually just repeats Name. Absent only for a site whose project was never named — render Name. */
@@ -48,7 +48,7 @@ public struct Entry: Sendable, Codable, ParameterConvertible, Hashable {
     /** live, if it is deployed */
     public var url: String?
 
-    public init(archetype: String? = nil, description: String? = nil, forkable: Bool? = nil, id: String? = nil, kind: String? = nil, language: String? = nil, license: String? = nil, name: String? = nil, note: String? = nil, org: String? = nil, origin: String? = nil, repo: String? = nil, scope: String? = nil, stars: Int? = nil, template: String? = nil, title: String? = nil, updated: String? = nil, upstream: String? = nil, url: String? = nil) {
+    public init(archetype: String? = nil, description: String? = nil, forkable: Bool? = nil, id: String? = nil, kind: String? = nil, language: String? = nil, license: String? = nil, name: String? = nil, note: String? = nil, org: String? = nil, origin: String? = nil, repo: String? = nil, scope: String? = nil, stars: Int64? = nil, template: String? = nil, title: String? = nil, updated: String? = nil, upstream: String? = nil, url: String? = nil) {
         self.archetype = archetype
         self.description = description
         self.forkable = forkable

@@ -10,17 +10,17 @@ import Foundation
 public struct BoardPoint: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** what this bucket cost, in cents */
-    public var costCents: Int?
+    public var costCents: Int64?
     /** calls in this bucket that did not succeed */
-    public var errors: Int?
+    public var errors: Int64?
     /** model calls in this bucket */
-    public var generations: Int?
+    public var generations: Int64?
     /** RFC3339 (UTC) bucket start */
     public var t: String?
     /** tokens in this bucket */
-    public var totalTokens: Int?
+    public var totalTokens: Int64?
 
-    public init(costCents: Int? = nil, errors: Int? = nil, generations: Int? = nil, t: String? = nil, totalTokens: Int? = nil) {
+    public init(costCents: Int64? = nil, errors: Int64? = nil, generations: Int64? = nil, t: String? = nil, totalTokens: Int64? = nil) {
         self.costCents = costCents
         self.errors = errors
         self.generations = generations

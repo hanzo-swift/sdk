@@ -11,11 +11,11 @@ public struct O11yClusters: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var endTimeBeforeRetention: Bool?
     public var records: [O11yClusterRecord]?
-    public var total: Int?
+    public var total: Int64?
     public var type: JSONValue?
     public var warning: O11yQueryWarnData?
 
-    public init(endTimeBeforeRetention: Bool? = nil, records: [O11yClusterRecord]? = nil, total: Int? = nil, type: JSONValue? = nil, warning: O11yQueryWarnData? = nil) {
+    public init(endTimeBeforeRetention: Bool? = nil, records: [O11yClusterRecord]? = nil, total: Int64? = nil, type: JSONValue? = nil, warning: O11yQueryWarnData? = nil) {
         self.endTimeBeforeRetention = endTimeBeforeRetention
         self.records = records
         self.total = total

@@ -11,17 +11,17 @@ public struct O11yTelegramConfig: Sendable, Codable, ParameterConvertible, Hasha
 
     public var notifierConfig: O11yNotifierConfig?
     public var apiUrl: JSONValue?
-    public var chat: Int?
+    public var chat: Int64?
     public var chatFile: String?
     public var disableNotifications: Bool?
     public var httpConfig: O11yHTTPClientConfig?
     public var message: String?
-    public var messageThreadId: Int?
+    public var messageThreadId: Int64?
     public var parseMode: String?
     public var token: JSONValue?
     public var tokenFile: String?
 
-    public init(notifierConfig: O11yNotifierConfig? = nil, apiUrl: JSONValue? = nil, chat: Int? = nil, chatFile: String? = nil, disableNotifications: Bool? = nil, httpConfig: O11yHTTPClientConfig? = nil, message: String? = nil, messageThreadId: Int? = nil, parseMode: String? = nil, token: JSONValue? = nil, tokenFile: String? = nil) {
+    public init(notifierConfig: O11yNotifierConfig? = nil, apiUrl: JSONValue? = nil, chat: Int64? = nil, chatFile: String? = nil, disableNotifications: Bool? = nil, httpConfig: O11yHTTPClientConfig? = nil, message: String? = nil, messageThreadId: Int64? = nil, parseMode: String? = nil, token: JSONValue? = nil, tokenFile: String? = nil) {
         self.notifierConfig = notifierConfig
         self.apiUrl = apiUrl
         self.chat = chat

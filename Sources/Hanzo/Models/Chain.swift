@@ -10,13 +10,13 @@ import Foundation
 public struct Chain: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** ChainID is the EIP-155 id, so a caller can check it matches the wallet they are about to sign with. */
-    public var chainId: Int?
+    public var chainId: Int64?
     /** ID is the URL name: the value of :chain. */
     public var id: String?
     /** Name is for humans. */
     public var name: String?
 
-    public init(chainId: Int? = nil, id: String? = nil, name: String? = nil) {
+    public init(chainId: Int64? = nil, id: String? = nil, name: String? = nil) {
         self.chainId = chainId
         self.id = id
         self.name = name

@@ -14,11 +14,11 @@ public struct PoolCreate: Sendable, Codable, ParameterConvertible, Hashable {
     /** ClusterID is the cluster to add the pool to, from the URL path. */
     public var clusterId: String?
     /** Count is how many nodes the pool starts with. */
-    public var count: Int?
+    public var count: Int64?
     /** MaxNodes is the ceiling the autoscaler may not grow the pool past, and so the bound on what this pool can spend. Ignored unless AutoScale is set. */
-    public var maxNodes: Int?
+    public var maxNodes: Int64?
     /** MinNodes is the floor the autoscaler may not shrink the pool below. Ignored unless AutoScale is set. */
-    public var minNodes: Int?
+    public var minNodes: Int64?
     /** Name is the pool's name. */
     public var name: String?
     /** Provider is the cloud the cluster lives on (e.g. \"digitalocean\"). Required — Visor routes the create by it. Accepted from the body or ?provider=. */
@@ -26,7 +26,7 @@ public struct PoolCreate: Sendable, Codable, ParameterConvertible, Hashable {
     /** Size is the provider size slug for each node (e.g. \"s-4vcpu-8gb\"). */
     public var size: String?
 
-    public init(autoScale: Bool? = nil, clusterId: String? = nil, count: Int? = nil, maxNodes: Int? = nil, minNodes: Int? = nil, name: String? = nil, provider: String? = nil, size: String? = nil) {
+    public init(autoScale: Bool? = nil, clusterId: String? = nil, count: Int64? = nil, maxNodes: Int64? = nil, minNodes: Int64? = nil, name: String? = nil, provider: String? = nil, size: String? = nil) {
         self.autoScale = autoScale
         self.clusterId = clusterId
         self.count = count

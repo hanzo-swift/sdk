@@ -12,7 +12,7 @@ public struct Check: Sendable, Codable, ParameterConvertible, Hashable {
     public var at: Date?
     /** Job is the job that decided State. A run reports one conclusion for however many jobs it holds, and the jobs are not interchangeable: the pipeline fails at `gate` before it builds anything and at `receipt` after it has already built, pinned and proved the release live. Both read `failure` on the run, and only the first one means nothing shipped. */
     public var job: String?
-    public var number: Int?
+    public var number: Int64?
     /** State is success | failure | running | absent. `absent` is not a kind of failure and is kept apart from one: a failing run is a build that ran and said no, while an absent run is Hanzo Git never having constructed a run for the commit at all — a workflow it cannot parse or a reference it cannot resolve. There is no log to open for the second, so a page that draws them the same sends you looking for one that does not exist. */
     public var state: String?
     /** Tested reports that the run's tests executed; Verdict reports that the run said anything about tests at all. They are separate because the interesting case is a run that passed while its test step was skipped — a green build that proved nothing — and that is invisible if the two are one flag. */
@@ -20,7 +20,7 @@ public struct Check: Sendable, Codable, ParameterConvertible, Hashable {
     public var url: String?
     public var verdict: Bool?
 
-    public init(at: Date? = nil, job: String? = nil, number: Int? = nil, state: String? = nil, tested: Bool? = nil, url: String? = nil, verdict: Bool? = nil) {
+    public init(at: Date? = nil, job: String? = nil, number: Int64? = nil, state: String? = nil, tested: Bool? = nil, url: String? = nil, verdict: Bool? = nil) {
         self.at = at
         self.job = job
         self.number = number

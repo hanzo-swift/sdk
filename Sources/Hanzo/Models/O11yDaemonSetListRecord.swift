@@ -9,19 +9,19 @@ import Foundation
 
 public struct O11yDaemonSetListRecord: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var availableNodes: Int?
+    public var availableNodes: Int64?
     public var cpuLimit: Double?
     public var cpuRequest: Double?
     public var cpuUsage: Double?
     public var daemonSetName: String?
-    public var desiredNodes: Int?
+    public var desiredNodes: Int64?
     public var memoryLimit: Double?
     public var memoryRequest: Double?
     public var memoryUsage: Double?
     public var meta: [String: String]?
-    public var restarts: Int?
+    public var restarts: Int64?
 
-    public init(availableNodes: Int? = nil, cpuLimit: Double? = nil, cpuRequest: Double? = nil, cpuUsage: Double? = nil, daemonSetName: String? = nil, desiredNodes: Int? = nil, memoryLimit: Double? = nil, memoryRequest: Double? = nil, memoryUsage: Double? = nil, meta: [String: String]? = nil, restarts: Int? = nil) {
+    public init(availableNodes: Int64? = nil, cpuLimit: Double? = nil, cpuRequest: Double? = nil, cpuUsage: Double? = nil, daemonSetName: String? = nil, desiredNodes: Int64? = nil, memoryLimit: Double? = nil, memoryRequest: Double? = nil, memoryUsage: Double? = nil, meta: [String: String]? = nil, restarts: Int64? = nil) {
         self.availableNodes = availableNodes
         self.cpuLimit = cpuLimit
         self.cpuRequest = cpuRequest

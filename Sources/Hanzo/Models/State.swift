@@ -12,7 +12,7 @@ public struct State: Sendable, Codable, ParameterConvertible, Hashable {
     /** Bytes is the total stored size. */
     public var bytes: Int?
     /** Consumers is the number of consumers attached to this stream. */
-    public var consumerCount: Int?
+    public var consumerCount: Int64?
     /** FirstSeq is the sequence of the first stored message. */
     public var firstSeq: Int?
     /** FirstTS is the timestamp of the first stored message. */
@@ -24,11 +24,11 @@ public struct State: Sendable, Codable, ParameterConvertible, Hashable {
     /** Messages is the number of messages currently stored. */
     public var messages: Int?
     /** Deleted is the number of deleted messages (sequence gaps). */
-    public var numDeleted: Int?
+    public var numDeleted: Int64?
     /** Subjects is the number of distinct subjects stored. */
     public var numSubjects: Int?
 
-    public init(bytes: Int? = nil, consumerCount: Int? = nil, firstSeq: Int? = nil, firstTs: Date? = nil, lastSeq: Int? = nil, lastTs: Date? = nil, messages: Int? = nil, numDeleted: Int? = nil, numSubjects: Int? = nil) {
+    public init(bytes: Int? = nil, consumerCount: Int64? = nil, firstSeq: Int? = nil, firstTs: Date? = nil, lastSeq: Int? = nil, lastTs: Date? = nil, messages: Int? = nil, numDeleted: Int64? = nil, numSubjects: Int? = nil) {
         self.bytes = bytes
         self.consumerCount = consumerCount
         self.firstSeq = firstSeq

@@ -14,17 +14,17 @@ public struct DocumentView: Sendable, Codable, ParameterConvertible, Hashable {
     public var category: String?
     /** ContentType is the rendered body's media type — text/markdown. */
     public var contentType: String?
-    public var createdAt: Int?
+    public var createdAt: Int64?
     public var esignProvider: String?
     public var id: String?
-    public var signedAt: Int?
+    public var signedAt: Int64?
     public var status: String?
     public var templateId: String?
-    public var templateVersion: Int?
+    public var templateVersion: Int64?
     public var title: String?
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
 
-    public init(body: String? = nil, category: String? = nil, contentType: String? = nil, createdAt: Int? = nil, esignProvider: String? = nil, id: String? = nil, signedAt: Int? = nil, status: String? = nil, templateId: String? = nil, templateVersion: Int? = nil, title: String? = nil, updatedAt: Int? = nil) {
+    public init(body: String? = nil, category: String? = nil, contentType: String? = nil, createdAt: Int64? = nil, esignProvider: String? = nil, id: String? = nil, signedAt: Int64? = nil, status: String? = nil, templateId: String? = nil, templateVersion: Int64? = nil, title: String? = nil, updatedAt: Int64? = nil) {
         self.body = body
         self.category = category
         self.contentType = contentType

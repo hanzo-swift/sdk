@@ -10,15 +10,15 @@ import Foundation
 public struct IndexList: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Limit is how many rows this page could hold. */
-    public var limit: Int?
+    public var limit: Int64?
     /** Offset is where this page starts. */
-    public var offset: Int?
+    public var offset: Int64?
     /** Results are the index definitions themselves. */
     public var results: [IndexView]?
     /** Total is how many indexes the org holds altogether. */
-    public var total: Int?
+    public var total: Int64?
 
-    public init(limit: Int? = nil, offset: Int? = nil, results: [IndexView]? = nil, total: Int? = nil) {
+    public init(limit: Int64? = nil, offset: Int64? = nil, results: [IndexView]? = nil, total: Int64? = nil) {
         self.limit = limit
         self.offset = offset
         self.results = results

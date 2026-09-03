@@ -10,11 +10,11 @@ import Foundation
 public struct OrgEarningView: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CommissionCents is what the caller earned from that org across ALL periods, in cents. Deliberately the caller's own share and nothing else: that org's spend and the margin on it are not restated here. */
-    public var commissionCents: Int?
+    public var commissionCents: Int64?
     /** ReferredOrg is the org slug this contribution came from — one the caller referred, directly or up to three levels down. */
     public var referredOrg: String?
 
-    public init(commissionCents: Int? = nil, referredOrg: String? = nil) {
+    public init(commissionCents: Int64? = nil, referredOrg: String? = nil) {
         self.commissionCents = commissionCents
         self.referredOrg = referredOrg
     }

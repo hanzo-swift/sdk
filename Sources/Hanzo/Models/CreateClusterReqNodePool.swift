@@ -10,11 +10,11 @@ import Foundation
 /** NodePool is the ONE pool the cluster is born with — a cluster with no nodes runs nothing, so it is not optional. More pools are added afterwards through POST /v1/visor/clusters/:clusterId/pools. */
 public struct CreateClusterReqNodePool: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var count: Int?
+    public var count: Int64?
     public var name: String?
     public var size: String?
 
-    public init(count: Int? = nil, name: String? = nil, size: String? = nil) {
+    public init(count: Int64? = nil, name: String? = nil, size: String? = nil) {
         self.count = count
         self.name = name
         self.size = size

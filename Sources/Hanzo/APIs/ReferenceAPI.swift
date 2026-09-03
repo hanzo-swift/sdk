@@ -68,7 +68,7 @@ open class ReferenceAPI {
      - returns: ReferenceOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func riskReference(_set: String, after: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ReferenceOut {
+    open class func riskReference(_set: String, after: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ReferenceOut {
         return try await riskReferenceWithRequestBuilder(_set: _set, after: after, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -85,7 +85,7 @@ open class ReferenceAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ReferenceOut> 
      */
-    open class func riskReferenceWithRequestBuilder(_set: String, after: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ReferenceOut> {
+    open class func riskReferenceWithRequestBuilder(_set: String, after: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ReferenceOut> {
         var localVariablePath = "/v1/reference/{set}"
         let _setPreEscape = "\(APIHelper.mapValueToPathItem(_set))"
         let _setPostEscape = _setPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

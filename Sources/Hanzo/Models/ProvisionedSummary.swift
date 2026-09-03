@@ -10,7 +10,7 @@ import Foundation
 public struct ProvisionedSummary: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CreatedAt is when the resource was provisioned, in unix seconds. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** Host is the address that actually routes to this resource — a dedicated instance's own in-cluster Service, or the public gateway for a shared one. Never the internal admin address of a shared backend. */
     public var host: String?
     /** ID is the resource's server-minted handle, \"rs_\"-prefixed. */
@@ -20,11 +20,11 @@ public struct ProvisionedSummary: Sendable, Codable, ParameterConvertible, Hasha
     /** Name is the org-unique slug the caller provisioned the resource under. */
     public var name: String?
     /** Port is the port a client connects to on Host. */
-    public var port: Int?
+    public var port: Int64?
     /** Status is \"ready\", or \"provisioning\" while a dedicated instance is still being materialized by the operator. */
     public var status: String?
 
-    public init(createdAt: Int? = nil, host: String? = nil, id: String? = nil, kind: String? = nil, name: String? = nil, port: Int? = nil, status: String? = nil) {
+    public init(createdAt: Int64? = nil, host: String? = nil, id: String? = nil, kind: String? = nil, name: String? = nil, port: Int64? = nil, status: String? = nil) {
         self.createdAt = createdAt
         self.host = host
         self.id = id

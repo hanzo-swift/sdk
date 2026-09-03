@@ -18,11 +18,11 @@ public struct BlobJSON: Sendable, Codable, ParameterConvertible, Hashable {
     /** Path is the file's repo-relative path. */
     public var path: String?
     /** Size is the file's byte length in the repo, whatever was returned below. */
-    public var size: Int?
+    public var size: Int64?
     /** Truncated marks a file past the 1 MiB view cap. No content is sent — clone the repo for it. */
     public var truncated: Bool?
 
-    public init(binary: Bool? = nil, content: String? = nil, encoding: String? = nil, path: String? = nil, size: Int? = nil, truncated: Bool? = nil) {
+    public init(binary: Bool? = nil, content: String? = nil, encoding: String? = nil, path: String? = nil, size: Int64? = nil, truncated: Bool? = nil) {
         self.binary = binary
         self.content = content
         self.encoding = encoding

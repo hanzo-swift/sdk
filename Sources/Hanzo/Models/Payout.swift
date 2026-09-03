@@ -9,7 +9,7 @@ import Foundation
 
 public struct Payout: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var amount: Int?
+    public var amount: Int64?
     public var arrivalDate: String?
     public var created: String?
     public var currency: String?
@@ -23,7 +23,7 @@ public struct Payout: Sendable, Codable, ParameterConvertible, Hashable {
     public var providerRef: String?
     public var status: String?
 
-    public init(amount: Int? = nil, arrivalDate: String? = nil, created: String? = nil, currency: String? = nil, description: String? = nil, destinationId: String? = nil, destinationType: String? = nil, failureCode: String? = nil, failureMessage: String? = nil, id: String? = nil, metadata: JSONValue? = nil, providerRef: String? = nil, status: String? = nil) {
+    public init(amount: Int64? = nil, arrivalDate: String? = nil, created: String? = nil, currency: String? = nil, description: String? = nil, destinationId: String? = nil, destinationType: String? = nil, failureCode: String? = nil, failureMessage: String? = nil, id: String? = nil, metadata: JSONValue? = nil, providerRef: String? = nil, status: String? = nil) {
         self.amount = amount
         self.arrivalDate = arrivalDate
         self.created = created

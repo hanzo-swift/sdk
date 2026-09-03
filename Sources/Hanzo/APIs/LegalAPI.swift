@@ -17,7 +17,7 @@ open class LegalAPI {
      - returns: DocumentPage
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getLegalDocuments(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> DocumentPage {
+    open class func getLegalDocuments(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> DocumentPage {
         return try await getLegalDocumentsWithRequestBuilder(limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -32,7 +32,7 @@ open class LegalAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<DocumentPage> 
      */
-    open class func getLegalDocumentsWithRequestBuilder(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<DocumentPage> {
+    open class func getLegalDocumentsWithRequestBuilder(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<DocumentPage> {
         let localVariablePath = "/v1/legal/documents"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -105,7 +105,7 @@ open class LegalAPI {
      - returns: FilingPage
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getLegalFilings(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> FilingPage {
+    open class func getLegalFilings(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> FilingPage {
         return try await getLegalFilingsWithRequestBuilder(limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -120,7 +120,7 @@ open class LegalAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<FilingPage> 
      */
-    open class func getLegalFilingsWithRequestBuilder(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<FilingPage> {
+    open class func getLegalFilingsWithRequestBuilder(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<FilingPage> {
         let localVariablePath = "/v1/legal/filings"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil

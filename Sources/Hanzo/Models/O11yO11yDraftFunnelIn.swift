@@ -10,17 +10,17 @@ import Foundation
 public struct O11yO11yDraftFunnelIn: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** EndTime is the end of the window, as a millisecond epoch. */
-    public var endTime: Int?
+    public var endTime: Int64?
     /** StartTime is the start of the window, as a millisecond epoch. */
-    public var startTime: Int?
+    public var startTime: Int64?
     /** StepEnd is the step the transition runs to, 1-based. */
-    public var stepEnd: Int?
+    public var stepEnd: Int64?
     /** StepStart is the step the transition runs from, 1-based. Ignored by the reads that span the whole funnel. */
-    public var stepStart: Int?
+    public var stepStart: Int64?
     /** Steps are the funnel's steps, in order. At least two are needed. */
     public var steps: [O11yFunnelStep]?
 
-    public init(endTime: Int? = nil, startTime: Int? = nil, stepEnd: Int? = nil, stepStart: Int? = nil, steps: [O11yFunnelStep]? = nil) {
+    public init(endTime: Int64? = nil, startTime: Int64? = nil, stepEnd: Int64? = nil, stepStart: Int64? = nil, steps: [O11yFunnelStep]? = nil) {
         self.endTime = endTime
         self.startTime = startTime
         self.stepEnd = stepEnd

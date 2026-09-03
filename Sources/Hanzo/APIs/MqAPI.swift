@@ -238,7 +238,7 @@ open class MqAPI {
      - returns: Streams
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getMqStream(limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Streams {
+    open class func getMqStream(limit: Int64? = nil, offset: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Streams {
         return try await getMqStreamWithRequestBuilder(limit: limit, offset: offset, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -254,7 +254,7 @@ open class MqAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Streams> 
      */
-    open class func getMqStreamWithRequestBuilder(limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Streams> {
+    open class func getMqStreamWithRequestBuilder(limit: Int64? = nil, offset: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Streams> {
         let localVariablePath = "/v1/mq/stream"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -332,7 +332,7 @@ open class MqAPI {
      - returns: ReadOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getMqStreamByNameMessage(name: String, seq: Int? = nil, lastBySubject: String? = nil, nextBySubject: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ReadOut {
+    open class func getMqStreamByNameMessage(name: String, seq: Int? = nil, lastBySubject: String? = nil, nextBySubject: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ReadOut {
         return try await getMqStreamByNameMessageWithRequestBuilder(name: name, seq: seq, lastBySubject: lastBySubject, nextBySubject: nextBySubject, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -351,7 +351,7 @@ open class MqAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ReadOut> 
      */
-    open class func getMqStreamByNameMessageWithRequestBuilder(name: String, seq: Int? = nil, lastBySubject: String? = nil, nextBySubject: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ReadOut> {
+    open class func getMqStreamByNameMessageWithRequestBuilder(name: String, seq: Int? = nil, lastBySubject: String? = nil, nextBySubject: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ReadOut> {
         var localVariablePath = "/v1/mq/stream/{name}/message"
         let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -388,7 +388,7 @@ open class MqAPI {
      - returns: PickOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getMqStreamByStreamConsumer(stream: String, limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PickOut {
+    open class func getMqStreamByStreamConsumer(stream: String, limit: Int64? = nil, offset: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PickOut {
         return try await getMqStreamByStreamConsumerWithRequestBuilder(stream: stream, limit: limit, offset: offset, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -405,7 +405,7 @@ open class MqAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<PickOut> 
      */
-    open class func getMqStreamByStreamConsumerWithRequestBuilder(stream: String, limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PickOut> {
+    open class func getMqStreamByStreamConsumerWithRequestBuilder(stream: String, limit: Int64? = nil, offset: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PickOut> {
         var localVariablePath = "/v1/mq/stream/{stream}/consumer"
         let streamPreEscape = "\(APIHelper.mapValueToPathItem(stream))"
         let streamPostEscape = streamPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

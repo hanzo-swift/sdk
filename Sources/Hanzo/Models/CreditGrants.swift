@@ -9,10 +9,10 @@ import Foundation
 
 public struct CreditGrants: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var count: Int?
+    public var count: Int64?
     public var grants: [CreditGrant]?
 
-    public init(count: Int? = nil, grants: [CreditGrant]? = nil) {
+    public init(count: Int64? = nil, grants: [CreditGrant]? = nil) {
         self.count = count
         self.grants = grants
     }

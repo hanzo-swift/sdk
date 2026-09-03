@@ -30,9 +30,9 @@ public struct Definition: Sendable, Codable, ParameterConvertible, Hashable {
     /** Target is where the function runs: sandbox (the default) or fleet, the org's own GPU fleet. fleet supports runtime=python only. */
     public var target: String?
     /** TimeoutSec is the per-invocation deadline, defaulting to 30 and clamped at 900 — a larger value is capped rather than reset to the default. */
-    public var timeoutSec: Int?
+    public var timeoutSec: Int64?
 
-    public init(code: String? = nil, envNames: [String]? = nil, environment: String? = nil, handler: String? = nil, image: String? = nil, memoryLimit: String? = nil, name: String, namespace: String? = nil, runtime: String? = nil, target: String? = nil, timeoutSec: Int? = nil) {
+    public init(code: String? = nil, envNames: [String]? = nil, environment: String? = nil, handler: String? = nil, image: String? = nil, memoryLimit: String? = nil, name: String, namespace: String? = nil, runtime: String? = nil, target: String? = nil, timeoutSec: Int64? = nil) {
         self.code = code
         self.envNames = envNames
         self.environment = environment

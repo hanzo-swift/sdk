@@ -9,7 +9,7 @@ import Foundation
 
 public struct O11yDaemonSetRecord: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var currentNodes: Int?
+    public var currentNodes: Int64?
     public var daemonSetCPU: Double?
     public var daemonSetCPULimit: Double?
     public var daemonSetCPURequest: Double?
@@ -17,11 +17,11 @@ public struct O11yDaemonSetRecord: Sendable, Codable, ParameterConvertible, Hash
     public var daemonSetMemoryLimit: Double?
     public var daemonSetMemoryRequest: Double?
     public var daemonSetName: String?
-    public var desiredNodes: Int?
+    public var desiredNodes: Int64?
     public var meta: [String: String]?
     public var podCountsByPhase: O11yPodCountsByPhase?
 
-    public init(currentNodes: Int? = nil, daemonSetCPU: Double? = nil, daemonSetCPULimit: Double? = nil, daemonSetCPURequest: Double? = nil, daemonSetMemory: Double? = nil, daemonSetMemoryLimit: Double? = nil, daemonSetMemoryRequest: Double? = nil, daemonSetName: String? = nil, desiredNodes: Int? = nil, meta: [String: String]? = nil, podCountsByPhase: O11yPodCountsByPhase? = nil) {
+    public init(currentNodes: Int64? = nil, daemonSetCPU: Double? = nil, daemonSetCPULimit: Double? = nil, daemonSetCPURequest: Double? = nil, daemonSetMemory: Double? = nil, daemonSetMemoryLimit: Double? = nil, daemonSetMemoryRequest: Double? = nil, daemonSetName: String? = nil, desiredNodes: Int64? = nil, meta: [String: String]? = nil, podCountsByPhase: O11yPodCountsByPhase? = nil) {
         self.currentNodes = currentNodes
         self.daemonSetCPU = daemonSetCPU
         self.daemonSetCPULimit = daemonSetCPULimit

@@ -10,11 +10,11 @@ import Foundation
 public struct Campaign: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Budget is what the campaign is allowed to cost, in USD cents. A negative value is clamped to 0; nothing enforces the ceiling here. */
-    public var budget: Int?
+    public var budget: Int64?
     /** Channel is the delivery surface: email, sms, social, meta, google or tiktok. Empty means email. */
     public var channel: String?
     /** CreatedAt is unix seconds when the campaign was registered. Server-assigned and never rewritten — an update leaves it as it was. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** ID is the server-assigned campaign id (\"camp_\" + 128 random bits). */
     public var id: String?
     /** Name is the campaign's label. Required, trimmed, capped at 1024 bytes. */
@@ -22,15 +22,15 @@ public struct Campaign: Sendable, Codable, ParameterConvertible, Hashable {
     /** Objective is the free-text goal (\"signups\"), capped at 1024 bytes. */
     public var objective: String?
     /** ScheduledAt is the unix send time; 0 means unscheduled. Setting it on a campaign with no explicit status makes that status \"scheduled\". */
-    public var scheduledAt: Int?
+    public var scheduledAt: Int64?
     /** Spend is what the campaign has cost so far, in USD cents, clamped to >= 0. The CALLER owns it: no send, ad buy or invoice moves it, so it changes only when create or update carries a new value. It is summed across the org's campaigns into GET /v1/marketing/summary. */
-    public var spend: Int?
+    public var spend: Int64?
     /** Status is the lifecycle: draft, scheduled, active, paused or completed. Empty means draft. */
     public var status: String?
     /** UpdatedAt is unix seconds of the last write. Server-assigned on create and on every update or schedule change, and the campaign list is ordered by it, newest first. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
 
-    public init(budget: Int? = nil, channel: String? = nil, createdAt: Int? = nil, id: String? = nil, name: String? = nil, objective: String? = nil, scheduledAt: Int? = nil, spend: Int? = nil, status: String? = nil, updatedAt: Int? = nil) {
+    public init(budget: Int64? = nil, channel: String? = nil, createdAt: Int64? = nil, id: String? = nil, name: String? = nil, objective: String? = nil, scheduledAt: Int64? = nil, spend: Int64? = nil, status: String? = nil, updatedAt: Int64? = nil) {
         self.budget = budget
         self.channel = channel
         self.createdAt = createdAt

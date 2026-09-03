@@ -20,9 +20,9 @@ public struct Upkeep: Sendable, Codable, ParameterConvertible, Hashable {
     /** Structure is the entity this prices. */
     public var structure: String?
     /** YearlyCents is what the entity owes every year, all obligations summed. */
-    public var yearlyCents: Int?
+    public var yearlyCents: Int64?
 
-    public init(atLeast: Bool? = nil, currency: String? = nil, jurisdiction: String? = nil, obligations: [Obligation]? = nil, structure: String? = nil, yearlyCents: Int? = nil) {
+    public init(atLeast: Bool? = nil, currency: String? = nil, jurisdiction: String? = nil, obligations: [Obligation]? = nil, structure: String? = nil, yearlyCents: Int64? = nil) {
         self.atLeast = atLeast
         self.currency = currency
         self.jurisdiction = jurisdiction

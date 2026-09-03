@@ -10,7 +10,7 @@ import Foundation
 public struct SubjectSummary: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CreatedAt is the unix second the subject was recorded. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** HasEmail reports whether a contact email is on file, without exposing it. */
     public var hasEmail: Bool?
     /** ID is the subject's opaque id. */
@@ -20,7 +20,7 @@ public struct SubjectSummary: Sendable, Codable, ParameterConvertible, Hashable 
     /** Ref is the org's own opaque external id for this subject. */
     public var ref: String?
 
-    public init(createdAt: Int? = nil, hasEmail: Bool? = nil, id: String? = nil, kind: String? = nil, ref: String? = nil) {
+    public init(createdAt: Int64? = nil, hasEmail: Bool? = nil, id: String? = nil, kind: String? = nil, ref: String? = nil) {
         self.createdAt = createdAt
         self.hasEmail = hasEmail
         self.id = id

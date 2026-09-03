@@ -9,12 +9,12 @@ import Foundation
 
 public struct O11yPagination: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var page: Int?
-    public var pages: Int?
-    public var perPage: Int?
-    public var total: Int?
+    public var page: Int64?
+    public var pages: Int64?
+    public var perPage: Int64?
+    public var total: Int64?
 
-    public init(page: Int? = nil, pages: Int? = nil, perPage: Int? = nil, total: Int? = nil) {
+    public init(page: Int64? = nil, pages: Int64? = nil, perPage: Int64? = nil, total: Int64? = nil) {
         self.page = page
         self.pages = pages
         self.perPage = perPage

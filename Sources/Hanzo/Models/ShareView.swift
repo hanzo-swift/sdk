@@ -14,13 +14,13 @@ public struct ShareView: Sendable, Codable, ParameterConvertible, Hashable {
     /** BackendMode is how the tunnel serves the backend, e.g. proxy or web. */
     public var backendMode: String?
     /** CreatedAt is when the share was opened, unix seconds. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** Token is the share's own identifier, the leaf of its public URL. */
     public var token: String?
     /** URL is the share's public address, rendered from the deployment's URL template. */
     public var url: String?
 
-    public init(backend: String? = nil, backendMode: String? = nil, createdAt: Int? = nil, token: String? = nil, url: String? = nil) {
+    public init(backend: String? = nil, backendMode: String? = nil, createdAt: Int64? = nil, token: String? = nil, url: String? = nil) {
         self.backend = backend
         self.backendMode = backendMode
         self.createdAt = createdAt

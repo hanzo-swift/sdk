@@ -10,13 +10,13 @@ import Foundation
 public struct FindingView: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CreatedAt is when the finding was recorded, in Unix milliseconds. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** Fingerprint is the SHA-256 of the raw secret. It is what makes the same secret recognisable across scans and after rotation without the secret ever being written down. */
     public var fingerprint: String?
     /** ID addresses this finding. */
     public var id: String?
     /** Line is where in that file. */
-    public var line: Int?
+    public var line: Int64?
     /** Path is the file the secret was found in. */
     public var path: String?
     /** Preview is the secret MASKED — first and last characters kept, the middle starred — so a reviewer can recognise it without it being disclosed. */
@@ -30,7 +30,7 @@ public struct FindingView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Severity ranks the finding: critical, high, medium or low. */
     public var severity: String?
 
-    public init(createdAt: Int? = nil, fingerprint: String? = nil, id: String? = nil, line: Int? = nil, path: String? = nil, preview: String? = nil, ruleId: String? = nil, ruleName: String? = nil, scanId: String? = nil, severity: String? = nil) {
+    public init(createdAt: Int64? = nil, fingerprint: String? = nil, id: String? = nil, line: Int64? = nil, path: String? = nil, preview: String? = nil, ruleId: String? = nil, ruleName: String? = nil, scanId: String? = nil, severity: String? = nil) {
         self.createdAt = createdAt
         self.fingerprint = fingerprint
         self.id = id

@@ -10,17 +10,17 @@ import Foundation
 public struct CaptableClassHolding: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Authorized is how many shares of the class are authorized. */
-    public var authorized: Int?
+    public var authorized: Int64?
     /** ClassType is COMMON or PREFERRED. */
     public var classType: String?
     /** Issued is how many shares of the class have been issued. */
-    public var issued: Int?
+    public var issued: Int64?
     /** Name is the class name. */
     public var name: String?
     /** ShareClassID addresses the class this position is for. */
     public var shareClassId: String?
 
-    public init(authorized: Int? = nil, classType: String? = nil, issued: Int? = nil, name: String? = nil, shareClassId: String? = nil) {
+    public init(authorized: Int64? = nil, classType: String? = nil, issued: Int64? = nil, name: String? = nil, shareClassId: String? = nil) {
         self.authorized = authorized
         self.classType = classType
         self.issued = issued

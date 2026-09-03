@@ -16,11 +16,11 @@ public struct IndexEnqueued: Sendable, Codable, ParameterConvertible, Hashable {
     /** Status is always `enqueued`, for dialect compatibility. The work is already done. */
     public var status: String?
     /** TaskUID identifies the task for a client that polls it. Polling resolves immediately. */
-    public var taskUid: Int?
+    public var taskUid: Int64?
     /** Type is the dialect's name for the kind of write: indexCreation, indexDeletion, settingsUpdate, documentAdditionOrUpdate, documentDeletion. */
     public var type: String?
 
-    public init(enqueuedAt: String? = nil, indexUid: String? = nil, status: String? = nil, taskUid: Int? = nil, type: String? = nil) {
+    public init(enqueuedAt: String? = nil, indexUid: String? = nil, status: String? = nil, taskUid: Int64? = nil, type: String? = nil) {
         self.enqueuedAt = enqueuedAt
         self.indexUid = indexUid
         self.status = status

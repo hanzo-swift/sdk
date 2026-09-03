@@ -14,9 +14,9 @@ public struct UsageView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Repos is every repo the org owns, across every project sub-scope. */
     public var repos: [UsageRepo]?
     /** TotalBytes is the sum over Repos — the org's whole git footprint. */
-    public var totalBytes: Int?
+    public var totalBytes: Int64?
 
-    public init(org: String? = nil, repos: [UsageRepo]? = nil, totalBytes: Int? = nil) {
+    public init(org: String? = nil, repos: [UsageRepo]? = nil, totalBytes: Int64? = nil) {
         self.org = org
         self.repos = repos
         self.totalBytes = totalBytes

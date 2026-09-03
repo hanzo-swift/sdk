@@ -10,13 +10,13 @@ import Foundation
 public struct SetReferenceOut: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Overrides is how many your org now holds in this set. */
-    public var overrides: Int?
+    public var overrides: Int64?
     /** Set is the set written in. */
     public var _set: String?
     /** Written is how many entries this call wrote. */
-    public var written: Int?
+    public var written: Int64?
 
-    public init(overrides: Int? = nil, _set: String? = nil, written: Int? = nil) {
+    public init(overrides: Int64? = nil, _set: String? = nil, written: Int64? = nil) {
         self.overrides = overrides
         self._set = _set
         self.written = written

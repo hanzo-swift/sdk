@@ -16,11 +16,11 @@ public struct SocialPostBody: Sendable, Codable, ParameterConvertible, Hashable 
     /** Media is the post's attached media as URLs, at most 10, each bounded at 1024 characters. Blank entries are dropped. Omitting it CLEARS any stored media. */
     public var media: [String]?
     /** ScheduleAt is when to publish, as a unix timestamp in SECONDS. 0 means unscheduled. A negative value is clamped to 0. It only matters for a post whose status is scheduled. */
-    public var scheduleAt: Int?
+    public var scheduleAt: Int64?
     /** Status is the post's lifecycle state: draft, scheduled, published or failed. Omitted means draft. The transient publishing claim is never settable here — accepting it from a request would let a caller wedge or replay the guard that stops two publishers double-posting the same row. */
     public var status: String?
 
-    public init(channel: String? = nil, content: String? = nil, media: [String]? = nil, scheduleAt: Int? = nil, status: String? = nil) {
+    public init(channel: String? = nil, content: String? = nil, media: [String]? = nil, scheduleAt: Int64? = nil, status: String? = nil) {
         self.channel = channel
         self.content = content
         self.media = media

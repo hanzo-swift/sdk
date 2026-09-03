@@ -15,11 +15,11 @@ public struct O11yAvailabilityResponse: Sendable, Codable, ParameterConvertible,
     /** Services is the current inventory, sorted by name so two reads of an unchanged fleet are byte-identical. */
     public var services: [O11yServiceUp]?
     /** Total is how many services the prober currently watches. */
-    public var total: Int?
+    public var total: Int64?
     /** Up is how many services are up right now. */
-    public var up: Int?
+    public var up: Int64?
 
-    public init(range: O11yAvailabilityResponseRange? = nil, series: [O11yAvailabilityPoint]? = nil, services: [O11yServiceUp]? = nil, total: Int? = nil, up: Int? = nil) {
+    public init(range: O11yAvailabilityResponseRange? = nil, series: [O11yAvailabilityPoint]? = nil, services: [O11yServiceUp]? = nil, total: Int64? = nil, up: Int64? = nil) {
         self.range = range
         self.series = series
         self.services = services

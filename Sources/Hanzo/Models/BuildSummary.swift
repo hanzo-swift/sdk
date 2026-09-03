@@ -28,9 +28,9 @@ public struct BuildSummary: Sendable, Codable, ParameterConvertible, Hashable {
     /** Title is the human line for the card. Sent even when empty, like every field here, because that is what this route has always sent. */
     public var title: String?
     /** Turns is HOW MANY turns the transcript holds — a COUNT, unlike the `turn` on each turn of the full story, which is that turn's position. The full read returns at most 1000 of them; this number is not capped. */
-    public var turns: Int?
+    public var turns: Int64?
 
-    public init(agent: String? = nil, endedAt: String? = nil, org: String? = nil, project: String? = nil, repo: String? = nil, session: String? = nil, startedAt: String? = nil, status: String? = nil, title: String? = nil, turns: Int? = nil) {
+    public init(agent: String? = nil, endedAt: String? = nil, org: String? = nil, project: String? = nil, repo: String? = nil, session: String? = nil, startedAt: String? = nil, status: String? = nil, title: String? = nil, turns: Int64? = nil) {
         self.agent = agent
         self.endedAt = endedAt
         self.org = org

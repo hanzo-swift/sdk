@@ -10,11 +10,11 @@ import Foundation
 public struct BoardPage: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Count is the number of rows in THIS page — never the org's total. */
-    public var count: Int?
+    public var count: Int64?
     /** Data is the matching items, most recently updated first. */
     public var data: [BoardItem]?
 
-    public init(count: Int? = nil, data: [BoardItem]? = nil) {
+    public init(count: Int64? = nil, data: [BoardItem]? = nil) {
         self.count = count
         self.data = data
     }

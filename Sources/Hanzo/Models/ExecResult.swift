@@ -10,13 +10,13 @@ import Foundation
 public struct ExecResult: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** ExitCode is the command's own exit status. A non-zero one is a SUCCESSFUL call carrying a failed command — the HTTP status stays 200, because \"the command failed\" and \"the call failed\" are different facts and a caller has to be able to tell them apart. */
-    public var exitCode: Int?
+    public var exitCode: Int64?
     /** Stderr is everything it wrote to standard error. It is populated on a successful run too — plenty of tools report progress there — so it is not a signal that anything went wrong; ExitCode is. */
     public var stderr: String?
     /** Stdout is everything the command wrote to standard output, as text. */
     public var stdout: String?
 
-    public init(exitCode: Int? = nil, stderr: String? = nil, stdout: String? = nil) {
+    public init(exitCode: Int64? = nil, stderr: String? = nil, stdout: String? = nil) {
         self.exitCode = exitCode
         self.stderr = stderr
         self.stdout = stdout

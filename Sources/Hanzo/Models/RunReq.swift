@@ -12,23 +12,23 @@ public struct RunReq: Sendable, Codable, ParameterConvertible, Hashable {
     /** Env is the run's environment. Keys must match `^[A-Za-z_][A-Za-z0-9_]*$`; a variable marked `secret: true` is sealed into KMS. */
     public var env: [EnvVarJSON]?
     /** GPU is how many GPUs the run asks for; a negative value is 400. */
-    public var gpu: Int?
+    public var gpu: Int64?
     /** Image is the container image to run. Required. */
     public var image: String?
     /** MaxScale above the floor declares an autoscaling ceiling; 0 means no autoscaler at all — a fixed run at the floor. */
-    public var maxScale: Int?
+    public var maxScale: Int64?
     /** MinScale is the replica floor, clamped to the deployment's limit. */
-    public var minScale: Int?
+    public var minScale: Int64?
     /** Name is the run's name, and the slug is derived from it. Required, and it must resolve to `^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$`. Re-running the same name updates that run in place. */
     public var name: String?
     /** Port is the container port the run listens on. */
-    public var port: Int?
+    public var port: Int64?
     /** Runtime is accepted for the client contract and echoed nowhere: the image IS the runtime unit. */
     public var runtime: String?
     /** Shape is a compute size label, echoed back; sizing is the operator's default. Defaults to \"auto\". */
     public var shape: String?
 
-    public init(env: [EnvVarJSON]? = nil, gpu: Int? = nil, image: String? = nil, maxScale: Int? = nil, minScale: Int? = nil, name: String? = nil, port: Int? = nil, runtime: String? = nil, shape: String? = nil) {
+    public init(env: [EnvVarJSON]? = nil, gpu: Int64? = nil, image: String? = nil, maxScale: Int64? = nil, minScale: Int64? = nil, name: String? = nil, port: Int64? = nil, runtime: String? = nil, shape: String? = nil) {
         self.env = env
         self.gpu = gpu
         self.image = image

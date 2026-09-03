@@ -61,7 +61,7 @@ open class FlagsAPI {
      - returns: ActivityOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getFlagsActivity(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ActivityOut {
+    open class func getFlagsActivity(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ActivityOut {
         return try await getFlagsActivityWithRequestBuilder(limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -76,7 +76,7 @@ open class FlagsAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ActivityOut> 
      */
-    open class func getFlagsActivityWithRequestBuilder(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ActivityOut> {
+    open class func getFlagsActivityWithRequestBuilder(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ActivityOut> {
         let localVariablePath = "/v1/flags/activity"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil

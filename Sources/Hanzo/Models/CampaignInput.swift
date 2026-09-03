@@ -12,7 +12,7 @@ public struct CampaignInput: Sendable, Codable, ParameterConvertible, Hashable {
     /** Account is the provider ad-account this campaign runs on (Meta act_<id>). Optional. */
     public var account: String?
     /** Budget is the campaign budget in MINOR units (cents). Negative values clamp to 0. */
-    public var budget: Int?
+    public var budget: Int64?
     /** Name is the campaign's display label. Required; trimmed and bounded to 1024 bytes. */
     public var name: String?
     /** Objective is the campaign goal as the provider names it. Optional, bounded to 1024 bytes. */
@@ -20,11 +20,11 @@ public struct CampaignInput: Sendable, Codable, ParameterConvertible, Hashable {
     /** Platform is the ad network: meta, google, tiktok or x. Empty defaults to meta. */
     public var platform: String?
     /** Spend is the amount spent so far in MINOR units (cents). Negative values clamp to 0. */
-    public var spend: Int?
+    public var spend: Int64?
     /** Status is the lifecycle state: draft, active, paused or completed. Empty defaults to draft. */
     public var status: String?
 
-    public init(account: String? = nil, budget: Int? = nil, name: String? = nil, objective: String? = nil, platform: String? = nil, spend: Int? = nil, status: String? = nil) {
+    public init(account: String? = nil, budget: Int64? = nil, name: String? = nil, objective: String? = nil, platform: String? = nil, spend: Int64? = nil, status: String? = nil) {
         self.account = account
         self.budget = budget
         self.name = name

@@ -10,11 +10,11 @@ import Foundation
 public struct BotSync: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Projected is how many roster entries the reconcile touched. */
-    public var projected: Int?
+    public var projected: Int64?
     /** Synced is true when the reconcile ran. */
     public var synced: Bool?
 
-    public init(projected: Int? = nil, synced: Bool? = nil) {
+    public init(projected: Int64? = nil, synced: Bool? = nil) {
         self.projected = projected
         self.synced = synced
     }

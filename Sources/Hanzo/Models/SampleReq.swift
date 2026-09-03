@@ -12,17 +12,17 @@ public struct SampleReq: Sendable, Codable, ParameterConvertible, Hashable {
     /** Account is the linked account the window was metered from. */
     public var account: String?
     /** CachedInputTokens is the prompt tokens the provider served from cache. */
-    public var cachedInputTokens: Int?
+    public var cachedInputTokens: Int64?
     /** Confidence says how much the counters below mean. */
     public var confidence: String?
     /** CostCents is what the window cost on the PROVIDER's own plan, in US cents. */
-    public var costCents: Int?
+    public var costCents: Int64?
     /** CostLimitCents is the plan's spend ceiling for the window, in US cents. */
-    public var costLimitCents: Int?
+    public var costLimitCents: Int64?
     /** Currency is the provider's currency when it is not US cents. */
     public var currency: String?
     /** InputTokens is prompt tokens consumed in the window. */
-    public var inputTokens: Int?
+    public var inputTokens: Int64?
     /** Kind is subscription or apikey. Empty is accepted; anything else is refused. */
     public var kind: String?
     /** Lane is the meter lane within the account. */
@@ -30,19 +30,19 @@ public struct SampleReq: Sendable, Codable, ParameterConvertible, Hashable {
     /** Machine is the host whose meter read the window. Required. */
     public var machine: String?
     /** OutputTokens is completion tokens produced in the window. */
-    public var outputTokens: Int?
+    public var outputTokens: Int64?
     /** Plan is the subscription plan the account is on, as the provider names it. */
     public var plan: String?
     /** Provider is the upstream the account belongs to, e.g. anthropic. Required. */
     public var provider: String?
     /** Requests is how many requests the window covers. */
-    public var requests: Int?
+    public var requests: Int64?
     /** ResetsAt is when the measured window rolls over, RFC3339. Empty is allowed; anything else that is not RFC3339 is refused. */
     public var resetsAt: String?
     /** Synthetic marks a window the meter inferred rather than read. */
     public var synthetic: Bool?
     /** TotalTokens is the window's total tokens. */
-    public var totalTokens: Int?
+    public var totalTokens: Int64?
     /** UsedPct is how much of the window's allowance is consumed, 0–100. */
     public var usedPct: Double?
     /** Window is the window class: 6h, day, week or month. Required, and a class this surface does not know is refused rather than rewritten. */
@@ -52,7 +52,7 @@ public struct SampleReq: Sendable, Codable, ParameterConvertible, Hashable {
     /** WindowStart is when the measured window opened, RFC3339. Empty is allowed; anything else that is not RFC3339 is refused. */
     public var windowStart: String?
 
-    public init(account: String? = nil, cachedInputTokens: Int? = nil, confidence: String? = nil, costCents: Int? = nil, costLimitCents: Int? = nil, currency: String? = nil, inputTokens: Int? = nil, kind: String? = nil, lane: String? = nil, machine: String? = nil, outputTokens: Int? = nil, plan: String? = nil, provider: String? = nil, requests: Int? = nil, resetsAt: String? = nil, synthetic: Bool? = nil, totalTokens: Int? = nil, usedPct: Double? = nil, window: String? = nil, windowMinutes: Int? = nil, windowStart: String? = nil) {
+    public init(account: String? = nil, cachedInputTokens: Int64? = nil, confidence: String? = nil, costCents: Int64? = nil, costLimitCents: Int64? = nil, currency: String? = nil, inputTokens: Int64? = nil, kind: String? = nil, lane: String? = nil, machine: String? = nil, outputTokens: Int64? = nil, plan: String? = nil, provider: String? = nil, requests: Int64? = nil, resetsAt: String? = nil, synthetic: Bool? = nil, totalTokens: Int64? = nil, usedPct: Double? = nil, window: String? = nil, windowMinutes: Int? = nil, windowStart: String? = nil) {
         self.account = account
         self.cachedInputTokens = cachedInputTokens
         self.confidence = confidence

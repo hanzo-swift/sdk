@@ -14,13 +14,13 @@ public struct PairingView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Code is the CAPABILITY that authorises the approval: eight characters from a 32-symbol uppercase alphabet (A-Z0-9 minus the confusables 0, O, 1 and I), minted with crypto/rand and also sent to the requester in chat. An org admin passes it with the channel to POST /v1/channels/pairing/approve, which CONSUMES it — the request row is deleted, so a code approves once — and which takes org admin as well as the code. It lives ONE HOUR from CreatedAt; expired requests are not listed here, and approving one is a 404. It is shown on this admin surface and NEVER logged. */
     public var code: String?
     /** CreatedAt is Unix SECONDS of FIRST contact: when the request was minted and the code sent. Expiry is measured from here and from nowhere else. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** LastSeen is Unix SECONDS of the MOST RECENT message from this sender while the request has been pending. It moves as they keep writing, which is how an admin tells a live request from an abandoned one — but it does not extend the hour and does not re-send the code, since one request sends exactly one chat reply. */
-    public var lastSeen: Int?
+    public var lastSeen: Int64?
     /** Sender is the transport-native user id waiting for access — the same identity inbox messages carry. Approving mints a DM allow entry for exactly this value and nothing wider: pairing never grants group access. */
     public var sender: String?
 
-    public init(channel: String? = nil, code: String? = nil, createdAt: Int? = nil, lastSeen: Int? = nil, sender: String? = nil) {
+    public init(channel: String? = nil, code: String? = nil, createdAt: Int64? = nil, lastSeen: Int64? = nil, sender: String? = nil) {
         self.channel = channel
         self.code = code
         self.createdAt = createdAt

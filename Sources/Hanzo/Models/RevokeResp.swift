@@ -12,11 +12,11 @@ public struct RevokeResp: Sendable, Codable, ParameterConvertible, Hashable {
     /** Links is each revoked row with its new status — retained, not deleted, so usage history and the audit trail survive the log-out. */
     public var links: [LinkView]?
     /** Revoked is how many links this call revoked. */
-    public var revoked: Int?
+    public var revoked: Int64?
     /** SessionsStopped is how many of the caller's own agent sessions stopped. A stop that fails does not fail the revoke, so this may honestly report fewer. */
-    public var sessionsStopped: Int?
+    public var sessionsStopped: Int64?
 
-    public init(links: [LinkView]? = nil, revoked: Int? = nil, sessionsStopped: Int? = nil) {
+    public init(links: [LinkView]? = nil, revoked: Int64? = nil, sessionsStopped: Int64? = nil) {
         self.links = links
         self.revoked = revoked
         self.sessionsStopped = sessionsStopped

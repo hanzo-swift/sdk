@@ -10,11 +10,11 @@ import Foundation
 public struct Genesis: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** At is the unix second the genesis root was computed. */
-    public var at: Int?
+    public var at: Int64?
     /** Block is the L1 block the anchoring transaction landed in. Set only once the receipt has been read; absent otherwise. */
     public var block: Int?
     /** ChainID is the EVM chain the root is committed to — the Hanzo L1 by default. */
-    public var chainId: Int?
+    public var chainId: Int64?
     /** Note explains an unanchored genesis honestly — anchor wiring absent, or the submit error — rather than reporting a commit that did not happen. */
     public var note: String?
     /** Root is the 0x-prefixed keccak256 root of the founding allocation. It is ALWAYS computed, whether or not the on-chain anchor is wired, because the root is the tamper-evident witness. */
@@ -24,7 +24,7 @@ public struct Genesis: Sendable, Codable, ParameterConvertible, Hashable {
     /** TxHash is the L1 transaction hash of the anchoring commit. Empty until anchored. */
     public var txHash: String?
 
-    public init(at: Int? = nil, block: Int? = nil, chainId: Int? = nil, note: String? = nil, root: String? = nil, status: String? = nil, txHash: String? = nil) {
+    public init(at: Int64? = nil, block: Int? = nil, chainId: Int64? = nil, note: String? = nil, root: String? = nil, status: String? = nil, txHash: String? = nil) {
         self.at = at
         self.block = block
         self.chainId = chainId

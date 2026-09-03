@@ -12,13 +12,13 @@ public struct O11yO11yToken: Sendable, Codable, ParameterConvertible, Hashable {
     /** AccessToken authenticates requests until it expires. */
     public var accessToken: String?
     /** ExpiresIn is the access token's lifetime in seconds. */
-    public var expiresIn: Int?
+    public var expiresIn: Int64?
     /** RefreshToken buys the next pair via rotateSession. */
     public var refreshToken: String?
     /** TokenType is how to present the access token, e.g. bearer. */
     public var tokenType: String?
 
-    public init(accessToken: String? = nil, expiresIn: Int? = nil, refreshToken: String? = nil, tokenType: String? = nil) {
+    public init(accessToken: String? = nil, expiresIn: Int64? = nil, refreshToken: String? = nil, tokenType: String? = nil) {
         self.accessToken = accessToken
         self.expiresIn = expiresIn
         self.refreshToken = refreshToken

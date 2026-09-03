@@ -10,7 +10,7 @@ import Foundation
 public struct NextIn: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Batch is how many messages to pull (1–1000, default 1). */
-    public var batch: Int?
+    public var batch: Int64?
     /** Expires is how long to wait for messages, e.g. \"5s\" (default \"30s\", max \"60s\"). */
     public var expires: String?
     /** Name is the consumer name, from the path. */
@@ -20,7 +20,7 @@ public struct NextIn: Sendable, Codable, ParameterConvertible, Hashable {
     /** Stream is the stream name, from the path. */
     public var stream: String?
 
-    public init(batch: Int? = nil, expires: String? = nil, name: String? = nil, noWait: Bool? = nil, stream: String? = nil) {
+    public init(batch: Int64? = nil, expires: String? = nil, name: String? = nil, noWait: Bool? = nil, stream: String? = nil) {
         self.batch = batch
         self.expires = expires
         self.name = name

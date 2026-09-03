@@ -18,13 +18,13 @@ public struct CartItem: Sendable, Codable, ParameterConvertible, Hashable {
     /** Name is the item's display name, cached onto the line when it was added so a cart renders without a second read. */
     public var name: String?
     /** PriceCents is the unit price in whole cents, cached at the moment the line was added. The line's contribution to the cart is this times Quantity. */
-    public var priceCents: Int?
+    public var priceCents: Int64?
     /** Quantity is how many units of this item the cart holds. */
-    public var quantity: Int?
+    public var quantity: Int64?
     /** SKU is the line's stock-keeping unit — the variant's when it has one, otherwise the product's. Empty when neither carries one. */
     public var sku: String?
 
-    public init(free: Bool? = nil, id: String? = nil, kind: String? = nil, name: String? = nil, priceCents: Int? = nil, quantity: Int? = nil, sku: String? = nil) {
+    public init(free: Bool? = nil, id: String? = nil, kind: String? = nil, name: String? = nil, priceCents: Int64? = nil, quantity: Int64? = nil, sku: String? = nil) {
         self.free = free
         self.id = id
         self.kind = kind

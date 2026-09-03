@@ -24,13 +24,13 @@ public struct EsignRecipient: Sendable, Codable, ParameterConvertible, Hashable 
     /** SendStatus is NOT_SENT until the document goes out, then SENT. A CC recipient is SENT from the moment they are added. */
     public var sendStatus: String?
     /** SignedAt is when they finished or declined, in unix milliseconds; null while neither has happened. */
-    public var signedAt: Int?
+    public var signedAt: Int64?
     /** SigningOrder is their position in a SEQUENTIAL document, null when they were added without one. A PARALLEL document ignores it. */
     public var signingOrder: Double?
     /** SigningStatus is NOT_SIGNED, SIGNED or REJECTED. A CC recipient is SIGNED from the moment they are added, because they are never asked. */
     public var signingStatus: String?
 
-    public init(email: String? = nil, id: String? = nil, name: String? = nil, readStatus: String? = nil, rejectionReason: String? = nil, role: String? = nil, sendStatus: String? = nil, signedAt: Int? = nil, signingOrder: Double? = nil, signingStatus: String? = nil) {
+    public init(email: String? = nil, id: String? = nil, name: String? = nil, readStatus: String? = nil, rejectionReason: String? = nil, role: String? = nil, sendStatus: String? = nil, signedAt: Int64? = nil, signingOrder: Double? = nil, signingStatus: String? = nil) {
         self.email = email
         self.id = id
         self.name = name

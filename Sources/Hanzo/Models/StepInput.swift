@@ -12,13 +12,13 @@ public struct StepInput: Sendable, Codable, ParameterConvertible, Hashable {
     /** Body is the message text. Required. */
     public var body: String?
     /** DelaySeconds is how long after the previous step this one sends (after enrollment, for the first step). Must be >= 0. */
-    public var delaySeconds: Int?
+    public var delaySeconds: Int64?
     /** SequenceID is the sequence id from the path (the route's :id). */
     public var id: String?
     /** Subject is the email subject line, capped at 1024 bytes. */
     public var subject: String?
 
-    public init(body: String? = nil, delaySeconds: Int? = nil, id: String? = nil, subject: String? = nil) {
+    public init(body: String? = nil, delaySeconds: Int64? = nil, id: String? = nil, subject: String? = nil) {
         self.body = body
         self.delaySeconds = delaySeconds
         self.id = id

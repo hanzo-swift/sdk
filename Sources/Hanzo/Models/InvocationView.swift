@@ -10,7 +10,7 @@ import Foundation
 public struct InvocationView: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** how long it took */
-    public var durationMs: Int?
+    public var durationMs: Int64?
     /** the invocation's handle */
     public var id: String?
     /** the HTTP method that triggered it */
@@ -18,11 +18,11 @@ public struct InvocationView: Sendable, Codable, ParameterConvertible, Hashable 
     /** how the run ended: ok, error or timeout */
     public var status: String?
     /** Code is the status the function's OWN code answered with, which is not the status of the reply — a program can answer 500 through a healthy sandbox. */
-    public var statusCode: Int?
+    public var statusCode: Int64?
     /** when it ran, RFC3339 */
     public var time: String?
 
-    public init(durationMs: Int? = nil, id: String? = nil, method: String? = nil, status: String? = nil, statusCode: Int? = nil, time: String? = nil) {
+    public init(durationMs: Int64? = nil, id: String? = nil, method: String? = nil, status: String? = nil, statusCode: Int64? = nil, time: String? = nil) {
         self.durationMs = durationMs
         self.id = id
         self.method = method

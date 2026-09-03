@@ -14,7 +14,7 @@ public struct O11yO11yFieldSetting: Sendable, Codable, ParameterConvertible, Has
     /** Index is the index expression to put on the column, e.g. minmax, set(N), bloom_filter(P), tokenbf_v1(S,H,SEED). Empty keeps the default. */
     public var index: String?
     /** IndexGranularity is the index granularity in rows. */
-    public var indexGranularity: Int?
+    public var indexGranularity: Int64?
     /** Name is the field to tune. Required. */
     public var name: String
     /** Selected materializes the field as its own column when true. */
@@ -22,7 +22,7 @@ public struct O11yO11yFieldSetting: Sendable, Codable, ParameterConvertible, Has
     /** Type is where the field lives: attributes or resources. Required. */
     public var type: String
 
-    public init(dataType: String, index: String? = nil, indexGranularity: Int? = nil, name: String, selected: Bool? = nil, type: String) {
+    public init(dataType: String, index: String? = nil, indexGranularity: Int64? = nil, name: String, selected: Bool? = nil, type: String) {
         self.dataType = dataType
         self.index = index
         self.indexGranularity = indexGranularity

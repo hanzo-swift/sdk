@@ -16,13 +16,13 @@ public struct ChannelMetric: Sendable, Codable, ParameterConvertible, Hashable {
     /** Platform is the provider the spend was read from: meta, google, x, instagram, or the email provider. */
     public var platform: String?
     /** SpendCents is what the provider itself reports this channel spent, in CENTS. 0 when the channel never launched, when no executor is wired for it, or when the read failed — SpendError tells the last case apart from a genuine zero. */
-    public var spendCents: Int?
+    public var spendCents: Int64?
     /** SpendError is why this channel's spend could not be read (connector not connected, provider error), as one secret-free line. Present only on failure; the campaign total then simply omits this channel rather than failing. */
     public var spendError: String?
     /** Status is the channel's launch state on the campaign — pending, live, paused, failed or unavailable. Only a live channel is asked for its spend at all. */
     public var status: String?
 
-    public init(externalId: String? = nil, kind: String? = nil, platform: String? = nil, spendCents: Int? = nil, spendError: String? = nil, status: String? = nil) {
+    public init(externalId: String? = nil, kind: String? = nil, platform: String? = nil, spendCents: Int64? = nil, spendError: String? = nil, status: String? = nil) {
         self.externalId = externalId
         self.kind = kind
         self.platform = platform

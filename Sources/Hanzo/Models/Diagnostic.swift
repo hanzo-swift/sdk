@@ -16,11 +16,11 @@ public struct Diagnostic: Sendable, Codable, ParameterConvertible, Hashable {
     /** Range is the span the problem is about. */
     public var range: ModelRange?
     /** Severity is the LSP's: 1 error, 2 warning, 3 information, 4 hint. A file with only 3s and 4s still compiles. */
-    public var severity: Int?
+    public var severity: Int64?
     /** Source is which checker reported it (\"compiler\", \"go vet\", a linter's name), which is what separates a build error from a style opinion. */
     public var source: String?
 
-    public init(code: JSONValue? = nil, message: String? = nil, range: ModelRange? = nil, severity: Int? = nil, source: String? = nil) {
+    public init(code: JSONValue? = nil, message: String? = nil, range: ModelRange? = nil, severity: Int64? = nil, source: String? = nil) {
         self.code = code
         self.message = message
         self.range = range

@@ -32,13 +32,13 @@ public struct RepoView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Public grants ANONYMOUS read (fetch) only; push and the whole control plane stay org-authed. */
     public var _public: Bool?
     /** SizeBytes is the repo's measured on-disk size, re-measured on create, after each push, and after a gc. This is the number billing meters. */
-    public var sizeBytes: Int?
+    public var sizeBytes: Int64?
     /** SSHURL is the scp-style SSH remote (git@host:org/repo.git). */
     public var sshUrl: String?
     /** UpdatedAt is RFC 3339 UTC, empty until the first write. */
     public var updatedAt: String?
 
-    public init(branches: [String]? = nil, cloneUrl: String? = nil, createdAt: String? = nil, defaultBranch: String? = nil, description: String? = nil, head: String? = nil, id: String? = nil, name: String? = nil, org: String? = nil, project: String? = nil, _public: Bool? = nil, sizeBytes: Int? = nil, sshUrl: String? = nil, updatedAt: String? = nil) {
+    public init(branches: [String]? = nil, cloneUrl: String? = nil, createdAt: String? = nil, defaultBranch: String? = nil, description: String? = nil, head: String? = nil, id: String? = nil, name: String? = nil, org: String? = nil, project: String? = nil, _public: Bool? = nil, sizeBytes: Int64? = nil, sshUrl: String? = nil, updatedAt: String? = nil) {
         self.branches = branches
         self.cloneUrl = cloneUrl
         self.createdAt = createdAt

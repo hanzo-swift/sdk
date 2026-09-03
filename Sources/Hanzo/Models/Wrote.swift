@@ -10,11 +10,11 @@ import Foundation
 public struct Wrote: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Bytes is how many bytes the file now holds. A write REPLACES the file, so this is its whole length and not an amount appended, and 0 is a legitimate answer: a WriteIn with no Data truncates the file to nothing. */
-    public var bytes: Int?
+    public var bytes: Int64?
     /** Path is where the bytes actually landed: the caller's path resolved against the sandbox's working directory (Leased.Workdir), which is what a later read or a shell line inside the sandbox has to name. */
     public var path: String?
 
-    public init(bytes: Int? = nil, path: String? = nil) {
+    public init(bytes: Int64? = nil, path: String? = nil) {
         self.bytes = bytes
         self.path = path
     }

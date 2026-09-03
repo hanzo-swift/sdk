@@ -17,9 +17,9 @@ public struct DefRow: Sendable, Codable, ParameterConvertible, Hashable {
     /** UpdatedBy is the email of the principal who last wrote it. Empty when the write came from an in-process composer (an experiment registering its own assignment flag) rather than from a signed-in person. */
     public var updatedBy: String?
     /** Version is 1 when the key was created and rises by one on every overwrite. It counts writes, not content changes: re-storing an identical document bumps it. */
-    public var version: Int?
+    public var version: Int64?
 
-    public init(definition: JSONValue? = nil, key: String? = nil, updatedAt: String? = nil, updatedBy: String? = nil, version: Int? = nil) {
+    public init(definition: JSONValue? = nil, key: String? = nil, updatedAt: String? = nil, updatedBy: String? = nil, version: Int64? = nil) {
         self.definition = definition
         self.key = key
         self.updatedAt = updatedAt

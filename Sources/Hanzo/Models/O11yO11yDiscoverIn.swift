@@ -16,7 +16,7 @@ public struct O11yO11yDiscoverIn: Sendable, Codable, ParameterConvertible, Hasha
     /** GroupBy are the columns to group the rows by. */
     public var groupBy: [String]?
     /** Limit caps how many rows come back. */
-    public var limit: Int?
+    public var limit: Int64?
     /** OrderBy is the column or aggregation to sort the rows on. */
     public var orderBy: String?
     /** OrderDir is asc or desc. */
@@ -26,7 +26,7 @@ public struct O11yO11yDiscoverIn: Sendable, Codable, ParameterConvertible, Hasha
     /** Project is the project to read, as its id. Required. */
     public var project: String
 
-    public init(aggregations: [String]? = nil, filters: [O11yO11yFilter]? = nil, groupBy: [String]? = nil, limit: Int? = nil, orderBy: String? = nil, orderDir: String? = nil, period: String? = nil, project: String) {
+    public init(aggregations: [String]? = nil, filters: [O11yO11yFilter]? = nil, groupBy: [String]? = nil, limit: Int64? = nil, orderBy: String? = nil, orderDir: String? = nil, period: String? = nil, project: String) {
         self.aggregations = aggregations
         self.filters = filters
         self.groupBy = groupBy

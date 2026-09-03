@@ -14,11 +14,11 @@ public struct Attribution: Sendable, Codable, ParameterConvertible, Hashable {
     /** Created says whether THIS call made the edge. false means the caller org was already attributed and nothing moved. The HTTP status says the same: 201 when true, 200 when false. */
     public var created: Bool?
     /** CreatedAt is when the edge was FIRST recorded, Unix seconds UTC. On a re-post it is the original time, not now. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** ID is the attribution edge's server-minted handle, \"afr_\"-prefixed. */
     public var id: String?
 
-    public init(code: String? = nil, created: Bool? = nil, createdAt: Int? = nil, id: String? = nil) {
+    public init(code: String? = nil, created: Bool? = nil, createdAt: Int64? = nil, id: String? = nil) {
         self.code = code
         self.created = created
         self.createdAt = createdAt

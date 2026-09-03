@@ -10,19 +10,19 @@ import Foundation
 public struct O11yO11yMetricStatsIn: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** End is the end of the window as a Unix timestamp in milliseconds. Required. */
-    public var end: Int
+    public var end: Int64
     /** Filter narrows the metrics counted. */
     public var filter: O11yO11yMetricFilter?
     /** Limit caps how many metrics come back, between 1 and 5000. Required. */
-    public var limit: Int
+    public var limit: Int64
     /** Offset is how many metrics to skip, for paging. */
-    public var offset: Int?
+    public var offset: Int64?
     /** OrderBy sorts the page, by samples or timeseries. */
     public var orderBy: O11yO11yMetricOrder?
     /** Start is the start of the window as a Unix timestamp in milliseconds. Required. */
-    public var start: Int
+    public var start: Int64
 
-    public init(end: Int, filter: O11yO11yMetricFilter? = nil, limit: Int, offset: Int? = nil, orderBy: O11yO11yMetricOrder? = nil, start: Int) {
+    public init(end: Int64, filter: O11yO11yMetricFilter? = nil, limit: Int64, offset: Int64? = nil, orderBy: O11yO11yMetricOrder? = nil, start: Int64) {
         self.end = end
         self.filter = filter
         self.limit = limit

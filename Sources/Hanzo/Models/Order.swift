@@ -14,9 +14,9 @@ public struct Order: Sendable, Codable, ParameterConvertible, Hashable {
     /** Domain is the name to buy. It is required. */
     public var domain: String
     /** Years is the term to buy, defaulting to 1. */
-    public var years: Int?
+    public var years: Int64?
 
-    public init(contacts: Contacts? = nil, domain: String, years: Int? = nil) {
+    public init(contacts: Contacts? = nil, domain: String, years: Int64? = nil) {
         self.contacts = contacts
         self.domain = domain
         self.years = years

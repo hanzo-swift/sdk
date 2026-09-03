@@ -26,11 +26,11 @@ public struct CreateAppReq: Sendable, Codable, ParameterConvertible, Hashable {
     /** Name is the application's display name. Required; the slug is derived from it when none is given. */
     public var name: String?
     /** Port is the container port the app listens on. */
-    public var port: Int?
+    public var port: Int64?
     /** Project is the project to create the application under, from the path. */
     public var project: String?
     /** Replicas is how many copies to run; clamped to the deployment's limit rather than refused. */
-    public var replicas: Int?
+    public var replicas: Int64?
     /** Repo is the git source to build from, for source `git`. */
     public var repo: GitOrigin?
     /** Slug is the app's identity in the cluster — its CR name and part of its host. Given or derived from Name, it must match `^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$`, and one already used in this project is 409. */
@@ -38,9 +38,9 @@ public struct CreateAppReq: Sendable, Codable, ParameterConvertible, Hashable {
     /** Source is `git`, which requires repo.url, or `image`, which requires image.repository. Anything else is 400. */
     public var source: String?
     /** StorageGB is the persistent volume size in GiB; absent means stateless. Clamped to the deployment's limit rather than refused. */
-    public var storageGb: Int?
+    public var storageGb: Int64?
 
-    public init(buildType: String? = nil, description: String? = nil, dockerfile: String? = nil, domains: [String]? = nil, env: [EnvVarJSON]? = nil, environment: String? = nil, image: ImageOrigin? = nil, name: String? = nil, port: Int? = nil, project: String? = nil, replicas: Int? = nil, repo: GitOrigin? = nil, slug: String? = nil, source: String? = nil, storageGb: Int? = nil) {
+    public init(buildType: String? = nil, description: String? = nil, dockerfile: String? = nil, domains: [String]? = nil, env: [EnvVarJSON]? = nil, environment: String? = nil, image: ImageOrigin? = nil, name: String? = nil, port: Int64? = nil, project: String? = nil, replicas: Int64? = nil, repo: GitOrigin? = nil, slug: String? = nil, source: String? = nil, storageGb: Int64? = nil) {
         self.buildType = buildType
         self.description = description
         self.dockerfile = dockerfile

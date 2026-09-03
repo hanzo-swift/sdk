@@ -10,13 +10,13 @@ import Foundation
 public struct AffiliateSelf: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** AccruedCents is lifetime commission accrued, in cents. It only grows — a payout is recorded against paidCents and never reduces this. */
-    public var accruedCents: Int?
+    public var accruedCents: Int64?
     /** Code is the minted referral code, the slug the ?aff link carries. Absent until staff approve; codes live in ONE global namespace across all affiliates. */
     public var code: String?
     /** DefaultRateBps is the direct rate a new affiliate starts at, in basis points of margin (2000 = 20%). Answered ONLY to a caller that has not applied, as the quote beside `schedule`. */
-    public var defaultRateBps: Int?
+    public var defaultRateBps: Int64?
     /** DownlineTotal counts every org in the caller's downline across the levels. */
-    public var downlineTotal: Int?
+    public var downlineTotal: Int64?
     /** Handle is the opt-in public leaderboard name. Empty means opted out: the caller keeps its rank and still sees its own row, it is just not listed. */
     public var handle: String?
     /** ID is the affiliate's server-minted handle, \"aff_\"-prefixed. Absent until the org applies. */
@@ -28,21 +28,21 @@ public struct AffiliateSelf: Sendable, Codable, ParameterConvertible, Hashable {
     /** Link is the shareable ?aff URL built from the code. Empty until a code is minted, since there is nothing to share before approval. */
     public var link: String?
     /** MarginBps is the platform gross-margin fraction, in basis points, that every rate here is a rate OF. Read live per request, so it is the value in force now, not the one that applied to commission already accrued. */
-    public var marginBps: Int?
+    public var marginBps: Int64?
     /** PaidCents is lifetime commission already paid out, in cents — credits grants and record-only cash disbursements alike. */
-    public var paidCents: Int?
+    public var paidCents: Int64?
     /** Payouts is the payout history, newest first, bounded to the last 100 rows. */
     public var payouts: [Remittance]?
     /** PendingCents is accrued minus paid, in cents — what the platform still owes and the ceiling on the next payout. Never negative. */
-    public var pendingCents: Int?
+    public var pendingCents: Int64?
     /** RateBps is the caller's OWN direct (level 1) commission rate, in basis points of margin. Levels 2 and 3 are platform-wide and appear in `levels`. */
-    public var rateBps: Int?
+    public var rateBps: Int64?
     /** Schedule is the rate schedule quoted to a caller that has not applied. */
     public var schedule: [LevelView]?
     /** Status is \"applied\", \"approved\" or \"suspended\"; absent for a caller that never applied. Only \"approved\" mints links and accrues. */
     public var status: String?
 
-    public init(accruedCents: Int? = nil, code: String? = nil, defaultRateBps: Int? = nil, downlineTotal: Int? = nil, handle: String? = nil, id: String? = nil, isAffiliate: Bool? = nil, levels: [LevelView]? = nil, link: String? = nil, marginBps: Int? = nil, paidCents: Int? = nil, payouts: [Remittance]? = nil, pendingCents: Int? = nil, rateBps: Int? = nil, schedule: [LevelView]? = nil, status: String? = nil) {
+    public init(accruedCents: Int64? = nil, code: String? = nil, defaultRateBps: Int64? = nil, downlineTotal: Int64? = nil, handle: String? = nil, id: String? = nil, isAffiliate: Bool? = nil, levels: [LevelView]? = nil, link: String? = nil, marginBps: Int64? = nil, paidCents: Int64? = nil, payouts: [Remittance]? = nil, pendingCents: Int64? = nil, rateBps: Int64? = nil, schedule: [LevelView]? = nil, status: String? = nil) {
         self.accruedCents = accruedCents
         self.code = code
         self.defaultRateBps = defaultRateBps

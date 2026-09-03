@@ -12,7 +12,7 @@ public struct AppView: Sendable, Codable, ParameterConvertible, Hashable {
     /** BuildType is how a git app builds: `pack`, the zero-config default that detects the project, or `dockerfile`. An image app carries `image`, which means it never builds. */
     public var buildType: String?
     /** CreatedAt is when the app was created, unix seconds. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** CurrentDeploymentID is the deployment that is live — the pointer a deploy advances monotonically by version, so it never regresses to an older one. Empty until the first deploy reaches the cluster. */
     public var currentDeploymentId: String?
     /** Description is free text about what the app is. Nothing derives from it. */
@@ -40,11 +40,11 @@ public struct AppView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Phase is the operator's own `status.phase` for the app's Service CR, read from the cluster on this request. Empty when there is no CR yet or the cluster could not be read. */
     public var phase: String?
     /** Port is the container port traffic is sent to. 8080 when the create asked for none, or for one outside 1–65535. */
-    public var port: Int?
+    public var port: Int64?
     /** ProjectID is the IAM project the app lives under, and it is that project's NAME — the (org,name) key IAM identifies it by, which is also what the `:project` path segment carries. There is no platform-minted project id. */
     public var projectId: String?
     /** Replicas is how many copies the CR declares. It is CLAMPED to the deployment's ceiling rather than refused, so it can be below what was asked. */
-    public var replicas: Int?
+    public var replicas: Int64?
     /** Repo is the git origin a source `git` app builds from, and the repo+branch a landed push has to match to build it. */
     public var repo: GitSource?
     /** SecretSync is how far the app's secret env has got into the cluster: \"\"|pending|syncing|ready|failed (secrets.go). It is best-effort and never fails a deploy, so `pending` is ordinary right after one. */
@@ -58,11 +58,11 @@ public struct AppView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Status is the lifecycle THIS store records: draft (created, nothing in the cluster yet), building, deploying, live, stopped or error. What the cluster itself says is Phase and Health. */
     public var status: String?
     /** StorageGB is the persistent volume size in GiB. Absent means stateless — no volume at all — and it is clamped like Replicas. */
-    public var storageGb: Int?
+    public var storageGb: Int64?
     /** UpdatedAt is when it last changed, unix seconds. Every lifecycle transition moves it, so it tracks deploys as well as edits. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
 
-    public init(buildType: String? = nil, createdAt: Int? = nil, currentDeploymentId: String? = nil, description: String? = nil, dockerfile: String? = nil, domains: [String]? = nil, env: [EnvVarJSON]? = nil, environment: String? = nil, health: String? = nil, id: String? = nil, image: ImageView? = nil, name: String? = nil, namespace: String? = nil, org: String? = nil, phase: String? = nil, port: Int? = nil, projectId: String? = nil, replicas: Int? = nil, repo: GitSource? = nil, secretSync: String? = nil, secretSyncDetail: String? = nil, slug: String? = nil, source: String? = nil, status: String? = nil, storageGb: Int? = nil, updatedAt: Int? = nil) {
+    public init(buildType: String? = nil, createdAt: Int64? = nil, currentDeploymentId: String? = nil, description: String? = nil, dockerfile: String? = nil, domains: [String]? = nil, env: [EnvVarJSON]? = nil, environment: String? = nil, health: String? = nil, id: String? = nil, image: ImageView? = nil, name: String? = nil, namespace: String? = nil, org: String? = nil, phase: String? = nil, port: Int64? = nil, projectId: String? = nil, replicas: Int64? = nil, repo: GitSource? = nil, secretSync: String? = nil, secretSyncDetail: String? = nil, slug: String? = nil, source: String? = nil, status: String? = nil, storageGb: Int64? = nil, updatedAt: Int64? = nil) {
         self.buildType = buildType
         self.createdAt = createdAt
         self.currentDeploymentId = currentDeploymentId

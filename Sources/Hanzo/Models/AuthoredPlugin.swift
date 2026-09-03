@@ -10,7 +10,7 @@ import Foundation
 public struct AuthoredPlugin: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CreatedAt is when the plugin was last built, Unix seconds. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** ID is the plugin's id within the org, and the id a delete addresses. */
     public var id: String?
     /** Name is the plugin's name: one lowercase path segment, the id it runs by. */
@@ -22,7 +22,7 @@ public struct AuthoredPlugin: Sendable, Codable, ParameterConvertible, Hashable 
     /** Source is the TypeScript as authored (or as generated from a spec). */
     public var source: String?
 
-    public init(createdAt: Int? = nil, id: String? = nil, name: String? = nil, org: String? = nil, provider: String? = nil, source: String? = nil) {
+    public init(createdAt: Int64? = nil, id: String? = nil, name: String? = nil, org: String? = nil, provider: String? = nil, source: String? = nil) {
         self.createdAt = createdAt
         self.id = id
         self.name = name

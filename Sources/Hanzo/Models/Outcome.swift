@@ -12,9 +12,9 @@ public struct Outcome: Sendable, Codable, ParameterConvertible, Hashable {
     /** true on the baseline arm; its own lift and stats are zero */
     public var control: Bool?
     /** of those, how many fired the metric event */
-    public var converted: Int?
+    public var converted: Int64?
     /** subjects the arm enrolled — the denominator */
-    public var exposed: Int?
+    public var exposed: Int64?
     /** relative to control: (rate-ctrl)/ctrl */
     public var lift: Double?
     /** two-tailed p vs control */
@@ -28,7 +28,7 @@ public struct Outcome: Sendable, Codable, ParameterConvertible, Hashable {
     /** two-proportion z vs control */
     public var z: Double?
 
-    public init(control: Bool? = nil, converted: Int? = nil, exposed: Int? = nil, lift: Double? = nil, pValue: Double? = nil, rate: Double? = nil, significant: Bool? = nil, variant: String? = nil, z: Double? = nil) {
+    public init(control: Bool? = nil, converted: Int64? = nil, exposed: Int64? = nil, lift: Double? = nil, pValue: Double? = nil, rate: Double? = nil, significant: Bool? = nil, variant: String? = nil, z: Double? = nil) {
         self.control = control
         self.converted = converted
         self.exposed = exposed

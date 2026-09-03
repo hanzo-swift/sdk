@@ -24,9 +24,9 @@ public struct GithubSearchHit: Sendable, Codable, ParameterConvertible, Hashable
     /** Private is GitHub's visibility flag, passed through. This op reads the public index — the org's token only charges the rate limit to the installation — so it is false for everything a search can reach. */
     public var _private: Bool?
     /** Stars is GitHub's stargazers_count as the SEARCH INDEX held it when the query ran — a snapshot, not a live count off the repository. */
-    public var stars: Int?
+    public var stars: Int64?
 
-    public init(cloneUrl: String? = nil, defaultBranch: String? = nil, description: String? = nil, fullName: String? = nil, htmlUrl: String? = nil, language: String? = nil, _private: Bool? = nil, stars: Int? = nil) {
+    public init(cloneUrl: String? = nil, defaultBranch: String? = nil, description: String? = nil, fullName: String? = nil, htmlUrl: String? = nil, language: String? = nil, _private: Bool? = nil, stars: Int64? = nil) {
         self.cloneUrl = cloneUrl
         self.defaultBranch = defaultBranch
         self.description = description

@@ -12,9 +12,9 @@ public struct AccountView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Address is the ledger account address (\"org:acme:wallet\", \"fund:reserve\", …). */
     public var address: String?
     /** BalanceCents is that account's signed balance in minor units. */
-    public var balanceCents: Int?
+    public var balanceCents: Int64?
 
-    public init(address: String? = nil, balanceCents: Int? = nil) {
+    public init(address: String? = nil, balanceCents: Int64? = nil) {
         self.address = address
         self.balanceCents = balanceCents
     }

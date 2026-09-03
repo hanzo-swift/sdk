@@ -17,7 +17,7 @@ public struct LicensingRelease: Sendable, Codable, ParameterConvertible, Hashabl
     public var cosignCert: String?
     /** CosignSignature is the base64 cosign signature over the artifact digest. */
     public var cosignSignature: String?
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** ID is the release identifier, e.g. \"engine-rocm-0.4.2-linux-amd64\". The accelerator belongs here — one product is built several ways — and never in Product below. */
     public var id: String?
     /** MinFeatures, when set, are features the license must include to download. */
@@ -33,7 +33,7 @@ public struct LicensingRelease: Sendable, Codable, ParameterConvertible, Hashabl
     /** Yanked marks a pulled release (download refused; tokens may be revoked release-scoped too). */
     public var yanked: Bool?
 
-    public init(appId: String? = nil, artifactRef: String? = nil, cosignCert: String? = nil, cosignSignature: String? = nil, createdAt: Int? = nil, id: String? = nil, minFeatures: [String]? = nil, platform: String? = nil, product: String? = nil, sha256: String? = nil, version: String? = nil, yanked: Bool? = nil) {
+    public init(appId: String? = nil, artifactRef: String? = nil, cosignCert: String? = nil, cosignSignature: String? = nil, createdAt: Int64? = nil, id: String? = nil, minFeatures: [String]? = nil, platform: String? = nil, product: String? = nil, sha256: String? = nil, version: String? = nil, yanked: Bool? = nil) {
         self.appId = appId
         self.artifactRef = artifactRef
         self.cosignCert = cosignCert

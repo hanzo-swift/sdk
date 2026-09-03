@@ -14,9 +14,9 @@ public struct VersionView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Type is the kind this revision was written with, which may differ from the current one. */
     public var type: String?
     /** Version is this revision's number, 1 for the first. Numbers are dense and never reused: deleting the prompt drops the whole history with it. */
-    public var version: Int?
+    public var version: Int64?
 
-    public init(createdAt: String? = nil, type: String? = nil, version: Int? = nil) {
+    public init(createdAt: String? = nil, type: String? = nil, version: Int64? = nil) {
         self.createdAt = createdAt
         self.type = type
         self.version = version

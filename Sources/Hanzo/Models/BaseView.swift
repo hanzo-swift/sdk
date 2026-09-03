@@ -10,13 +10,13 @@ import Foundation
 public struct BaseView: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Bytes is the store's size on disk, present only once it exists. It is what this Base occupies, not a quota. */
-    public var bytes: Int?
+    public var bytes: Int64?
     /** Exists reports whether this Base's store has been provisioned. False is an org nobody has stored anything for yet, which is a state to name rather than an error: the store is created the first time anything writes. */
     public var exists: Bool?
     /** Org is the org this Base belongs to. It is the address every other Base call is scoped by, and a Base has no name of its own. */
     public var org: String?
 
-    public init(bytes: Int? = nil, exists: Bool? = nil, org: String? = nil) {
+    public init(bytes: Int64? = nil, exists: Bool? = nil, org: String? = nil) {
         self.bytes = bytes
         self.exists = exists
         self.org = org

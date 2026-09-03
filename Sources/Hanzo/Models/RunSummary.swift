@@ -14,7 +14,7 @@ public struct RunSummary: Sendable, Codable, ParameterConvertible, Hashable {
     /** Dataset is the set that was scored. */
     public var dataset: String?
     /** Items is how many examples the run attempted. */
-    public var items: Int?
+    public var items: Int64?
     /** JudgeModel is the model that graded. */
     public var judgeModel: String?
     /** Model is the model under test. */
@@ -24,9 +24,9 @@ public struct RunSummary: Sendable, Codable, ParameterConvertible, Hashable {
     /** RunName is the run's label, which scores and traces are filed under. */
     public var runName: String?
     /** Scored is how many produced a real score. It counts successes only, so a partial run is honest about what it achieved. */
-    public var scored: Int?
+    public var scored: Int64?
 
-    public init(avgScore: Double? = nil, dataset: String? = nil, items: Int? = nil, judgeModel: String? = nil, model: String? = nil, results: [ItemResult]? = nil, runName: String? = nil, scored: Int? = nil) {
+    public init(avgScore: Double? = nil, dataset: String? = nil, items: Int64? = nil, judgeModel: String? = nil, model: String? = nil, results: [ItemResult]? = nil, runName: String? = nil, scored: Int64? = nil) {
         self.avgScore = avgScore
         self.dataset = dataset
         self.items = items

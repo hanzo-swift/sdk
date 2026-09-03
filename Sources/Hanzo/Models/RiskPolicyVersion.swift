@@ -20,9 +20,9 @@ public struct RiskPolicyVersion: Sendable, Codable, ParameterConvertible, Hashab
     /** Sample is the share of below-the-line events the regime retains for review. */
     public var sample: Double?
     /** Version names this regime in this organisation's history. */
-    public var version: Int?
+    public var version: Int64?
 
-    public init(at: String? = nil, by: String? = nil, live: Bool? = nil, review: Double? = nil, sample: Double? = nil, version: Int? = nil) {
+    public init(at: String? = nil, by: String? = nil, live: Bool? = nil, review: Double? = nil, sample: Double? = nil, version: Int64? = nil) {
         self.at = at
         self.by = by
         self.live = live

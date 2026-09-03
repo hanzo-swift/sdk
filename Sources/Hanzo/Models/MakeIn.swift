@@ -15,15 +15,15 @@ public struct MakeIn: Sendable, Codable, ParameterConvertible, Hashable {
     public var description: String?
     public var durableName: String?
     public var filterSubject: String?
-    public var maxAckPending: Int?
-    public var maxDeliver: Int?
+    public var maxAckPending: Int64?
+    public var maxDeliver: Int64?
     public var optStartSeq: Int?
     public var optStartTime: Date?
     public var replayPolicy: String?
     /** Stream is the stream name, from the path. */
     public var stream: String?
 
-    public init(ackPolicy: String? = nil, ackWait: String? = nil, deliverPolicy: String? = nil, description: String? = nil, durableName: String? = nil, filterSubject: String? = nil, maxAckPending: Int? = nil, maxDeliver: Int? = nil, optStartSeq: Int? = nil, optStartTime: Date? = nil, replayPolicy: String? = nil, stream: String? = nil) {
+    public init(ackPolicy: String? = nil, ackWait: String? = nil, deliverPolicy: String? = nil, description: String? = nil, durableName: String? = nil, filterSubject: String? = nil, maxAckPending: Int64? = nil, maxDeliver: Int64? = nil, optStartSeq: Int? = nil, optStartTime: Date? = nil, replayPolicy: String? = nil, stream: String? = nil) {
         self.ackPolicy = ackPolicy
         self.ackWait = ackWait
         self.deliverPolicy = deliverPolicy

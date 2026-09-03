@@ -10,13 +10,13 @@ import Foundation
 public struct StatusCounts: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Qualified is how many referees have made metered spend. */
-    public var qualified: Int?
+    public var qualified: Int64?
     /** Signup is how many referees have signed up but not yet spent. */
-    public var signup: Int?
+    public var signup: Int64?
     /** Total is every referral this org has made. */
-    public var total: Int?
+    public var total: Int64?
 
-    public init(qualified: Int? = nil, signup: Int? = nil, total: Int? = nil) {
+    public init(qualified: Int64? = nil, signup: Int64? = nil, total: Int64? = nil) {
         self.qualified = qualified
         self.signup = signup
         self.total = total

@@ -14,7 +14,7 @@ public struct SlotView: Sendable, Codable, ParameterConvertible, Hashable {
     /** CRName is the LuxNetwork custom resource that materializes the node. */
     public var crName: String?
     /** CreatedAt is when the slot was first claimed, as a Unix timestamp. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** Namespace is the Kubernetes namespace the node's CR lives in. */
     public var namespace: String?
     /** Network is the luxd network slug the node joins. */
@@ -30,11 +30,11 @@ public struct SlotView: Sendable, Codable, ParameterConvertible, Hashable {
     /** TokenID is the GenesisNFT token id that IS this slot. */
     public var tokenId: Int?
     /** UpdatedAt is when the slot last changed, as a Unix timestamp. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
     /** Wallet is the lowercase Ethereum address that proved ownership of the NFT. */
     public var wallet: String?
 
-    public init(blsPubkey: String? = nil, crName: String? = nil, createdAt: Int? = nil, namespace: String? = nil, network: String? = nil, nodeID: String? = nil, nodeStatus: String? = nil, registration: RegistrationView? = nil, slot: Int? = nil, tokenId: Int? = nil, updatedAt: Int? = nil, wallet: String? = nil) {
+    public init(blsPubkey: String? = nil, crName: String? = nil, createdAt: Int64? = nil, namespace: String? = nil, network: String? = nil, nodeID: String? = nil, nodeStatus: String? = nil, registration: RegistrationView? = nil, slot: Int? = nil, tokenId: Int? = nil, updatedAt: Int64? = nil, wallet: String? = nil) {
         self.blsPubkey = blsPubkey
         self.crName = crName
         self.createdAt = createdAt

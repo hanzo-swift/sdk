@@ -18,11 +18,11 @@ public struct Preset: Sendable, Codable, ParameterConvertible, Hashable {
     /** scoping org (never cross-tenant) */
     public var owner: String?
     /** fan-out width (>=1) */
-    public var panel: Int?
+    public var panel: Int64?
     /** escalation order over arms */
     public var rank: [String]?
 
-    public init(arms: [String]? = nil, name: String? = nil, note: String? = nil, owner: String? = nil, panel: Int? = nil, rank: [String]? = nil) {
+    public init(arms: [String]? = nil, name: String? = nil, note: String? = nil, owner: String? = nil, panel: Int64? = nil, rank: [String]? = nil) {
         self.arms = arms
         self.name = name
         self.note = note

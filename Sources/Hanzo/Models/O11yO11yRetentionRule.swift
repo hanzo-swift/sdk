@@ -12,9 +12,9 @@ public struct O11yO11yRetentionRule: Sendable, Codable, ParameterConvertible, Ha
     /** Conditions all have to hold for the rule to match. */
     public var conditions: [O11yO11yRetentionMatch]?
     /** TTLDays is the retention applied when it does, in days. */
-    public var ttlDays: Int?
+    public var ttlDays: Int64?
 
-    public init(conditions: [O11yO11yRetentionMatch]? = nil, ttlDays: Int? = nil) {
+    public init(conditions: [O11yO11yRetentionMatch]? = nil, ttlDays: Int64? = nil) {
         self.conditions = conditions
         self.ttlDays = ttlDays
     }

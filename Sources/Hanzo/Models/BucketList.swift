@@ -12,9 +12,9 @@ public struct BucketList: Sendable, Codable, ParameterConvertible, Hashable {
     /** Buckets are the caller org's buckets, friendly names, oldest first as the store returns them. */
     public var buckets: [BucketItem]?
     /** Total is how many buckets this org has. It equals len(buckets): the listing is not paged, because an org's bucket count is small by construction. */
-    public var total: Int?
+    public var total: Int64?
 
-    public init(buckets: [BucketItem]? = nil, total: Int? = nil) {
+    public init(buckets: [BucketItem]? = nil, total: Int64? = nil) {
         self.buckets = buckets
         self.total = total
     }

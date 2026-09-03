@@ -10,7 +10,7 @@ import Foundation
 public struct Registration: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CreatedAt is the unix second the formation was opened. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** Name is the company name the entity is being formed under. */
     public var name: String?
     /** Org is the org whose formation this row projects. */
@@ -20,9 +20,9 @@ public struct Registration: Sendable, Codable, ParameterConvertible, Hashable {
     /** Structure is the legal entity being formed: c-corp, llc or dao-llc. */
     public var structure: String?
     /** UpdatedAt is the unix second of the most recent write to the formation, and the key the register sorts on (newest activity first). */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
 
-    public init(createdAt: Int? = nil, name: String? = nil, org: String? = nil, stage: String? = nil, structure: String? = nil, updatedAt: Int? = nil) {
+    public init(createdAt: Int64? = nil, name: String? = nil, org: String? = nil, stage: String? = nil, structure: String? = nil, updatedAt: Int64? = nil) {
         self.createdAt = createdAt
         self.name = name
         self.org = org

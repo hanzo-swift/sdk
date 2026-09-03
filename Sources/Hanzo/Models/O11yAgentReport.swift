@@ -10,9 +10,9 @@ import Foundation
 public struct O11yAgentReport: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var data: [String: JSONValue]?
-    public var timestampMillis: Int?
+    public var timestampMillis: Int64?
 
-    public init(data: [String: JSONValue]? = nil, timestampMillis: Int? = nil) {
+    public init(data: [String: JSONValue]? = nil, timestampMillis: Int64? = nil) {
         self.data = data
         self.timestampMillis = timestampMillis
     }

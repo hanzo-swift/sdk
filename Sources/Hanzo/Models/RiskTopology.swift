@@ -12,17 +12,17 @@ public struct RiskTopology: Sendable, Codable, ParameterConvertible, Hashable {
     /** Blend is how much of a closing window folds into the reference: 1 replaces it outright, less makes the reference expensive to move. */
     public var blend: Double?
     /** Depth is how deep each tree is. With Trees it sets how finely the space is partitioned, and therefore how much history it takes to fill. */
-    public var depth: Int?
+    public var depth: Int64?
     /** Family is the KIND of model this candidate is: `halfspace` is an ensemble of half-space trees whose masses are counters, and it is the family this search grid ranks. The parameters below are that family's own — a family that does not partition space with trees has different ones — so read them against this. */
     public var family: String?
     /** Review is the appetite this shape was tried at. */
     public var review: Double?
     /** Trees is how many half-space trees the ensemble holds. */
-    public var trees: Int?
+    public var trees: Int64?
     /** Window is how many events make one reference window. */
-    public var window: Int?
+    public var window: Int64?
 
-    public init(blend: Double? = nil, depth: Int? = nil, family: String? = nil, review: Double? = nil, trees: Int? = nil, window: Int? = nil) {
+    public init(blend: Double? = nil, depth: Int64? = nil, family: String? = nil, review: Double? = nil, trees: Int64? = nil, window: Int64? = nil) {
         self.blend = blend
         self.depth = depth
         self.family = family

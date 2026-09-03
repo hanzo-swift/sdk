@@ -14,9 +14,9 @@ public struct HistoryOut: Sendable, Codable, ParameterConvertible, Hashable {
     /** Data is one entry per model, ordered by model name. */
     public var data: [ModelHistory]?
     /** Total is how many models Data holds. */
-    public var total: Int?
+    public var total: Int64?
 
-    public init(benchmark: String? = nil, data: [ModelHistory]? = nil, total: Int? = nil) {
+    public init(benchmark: String? = nil, data: [ModelHistory]? = nil, total: Int64? = nil) {
         self.benchmark = benchmark
         self.data = data
         self.total = total

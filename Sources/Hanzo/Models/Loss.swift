@@ -10,11 +10,11 @@ import Foundation
 public struct Loss: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Exhausted counts facts the bus abandoned after maxDeliver failed inserts. */
-    public var exhausted: Int?
+    public var exhausted: Int64?
     /** Undecodable counts messages acked without landing because they did not parse. */
-    public var undecodable: Int?
+    public var undecodable: Int64?
 
-    public init(exhausted: Int? = nil, undecodable: Int? = nil) {
+    public init(exhausted: Int64? = nil, undecodable: Int64? = nil) {
         self.exhausted = exhausted
         self.undecodable = undecodable
     }

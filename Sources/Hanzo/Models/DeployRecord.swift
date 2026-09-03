@@ -12,7 +12,7 @@ public struct DeployRecord: Sendable, Codable, ParameterConvertible, Hashable {
     /** Created reports whether this call recorded a new attribution edge (201) or found an existing one (200). Absent when nothing was recorded. */
     public var created: Bool?
     /** CreatedAt is when the edge was first recorded, in unix seconds. Absent when nothing was recorded. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** DeployID is the attribution edge's handle. Absent when nothing was recorded. */
     public var deployId: String?
     /** Reason says why nothing was attributed. Present only when recorded is false. */
@@ -22,7 +22,7 @@ public struct DeployRecord: Sendable, Codable, ParameterConvertible, Hashable {
     /** Self reports that the deploying org IS the author's org. Such a deploy is recorded for provenance but excluded from accrual. Absent when nothing was recorded. */
     public var _self: Bool?
 
-    public init(created: Bool? = nil, createdAt: Int? = nil, deployId: String? = nil, reason: String? = nil, recorded: Bool? = nil, _self: Bool? = nil) {
+    public init(created: Bool? = nil, createdAt: Int64? = nil, deployId: String? = nil, reason: String? = nil, recorded: Bool? = nil, _self: Bool? = nil) {
         self.created = created
         self.createdAt = createdAt
         self.deployId = deployId

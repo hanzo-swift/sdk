@@ -14,9 +14,9 @@ public struct TreeEntry: Sendable, Codable, ParameterConvertible, Hashable {
     /** Path is the file, relative to the repo root. The list is ordered by it, so a reader can see module layout without sorting. */
     public var path: String?
     /** Symbols is how many top-level declarations the file defines. A file with none is still listed: the file set is the authority here and the counts decorate it. */
-    public var symbols: Int?
+    public var symbols: Int64?
 
-    public init(lang: String? = nil, path: String? = nil, symbols: Int? = nil) {
+    public init(lang: String? = nil, path: String? = nil, symbols: Int64? = nil) {
         self.lang = lang
         self.path = path
         self.symbols = symbols

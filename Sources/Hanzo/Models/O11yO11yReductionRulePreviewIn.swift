@@ -12,13 +12,13 @@ public struct O11yO11yReductionRulePreviewIn: Sendable, Codable, ParameterConver
     /** Labels are the label names the rule would match. Required, at least one. */
     public var labels: [String]
     /** LookbackMs is how far back to sample when estimating. */
-    public var lookbackMs: Int?
+    public var lookbackMs: Int64?
     /** MatchType is drop or keep. Required. */
     public var matchType: String
     /** MetricName is the metric the rule would govern. Required. */
     public var metricName: String
 
-    public init(labels: [String], lookbackMs: Int? = nil, matchType: String, metricName: String) {
+    public init(labels: [String], lookbackMs: Int64? = nil, matchType: String, metricName: String) {
         self.labels = labels
         self.lookbackMs = lookbackMs
         self.matchType = matchType

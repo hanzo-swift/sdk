@@ -9,15 +9,15 @@ import Foundation
 
 public struct ChainStatus: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var chainId: Int?
+    public var chainId: Int64?
     /** Height is the latest block, omitted when the chain did not answer rather than reported as zero — a zero height is a real value on a fresh chain. */
-    public var height: Int?
+    public var height: Int64?
     public var id: String?
     /** Live is whether the upstream answered eth_blockNumber. */
     public var live: Bool?
     public var name: String?
 
-    public init(chainId: Int? = nil, height: Int? = nil, id: String? = nil, live: Bool? = nil, name: String? = nil) {
+    public init(chainId: Int64? = nil, height: Int64? = nil, id: String? = nil, live: Bool? = nil, name: String? = nil) {
         self.chainId = chainId
         self.height = height
         self.id = id

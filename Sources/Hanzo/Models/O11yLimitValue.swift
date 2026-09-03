@@ -9,10 +9,10 @@ import Foundation
 
 public struct O11yLimitValue: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var count: Int?
-    public var size: Int?
+    public var count: Int64?
+    public var size: Int64?
 
-    public init(count: Int? = nil, size: Int? = nil) {
+    public init(count: Int64? = nil, size: Int64? = nil) {
         self.count = count
         self.size = size
     }

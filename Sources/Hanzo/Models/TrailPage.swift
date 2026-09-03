@@ -16,9 +16,9 @@ public struct TrailPage: Sendable, Codable, ParameterConvertible, Hashable {
     /** Status is the envelope's status slot, \"ok\" on success. */
     public var status: String?
     /** Total is how many events match the filter, across all pages — what a pager needs to size itself. */
-    public var total: Int?
+    public var total: Int64?
 
-    public init(data: [Wire]? = nil, msg: String? = nil, status: String? = nil, total: Int? = nil) {
+    public init(data: [Wire]? = nil, msg: String? = nil, status: String? = nil, total: Int64? = nil) {
         self.data = data
         self.msg = msg
         self.status = status

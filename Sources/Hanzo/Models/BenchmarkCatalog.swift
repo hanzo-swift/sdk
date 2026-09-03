@@ -12,9 +12,9 @@ public struct BenchmarkCatalog: Sendable, Codable, ParameterConvertible, Hashabl
     /** Data is one row per benchmark, in the catalog's own order. */
     public var data: [Benchmark]?
     /** Total is how many rows Data holds. */
-    public var total: Int?
+    public var total: Int64?
 
-    public init(data: [Benchmark]? = nil, total: Int? = nil) {
+    public init(data: [Benchmark]? = nil, total: Int64? = nil) {
         self.data = data
         self.total = total
     }

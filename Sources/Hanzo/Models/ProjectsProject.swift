@@ -16,7 +16,7 @@ public struct ProjectsProject: Sendable, Codable, ParameterConvertible, Hashable
     /** CacheControl is the Cache-Control policy the edge serves this site's HTML under — how long a reader may hold a stale page before asking again. Assets are content-addressed and are not governed by it. */
     public var cacheControl: String?
     /** CreatedAt is when the project was created, as Unix seconds. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** CurrentDeploymentID names the deployment currently serving, so a caller can ask what is live without scanning the history. */
     public var currentDeploymentId: String?
     /** Description is the one-line summary, which is copied onto forks of this project and shown on a gallery card. */
@@ -34,7 +34,7 @@ public struct ProjectsProject: Sendable, Codable, ParameterConvertible, Hashable
     /** Key is the project's publishable ingest key, minted at create. It is the value the injected beacon carries and the ONE thing that attributes this site's events; the static-builder reads it beside analytics.  Publishable means it belongs in a page's source: it names a write scope and mints no principal, so it is returned in full rather than masked. Masking it would only mean every caller needed a second endpoint to get the thing the page already ships. */
     public var key: String?
     /** LastPurgeAt is when the edge cache was last cleared, as Unix seconds, so a console can say how fresh what readers see actually is. Absent means never. */
-    public var lastPurgeAt: Int?
+    public var lastPurgeAt: Int64?
     /** License is the terms that upstream work carries. Absent has the same reading: undeclared, not unencumbered. */
     public var license: String?
     /** LiveURL is where the site answers today. Absent until something has been deployed. */
@@ -56,13 +56,13 @@ public struct ProjectsProject: Sendable, Codable, ParameterConvertible, Hashable
     /** Tags is the site's browser tag config: platform slug → non-secret pixel id (GA measurement, Meta pixel, …) — what track.js injects and the server CAPI reads, per site. Omitted when none are set. The API SECRET is never here (KMS). */
     public var tags: [String: String]?
     /** UpdatedAt is when the project's own record last changed, as Unix seconds. A deploy is not an edit of the project, so this does not move on every publish. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
     /** Upstream credits the third-party work this project was published from — a free-text line, because the honest answer is a name and a title that no enum could hold. Absent means NOBODY HAS SAID, not that there is nothing to say. */
     public var upstream: String?
     /** Visibility is \"public\" or \"private\", and Hidden reports platform moderation. Both are always present (never omitempty) so a consumer can tell a real answer from \"this API is too old to say\" — and so a console never renders a project as public because a field was missing.  Authorship is deliberately absent: it is Org, above. */
     public var visibility: String?
 
-    public init(analytics: Bool? = nil, bucket: String? = nil, cacheControl: String? = nil, createdAt: Int? = nil, currentDeploymentId: String? = nil, description: String? = nil, forkedFrom: String? = nil, framework: String? = nil, hidden: Bool? = nil, hiddenReason: String? = nil, id: String? = nil, key: String? = nil, lastPurgeAt: Int? = nil, license: String? = nil, liveUrl: String? = nil, name: String? = nil, org: String? = nil, repo: ProjectsRepo? = nil, slug: String? = nil, space: String? = nil, starred: Bool? = nil, status: String? = nil, tags: [String: String]? = nil, updatedAt: Int? = nil, upstream: String? = nil, visibility: String? = nil) {
+    public init(analytics: Bool? = nil, bucket: String? = nil, cacheControl: String? = nil, createdAt: Int64? = nil, currentDeploymentId: String? = nil, description: String? = nil, forkedFrom: String? = nil, framework: String? = nil, hidden: Bool? = nil, hiddenReason: String? = nil, id: String? = nil, key: String? = nil, lastPurgeAt: Int64? = nil, license: String? = nil, liveUrl: String? = nil, name: String? = nil, org: String? = nil, repo: ProjectsRepo? = nil, slug: String? = nil, space: String? = nil, starred: Bool? = nil, status: String? = nil, tags: [String: String]? = nil, updatedAt: Int64? = nil, upstream: String? = nil, visibility: String? = nil) {
         self.analytics = analytics
         self.bucket = bucket
         self.cacheControl = cacheControl

@@ -12,9 +12,9 @@ public struct O11yO11yMetricAttributes: Sendable, Codable, ParameterConvertible,
     /** Attributes are the keys, each with its values. */
     public var attributes: [O11yO11yMetricAttribute]?
     /** TotalKeys is how many keys the metric has. */
-    public var totalKeys: Int?
+    public var totalKeys: Int64?
 
-    public init(attributes: [O11yO11yMetricAttribute]? = nil, totalKeys: Int? = nil) {
+    public init(attributes: [O11yO11yMetricAttribute]? = nil, totalKeys: Int64? = nil) {
         self.attributes = attributes
         self.totalKeys = totalKeys
     }

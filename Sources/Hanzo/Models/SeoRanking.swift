@@ -12,7 +12,7 @@ public struct SeoRanking: Sendable, Codable, ParameterConvertible, Hashable {
     /** Keyword is the phrase searched. */
     public var keyword: String?
     /** Position is the absolute rank on the results page, counting every element — so it is what a person scrolling actually passes, not the organic-only rank. */
-    public var position: Int?
+    public var position: Int64?
     /** Title is that result's headline. */
     public var title: String?
     /** Traffic is the estimated monthly visits this placement earns. */
@@ -20,9 +20,9 @@ public struct SeoRanking: Sendable, Codable, ParameterConvertible, Hashable {
     /** URL is the page of the target that placed. */
     public var url: String?
     /** Volume is the phrase's average monthly searches. */
-    public var volume: Int?
+    public var volume: Int64?
 
-    public init(keyword: String? = nil, position: Int? = nil, title: String? = nil, traffic: Double? = nil, url: String? = nil, volume: Int? = nil) {
+    public init(keyword: String? = nil, position: Int64? = nil, title: String? = nil, traffic: Double? = nil, url: String? = nil, volume: Int64? = nil) {
         self.keyword = keyword
         self.position = position
         self.title = title

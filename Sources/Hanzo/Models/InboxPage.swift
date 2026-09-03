@@ -10,11 +10,11 @@ import Foundation
 public struct InboxPage: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Cursor is the row id to pass back as `since` for the next page. It is the last message's id, or the requested cursor when the page is empty. */
-    public var cursor: Int?
+    public var cursor: Int64?
     /** Messages are the inbound messages, oldest first. */
     public var messages: [InboxView]?
 
-    public init(cursor: Int? = nil, messages: [InboxView]? = nil) {
+    public init(cursor: Int64? = nil, messages: [InboxView]? = nil) {
         self.cursor = cursor
         self.messages = messages
     }

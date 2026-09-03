@@ -10,11 +10,11 @@ import Foundation
 public struct SpendPoint: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Cents is the consumption recorded in that bucket, in US cents. */
-    public var cents: Int?
+    public var cents: Int64?
     /** T is the bucket's start instant, RFC3339 UTC. Buckets are gap-filled, so a window with no spend still has its points. */
     public var t: String?
 
-    public init(cents: Int? = nil, t: String? = nil) {
+    public init(cents: Int64? = nil, t: String? = nil) {
         self.cents = cents
         self.t = t
     }

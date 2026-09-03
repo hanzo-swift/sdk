@@ -9,10 +9,10 @@ import Foundation
 
 public struct IamFilter: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var maxResults: Int?
+    public var maxResults: Int64?
     public var supported: Bool?
 
-    public init(maxResults: Int? = nil, supported: Bool? = nil) {
+    public init(maxResults: Int64? = nil, supported: Bool? = nil) {
         self.maxResults = maxResults
         self.supported = supported
     }

@@ -10,15 +10,15 @@ import Foundation
 public struct O11yO11yLLMTrace: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CompletionTokens is the trace's total output tokens. */
-    public var completionTokens: Int?
+    public var completionTokens: Int64?
     /** ID is the trace id. */
     public var id: String?
     /** LatencyMs is the trace's span, in milliseconds. */
     public var latencyMs: Double?
     /** Observations is how many observations the trace holds. */
-    public var observations: Int?
+    public var observations: Int64?
     /** PromptTokens is the trace's total input tokens. */
-    public var promptTokens: Int?
+    public var promptTokens: Int64?
     /** ServiceName is the app that emitted it. */
     public var serviceName: String?
     /** SessionID is the conversation the trace belongs to. */
@@ -26,11 +26,11 @@ public struct O11yO11yLLMTrace: Sendable, Codable, ParameterConvertible, Hashabl
     /** TotalCost is the trace's total cost. */
     public var totalCost: Double?
     /** TotalTokens is the trace's total tokens. */
-    public var totalTokens: Int?
+    public var totalTokens: Int64?
     /** UserID is the end user the trace is attributed to. */
     public var userId: String?
 
-    public init(completionTokens: Int? = nil, id: String? = nil, latencyMs: Double? = nil, observations: Int? = nil, promptTokens: Int? = nil, serviceName: String? = nil, sessionId: String? = nil, totalCost: Double? = nil, totalTokens: Int? = nil, userId: String? = nil) {
+    public init(completionTokens: Int64? = nil, id: String? = nil, latencyMs: Double? = nil, observations: Int64? = nil, promptTokens: Int64? = nil, serviceName: String? = nil, sessionId: String? = nil, totalCost: Double? = nil, totalTokens: Int64? = nil, userId: String? = nil) {
         self.completionTokens = completionTokens
         self.id = id
         self.latencyMs = latencyMs

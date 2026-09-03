@@ -24,11 +24,11 @@ public struct IamAuditLog: Sendable, Codable, ParameterConvertible, Hashable {
     public var owner: String?
     public var requestUri: String?
     public var response: String?
-    public var statusCode: Int?
+    public var statusCode: Int64?
     public var updatedAt: Date?
     public var user: String?
 
-    public init(action: String? = nil, clientIp: String? = nil, createdAt: Date? = nil, createdTime: String? = nil, deleted: Bool? = nil, id: String? = nil, isTriggered: Bool? = nil, language: String? = nil, method: String? = nil, name: String? = nil, object: String? = nil, organization: String? = nil, owner: String? = nil, requestUri: String? = nil, response: String? = nil, statusCode: Int? = nil, updatedAt: Date? = nil, user: String? = nil) {
+    public init(action: String? = nil, clientIp: String? = nil, createdAt: Date? = nil, createdTime: String? = nil, deleted: Bool? = nil, id: String? = nil, isTriggered: Bool? = nil, language: String? = nil, method: String? = nil, name: String? = nil, object: String? = nil, organization: String? = nil, owner: String? = nil, requestUri: String? = nil, response: String? = nil, statusCode: Int64? = nil, updatedAt: Date? = nil, user: String? = nil) {
         self.action = action
         self.clientIp = clientIp
         self.createdAt = createdAt

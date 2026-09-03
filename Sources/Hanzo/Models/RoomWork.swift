@@ -10,17 +10,17 @@ import Foundation
 public struct RoomWork: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Open is how many items are still work: everything whose status does not end it. It is the number a channel header shows. */
-    public var _open: Int?
+    public var _open: Int64?
     /** Room is the room these counts are for, echoed back as it was resolved. */
     public var room: String?
     /** Status is the count per board column, carrying EVERY column this surface knows — an empty column reads 0 rather than being absent, so a caller can render the board without inventing the vocabulary. The keys are the same closed set every other operation here validates against. */
-    public var status: [String: Int]?
+    public var status: [String: Int64]?
     /** Total is every item bound to this room, settled ones included, so Total minus Open is what the room has finished. */
-    public var total: Int?
+    public var total: Int64?
     /** Updated is when anything in this room's work last moved, in unix seconds. ABSENT when the room has no work at all: zero would read as the epoch, and a room nobody has filed anything in has no last activity rather than an infinitely old one. Total is 0 in exactly that case. */
-    public var updated: Int?
+    public var updated: Int64?
 
-    public init(_open: Int? = nil, room: String? = nil, status: [String: Int]? = nil, total: Int? = nil, updated: Int? = nil) {
+    public init(_open: Int64? = nil, room: String? = nil, status: [String: Int64]? = nil, total: Int64? = nil, updated: Int64? = nil) {
         self._open = _open
         self.room = room
         self.status = status

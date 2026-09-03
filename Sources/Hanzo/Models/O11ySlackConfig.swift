@@ -35,12 +35,12 @@ public struct O11ySlackConfig: Sendable, Codable, ParameterConvertible, Hashable
     public var text: String?
     public var thumbUrl: String?
     /** Timeout is the maximum time allowed to invoke the slack. Setting this to 0 does not impose a timeout. */
-    public var timeout: Int?
+    public var timeout: Int64?
     public var title: String?
     public var titleLink: String?
     public var username: String?
 
-    public init(notifierConfig: O11yNotifierConfig? = nil, actions: [O11ySlackAction]? = nil, apiUrl: JSONValue? = nil, apiUrlFile: String? = nil, appToken: JSONValue? = nil, appTokenFile: String? = nil, appUrl: JSONValue? = nil, callbackId: String? = nil, channel: String? = nil, color: String? = nil, fallback: String? = nil, fields: [O11ySlackField]? = nil, footer: String? = nil, httpConfig: O11yHTTPClientConfig? = nil, iconEmoji: String? = nil, iconUrl: String? = nil, imageUrl: String? = nil, linkNames: Bool? = nil, messageText: String? = nil, mrkdwnIn: [String]? = nil, pretext: String? = nil, shortFields: Bool? = nil, text: String? = nil, thumbUrl: String? = nil, timeout: Int? = nil, title: String? = nil, titleLink: String? = nil, username: String? = nil) {
+    public init(notifierConfig: O11yNotifierConfig? = nil, actions: [O11ySlackAction]? = nil, apiUrl: JSONValue? = nil, apiUrlFile: String? = nil, appToken: JSONValue? = nil, appTokenFile: String? = nil, appUrl: JSONValue? = nil, callbackId: String? = nil, channel: String? = nil, color: String? = nil, fallback: String? = nil, fields: [O11ySlackField]? = nil, footer: String? = nil, httpConfig: O11yHTTPClientConfig? = nil, iconEmoji: String? = nil, iconUrl: String? = nil, imageUrl: String? = nil, linkNames: Bool? = nil, messageText: String? = nil, mrkdwnIn: [String]? = nil, pretext: String? = nil, shortFields: Bool? = nil, text: String? = nil, thumbUrl: String? = nil, timeout: Int64? = nil, title: String? = nil, titleLink: String? = nil, username: String? = nil) {
         self.notifierConfig = notifierConfig
         self.actions = actions
         self.apiUrl = apiUrl

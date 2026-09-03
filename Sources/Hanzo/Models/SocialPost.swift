@@ -16,7 +16,7 @@ public struct SocialPost: Sendable, Codable, ParameterConvertible, Hashable {
     /** Content is the post's text, bounded at 8192 characters.  Example: \"Shipping today.\" */
     public var content: String?
     /** CreatedAt is when the post was created, as a unix timestamp in seconds. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** Error is why the last publish attempt failed, verbatim and bounded. Absent when no attempt has failed; cleared by a later success. */
     public var error: String?
     /** ExternalID is the id the network returned for the published post, which is what reconciles this row against the post on the network. Absent until a publish succeeds. */
@@ -26,13 +26,13 @@ public struct SocialPost: Sendable, Codable, ParameterConvertible, Hashable {
     /** Media is the post's attached media as a list of URLs (images today; the composer's URL field now, an S3 picker later, populate it). Stored as a JSON array in the media TEXT column and ALWAYS serialized as an array (never null), so a client can rely on `media` being present. Bounded at the write layer (normMedia in social.go): each URL clipped to maxField, the list to maxMedia. */
     public var media: [String]?
     /** ScheduleAt is when the post is due, as a unix timestamp in SECONDS. 0 means unscheduled. It is meaningful only while the status is scheduled — a scheduled post whose time has arrived is published by the scheduler. */
-    public var scheduleAt: Int?
+    public var scheduleAt: Int64?
     /** Status is the post's lifecycle state: draft, scheduled, published or failed. A fifth, transient publishing state exists while a publish attempt holds the claim; it is never settable from a request and a caller sees it only if it reads a post mid-attempt. */
     public var status: String?
     /** UpdatedAt is when the post row last changed, as a unix timestamp in seconds. The listing is ordered by it, newest first. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
 
-    public init(accountId: String? = nil, channel: String? = nil, content: String? = nil, createdAt: Int? = nil, error: String? = nil, externalId: String? = nil, id: String? = nil, media: [String]? = nil, scheduleAt: Int? = nil, status: String? = nil, updatedAt: Int? = nil) {
+    public init(accountId: String? = nil, channel: String? = nil, content: String? = nil, createdAt: Int64? = nil, error: String? = nil, externalId: String? = nil, id: String? = nil, media: [String]? = nil, scheduleAt: Int64? = nil, status: String? = nil, updatedAt: Int64? = nil) {
         self.accountId = accountId
         self.channel = channel
         self.content = content

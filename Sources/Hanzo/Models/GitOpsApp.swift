@@ -30,7 +30,7 @@ public struct GitOpsApp: Sendable, Codable, ParameterConvertible, Hashable {
     /** RepoURL is the git repository CD polls for this Application's desired state. */
     public var repoURL: String?
     /** Resources is how MANY objects CD manages for this Application (len(status.resources)) — a count, not the objects. Zero for an Application CD has not reconciled. */
-    public var resources: Int?
+    public var resources: Int64?
     /** Revision is the commit CD last APPLIED (status.sync.revision). Empty means it has applied none — never read that as the head of TargetRevision. */
     public var revision: String?
     /** SelfHeal is whether CD also reverts changes made directly in the cluster (syncPolicy.automated.selfHeal). Meaningless unless Automated. */
@@ -40,7 +40,7 @@ public struct GitOpsApp: Sendable, Codable, ParameterConvertible, Hashable {
     /** TargetRevision is the git ref CD TRACKS — usually a branch such as \"main\". It is what CD aims at; Revision is what it has reached. */
     public var targetRevision: String?
 
-    public init(automated: Bool? = nil, health: String? = nil, history: [GitOpsDeploy]? = nil, name: String? = nil, namespace: String? = nil, operation: GitOpsOperation? = nil, path: String? = nil, project: String? = nil, reconciledAt: String? = nil, repoURL: String? = nil, resources: Int? = nil, revision: String? = nil, selfHeal: Bool? = nil, sync: String? = nil, targetRevision: String? = nil) {
+    public init(automated: Bool? = nil, health: String? = nil, history: [GitOpsDeploy]? = nil, name: String? = nil, namespace: String? = nil, operation: GitOpsOperation? = nil, path: String? = nil, project: String? = nil, reconciledAt: String? = nil, repoURL: String? = nil, resources: Int64? = nil, revision: String? = nil, selfHeal: Bool? = nil, sync: String? = nil, targetRevision: String? = nil) {
         self.automated = automated
         self.health = health
         self.history = history

@@ -10,14 +10,14 @@ import Foundation
 public struct FinanceLedgerEntry: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var account: String?
-    public var balanceCents: Int?
-    public var cents: Int?
+    public var balanceCents: Int64?
+    public var cents: Int64?
     public var currency: String?
     public var date: String?
     public var description: String?
     public var id: String?
 
-    public init(account: String? = nil, balanceCents: Int? = nil, cents: Int? = nil, currency: String? = nil, date: String? = nil, description: String? = nil, id: String? = nil) {
+    public init(account: String? = nil, balanceCents: Int64? = nil, cents: Int64? = nil, currency: String? = nil, date: String? = nil, description: String? = nil, id: String? = nil) {
         self.account = account
         self.balanceCents = balanceCents
         self.cents = cents

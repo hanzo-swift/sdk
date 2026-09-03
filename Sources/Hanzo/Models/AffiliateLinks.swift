@@ -14,11 +14,11 @@ public struct AffiliateLinks: Sendable, Codable, ParameterConvertible, Hashable 
     /** Links is the caller's share links, each with its URL and funnel. */
     public var links: [CodeView]?
     /** MaxLinks is how many share links one affiliate may hold. */
-    public var maxLinks: Int?
+    public var maxLinks: Int64?
     /** Status is the caller's affiliate status: \"applied\", \"approved\" or \"suspended\"; absent for a non-affiliate. Minting a link requires \"approved\", because a link that cannot accrue quietly loses the referral. */
     public var status: String?
 
-    public init(isAffiliate: Bool? = nil, links: [CodeView]? = nil, maxLinks: Int? = nil, status: String? = nil) {
+    public init(isAffiliate: Bool? = nil, links: [CodeView]? = nil, maxLinks: Int64? = nil, status: String? = nil) {
         self.isAffiliate = isAffiliate
         self.links = links
         self.maxLinks = maxLinks

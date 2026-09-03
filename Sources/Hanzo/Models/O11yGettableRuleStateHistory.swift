@@ -17,10 +17,10 @@ public struct O11yGettableRuleStateHistory: Sendable, Codable, ParameterConverti
     public var ruleName: String?
     public var state: JSONValue?
     public var stateChanged: Bool?
-    public var unixMilli: Int?
+    public var unixMilli: Int64?
     public var value: Double?
 
-    public init(fingerprint: Int? = nil, labels: [O11yLabel]? = nil, overallState: JSONValue? = nil, overallStateChanged: Bool? = nil, ruleId: String? = nil, ruleName: String? = nil, state: JSONValue? = nil, stateChanged: Bool? = nil, unixMilli: Int? = nil, value: Double? = nil) {
+    public init(fingerprint: Int? = nil, labels: [O11yLabel]? = nil, overallState: JSONValue? = nil, overallStateChanged: Bool? = nil, ruleId: String? = nil, ruleName: String? = nil, state: JSONValue? = nil, stateChanged: Bool? = nil, unixMilli: Int64? = nil, value: Double? = nil) {
         self.fingerprint = fingerprint
         self.labels = labels
         self.overallState = overallState

@@ -10,7 +10,7 @@ import Foundation
 public struct AffiliateEarnings: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** AccruedCents is lifetime commission accrued, in cents. */
-    public var accruedCents: Int?
+    public var accruedCents: Int64?
     /** ByPeriod is the per-period ledger: the margin earned against and the commission taken from it. */
     public var byPeriod: [PeriodEarningView]?
     /** ByReferredOrg is each referral's aggregate contribution — the affiliate's OWN share, never the referred org's spend. */
@@ -18,13 +18,13 @@ public struct AffiliateEarnings: Sendable, Codable, ParameterConvertible, Hashab
     /** IsAffiliate says whether the caller org has an affiliate record. On false it is the ONLY field present — there is no ledger to report, and the zeros you might expect are absent rather than reported as earnings of nothing. */
     public var isAffiliate: Bool?
     /** MarginBps is the platform gross-margin fraction commission is a rate OF. */
-    public var marginBps: Int?
+    public var marginBps: Int64?
     /** PaidCents is lifetime commission already paid out, in cents. */
-    public var paidCents: Int?
+    public var paidCents: Int64?
     /** PendingCents is accrued minus paid — what the platform still owes. */
-    public var pendingCents: Int?
+    public var pendingCents: Int64?
 
-    public init(accruedCents: Int? = nil, byPeriod: [PeriodEarningView]? = nil, byReferredOrg: [OrgEarningView]? = nil, isAffiliate: Bool? = nil, marginBps: Int? = nil, paidCents: Int? = nil, pendingCents: Int? = nil) {
+    public init(accruedCents: Int64? = nil, byPeriod: [PeriodEarningView]? = nil, byReferredOrg: [OrgEarningView]? = nil, isAffiliate: Bool? = nil, marginBps: Int64? = nil, paidCents: Int64? = nil, pendingCents: Int64? = nil) {
         self.accruedCents = accruedCents
         self.byPeriod = byPeriod
         self.byReferredOrg = byReferredOrg

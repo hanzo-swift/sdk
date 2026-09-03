@@ -30,9 +30,9 @@ public struct LeaderboardView: Sendable, Codable, ParameterConvertible, Hashable
     /** Subject is what the rows stand for — \"user\" on a personal or org board, \"org\" on the global one. It tells a client whether Handle names a person or a company. */
     public var subject: String?
     /** Total is how many subjects were ranked in the window — the org's active users, or the active/opted-in orgs on the global board. It is the universe the ranks are out of, so it is normally larger than len(rows). */
-    public var total: Int?
+    public var total: Int64?
 
-    public init(available: Bool? = nil, end: String? = nil, metric: String? = nil, period: String? = nil, rows: [LeaderboardRow]? = nil, scope: String? = nil, _self: SelfRank? = nil, source: String? = nil, start: String? = nil, subject: String? = nil, total: Int? = nil) {
+    public init(available: Bool? = nil, end: String? = nil, metric: String? = nil, period: String? = nil, rows: [LeaderboardRow]? = nil, scope: String? = nil, _self: SelfRank? = nil, source: String? = nil, start: String? = nil, subject: String? = nil, total: Int64? = nil) {
         self.available = available
         self.end = end
         self.metric = metric

@@ -10,11 +10,11 @@ import Foundation
 public struct RegisterCounts: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** ByStage counts formations per stage, keyed by the stage name. */
-    public var byStage: [String: Int]?
+    public var byStage: [String: Int64]?
     /** Total is every formation in the register. */
-    public var total: Int?
+    public var total: Int64?
 
-    public init(byStage: [String: Int]? = nil, total: Int? = nil) {
+    public init(byStage: [String: Int64]? = nil, total: Int64? = nil) {
         self.byStage = byStage
         self.total = total
     }

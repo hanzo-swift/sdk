@@ -10,7 +10,7 @@ import Foundation
 public struct Holding: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** wholesale cost */
-    public var costCents: Int?
+    public var costCents: Int64?
     /** the name owned */
     public var domain: String?
     /** when the registration lapses, RFC3339 */
@@ -18,15 +18,15 @@ public struct Holding: Sendable, Codable, ParameterConvertible, Hashable {
     /** the authoritative nameservers the name points at */
     public var nameservers: [String]?
     /** registrar order id */
-    public var order: Int?
+    public var order: Int64?
     /** the org that owns the domain */
     public var org: String?
     /** what the customer paid (sell) */
-    public var priceCents: Int?
+    public var priceCents: Int64?
     /** unix seconds */
-    public var registeredAt: Int?
+    public var registeredAt: Int64?
 
-    public init(costCents: Int? = nil, domain: String? = nil, expiresAt: String? = nil, nameservers: [String]? = nil, order: Int? = nil, org: String? = nil, priceCents: Int? = nil, registeredAt: Int? = nil) {
+    public init(costCents: Int64? = nil, domain: String? = nil, expiresAt: String? = nil, nameservers: [String]? = nil, order: Int64? = nil, org: String? = nil, priceCents: Int64? = nil, registeredAt: Int64? = nil) {
         self.costCents = costCents
         self.domain = domain
         self.expiresAt = expiresAt

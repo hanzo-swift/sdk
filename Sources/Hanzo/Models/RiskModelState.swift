@@ -12,23 +12,23 @@ public struct RiskModelState: Sendable, Codable, ParameterConvertible, Hashable 
     /** Aggregates reports the pressure on this organisation's own sliding aggregates, and whether they have started forgetting subjects to stay inside their bound. */
     public var aggregates: RiskAggregates?
     /** Blind counts, per feature, how often it took its neutral value for want of data. A feature blind on most traffic is not contributing whatever the inventory claims for it. */
-    public var blind: [String: Int]?
+    public var blind: [String: Int64]?
     /** Cut is the threshold in force, derived from Stated as a quantile of the scores actually observed. */
     public var cut: Double?
     /** Descends is the published value the working model grew out of: the newest one whose mass count it has reached or passed. Empty when nothing has been published yet.  It is DERIVED from the count and never stored, so an instant rollback is right for free — adopting an older value moves the count backward and this answers with that older value, where a stored pointer would be a second fact to keep in step. Read with Learned it is also the DRIFT: this model is Descends plus however many events the two counts differ by. */
     public var descends: String?
     /** Disposed is how many published values retention has taken. It is DERIVED from the lowest surviving sequence, so it cannot drift from what it describes, and it is reported because a retention that binds is a fact an operator must be able to read rather than a silence. */
-    public var disposed: Int?
+    public var disposed: Int64?
     /** Learned is how many events the model has learned from. */
-    public var learned: Int?
+    public var learned: Int64?
     /** Live is false while the model is in shadow — scoring, learning and recording what it WOULD have alerted on, and changing no outcome. Shadow is the default for a new tenant. */
     public var live: Bool?
     /** Policy is the version of the decision regime this model is deciding under, from your organisation's own policy history (GET /v1/risk/policy). Every score cites it, so it is the join between a past decision and the appetite that produced its threshold. Zero means no regime has ever been stated and the default posture — shadow — is in force. */
-    public var policy: Int?
+    public var policy: Int64?
     /** Realised is the share that actually was. Reading it beside Stated is what makes the appetite a measured commitment rather than an intention. */
     public var realised: Double?
     /** Refused counts events the model would not score, by reason. None of them was examined; a refusal is counted, never silent. */
-    public var refused: [String: Int]?
+    public var refused: [String: Int64]?
     /** Sample is the share of below-the-line events retained for review, which is how the miss rate is measured rather than assumed. */
     public var sample: Double?
     /** Saturated means no threshold can honour the stated appetite because too much of the stream scores in the top bucket, so the model is alerting on nothing — the one state that must never be mistaken for quiet. */
@@ -46,7 +46,7 @@ public struct RiskModelState: Sendable, Codable, ParameterConvertible, Hashable 
     /** Warm is whether that is enough for the model to have an opinion at all. Below it the model declines to score, which is an ordinary state and is not a clean bill of health. */
     public var warm: Bool?
 
-    public init(aggregates: RiskAggregates? = nil, blind: [String: Int]? = nil, cut: Double? = nil, descends: String? = nil, disposed: Int? = nil, learned: Int? = nil, live: Bool? = nil, policy: Int? = nil, realised: Double? = nil, refused: [String: Int]? = nil, sample: Double? = nil, saturated: Bool? = nil, shape: String? = nil, stated: Double? = nil, surface: RiskSurface? = nil, tenant: String? = nil, values: [RiskModelValue]? = nil, warm: Bool? = nil) {
+    public init(aggregates: RiskAggregates? = nil, blind: [String: Int64]? = nil, cut: Double? = nil, descends: String? = nil, disposed: Int64? = nil, learned: Int64? = nil, live: Bool? = nil, policy: Int64? = nil, realised: Double? = nil, refused: [String: Int64]? = nil, sample: Double? = nil, saturated: Bool? = nil, shape: String? = nil, stated: Double? = nil, surface: RiskSurface? = nil, tenant: String? = nil, values: [RiskModelValue]? = nil, warm: Bool? = nil) {
         self.aggregates = aggregates
         self.blind = blind
         self.cut = cut

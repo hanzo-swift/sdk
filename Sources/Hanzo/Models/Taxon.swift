@@ -24,7 +24,7 @@ public struct Taxon: Sendable, Codable, ParameterConvertible, Hashable {
     /** Name is the display name, e.g. \"Vector\". */
     public var name: String?
     /** Order is where the taxon sits within its category, ascending. */
-    public var order: Int?
+    public var order: Int64?
     /** Owner is the org this product belongs to: the platform's own org for one every tenant sees, or your org for one you added. Where two rows share an id, yours is the one served. */
     public var owner: String?
     /** Published is whether the taxon is shown. An unpublished taxon is served only to an editor, so a product can be staged before anyone sees it. */
@@ -34,7 +34,7 @@ public struct Taxon: Sendable, Codable, ParameterConvertible, Hashable {
     /** Tags are free-form labels for search and grouping across categories. */
     public var tags: [String]?
 
-    public init(brands: [String]? = nil, category: String? = nil, description: String? = nil, href: String? = nil, icon: String? = nil, id: String? = nil, name: String? = nil, order: Int? = nil, owner: String? = nil, published: Bool? = nil, route: String? = nil, tags: [String]? = nil) {
+    public init(brands: [String]? = nil, category: String? = nil, description: String? = nil, href: String? = nil, icon: String? = nil, id: String? = nil, name: String? = nil, order: Int64? = nil, owner: String? = nil, published: Bool? = nil, route: String? = nil, tags: [String]? = nil) {
         self.brands = brands
         self.category = category
         self.description = description

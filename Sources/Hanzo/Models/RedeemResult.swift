@@ -12,13 +12,13 @@ public struct RedeemResult: Sendable, Codable, ParameterConvertible, Hashable {
     /** AlreadyRedeemed is true when this org had already taken the promo and the call was an idempotent replay. */
     public var alreadyRedeemed: Bool?
     /** ChargeCents is what month one costs after the discount, DiscountCents the discount that produced it. Both are quoted figures against the org's derived plan — NOTHING WAS CREDITED and no wallet moved. */
-    public var chargeCents: Int?
+    public var chargeCents: Int64?
     /** DiscountCents is the discount claimed for month one, in USD cents, at the single-seat floor. It is the same figure recorded on the Redemption, and it is evidence an admin may later grant against — not a balance. */
-    public var discountCents: Int?
+    public var discountCents: Int64?
     /** Redemption is the row that was recorded — the org's claim on this promo, with the server-derived plan and seat count. On a replay it is the ORIGINAL row, so its redeemedAt is when the org first took the promo, not now. */
     public var redemption: Redemption?
 
-    public init(alreadyRedeemed: Bool? = nil, chargeCents: Int? = nil, discountCents: Int? = nil, redemption: Redemption? = nil) {
+    public init(alreadyRedeemed: Bool? = nil, chargeCents: Int64? = nil, discountCents: Int64? = nil, redemption: Redemption? = nil) {
         self.alreadyRedeemed = alreadyRedeemed
         self.chargeCents = chargeCents
         self.discountCents = discountCents

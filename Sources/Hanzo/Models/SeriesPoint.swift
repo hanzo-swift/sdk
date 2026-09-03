@@ -12,9 +12,9 @@ public struct SeriesPoint: Sendable, Codable, ParameterConvertible, Hashable {
     /** bucket start, RFC3339 UTC */
     public var t: String?
     /** real invocation count in the bucket */
-    public var v: Int?
+    public var v: Int64?
 
-    public init(t: String? = nil, v: Int? = nil) {
+    public init(t: String? = nil, v: Int64? = nil) {
         self.t = t
         self.v = v
     }

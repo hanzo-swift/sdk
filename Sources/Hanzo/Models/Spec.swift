@@ -12,15 +12,15 @@ public struct Spec: Sendable, Codable, ParameterConvertible, Hashable {
     /** amd64 | arm64 | ... */
     public var arch: String?
     /** logical cores */
-    public var cpus: Int?
+    public var cpus: Int64?
     /** GPUs is every accelerator the machine advertises, one entry each, capped at 32 on write. Empty means the probe found none — and that is the answer a Need is checked against, so a machine with no entry here clears no accelerator floor. The list is not vendor-filtered: what satisfies a job is counts and VRAM, never a brand (see Need). */
     public var gpus: [GPU]?
     /** total RAM, bytes */
-    public var memory: Int?
+    public var memory: Int64?
     /** linux | darwin | windows */
     public var os: String?
 
-    public init(arch: String? = nil, cpus: Int? = nil, gpus: [GPU]? = nil, memory: Int? = nil, os: String? = nil) {
+    public init(arch: String? = nil, cpus: Int64? = nil, gpus: [GPU]? = nil, memory: Int64? = nil, os: String? = nil) {
         self.arch = arch
         self.cpus = cpus
         self.gpus = gpus

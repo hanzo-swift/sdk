@@ -19,11 +19,11 @@ public struct Declared: Sendable, Codable, ParameterConvertible, Hashable {
     public var org: String?
     public var path: String?
     public var project: String?
-    public var replicas: Int?
+    public var replicas: Int64?
     public var repository: String?
     public var tag: String?
 
-    public init(application: String? = nil, automated: Bool? = nil, cd: CDApp? = nil, digest: String? = nil, env: [DeclareEnv]? = nil, hosts: [String]? = nil, name: String? = nil, org: String? = nil, path: String? = nil, project: String? = nil, replicas: Int? = nil, repository: String? = nil, tag: String? = nil) {
+    public init(application: String? = nil, automated: Bool? = nil, cd: CDApp? = nil, digest: String? = nil, env: [DeclareEnv]? = nil, hosts: [String]? = nil, name: String? = nil, org: String? = nil, path: String? = nil, project: String? = nil, replicas: Int64? = nil, repository: String? = nil, tag: String? = nil) {
         self.application = application
         self.automated = automated
         self.cd = cd

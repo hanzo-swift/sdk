@@ -16,9 +16,9 @@ public struct CaptableTransferred: Sendable, Codable, ParameterConvertible, Hash
     /** Success is true when the transfer was applied. */
     public var success: Bool?
     /** Transferred is how many shares moved. */
-    public var transferred: Int?
+    public var transferred: Int64?
 
-    public init(message: String? = nil, newShareId: String? = nil, success: Bool? = nil, transferred: Int? = nil) {
+    public init(message: String? = nil, newShareId: String? = nil, success: Bool? = nil, transferred: Int64? = nil) {
         self.message = message
         self.newShareId = newShareId
         self.success = success

@@ -10,7 +10,7 @@ import Foundation
 public struct DataroomRoom: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CreatedAt is when the room was created, in unix milliseconds. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** Description is the room's description, null when none was given. */
     public var description: String?
     /** ID is the room id, which is what other dataroom calls address it by. */
@@ -20,9 +20,9 @@ public struct DataroomRoom: Sendable, Codable, ParameterConvertible, Hashable {
     /** PId is the room's short public identifier, unique within the tenant. */
     public var pId: String?
     /** UpdatedAt is when the room last changed, in unix milliseconds. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
 
-    public init(createdAt: Int? = nil, description: String? = nil, id: String? = nil, name: String? = nil, pId: String? = nil, updatedAt: Int? = nil) {
+    public init(createdAt: Int64? = nil, description: String? = nil, id: String? = nil, name: String? = nil, pId: String? = nil, updatedAt: Int64? = nil) {
         self.createdAt = createdAt
         self.description = description
         self.id = id

@@ -10,15 +10,15 @@ import Foundation
 public struct CampaignUpdate: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var audience: String?
-    public var budget: Int?
+    public var budget: Int64?
     public var channels: [ChannelSpec]?
     public var content: [String]?
     /** ID is the campaign to update, from the path. */
     public var id: String?
     public var name: String?
-    public var scheduleAt: Int?
+    public var scheduleAt: Int64?
 
-    public init(audience: String? = nil, budget: Int? = nil, channels: [ChannelSpec]? = nil, content: [String]? = nil, id: String? = nil, name: String? = nil, scheduleAt: Int? = nil) {
+    public init(audience: String? = nil, budget: Int64? = nil, channels: [ChannelSpec]? = nil, content: [String]? = nil, id: String? = nil, name: String? = nil, scheduleAt: Int64? = nil) {
         self.audience = audience
         self.budget = budget
         self.channels = channels

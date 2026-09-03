@@ -12,11 +12,11 @@ public struct DevicePollOut: Sendable, Codable, ParameterConvertible, Hashable {
     /** Connection is the connected connector. Present only on \"connected\". */
     public var connector: ConnView?
     /** Interval is the seconds to wait before the next poll. Present only while pending, and it may rise when the provider asks the client to slow down. */
-    public var interval: Int?
+    public var interval: Int64?
     /** Status is the flow's state. \"pending\" means poll again after Interval. */
     public var status: String?
 
-    public init(connector: ConnView? = nil, interval: Int? = nil, status: String? = nil) {
+    public init(connector: ConnView? = nil, interval: Int64? = nil, status: String? = nil) {
         self.connector = connector
         self.interval = interval
         self.status = status

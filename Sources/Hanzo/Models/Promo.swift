@@ -14,19 +14,19 @@ public struct Promo: Sendable, Codable, ParameterConvertible, Hashable {
     /** Code is the promo id, e.g. \"first1000\". */
     public var code: String?
     /** CreatedAt is unix seconds. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** Description is the human-readable offer. */
     public var description: String?
     /** MaxRedemptions is the hard fleet-wide cap; the redemption past it is declined. */
-    public var maxRedemptions: Int?
+    public var maxRedemptions: Int64?
     /** PercentOff is the discount applied to ONE month's list price. */
-    public var percentOff: Int?
+    public var percentOff: Int64?
     /** Plans is the csv of eligible plan ids (\"pro,max,team\"). */
     public var plans: String?
     /** TeamSeatCap is how many Team seats bill at the promo rate; seats beyond it bill at list. */
-    public var teamSeatCap: Int?
+    public var teamSeatCap: Int64?
 
-    public init(active: Bool? = nil, code: String? = nil, createdAt: Int? = nil, description: String? = nil, maxRedemptions: Int? = nil, percentOff: Int? = nil, plans: String? = nil, teamSeatCap: Int? = nil) {
+    public init(active: Bool? = nil, code: String? = nil, createdAt: Int64? = nil, description: String? = nil, maxRedemptions: Int64? = nil, percentOff: Int64? = nil, plans: String? = nil, teamSeatCap: Int64? = nil) {
         self.active = active
         self.code = code
         self.createdAt = createdAt

@@ -14,7 +14,7 @@ public struct CommerceOverview: Sendable, Codable, ParameterConvertible, Hashabl
     /** Available is false when the product-event table could not be read — the lens is reported missing rather than as zeros that look like no sales. */
     public var available: Bool?
     /** Orders is how many order_completed events landed in the window. */
-    public var orders: Int?
+    public var orders: Int64?
     /** Reason says why the lens is unavailable. Omitted when it is available. */
     public var reason: String?
     /** Revenue is the total those orders carried, in the events' own currency unit. */
@@ -22,7 +22,7 @@ public struct CommerceOverview: Sendable, Codable, ParameterConvertible, Hashabl
     /** Source is the warehouse table the lens read. */
     public var source: String?
 
-    public init(aov: Double? = nil, available: Bool? = nil, orders: Int? = nil, reason: String? = nil, revenue: Double? = nil, source: String? = nil) {
+    public init(aov: Double? = nil, available: Bool? = nil, orders: Int64? = nil, reason: String? = nil, revenue: Double? = nil, source: String? = nil) {
         self.aov = aov
         self.available = available
         self.orders = orders

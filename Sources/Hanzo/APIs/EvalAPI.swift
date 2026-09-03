@@ -14,10 +14,10 @@ open class EvalAPI {
      
      - parameter name: (path) Name is the dataset the URL names. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: JSONValue
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteEvalDatasetsByName(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> JSONValue {
+    open class func deleteEvalDatasetsByName(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteEvalDatasetsByNameWithRequestBuilder(name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -30,9 +30,9 @@ open class EvalAPI {
        - name: bearer
      - parameter name: (path) Name is the dataset the URL names. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<JSONValue> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteEvalDatasetsByNameWithRequestBuilder(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<JSONValue> {
+    open class func deleteEvalDatasetsByNameWithRequestBuilder(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/eval/datasets/{name}"
         let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -48,7 +48,7 @@ open class EvalAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<JSONValue>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -61,7 +61,7 @@ open class EvalAPI {
      - returns: DatasetList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getEvalDatasets(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> DatasetList {
+    open class func getEvalDatasets(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> DatasetList {
         return try await getEvalDatasetsWithRequestBuilder(limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -76,7 +76,7 @@ open class EvalAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<DatasetList> 
      */
-    open class func getEvalDatasetsWithRequestBuilder(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<DatasetList> {
+    open class func getEvalDatasetsWithRequestBuilder(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<DatasetList> {
         let localVariablePath = "/v1/eval/datasets"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -150,7 +150,7 @@ open class EvalAPI {
      - returns: ItemList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getEvalDatasetsByNameItems(name: String, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ItemList {
+    open class func getEvalDatasetsByNameItems(name: String, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ItemList {
         return try await getEvalDatasetsByNameItemsWithRequestBuilder(name: name, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -166,7 +166,7 @@ open class EvalAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ItemList> 
      */
-    open class func getEvalDatasetsByNameItemsWithRequestBuilder(name: String, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ItemList> {
+    open class func getEvalDatasetsByNameItemsWithRequestBuilder(name: String, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ItemList> {
         var localVariablePath = "/v1/eval/datasets/{name}/items"
         let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -198,7 +198,7 @@ open class EvalAPI {
      - returns: EvaluatorList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getEvalEvaluators(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> EvaluatorList {
+    open class func getEvalEvaluators(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> EvaluatorList {
         return try await getEvalEvaluatorsWithRequestBuilder(limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -213,7 +213,7 @@ open class EvalAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<EvaluatorList> 
      */
-    open class func getEvalEvaluatorsWithRequestBuilder(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<EvaluatorList> {
+    open class func getEvalEvaluatorsWithRequestBuilder(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<EvaluatorList> {
         let localVariablePath = "/v1/eval/evaluators"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -289,7 +289,7 @@ open class EvalAPI {
      - returns: ScoreConfigList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getEvalRubrics(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ScoreConfigList {
+    open class func getEvalRubrics(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ScoreConfigList {
         return try await getEvalRubricsWithRequestBuilder(limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -304,7 +304,7 @@ open class EvalAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ScoreConfigList> 
      */
-    open class func getEvalRubricsWithRequestBuilder(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ScoreConfigList> {
+    open class func getEvalRubricsWithRequestBuilder(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ScoreConfigList> {
         let localVariablePath = "/v1/eval/rubrics"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -334,7 +334,7 @@ open class EvalAPI {
      - returns: Runs
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getEvalRuns(datasetName: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Runs {
+    open class func getEvalRuns(datasetName: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Runs {
         return try await getEvalRunsWithRequestBuilder(datasetName: datasetName, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -350,7 +350,7 @@ open class EvalAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Runs> 
      */
-    open class func getEvalRunsWithRequestBuilder(datasetName: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Runs> {
+    open class func getEvalRunsWithRequestBuilder(datasetName: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Runs> {
         let localVariablePath = "/v1/eval/runs"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -383,7 +383,7 @@ open class EvalAPI {
      - returns: ScoreList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getEvalScores(name: String? = nil, runName: String? = nil, traceId: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ScoreList {
+    open class func getEvalScores(name: String? = nil, runName: String? = nil, traceId: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ScoreList {
         return try await getEvalScoresWithRequestBuilder(name: name, runName: runName, traceId: traceId, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -401,7 +401,7 @@ open class EvalAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ScoreList> 
      */
-    open class func getEvalScoresWithRequestBuilder(name: String? = nil, runName: String? = nil, traceId: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ScoreList> {
+    open class func getEvalScoresWithRequestBuilder(name: String? = nil, runName: String? = nil, traceId: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ScoreList> {
         let localVariablePath = "/v1/eval/scores"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -436,7 +436,7 @@ open class EvalAPI {
      - returns: TraceList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getEvalTraces(sessionId: String? = nil, runName: String? = nil, datasetName: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> TraceList {
+    open class func getEvalTraces(sessionId: String? = nil, runName: String? = nil, datasetName: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> TraceList {
         return try await getEvalTracesWithRequestBuilder(sessionId: sessionId, runName: runName, datasetName: datasetName, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -454,7 +454,7 @@ open class EvalAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<TraceList> 
      */
-    open class func getEvalTracesWithRequestBuilder(sessionId: String? = nil, runName: String? = nil, datasetName: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<TraceList> {
+    open class func getEvalTracesWithRequestBuilder(sessionId: String? = nil, runName: String? = nil, datasetName: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<TraceList> {
         let localVariablePath = "/v1/eval/traces"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil

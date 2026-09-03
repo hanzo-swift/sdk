@@ -10,19 +10,19 @@ import Foundation
 public struct CaptableHolding: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** FullyDiluted is shares plus options. */
-    public var fullyDiluted: Int?
+    public var fullyDiluted: Int64?
     /** Name is the stakeholder's name. */
     public var name: String?
     /** Options is the shares under this stakeholder's non-terminal option grants. */
-    public var options: Int?
+    public var options: Int64?
     /** OwnershipPct is fullyDiluted as a percentage of the company's fullyDilutedShares, rounded to two decimals; 0 when nothing is issued. */
     public var ownershipPct: Double?
     /** Shares is the shares this stakeholder holds by certificate. */
-    public var shares: Int?
+    public var shares: Int64?
     /** StakeholderID addresses the stakeholder these totals are for. */
     public var stakeholderId: String?
 
-    public init(fullyDiluted: Int? = nil, name: String? = nil, options: Int? = nil, ownershipPct: Double? = nil, shares: Int? = nil, stakeholderId: String? = nil) {
+    public init(fullyDiluted: Int64? = nil, name: String? = nil, options: Int64? = nil, ownershipPct: Double? = nil, shares: Int64? = nil, stakeholderId: String? = nil) {
         self.fullyDiluted = fullyDiluted
         self.name = name
         self.options = options

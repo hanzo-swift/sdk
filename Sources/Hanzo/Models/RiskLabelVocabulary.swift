@@ -16,11 +16,11 @@ public struct RiskLabelVocabulary: Sendable, Codable, ParameterConvertible, Hash
     /** Precedence is the sources in the order that resolves a conflict, strongest first. It is DERIVED from the same declaration the resolver reads, so the published order is the enforced order and cannot drift from it. */
     public var _precedence: [String]?
     /** Retention is the platform floor in days: no tenant may dispose of a label younger than this, because a label can be the input to an adverse action. */
-    public var retention: Int?
+    public var retention: Int64?
     /** Rule states the tie-breaks below rank, in order, so a caller reading a contested resolution can reproduce it. */
     public var rule: [String]?
 
-    public init(dispositions: [String]? = nil, kinds: [String]? = nil, _precedence: [String]? = nil, retention: Int? = nil, rule: [String]? = nil) {
+    public init(dispositions: [String]? = nil, kinds: [String]? = nil, _precedence: [String]? = nil, retention: Int64? = nil, rule: [String]? = nil) {
         self.dispositions = dispositions
         self.kinds = kinds
         self._precedence = _precedence

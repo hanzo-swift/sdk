@@ -18,9 +18,9 @@ public struct O11yPodListRecord: Sendable, Codable, ParameterConvertible, Hashab
     public var podMemoryLimit: Double?
     public var podMemoryRequest: Double?
     public var podUID: String?
-    public var restartCount: Int?
+    public var restartCount: Int64?
 
-    public init(countByPhase: O11yPodCountByPhase? = nil, meta: [String: String]? = nil, podCPU: Double? = nil, podCPULimit: Double? = nil, podCPURequest: Double? = nil, podMemory: Double? = nil, podMemoryLimit: Double? = nil, podMemoryRequest: Double? = nil, podUID: String? = nil, restartCount: Int? = nil) {
+    public init(countByPhase: O11yPodCountByPhase? = nil, meta: [String: String]? = nil, podCPU: Double? = nil, podCPULimit: Double? = nil, podCPURequest: Double? = nil, podMemory: Double? = nil, podMemoryLimit: Double? = nil, podMemoryRequest: Double? = nil, podUID: String? = nil, restartCount: Int64? = nil) {
         self.countByPhase = countByPhase
         self.meta = meta
         self.podCPU = podCPU

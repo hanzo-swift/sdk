@@ -12,25 +12,25 @@ public struct TotalView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Confidence says how real the row's numbers are. */
     public var confidence: String?
     /** CostCents is the period's spend in cents, in the row's own ledger. */
-    public var costCents: Int?
+    public var costCents: Int64?
     /** Provider is the provider the row totals. */
     public var provider: String?
     /** Requests is the period's request count. */
-    public var requests: Int?
+    public var requests: Int64?
     /** Scope is whose usage the row measures: user or org. */
     public var scope: String?
     /** Source is whose meter the row came from: account or hanzo. */
     public var source: String?
     /** Tokens is the period's total token count. */
-    public var tokens: Int?
+    public var tokens: Int64?
     /** UsedPct is the plan consumption percentage, on the account side. */
     public var usedPct: Double?
     /** Window is the window class the row totals, on the account side. */
     public var window: String?
     /** Windows is how many window instances the row folds. */
-    public var windows: Int?
+    public var windows: Int64?
 
-    public init(confidence: String? = nil, costCents: Int? = nil, provider: String? = nil, requests: Int? = nil, scope: String? = nil, source: String? = nil, tokens: Int? = nil, usedPct: Double? = nil, window: String? = nil, windows: Int? = nil) {
+    public init(confidence: String? = nil, costCents: Int64? = nil, provider: String? = nil, requests: Int64? = nil, scope: String? = nil, source: String? = nil, tokens: Int64? = nil, usedPct: Double? = nil, window: String? = nil, windows: Int64? = nil) {
         self.confidence = confidence
         self.costCents = costCents
         self.provider = provider

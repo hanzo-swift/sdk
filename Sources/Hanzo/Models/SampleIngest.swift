@@ -14,17 +14,17 @@ public struct SampleIngest: Sendable, Codable, ParameterConvertible, Hashable {
     /** GPUUtil is accelerator utilization as a fraction 0..1; the warehouse clamps anything outside that. */
     public var gpuUtil: Double?
     /** GPUs is how many accelerators this reading covers. */
-    public var gpus: Int?
+    public var gpus: Int64?
     /** Host is the node's hostname, for display. */
     public var host: String?
     /** MemFree is host memory still available, in BYTES. */
-    public var memFree: Int?
+    public var memFree: Int64?
     /** MemUsed is host memory in use, in BYTES. */
-    public var memUsed: Int?
+    public var memUsed: Int64?
     /** Unit is the reporting node's own id — the same id it registered under, and the key the board joins this series onto. Required. */
     public var unit: String?
 
-    public init(gpuModel: String? = nil, gpuUtil: Double? = nil, gpus: Int? = nil, host: String? = nil, memFree: Int? = nil, memUsed: Int? = nil, unit: String? = nil) {
+    public init(gpuModel: String? = nil, gpuUtil: Double? = nil, gpus: Int64? = nil, host: String? = nil, memFree: Int64? = nil, memUsed: Int64? = nil, unit: String? = nil) {
         self.gpuModel = gpuModel
         self.gpuUtil = gpuUtil
         self.gpus = gpus

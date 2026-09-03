@@ -12,13 +12,13 @@ public struct ProjectsDeployment: Sendable, Codable, ParameterConvertible, Hasha
     /** Bucket is the object-store bucket its files were written to. */
     public var bucket: String?
     /** Bytes is their total size in bytes. */
-    public var bytes: Int?
+    public var bytes: Int64?
     /** Commit is the revision that was built, for a deployment that came from a repository. Absent for an uploaded artifact, which has no revision. */
     public var commit: String?
     /** CreatedAt is when the deployment was queued, as Unix seconds. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** Files is how many objects the deployment published. */
-    public var files: Int?
+    public var files: Int64?
     /** ID identifies this one deployment attempt, and is what CI quotes back to complete it. */
     public var id: String?
     /** LiveURL is where this deployment serves, once it is live. */
@@ -34,13 +34,13 @@ public struct ProjectsDeployment: Sendable, Codable, ParameterConvertible, Hasha
     /** Status is where the attempt got to — queued, live, or failed. A deployment that is live is not necessarily the one SERVING: the project's own currentDeploymentId says which is. */
     public var status: String?
     /** UpdatedAt is when it last changed state, as Unix seconds — so the gap between the two is how long the build took. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
     /** Upload is the prefix-scoped, short-lived S3 write grant handed to CI with a queued git deployment, so it needs no bucket credential (grant.go). Present ONLY on the 202 that creates the deployment — it is never stored and never replayed on a later read, so a grant cannot outlive the build it was minted for by being fetched again. */
     public var upload: ProjectsUploadGrant?
     /** Version counts deployments of this project from 1, so the history reads as an ordered sequence rather than by timestamp. It is per project, not global. */
-    public var version: Int?
+    public var version: Int64?
 
-    public init(bucket: String? = nil, bytes: Int? = nil, commit: String? = nil, createdAt: Int? = nil, files: Int? = nil, id: String? = nil, liveUrl: String? = nil, message: String? = nil, _prefix: String? = nil, projectId: String? = nil, source: String? = nil, status: String? = nil, updatedAt: Int? = nil, upload: ProjectsUploadGrant? = nil, version: Int? = nil) {
+    public init(bucket: String? = nil, bytes: Int64? = nil, commit: String? = nil, createdAt: Int64? = nil, files: Int64? = nil, id: String? = nil, liveUrl: String? = nil, message: String? = nil, _prefix: String? = nil, projectId: String? = nil, source: String? = nil, status: String? = nil, updatedAt: Int64? = nil, upload: ProjectsUploadGrant? = nil, version: Int64? = nil) {
         self.bucket = bucket
         self.bytes = bytes
         self.commit = commit

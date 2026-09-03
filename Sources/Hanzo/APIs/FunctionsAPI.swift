@@ -14,10 +14,10 @@ open class FunctionsAPI {
      
      - parameter name: (path) Name is the function the URL names. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: JSONValue
+     - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteFunctionsByName(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> JSONValue {
+    open class func deleteFunctionsByName(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteFunctionsByNameWithRequestBuilder(name: name, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -30,9 +30,9 @@ open class FunctionsAPI {
        - name: bearer
      - parameter name: (path) Name is the function the URL names. 
      - parameter apiConfiguration: The configuration for the http request.
-     - returns: RequestBuilder<JSONValue> 
+     - returns: RequestBuilder<Void> 
      */
-    open class func deleteFunctionsByNameWithRequestBuilder(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<JSONValue> {
+    open class func deleteFunctionsByNameWithRequestBuilder(name: String, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         var localVariablePath = "/v1/functions/{name}"
         let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -48,7 +48,7 @@ open class FunctionsAPI {
 
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
-        let localVariableRequestBuilder: RequestBuilder<JSONValue>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+        let localVariableRequestBuilder: RequestBuilder<Void>.Type = apiConfiguration.requestBuilderFactory.getNonDecodableBuilder()
 
         return localVariableRequestBuilder.init(method: "DELETE", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
     }
@@ -145,7 +145,7 @@ open class FunctionsAPI {
      - returns: InvocationList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getFunctionsByNameInvocations(name: String, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> InvocationList {
+    open class func getFunctionsByNameInvocations(name: String, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> InvocationList {
         return try await getFunctionsByNameInvocationsWithRequestBuilder(name: name, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -161,7 +161,7 @@ open class FunctionsAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<InvocationList> 
      */
-    open class func getFunctionsByNameInvocationsWithRequestBuilder(name: String, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<InvocationList> {
+    open class func getFunctionsByNameInvocationsWithRequestBuilder(name: String, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<InvocationList> {
         var localVariablePath = "/v1/functions/{name}/invocations"
         let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

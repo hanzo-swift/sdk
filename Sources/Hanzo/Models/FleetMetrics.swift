@@ -16,11 +16,11 @@ public struct FleetMetrics: Sendable, Codable, ParameterConvertible, Hashable {
     /** Load1 is the host's 1-minute load average — runnable processes, not a percentage, so it is read against the unit's core count and can exceed 1. */
     public var load1: Double?
     /** MemFree is host memory still available, in BYTES. It is what the source reported, not fleetSpec.Memory minus MemUsed. */
-    public var memFree: Int?
+    public var memFree: Int64?
     /** MemUsed is host memory in use, in BYTES. */
-    public var memUsed: Int?
+    public var memUsed: Int64?
 
-    public init(at: String? = nil, gpuUtil: Double? = nil, load1: Double? = nil, memFree: Int? = nil, memUsed: Int? = nil) {
+    public init(at: String? = nil, gpuUtil: Double? = nil, load1: Double? = nil, memFree: Int64? = nil, memUsed: Int64? = nil) {
         self.at = at
         self.gpuUtil = gpuUtil
         self.load1 = load1

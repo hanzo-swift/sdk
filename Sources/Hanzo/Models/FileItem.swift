@@ -14,13 +14,13 @@ public struct FileItem: Sendable, Codable, ParameterConvertible, Hashable {
     /** Folder is true for a folder entry, which is emergent from \"/\" in the names beneath it rather than a thing that was created. */
     public var isFolder: Bool?
     /** ModifiedAt is when the file was last written, in unix seconds, and 0 for a folder. */
-    public var modifiedAt: Int?
+    public var modifiedAt: Int64?
     /** Name is the entry's name RELATIVE to the folder that was listed. */
     public var name: String?
     /** Size is the file's size in bytes, and 0 for a folder. */
-    public var size: Int?
+    public var size: Int64?
 
-    public init(etag: String? = nil, isFolder: Bool? = nil, modifiedAt: Int? = nil, name: String? = nil, size: Int? = nil) {
+    public init(etag: String? = nil, isFolder: Bool? = nil, modifiedAt: Int64? = nil, name: String? = nil, size: Int64? = nil) {
         self.etag = etag
         self.isFolder = isFolder
         self.modifiedAt = modifiedAt

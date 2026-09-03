@@ -18,9 +18,9 @@ public struct LastEventView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Preview is the first 240 bytes of the event's payload, cut without regard for the JSON inside it — it is a string to SHOW, never a value to parse. Read the detail or the stream for the whole payload. */
     public var preview: String?
     /** Seq is that event's position in the session's log — monotonic from 1, per session. A reader holding it can ask the detail or stream reads for everything after it, so this doubles as the list's resume cursor. */
-    public var seq: Int?
+    public var seq: Int64?
 
-    public init(actor: String? = nil, at: String? = nil, kind: String? = nil, preview: String? = nil, seq: Int? = nil) {
+    public init(actor: String? = nil, at: String? = nil, kind: String? = nil, preview: String? = nil, seq: Int64? = nil) {
         self.actor = actor
         self.at = at
         self.kind = kind

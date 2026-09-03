@@ -10,19 +10,19 @@ import Foundation
 public struct IndexHits: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** EstimatedTotalHits is the dialect's name for the match count. Every hit is materialised here, so for this page it is exact rather than estimated. */
-    public var estimatedTotalHits: Int?
+    public var estimatedTotalHits: Int64?
     /** Hits are the matching documents, most relevant first, exactly as stored. */
     public var hits: [JSONValue]?
     /** Limit is how many hits this page could hold. */
-    public var limit: Int?
+    public var limit: Int64?
     /** Offset is where this page starts. */
-    public var offset: Int?
+    public var offset: Int64?
     /** ProcessingTimeMs is how long the query took, in milliseconds. */
-    public var processingTimeMs: Int?
+    public var processingTimeMs: Int64?
     /** Query echoes the search terms, which is what a client renders above the results. */
     public var query: String?
 
-    public init(estimatedTotalHits: Int? = nil, hits: [JSONValue]? = nil, limit: Int? = nil, offset: Int? = nil, processingTimeMs: Int? = nil, query: String? = nil) {
+    public init(estimatedTotalHits: Int64? = nil, hits: [JSONValue]? = nil, limit: Int64? = nil, offset: Int64? = nil, processingTimeMs: Int64? = nil, query: String? = nil) {
         self.estimatedTotalHits = estimatedTotalHits
         self.hits = hits
         self.limit = limit

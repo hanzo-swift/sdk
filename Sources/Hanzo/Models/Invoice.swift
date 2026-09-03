@@ -10,9 +10,9 @@ import Foundation
 public struct Invoice: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** AmountDueCents is what remains collectible. */
-    public var amountDueCents: Int?
+    public var amountDueCents: Int64?
     /** AmountPaidCents is what has been collected so far. */
-    public var amountPaidCents: Int?
+    public var amountPaidCents: Int64?
     /** CreatedAt is when the draft was raised, RFC3339. */
     public var createdAt: String?
     /** Currency is the ISO 4217 code. */
@@ -30,11 +30,11 @@ public struct Invoice: Sendable, Codable, ParameterConvertible, Hashable {
     /** Status is draft, open, paid, void or uncollectible. A draft is not collectible; issuing moves it to open. */
     public var status: String?
     /** SubtotalCents is the sum of the lines. */
-    public var subtotalCents: Int?
+    public var subtotalCents: Int64?
     /** UserID is the customer billed. */
     public var userId: String?
 
-    public init(amountDueCents: Int? = nil, amountPaidCents: Int? = nil, createdAt: String? = nil, currency: String? = nil, customerEmail: String? = nil, id: String? = nil, lines: [InvoiceLine]? = nil, number: String? = nil, paymentRef: String? = nil, status: String? = nil, subtotalCents: Int? = nil, userId: String? = nil) {
+    public init(amountDueCents: Int64? = nil, amountPaidCents: Int64? = nil, createdAt: String? = nil, currency: String? = nil, customerEmail: String? = nil, id: String? = nil, lines: [InvoiceLine]? = nil, number: String? = nil, paymentRef: String? = nil, status: String? = nil, subtotalCents: Int64? = nil, userId: String? = nil) {
         self.amountDueCents = amountDueCents
         self.amountPaidCents = amountPaidCents
         self.createdAt = createdAt

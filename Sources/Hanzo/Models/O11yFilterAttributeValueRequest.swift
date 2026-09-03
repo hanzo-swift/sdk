@@ -12,18 +12,18 @@ public struct O11yFilterAttributeValueRequest: Sendable, Codable, ParameterConve
     public var aggregateAttribute: String?
     public var aggregateOperator: String?
     public var dataSource: String?
-    public var endTimeMillis: Int?
+    public var endTimeMillis: Int64?
     public var existingFilterItems: [O11yFilterItem]?
     public var filterAttributeKey: String?
     public var filterAttributeKeyDataType: String?
     public var includeRelated: Bool?
-    public var limit: Int?
+    public var limit: Int64?
     public var metricNames: [String]?
     public var searchText: String?
-    public var startTimeMillis: Int?
+    public var startTimeMillis: Int64?
     public var tagType: String?
 
-    public init(aggregateAttribute: String? = nil, aggregateOperator: String? = nil, dataSource: String? = nil, endTimeMillis: Int? = nil, existingFilterItems: [O11yFilterItem]? = nil, filterAttributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, includeRelated: Bool? = nil, limit: Int? = nil, metricNames: [String]? = nil, searchText: String? = nil, startTimeMillis: Int? = nil, tagType: String? = nil) {
+    public init(aggregateAttribute: String? = nil, aggregateOperator: String? = nil, dataSource: String? = nil, endTimeMillis: Int64? = nil, existingFilterItems: [O11yFilterItem]? = nil, filterAttributeKey: String? = nil, filterAttributeKeyDataType: String? = nil, includeRelated: Bool? = nil, limit: Int64? = nil, metricNames: [String]? = nil, searchText: String? = nil, startTimeMillis: Int64? = nil, tagType: String? = nil) {
         self.aggregateAttribute = aggregateAttribute
         self.aggregateOperator = aggregateOperator
         self.dataSource = dataSource

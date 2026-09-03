@@ -62,7 +62,7 @@ open class AdAPI {
      - returns: CampaignList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAdCampaigns(status: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CampaignList {
+    open class func getAdCampaigns(status: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CampaignList {
         return try await getAdCampaignsWithRequestBuilder(status: status, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -78,7 +78,7 @@ open class AdAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<CampaignList> 
      */
-    open class func getAdCampaignsWithRequestBuilder(status: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CampaignList> {
+    open class func getAdCampaignsWithRequestBuilder(status: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CampaignList> {
         let localVariablePath = "/v1/ad/campaigns"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil

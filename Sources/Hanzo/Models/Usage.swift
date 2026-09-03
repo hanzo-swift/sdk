@@ -10,13 +10,13 @@ import Foundation
 public struct Usage: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** null — no per-invocation cost source */
-    public var costCents: Int?
+    public var costCents: Int64?
     /** one line per function that ran in the window */
     public var series: [CostLine]?
     /** how those invocations ended */
     public var status: StatusBreakdown?
 
-    public init(costCents: Int? = nil, series: [CostLine]? = nil, status: StatusBreakdown? = nil) {
+    public init(costCents: Int64? = nil, series: [CostLine]? = nil, status: StatusBreakdown? = nil) {
         self.costCents = costCents
         self.series = series
         self.status = status

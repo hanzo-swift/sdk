@@ -10,9 +10,9 @@ import Foundation
 public struct CheckView: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CreatedAt is the unix second the verification was started. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** DecidedAt is the unix second a terminal status was recorded. */
-    public var decidedAt: Int?
+    public var decidedAt: Int64?
     /** DecidedBy records who settled a terminal status: the provider name, or a reviewer's user id for a recorded manual decision. */
     public var decidedBy: String?
     /** ID is the verification's opaque id. */
@@ -26,11 +26,11 @@ public struct CheckView: Sendable, Codable, ParameterConvertible, Hashable {
     /** SubjectID is the opaque id of the subject under verification. */
     public var subjectId: String?
     /** UpdatedAt is the unix second the verification last changed. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
     /** VerifyURL is the provider's hosted verification flow for the subject, when one exists. */
     public var verifyUrl: String?
 
-    public init(createdAt: Int? = nil, decidedAt: Int? = nil, decidedBy: String? = nil, id: String? = nil, kind: String? = nil, provider: String? = nil, status: String? = nil, subjectId: String? = nil, updatedAt: Int? = nil, verifyUrl: String? = nil) {
+    public init(createdAt: Int64? = nil, decidedAt: Int64? = nil, decidedBy: String? = nil, id: String? = nil, kind: String? = nil, provider: String? = nil, status: String? = nil, subjectId: String? = nil, updatedAt: Int64? = nil, verifyUrl: String? = nil) {
         self.createdAt = createdAt
         self.decidedAt = decidedAt
         self.decidedBy = decidedBy

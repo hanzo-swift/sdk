@@ -9,13 +9,13 @@ import Foundation
 
 public struct O11yPodCountByPhase: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var failed: Int?
-    public var pending: Int?
-    public var running: Int?
-    public var succeeded: Int?
-    public var unknown: Int?
+    public var failed: Int64?
+    public var pending: Int64?
+    public var running: Int64?
+    public var succeeded: Int64?
+    public var unknown: Int64?
 
-    public init(failed: Int? = nil, pending: Int? = nil, running: Int? = nil, succeeded: Int? = nil, unknown: Int? = nil) {
+    public init(failed: Int64? = nil, pending: Int64? = nil, running: Int64? = nil, succeeded: Int64? = nil, unknown: Int64? = nil) {
         self.failed = failed
         self.pending = pending
         self.running = running

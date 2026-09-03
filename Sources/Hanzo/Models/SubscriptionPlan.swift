@@ -13,9 +13,9 @@ public struct SubscriptionPlan: Sendable, Codable, ParameterConvertible, Hashabl
     public var id: String?
     public var interval: String?
     public var name: String?
-    public var price: Int?
+    public var price: Int64?
 
-    public init(currency: String? = nil, id: String? = nil, interval: String? = nil, name: String? = nil, price: Int? = nil) {
+    public init(currency: String? = nil, id: String? = nil, interval: String? = nil, name: String? = nil, price: Int64? = nil) {
         self.currency = currency
         self.id = id
         self.interval = interval

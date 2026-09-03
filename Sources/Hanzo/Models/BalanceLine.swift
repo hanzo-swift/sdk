@@ -12,13 +12,13 @@ public struct BalanceLine: Sendable, Codable, ParameterConvertible, Hashable {
     /** Account is the chart-of-accounts number this line reports on. ABSENT marks a DERIVED line that no account holds — retained earnings is the one such line, computed from cumulative income minus expense. */
     public var account: String?
     /** Amount is the balance as of the statement date, in whole cents, in its NATURAL sign: positive when the account behaved normally, on all three sides. Assets are debit-normal and shown as stored; liabilities and equity are credit-normal and flipped once here for display. A negative asset is a real overdraft, not a sign convention. */
-    public var amount: Int?
+    public var amount: Int64?
     /** Name is the account's human name, or the derived line's own name. */
     public var name: String?
     /** Type is the account's fundamental class. Absent on a derived line, which belongs to no account and therefore has none. */
     public var type: String?
 
-    public init(account: String? = nil, amount: Int? = nil, name: String? = nil, type: String? = nil) {
+    public init(account: String? = nil, amount: Int64? = nil, name: String? = nil, type: String? = nil) {
         self.account = account
         self.amount = amount
         self.name = name

@@ -9,12 +9,12 @@ import Foundation
 
 public struct O11yGettableFlamegraphTrace: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var endTimestampMillis: Int?
+    public var endTimestampMillis: Int64?
     public var hasMore: Bool?
     public var spans: [[O11yFlamegraphSpan]]?
-    public var startTimestampMillis: Int?
+    public var startTimestampMillis: Int64?
 
-    public init(endTimestampMillis: Int? = nil, hasMore: Bool? = nil, spans: [[O11yFlamegraphSpan]]? = nil, startTimestampMillis: Int? = nil) {
+    public init(endTimestampMillis: Int64? = nil, hasMore: Bool? = nil, spans: [[O11yFlamegraphSpan]]? = nil, startTimestampMillis: Int64? = nil) {
         self.endTimestampMillis = endTimestampMillis
         self.hasMore = hasMore
         self.spans = spans

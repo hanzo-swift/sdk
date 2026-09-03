@@ -10,10 +10,10 @@ import Foundation
 public struct Subscriptions: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Count is the row count beside the rows, which is the shape this address has always answered with. */
-    public var count: Int?
+    public var count: Int64?
     public var subscriptions: [Subscription]?
 
-    public init(count: Int? = nil, subscriptions: [Subscription]? = nil) {
+    public init(count: Int64? = nil, subscriptions: [Subscription]? = nil) {
         self.count = count
         self.subscriptions = subscriptions
     }

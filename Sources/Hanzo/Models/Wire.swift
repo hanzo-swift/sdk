@@ -44,7 +44,7 @@ public struct Wire: Sendable, Codable, ParameterConvertible, Hashable {
     /** SourceIP is the client address the edge resolved for the request, after the proxy chain — the address a responder would act on, not the socket peer. */
     public var sourceIp: String?
     /** Status is the HTTP status the caller received. It is the outcome as the client saw it, so a 200 carrying a domain refusal still reads 200 here. */
-    public var status: Int?
+    public var status: Int64?
     /** Sub is the acting user (the IAM subject). Empty for a machine principal or an anonymous request, which is how a service action is told from a person's. */
     public var sub: String?
     /** Time is when the action happened, RFC3339Nano in UTC. The stored column has the same precision and sorts the same way, so a client can range and order on this string verbatim. */
@@ -52,7 +52,7 @@ public struct Wire: Sendable, Codable, ParameterConvertible, Hashable {
     /** UserAgent is the client the request announced itself as. Client-supplied, so it is evidence about what claimed to act, not proof of it. */
     public var userAgent: String?
 
-    public init(action: String? = nil, authMethod: String? = nil, email: String? = nil, hash: String? = nil, home: String? = nil, isAdmin: Bool? = nil, method: String? = nil, org: String? = nil, path: String? = nil, prevHash: String? = nil, reason: String? = nil, requestId: String? = nil, resource: String? = nil, resourceId: String? = nil, result: String? = nil, seq: Int? = nil, sourceIp: String? = nil, status: Int? = nil, sub: String? = nil, time: String? = nil, userAgent: String? = nil) {
+    public init(action: String? = nil, authMethod: String? = nil, email: String? = nil, hash: String? = nil, home: String? = nil, isAdmin: Bool? = nil, method: String? = nil, org: String? = nil, path: String? = nil, prevHash: String? = nil, reason: String? = nil, requestId: String? = nil, resource: String? = nil, resourceId: String? = nil, result: String? = nil, seq: Int? = nil, sourceIp: String? = nil, status: Int64? = nil, sub: String? = nil, time: String? = nil, userAgent: String? = nil) {
         self.action = action
         self.authMethod = authMethod
         self.email = email

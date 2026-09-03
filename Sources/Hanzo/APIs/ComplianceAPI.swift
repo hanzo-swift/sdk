@@ -17,7 +17,7 @@ open class ComplianceAPI {
      - returns: AccList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getComplianceAccreditation(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AccList {
+    open class func getComplianceAccreditation(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AccList {
         return try await getComplianceAccreditationWithRequestBuilder(limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -32,7 +32,7 @@ open class ComplianceAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<AccList> 
      */
-    open class func getComplianceAccreditationWithRequestBuilder(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AccList> {
+    open class func getComplianceAccreditationWithRequestBuilder(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AccList> {
         let localVariablePath = "/v1/compliance/accreditation"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -188,7 +188,7 @@ open class ComplianceAPI {
      - returns: RecordList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getComplianceRecords(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RecordList {
+    open class func getComplianceRecords(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RecordList {
         return try await getComplianceRecordsWithRequestBuilder(limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -203,7 +203,7 @@ open class ComplianceAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<RecordList> 
      */
-    open class func getComplianceRecordsWithRequestBuilder(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RecordList> {
+    open class func getComplianceRecordsWithRequestBuilder(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RecordList> {
         let localVariablePath = "/v1/compliance/records"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -271,7 +271,7 @@ open class ComplianceAPI {
      - returns: SubjectList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getComplianceSubjects(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SubjectList {
+    open class func getComplianceSubjects(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SubjectList {
         return try await getComplianceSubjectsWithRequestBuilder(limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -286,7 +286,7 @@ open class ComplianceAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<SubjectList> 
      */
-    open class func getComplianceSubjectsWithRequestBuilder(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SubjectList> {
+    open class func getComplianceSubjectsWithRequestBuilder(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SubjectList> {
         let localVariablePath = "/v1/compliance/subjects"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -359,7 +359,7 @@ open class ComplianceAPI {
      - returns: CheckList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getComplianceVerifications(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CheckList {
+    open class func getComplianceVerifications(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CheckList {
         return try await getComplianceVerificationsWithRequestBuilder(limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -374,7 +374,7 @@ open class ComplianceAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<CheckList> 
      */
-    open class func getComplianceVerificationsWithRequestBuilder(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CheckList> {
+    open class func getComplianceVerificationsWithRequestBuilder(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CheckList> {
         let localVariablePath = "/v1/compliance/verifications"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil

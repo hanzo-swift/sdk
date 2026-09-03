@@ -10,12 +10,12 @@ import Foundation
 /** Usage is the LLM side of the same window: how many calls, how many tokens and what they cost. It counts model traffic, not HTTP requests, so it does not reconcile with series.requests. */
 public struct O11yMetricsResponseUsage: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var calls: Int?
-    public var costCents: Int?
+    public var calls: Int64?
+    public var costCents: Int64?
     public var series: [O11yUsageBucket]?
-    public var tokens: Int?
+    public var tokens: Int64?
 
-    public init(calls: Int? = nil, costCents: Int? = nil, series: [O11yUsageBucket]? = nil, tokens: Int? = nil) {
+    public init(calls: Int64? = nil, costCents: Int64? = nil, series: [O11yUsageBucket]? = nil, tokens: Int64? = nil) {
         self.calls = calls
         self.costCents = costCents
         self.series = series

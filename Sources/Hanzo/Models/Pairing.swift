@@ -12,25 +12,25 @@ public struct Pairing: Sendable, Codable, ParameterConvertible, Hashable {
     /** A is the first model id. */
     public var a: String?
     /** ACorrect is how many of those common items A got right. */
-    public var aCorrect: Int?
+    public var aCorrect: Int64?
     /** B is the second model id. */
     public var b: String?
     /** BCorrect is how many of those common items B got right. */
-    public var bCorrect: Int?
+    public var bCorrect: Int64?
     /** Benchmark is the catalog id the two arms were compared on. */
     public var benchmark: String?
     /** McnemarP is the two-sided exact binomial p on the discordant pairs. It is 1 when nothing is discordant, which is \"no evidence of a difference\", not an error. */
     public var mcnemarP: Double?
     /** NCommon is how many items BOTH arms completed. It is the denominator, and the reason this comparison is valid where a raw accuracy difference is not. */
-    public var nCommon: Int?
+    public var nCommon: Int64?
     /** NetAMinusB is the two rescue counts subtracted — A's advantage in items. */
-    public var netAMinusB: Int?
+    public var netAMinusB: Int64?
     /** RescueAOverB is how many items A got right and B got wrong. */
-    public var rescueAOverB: Int?
+    public var rescueAOverB: Int64?
     /** RescueBOverA is how many items B got right and A got wrong. */
-    public var rescueBOverA: Int?
+    public var rescueBOverA: Int64?
 
-    public init(a: String? = nil, aCorrect: Int? = nil, b: String? = nil, bCorrect: Int? = nil, benchmark: String? = nil, mcnemarP: Double? = nil, nCommon: Int? = nil, netAMinusB: Int? = nil, rescueAOverB: Int? = nil, rescueBOverA: Int? = nil) {
+    public init(a: String? = nil, aCorrect: Int64? = nil, b: String? = nil, bCorrect: Int64? = nil, benchmark: String? = nil, mcnemarP: Double? = nil, nCommon: Int64? = nil, netAMinusB: Int64? = nil, rescueAOverB: Int64? = nil, rescueBOverA: Int64? = nil) {
         self.a = a
         self.aCorrect = aCorrect
         self.b = b

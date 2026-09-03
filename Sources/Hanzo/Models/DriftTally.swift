@@ -10,13 +10,13 @@ import Foundation
 public struct DriftTally: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** OK is how many rows run what they declare. */
-    public var ok: Int?
+    public var ok: Int64?
     /** Red is how many have drifted badly. */
-    public var red: Int?
+    public var red: Int64?
     /** Yellow is how many have drifted within tolerance. */
-    public var yellow: Int?
+    public var yellow: Int64?
 
-    public init(ok: Int? = nil, red: Int? = nil, yellow: Int? = nil) {
+    public init(ok: Int64? = nil, red: Int64? = nil, yellow: Int64? = nil) {
         self.ok = ok
         self.red = red
         self.yellow = yellow

@@ -10,7 +10,7 @@ import Foundation
 public struct PopulatedFlow: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Created and Updated are unix milliseconds. */
-    public var created: Int?
+    public var created: Int64?
     /** ExternalID is the caller's own id for this flow, if it set one. */
     public var externalId: String?
     /** FolderID groups the flow in the builder's tree. */
@@ -24,11 +24,11 @@ public struct PopulatedFlow: Sendable, Codable, ParameterConvertible, Hashable {
     public var publishedVersionId: String?
     /** Status is ENABLED or DISABLED — whether the flow's trigger is armed. */
     public var status: String?
-    public var updated: Int?
+    public var updated: Int64?
     /** Version is the flow's latest version — its display name and step tree. */
     public var version: FlowVersion?
 
-    public init(created: Int? = nil, externalId: String? = nil, folderId: String? = nil, id: String? = nil, metadata: JSONValue? = nil, projectId: String? = nil, publishedVersionId: String? = nil, status: String? = nil, updated: Int? = nil, version: FlowVersion? = nil) {
+    public init(created: Int64? = nil, externalId: String? = nil, folderId: String? = nil, id: String? = nil, metadata: JSONValue? = nil, projectId: String? = nil, publishedVersionId: String? = nil, status: String? = nil, updated: Int64? = nil, version: FlowVersion? = nil) {
         self.created = created
         self.externalId = externalId
         self.folderId = folderId

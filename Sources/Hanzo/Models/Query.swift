@@ -10,9 +10,9 @@ import Foundation
 public struct Query: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Character is a 0-based UTF-16 code-unit offset within Line, per the LSP specification — not a byte offset and not a rune index. */
-    public var character: Int?
+    public var character: Int64?
     /** Line is 0-based, per the LSP specification. */
-    public var line: Int?
+    public var line: Int64?
     /** Path is the repo-relative file, e.g. \"apps/lsp/lsp.go\". */
     public var path: String?
     /** Relation refines locate: definition, reference, type or implementation. Empty means definition. Every other op ignores it. */
@@ -22,7 +22,7 @@ public struct Query: Sendable, Codable, ParameterConvertible, Hashable {
     /** Rev is a branch, tag or commit sha. Empty means the default branch. It is resolved to a commit before anything else happens, so an answer is always about one immutable tree. */
     public var rev: String?
 
-    public init(character: Int? = nil, line: Int? = nil, path: String? = nil, relation: String? = nil, repo: String? = nil, rev: String? = nil) {
+    public init(character: Int64? = nil, line: Int64? = nil, path: String? = nil, relation: String? = nil, repo: String? = nil, rev: String? = nil) {
         self.character = character
         self.line = line
         self.path = path

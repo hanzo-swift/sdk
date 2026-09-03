@@ -12,13 +12,13 @@ public struct O11yO11yErrorIssues: Sendable, Codable, ParameterConvertible, Hash
     /** Items are the issues. */
     public var items: [O11yO11yErrorIssue]?
     /** Limit is the page cap that was applied. */
-    public var limit: Int?
+    public var limit: Int64?
     /** Offset is how many were skipped. */
-    public var offset: Int?
+    public var offset: Int64?
     /** Total is how many matched the filter. */
-    public var total: Int?
+    public var total: Int64?
 
-    public init(items: [O11yO11yErrorIssue]? = nil, limit: Int? = nil, offset: Int? = nil, total: Int? = nil) {
+    public init(items: [O11yO11yErrorIssue]? = nil, limit: Int64? = nil, offset: Int64? = nil, total: Int64? = nil) {
         self.items = items
         self.limit = limit
         self.offset = offset

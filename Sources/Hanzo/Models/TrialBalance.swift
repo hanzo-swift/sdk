@@ -18,11 +18,11 @@ public struct TrialBalance: Sendable, Codable, ParameterConvertible, Hashable {
     /** To is the posting time the window closes at, inclusive. Absent means \"up to now\" — every posting the ledger holds. */
     public var to: String?
     /** TotalCredit is the sum of every row's closing credit column, in cents. */
-    public var totalCredit: Int?
+    public var totalCredit: Int64?
     /** TotalDebit is the sum of every row's CLOSING debit column, in cents. */
-    public var totalDebit: Int?
+    public var totalDebit: Int64?
 
-    public init(balanced: Bool? = nil, from: String? = nil, rows: [TrialBalanceRow]? = nil, to: String? = nil, totalCredit: Int? = nil, totalDebit: Int? = nil) {
+    public init(balanced: Bool? = nil, from: String? = nil, rows: [TrialBalanceRow]? = nil, to: String? = nil, totalCredit: Int64? = nil, totalDebit: Int64? = nil) {
         self.balanced = balanced
         self.from = from
         self.rows = rows

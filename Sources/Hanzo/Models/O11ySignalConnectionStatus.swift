@@ -12,9 +12,9 @@ public struct O11ySignalConnectionStatus: Sendable, Codable, ParameterConvertibl
     /** resource identifier */
     public var lastReceivedFrom: String?
     /** epoch milliseconds */
-    public var lastReceivedTsMs: Int?
+    public var lastReceivedTsMs: Int64?
 
-    public init(lastReceivedFrom: String? = nil, lastReceivedTsMs: Int? = nil) {
+    public init(lastReceivedFrom: String? = nil, lastReceivedTsMs: Int64? = nil) {
         self.lastReceivedFrom = lastReceivedFrom
         self.lastReceivedTsMs = lastReceivedTsMs
     }

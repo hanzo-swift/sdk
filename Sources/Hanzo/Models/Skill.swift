@@ -12,7 +12,7 @@ public struct Skill: Sendable, Codable, ParameterConvertible, Hashable {
     /** Content is the SKILL.md body, markdown. */
     public var content: String?
     /** CreatedAt is when the skill was last written, Unix seconds. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** Description is the one-line summary discovery shows for the skill. */
     public var description: String?
     /** ID is the skill's id within the org. It is DERIVED from Name, so writing the same name again revises that skill rather than adding another. */
@@ -21,14 +21,17 @@ public struct Skill: Sendable, Codable, ParameterConvertible, Hashable {
     public var name: String?
     /** Org is the org that authored the skill — the validated caller's, never a value the body supplied. */
     public var org: String?
+    /** Source is the repository the skill was read from, \"<project>/<name>\" or \"<name>\"; empty for a skill written through the API. A push replaces every skill of its source at once, so a skill leaves when its file does. */
+    public var source: String?
 
-    public init(content: String? = nil, createdAt: Int? = nil, description: String? = nil, id: String? = nil, name: String? = nil, org: String? = nil) {
+    public init(content: String? = nil, createdAt: Int64? = nil, description: String? = nil, id: String? = nil, name: String? = nil, org: String? = nil, source: String? = nil) {
         self.content = content
         self.createdAt = createdAt
         self.description = description
         self.id = id
         self.name = name
         self.org = org
+        self.source = source
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -38,6 +41,7 @@ public struct Skill: Sendable, Codable, ParameterConvertible, Hashable {
         case id
         case name
         case org
+        case source
     }
 
     // Encodable protocol methods
@@ -50,6 +54,7 @@ public struct Skill: Sendable, Codable, ParameterConvertible, Hashable {
         try container.encodeIfPresent(id, forKey: .id)
         try container.encodeIfPresent(name, forKey: .name)
         try container.encodeIfPresent(org, forKey: .org)
+        try container.encodeIfPresent(source, forKey: .source)
     }
 }
 

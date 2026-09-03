@@ -10,15 +10,15 @@ import Foundation
 public struct O11yO11yQueueIn: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** End is the window's end, epoch nanoseconds. */
-    public var end: Int?
+    public var end: Int64?
     /** EvalTime bounds the span-evaluation scan, nanoseconds; only the span/evaluation view reads it. */
-    public var evalTime: Int?
+    public var evalTime: Int64?
     /** Start is the window's start, epoch nanoseconds. */
-    public var start: Int?
+    public var start: Int64?
     /** Variables name what the view drills into — topic, partition, service, consumer_group — keyed by the name the view expects. */
     public var variables: [String: String]?
 
-    public init(end: Int? = nil, evalTime: Int? = nil, start: Int? = nil, variables: [String: String]? = nil) {
+    public init(end: Int64? = nil, evalTime: Int64? = nil, start: Int64? = nil, variables: [String: String]? = nil) {
         self.end = end
         self.evalTime = evalTime
         self.start = start

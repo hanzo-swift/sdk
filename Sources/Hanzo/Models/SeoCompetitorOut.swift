@@ -14,9 +14,9 @@ public struct SeoCompetitorOut: Sendable, Codable, ParameterConvertible, Hashabl
     /** Cost is what this call cost, in USD, as an exact decimal string. */
     public var cost: String?
     /** Total is how many domains the upstream holds for these phrases. */
-    public var total: Int?
+    public var total: Int64?
 
-    public init(competitors: [SeoDomain]? = nil, cost: String? = nil, total: Int? = nil) {
+    public init(competitors: [SeoDomain]? = nil, cost: String? = nil, total: Int64? = nil) {
         self.competitors = competitors
         self.cost = cost
         self.total = total

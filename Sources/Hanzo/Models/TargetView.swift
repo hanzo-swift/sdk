@@ -26,9 +26,9 @@ public struct TargetView: Sendable, Codable, ParameterConvertible, Hashable {
     /** MetricsAt is when that heartbeat was recorded, RFC 3339 in UTC, and the SERVER stamps it — a client cannot backdate or forge the staleness clock. Absent means never beaten, which is exactly the case where Status is taken at its word. */
     public var metricsAt: String?
     /** Running is how many of those are in `running` right now — the number a dispatcher weighs against Capacity. paused sessions are in Sessions and not here. */
-    public var running: Int?
+    public var running: Int64?
     /** Sessions is how many of the org's sessions are mapped to this machine, by target id OR by matching Host. All of them, whatever their status. */
-    public var sessions: Int?
+    public var sessions: Int64?
     /** Spec is what the machine IS — os, arch, cores, RAM, accelerators — the static half, changed only when something reports it again. Absent when nothing has ever been reported, and a scheduler reads absence as \"cannot satisfy a floor\" rather than as \"no limits\". */
     public var spec: Spec?
     /** Status is the EFFECTIVE liveness — online | offline | draining — not the stored one. offline and draining are operator INTENT and are reported as they stand; `online` is checked against the heartbeat, and a machine that has beaten before but not in the last 90 seconds reports offline whatever its row says. A target that has NEVER beaten keeps its stored status, because a hand-registered destination has no fact to check. */
@@ -36,7 +36,7 @@ public struct TargetView: Sendable, Codable, ParameterConvertible, Hashable {
     /** UpdatedAt is the last write to the row, same format — which for a beating machine is its last heartbeat, since a heartbeat IS a write. */
     public var updatedAt: String?
 
-    public init(capacity: String? = nil, createdAt: String? = nil, host: String? = nil, id: String? = nil, kind: String? = nil, label: String? = nil, metrics: Metrics? = nil, metricsAt: String? = nil, running: Int? = nil, sessions: Int? = nil, spec: Spec? = nil, status: String? = nil, updatedAt: String? = nil) {
+    public init(capacity: String? = nil, createdAt: String? = nil, host: String? = nil, id: String? = nil, kind: String? = nil, label: String? = nil, metrics: Metrics? = nil, metricsAt: String? = nil, running: Int64? = nil, sessions: Int64? = nil, spec: Spec? = nil, status: String? = nil, updatedAt: String? = nil) {
         self.capacity = capacity
         self.createdAt = createdAt
         self.host = host

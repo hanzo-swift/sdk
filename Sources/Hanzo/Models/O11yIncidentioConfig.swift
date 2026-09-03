@@ -16,11 +16,11 @@ public struct O11yIncidentioConfig: Sendable, Codable, ParameterConvertible, Has
     /** MaxAlerts is the maximum number of alerts to be sent per incident.io message. Alerts exceeding this threshold will be truncated. Setting this to 0 allows an unlimited number of alerts. Note that if the payload exceeds incident.io's size limits, you will receive a 429 response and alerts will not be ingested. */
     public var maxAlerts: Int?
     /** Timeout is the maximum time allowed to invoke incident.io. Setting this to 0 does not impose a timeout. */
-    public var timeout: Int?
+    public var timeout: Int64?
     public var url: JSONValue?
     public var urlFile: String?
 
-    public init(notifierConfig: O11yNotifierConfig? = nil, alertSourceToken: JSONValue? = nil, alertSourceTokenFile: String? = nil, httpConfig: O11yHTTPClientConfig? = nil, maxAlerts: Int? = nil, timeout: Int? = nil, url: JSONValue? = nil, urlFile: String? = nil) {
+    public init(notifierConfig: O11yNotifierConfig? = nil, alertSourceToken: JSONValue? = nil, alertSourceTokenFile: String? = nil, httpConfig: O11yHTTPClientConfig? = nil, maxAlerts: Int? = nil, timeout: Int64? = nil, url: JSONValue? = nil, urlFile: String? = nil) {
         self.notifierConfig = notifierConfig
         self.alertSourceToken = alertSourceToken
         self.alertSourceTokenFile = alertSourceTokenFile

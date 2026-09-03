@@ -12,11 +12,11 @@ public struct O11yAvailabilityPoint: Sendable, Codable, ParameterConvertible, Ha
     /** T is the bucket start, RFC3339 in UTC. */
     public var t: String?
     /** Total is how many services reported at all inside the bucket. It can be lower than the current total: a target added last week reported nothing the week before, and saying so is the point. */
-    public var total: Int?
+    public var total: Int64?
     /** Up is how many services were up at the end of the bucket. */
-    public var up: Int?
+    public var up: Int64?
 
-    public init(t: String? = nil, total: Int? = nil, up: Int? = nil) {
+    public init(t: String? = nil, total: Int64? = nil, up: Int64? = nil) {
         self.t = t
         self.total = total
         self.up = up

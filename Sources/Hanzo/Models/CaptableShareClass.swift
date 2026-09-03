@@ -18,9 +18,9 @@ public struct CaptableShareClass: Sendable, Codable, ParameterConvertible, Hasha
     /** ID is the share class id. */
     public var id: String?
     /** Idx is the class's 1-based position within the company, in creation order. */
-    public var idx: Int?
+    public var idx: Int64?
     /** InitialSharesAuthorized is how many shares of this class are authorized. */
-    public var initialSharesAuthorized: Int?
+    public var initialSharesAuthorized: Int64?
     /** LiquidationPreferenceMultiple is the preference multiple on liquidation. */
     public var liquidationPreferenceMultiple: Double?
     /** Name is the class name, e.g. \"Common\" or \"Series A Preferred\". */
@@ -34,11 +34,11 @@ public struct CaptableShareClass: Sendable, Codable, ParameterConvertible, Hasha
     /** PricePerShare is the issue price per share. */
     public var pricePerShare: Double?
     /** Seniority orders classes in a liquidation waterfall; higher is more senior. */
-    public var seniority: Int?
+    public var seniority: Int64?
     /** VotesPerShare is how many votes one share of this class carries. */
-    public var votesPerShare: Int?
+    public var votesPerShare: Int64?
 
-    public init(classType: String? = nil, companyName: String? = nil, conversionRights: String? = nil, id: String? = nil, idx: Int? = nil, initialSharesAuthorized: Int? = nil, liquidationPreferenceMultiple: Double? = nil, name: String? = nil, parValue: Double? = nil, participationCapMultiple: Double? = nil, _prefix: String? = nil, pricePerShare: Double? = nil, seniority: Int? = nil, votesPerShare: Int? = nil) {
+    public init(classType: String? = nil, companyName: String? = nil, conversionRights: String? = nil, id: String? = nil, idx: Int64? = nil, initialSharesAuthorized: Int64? = nil, liquidationPreferenceMultiple: Double? = nil, name: String? = nil, parValue: Double? = nil, participationCapMultiple: Double? = nil, _prefix: String? = nil, pricePerShare: Double? = nil, seniority: Int64? = nil, votesPerShare: Int64? = nil) {
         self.classType = classType
         self.companyName = companyName
         self.conversionRights = conversionRights

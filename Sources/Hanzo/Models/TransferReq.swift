@@ -14,9 +14,9 @@ public struct TransferReq: Sendable, Codable, ParameterConvertible, Hashable {
     /** Domain is the name to move in. It is required. */
     public var domain: String
     /** Years is the term to buy on transfer, defaulting to 1. */
-    public var years: Int?
+    public var years: Int64?
 
-    public init(authCode: String, domain: String, years: Int? = nil) {
+    public init(authCode: String, domain: String, years: Int64? = nil) {
         self.authCode = authCode
         self.domain = domain
         self.years = years

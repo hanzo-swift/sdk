@@ -18,9 +18,9 @@ public struct O11yO11yFunnelStepsUpdateIn: Sendable, Codable, ParameterConvertib
     /** Steps are the funnel's steps, in order. At least two are needed before any analytics read will answer. */
     public var steps: [O11yFunnelStep]?
     /** Timestamp is when the change was made, as a millisecond epoch. */
-    public var timestamp: Int?
+    public var timestamp: Int64?
 
-    public init(description: String? = nil, funnelId: String? = nil, funnelName: String? = nil, steps: [O11yFunnelStep]? = nil, timestamp: Int? = nil) {
+    public init(description: String? = nil, funnelId: String? = nil, funnelName: String? = nil, steps: [O11yFunnelStep]? = nil, timestamp: Int64? = nil) {
         self.description = description
         self.funnelId = funnelId
         self.funnelName = funnelName

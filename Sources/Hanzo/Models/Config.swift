@@ -12,15 +12,15 @@ public struct Config: Sendable, Codable, ParameterConvertible, Hashable {
     /** MaxAge caps message age, e.g. \"24h\" or \"7d\"; \"0\" (default) is unlimited. */
     public var maxAge: String?
     /** MaxBytes caps the stream's total stored bytes; -1 (default) is unlimited. */
-    public var maxBytes: Int?
+    public var maxBytes: Int64?
     /** MaxMsgSize caps one message's size in bytes; -1 (default) is the broker's limit. */
     public var maxMsgSize: Int?
     /** MaxMsgs caps the number of stored messages; -1 (default) is unlimited. */
-    public var maxMsgs: Int?
+    public var maxMsgs: Int64?
     /** Name is the stream name, unique within the org (alphanumeric, hyphens, underscores). */
     public var name: String?
     /** Replicas is the number of stream replicas (1–5); this plane runs 1. */
-    public var numReplicas: Int?
+    public var numReplicas: Int64?
     /** Retention is the retention policy: limits (default), interest, or workqueue. */
     public var retention: String?
     /** Storage is the storage backend: file (default) or memory. */
@@ -28,7 +28,7 @@ public struct Config: Sendable, Codable, ParameterConvertible, Hashable {
     /** Subjects are the org-relative subjects bound to this stream (wildcards supported). Default: the stream name. */
     public var subjects: [String]?
 
-    public init(maxAge: String? = nil, maxBytes: Int? = nil, maxMsgSize: Int? = nil, maxMsgs: Int? = nil, name: String? = nil, numReplicas: Int? = nil, retention: String? = nil, storage: String? = nil, subjects: [String]? = nil) {
+    public init(maxAge: String? = nil, maxBytes: Int64? = nil, maxMsgSize: Int? = nil, maxMsgs: Int64? = nil, name: String? = nil, numReplicas: Int64? = nil, retention: String? = nil, storage: String? = nil, subjects: [String]? = nil) {
         self.maxAge = maxAge
         self.maxBytes = maxBytes
         self.maxMsgSize = maxMsgSize

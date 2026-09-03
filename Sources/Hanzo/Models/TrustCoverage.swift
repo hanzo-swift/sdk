@@ -14,11 +14,11 @@ public struct TrustCoverage: Sendable, Codable, ParameterConvertible, Hashable {
     /** Frameworks is the per-framework counts. */
     public var frameworks: [CoverRow]?
     /** Generated is when this was computed, unix milliseconds. */
-    public var generated: Int?
+    public var generated: Int64?
     /** Version is the embedded inventory's version. */
     public var version: String?
 
-    public init(controls: TrustTally? = nil, frameworks: [CoverRow]? = nil, generated: Int? = nil, version: String? = nil) {
+    public init(controls: TrustTally? = nil, frameworks: [CoverRow]? = nil, generated: Int64? = nil, version: String? = nil) {
         self.controls = controls
         self.frameworks = frameworks
         self.generated = generated

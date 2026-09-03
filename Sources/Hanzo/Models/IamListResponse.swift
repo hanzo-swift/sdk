@@ -10,12 +10,12 @@ import Foundation
 public struct IamListResponse: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var resources: [JSONValue]?
-    public var itemsPerPage: Int?
+    public var itemsPerPage: Int64?
     public var schemas: [String]?
-    public var startIndex: Int?
-    public var totalResults: Int?
+    public var startIndex: Int64?
+    public var totalResults: Int64?
 
-    public init(resources: [JSONValue]? = nil, itemsPerPage: Int? = nil, schemas: [String]? = nil, startIndex: Int? = nil, totalResults: Int? = nil) {
+    public init(resources: [JSONValue]? = nil, itemsPerPage: Int64? = nil, schemas: [String]? = nil, startIndex: Int64? = nil, totalResults: Int64? = nil) {
         self.resources = resources
         self.itemsPerPage = itemsPerPage
         self.schemas = schemas

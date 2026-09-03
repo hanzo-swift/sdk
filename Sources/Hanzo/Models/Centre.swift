@@ -20,7 +20,7 @@ public struct Centre: Sendable, Codable, ParameterConvertible, Hashable {
     /** Frameworks are the clause universes the coverage is computed against. */
     public var frameworks: [FrameworkRow]?
     /** Generated is when this answer was computed, unix milliseconds. */
-    public var generated: Int?
+    public var generated: Int64?
     /** Inventory is how the controls themselves stand, independent of framework. */
     public var inventory: TrustTally?
     /** Org is whose centre this is. */
@@ -36,7 +36,7 @@ public struct Centre: Sendable, Codable, ParameterConvertible, Hashable {
     /** Version is the embedded inventory's version. */
     public var version: String?
 
-    public init(controls: [JSONValue]? = nil, coverage: [CoverRow]? = nil, documents: [DocRow]? = nil, faq: [JSONValue]? = nil, frameworks: [FrameworkRow]? = nil, generated: Int? = nil, inventory: TrustTally? = nil, org: String? = nil, policies: [JSONValue]? = nil, profile: JSONValue? = nil, risk: JSONValue? = nil, subprocessors: [JSONValue]? = nil, updates: [JSONValue]? = nil, version: String? = nil) {
+    public init(controls: [JSONValue]? = nil, coverage: [CoverRow]? = nil, documents: [DocRow]? = nil, faq: [JSONValue]? = nil, frameworks: [FrameworkRow]? = nil, generated: Int64? = nil, inventory: TrustTally? = nil, org: String? = nil, policies: [JSONValue]? = nil, profile: JSONValue? = nil, risk: JSONValue? = nil, subprocessors: [JSONValue]? = nil, updates: [JSONValue]? = nil, version: String? = nil) {
         self.controls = controls
         self.coverage = coverage
         self.documents = documents

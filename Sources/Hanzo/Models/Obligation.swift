@@ -10,7 +10,7 @@ import Foundation
 public struct Obligation: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** AmountCents is what it costs each period. */
-    public var amountCents: Int?
+    public var amountCents: Int64?
     /** AsOf is when that amount was last checked against its source, RFC 3339 date. */
     public var asOf: String?
     /** Code names the obligation so a caller can branch without reading prose. */
@@ -28,7 +28,7 @@ public struct Obligation: Sendable, Codable, ParameterConvertible, Hashable {
     /** Stale reports that AsOf is older than the review window. It tells; it does not block. */
     public var stale: Bool?
 
-    public init(amountCents: Int? = nil, asOf: String? = nil, code: String? = nil, every: String? = nil, label: String? = nil, minimum: Bool? = nil, passThrough: Bool? = nil, source: String? = nil, stale: Bool? = nil) {
+    public init(amountCents: Int64? = nil, asOf: String? = nil, code: String? = nil, every: String? = nil, label: String? = nil, minimum: Bool? = nil, passThrough: Bool? = nil, source: String? = nil, stale: Bool? = nil) {
         self.amountCents = amountCents
         self.asOf = asOf
         self.code = code

@@ -10,35 +10,35 @@ import Foundation
 public struct TrafficView: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Blind is how many requests in the window carried no identity to attribute them to — no validated credential and no client address. Non-zero on a public plane means the client address is not reaching this process (a TCP load balancer with no PROXY protocol in front of it, typically), so this scope's callers cannot be told apart and nothing can be held against them. */
-    public var blind: Int?
+    public var blind: Int64?
     /** Callers is the scope's busiest callers this window. A credentialed caller appears as a FINGERPRINT — a per-process one-way digest: enough to recognise the same caller across requests, never enough to reconstruct the credential. */
     public var callers: [TrafficCaller]?
     /** Ceiling is the most callers this scope may hold at once. */
-    public var ceiling: Int?
+    public var ceiling: Int64?
     /** Denied is how many of them the gate refused. */
-    public var denied: Int?
+    public var denied: Int64?
     /** Lanes is the request count per lane — agent, human, bot, unknown. This is the split that separates a customer's automation from a scraper. */
-    public var lanes: [String: Int]?
+    public var lanes: [String: Int64]?
     /** Mode is the abuse gate's posture for this scope: \"shadow\" records the scorer's action without enforcing it, \"live\" enforces it. */
     public var mode: String?
     /** Org is the scope this view was taken for — the validated principal's own, never a value the caller supplied. Empty names the anonymous lane, the one scope that has no tenant. */
     public var org: String?
     /** Refused is how many callers this scope's ceilings turned away in the window. */
-    public var refused: Int?
+    public var refused: Int64?
     /** Requests is how many requests this scope made in the window. */
-    public var requests: Int?
+    public var requests: Int64?
     /** Screens is how many of them were put to the scorer — the billable unit of the risk product. Counted from the first request, whatever the SKU costs. */
-    public var screens: Int?
+    public var screens: Int64?
     /** Strain is what this scope's ceilings are doing: \"clear\" below them, \"full\" at them, \"refuse\" once a caller has been turned away inside this window — which means that caller is UNMEASURED and the numbers here are a sample rather than a census. It is reported rather than logged because the alternative — a bound that degrades a scope silently — is the failure this design exists to rule out. No other scope can move it. */
     public var strain: String?
     /** Tracked is how many callers this scope holds state for right now, and Ceiling is the most it may hold. Tracked == Ceiling is the fact a bound that binds cannot hide. */
-    public var tracked: Int?
+    public var tracked: Int64?
     /** Unscored is how many of those screens got NO answer — the scorer was absent, stuck, slow, erroring or silent. An unanswered screen allows ordinary traffic, so this is the number that separates \"a quiet day\" from \"the judge stopped answering and nothing said so\". */
-    public var unscored: Int?
+    public var unscored: Int64?
     /** WindowSec is the span the counts cover, in seconds. */
-    public var windowSec: Int?
+    public var windowSec: Int64?
 
-    public init(blind: Int? = nil, callers: [TrafficCaller]? = nil, ceiling: Int? = nil, denied: Int? = nil, lanes: [String: Int]? = nil, mode: String? = nil, org: String? = nil, refused: Int? = nil, requests: Int? = nil, screens: Int? = nil, strain: String? = nil, tracked: Int? = nil, unscored: Int? = nil, windowSec: Int? = nil) {
+    public init(blind: Int64? = nil, callers: [TrafficCaller]? = nil, ceiling: Int64? = nil, denied: Int64? = nil, lanes: [String: Int64]? = nil, mode: String? = nil, org: String? = nil, refused: Int64? = nil, requests: Int64? = nil, screens: Int64? = nil, strain: String? = nil, tracked: Int64? = nil, unscored: Int64? = nil, windowSec: Int64? = nil) {
         self.blind = blind
         self.callers = callers
         self.ceiling = ceiling

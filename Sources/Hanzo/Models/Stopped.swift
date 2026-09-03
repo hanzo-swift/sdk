@@ -10,9 +10,9 @@ import Foundation
 public struct Stopped: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Stopped counts the commands that were still running and were interrupted. Zero says the sandbox was idle, not that the stop failed — see above. */
-    public var stopped: Int?
+    public var stopped: Int64?
 
-    public init(stopped: Int? = nil) {
+    public init(stopped: Int64? = nil) {
         self.stopped = stopped
     }
 

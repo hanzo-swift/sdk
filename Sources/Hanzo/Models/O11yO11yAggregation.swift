@@ -14,7 +14,7 @@ public struct O11yO11yAggregation: Sendable, Codable, ParameterConvertible, Hash
     /** AnomalyScores are anomaly overlays. */
     public var anomalyScores: [O11yO11yMetricSeries]?
     /** Index is the aggregation's position in the query. */
-    public var index: Int?
+    public var index: Int64?
     /** LowerBoundSeries are forecast lower bounds. */
     public var lowerBoundSeries: [O11yO11yMetricSeries]?
     /** Meta describes the aggregation. */
@@ -26,7 +26,7 @@ public struct O11yO11yAggregation: Sendable, Codable, ParameterConvertible, Hash
     /** UpperBoundSeries are forecast upper bounds. */
     public var upperBoundSeries: [O11yO11yMetricSeries]?
 
-    public init(alias: String? = nil, anomalyScores: [O11yO11yMetricSeries]? = nil, index: Int? = nil, lowerBoundSeries: [O11yO11yMetricSeries]? = nil, meta: O11yO11yAggregationMeta? = nil, predictedSeries: [O11yO11yMetricSeries]? = nil, series: [O11yO11yMetricSeries]? = nil, upperBoundSeries: [O11yO11yMetricSeries]? = nil) {
+    public init(alias: String? = nil, anomalyScores: [O11yO11yMetricSeries]? = nil, index: Int64? = nil, lowerBoundSeries: [O11yO11yMetricSeries]? = nil, meta: O11yO11yAggregationMeta? = nil, predictedSeries: [O11yO11yMetricSeries]? = nil, series: [O11yO11yMetricSeries]? = nil, upperBoundSeries: [O11yO11yMetricSeries]? = nil) {
         self.alias = alias
         self.anomalyScores = anomalyScores
         self.index = index

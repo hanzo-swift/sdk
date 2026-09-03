@@ -14,9 +14,9 @@ public struct InboxView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Channel is the transport this message arrived on — discord, slack, teams or telegram — and the `:channel` segment to reply through. */
     public var channel: String?
     /** CreatedAt is Unix SECONDS, stamped by the ingest goroutine when the message was accepted — not the transport's own send time. Rows are dropped 30 days after it. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** ID is the store's row id, assigned on insert — SERVER-SET, and the cursor: pass a page's last id back as `since`. It rises with arrival order but is not contiguous, because one sequence is shared by every org in the store and a caller reads only its own rows. */
-    public var id: Int?
+    public var id: Int64?
     /** ReplyTo is the transport's reply target for this message: Slack's thread_ts, or the Telegram message id it arrived as. Send it back as the body's `replyTo` to answer in the SAME thread. Empty means the transport reported none — a top-level Slack message, and every Discord and Teams message, since neither carries one — and a reply then lands at the top level of the room. */
     public var replyTo: String?
     /** RoomID is the conversation on the ORIGINATING transport, and the value to send back as `room.id`: a Discord channel snowflake, a Slack conversation id (D… IM, C… public channel, G… private or mpim), a Teams conversation id (19:…@thread.… for a channel or group chat, a:… for a personal chat), or a Telegram chat id in decimal (negative for a group, positive for a DM). It is stable for the life of the room, so every message from one conversation carries the same value. */
@@ -30,7 +30,7 @@ public struct InboxView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Text is the body as the transport delivered it, with the bot mention already stripped by the ingress adapter (on Discord it is the /hanzo prompt argument, since that ingress is slash commands only), truncated to 8 KiB on store. Inbound attachments are not stored — this is the whole of what was said. */
     public var text: String?
 
-    public init(account: String? = nil, channel: String? = nil, createdAt: Int? = nil, id: Int? = nil, replyTo: String? = nil, roomId: String? = nil, roomKind: String? = nil, sender: String? = nil, senderUser: String? = nil, text: String? = nil) {
+    public init(account: String? = nil, channel: String? = nil, createdAt: Int64? = nil, id: Int64? = nil, replyTo: String? = nil, roomId: String? = nil, roomKind: String? = nil, sender: String? = nil, senderUser: String? = nil, text: String? = nil) {
         self.account = account
         self.channel = channel
         self.createdAt = createdAt

@@ -10,11 +10,11 @@ import Foundation
 public struct VerificationTally: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** ByStatus tallies the org's verifications by provider-reported status. */
-    public var byStatus: [String: Int]?
+    public var byStatus: [String: Int64]?
     /** Total is the sum over every status. */
-    public var total: Int?
+    public var total: Int64?
 
-    public init(byStatus: [String: Int]? = nil, total: Int? = nil) {
+    public init(byStatus: [String: Int64]? = nil, total: Int64? = nil) {
         self.byStatus = byStatus
         self.total = total
     }

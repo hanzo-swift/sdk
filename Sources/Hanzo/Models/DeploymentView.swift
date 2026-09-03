@@ -16,7 +16,7 @@ public struct DeploymentView: Sendable, Codable, ParameterConvertible, Hashable 
     /** Commit is the git ref this built — the commit a deploy or a push named, else the app's branch. Empty for an image deploy, which builds nothing. */
     public var commit: String?
     /** CreatedAt is when the attempt was recorded, unix seconds. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** ID is the deployment's id (`dep_…`), minted when the attempt is recorded. The app's currentDeploymentId points at one of these. */
     public var id: String?
     /** Image is the full `repo:tag` this deployment put in the CR. For a git deploy it is the ref the in-cluster build pushes to, known before the build runs. */
@@ -30,11 +30,11 @@ public struct DeploymentView: Sendable, Codable, ParameterConvertible, Hashable 
     /** Status is where the attempt got to: `building` while its image is being built, `deploying` once its CR reached the cluster — which is the terminal success state, the app's own status is what turns `live` — `error` with the reason in Message, or `superseded` when a newer version went live first. */
     public var status: String?
     /** UpdatedAt is its last transition, unix seconds — so for a terminal deployment it is when it reached that state. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
     /** Version counts this app's deployments, from 1 and monotonically. It is what ORDERS them: a deploy only goes live if no higher version already is, so a build that finishes late is superseded instead of overwriting a newer one. */
-    public var version: Int?
+    public var version: Int64?
 
-    public init(applicationId: String? = nil, buildId: String? = nil, commit: String? = nil, createdAt: Int? = nil, id: String? = nil, image: String? = nil, message: String? = nil, org: String? = nil, source: String? = nil, status: String? = nil, updatedAt: Int? = nil, version: Int? = nil) {
+    public init(applicationId: String? = nil, buildId: String? = nil, commit: String? = nil, createdAt: Int64? = nil, id: String? = nil, image: String? = nil, message: String? = nil, org: String? = nil, source: String? = nil, status: String? = nil, updatedAt: Int64? = nil, version: Int64? = nil) {
         self.applicationId = applicationId
         self.buildId = buildId
         self.commit = commit

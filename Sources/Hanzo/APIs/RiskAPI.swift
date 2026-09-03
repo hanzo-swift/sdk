@@ -97,7 +97,7 @@ open class RiskAPI {
      - returns: RiskCatalog
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func riskFeatures(days: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RiskCatalog {
+    open class func riskFeatures(days: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RiskCatalog {
         return try await riskFeaturesWithRequestBuilder(days: days, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -112,7 +112,7 @@ open class RiskAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<RiskCatalog> 
      */
-    open class func riskFeaturesWithRequestBuilder(days: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RiskCatalog> {
+    open class func riskFeaturesWithRequestBuilder(days: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RiskCatalog> {
         let localVariablePath = "/v1/risk/features"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil

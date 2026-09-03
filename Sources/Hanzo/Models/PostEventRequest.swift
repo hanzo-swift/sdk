@@ -9,20 +9,20 @@ import Foundation
 
 public enum PostEventRequest: Sendable, Codable, ParameterConvertible, Hashable {
     case typeCaptureBatch(CaptureBatch)
-    case typeEvent(Event)
+    case typeCaptureEvent(CaptureEvent)
     case typeInsightsBody(InsightsBody)
-    case typeArrayOfEvent([Event])
+    case typeArrayOfCaptureEvent([CaptureEvent])
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
         case .typeCaptureBatch(let value):
             try container.encode(value)
-        case .typeEvent(let value):
+        case .typeCaptureEvent(let value):
             try container.encode(value)
         case .typeInsightsBody(let value):
             try container.encode(value)
-        case .typeArrayOfEvent(let value):
+        case .typeArrayOfCaptureEvent(let value):
             try container.encode(value)
         }
     }
@@ -31,12 +31,12 @@ public enum PostEventRequest: Sendable, Codable, ParameterConvertible, Hashable 
         let container = try decoder.singleValueContainer()
         if let value = try? container.decode(CaptureBatch.self) {
             self = .typeCaptureBatch(value)
-        } else if let value = try? container.decode(Event.self) {
-            self = .typeEvent(value)
+        } else if let value = try? container.decode(CaptureEvent.self) {
+            self = .typeCaptureEvent(value)
         } else if let value = try? container.decode(InsightsBody.self) {
             self = .typeInsightsBody(value)
-        } else if let value = try? container.decode([Event].self) {
-            self = .typeArrayOfEvent(value)
+        } else if let value = try? container.decode([CaptureEvent].self) {
+            self = .typeArrayOfCaptureEvent(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of PostEventRequest"))
         }

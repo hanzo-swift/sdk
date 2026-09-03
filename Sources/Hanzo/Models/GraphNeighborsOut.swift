@@ -10,15 +10,15 @@ import Foundation
 public struct GraphNeighborsOut: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Bound is the ceiling this walk was held to, the same for every caller, so Truncated can be read against a number rather than guessed at. */
-    public var bound: Int?
+    public var bound: Int64?
     /** Depth is the deepest hop count actually reached. It is at most the depth asked for, and smaller when the walk ran out of edges first. */
-    public var depth: Int?
+    public var depth: Int64?
     /** Entities is everything reached, the seeds included, ordered by the fewest hops that reach each one and then by key. */
     public var entities: [String]?
     /** Truncated says the bound stopped the walk. The bound is part of the answer rather than a silent short read. */
     public var truncated: Bool?
 
-    public init(bound: Int? = nil, depth: Int? = nil, entities: [String]? = nil, truncated: Bool? = nil) {
+    public init(bound: Int64? = nil, depth: Int64? = nil, entities: [String]? = nil, truncated: Bool? = nil) {
         self.bound = bound
         self.depth = depth
         self.entities = entities

@@ -10,15 +10,15 @@ import Foundation
 public struct O11yO11yRetentionOut: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** ColdStorageTTLDays is how old data must be before it moves, in days. */
-    public var coldStorageTtlDays: Int?
+    public var coldStorageTtlDays: Int64?
     /** ColdStorageVolume names the volume aged data moves to. */
     public var coldStorageVolume: String?
     /** DefaultTTLDays is the retention for data no rule matches, in days. */
-    public var defaultTtlDays: Int?
+    public var defaultTtlDays: Int64?
     /** ExpectedLogsMoveTTLHours is the pending logs cold-storage move TTL, in hours. */
-    public var expectedLogsMoveTtlDurationHrs: Int?
+    public var expectedLogsMoveTtlDurationHrs: Int64?
     /** ExpectedLogsTTLHours is the pending logs TTL, in hours. */
-    public var expectedLogsTtlDurationHrs: Int?
+    public var expectedLogsTtlDurationHrs: Int64?
     /** Status is the last TTL operation's state. */
     public var status: String?
     /** TTLConditions are the ordered per-label rules; the first match wins. */
@@ -26,7 +26,7 @@ public struct O11yO11yRetentionOut: Sendable, Codable, ParameterConvertible, Has
     /** Version is the policy format version. */
     public var version: String?
 
-    public init(coldStorageTtlDays: Int? = nil, coldStorageVolume: String? = nil, defaultTtlDays: Int? = nil, expectedLogsMoveTtlDurationHrs: Int? = nil, expectedLogsTtlDurationHrs: Int? = nil, status: String? = nil, ttlConditions: [O11yO11yRetentionRule]? = nil, version: String? = nil) {
+    public init(coldStorageTtlDays: Int64? = nil, coldStorageVolume: String? = nil, defaultTtlDays: Int64? = nil, expectedLogsMoveTtlDurationHrs: Int64? = nil, expectedLogsTtlDurationHrs: Int64? = nil, status: String? = nil, ttlConditions: [O11yO11yRetentionRule]? = nil, version: String? = nil) {
         self.coldStorageTtlDays = coldStorageTtlDays
         self.coldStorageVolume = coldStorageVolume
         self.defaultTtlDays = defaultTtlDays

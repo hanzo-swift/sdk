@@ -14,11 +14,11 @@ public struct O11yWebhookConfig: Sendable, Codable, ParameterConvertible, Hashab
     /** MaxAlerts is the maximum number of alerts to be sent per webhook message. Alerts exceeding this threshold will be truncated. Setting this to 0 allows an unlimited number of alerts. */
     public var maxAlerts: Int?
     /** Timeout is the maximum time allowed to invoke the webhook. Setting this to 0 does not impose a timeout. */
-    public var timeout: Int?
+    public var timeout: Int64?
     public var url: JSONValue?
     public var urlFile: String?
 
-    public init(notifierConfig: O11yNotifierConfig? = nil, httpConfig: O11yHTTPClientConfig? = nil, maxAlerts: Int? = nil, timeout: Int? = nil, url: JSONValue? = nil, urlFile: String? = nil) {
+    public init(notifierConfig: O11yNotifierConfig? = nil, httpConfig: O11yHTTPClientConfig? = nil, maxAlerts: Int? = nil, timeout: Int64? = nil, url: JSONValue? = nil, urlFile: String? = nil) {
         self.notifierConfig = notifierConfig
         self.httpConfig = httpConfig
         self.maxAlerts = maxAlerts

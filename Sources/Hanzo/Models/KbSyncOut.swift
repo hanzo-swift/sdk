@@ -10,11 +10,11 @@ import Foundation
 public struct KbSyncOut: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Ingested is how many documents landed in the org's knowledge store. */
-    public var ingested: Int?
+    public var ingested: Int64?
     /** Provider is the connector that was pulled. */
     public var provider: String?
 
-    public init(ingested: Int? = nil, provider: String? = nil) {
+    public init(ingested: Int64? = nil, provider: String? = nil) {
         self.ingested = ingested
         self.provider = provider
     }

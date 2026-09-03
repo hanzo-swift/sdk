@@ -9,12 +9,12 @@ import Foundation
 
 public struct AutoRechargeEdit: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var amountCents: Int?
+    public var amountCents: Int64?
     public var currency: String?
     public var enabled: Bool?
-    public var thresholdCents: Int?
+    public var thresholdCents: Int64?
 
-    public init(amountCents: Int? = nil, currency: String? = nil, enabled: Bool? = nil, thresholdCents: Int? = nil) {
+    public init(amountCents: Int64? = nil, currency: String? = nil, enabled: Bool? = nil, thresholdCents: Int64? = nil) {
         self.amountCents = amountCents
         self.currency = currency
         self.enabled = enabled

@@ -10,19 +10,19 @@ import Foundation
 public struct TreasuryReport: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** lifetime revenue-share into the fund */
-    public var accruedCents: Int?
+    public var accruedCents: Int64?
     /** program → lifetime paid */
-    public var byProgramCents: [String: Int]?
+    public var byProgramCents: [String: Int64]?
     /** lifetime backed payouts out of the fund */
-    public var paidCents: Int?
+    public var paidCents: Int64?
     /** current revenue-share policy */
     public var policy: SharePolicy?
     /** fund:reserve balance (available now) */
-    public var reserveCents: Int?
+    public var reserveCents: Int64?
     /** reserve > 0: at least some payout is backable */
     public var solventForPayout: Bool?
 
-    public init(accruedCents: Int? = nil, byProgramCents: [String: Int]? = nil, paidCents: Int? = nil, policy: SharePolicy? = nil, reserveCents: Int? = nil, solventForPayout: Bool? = nil) {
+    public init(accruedCents: Int64? = nil, byProgramCents: [String: Int64]? = nil, paidCents: Int64? = nil, policy: SharePolicy? = nil, reserveCents: Int64? = nil, solventForPayout: Bool? = nil) {
         self.accruedCents = accruedCents
         self.byProgramCents = byProgramCents
         self.paidCents = paidCents

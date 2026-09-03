@@ -14,7 +14,7 @@ public struct Analysis: Sendable, Codable, ParameterConvertible, Hashable {
     /** the experiment that was analysed */
     public var experiment: String?
     /** subjects enrolled across every arm */
-    public var exposedTotal: Int?
+    public var exposedTotal: Int64?
     /** the event a conversion is counted from */
     public var metric: String?
     /** one row per declared arm, control first */
@@ -22,7 +22,7 @@ public struct Analysis: Sendable, Codable, ParameterConvertible, Hashable {
     /** ADVISORY: the significant, control-beating arm with the highest rate, else empty */
     public var winner: String?
 
-    public init(alpha: Double? = nil, experiment: String? = nil, exposedTotal: Int? = nil, metric: String? = nil, results: [Outcome]? = nil, winner: String? = nil) {
+    public init(alpha: Double? = nil, experiment: String? = nil, exposedTotal: Int64? = nil, metric: String? = nil, results: [Outcome]? = nil, winner: String? = nil) {
         self.alpha = alpha
         self.experiment = experiment
         self.exposedTotal = exposedTotal

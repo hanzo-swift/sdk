@@ -9,15 +9,15 @@ import Foundation
 
 public struct Recharged: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var amountCents: Int?
-    public var balanceCents: Int?
+    public var amountCents: Int64?
+    public var balanceCents: Int64?
     public var charged: Bool?
     public var error: String?
     public var orgName: String?
     public var transactionId: String?
     public var userId: String?
 
-    public init(amountCents: Int? = nil, balanceCents: Int? = nil, charged: Bool? = nil, error: String? = nil, orgName: String? = nil, transactionId: String? = nil, userId: String? = nil) {
+    public init(amountCents: Int64? = nil, balanceCents: Int64? = nil, charged: Bool? = nil, error: String? = nil, orgName: String? = nil, transactionId: String? = nil, userId: String? = nil) {
         self.amountCents = amountCents
         self.balanceCents = balanceCents
         self.charged = charged

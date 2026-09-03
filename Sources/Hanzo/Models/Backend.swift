@@ -12,9 +12,9 @@ public struct Backend: Sendable, Codable, ParameterConvertible, Hashable {
     /** URL is the upstream server, http(s)://host[:port]. */
     public var url: String?
     /** Weight is this member's share of the round-robin; must be >= 0. */
-    public var weight: Int?
+    public var weight: Int64?
 
-    public init(url: String? = nil, weight: Int? = nil) {
+    public init(url: String? = nil, weight: Int64? = nil) {
         self.url = url
         self.weight = weight
     }

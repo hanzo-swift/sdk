@@ -40,7 +40,7 @@ public struct O11yO11yLogPipelineOperator: Sendable, Codable, ParameterConvertib
     /** OnError says what to do when the processor fails, e.g. send, drop. */
     public var onError: String?
     /** OrderID is the processor's 1-based position in the pipeline. */
-    public var orderId: Int?
+    public var orderId: Int64?
     /** Output is the id of the processor that runs next. */
     public var output: String?
     /** OverwriteSeverityText rewrites the severity text alongside the number when true. */
@@ -70,7 +70,7 @@ public struct O11yO11yLogPipelineOperator: Sendable, Codable, ParameterConvertib
     /** Value is the value an add processor writes. */
     public var value: String?
 
-    public init(_default: String? = nil, enableFlattening: Bool? = nil, enablePaths: Bool? = nil, enabled: Bool? = nil, expr: String? = nil, field: String? = nil, fields: [String]? = nil, from: String? = nil, id: String? = nil, _if: String? = nil, layout: String? = nil, layoutType: String? = nil, mapping: [String: [String]]? = nil, name: String? = nil, onError: String? = nil, orderId: Int? = nil, output: String? = nil, overwriteText: Bool? = nil, parseFrom: String? = nil, parseTo: String? = nil, pathPrefix: String? = nil, pattern: String? = nil, regex: String? = nil, routes: [O11yO11yLogPipelineRoute]? = nil, spanId: O11yO11yLogParseFrom? = nil, to: String? = nil, traceFlags: O11yO11yLogParseFrom? = nil, traceId: O11yO11yLogParseFrom? = nil, type: String? = nil, value: String? = nil) {
+    public init(_default: String? = nil, enableFlattening: Bool? = nil, enablePaths: Bool? = nil, enabled: Bool? = nil, expr: String? = nil, field: String? = nil, fields: [String]? = nil, from: String? = nil, id: String? = nil, _if: String? = nil, layout: String? = nil, layoutType: String? = nil, mapping: [String: [String]]? = nil, name: String? = nil, onError: String? = nil, orderId: Int64? = nil, output: String? = nil, overwriteText: Bool? = nil, parseFrom: String? = nil, parseTo: String? = nil, pathPrefix: String? = nil, pattern: String? = nil, regex: String? = nil, routes: [O11yO11yLogPipelineRoute]? = nil, spanId: O11yO11yLogParseFrom? = nil, to: String? = nil, traceFlags: O11yO11yLogParseFrom? = nil, traceId: O11yO11yLogParseFrom? = nil, type: String? = nil, value: String? = nil) {
         self._default = _default
         self.enableFlattening = enableFlattening
         self.enablePaths = enablePaths

@@ -12,23 +12,23 @@ public struct Spend: Sendable, Codable, ParameterConvertible, Hashable {
     /** Available is false when the commerce ledger was unconfigured or unreachable. Every number below is then an honest zero, NOT a measured one. */
     public var available: Bool?
     /** AvailableCents is what of that balance is still spendable. */
-    public var availableCents: Int?
+    public var availableCents: Int64?
     /** BalanceCents is the prepaid wallet's balance, in US cents. */
-    public var balanceCents: Int?
+    public var balanceCents: Int64?
     /** ByCategory is the window's spend split by ledger category, largest first. */
     public var byCategory: [CategorySpend]?
     /** MTDCents is commerce's authoritative month-to-date consumed figure, which is a different period from the window and is not derived from it. */
-    public var mtdCents: Int?
+    public var mtdCents: Int64?
     /** OverageCents is month-to-date consumption beyond the plan's allowance. */
-    public var overageCents: Int?
+    public var overageCents: Int64?
     /** Series is the window's spend over time, gap-filled at the window's interval. */
     public var series: [SpendPoint]?
     /** Source names where the roll-up came from. */
     public var source: String?
     /** TotalCents is consumption over the requested window, in US cents. It is self-consistent with ByCategory and Series. */
-    public var totalCents: Int?
+    public var totalCents: Int64?
 
-    public init(available: Bool? = nil, availableCents: Int? = nil, balanceCents: Int? = nil, byCategory: [CategorySpend]? = nil, mtdCents: Int? = nil, overageCents: Int? = nil, series: [SpendPoint]? = nil, source: String? = nil, totalCents: Int? = nil) {
+    public init(available: Bool? = nil, availableCents: Int64? = nil, balanceCents: Int64? = nil, byCategory: [CategorySpend]? = nil, mtdCents: Int64? = nil, overageCents: Int64? = nil, series: [SpendPoint]? = nil, source: String? = nil, totalCents: Int64? = nil) {
         self.available = available
         self.availableCents = availableCents
         self.balanceCents = balanceCents

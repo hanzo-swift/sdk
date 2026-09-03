@@ -12,13 +12,13 @@ public struct TestResult: Sendable, Codable, ParameterConvertible, Hashable {
     /** Delivered is whether the subscriber accepted the test POST. It is the whole answer: the send is synchronous and is not retried. */
     public var delivered: Bool?
     /** DurationMs is how long the single attempt took, in MILLISECONDS. */
-    public var durationMs: Int?
+    public var durationMs: Int64?
     /** Error says what stopped it. Empty when delivered. */
     public var error: String?
     /** HTTPStatus is what the subscriber answered, or 0 if it never answered. */
-    public var httpStatus: Int?
+    public var httpStatus: Int64?
 
-    public init(delivered: Bool? = nil, durationMs: Int? = nil, error: String? = nil, httpStatus: Int? = nil) {
+    public init(delivered: Bool? = nil, durationMs: Int64? = nil, error: String? = nil, httpStatus: Int64? = nil) {
         self.delivered = delivered
         self.durationMs = durationMs
         self.error = error

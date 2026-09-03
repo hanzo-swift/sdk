@@ -20,13 +20,13 @@ public struct Number: Sendable, Codable, ParameterConvertible, Hashable {
     /** ID is the carrier's handle for the number, and the id every route here addresses it by. It is not the number itself — see E164. */
     public var id: String?
     /** Monthly is the recurring rental in the MINOR unit of Currency (cents for USD), exactly as the carrier quoted it. It is a price, not a charge: nothing is billed by this field. */
-    public var monthly: Int?
+    public var monthly: Int64?
     /** Org is the tenant holding the number. A search result carries none — nobody holds it yet — which is how an available number is told from a held one. */
     public var org: String?
     /** Type is what kind of number it is: \"local\", \"national\", \"tollfree\" or \"mobile\". It decides both price and what a carrier will let it originate. */
     public var type: String?
 
-    public init(capable: [String]? = nil, country: String? = nil, currency: String? = nil, e164: String? = nil, id: String? = nil, monthly: Int? = nil, org: String? = nil, type: String? = nil) {
+    public init(capable: [String]? = nil, country: String? = nil, currency: String? = nil, e164: String? = nil, id: String? = nil, monthly: Int64? = nil, org: String? = nil, type: String? = nil) {
         self.capable = capable
         self.country = country
         self.currency = currency

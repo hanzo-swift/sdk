@@ -12,9 +12,9 @@ public struct Streams: Sendable, Codable, ParameterConvertible, Hashable {
     /** Streams is the page, ordered by name. */
     public var streams: [ModelStream]?
     /** Total is the org's stream count before paging. */
-    public var total: Int?
+    public var total: Int64?
 
-    public init(streams: [ModelStream]? = nil, total: Int? = nil) {
+    public init(streams: [ModelStream]? = nil, total: Int64? = nil) {
         self.streams = streams
         self.total = total
     }

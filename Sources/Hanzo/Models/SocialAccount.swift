@@ -10,7 +10,7 @@ import Foundation
 public struct SocialAccount: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CreatedAt is when the account was connected, as a unix timestamp in seconds. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** Handle is the account's public name on the network, as the customer knows it. Trimmed and bounded at 1024 characters.  Example: \"@acme\" */
     public var handle: String?
     /** ID is the account's identifier, minted on connect and the id every later call addresses it by.  Example: \"acct_7f3c1a\" */
@@ -20,9 +20,9 @@ public struct SocialAccount: Sendable, Codable, ParameterConvertible, Hashable {
     /** Status is the connection lifecycle: connected, disconnected or error. Only a connected account is a publish target. */
     public var status: String?
     /** UpdatedAt is when the account row last changed, as a unix timestamp in seconds. The listing is ordered by it, newest first. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
 
-    public init(createdAt: Int? = nil, handle: String? = nil, id: String? = nil, provider: String? = nil, status: String? = nil, updatedAt: Int? = nil) {
+    public init(createdAt: Int64? = nil, handle: String? = nil, id: String? = nil, provider: String? = nil, status: String? = nil, updatedAt: Int64? = nil) {
         self.createdAt = createdAt
         self.handle = handle
         self.id = id

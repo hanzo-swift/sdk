@@ -20,9 +20,9 @@ public struct PromptMeta: Sendable, Codable, ParameterConvertible, Hashable {
     /** Type labels the template's kind, \"text\" unless the creator said otherwise. It is the CURRENT version's type; earlier versions may carry a different one. */
     public var type: String?
     /** Versions lists every version NUMBER this prompt has, newest first, capped at the last 100. The highest is the current one. (On a metrics row the same key is a count, not a list.) */
-    public var versions: [Int]?
+    public var versions: [Int64]?
 
-    public init(labels: [String]? = nil, lastUpdatedAt: String? = nil, name: String? = nil, tags: [String]? = nil, type: String? = nil, versions: [Int]? = nil) {
+    public init(labels: [String]? = nil, lastUpdatedAt: String? = nil, name: String? = nil, tags: [String]? = nil, type: String? = nil, versions: [Int64]? = nil) {
         self.labels = labels
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name

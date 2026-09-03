@@ -10,7 +10,7 @@ import Foundation
 public struct BankTxnRow: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** AmountCents is the size of the movement in whole cents, always POSITIVE — direction carries the sign, so a caller must read both to know which way money went. */
-    public var amountCents: Int?
+    public var amountCents: Int64?
     /** Connector names the feed this row arrived on — which bank or processor connection it was synced from. With externalId it is the row's identity, so re-syncing the same statement never books a second copy. */
     public var connector: String?
     /** Currency is the ISO code the bank reported the line in. */
@@ -30,7 +30,7 @@ public struct BankTxnRow: Sendable, Codable, ParameterConvertible, Hashable {
     /** Status is where the line got to: posted (an outflow booked straight to an expense), settled (an outflow that paid down a scanned bill), reconciled (an inflow that cleared a pending settlement), transfer (a move between the org's own accounts, recorded but with no effect on the books), or unmatched (an inflow nobody could place, which is waiting on a human answer). */
     public var status: String?
 
-    public init(amountCents: Int? = nil, connector: String? = nil, currency: String? = nil, description: String? = nil, direction: String? = nil, externalId: String? = nil, matchedVoucher: String? = nil, merchant: String? = nil, postedAt: String? = nil, status: String? = nil) {
+    public init(amountCents: Int64? = nil, connector: String? = nil, currency: String? = nil, description: String? = nil, direction: String? = nil, externalId: String? = nil, matchedVoucher: String? = nil, merchant: String? = nil, postedAt: String? = nil, status: String? = nil) {
         self.amountCents = amountCents
         self.connector = connector
         self.currency = currency

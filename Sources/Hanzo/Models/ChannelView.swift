@@ -24,9 +24,9 @@ public struct ChannelView: Sendable, Codable, ParameterConvertible, Hashable {
     /** ID is the fixed transport identifier — discord, slack, teams, telegram or whatsapp — and the value every route on this surface names a channel by, including the `:channel` segment of the send path. The listing is always in that order. */
     public var id: String?
     /** PendingPairing counts the org's UNEXPIRED pairing requests on this channel: exactly the rows GET /v1/channels/pairing returns for it, one per person waiting on an admin. It never exceeds three — the pending cap per (org, channel) — and expired requests are not counted. */
-    public var pendingPairing: Int?
+    public var pendingPairing: Int64?
 
-    public init(account: String? = nil, accountLabel: String? = nil, capabilities: Capabilities? = nil, connected: Bool? = nil, dmPolicy: String? = nil, groupPolicy: String? = nil, id: String? = nil, pendingPairing: Int? = nil) {
+    public init(account: String? = nil, accountLabel: String? = nil, capabilities: Capabilities? = nil, connected: Bool? = nil, dmPolicy: String? = nil, groupPolicy: String? = nil, id: String? = nil, pendingPairing: Int64? = nil) {
         self.account = account
         self.accountLabel = accountLabel
         self.capabilities = capabilities

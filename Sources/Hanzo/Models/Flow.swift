@@ -9,7 +9,7 @@ import Foundation
 
 public struct Flow: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var created: Int?
+    public var created: Int64?
     public var externalId: String?
     public var folderId: String?
     public var id: String?
@@ -18,9 +18,9 @@ public struct Flow: Sendable, Codable, ParameterConvertible, Hashable {
     public var projectId: String?
     public var publishedVersionId: String?
     public var status: String?
-    public var updated: Int?
+    public var updated: Int64?
 
-    public init(created: Int? = nil, externalId: String? = nil, folderId: String? = nil, id: String? = nil, metadata: JSONValue? = nil, projectId: String? = nil, publishedVersionId: String? = nil, status: String? = nil, updated: Int? = nil) {
+    public init(created: Int64? = nil, externalId: String? = nil, folderId: String? = nil, id: String? = nil, metadata: JSONValue? = nil, projectId: String? = nil, publishedVersionId: String? = nil, status: String? = nil, updated: Int64? = nil) {
         self.created = created
         self.externalId = externalId
         self.folderId = folderId

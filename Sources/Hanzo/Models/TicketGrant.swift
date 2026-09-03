@@ -10,13 +10,13 @@ import Foundation
 public struct TicketGrant: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** ExpiresIn is how long the ticket is good for, in seconds. */
-    public var expiresIn: Int?
+    public var expiresIn: Int64?
     /** Ticket is the grant itself. It is single-purpose and short-lived, and it travels in a query string because a WebSocket handshake carries no Authorization header a browser can set. */
     public var ticket: String?
     /** URL is the PATH to open, ticket included — not an absolute URL. Which host this address wears in public is the edge's answer and not this process's, so an absolute URL would be a guess; the client already knows the host it is talking to. It names the PAGE, which is what a caller embeds — the page finds its own socket, and a caller that wants the raw socket adds `/ws`. */
     public var url: String?
 
-    public init(expiresIn: Int? = nil, ticket: String? = nil, url: String? = nil) {
+    public init(expiresIn: Int64? = nil, ticket: String? = nil, url: String? = nil) {
         self.expiresIn = expiresIn
         self.ticket = ticket
         self.url = url

@@ -12,9 +12,9 @@ public struct O11yO11yReductionRules: Sendable, Codable, ParameterConvertible, H
     /** Rules are the rules. */
     public var rules: [O11yO11yReductionRule]?
     /** Total is how many rules matched, across all pages. */
-    public var total: Int?
+    public var total: Int64?
 
-    public init(rules: [O11yO11yReductionRule]? = nil, total: Int? = nil) {
+    public init(rules: [O11yO11yReductionRule]? = nil, total: Int64? = nil) {
         self.rules = rules
         self.total = total
     }

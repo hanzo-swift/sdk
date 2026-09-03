@@ -10,14 +10,14 @@ import Foundation
 public struct TierLimits: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var allowedModels: [String]?
-    public var dailyCreditsCents: Int?
+    public var dailyCreditsCents: Int64?
     public var displayName: String?
-    public var maxAgents: Int?
+    public var maxAgents: Int64?
     public var name: String?
     /** UnlimitedAgents reports that MaxAgents 0 means \"no ceiling\" rather than \"no agents\" — the reading a bare zero cannot carry. */
     public var unlimitedAgents: Bool?
 
-    public init(allowedModels: [String]? = nil, dailyCreditsCents: Int? = nil, displayName: String? = nil, maxAgents: Int? = nil, name: String? = nil, unlimitedAgents: Bool? = nil) {
+    public init(allowedModels: [String]? = nil, dailyCreditsCents: Int64? = nil, displayName: String? = nil, maxAgents: Int64? = nil, name: String? = nil, unlimitedAgents: Bool? = nil) {
         self.allowedModels = allowedModels
         self.dailyCreditsCents = dailyCreditsCents
         self.displayName = displayName

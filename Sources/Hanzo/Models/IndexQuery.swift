@@ -11,13 +11,13 @@ public struct IndexQuery: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var filter: JSONValue?
     /** Limit is how many hits to return. Absent means 20; the ceiling is 1000. */
-    public var limit: Int?
+    public var limit: Int64?
     /** Offset is where to start. Absent means 0. */
-    public var offset: Int?
+    public var offset: Int64?
     /** Q is the search text. Typos are forgiven. An empty Q matches everything, which is how a client lists an index by relevance rather than by insertion order. */
     public var q: String?
 
-    public init(filter: JSONValue? = nil, limit: Int? = nil, offset: Int? = nil, q: String? = nil) {
+    public init(filter: JSONValue? = nil, limit: Int64? = nil, offset: Int64? = nil, q: String? = nil) {
         self.filter = filter
         self.limit = limit
         self.offset = offset

@@ -10,11 +10,11 @@ import Foundation
 public struct SpaceItem: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CreatedAt is when the space was made, in unix seconds. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** Name is the space's name, as the org created it. */
     public var name: String?
 
-    public init(createdAt: Int? = nil, name: String? = nil) {
+    public init(createdAt: Int64? = nil, name: String? = nil) {
         self.createdAt = createdAt
         self.name = name
     }

@@ -24,9 +24,9 @@ public struct MemoryEntry: Sendable, Codable, ParameterConvertible, Hashable {
     /** Tier is the engine tier the entry belongs to, quality or bulk. Part of the identity: the two tiers keep separate renderings of the same source. */
     public var tier: String?
     /** UpdatedAt is the unix second the entry last changed. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
 
-    public init(actor: String? = nil, glossaryVersion: String? = nil, source: String? = nil, state: String? = nil, target: String? = nil, text: String? = nil, tier: String? = nil, updatedAt: Int? = nil) {
+    public init(actor: String? = nil, glossaryVersion: String? = nil, source: String? = nil, state: String? = nil, target: String? = nil, text: String? = nil, tier: String? = nil, updatedAt: Int64? = nil) {
         self.actor = actor
         self.glossaryVersion = glossaryVersion
         self.source = source

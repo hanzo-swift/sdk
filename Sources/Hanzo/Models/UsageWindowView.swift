@@ -12,33 +12,33 @@ public struct UsageWindowView: Sendable, Codable, ParameterConvertible, Hashable
     /** Account is the linked provider account the window belongs to. */
     public var account: String?
     /** CachedInputTokens is the prompt tokens served from the provider's cache; omitted when unknown. */
-    public var cachedInputTokens: Int?
+    public var cachedInputTokens: Int64?
     /** Confidence says how much the counters beside it mean — a meter that reported only a percentage leaves them at zero, and this is how a reader tells that from a true zero. */
     public var confidence: String?
     /** CostCents is what the window cost on the PROVIDER's own plan, in US cents. It is not a Hanzo charge. */
-    public var costCents: Int?
+    public var costCents: Int64?
     /** CostLimitCents is the plan's spend ceiling for the window, in US cents. */
-    public var costLimitCents: Int?
+    public var costLimitCents: Int64?
     /** Currency is the provider's currency when it is not US cents. */
     public var currency: String?
     /** InputTokens is prompt tokens consumed in the window; omitted when unknown. */
-    public var inputTokens: Int?
+    public var inputTokens: Int64?
     /** Lane is the meter lane this instance belongs to, e.g. a provider's own rolling-window meter. */
     public var lane: String?
     /** Machine is the host whose meter reported the window. */
     public var machine: String?
     /** OutputTokens is completion tokens produced in the window; omitted when unknown. */
-    public var outputTokens: Int?
+    public var outputTokens: Int64?
     /** Plan is the subscription plan the account is on, as the provider names it. */
     public var plan: String?
     /** Requests is how many requests were made in the window; omitted when the meter did not report it. */
-    public var requests: Int?
+    public var requests: Int64?
     /** ResetsAt is when this window rolls over, RFC3339 UTC; omitted when unknown. */
     public var resetsAt: String?
     /** Synthetic marks an instance the meter inferred rather than read. */
     public var synthetic: Bool?
     /** TotalTokens is the window's total tokens; omitted when unknown. */
-    public var totalTokens: Int?
+    public var totalTokens: Int64?
     /** UsedPct is how much of the window's allowance is consumed, 0–100. */
     public var usedPct: Double?
     /** Window is the window class: 6h, day, week or month. */
@@ -48,7 +48,7 @@ public struct UsageWindowView: Sendable, Codable, ParameterConvertible, Hashable
     /** WindowStart is when this window opened, RFC3339 UTC; omitted when unknown. */
     public var windowStart: String?
 
-    public init(account: String? = nil, cachedInputTokens: Int? = nil, confidence: String? = nil, costCents: Int? = nil, costLimitCents: Int? = nil, currency: String? = nil, inputTokens: Int? = nil, lane: String? = nil, machine: String? = nil, outputTokens: Int? = nil, plan: String? = nil, requests: Int? = nil, resetsAt: String? = nil, synthetic: Bool? = nil, totalTokens: Int? = nil, usedPct: Double? = nil, window: String? = nil, windowMinutes: Int? = nil, windowStart: String? = nil) {
+    public init(account: String? = nil, cachedInputTokens: Int64? = nil, confidence: String? = nil, costCents: Int64? = nil, costLimitCents: Int64? = nil, currency: String? = nil, inputTokens: Int64? = nil, lane: String? = nil, machine: String? = nil, outputTokens: Int64? = nil, plan: String? = nil, requests: Int64? = nil, resetsAt: String? = nil, synthetic: Bool? = nil, totalTokens: Int64? = nil, usedPct: Double? = nil, window: String? = nil, windowMinutes: Int? = nil, windowStart: String? = nil) {
         self.account = account
         self.cachedInputTokens = cachedInputTokens
         self.confidence = confidence

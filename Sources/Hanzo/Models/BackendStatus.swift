@@ -12,15 +12,15 @@ public struct BackendStatus: Sendable, Codable, ParameterConvertible, Hashable {
     /** Error is the failure text from a leg whose status is degraded — the reason a configured backend could not answer. Absent otherwise. */
     public var error: String?
     /** Hits is how many results this leg returned, counted BEFORE fusion, so it is not the number that survived into Fusion.Hits — fusion merges what both legs found and the caller's limit and offset then page it. 0 for a leg that did not run. */
-    public var hits: Int?
-    /** Name is which leg this reports: \"index\", the lexical store, \"vector\", the semantic one, or \"code\", the org's own repositories. Match.Backend uses the same three names. */
+    public var hits: Int64?
+    /** Name is which leg this reports: \"index\", the lexical store, \"vector\", the semantic one, \"code\", the org's own repositories, or \"rerank\", the relevance pass over the fused window. Match.Backend uses the same names. */
     public var name: String?
     /** Status is one of ok, degraded, disabled, skipped — four distinct operational facts that are never collapsed. It ran and answered; it is configured and FAILED (Error says how, and only this one is a fault); this deployment never provisioned it; or the request's mode excluded it. */
     public var status: String?
     /** TookMS is how long this leg took, in milliseconds, timed around its own call and excluding fusion. 0 for a leg that was skipped or is disabled, since nothing was called. */
-    public var tookMs: Int?
+    public var tookMs: Int64?
 
-    public init(error: String? = nil, hits: Int? = nil, name: String? = nil, status: String? = nil, tookMs: Int? = nil) {
+    public init(error: String? = nil, hits: Int64? = nil, name: String? = nil, status: String? = nil, tookMs: Int64? = nil) {
         self.error = error
         self.hits = hits
         self.name = name

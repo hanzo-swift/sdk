@@ -10,13 +10,13 @@ import Foundation
 public struct StatusBreakdown: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** invocations that ran and failed */
-    public var error: Int?
+    public var error: Int64?
     /** invocations whose code ran and wrote nothing to stderr */
-    public var success: Int?
+    public var success: Int64?
     /** invocations that hit their configured deadline */
-    public var timeout: Int?
+    public var timeout: Int64?
 
-    public init(error: Int? = nil, success: Int? = nil, timeout: Int? = nil) {
+    public init(error: Int64? = nil, success: Int64? = nil, timeout: Int64? = nil) {
         self.error = error
         self.success = success
         self.timeout = timeout

@@ -657,6 +657,7 @@ Sources/Hanzo/Models/EnrollReq.swift
 Sources/Hanzo/Models/EnrollResult.swift
 Sources/Hanzo/Models/Enrollment.swift
 Sources/Hanzo/Models/EnrollmentList.swift
+Sources/Hanzo/Models/EnrollmentView.swift
 Sources/Hanzo/Models/Enrolment.swift
 Sources/Hanzo/Models/EntitlementsView.swift
 Sources/Hanzo/Models/Entry.swift
@@ -695,7 +696,6 @@ Sources/Hanzo/Models/EvaluateIn.swift
 Sources/Hanzo/Models/EvaluatorList.swift
 Sources/Hanzo/Models/EvaluatorReq.swift
 Sources/Hanzo/Models/EvaluatorView.swift
-Sources/Hanzo/Models/Event.swift
 Sources/Hanzo/Models/EventIn.swift
 Sources/Hanzo/Models/EventList.swift
 Sources/Hanzo/Models/EventView.swift
@@ -972,6 +972,9 @@ Sources/Hanzo/Models/IamWorkspace.swift
 Sources/Hanzo/Models/IamWorkspacesDeleteOutput.swift
 Sources/Hanzo/Models/IamWorkspacesInput.swift
 Sources/Hanzo/Models/IamWorkspacesListOutput.swift
+Sources/Hanzo/Models/IdentityIn.swift
+Sources/Hanzo/Models/IdentityList.swift
+Sources/Hanzo/Models/IdentityView.swift
 Sources/Hanzo/Models/ImageOrigin.swift
 Sources/Hanzo/Models/ImageView.swift
 Sources/Hanzo/Models/ImportCapTableIn.swift
@@ -1034,6 +1037,7 @@ Sources/Hanzo/Models/ItemView.swift
 Sources/Hanzo/Models/JobCancel.swift
 Sources/Hanzo/Models/JobCanceled.swift
 Sources/Hanzo/Models/JobList.swift
+Sources/Hanzo/Models/JoinFailure.swift
 Sources/Hanzo/Models/JourneyStep.swift
 Sources/Hanzo/Models/JudgeSpec.swift
 Sources/Hanzo/Models/KbAuthorizeOut.swift
@@ -1105,6 +1109,7 @@ Sources/Hanzo/Models/LinkList.swift
 Sources/Hanzo/Models/LinkMint.swift
 Sources/Hanzo/Models/LinkView.swift
 Sources/Hanzo/Models/ListOut.swift
+Sources/Hanzo/Models/Listed.swift
 Sources/Hanzo/Models/Listing.swift
 Sources/Hanzo/Models/ListingPage.swift
 Sources/Hanzo/Models/Liveness.swift
@@ -2174,11 +2179,13 @@ Sources/Hanzo/Models/ProvisionRequest.swift
 Sources/Hanzo/Models/ProvisionResult.swift
 Sources/Hanzo/Models/ProvisionedResource.swift
 Sources/Hanzo/Models/ProvisionedSummary.swift
+Sources/Hanzo/Models/PublicRooms.swift
 Sources/Hanzo/Models/PublishInput.swift
 Sources/Hanzo/Models/PublishKitIn.swift
 Sources/Hanzo/Models/PublishReq.swift
 Sources/Hanzo/Models/PublishResult.swift
 Sources/Hanzo/Models/PublishedClaim.swift
+Sources/Hanzo/Models/PublishedView.swift
 Sources/Hanzo/Models/PullList.swift
 Sources/Hanzo/Models/PullView.swift
 Sources/Hanzo/Models/Purge.swift
@@ -2253,6 +2260,7 @@ Sources/Hanzo/Models/RegistryProjectList.swift
 Sources/Hanzo/Models/RegistryStatus.swift
 Sources/Hanzo/Models/RegistryTagList.swift
 Sources/Hanzo/Models/RegistryToken.swift
+Sources/Hanzo/Models/ReindexOut.swift
 Sources/Hanzo/Models/ReleaseBoard.swift
 Sources/Hanzo/Models/ReleaseRow.swift
 Sources/Hanzo/Models/Remark.swift
@@ -2436,6 +2444,7 @@ Sources/Hanzo/Models/SeriesLine.swift
 Sources/Hanzo/Models/SeriesPoint.swift
 Sources/Hanzo/Models/Service.swift
 Sources/Hanzo/Models/ServiceDetail.swift
+Sources/Hanzo/Models/ServiceIn.swift
 Sources/Hanzo/Models/ServicePort.swift
 Sources/Hanzo/Models/Session.swift
 Sources/Hanzo/Models/SessionDetail.swift
@@ -2461,6 +2470,7 @@ Sources/Hanzo/Models/Skill.swift
 Sources/Hanzo/Models/SkillDeleted.swift
 Sources/Hanzo/Models/SkillIn.swift
 Sources/Hanzo/Models/SkillWritten.swift
+Sources/Hanzo/Models/SlackJoinOut.swift
 Sources/Hanzo/Models/SlotView.swift
 Sources/Hanzo/Models/SocialAccount.swift
 Sources/Hanzo/Models/SocialAccountBody.swift
@@ -2694,4 +2704,3 @@ Sources/Hanzo/Models/WorldWire.swift
 Sources/Hanzo/Models/WriteIn.swift
 Sources/Hanzo/Models/Written.swift
 Sources/Hanzo/Models/Wrote.swift
-Sources/Hanzo/Models/ZapProcReq.swift

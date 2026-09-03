@@ -20,9 +20,9 @@ public struct BoardItem: Sendable, Codable, ParameterConvertible, Hashable {
     /** Title is the item's headline, read from its type's own title field. Empty for a document that has none. */
     public var title: String?
     /** UpdatedAt is unix seconds of the document's last write, and the key the board sorts on, newest first. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
 
-    public init(doctype: String? = nil, name: String? = nil, project: String? = nil, status: String? = nil, title: String? = nil, updatedAt: Int? = nil) {
+    public init(doctype: String? = nil, name: String? = nil, project: String? = nil, status: String? = nil, title: String? = nil, updatedAt: Int64? = nil) {
         self.doctype = doctype
         self.name = name
         self.project = project

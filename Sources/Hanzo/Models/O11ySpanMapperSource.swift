@@ -12,9 +12,9 @@ public struct O11ySpanMapperSource: Sendable, Codable, ParameterConvertible, Has
     public var context: JSONValue?
     public var key: String?
     public var operation: JSONValue?
-    public var priority: Int?
+    public var priority: Int64?
 
-    public init(context: JSONValue? = nil, key: String? = nil, operation: JSONValue? = nil, priority: Int? = nil) {
+    public init(context: JSONValue? = nil, key: String? = nil, operation: JSONValue? = nil, priority: Int64? = nil) {
         self.context = context
         self.key = key
         self.operation = operation

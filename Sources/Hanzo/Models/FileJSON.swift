@@ -16,11 +16,11 @@ public struct FileJSON: Sendable, Codable, ParameterConvertible, Hashable {
     /** Path is the file's repo-relative path. */
     public var path: String?
     /** Size is the file's byte length in the repo. */
-    public var size: Int?
+    public var size: Int64?
     /** Truncated marks a file past the read cap; no content is sent. A caller assembling a desired set must treat this as INCOMPLETE, never as empty. */
     public var truncated: Bool?
 
-    public init(content: String? = nil, encoding: String? = nil, path: String? = nil, size: Int? = nil, truncated: Bool? = nil) {
+    public init(content: String? = nil, encoding: String? = nil, path: String? = nil, size: Int64? = nil, truncated: Bool? = nil) {
         self.content = content
         self.encoding = encoding
         self.path = path

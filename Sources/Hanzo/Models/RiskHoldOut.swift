@@ -10,15 +10,15 @@ import Foundation
 public struct RiskHoldOut: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Changed is how many records moved into that state. A record already in it is not counted and is not an error: the op is idempotent, so a retry after a network failure is safe. */
-    public var changed: Int?
+    public var changed: Int64?
     /** Held is how many records this tenant is now holding, at any age. Retention never disposes of one. */
-    public var held: Int?
+    public var held: Int64?
     /** Hold echoes the state asked for. */
     public var hold: Bool?
     /** Missing is how many of the named ids this tenant does not hold. It is reported rather than refused, so a sweep over a list that includes disposed records still places every hold it can — but it is REPORTED, because a hold that silently did nothing is a compliance control that lies. */
-    public var missing: Int?
+    public var missing: Int64?
 
-    public init(changed: Int? = nil, held: Int? = nil, hold: Bool? = nil, missing: Int? = nil) {
+    public init(changed: Int64? = nil, held: Int64? = nil, hold: Bool? = nil, missing: Int64? = nil) {
         self.changed = changed
         self.held = held
         self.hold = hold

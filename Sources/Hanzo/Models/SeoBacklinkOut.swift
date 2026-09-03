@@ -10,25 +10,25 @@ import Foundation
 public struct SeoBacklinkOut: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Backlinks is how many links point at it. */
-    public var backlinks: Int?
+    public var backlinks: Int64?
     /** Broken is how many of those links point at something that no longer answers. */
-    public var broken: Int?
+    public var broken: Int64?
     /** Cost is what this call cost, in USD, as an exact decimal string. */
     public var cost: String?
     /** Domains is how many distinct sites those links come from — the number that matters, since a thousand links from one site is one site. */
-    public var domains: Int?
+    public var domains: Int64?
     /** FirstSeen is when the upstream first saw a link to this target, RFC 3339. */
     public var firstSeen: String?
     /** Pages is how many distinct pages link in. */
-    public var pages: Int?
+    public var pages: Int64?
     /** Rank is the upstream's authority score for the target, 0 to 1000. */
-    public var rank: Int?
+    public var rank: Int64?
     /** Spam is the share of the profile judged spam, 0 to 100. */
-    public var spam: Int?
+    public var spam: Int64?
     /** Target is the target as the upstream resolved it. */
     public var target: String?
 
-    public init(backlinks: Int? = nil, broken: Int? = nil, cost: String? = nil, domains: Int? = nil, firstSeen: String? = nil, pages: Int? = nil, rank: Int? = nil, spam: Int? = nil, target: String? = nil) {
+    public init(backlinks: Int64? = nil, broken: Int64? = nil, cost: String? = nil, domains: Int64? = nil, firstSeen: String? = nil, pages: Int64? = nil, rank: Int64? = nil, spam: Int64? = nil, target: String? = nil) {
         self.backlinks = backlinks
         self.broken = broken
         self.cost = cost

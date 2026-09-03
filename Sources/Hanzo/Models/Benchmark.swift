@@ -14,7 +14,7 @@ public struct Benchmark: Sendable, Codable, ParameterConvertible, Hashable {
     /** the id every other op on this surface takes */
     public var id: String?
     /** how many items it holds, when the set is fixed */
-    public var items: Int?
+    public var items: Int64?
     /** whether the standardized harness runs it today */
     public var native: Bool?
     /** where the items come from */
@@ -22,7 +22,7 @@ public struct Benchmark: Sendable, Codable, ParameterConvertible, Hashable {
     /** the benchmark's published name */
     public var title: String?
 
-    public init(axis: String? = nil, id: String? = nil, items: Int? = nil, native: Bool? = nil, source: String? = nil, title: String? = nil) {
+    public init(axis: String? = nil, id: String? = nil, items: Int64? = nil, native: Bool? = nil, source: String? = nil, title: String? = nil) {
         self.axis = axis
         self.id = id
         self.items = items

@@ -12,7 +12,7 @@ public struct AuthorRepo: Sendable, Codable, ParameterConvertible, Hashable {
     /** BadgeMarkdown is the ready-to-paste README snippet, DERIVED for each response from this deployment's badge host and never stored: a \"Deploy on Hanzo\" image linking to the one-click import of this repository. Re-hosting the builder changes every badge without touching a row. */
     public var badgeMarkdown: String?
     /** CreatedAt is unix seconds when the claim was first recorded. It equals verifiedAt on the first proof and then stays put while verifiedAt moves, so the pair reads as \"claimed since / last proven\". */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** Method is HOW ownership was proven: \"oauth\" — an IAM-linked forge token showed admin or push on the repository; \"file\" — a hanzo.json on the default branch carried this author's verify code; or \"maintainer\" — the repository sits in a first-party namespace, where ownership is intrinsic and the treasury author holds it with no proof step. Omitted on a row written before the method was recorded. */
     public var method: String?
     /** RepoURL is the claim key in canonical form — lowercased \"host/owner/name\", no scheme, no .git, host ∈ {github.com, gitlab.com}. A deploy's source repo is normalized through the same function before attribution, so the two sides can never miss on a cosmetic difference. UNIQUE across every author: first proven claim wins. */
@@ -20,9 +20,9 @@ public struct AuthorRepo: Sendable, Codable, ParameterConvertible, Hashable {
     /** Verified reports that ownership was proven. Only a proven claim is ever written, so it is true on every row this surface returns; the deploy path re-reads it regardless, because an unverified claim attributes nothing. */
     public var verified: Bool?
     /** VerifiedAt is unix seconds of the most recent successful proof. Re-verifying refreshes it, and the method beside it, in place. */
-    public var verifiedAt: Int?
+    public var verifiedAt: Int64?
 
-    public init(badgeMarkdown: String? = nil, createdAt: Int? = nil, method: String? = nil, repoUrl: String? = nil, verified: Bool? = nil, verifiedAt: Int? = nil) {
+    public init(badgeMarkdown: String? = nil, createdAt: Int64? = nil, method: String? = nil, repoUrl: String? = nil, verified: Bool? = nil, verifiedAt: Int64? = nil) {
         self.badgeMarkdown = badgeMarkdown
         self.createdAt = createdAt
         self.method = method

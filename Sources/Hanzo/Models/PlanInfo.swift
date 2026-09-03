@@ -12,17 +12,17 @@ public struct PlanInfo: Sendable, Codable, ParameterConvertible, Hashable {
     /** Active is whether that plan's entitlement is live. */
     public var active: Bool?
     /** GuestLimit is the plan's team.guests cap, when the plan carries one. */
-    public var guestLimit: Int?
+    public var guestLimit: Int64?
     /** Guests is how many of those seats are guests. */
-    public var guests: Int?
+    public var guests: Int64?
     /** Plan is the licensed plan id, empty when it cannot be resolved here — an honest dash on the page, never a fabricated tier. */
     public var plan: String?
     /** Seats is the org's distinct active human members. */
-    public var seats: Int?
+    public var seats: Int64?
     /** UpgradeURL is where the page sends a caller who wants a bigger plan. */
     public var upgradeUrl: String?
 
-    public init(active: Bool? = nil, guestLimit: Int? = nil, guests: Int? = nil, plan: String? = nil, seats: Int? = nil, upgradeUrl: String? = nil) {
+    public init(active: Bool? = nil, guestLimit: Int64? = nil, guests: Int64? = nil, plan: String? = nil, seats: Int64? = nil, upgradeUrl: String? = nil) {
         self.active = active
         self.guestLimit = guestLimit
         self.guests = guests

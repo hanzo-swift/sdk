@@ -14,13 +14,13 @@ public struct ClaimView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Created is true when this call recorded the referral and false when it found one already recorded for this referee — the idempotent replay. */
     public var created: Bool?
     /** CreatedAt is when the referral was first recorded, as a Unix timestamp. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** ID is the referral's handle. */
     public var id: String?
     /** Status is the referral's lifecycle state: \"signup\" until the referee makes metered spend, then \"qualified\", then \"credited\". */
     public var status: String?
 
-    public init(code: String? = nil, created: Bool? = nil, createdAt: Int? = nil, id: String? = nil, status: String? = nil) {
+    public init(code: String? = nil, created: Bool? = nil, createdAt: Int64? = nil, id: String? = nil, status: String? = nil) {
         self.code = code
         self.created = created
         self.createdAt = createdAt

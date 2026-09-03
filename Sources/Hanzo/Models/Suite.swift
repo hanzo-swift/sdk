@@ -10,7 +10,7 @@ import Foundation
 public struct Suite: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Attempts is how many times to try each item; the harness's default applies when it is omitted. */
-    public var attempts: Int?
+    public var attempts: Int64?
     /** Benchmarks are the catalog ids to run. At least one is required, and every id must be in the catalog. */
     public var benchmarks: [String]
     /** Endpoint is your own chat-completions URL, for benchmarking a model this arena does not host. Either this or model is required. */
@@ -18,7 +18,7 @@ public struct Suite: Sendable, Codable, ParameterConvertible, Hashable {
     /** Model is the catalog model id to run. Either this or endpoint is required. */
     public var model: String?
 
-    public init(attempts: Int? = nil, benchmarks: [String], endpoint: String? = nil, model: String? = nil) {
+    public init(attempts: Int64? = nil, benchmarks: [String], endpoint: String? = nil, model: String? = nil) {
         self.attempts = attempts
         self.benchmarks = benchmarks
         self.endpoint = endpoint

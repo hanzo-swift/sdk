@@ -14,7 +14,7 @@ public struct AccreditationReq: Sendable, Codable, ParameterConvertible, Hashabl
     /** EvidenceDocID references an evidence document in the org's sealed data room. */
     public var evidenceDocId: String?
     /** ExpiresAt is the unix second a confirmation ages out; 0 means none. */
-    public var expiresAt: Int?
+    public var expiresAt: Int64?
     /** Method is how the state was established: self_attested, third_party_letter, or provider_verified. */
     public var method: String?
     /** Note is a non-PII operator note. */
@@ -24,7 +24,7 @@ public struct AccreditationReq: Sendable, Codable, ParameterConvertible, Hashabl
     /** SubjectID names the subject this record is about; it must exist within the org. */
     public var subjectId: String?
 
-    public init(basis: String? = nil, evidenceDocId: String? = nil, expiresAt: Int? = nil, method: String? = nil, note: String? = nil, status: String? = nil, subjectId: String? = nil) {
+    public init(basis: String? = nil, evidenceDocId: String? = nil, expiresAt: Int64? = nil, method: String? = nil, note: String? = nil, status: String? = nil, subjectId: String? = nil) {
         self.basis = basis
         self.evidenceDocId = evidenceDocId
         self.expiresAt = expiresAt

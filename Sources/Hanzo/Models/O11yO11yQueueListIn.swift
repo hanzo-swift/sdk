@@ -10,15 +10,15 @@ import Foundation
 public struct O11yO11yQueueListIn: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** End is the window's end, epoch nanoseconds. */
-    public var end: Int?
+    public var end: Int64?
     /** Filters narrow the rows by span attribute; null means all rows. */
     public var filters: O11yO11yQueueFilterSet?
     /** Limit caps how many rows come back. */
-    public var limit: Int?
+    public var limit: Int64?
     /** Start is the window's start, epoch nanoseconds. */
-    public var start: Int?
+    public var start: Int64?
 
-    public init(end: Int? = nil, filters: O11yO11yQueueFilterSet? = nil, limit: Int? = nil, start: Int? = nil) {
+    public init(end: Int64? = nil, filters: O11yO11yQueueFilterSet? = nil, limit: Int64? = nil, start: Int64? = nil) {
         self.end = end
         self.filters = filters
         self.limit = limit

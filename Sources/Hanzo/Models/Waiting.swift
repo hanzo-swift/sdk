@@ -22,9 +22,9 @@ public struct Waiting: Sendable, Codable, ParameterConvertible, Hashable {
     /** Org is the tenant whose formation the founder belongs to. */
     public var org: String?
     /** Since is when the formation was last touched, as a unix second. */
-    public var since: Int?
+    public var since: Int64?
 
-    public init(email: String? = nil, founder: String? = nil, kycRef: String? = nil, kycStatus: String? = nil, name: String? = nil, org: String? = nil, since: Int? = nil) {
+    public init(email: String? = nil, founder: String? = nil, kycRef: String? = nil, kycStatus: String? = nil, name: String? = nil, org: String? = nil, since: Int64? = nil) {
         self.email = email
         self.founder = founder
         self.kycRef = kycRef

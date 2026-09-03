@@ -12,27 +12,27 @@ public struct DataroomMember: Sendable, Codable, ParameterConvertible, Hashable 
     /** ContentType is the mime type recorded at upload, null when none was sent. */
     public var contentType: String?
     /** CreatedAt is when the document was uploaded, in unix milliseconds. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** DataroomDocumentId is the membership id — this document's place in THIS room, distinct from the document id. */
     public var dataroomDocumentId: String?
     /** FileKey is the opaque object-storage key the bytes are stored under. */
     public var fileKey: String?
     /** FileSize is the stored byte count, null when it was not recorded. */
-    public var fileSize: Int?
+    public var fileSize: Int64?
     /** ID is the document id. */
     public var id: String?
     /** Name is the document's display name. */
     public var name: String?
     /** NumPages is the page count, null when it was not supplied at upload. */
-    public var numPages: Int?
+    public var numPages: Int64?
     /** OrderIndex is the document's place in the viewer's list, null when it was added without one. Unordered documents sort last. */
-    public var orderIndex: Int?
+    public var orderIndex: Int64?
     /** Type is the document's kind, null when it was not recorded. */
     public var type: String?
     /** UpdatedAt is when the document row last changed, in unix milliseconds. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
 
-    public init(contentType: String? = nil, createdAt: Int? = nil, dataroomDocumentId: String? = nil, fileKey: String? = nil, fileSize: Int? = nil, id: String? = nil, name: String? = nil, numPages: Int? = nil, orderIndex: Int? = nil, type: String? = nil, updatedAt: Int? = nil) {
+    public init(contentType: String? = nil, createdAt: Int64? = nil, dataroomDocumentId: String? = nil, fileKey: String? = nil, fileSize: Int64? = nil, id: String? = nil, name: String? = nil, numPages: Int64? = nil, orderIndex: Int64? = nil, type: String? = nil, updatedAt: Int64? = nil) {
         self.contentType = contentType
         self.createdAt = createdAt
         self.dataroomDocumentId = dataroomDocumentId

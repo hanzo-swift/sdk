@@ -59,7 +59,7 @@ open class CompanyAPI {
      - returns: RegisterPage
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getCompanyRegister(stage: String? = nil, structure: String? = nil, limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RegisterPage {
+    open class func getCompanyRegister(stage: String? = nil, structure: String? = nil, limit: Int64? = nil, offset: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RegisterPage {
         return try await getCompanyRegisterWithRequestBuilder(stage: stage, structure: structure, limit: limit, offset: offset, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -77,7 +77,7 @@ open class CompanyAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<RegisterPage> 
      */
-    open class func getCompanyRegisterWithRequestBuilder(stage: String? = nil, structure: String? = nil, limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RegisterPage> {
+    open class func getCompanyRegisterWithRequestBuilder(stage: String? = nil, structure: String? = nil, limit: Int64? = nil, offset: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RegisterPage> {
         let localVariablePath = "/v1/company/register"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -148,7 +148,7 @@ open class CompanyAPI {
      - returns: ReviewQueue
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getCompanyReview(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ReviewQueue {
+    open class func getCompanyReview(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ReviewQueue {
         return try await getCompanyReviewWithRequestBuilder(limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -163,7 +163,7 @@ open class CompanyAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ReviewQueue> 
      */
-    open class func getCompanyReviewWithRequestBuilder(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ReviewQueue> {
+    open class func getCompanyReviewWithRequestBuilder(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ReviewQueue> {
         let localVariablePath = "/v1/company/review"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil

@@ -10,9 +10,9 @@ import Foundation
 public struct ProjectView: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Applications is how many platform apps this org has under the project, counted per request. It is the one fact IAM cannot answer about a project. */
-    public var applications: Int?
+    public var applications: Int64?
     /** CreatedAt is IAM's creation time as unix seconds. 0 when IAM's timestamp is absent or unparseable — never a fabricated time. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** Description is IAM's free text about the project. Nothing derives from it. */
     public var description: String?
     /** Name is IAM's display name, falling back to the slug when the project has none, so this is never empty. */
@@ -22,7 +22,7 @@ public struct ProjectView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Slug is the project's IAM name — half of the (org,name) identity, the `:project` path segment, and the scope key an app is filed under. It is the project's address; Name is not. */
     public var slug: String?
 
-    public init(applications: Int? = nil, createdAt: Int? = nil, description: String? = nil, name: String? = nil, org: String? = nil, slug: String? = nil) {
+    public init(applications: Int64? = nil, createdAt: Int64? = nil, description: String? = nil, name: String? = nil, org: String? = nil, slug: String? = nil) {
         self.applications = applications
         self.createdAt = createdAt
         self.description = description

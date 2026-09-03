@@ -14,21 +14,21 @@ public struct RoutedUsage: Sendable, Codable, ParameterConvertible, Hashable {
     /** Billing is how the routed inference bills: plan or commerce. */
     public var billing: String?
     /** CompletionTokens is the routed completion-token count. */
-    public var completionTokens: Int?
+    public var completionTokens: Int64?
     /** CostCents is the routed cost in cents. */
-    public var costCents: Int?
+    public var costCents: Int64?
     /** Kind is how the account authenticates: subscription or apikey. */
     public var kind: String?
     /** PromptTokens is the routed prompt-token count. */
-    public var promptTokens: Int?
+    public var promptTokens: Int64?
     /** Provider is the AI provider the row's account belongs to. */
     public var provider: String?
     /** Requests is how many requests the gateway routed through this account. */
-    public var requests: Int?
+    public var requests: Int64?
     /** TotalTokens is the routed total token count. */
-    public var totalTokens: Int?
+    public var totalTokens: Int64?
 
-    public init(account: String? = nil, billing: String? = nil, completionTokens: Int? = nil, costCents: Int? = nil, kind: String? = nil, promptTokens: Int? = nil, provider: String? = nil, requests: Int? = nil, totalTokens: Int? = nil) {
+    public init(account: String? = nil, billing: String? = nil, completionTokens: Int64? = nil, costCents: Int64? = nil, kind: String? = nil, promptTokens: Int64? = nil, provider: String? = nil, requests: Int64? = nil, totalTokens: Int64? = nil) {
         self.account = account
         self.billing = billing
         self.completionTokens = completionTokens

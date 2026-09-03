@@ -14,11 +14,11 @@ public struct CartItemSet: Sendable, Codable, ParameterConvertible, Hashable {
     /** Product names the catalog product to set, by its id or its URL slug. Give this or Variant, never both; a request naming neither is refused. */
     public var product: String?
     /** Quantity is how many of that item the cart should hold AFTER this call — it is the resulting count, not a delta, so sending 3 twice leaves 3 and not 6. ZERO REMOVES the line, which is the only way to take an item out. */
-    public var quantity: Int?
+    public var quantity: Int64?
     /** Variant names the specific sellable variant to set, by its id or its SKU. Prefer it over Product for anything sold in sizes, colours or tiers — the price and the stock are the variant's, not the product's. */
     public var variant: String?
 
-    public init(id: String? = nil, product: String? = nil, quantity: Int? = nil, variant: String? = nil) {
+    public init(id: String? = nil, product: String? = nil, quantity: Int64? = nil, variant: String? = nil) {
         self.id = id
         self.product = product
         self.quantity = quantity

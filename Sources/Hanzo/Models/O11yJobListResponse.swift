@@ -10,10 +10,10 @@ import Foundation
 public struct O11yJobListResponse: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var records: [O11yJobListRecord]?
-    public var total: Int?
+    public var total: Int64?
     public var type: String?
 
-    public init(records: [O11yJobListRecord]? = nil, total: Int? = nil, type: String? = nil) {
+    public init(records: [O11yJobListRecord]? = nil, total: Int64? = nil, type: String? = nil) {
         self.records = records
         self.total = total
         self.type = type

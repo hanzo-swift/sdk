@@ -10,7 +10,7 @@ import Foundation
 public struct ChallengeView: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** ExpiresAt is when the nonce stops being redeemable, as a Unix timestamp. */
-    public var expiresAt: Int?
+    public var expiresAt: Int64?
     /** Message is the EXACT text to personal_sign. It is reconstructed server-side from the validated org, the slot and the nonce at redemption, so signing anything else cannot claim the slot. */
     public var message: String?
     /** Nonce is the single-use, org-bound challenge value to send back with the signature. */
@@ -18,9 +18,9 @@ public struct ChallengeView: Sendable, Codable, ParameterConvertible, Hashable {
     /** TokenID is the slot the challenge was issued for. */
     public var tokenId: Int?
     /** TTLSeconds is the challenge lifetime in seconds. */
-    public var ttlSeconds: Int?
+    public var ttlSeconds: Int64?
 
-    public init(expiresAt: Int? = nil, message: String? = nil, nonce: String? = nil, tokenId: Int? = nil, ttlSeconds: Int? = nil) {
+    public init(expiresAt: Int64? = nil, message: String? = nil, nonce: String? = nil, tokenId: Int? = nil, ttlSeconds: Int64? = nil) {
         self.expiresAt = expiresAt
         self.message = message
         self.nonce = nonce

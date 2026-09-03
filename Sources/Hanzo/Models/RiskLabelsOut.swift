@@ -10,11 +10,11 @@ import Foundation
 public struct RiskLabelsOut: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Count is how many this page holds. It is not a total: a total over an unbounded append-only log is a full scan of a single-writer file. */
-    public var count: Int?
+    public var count: Int64?
     /** Labels is the page, newest event first. */
     public var labels: [RiskLabelRecord]?
 
-    public init(count: Int? = nil, labels: [RiskLabelRecord]? = nil) {
+    public init(count: Int64? = nil, labels: [RiskLabelRecord]? = nil) {
         self.count = count
         self.labels = labels
     }

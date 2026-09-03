@@ -12,7 +12,7 @@ public struct MCPServer: Sendable, Codable, ParameterConvertible, Hashable {
     /** AuthHeader is the request header the KMS-held credential is injected into, e.g. \"Authorization\". Absent when the server needs no credential. */
     public var authHeader: String?
     /** CreatedAt is when the server was registered, Unix seconds. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** HasSecret is whether a credential is sealed in KMS for this server. The VALUE is never returned by any route. */
     public var hasSecret: Bool?
     /** ID is the server's id within the org. It also PREFIXES every tool name the server contributes, which is what keeps two servers' \"search\" apart. */
@@ -28,7 +28,7 @@ public struct MCPServer: Sendable, Codable, ParameterConvertible, Hashable {
     /** URL is the server's JSON-RPC endpoint. Always a public http(s) host: the registration boundary and the dialer both refuse anything else. */
     public var url: String?
 
-    public init(authHeader: String? = nil, createdAt: Int? = nil, hasSecret: Bool? = nil, id: String? = nil, listing: String? = nil, name: String? = nil, org: String? = nil, source: String? = nil, url: String? = nil) {
+    public init(authHeader: String? = nil, createdAt: Int64? = nil, hasSecret: Bool? = nil, id: String? = nil, listing: String? = nil, name: String? = nil, org: String? = nil, source: String? = nil, url: String? = nil) {
         self.authHeader = authHeader
         self.createdAt = createdAt
         self.hasSecret = hasSecret

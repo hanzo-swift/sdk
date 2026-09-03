@@ -10,13 +10,13 @@ import Foundation
 public struct RegistryToken: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Expires is the token's lifetime in seconds. */
-    public var expires: Int?
+    public var expires: Int64?
     /** Ref is the one repository reference the token can pull. */
     public var ref: String?
     /** Token is the bearer to present on the OCI wire (`Authorization: Bearer …` against the host's /v2/ routes). */
     public var token: String?
 
-    public init(expires: Int? = nil, ref: String? = nil, token: String? = nil) {
+    public init(expires: Int64? = nil, ref: String? = nil, token: String? = nil) {
         self.expires = expires
         self.ref = ref
         self.token = token

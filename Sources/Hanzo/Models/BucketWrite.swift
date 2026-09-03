@@ -12,13 +12,13 @@ public struct BucketWrite: Sendable, Codable, ParameterConvertible, Hashable {
     /** Bucket is the bucket's name within the org, from the path: 1–64 of [A-Za-z0-9_], no dash. */
     public var bucket: String?
     /** History is how many revisions each key keeps, 1–64. 0 means 1. */
-    public var history: Int?
+    public var history: Int64?
     /** MaxValue caps one value's size in bytes. 0 or less means the server's ceiling. */
-    public var maxValue: Int?
+    public var maxValue: Int64?
     /** TTL expires entries after this many SECONDS. 0 means no expiry. */
-    public var ttl: Int?
+    public var ttl: Int64?
 
-    public init(bucket: String? = nil, history: Int? = nil, maxValue: Int? = nil, ttl: Int? = nil) {
+    public init(bucket: String? = nil, history: Int64? = nil, maxValue: Int64? = nil, ttl: Int64? = nil) {
         self.bucket = bucket
         self.history = history
         self.maxValue = maxValue

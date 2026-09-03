@@ -10,7 +10,7 @@ import Foundation
 public struct Charge: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** AmountCents is what this line costs. */
-    public var amountCents: Int?
+    public var amountCents: Int64?
     /** AsOf is when a pass-through amount was last checked against its source. */
     public var asOf: String?
     /** Code names the line so a caller can branch on it without reading prose. */
@@ -26,7 +26,7 @@ public struct Charge: Sendable, Codable, ParameterConvertible, Hashable {
     /** Stale reports that AsOf is older than the review window — the figure may have moved and nobody has looked. It does not block; it tells. */
     public var stale: Bool?
 
-    public init(amountCents: Int? = nil, asOf: String? = nil, code: String? = nil, label: String? = nil, passThrough: Bool? = nil, recurring: String? = nil, source: String? = nil, stale: Bool? = nil) {
+    public init(amountCents: Int64? = nil, asOf: String? = nil, code: String? = nil, label: String? = nil, passThrough: Bool? = nil, recurring: String? = nil, source: String? = nil, stale: Bool? = nil) {
         self.amountCents = amountCents
         self.asOf = asOf
         self.code = code

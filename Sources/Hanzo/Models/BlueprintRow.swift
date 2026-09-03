@@ -10,13 +10,13 @@ import Foundation
 public struct BlueprintRow: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CentsPerMonth is the estimated compute cost of running the whole stack for one month, in USD cents, from the rate card GET /v1/blueprint/health echoes. */
-    public var estCentsPerMonth: Int?
+    public var estCentsPerMonth: Int64?
     /** Services is how many compose services the stack runs. */
-    public var services: Int?
+    public var services: Int64?
     /** TemplateID is the blueprint slug — the id GET /v1/blueprint/sbom takes as ?template= and the path under templates.hanzo.ai/blueprints/<id>/. */
     public var templateId: String?
 
-    public init(estCentsPerMonth: Int? = nil, services: Int? = nil, templateId: String? = nil) {
+    public init(estCentsPerMonth: Int64? = nil, services: Int64? = nil, templateId: String? = nil) {
         self.estCentsPerMonth = estCentsPerMonth
         self.services = services
         self.templateId = templateId

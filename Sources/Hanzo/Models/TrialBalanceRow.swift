@@ -12,23 +12,23 @@ public struct TrialBalanceRow: Sendable, Codable, ParameterConvertible, Hashable
     /** Account is the chart-of-accounts NUMBER this line reports on (\"1000\", \"4000\") — the stable posting key, not a display label. */
     public var account: String?
     /** ClosingCredit is that closing balance in cents when it is a credit balance. */
-    public var closingCredit: Int?
+    public var closingCredit: Int64?
     /** ClosingDebit is the balance at the end of the window, in cents, when it is a debit balance. This is the column the report's totals are summed from. */
-    public var closingDebit: Int?
+    public var closingDebit: Int64?
     /** Credit is the same window movement in cents when it was net credit. */
-    public var credit: Int?
+    public var credit: Int64?
     /** Debit is the account's MOVEMENT within the window — closing minus opening, not the closing balance — in cents, when that movement was net debit. Zero when the account moved net credit. */
-    public var debit: Int?
+    public var debit: Int64?
     /** Name is that account's human name from the fixed chart. */
     public var name: String?
     /** OpeningCredit is the same opening balance in cents when it fell on the credit side. Zero when the balance was a debit one. */
-    public var openingCredit: Int?
+    public var openingCredit: Int64?
     /** OpeningDebit is the account's balance before the window began, in whole cents, when that balance was on the debit side. Zero when the balance was a credit one — the pair is exclusive, never two halves of one number. */
-    public var openingDebit: Int?
+    public var openingDebit: Int64?
     /** Type is the account's fundamental class — asset, liability, income, expense or equity — which is also its normal balance side. It is carried for presentation and does NOT decide which column an amount lands in: placement follows the sign of the real net, so a contra balance shows up as one. */
     public var type: String?
 
-    public init(account: String? = nil, closingCredit: Int? = nil, closingDebit: Int? = nil, credit: Int? = nil, debit: Int? = nil, name: String? = nil, openingCredit: Int? = nil, openingDebit: Int? = nil, type: String? = nil) {
+    public init(account: String? = nil, closingCredit: Int64? = nil, closingDebit: Int64? = nil, credit: Int64? = nil, debit: Int64? = nil, name: String? = nil, openingCredit: Int64? = nil, openingDebit: Int64? = nil, type: String? = nil) {
         self.account = account
         self.closingCredit = closingCredit
         self.closingDebit = closingDebit

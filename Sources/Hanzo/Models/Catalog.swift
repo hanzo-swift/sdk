@@ -9,10 +9,10 @@ import Foundation
 
 public struct Catalog: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var connectorCount: Int?
+    public var connectorCount: Int64?
     public var connectors: [ConnectorMetadata]?
 
-    public init(connectorCount: Int? = nil, connectors: [ConnectorMetadata]? = nil) {
+    public init(connectorCount: Int64? = nil, connectors: [ConnectorMetadata]? = nil) {
         self.connectorCount = connectorCount
         self.connectors = connectors
     }

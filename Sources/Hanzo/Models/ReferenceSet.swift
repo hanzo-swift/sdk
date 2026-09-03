@@ -14,7 +14,7 @@ public struct ReferenceSet: Sendable, Codable, ParameterConvertible, Hashable {
     /** AsOf is when the OLDEST contributing publisher was current, RFC 3339. The oldest and not the newest: a set is exactly as fresh as its weakest source. */
     public var asOf: String?
     /** Keys is how many members the baseline carries. */
-    public var keys: Int?
+    public var keys: Int64?
     /** Kind is how the baseline comes to exist: fetch (downloaded from a publisher), local (computed here), attest (held by the component that screens against it, freshness reported), or gap (declared and NOT held, because the source needs a licence we do not have). */
     public var kind: String?
     /** Match is how a key is tested: exact, domain, net, digits, pattern or range. */
@@ -22,7 +22,7 @@ public struct ReferenceSet: Sendable, Codable, ParameterConvertible, Hashable {
     /** MaxAge is how old this set may be before it is stale. */
     public var maxAge: String?
     /** Overrides is how many entries YOUR org has laid over this baseline. */
-    public var overrides: Int?
+    public var overrides: Int64?
     /** Refusal names why the set cannot be relied on, when it cannot: never loaded, held elsewhere, or a licence we do not hold. Non-empty means a lookup against this set will not answer, rather than answering clean. */
     public var refusal: String?
     /** Set is the name this set is addressed by. */
@@ -36,7 +36,7 @@ public struct ReferenceSet: Sendable, Codable, ParameterConvertible, Hashable {
     /** What the set holds, in one sentence. */
     public var what: String?
 
-    public init(age: String? = nil, asOf: String? = nil, keys: Int? = nil, kind: String? = nil, match: String? = nil, maxAge: String? = nil, overrides: Int? = nil, refusal: String? = nil, _set: String? = nil, sources: [ReferenceSource]? = nil, stale: Bool? = nil, version: String? = nil, what: String? = nil) {
+    public init(age: String? = nil, asOf: String? = nil, keys: Int64? = nil, kind: String? = nil, match: String? = nil, maxAge: String? = nil, overrides: Int64? = nil, refusal: String? = nil, _set: String? = nil, sources: [ReferenceSource]? = nil, stale: Bool? = nil, version: String? = nil, what: String? = nil) {
         self.age = age
         self.asOf = asOf
         self.keys = keys

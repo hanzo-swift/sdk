@@ -16,7 +16,7 @@ public struct RiskScoreOut: Sendable, Codable, ParameterConvertible, Hashable {
     /** Cut is the threshold in force, derived from the stated appetite as a quantile of the scores actually observed rather than fixed at a number. */
     public var cut: Double?
     /** Policy is the version of your organisation's decision regime this verdict was reached under, from its own policy history (GET /v1/risk/policy). Cut is derived from the appetite that version states, so it is the record that makes this decision reconstructible after the appetite is restated. Zero means no regime has ever been stated and the default posture — shadow — was in force. */
-    public var policy: Int?
+    public var policy: Int64?
     /** Refusal names why the model declined, when it did. */
     public var refusal: String?
     /** Score is where the event sits in the tenant's own density: 0 where its recent behaviour is densest, 1 where there is none of it. */
@@ -30,7 +30,7 @@ public struct RiskScoreOut: Sendable, Codable, ParameterConvertible, Hashable {
     /** Values is every coordinate, including the ones that contributed nothing, so a reviewer sees what the model read and not only what it concluded. */
     public var values: [RiskValue]?
 
-    public init(alert: Bool? = nil, causes: [RiskCause]? = nil, cut: Double? = nil, policy: Int? = nil, refusal: String? = nil, score: Double? = nil, scored: Bool? = nil, shadow: Bool? = nil, shape: String? = nil, values: [RiskValue]? = nil) {
+    public init(alert: Bool? = nil, causes: [RiskCause]? = nil, cut: Double? = nil, policy: Int64? = nil, refusal: String? = nil, score: Double? = nil, scored: Bool? = nil, shadow: Bool? = nil, shape: String? = nil, values: [RiskValue]? = nil) {
         self.alert = alert
         self.causes = causes
         self.cut = cut

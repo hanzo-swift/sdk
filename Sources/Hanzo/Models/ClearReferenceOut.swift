@@ -14,11 +14,11 @@ public struct ClearReferenceOut: Sendable, Codable, ParameterConvertible, Hashab
     /** Key is the entry named. */
     public var key: String?
     /** Overrides is how many your org still holds in this set. */
-    public var overrides: Int?
+    public var overrides: Int64?
     /** Set is the set cleared in. */
     public var _set: String?
 
-    public init(cleared: Bool? = nil, key: String? = nil, overrides: Int? = nil, _set: String? = nil) {
+    public init(cleared: Bool? = nil, key: String? = nil, overrides: Int64? = nil, _set: String? = nil) {
         self.cleared = cleared
         self.key = key
         self.overrides = overrides

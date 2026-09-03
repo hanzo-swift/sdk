@@ -12,9 +12,9 @@ public struct RenewReq: Sendable, Codable, ParameterConvertible, Hashable {
     /** Domain is the name to extend. It is required, and the caller's org must hold it. */
     public var domain: String
     /** Years is how much longer to hold it, defaulting to 1. */
-    public var years: Int?
+    public var years: Int64?
 
-    public init(domain: String, years: Int? = nil) {
+    public init(domain: String, years: Int64? = nil) {
         self.domain = domain
         self.years = years
     }

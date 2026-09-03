@@ -27,10 +27,10 @@ public struct O11yPagerdutyConfig: Sendable, Codable, ParameterConvertible, Hash
     public var severity: String?
     public var source: String?
     /** Timeout is the maximum time allowed to invoke the pagerduty. Setting this to 0 does not impose a timeout. */
-    public var timeout: Int?
+    public var timeout: Int64?
     public var url: JSONValue?
 
-    public init(notifierConfig: O11yNotifierConfig? = nil, _class: String? = nil, client: String? = nil, clientUrl: String? = nil, component: String? = nil, description: String? = nil, details: [String: JSONValue]? = nil, group: String? = nil, httpConfig: O11yHTTPClientConfig? = nil, images: [O11yPagerdutyImage]? = nil, links: [O11yPagerdutyLink]? = nil, routingKey: JSONValue? = nil, routingKeyFile: String? = nil, serviceKey: JSONValue? = nil, serviceKeyFile: String? = nil, severity: String? = nil, source: String? = nil, timeout: Int? = nil, url: JSONValue? = nil) {
+    public init(notifierConfig: O11yNotifierConfig? = nil, _class: String? = nil, client: String? = nil, clientUrl: String? = nil, component: String? = nil, description: String? = nil, details: [String: JSONValue]? = nil, group: String? = nil, httpConfig: O11yHTTPClientConfig? = nil, images: [O11yPagerdutyImage]? = nil, links: [O11yPagerdutyLink]? = nil, routingKey: JSONValue? = nil, routingKeyFile: String? = nil, serviceKey: JSONValue? = nil, serviceKeyFile: String? = nil, severity: String? = nil, source: String? = nil, timeout: Int64? = nil, url: JSONValue? = nil) {
         self.notifierConfig = notifierConfig
         self._class = _class
         self.client = client

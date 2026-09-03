@@ -16,11 +16,11 @@ public struct Section: Sendable, Codable, ParameterConvertible, Hashable {
     /** ID is the slug a step's `section` names to file itself under this phase. */
     public var id: String?
     /** Order places the phase in the journey, ascending. Ties fall back to authoring order, and an omitted order sorts as 0 — ahead of everything. */
-    public var order: Int?
+    public var order: Int64?
     /** Title is the phase heading a person reads above its steps. */
     public var title: String?
 
-    public init(detail: String? = nil, enabled: Bool? = nil, id: String? = nil, order: Int? = nil, title: String? = nil) {
+    public init(detail: String? = nil, enabled: Bool? = nil, id: String? = nil, order: Int64? = nil, title: String? = nil) {
         self.detail = detail
         self.enabled = enabled
         self.id = id

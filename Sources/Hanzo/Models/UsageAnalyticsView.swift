@@ -20,13 +20,13 @@ public struct UsageAnalyticsView: Sendable, Codable, ParameterConvertible, Hasha
     /** Range is the label that was ASKED for. A plan whose retention is shorter than that window is served the retention instead, so read start and end for the window the rows actually cover and retentionDays for the reason — on a clamped read the label is longer than what was served. */
     public var range: String?
     /** RetentionDays is how far back the resolved plan allows reading. */
-    public var retentionDays: Int?
+    public var retentionDays: Int64?
     /** Scope is the tenant the rows were read under — the validated principal's org. */
     public var scope: UsageScope?
     /** Start is the window's inclusive start, RFC3339 UTC, AFTER the retention clamp — so it may be later than the start that was asked for. */
     public var start: String?
 
-    public init(end: String? = nil, export: Bool? = nil, plan: String? = nil, providers: ProviderBreakdown? = nil, range: String? = nil, retentionDays: Int? = nil, scope: UsageScope? = nil, start: String? = nil) {
+    public init(end: String? = nil, export: Bool? = nil, plan: String? = nil, providers: ProviderBreakdown? = nil, range: String? = nil, retentionDays: Int64? = nil, scope: UsageScope? = nil, start: String? = nil) {
         self.end = end
         self.export = export
         self.plan = plan

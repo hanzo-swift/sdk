@@ -9,22 +9,22 @@ import Foundation
 
 public struct ClusterDetailView: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var amdGpu: Int?
+    public var amdGpu: Int64?
     public var createdAt: String?
     public var doClusterId: String?
     public var doksClusterId: String?
     public var kind: String?
     public var name: String?
-    public var nodeCount: Int?
+    public var nodeCount: Int64?
     public var nodePools: [NodePoolView]?
     public var nodeSize: String?
     /** Nodes is every worker node in the cluster, each in the same shape the machines surface uses — a node IS a machine, addressable by its own id. This is the individual hardware behind the pool counts above. */
     public var nodes: [MachineView]?
-    public var nvidiaGpu: Int?
+    public var nvidiaGpu: Int64?
     public var region: String?
     public var status: String?
 
-    public init(amdGpu: Int? = nil, createdAt: String? = nil, doClusterId: String? = nil, doksClusterId: String? = nil, kind: String? = nil, name: String? = nil, nodeCount: Int? = nil, nodePools: [NodePoolView]? = nil, nodeSize: String? = nil, nodes: [MachineView]? = nil, nvidiaGpu: Int? = nil, region: String? = nil, status: String? = nil) {
+    public init(amdGpu: Int64? = nil, createdAt: String? = nil, doClusterId: String? = nil, doksClusterId: String? = nil, kind: String? = nil, name: String? = nil, nodeCount: Int64? = nil, nodePools: [NodePoolView]? = nil, nodeSize: String? = nil, nodes: [MachineView]? = nil, nvidiaGpu: Int64? = nil, region: String? = nil, status: String? = nil) {
         self.amdGpu = amdGpu
         self.createdAt = createdAt
         self.doClusterId = doClusterId

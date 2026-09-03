@@ -18,15 +18,15 @@ public struct SeoAuditOut: Sendable, Codable, ParameterConvertible, Hashable {
     /** Score is the upstream's on-page score, 0 to 100. */
     public var score: Double?
     /** Status is the HTTP status the page answered with. */
-    public var status: Int?
+    public var status: Int64?
     /** Title is the page's title. */
     public var title: String?
     /** URL is the address actually read, after redirects. */
     public var url: String?
     /** Words is how many words of readable text the page carries. */
-    public var words: Int?
+    public var words: Int64?
 
-    public init(checks: [String: Bool]? = nil, cost: String? = nil, description: String? = nil, score: Double? = nil, status: Int? = nil, title: String? = nil, url: String? = nil, words: Int? = nil) {
+    public init(checks: [String: Bool]? = nil, cost: String? = nil, description: String? = nil, score: Double? = nil, status: Int64? = nil, title: String? = nil, url: String? = nil, words: Int64? = nil) {
         self.checks = checks
         self.cost = cost
         self.description = description

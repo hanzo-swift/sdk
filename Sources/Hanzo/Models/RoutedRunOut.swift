@@ -24,9 +24,9 @@ public struct RoutedRunOut: Sendable, Codable, ParameterConvertible, Hashable {
     /** SessionID is the live session opened at dispatch; the machine streams its turns into it. */
     public var sessionId: String?
     /** TimeoutSeconds bounds the run on the machine; 0 means the machine's own default. */
-    public var timeoutSeconds: Int?
+    public var timeoutSeconds: Int64?
 
-    public init(base: String? = nil, branch: String? = nil, cloneUrl: String? = nil, project: String? = nil, prompt: String? = nil, repo: String? = nil, sessionId: String? = nil, timeoutSeconds: Int? = nil) {
+    public init(base: String? = nil, branch: String? = nil, cloneUrl: String? = nil, project: String? = nil, prompt: String? = nil, repo: String? = nil, sessionId: String? = nil, timeoutSeconds: Int64? = nil) {
         self.base = base
         self.branch = branch
         self.cloneUrl = cloneUrl

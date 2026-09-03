@@ -10,15 +10,15 @@ import Foundation
 public struct UsagePoint: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Requests is how many LLM calls fell in this bucket. */
-    public var requests: Int?
+    public var requests: Int64?
     /** SpendCents is what they cost, in cents. */
-    public var spendCents: Int?
+    public var spendCents: Int64?
     /** T is the bucket's start, RFC3339 UTC, aligned to the interval. */
     public var t: String?
     /** Tokens is prompt plus completion tokens over those calls. */
-    public var tokens: Int?
+    public var tokens: Int64?
 
-    public init(requests: Int? = nil, spendCents: Int? = nil, t: String? = nil, tokens: Int? = nil) {
+    public init(requests: Int64? = nil, spendCents: Int64? = nil, t: String? = nil, tokens: Int64? = nil) {
         self.requests = requests
         self.spendCents = spendCents
         self.t = t

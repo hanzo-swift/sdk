@@ -11,7 +11,7 @@ public struct O11yBuilderQuery: Sendable, Codable, ParameterConvertible, Hashabl
 
     public var isAnomaly: Bool?
     public var queriesUsedInFormula: [String]?
-    public var shiftBy: Int?
+    public var shiftBy: Int64?
     public var aggregateAttribute: O11yAttributeKey?
     public var aggregateOperator: String?
     public var dataSource: String?
@@ -31,11 +31,11 @@ public struct O11yBuilderQuery: Sendable, Codable, ParameterConvertible, Hashabl
     public var selectColumns: [O11yAttributeKey]?
     public var seriesAggregation: String?
     public var spaceAggregation: String?
-    public var stepInterval: Int?
+    public var stepInterval: Int64?
     public var temporality: String?
     public var timeAggregation: String?
 
-    public init(isAnomaly: Bool? = nil, queriesUsedInFormula: [String]? = nil, shiftBy: Int? = nil, aggregateAttribute: O11yAttributeKey? = nil, aggregateOperator: String? = nil, dataSource: String? = nil, disabled: Bool? = nil, expression: String? = nil, filters: O11yFilterSet? = nil, functions: [O11yFunction]? = nil, groupBy: [O11yAttributeKey]? = nil, having: [O11yHaving]? = nil, legend: String? = nil, limit: Int? = nil, offset: Int? = nil, orderBy: [O11yOrderBy]? = nil, pageSize: Int? = nil, queryName: String? = nil, reduceTo: String? = nil, selectColumns: [O11yAttributeKey]? = nil, seriesAggregation: String? = nil, spaceAggregation: String? = nil, stepInterval: Int? = nil, temporality: String? = nil, timeAggregation: String? = nil) {
+    public init(isAnomaly: Bool? = nil, queriesUsedInFormula: [String]? = nil, shiftBy: Int64? = nil, aggregateAttribute: O11yAttributeKey? = nil, aggregateOperator: String? = nil, dataSource: String? = nil, disabled: Bool? = nil, expression: String? = nil, filters: O11yFilterSet? = nil, functions: [O11yFunction]? = nil, groupBy: [O11yAttributeKey]? = nil, having: [O11yHaving]? = nil, legend: String? = nil, limit: Int? = nil, offset: Int? = nil, orderBy: [O11yOrderBy]? = nil, pageSize: Int? = nil, queryName: String? = nil, reduceTo: String? = nil, selectColumns: [O11yAttributeKey]? = nil, seriesAggregation: String? = nil, spaceAggregation: String? = nil, stepInterval: Int64? = nil, temporality: String? = nil, timeAggregation: String? = nil) {
         self.isAnomaly = isAnomaly
         self.queriesUsedInFormula = queriesUsedInFormula
         self.shiftBy = shiftBy

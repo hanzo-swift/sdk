@@ -14,11 +14,11 @@ public struct SessionDetail: Sendable, Codable, ParameterConvertible, Hashable {
     public var agent: String?
     /** Children is the session's DIRECT children, one level down, each with its own counts. The promoted `children` integer beside it is how many there are; this is who they are. For the whole subtree, read the tree. */
     public var childSessions: [SessionView]?
-    public var children: Int?
+    public var children: Int64?
     public var createdAt: String?
     public var cwd: String?
     public var endedAt: String?
-    public var events: Int?
+    public var events: Int64?
     public var host: String?
     public var id: String?
     public var lastEvent: LastEventView?
@@ -42,7 +42,7 @@ public struct SessionDetail: Sendable, Codable, ParameterConvertible, Hashable {
     public var title: String?
     public var updatedAt: String?
 
-    public init(account: String? = nil, actor: String? = nil, agent: String? = nil, childSessions: [SessionView]? = nil, children: Int? = nil, createdAt: String? = nil, cwd: String? = nil, endedAt: String? = nil, events: Int? = nil, host: String? = nil, id: String? = nil, lastEvent: LastEventView? = nil, org: String? = nil, parentSessionId: String? = nil, progress: SessionProgress? = nil, project: String? = nil, provider: String? = nil, published: Bool? = nil, recentEvents: [EventView]? = nil, repo: String? = nil, room: String? = nil, rootSessionId: String? = nil, startedAt: String? = nil, status: String? = nil, target: String? = nil, taskRunId: String? = nil, taskWorkflowId: String? = nil, terminal: String? = nil, title: String? = nil, updatedAt: String? = nil) {
+    public init(account: String? = nil, actor: String? = nil, agent: String? = nil, childSessions: [SessionView]? = nil, children: Int64? = nil, createdAt: String? = nil, cwd: String? = nil, endedAt: String? = nil, events: Int64? = nil, host: String? = nil, id: String? = nil, lastEvent: LastEventView? = nil, org: String? = nil, parentSessionId: String? = nil, progress: SessionProgress? = nil, project: String? = nil, provider: String? = nil, published: Bool? = nil, recentEvents: [EventView]? = nil, repo: String? = nil, room: String? = nil, rootSessionId: String? = nil, startedAt: String? = nil, status: String? = nil, target: String? = nil, taskRunId: String? = nil, taskWorkflowId: String? = nil, terminal: String? = nil, title: String? = nil, updatedAt: String? = nil) {
         self.account = account
         self.actor = actor
         self.agent = agent

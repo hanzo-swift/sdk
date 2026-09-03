@@ -10,13 +10,13 @@ import Foundation
 public struct ContextIn: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** BudgetTokens caps the bundle's size. Clamped to [256, 32000]; 0 or absent uses 4000. */
-    public var budgetTokens: Int?
+    public var budgetTokens: Int64?
     /** Query is what to retrieve context for. Required, max 4000 bytes. */
     public var query: String?
     /** Repo narrows retrieval to one repository. Empty searches every repo the org has indexed. */
     public var repo: String?
 
-    public init(budgetTokens: Int? = nil, query: String? = nil, repo: String? = nil) {
+    public init(budgetTokens: Int64? = nil, query: String? = nil, repo: String? = nil) {
         self.budgetTokens = budgetTokens
         self.query = query
         self.repo = repo

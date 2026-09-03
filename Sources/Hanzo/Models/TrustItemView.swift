@@ -14,7 +14,7 @@ public struct TrustItemView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Body is the item's content for the kinds that are text rather than a file. */
     public var body: String?
     /** CreatedAt is when it was published, in unix milliseconds. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** Document is the data-room document holding its bytes, empty when it has none. */
     public var document: String?
     /** Framework is the standard it speaks to, when it speaks to one. */
@@ -32,9 +32,9 @@ public struct TrustItemView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Tier is public or gated. Gated is the default and an auditor-signed item can only ever be gated. */
     public var tier: String?
     /** UpdatedAt is when it last changed, in unix milliseconds. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
 
-    public init(attester: String? = nil, body: String? = nil, createdAt: Int? = nil, document: String? = nil, framework: String? = nil, id: String? = nil, kind: String? = nil, name: String? = nil, retired: Bool? = nil, summary: String? = nil, tier: String? = nil, updatedAt: Int? = nil) {
+    public init(attester: String? = nil, body: String? = nil, createdAt: Int64? = nil, document: String? = nil, framework: String? = nil, id: String? = nil, kind: String? = nil, name: String? = nil, retired: Bool? = nil, summary: String? = nil, tier: String? = nil, updatedAt: Int64? = nil) {
         self.attester = attester
         self.body = body
         self.createdAt = createdAt

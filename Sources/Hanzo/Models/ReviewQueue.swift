@@ -10,11 +10,11 @@ import Foundation
 public struct ReviewQueue: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Count is how many founders are waiting. */
-    public var count: Int?
+    public var count: Int64?
     /** Queue is one entry per unsettled founder, oldest formation first. */
     public var queue: [Waiting]?
 
-    public init(count: Int? = nil, queue: [Waiting]? = nil) {
+    public init(count: Int64? = nil, queue: [Waiting]? = nil) {
         self.count = count
         self.queue = queue
     }

@@ -12,7 +12,7 @@ public struct CampaignWrite: Sendable, Codable, ParameterConvertible, Hashable {
     /** Audience is the segment or audience selector this campaign targets. */
     public var audience: String?
     /** Budget is the campaign's total budget in CENTS. Negative reads as 0. */
-    public var budget: Int?
+    public var budget: Int64?
     /** Channels are the fan-out targets, at most one per kind (paid, organic, email) and at most 12. A channel's status and provider id are server-owned: whatever the caller sends for them is replaced with \"pending\". */
     public var channels: [ChannelSpec]?
     /** Content is the ordered creative set. Content[0] is the active creative and the rest are A/B variants; at most 32, empty entries dropped. */
@@ -20,9 +20,9 @@ public struct CampaignWrite: Sendable, Codable, ParameterConvertible, Hashable {
     /** Name is the campaign's display name. Required; trimmed and capped at 2048 characters. */
     public var name: String?
     /** ScheduleAt is when the campaign should run, in unix seconds. Negative reads as 0 (immediately). */
-    public var scheduleAt: Int?
+    public var scheduleAt: Int64?
 
-    public init(audience: String? = nil, budget: Int? = nil, channels: [ChannelSpec]? = nil, content: [String]? = nil, name: String? = nil, scheduleAt: Int? = nil) {
+    public init(audience: String? = nil, budget: Int64? = nil, channels: [ChannelSpec]? = nil, content: [String]? = nil, name: String? = nil, scheduleAt: Int64? = nil) {
         self.audience = audience
         self.budget = budget
         self.channels = channels

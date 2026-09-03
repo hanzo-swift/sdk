@@ -12,11 +12,11 @@ public struct IssueView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Assignee is who holds the work — an IAM username, or the login of the FIRST assignee when a forge issue has several. Absent when nobody holds it, which is exactly the state a claim needs. */
     public var assignee: String?
     /** CreatedAt is when the item was opened, in unix seconds. 0 when the source gave no parseable timestamp. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** Description is the body, markdown as its author wrote it. Absent when empty. */
     public var description: String?
     /** DueAt is when the work is due, in unix seconds; absent means no due date. A forge row takes it from its MILESTONE's due date, since a forge issue has no deadline of its own. Never before StartAt, and never past 2200-01-01. */
-    public var dueAt: Int?
+    public var dueAt: Int64?
     /** ExtRef anchors the item to something outside the todo — a mirrored issue (\"github:owner/repo#123\"), a pushed PR branch, or a record on another plane. It is the idempotency key the mirror upsert matches on. Absent when the item has no external origin. */
     public var extRef: String?
     /** ID is the work item's opaque handle, and it is NOT how you address it — ProjectKey plus Number is. Its shape says which source answered: a forge issue's is the forge's own numeric id in decimal, an index row's a minted \"issue_\" id. */
@@ -28,7 +28,7 @@ public struct IssueView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Labels are the item's remaining tags, with the status and priority labels lifted OUT — a column that stayed here would render twice, once as the card's column and once as a chip on the card. Always present; empty is []. */
     public var labels: [String]?
     /** Number is the item's number ON ITS BOARD, from 1 and monotonic there — the forge's own issue number for a forge row, allocated inside the create transaction for an index row so it cannot race. Unique per board, never across the org. */
-    public var number: Int?
+    public var number: Int64?
     /** Priority is urgent, high, medium, low or none. Also a label on a forge row. Never empty: \"none\" when nothing names one, so callers compare a value rather than test for absence. */
     public var priority: String?
     /** ProjectKey is the board this item is on: the repository name for a forge issue, the index board's key otherwise. With Number it is the item's address in every other route. */
@@ -38,15 +38,15 @@ public struct IssueView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Source is which surface OPENED it: team, git, crm, helpdesk, cms or agent. Also set once. It is the ORIGIN, not the subject — source=helpdesk is an engineering issue opened from a support escalation, not a support ticket. */
     public var source: String?
     /** StartAt is when the work starts, in unix seconds; absent means unscheduled. A forge row takes it from when the issue was opened, but only once the issue has a due date — an interval needs both ends. */
-    public var startAt: Int?
+    public var startAt: Int64?
     /** Status is the board column: backlog, todo, in_progress, done or canceled, and nothing else. On a forge row it is read off a LABEL, so relabelling in the forge web UI moves the card here and vice versa — and a CLOSED forge issue reads done whatever its labels say. Never empty: \"backlog\" when nothing names a column. */
     public var status: String?
     /** Title is the item's one-line summary. */
     public var title: String?
     /** UpdatedAt is when it last changed, in unix seconds. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
 
-    public init(assignee: String? = nil, createdAt: Int? = nil, description: String? = nil, dueAt: Int? = nil, extRef: String? = nil, id: String? = nil, identifier: String? = nil, kind: String? = nil, labels: [String]? = nil, number: Int? = nil, priority: String? = nil, projectKey: String? = nil, repo: String? = nil, source: String? = nil, startAt: Int? = nil, status: String? = nil, title: String? = nil, updatedAt: Int? = nil) {
+    public init(assignee: String? = nil, createdAt: Int64? = nil, description: String? = nil, dueAt: Int64? = nil, extRef: String? = nil, id: String? = nil, identifier: String? = nil, kind: String? = nil, labels: [String]? = nil, number: Int64? = nil, priority: String? = nil, projectKey: String? = nil, repo: String? = nil, source: String? = nil, startAt: Int64? = nil, status: String? = nil, title: String? = nil, updatedAt: Int64? = nil) {
         self.assignee = assignee
         self.createdAt = createdAt
         self.description = description

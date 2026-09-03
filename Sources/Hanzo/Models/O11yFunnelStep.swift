@@ -20,9 +20,9 @@ public struct O11yFunnelStep: Sendable, Codable, ParameterConvertible, Hashable 
     public var name: String?
     public var serviceName: String?
     public var spanName: String?
-    public var stepOrder: Int?
+    public var stepOrder: Int64?
 
-    public init(description: String? = nil, filters: O11yFilterSet? = nil, hasErrors: Bool? = nil, id: JSONValue? = nil, latencyPointer: String? = nil, latencyType: String? = nil, name: String? = nil, serviceName: String? = nil, spanName: String? = nil, stepOrder: Int? = nil) {
+    public init(description: String? = nil, filters: O11yFilterSet? = nil, hasErrors: Bool? = nil, id: JSONValue? = nil, latencyPointer: String? = nil, latencyType: String? = nil, name: String? = nil, serviceName: String? = nil, spanName: String? = nil, stepOrder: Int64? = nil) {
         self.description = description
         self.filters = filters
         self.hasErrors = hasErrors

@@ -28,13 +28,13 @@ public struct O11yO11yLogPipeline: Sendable, Codable, ParameterConvertible, Hash
     /** Name is the pipeline's display name. */
     public var name: String?
     /** OrderID is the pipeline's 1-based position in the set. */
-    public var orderId: Int?
+    public var orderId: Int64?
     /** UpdatedAt is when the pipeline last changed. */
     public var updatedAt: Date?
     /** UpdatedBy is the id of who last changed it. */
     public var updatedBy: String?
 
-    public init(alias: String? = nil, config: [O11yO11yLogPipelineOperator]? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, enabled: Bool? = nil, filter: O11yO11yLogFilter? = nil, id: String? = nil, name: String? = nil, orderId: Int? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
+    public init(alias: String? = nil, config: [O11yO11yLogPipelineOperator]? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, enabled: Bool? = nil, filter: O11yO11yLogFilter? = nil, id: String? = nil, name: String? = nil, orderId: Int64? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
         self.alias = alias
         self.config = config
         self.createdAt = createdAt

@@ -16,15 +16,15 @@ public struct FunctionView: Sendable, Codable, ParameterConvertible, Hashable {
     /** the path that invokes it */
     public var endpoint: String?
     /** how many secret NAMES it mounts; values are never carried */
-    public var envCount: Int?
+    public var envCount: Int64?
     /** the language it runs under */
     public var environment: String?
     /** how many of those runs failed */
-    public var errors7d: Int?
+    public var errors7d: Int64?
     /** the prebuilt image it runs, when it runs one instead of source */
     public var image: String?
     /** runs in the last 7 days; ABSENT, never 0, when it has not run */
-    public var invocations7d: Int?
+    public var invocations7d: Int64?
     /** when its code last changed */
     public var lastDeployedAt: String?
     /** the memory it runs with, and the multiplier on its compute charge */
@@ -40,9 +40,9 @@ public struct FunctionView: Sendable, Codable, ParameterConvertible, Hashable {
     /** where it runs: empty for the sandbox, \"fleet\" for the org's GPU fleet */
     public var target: String?
     /** its per-invocation deadline */
-    public var timeoutSec: Int?
+    public var timeoutSec: Int64?
 
-    public init(avgDurationMs: Double? = nil, createdAt: String? = nil, endpoint: String? = nil, envCount: Int? = nil, environment: String? = nil, errors7d: Int? = nil, image: String? = nil, invocations7d: Int? = nil, lastDeployedAt: String? = nil, memoryLimit: String? = nil, name: String? = nil, namespace: String? = nil, status: String? = nil, successRate: Double? = nil, target: String? = nil, timeoutSec: Int? = nil) {
+    public init(avgDurationMs: Double? = nil, createdAt: String? = nil, endpoint: String? = nil, envCount: Int64? = nil, environment: String? = nil, errors7d: Int64? = nil, image: String? = nil, invocations7d: Int64? = nil, lastDeployedAt: String? = nil, memoryLimit: String? = nil, name: String? = nil, namespace: String? = nil, status: String? = nil, successRate: Double? = nil, target: String? = nil, timeoutSec: Int64? = nil) {
         self.avgDurationMs = avgDurationMs
         self.createdAt = createdAt
         self.endpoint = endpoint

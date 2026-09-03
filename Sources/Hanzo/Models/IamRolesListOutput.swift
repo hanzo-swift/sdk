@@ -10,9 +10,9 @@ import Foundation
 public struct IamRolesListOutput: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var roles: [IamRole]?
-    public var total: Int?
+    public var total: Int64?
 
-    public init(roles: [IamRole]? = nil, total: Int? = nil) {
+    public init(roles: [IamRole]? = nil, total: Int64? = nil) {
         self.roles = roles
         self.total = total
     }

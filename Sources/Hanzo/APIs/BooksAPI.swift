@@ -62,7 +62,7 @@ open class BooksAPI {
      - returns: [BankTxnRow]
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getBooksBankTransactions(sandbox: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> [BankTxnRow] {
+    open class func getBooksBankTransactions(sandbox: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> [BankTxnRow] {
         return try await getBooksBankTransactionsWithRequestBuilder(sandbox: sandbox, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -78,7 +78,7 @@ open class BooksAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<[BankTxnRow]> 
      */
-    open class func getBooksBankTransactionsWithRequestBuilder(sandbox: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<[BankTxnRow]> {
+    open class func getBooksBankTransactionsWithRequestBuilder(sandbox: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<[BankTxnRow]> {
         let localVariablePath = "/v1/books/bank/transactions"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -156,7 +156,7 @@ open class BooksAPI {
      - returns: FinancialPackage
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getBooksExport(sandbox: String? = nil, from: String? = nil, to: String? = nil, format: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> FinancialPackage {
+    open class func getBooksExport(sandbox: String? = nil, from: String? = nil, to: String? = nil, format: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> FinancialPackage {
         return try await getBooksExportWithRequestBuilder(sandbox: sandbox, from: from, to: to, format: format, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -175,7 +175,7 @@ open class BooksAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<FinancialPackage> 
      */
-    open class func getBooksExportWithRequestBuilder(sandbox: String? = nil, from: String? = nil, to: String? = nil, format: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<FinancialPackage> {
+    open class func getBooksExportWithRequestBuilder(sandbox: String? = nil, from: String? = nil, to: String? = nil, format: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<FinancialPackage> {
         let localVariablePath = "/v1/books/export"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -209,7 +209,7 @@ open class BooksAPI {
      - returns: [GLRow]
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getBooksGl(sandbox: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> [GLRow] {
+    open class func getBooksGl(sandbox: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> [GLRow] {
         return try await getBooksGlWithRequestBuilder(sandbox: sandbox, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -225,7 +225,7 @@ open class BooksAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<[GLRow]> 
      */
-    open class func getBooksGlWithRequestBuilder(sandbox: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<[GLRow]> {
+    open class func getBooksGlWithRequestBuilder(sandbox: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<[GLRow]> {
         let localVariablePath = "/v1/books/gl"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -539,7 +539,7 @@ open class BooksAPI {
      - returns: TransactionsOut
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getBooksTransactions(sandbox: String? = nil, from: String? = nil, to: String? = nil, category: String? = nil, vendor: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> TransactionsOut {
+    open class func getBooksTransactions(sandbox: String? = nil, from: String? = nil, to: String? = nil, category: String? = nil, vendor: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> TransactionsOut {
         return try await getBooksTransactionsWithRequestBuilder(sandbox: sandbox, from: from, to: to, category: category, vendor: vendor, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -559,7 +559,7 @@ open class BooksAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<TransactionsOut> 
      */
-    open class func getBooksTransactionsWithRequestBuilder(sandbox: String? = nil, from: String? = nil, to: String? = nil, category: String? = nil, vendor: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<TransactionsOut> {
+    open class func getBooksTransactionsWithRequestBuilder(sandbox: String? = nil, from: String? = nil, to: String? = nil, category: String? = nil, vendor: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<TransactionsOut> {
         let localVariablePath = "/v1/books/transactions"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil

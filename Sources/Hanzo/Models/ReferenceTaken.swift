@@ -10,7 +10,7 @@ import Foundation
 public struct ReferenceTaken: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Keys is how many members it carries. */
-    public var keys: Int?
+    public var keys: Int64?
     /** Refusal is why this publisher contributed nothing, if it did not. The set keeps its previous version of this source rather than shrinking. */
     public var refusal: String?
     /** Resumed is true when this run continued a version a previous run left half-landed. */
@@ -22,9 +22,9 @@ public struct ReferenceTaken: Sendable, Codable, ParameterConvertible, Hashable 
     /** Version is the content digest that landed. */
     public var version: String?
     /** Wrote is how many rows this run actually wrote. Zero with Unchanged means the publisher served the same set again. */
-    public var wrote: Int?
+    public var wrote: Int64?
 
-    public init(keys: Int? = nil, refusal: String? = nil, resumed: Bool? = nil, source: String? = nil, unchanged: Bool? = nil, version: String? = nil, wrote: Int? = nil) {
+    public init(keys: Int64? = nil, refusal: String? = nil, resumed: Bool? = nil, source: String? = nil, unchanged: Bool? = nil, version: String? = nil, wrote: Int64? = nil) {
         self.keys = keys
         self.refusal = refusal
         self.resumed = resumed

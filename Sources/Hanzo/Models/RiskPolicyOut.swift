@@ -10,19 +10,19 @@ import Foundation
 public struct RiskPolicyOut: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Changes is how many DISTINCT regimes may be adopted per Window. A restatement identical to the regime in force mints no version and is not counted against it. */
-    public var changes: Int?
+    public var changes: Int64?
     /** Disposed is how many versions retention has taken. It is NOT a silence: a history bounded on disk must say what it no longer holds, because a decision citing a disposed version can no longer be reconstructed from this record. */
-    public var disposed: Int?
+    public var disposed: Int64?
     /** History is the retained versions, newest first. */
     public var history: [RiskPolicyVersion]?
     /** Retained is how many versions this organisation's history holds at most, derived from the byte budget its rows are a multiple of. */
-    public var retained: Int?
+    public var retained: Int64?
     /** Version is the version in force — the one every score currently cites. Zero means no regime has ever been stated and the default posture, shadow, is in force. */
-    public var version: Int?
+    public var version: Int64?
     /** Window is the period Changes is measured over. */
     public var window: String?
 
-    public init(changes: Int? = nil, disposed: Int? = nil, history: [RiskPolicyVersion]? = nil, retained: Int? = nil, version: Int? = nil, window: String? = nil) {
+    public init(changes: Int64? = nil, disposed: Int64? = nil, history: [RiskPolicyVersion]? = nil, retained: Int64? = nil, version: Int64? = nil, window: String? = nil) {
         self.changes = changes
         self.disposed = disposed
         self.history = history

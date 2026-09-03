@@ -9,7 +9,7 @@ import Foundation
 
 public struct O11yGettableFunnel: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var createdAt: Int?
+    public var createdAt: Int64?
     public var createdBy: String?
     public var description: String?
     public var funnel: O11yStorableFunnel?
@@ -17,11 +17,11 @@ public struct O11yGettableFunnel: Sendable, Codable, ParameterConvertible, Hasha
     public var funnelName: String?
     public var orgId: String?
     public var steps: [O11yFunnelStep]?
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
     public var updatedBy: String?
     public var userEmail: String?
 
-    public init(createdAt: Int? = nil, createdBy: String? = nil, description: String? = nil, funnel: O11yStorableFunnel? = nil, funnelId: String? = nil, funnelName: String? = nil, orgId: String? = nil, steps: [O11yFunnelStep]? = nil, updatedAt: Int? = nil, updatedBy: String? = nil, userEmail: String? = nil) {
+    public init(createdAt: Int64? = nil, createdBy: String? = nil, description: String? = nil, funnel: O11yStorableFunnel? = nil, funnelId: String? = nil, funnelName: String? = nil, orgId: String? = nil, steps: [O11yFunnelStep]? = nil, updatedAt: Int64? = nil, updatedBy: String? = nil, userEmail: String? = nil) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.description = description

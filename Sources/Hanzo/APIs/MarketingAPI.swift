@@ -152,7 +152,7 @@ open class MarketingAPI {
      - returns: Void
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func deleteMarketingSuppressions(channel: String? = nil, address: String? = nil, reason: String? = nil, createdAt: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
+    open class func deleteMarketingSuppressions(channel: String? = nil, address: String? = nil, reason: String? = nil, createdAt: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) {
         return try await deleteMarketingSuppressionsWithRequestBuilder(channel: channel, address: address, reason: reason, createdAt: createdAt, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -170,7 +170,7 @@ open class MarketingAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Void> 
      */
-    open class func deleteMarketingSuppressionsWithRequestBuilder(channel: String? = nil, address: String? = nil, reason: String? = nil, createdAt: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
+    open class func deleteMarketingSuppressionsWithRequestBuilder(channel: String? = nil, address: String? = nil, reason: String? = nil, createdAt: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Void> {
         let localVariablePath = "/v1/marketing/suppressions"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -202,7 +202,7 @@ open class MarketingAPI {
      - returns: AudienceList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getMarketingAudiences(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AudienceList {
+    open class func getMarketingAudiences(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> AudienceList {
         return try await getMarketingAudiencesWithRequestBuilder(limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -217,7 +217,7 @@ open class MarketingAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<AudienceList> 
      */
-    open class func getMarketingAudiencesWithRequestBuilder(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AudienceList> {
+    open class func getMarketingAudiencesWithRequestBuilder(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<AudienceList> {
         let localVariablePath = "/v1/marketing/audiences"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -335,7 +335,7 @@ open class MarketingAPI {
      - returns: PostList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getMarketingCalendar(status: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostList {
+    open class func getMarketingCalendar(status: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PostList {
         return try await getMarketingCalendarWithRequestBuilder(status: status, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -351,7 +351,7 @@ open class MarketingAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<PostList> 
      */
-    open class func getMarketingCalendarWithRequestBuilder(status: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostList> {
+    open class func getMarketingCalendarWithRequestBuilder(status: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PostList> {
         let localVariablePath = "/v1/marketing/calendar"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -426,7 +426,7 @@ open class MarketingAPI {
      - returns: CampaignList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getMarketingCampaigns(status: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CampaignList {
+    open class func getMarketingCampaigns(status: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CampaignList {
         return try await getMarketingCampaignsWithRequestBuilder(status: status, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -442,7 +442,7 @@ open class MarketingAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<CampaignList> 
      */
-    open class func getMarketingCampaignsWithRequestBuilder(status: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CampaignList> {
+    open class func getMarketingCampaignsWithRequestBuilder(status: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CampaignList> {
         let localVariablePath = "/v1/marketing/campaigns"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -557,7 +557,7 @@ open class MarketingAPI {
      - returns: Quote
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getMarketingPromosByCodeEligibility(code: String, plan: String? = nil, seats: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Quote {
+    open class func getMarketingPromosByCodeEligibility(code: String, plan: String? = nil, seats: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Quote {
         return try await getMarketingPromosByCodeEligibilityWithRequestBuilder(code: code, plan: plan, seats: seats, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -574,7 +574,7 @@ open class MarketingAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Quote> 
      */
-    open class func getMarketingPromosByCodeEligibilityWithRequestBuilder(code: String, plan: String? = nil, seats: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Quote> {
+    open class func getMarketingPromosByCodeEligibilityWithRequestBuilder(code: String, plan: String? = nil, seats: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Quote> {
         var localVariablePath = "/v1/marketing/promos/{code}/eligibility"
         let codePreEscape = "\(APIHelper.mapValueToPathItem(code))"
         let codePostEscape = codePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -651,7 +651,7 @@ open class MarketingAPI {
      - returns: SequenceList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getMarketingSequences(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SequenceList {
+    open class func getMarketingSequences(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SequenceList {
         return try await getMarketingSequencesWithRequestBuilder(limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -666,7 +666,7 @@ open class MarketingAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<SequenceList> 
      */
-    open class func getMarketingSequencesWithRequestBuilder(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SequenceList> {
+    open class func getMarketingSequencesWithRequestBuilder(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SequenceList> {
         let localVariablePath = "/v1/marketing/sequences"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -740,7 +740,7 @@ open class MarketingAPI {
      - returns: EnrollmentList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getMarketingSequencesByIdEnrollments(id: String, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> EnrollmentList {
+    open class func getMarketingSequencesByIdEnrollments(id: String, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> EnrollmentList {
         return try await getMarketingSequencesByIdEnrollmentsWithRequestBuilder(id: id, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -756,7 +756,7 @@ open class MarketingAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<EnrollmentList> 
      */
-    open class func getMarketingSequencesByIdEnrollmentsWithRequestBuilder(id: String, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<EnrollmentList> {
+    open class func getMarketingSequencesByIdEnrollmentsWithRequestBuilder(id: String, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<EnrollmentList> {
         var localVariablePath = "/v1/marketing/sequences/{id}/enrollments"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -871,7 +871,7 @@ open class MarketingAPI {
      - returns: SuppressionList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getMarketingSuppressions(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SuppressionList {
+    open class func getMarketingSuppressions(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SuppressionList {
         return try await getMarketingSuppressionsWithRequestBuilder(limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -886,7 +886,7 @@ open class MarketingAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<SuppressionList> 
      */
-    open class func getMarketingSuppressionsWithRequestBuilder(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SuppressionList> {
+    open class func getMarketingSuppressionsWithRequestBuilder(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SuppressionList> {
         let localVariablePath = "/v1/marketing/suppressions"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil

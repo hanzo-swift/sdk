@@ -131,7 +131,7 @@ open class TodoAPI {
      - returns: IssueHits
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getTodoIssues(q: String? = nil, project: String? = nil, status: String? = nil, kind: String? = nil, repo: String? = nil, room: String? = nil, source: String? = nil, assignee: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IssueHits {
+    open class func getTodoIssues(q: String? = nil, project: String? = nil, status: String? = nil, kind: String? = nil, repo: String? = nil, room: String? = nil, source: String? = nil, assignee: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IssueHits {
         return try await getTodoIssuesWithRequestBuilder(q: q, project: project, status: status, kind: kind, repo: repo, room: room, source: source, assignee: assignee, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -154,7 +154,7 @@ open class TodoAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IssueHits> 
      */
-    open class func getTodoIssuesWithRequestBuilder(q: String? = nil, project: String? = nil, status: String? = nil, kind: String? = nil, repo: String? = nil, room: String? = nil, source: String? = nil, assignee: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IssueHits> {
+    open class func getTodoIssuesWithRequestBuilder(q: String? = nil, project: String? = nil, status: String? = nil, kind: String? = nil, repo: String? = nil, room: String? = nil, source: String? = nil, assignee: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IssueHits> {
         let localVariablePath = "/v1/todo/issues"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -339,7 +339,7 @@ open class TodoAPI {
      - returns: IssueView
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getTodoProjectsByKeyIssuesByNum(key: String, num: Int, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IssueView {
+    open class func getTodoProjectsByKeyIssuesByNum(key: String, num: Int64, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IssueView {
         return try await getTodoProjectsByKeyIssuesByNumWithRequestBuilder(key: key, num: num, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -355,7 +355,7 @@ open class TodoAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IssueView> 
      */
-    open class func getTodoProjectsByKeyIssuesByNumWithRequestBuilder(key: String, num: Int, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IssueView> {
+    open class func getTodoProjectsByKeyIssuesByNumWithRequestBuilder(key: String, num: Int64, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IssueView> {
         var localVariablePath = "/v1/todo/projects/{key}/issues/{num}"
         let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
         let keyPostEscape = keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -477,7 +477,7 @@ open class TodoAPI {
      - returns: IssueView
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func patchTodoProjectsByKeyIssuesByNum(key: String, num: Int, issueEdit: IssueEdit, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IssueView {
+    open class func patchTodoProjectsByKeyIssuesByNum(key: String, num: Int64, issueEdit: IssueEdit, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IssueView {
         return try await patchTodoProjectsByKeyIssuesByNumWithRequestBuilder(key: key, num: num, issueEdit: issueEdit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -494,7 +494,7 @@ open class TodoAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IssueView> 
      */
-    open class func patchTodoProjectsByKeyIssuesByNumWithRequestBuilder(key: String, num: Int, issueEdit: IssueEdit, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IssueView> {
+    open class func patchTodoProjectsByKeyIssuesByNumWithRequestBuilder(key: String, num: Int64, issueEdit: IssueEdit, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IssueView> {
         var localVariablePath = "/v1/todo/projects/{key}/issues/{num}"
         let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
         let keyPostEscape = keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -612,7 +612,7 @@ open class TodoAPI {
      - returns: IssueHit
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func postTodoProjectsByKeyIssuesByNumClaim(key: String, num: Int, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IssueHit {
+    open class func postTodoProjectsByKeyIssuesByNumClaim(key: String, num: Int64, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IssueHit {
         return try await postTodoProjectsByKeyIssuesByNumClaimWithRequestBuilder(key: key, num: num, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -628,7 +628,7 @@ open class TodoAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IssueHit> 
      */
-    open class func postTodoProjectsByKeyIssuesByNumClaimWithRequestBuilder(key: String, num: Int, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IssueHit> {
+    open class func postTodoProjectsByKeyIssuesByNumClaimWithRequestBuilder(key: String, num: Int64, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IssueHit> {
         var localVariablePath = "/v1/todo/projects/{key}/issues/{num}/claim"
         let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
         let keyPostEscape = keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

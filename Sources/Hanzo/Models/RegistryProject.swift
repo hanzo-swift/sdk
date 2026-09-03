@@ -10,13 +10,13 @@ import Foundation
 public struct RegistryProject: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Images is how many of the org's repositories the OCI catalog holds. */
-    public var images: Int?
+    public var images: Int64?
     /** Packages is how many of the org's packages the npm registry reports. */
-    public var packages: Int?
+    public var packages: Int64?
     /** Project is the namespace: the org's slug, which prefixes its image names and scopes its npm packages. */
     public var project: String?
 
-    public init(images: Int? = nil, packages: Int? = nil, project: String? = nil) {
+    public init(images: Int64? = nil, packages: Int64? = nil, project: String? = nil) {
         self.images = images
         self.packages = packages
         self.project = project

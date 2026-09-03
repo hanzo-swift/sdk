@@ -18,13 +18,13 @@ public struct RiskEvent: Sendable, Codable, ParameterConvertible, Hashable {
     /** Kind is whose behaviour this is: person, session or account. It namespaces the subject, so a person and an account that share an identifier stay two subjects. */
     public var kind: String?
     /** Nano is the value moved, in nano-USD. Omit it for an event that moves no money: the value features then read BLIND rather than being told the amount was zero, and the difference is reported on the model state. */
-    public var nano: Int?
+    public var nano: Int64?
     /** Peer is the counterparty, if any. It is an aggregation axis of its own — \"unfamiliar\" is a fact about a relationship and not about either party. */
     public var peer: String?
     /** Subject is the identifier on that kind. */
     public var subject: String?
 
-    public init(at: String? = nil, device: String? = nil, id: String? = nil, kind: String? = nil, nano: Int? = nil, peer: String? = nil, subject: String? = nil) {
+    public init(at: String? = nil, device: String? = nil, id: String? = nil, kind: String? = nil, nano: Int64? = nil, peer: String? = nil, subject: String? = nil) {
         self.at = at
         self.device = device
         self.id = id

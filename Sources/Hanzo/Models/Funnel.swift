@@ -12,19 +12,19 @@ public struct Funnel: Sendable, Codable, ParameterConvertible, Hashable {
     /** Available separates \"this org has no traffic\" from \"we could not ask\". False means the warehouse was unreachable or the org has emitted nothing at all, and every count below is then a placeholder zero rather than a measurement — a caller must read this before reading any of them. */
     public var available: Bool?
     /** Orders counts completed orders in the window — purchases, not carts started. */
-    public var orders: Int?
+    public var orders: Int64?
     /** Pageviews counts page events in the window, one per view rather than per person, so a single visitor reading ten pages counts ten. */
-    public var pageviews: Int?
+    public var pageviews: Int64?
     /** Revenue is the sum of the amounts those orders reported, in whatever currency the beacon stamped on them (major units, e.g. 49.5 for $49.50) — NOT cents, and not converted to a single currency. Contrast revenueCents on the profile, which is the money of record. */
     public var revenue: Double?
     /** Signups counts completed signups in the window, the step where an anonymous visitor becomes somebody with an account. */
-    public var signups: Int?
+    public var signups: Int64?
     /** Visitors is the number of DISTINCT people seen in the window, counted by the beacon's distinct id — so it is unique visitors, not sessions and not views. */
-    public var visitors: Int?
+    public var visitors: Int64?
     /** WindowDays is the length of the trailing window every count covers, so a reader knows whether 40 signups is a month or a day. */
-    public var windowDays: Int?
+    public var windowDays: Int64?
 
-    public init(available: Bool? = nil, orders: Int? = nil, pageviews: Int? = nil, revenue: Double? = nil, signups: Int? = nil, visitors: Int? = nil, windowDays: Int? = nil) {
+    public init(available: Bool? = nil, orders: Int64? = nil, pageviews: Int64? = nil, revenue: Double? = nil, signups: Int64? = nil, visitors: Int64? = nil, windowDays: Int64? = nil) {
         self.available = available
         self.orders = orders
         self.pageviews = pageviews

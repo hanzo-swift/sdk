@@ -14,9 +14,9 @@ public struct Rule: Sendable, Codable, ParameterConvertible, Hashable {
     /** Pattern is the merchant substring the rule matches on, case-insensitively. It is also the key an upsert writes by. */
     public var pattern: String?
     /** Priority breaks ties: when several patterns match, the highest wins. */
-    public var priority: Int?
+    public var priority: Int64?
 
-    public init(category: String? = nil, pattern: String? = nil, priority: Int? = nil) {
+    public init(category: String? = nil, pattern: String? = nil, priority: Int64? = nil) {
         self.category = category
         self.pattern = pattern
         self.priority = priority

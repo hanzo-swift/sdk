@@ -16,7 +16,7 @@ public struct Wallet: Sendable, Codable, ParameterConvertible, Hashable {
     /** Chain is the EVM chain the wallet is bound to, CAIP-2 \"eip155:<n>\" or a bare decimal chain id. Empty is chain-agnostic: the ring signs an unbound digest, and a Safe falls back to the Hanzo L1 (36963) because a Safe and its EIP-712 domain must be chain-bound. */
     public var chain: String?
     /** CreatedAt is when the wallet was provisioned, Unix seconds. Listings order by it, newest first. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** Custody is the backend holding the signing material, fixed at creation: \"kms\" (a secp256k1 key sealed under KMS and opened in-process), \"mpc\" or \"treasury\" (an m-of-n threshold key on the deployed ring, which differ by governance and not by signing mechanics), or \"safe\" (a Safe contract owned by an MPC key). A kind the deployment has not wired refuses with 503 rather than fabricating a signature. */
     public var custody: String?
     /** FinanceAccount is the finance ledger account bound to this wallet — the lookup that turns a ledger account back into an on-chain signer. Absent is the normal state and means unbound; the column is NULL until something binds it. */
@@ -30,7 +30,7 @@ public struct Wallet: Sendable, Codable, ParameterConvertible, Hashable {
     /** Tier is the wallet tier the ring keys its TierPolicy on: hot, warm, cold, gas, bridge, contract_admin, validator, quarantine or disaster_recovery. It defaults to hot and is refused at the boundary if it is none of the nine. */
     public var tier: String?
 
-    public init(accountId: String? = nil, address: String? = nil, agent: String? = nil, chain: String? = nil, createdAt: Int? = nil, custody: String? = nil, financeAccount: String? = nil, id: String? = nil, name: String? = nil, org: String? = nil, project: String? = nil, tier: String? = nil) {
+    public init(accountId: String? = nil, address: String? = nil, agent: String? = nil, chain: String? = nil, createdAt: Int64? = nil, custody: String? = nil, financeAccount: String? = nil, id: String? = nil, name: String? = nil, org: String? = nil, project: String? = nil, tier: String? = nil) {
         self.accountId = accountId
         self.address = address
         self.agent = agent

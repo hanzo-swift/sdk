@@ -10,19 +10,19 @@ import Foundation
 public struct Allowance: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** calls the plan allows per period; 0 = unbounded */
-    public var limit: Int?
+    public var limit: Int64?
     /** the tier the limit came from */
     public var plan: String?
     /** unix seconds; when THAT window starts again */
-    public var resets: Int?
+    public var resets: Int64?
     /** the subject is at the limit */
     public var spent: Bool?
     /** Used is how many zero-priced calls this subject has been SERVED in the period ending at Resets — the UTC calendar day. Only a served call counts, so an admission check, a refusal, or a vendor that never answered leaves it where it stood. It stops AT Limit rather than climbing past it, so Limit-Used is what remains and never goes negative. */
-    public var used: Int?
+    public var used: Int64?
     /** Window is which ceiling these numbers describe — \"hour\" or \"day\" — because a caller is held to both and only one of them is the answer. It is the window that REFUSED where one did, and otherwise the one with least left, so Limit-Used is always the number that will actually stop them next. Empty where no window bounds the subject at all. */
     public var window: String?
 
-    public init(limit: Int? = nil, plan: String? = nil, resets: Int? = nil, spent: Bool? = nil, used: Int? = nil, window: String? = nil) {
+    public init(limit: Int64? = nil, plan: String? = nil, resets: Int64? = nil, spent: Bool? = nil, used: Int64? = nil, window: String? = nil) {
         self.limit = limit
         self.plan = plan
         self.resets = resets

@@ -10,17 +10,17 @@ import Foundation
 public struct CaptableTotals: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** FullyDilutedShares is outstandingShares plus grantedOptions. */
-    public var fullyDilutedShares: Int?
+    public var fullyDilutedShares: Int64?
     /** GrantedOptions is the shares under non-terminal option grants — grants that are EXERCISED, EXPIRED or CANCELLED are excluded, so nothing double-counts. */
-    public var grantedOptions: Int?
+    public var grantedOptions: Int64?
     /** OutstandingShares is the sum of every issued share certificate. */
-    public var outstandingShares: Int?
+    public var outstandingShares: Int64?
     /** ShareClasses is how many share classes the company has authorized. */
-    public var shareClasses: Int?
+    public var shareClasses: Int64?
     /** Stakeholders is how many stakeholders the company has. */
-    public var stakeholders: Int?
+    public var stakeholders: Int64?
 
-    public init(fullyDilutedShares: Int? = nil, grantedOptions: Int? = nil, outstandingShares: Int? = nil, shareClasses: Int? = nil, stakeholders: Int? = nil) {
+    public init(fullyDilutedShares: Int64? = nil, grantedOptions: Int64? = nil, outstandingShares: Int64? = nil, shareClasses: Int64? = nil, stakeholders: Int64? = nil) {
         self.fullyDilutedShares = fullyDilutedShares
         self.grantedOptions = grantedOptions
         self.outstandingShares = outstandingShares

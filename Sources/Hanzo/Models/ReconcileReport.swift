@@ -10,15 +10,15 @@ import Foundation
 public struct ReconcileReport: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Declared is how many objects the rendered source declares — the denominator the three outcome counts below are read against. Zero means the render produced nothing, which trips the prune fuse rather than sweeping the fleet. */
-    public var declared: Int?
+    public var declared: Int64?
     /** Failed is how many objects the apply could not reconcile. Non-zero is a PARTIAL run reported at 200: the engine applied what it could and each failure names itself in Results, so a caller reads this number rather than the status code to learn whether the fleet matches the source. */
-    public var failed: Int?
+    public var failed: Int64?
     /** Instance is the tracking id this run stamps on everything it manages, so a later run can tell the objects it owns from objects another instance declares. DEPLOY_ENGINE_INSTANCE names it; the default is `universe`. */
     public var instance: String?
     /** Prune reports whether DELETION was enabled for this run. False means an object the source no longer declares was left alone rather than removed, so a zero Pruned below means \"nothing to delete\" only when this is true. */
     public var prune: Bool?
     /** Pruned is how many live objects this run DELETED because the source no longer declares them. Always 0 when Prune is false. */
-    public var pruned: Int?
+    public var pruned: Int64?
     /** Results is one entry per object the run acted on, in the order the engine applied them. Empty (never null) when the run reconciled nothing. */
     public var results: [AppliedResource]?
     /** Revision is the source commit this run applied, as the source resolved it — a git commit SHA, not an image tag. It is what an operator cites when asking what the cluster was last made to match. */
@@ -26,9 +26,9 @@ public struct ReconcileReport: Sendable, Codable, ParameterConvertible, Hashable
     /** Source is the git coordinate the run rendered. It is this deployment's own configuration echoed back, never a request parameter, and it is reported so a reader of the answer knows WHICH tree the revision names. */
     public var source: ReconcileSource?
     /** Synced is how many objects the run applied successfully. */
-    public var synced: Int?
+    public var synced: Int64?
 
-    public init(declared: Int? = nil, failed: Int? = nil, instance: String? = nil, prune: Bool? = nil, pruned: Int? = nil, results: [AppliedResource]? = nil, revision: String? = nil, source: ReconcileSource? = nil, synced: Int? = nil) {
+    public init(declared: Int64? = nil, failed: Int64? = nil, instance: String? = nil, prune: Bool? = nil, pruned: Int64? = nil, results: [AppliedResource]? = nil, revision: String? = nil, source: ReconcileSource? = nil, synced: Int64? = nil) {
         self.declared = declared
         self.failed = failed
         self.instance = instance

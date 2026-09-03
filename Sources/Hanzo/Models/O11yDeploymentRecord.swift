@@ -9,7 +9,7 @@ import Foundation
 
 public struct O11yDeploymentRecord: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var availablePods: Int?
+    public var availablePods: Int64?
     public var deploymentCPU: Double?
     public var deploymentCPULimit: Double?
     public var deploymentCPURequest: Double?
@@ -17,11 +17,11 @@ public struct O11yDeploymentRecord: Sendable, Codable, ParameterConvertible, Has
     public var deploymentMemoryLimit: Double?
     public var deploymentMemoryRequest: Double?
     public var deploymentName: String?
-    public var desiredPods: Int?
+    public var desiredPods: Int64?
     public var meta: [String: String]?
     public var podCountsByPhase: O11yPodCountsByPhase?
 
-    public init(availablePods: Int? = nil, deploymentCPU: Double? = nil, deploymentCPULimit: Double? = nil, deploymentCPURequest: Double? = nil, deploymentMemory: Double? = nil, deploymentMemoryLimit: Double? = nil, deploymentMemoryRequest: Double? = nil, deploymentName: String? = nil, desiredPods: Int? = nil, meta: [String: String]? = nil, podCountsByPhase: O11yPodCountsByPhase? = nil) {
+    public init(availablePods: Int64? = nil, deploymentCPU: Double? = nil, deploymentCPULimit: Double? = nil, deploymentCPURequest: Double? = nil, deploymentMemory: Double? = nil, deploymentMemoryLimit: Double? = nil, deploymentMemoryRequest: Double? = nil, deploymentName: String? = nil, desiredPods: Int64? = nil, meta: [String: String]? = nil, podCountsByPhase: O11yPodCountsByPhase? = nil) {
         self.availablePods = availablePods
         self.deploymentCPU = deploymentCPU
         self.deploymentCPULimit = deploymentCPULimit

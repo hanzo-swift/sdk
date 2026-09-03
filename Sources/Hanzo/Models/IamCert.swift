@@ -12,7 +12,7 @@ public struct IamCert: Sendable, Codable, ParameterConvertible, Hashable {
     public var accessKey: String?
     public var accessSecret: String?
     public var account: String?
-    public var bitSize: Int?
+    public var bitSize: Int64?
     public var certificate: String?
     public var createdAt: Date?
     public var createdTime: String?
@@ -20,7 +20,7 @@ public struct IamCert: Sendable, Codable, ParameterConvertible, Hashable {
     public var deleted: Bool?
     public var displayName: String?
     public var domainExpireTime: String?
-    public var expireInYears: Int?
+    public var expireInYears: Int64?
     public var expireTime: String?
     public var id: String?
     public var name: String?
@@ -30,7 +30,7 @@ public struct IamCert: Sendable, Codable, ParameterConvertible, Hashable {
     public var type: String?
     public var updatedAt: Date?
 
-    public init(accessKey: String? = nil, accessSecret: String? = nil, account: String? = nil, bitSize: Int? = nil, certificate: String? = nil, createdAt: Date? = nil, createdTime: String? = nil, cryptoAlgorithm: String? = nil, deleted: Bool? = nil, displayName: String? = nil, domainExpireTime: String? = nil, expireInYears: Int? = nil, expireTime: String? = nil, id: String? = nil, name: String? = nil, owner: String? = nil, provider: String? = nil, scope: String? = nil, type: String? = nil, updatedAt: Date? = nil) {
+    public init(accessKey: String? = nil, accessSecret: String? = nil, account: String? = nil, bitSize: Int64? = nil, certificate: String? = nil, createdAt: Date? = nil, createdTime: String? = nil, cryptoAlgorithm: String? = nil, deleted: Bool? = nil, displayName: String? = nil, domainExpireTime: String? = nil, expireInYears: Int64? = nil, expireTime: String? = nil, id: String? = nil, name: String? = nil, owner: String? = nil, provider: String? = nil, scope: String? = nil, type: String? = nil, updatedAt: Date? = nil) {
         self.accessKey = accessKey
         self.accessSecret = accessSecret
         self.account = account

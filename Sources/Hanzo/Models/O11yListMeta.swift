@@ -10,15 +10,15 @@ import Foundation
 public struct O11yListMeta: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Limit is how many rows one page holds. */
-    public var limit: Int?
+    public var limit: Int64?
     /** Page is the 1-based page this response is. */
-    public var page: Int?
+    public var page: Int64?
     /** TotalItems is how many rows match in total. */
-    public var totalItems: Int?
+    public var totalItems: Int64?
     /** TotalPages is ceil(totalItems/limit), at least 1. */
-    public var totalPages: Int?
+    public var totalPages: Int64?
 
-    public init(limit: Int? = nil, page: Int? = nil, totalItems: Int? = nil, totalPages: Int? = nil) {
+    public init(limit: Int64? = nil, page: Int64? = nil, totalItems: Int64? = nil, totalPages: Int64? = nil) {
         self.limit = limit
         self.page = page
         self.totalItems = totalItems

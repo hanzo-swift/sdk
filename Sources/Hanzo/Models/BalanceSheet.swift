@@ -20,13 +20,13 @@ public struct BalanceSheet: Sendable, Codable, ParameterConvertible, Hashable {
     /** Liabilities are what the org OWES — including customers' unspent prepaid credit, which is their money until it is consumed and so is carried here rather than counted as revenue. */
     public var liabilities: [BalanceLine]?
     /** TotalAssets is the sum of the asset lines, in cents. */
-    public var totalAssets: Int?
+    public var totalAssets: Int64?
     /** TotalEquity is the sum of the equity lines including retained earnings, in cents. */
-    public var totalEquity: Int?
+    public var totalEquity: Int64?
     /** TotalLiabilities is the sum of the liability lines, in cents. */
-    public var totalLiabilities: Int?
+    public var totalLiabilities: Int64?
 
-    public init(asOf: String? = nil, assets: [BalanceLine]? = nil, balanced: Bool? = nil, equity: [BalanceLine]? = nil, liabilities: [BalanceLine]? = nil, totalAssets: Int? = nil, totalEquity: Int? = nil, totalLiabilities: Int? = nil) {
+    public init(asOf: String? = nil, assets: [BalanceLine]? = nil, balanced: Bool? = nil, equity: [BalanceLine]? = nil, liabilities: [BalanceLine]? = nil, totalAssets: Int64? = nil, totalEquity: Int64? = nil, totalLiabilities: Int64? = nil) {
         self.asOf = asOf
         self.assets = assets
         self.balanced = balanced

@@ -44,7 +44,7 @@ public struct IamProvider: Sendable, Codable, ParameterConvertible, Hashable {
     public var name: String?
     public var owner: String?
     public var pathPrefix: String?
-    public var port: Int?
+    public var port: Int64?
     public var providerUrl: String?
     public var receiver: String?
     public var regionId: String?
@@ -58,7 +58,7 @@ public struct IamProvider: Sendable, Codable, ParameterConvertible, Hashable {
     public var updatedAt: Date?
     public var userMapping: [String: String]?
 
-    public init(appId: String? = nil, bucket: String? = nil, category: String? = nil, cert: String? = nil, clientId: String? = nil, clientId2: String? = nil, clientSecret: String? = nil, clientSecret2: String? = nil, content: String? = nil, createdAt: Date? = nil, createdTime: String? = nil, customAuthUrl: String? = nil, customLogo: String? = nil, customTokenUrl: String? = nil, customUserInfoUrl: String? = nil, deleted: Bool? = nil, disableSsl: Bool? = nil, displayName: String? = nil, domain: String? = nil, emailRegex: String? = nil, enablePkce: Bool? = nil, enableProxy: Bool? = nil, enableSignAuthnRequest: Bool? = nil, endpoint: String? = nil, host: String? = nil, httpHeaders: [String: String]? = nil, id: String? = nil, idP: String? = nil, intranetEndpoint: String? = nil, issuerUrl: String? = nil, metadata: String? = nil, method: String? = nil, name: String? = nil, owner: String? = nil, pathPrefix: String? = nil, port: Int? = nil, providerUrl: String? = nil, receiver: String? = nil, regionId: String? = nil, scopes: String? = nil, signName: String? = nil, sslMode: String? = nil, subType: String? = nil, templateCode: String? = nil, title: String? = nil, type: String? = nil, updatedAt: Date? = nil, userMapping: [String: String]? = nil) {
+    public init(appId: String? = nil, bucket: String? = nil, category: String? = nil, cert: String? = nil, clientId: String? = nil, clientId2: String? = nil, clientSecret: String? = nil, clientSecret2: String? = nil, content: String? = nil, createdAt: Date? = nil, createdTime: String? = nil, customAuthUrl: String? = nil, customLogo: String? = nil, customTokenUrl: String? = nil, customUserInfoUrl: String? = nil, deleted: Bool? = nil, disableSsl: Bool? = nil, displayName: String? = nil, domain: String? = nil, emailRegex: String? = nil, enablePkce: Bool? = nil, enableProxy: Bool? = nil, enableSignAuthnRequest: Bool? = nil, endpoint: String? = nil, host: String? = nil, httpHeaders: [String: String]? = nil, id: String? = nil, idP: String? = nil, intranetEndpoint: String? = nil, issuerUrl: String? = nil, metadata: String? = nil, method: String? = nil, name: String? = nil, owner: String? = nil, pathPrefix: String? = nil, port: Int64? = nil, providerUrl: String? = nil, receiver: String? = nil, regionId: String? = nil, scopes: String? = nil, signName: String? = nil, sslMode: String? = nil, subType: String? = nil, templateCode: String? = nil, title: String? = nil, type: String? = nil, updatedAt: Date? = nil, userMapping: [String: String]? = nil) {
         self.appId = appId
         self.bucket = bucket
         self.category = category

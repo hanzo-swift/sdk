@@ -16,13 +16,13 @@ public struct ModelRow: Sendable, Codable, ParameterConvertible, Hashable {
     /** Provider is who served it. */
     public var provider: String?
     /** Requests is how many calls went to this model. */
-    public var requests: Int?
+    public var requests: Int64?
     /** SpendCents is what they cost, in cents. */
-    public var spendCents: Int?
+    public var spendCents: Int64?
     /** Tokens is prompt plus completion tokens over those calls. */
-    public var tokens: Int?
+    public var tokens: Int64?
 
-    public init(model: String? = nil, pct: Double? = nil, provider: String? = nil, requests: Int? = nil, spendCents: Int? = nil, tokens: Int? = nil) {
+    public init(model: String? = nil, pct: Double? = nil, provider: String? = nil, requests: Int64? = nil, spendCents: Int64? = nil, tokens: Int64? = nil) {
         self.model = model
         self.pct = pct
         self.provider = provider

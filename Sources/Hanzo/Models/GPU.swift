@@ -10,13 +10,13 @@ import Foundation
 public struct GPU: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** VRAM bytes, 0 = unknown */
-    public var memory: Int?
+    public var memory: Int64?
     /** \"GB10\", \"8060S\", \"RTX 4090\" */
     public var model: String?
     /** nvidia | amd | apple | intel | ... */
     public var vendor: String?
 
-    public init(memory: Int? = nil, model: String? = nil, vendor: String? = nil) {
+    public init(memory: Int64? = nil, model: String? = nil, vendor: String? = nil) {
         self.memory = memory
         self.model = model
         self.vendor = vendor

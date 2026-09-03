@@ -12,9 +12,9 @@ public struct ClaimsOut: Sendable, Codable, ParameterConvertible, Hashable {
     /** Data is one row per (benchmark, model, SOURCE) — every independent claim, not one per model. Effective values only: the row that wins after layering for each source, never the superseded readings behind it. */
     public var data: [ClaimRow]?
     /** Total is how many rows Data holds. */
-    public var total: Int?
+    public var total: Int64?
 
-    public init(data: [ClaimRow]? = nil, total: Int? = nil) {
+    public init(data: [ClaimRow]? = nil, total: Int64? = nil) {
         self.data = data
         self.total = total
     }

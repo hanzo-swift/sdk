@@ -26,9 +26,9 @@ public struct BotView: Sendable, Codable, ParameterConvertible, Hashable {
     public var region: String?
     public var status: String?
     public var type: String?
-    public var vcpu: Int?
+    public var vcpu: Int64?
 
-    public init(agent: String? = nil, binding: AgentBinding? = nil, createdTime: String? = nil, gpu: String? = nil, id: String? = nil, image: String? = nil, mem: String? = nil, name: String? = nil, os: String? = nil, privateIp: String? = nil, provider: String? = nil, publicIp: String? = nil, region: String? = nil, status: String? = nil, type: String? = nil, vcpu: Int? = nil) {
+    public init(agent: String? = nil, binding: AgentBinding? = nil, createdTime: String? = nil, gpu: String? = nil, id: String? = nil, image: String? = nil, mem: String? = nil, name: String? = nil, os: String? = nil, privateIp: String? = nil, provider: String? = nil, publicIp: String? = nil, region: String? = nil, status: String? = nil, type: String? = nil, vcpu: Int64? = nil) {
         self.agent = agent
         self.binding = binding
         self.createdTime = createdTime

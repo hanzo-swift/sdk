@@ -14,9 +14,9 @@ public struct O11yO11yErrorsListIn: Sendable, Codable, ParameterConvertible, Has
     /** ExceptionType narrows to one exception type. */
     public var exceptionType: String?
     /** Limit caps how many exception groups come back. Required, non-zero. */
-    public var limit: Int?
+    public var limit: Int64?
     /** Offset is how many groups to skip. */
-    public var offset: Int?
+    public var offset: Int64?
     /** Order is the direction: ascending or descending. */
     public var order: String?
     /** OrderParam is the column to order by, e.g. exceptionCount, lastSeen. */
@@ -28,7 +28,7 @@ public struct O11yO11yErrorsListIn: Sendable, Codable, ParameterConvertible, Has
     /** Tags narrow the scan to spans carrying the given tag values. */
     public var tags: [O11yO11yTagQuery]?
 
-    public init(end: String? = nil, exceptionType: String? = nil, limit: Int? = nil, offset: Int? = nil, order: String? = nil, orderParam: String? = nil, serviceName: String? = nil, start: String? = nil, tags: [O11yO11yTagQuery]? = nil) {
+    public init(end: String? = nil, exceptionType: String? = nil, limit: Int64? = nil, offset: Int64? = nil, order: String? = nil, orderParam: String? = nil, serviceName: String? = nil, start: String? = nil, tags: [O11yO11yTagQuery]? = nil) {
         self.end = end
         self.exceptionType = exceptionType
         self.limit = limit

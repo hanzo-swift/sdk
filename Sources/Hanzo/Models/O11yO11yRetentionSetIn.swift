@@ -10,17 +10,17 @@ import Foundation
 public struct O11yO11yRetentionSetIn: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** ColdStorageDurationDays is how old data must be before it moves, in days. */
-    public var coldStorageDurationDays: Int?
+    public var coldStorageDurationDays: Int64?
     /** ColdStorageVolume names the volume aged data moves to, when set. */
     public var coldStorageVolume: String?
     /** DefaultTTLDays is the retention for data no rule matches, in days. */
-    public var defaultTTLDays: Int?
+    public var defaultTTLDays: Int64?
     /** TTLConditions are ordered per-label rules; the first matching rule wins. */
     public var ttlConditions: [O11yO11yRetentionRule]?
     /** Type is the signal the policy applies to — traces, metrics or logs. */
     public var type: String?
 
-    public init(coldStorageDurationDays: Int? = nil, coldStorageVolume: String? = nil, defaultTTLDays: Int? = nil, ttlConditions: [O11yO11yRetentionRule]? = nil, type: String? = nil) {
+    public init(coldStorageDurationDays: Int64? = nil, coldStorageVolume: String? = nil, defaultTTLDays: Int64? = nil, ttlConditions: [O11yO11yRetentionRule]? = nil, type: String? = nil) {
         self.coldStorageDurationDays = coldStorageDurationDays
         self.coldStorageVolume = coldStorageVolume
         self.defaultTTLDays = defaultTTLDays

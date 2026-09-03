@@ -15,10 +15,10 @@ public struct O11yHostListResponse: Sendable, Codable, ParameterConvertible, Has
     public var nodeNames: [String]?
     public var records: [O11yHostListRecord]?
     public var sentAnyHostMetricsData: Bool?
-    public var total: Int?
+    public var total: Int64?
     public var type: String?
 
-    public init(clusterNames: [String]? = nil, endTimeBeforeRetention: Bool? = nil, isSendingK8SAgentMetrics: Bool? = nil, nodeNames: [String]? = nil, records: [O11yHostListRecord]? = nil, sentAnyHostMetricsData: Bool? = nil, total: Int? = nil, type: String? = nil) {
+    public init(clusterNames: [String]? = nil, endTimeBeforeRetention: Bool? = nil, isSendingK8SAgentMetrics: Bool? = nil, nodeNames: [String]? = nil, records: [O11yHostListRecord]? = nil, sentAnyHostMetricsData: Bool? = nil, total: Int64? = nil, type: String? = nil) {
         self.clusterNames = clusterNames
         self.endTimeBeforeRetention = endTimeBeforeRetention
         self.isSendingK8SAgentMetrics = isSendingK8SAgentMetrics

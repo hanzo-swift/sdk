@@ -14,9 +14,9 @@ public struct KmsSecrets: Sendable, Codable, ParameterConvertible, Hashable {
     /** Secrets are the descriptors: name, path, environment and sealing scheme. No value and no ciphertext appears here. */
     public var secrets: [SecretMeta]?
     /** Total is how many descriptors this listing carries. */
-    public var total: Int?
+    public var total: Int64?
 
-    public init(names: [String]? = nil, secrets: [SecretMeta]? = nil, total: Int? = nil) {
+    public init(names: [String]? = nil, secrets: [SecretMeta]? = nil, total: Int64? = nil) {
         self.names = names
         self.secrets = secrets
         self.total = total

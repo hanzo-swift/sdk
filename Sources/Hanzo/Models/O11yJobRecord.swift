@@ -9,9 +9,9 @@ import Foundation
 
 public struct O11yJobRecord: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var activePods: Int?
-    public var desiredSuccessfulPods: Int?
-    public var failedPods: Int?
+    public var activePods: Int64?
+    public var desiredSuccessfulPods: Int64?
+    public var failedPods: Int64?
     public var jobCPU: Double?
     public var jobCPULimit: Double?
     public var jobCPURequest: Double?
@@ -21,9 +21,9 @@ public struct O11yJobRecord: Sendable, Codable, ParameterConvertible, Hashable {
     public var jobName: String?
     public var meta: [String: String]?
     public var podCountsByPhase: O11yPodCountsByPhase?
-    public var successfulPods: Int?
+    public var successfulPods: Int64?
 
-    public init(activePods: Int? = nil, desiredSuccessfulPods: Int? = nil, failedPods: Int? = nil, jobCPU: Double? = nil, jobCPULimit: Double? = nil, jobCPURequest: Double? = nil, jobMemory: Double? = nil, jobMemoryLimit: Double? = nil, jobMemoryRequest: Double? = nil, jobName: String? = nil, meta: [String: String]? = nil, podCountsByPhase: O11yPodCountsByPhase? = nil, successfulPods: Int? = nil) {
+    public init(activePods: Int64? = nil, desiredSuccessfulPods: Int64? = nil, failedPods: Int64? = nil, jobCPU: Double? = nil, jobCPULimit: Double? = nil, jobCPURequest: Double? = nil, jobMemory: Double? = nil, jobMemoryLimit: Double? = nil, jobMemoryRequest: Double? = nil, jobName: String? = nil, meta: [String: String]? = nil, podCountsByPhase: O11yPodCountsByPhase? = nil, successfulPods: Int64? = nil) {
         self.activePods = activePods
         self.desiredSuccessfulPods = desiredSuccessfulPods
         self.failedPods = failedPods

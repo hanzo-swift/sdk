@@ -2793,7 +2793,7 @@ open class IamAPI {
      - returns: IamAnswer
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIamServiceAccounts(organization: String? = nil, p: Int? = nil, pageSize: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamAnswer {
+    open class func getIamServiceAccounts(organization: String? = nil, p: Int64? = nil, pageSize: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamAnswer {
         return try await getIamServiceAccountsWithRequestBuilder(organization: organization, p: p, pageSize: pageSize, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -2810,7 +2810,7 @@ open class IamAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IamAnswer> 
      */
-    open class func getIamServiceAccountsWithRequestBuilder(organization: String? = nil, p: Int? = nil, pageSize: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamAnswer> {
+    open class func getIamServiceAccountsWithRequestBuilder(organization: String? = nil, p: Int64? = nil, pageSize: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamAnswer> {
         let localVariablePath = "/v1/iam/service-accounts"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -2927,7 +2927,7 @@ open class IamAPI {
      - returns: IamUsersListOutput
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getIamUsers(owner: String? = nil, email: String? = nil, limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamUsersListOutput {
+    open class func getIamUsers(owner: String? = nil, email: String? = nil, limit: Int64? = nil, offset: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamUsersListOutput {
         return try await getIamUsersWithRequestBuilder(owner: owner, email: email, limit: limit, offset: offset, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -2945,7 +2945,7 @@ open class IamAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IamUsersListOutput> 
      */
-    open class func getIamUsersWithRequestBuilder(owner: String? = nil, email: String? = nil, limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamUsersListOutput> {
+    open class func getIamUsersWithRequestBuilder(owner: String? = nil, email: String? = nil, limit: Int64? = nil, offset: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamUsersListOutput> {
         let localVariablePath = "/v1/iam/users"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -3650,7 +3650,7 @@ open class IamAPI {
      - returns: IamListOrganizationsOutput
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func listOrganizations(xForwardedFor: String? = nil, q: String? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamListOrganizationsOutput {
+    open class func listOrganizations(xForwardedFor: String? = nil, q: String? = nil, limit: Int64? = nil, cursor: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> IamListOrganizationsOutput {
         return try await listOrganizationsWithRequestBuilder(xForwardedFor: xForwardedFor, q: q, limit: limit, cursor: cursor, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -3668,7 +3668,7 @@ open class IamAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<IamListOrganizationsOutput> 
      */
-    open class func listOrganizationsWithRequestBuilder(xForwardedFor: String? = nil, q: String? = nil, limit: Int? = nil, cursor: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamListOrganizationsOutput> {
+    open class func listOrganizationsWithRequestBuilder(xForwardedFor: String? = nil, q: String? = nil, limit: Int64? = nil, cursor: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<IamListOrganizationsOutput> {
         let localVariablePath = "/v1/iam/organizations"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil

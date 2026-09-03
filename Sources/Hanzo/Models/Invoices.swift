@@ -9,10 +9,10 @@ import Foundation
 
 public struct Invoices: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var count: Int?
+    public var count: Int64?
     public var invoices: [BillingInvoice]?
 
-    public init(count: Int? = nil, invoices: [BillingInvoice]? = nil) {
+    public init(count: Int64? = nil, invoices: [BillingInvoice]? = nil) {
         self.count = count
         self.invoices = invoices
     }

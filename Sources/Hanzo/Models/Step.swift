@@ -12,19 +12,19 @@ public struct Step: Sendable, Codable, ParameterConvertible, Hashable {
     /** Body is the message text. Required. The signed one-click unsubscribe link is appended to it at send time. */
     public var body: String?
     /** CreatedAt is unix seconds, server-assigned. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** DelaySeconds is how long after the previous step this one sends (after enrollment, for step 0). */
-    public var delaySeconds: Int?
+    public var delaySeconds: Int64?
     /** ID is the server-assigned step id (\"step_\" + 128 random bits). */
     public var id: String?
     /** Idx is the step's 0-based position, assigned by appending: a new step always lands after the last one. */
-    public var idx: Int?
+    public var idx: Int64?
     /** SequenceID is the sequence this step belongs to. */
     public var sequenceId: String?
     /** Subject is the email subject line, capped at 1024 bytes. */
     public var subject: String?
 
-    public init(body: String? = nil, createdAt: Int? = nil, delaySeconds: Int? = nil, id: String? = nil, idx: Int? = nil, sequenceId: String? = nil, subject: String? = nil) {
+    public init(body: String? = nil, createdAt: Int64? = nil, delaySeconds: Int64? = nil, id: String? = nil, idx: Int64? = nil, sequenceId: String? = nil, subject: String? = nil) {
         self.body = body
         self.createdAt = createdAt
         self.delaySeconds = delaySeconds

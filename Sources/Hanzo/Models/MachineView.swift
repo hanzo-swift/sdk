@@ -36,9 +36,9 @@ public struct MachineView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Type is the provider SIZE SLUG the machine runs at (\"s-2vcpu-4gb\", \"gpu-h100x8-640gb\") — the value a launch asks for, and what Vcpu/Mem/GPU are read out of when the provider states them no other way. \"byo-gpu\" for a dialed-in machine, which was never bought from a size catalog. */
     public var type: String?
     /** Vcpu is logical cores — the provider's own cpuSize when that is a clean integer, else the count read out of the size slug (4 from \"s-4vcpu-8gb\"). ABSENT, never 0, when neither says. A BYO machine leaves it absent here; its real core count is on GET /v1/visor/fleet/workers. */
-    public var vcpu: Int?
+    public var vcpu: Int64?
 
-    public init(createdTime: String? = nil, gpu: String? = nil, id: String? = nil, image: String? = nil, mem: String? = nil, name: String? = nil, os: String? = nil, privateIp: String? = nil, provider: String? = nil, publicIp: String? = nil, region: String? = nil, status: String? = nil, type: String? = nil, vcpu: Int? = nil) {
+    public init(createdTime: String? = nil, gpu: String? = nil, id: String? = nil, image: String? = nil, mem: String? = nil, name: String? = nil, os: String? = nil, privateIp: String? = nil, provider: String? = nil, publicIp: String? = nil, region: String? = nil, status: String? = nil, type: String? = nil, vcpu: Int64? = nil) {
         self.createdTime = createdTime
         self.gpu = gpu
         self.id = id

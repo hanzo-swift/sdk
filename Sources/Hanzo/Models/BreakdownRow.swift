@@ -12,13 +12,13 @@ public struct BreakdownRow: Sendable, Codable, ParameterConvertible, Hashable {
     /** Key is the bucket: a requested path, a referrer domain (\"(direct)\" for none or a same-origin one), or a utm_source (\"(none)\" when absent). */
     public var key: String?
     /** Pageviews is how many $pageview events fell in this bucket. */
-    public var pageviews: Int?
+    public var pageviews: Int64?
     /** Pct is this bucket's share of ALL in-window pageviews, 0..100, one decimal — not of the returned rows, so a top-N shows the long tail honestly. */
     public var pct: Double?
     /** Visitors is how many distinct people they came from. */
-    public var visitors: Int?
+    public var visitors: Int64?
 
-    public init(key: String? = nil, pageviews: Int? = nil, pct: Double? = nil, visitors: Int? = nil) {
+    public init(key: String? = nil, pageviews: Int64? = nil, pct: Double? = nil, visitors: Int64? = nil) {
         self.key = key
         self.pageviews = pageviews
         self.pct = pct

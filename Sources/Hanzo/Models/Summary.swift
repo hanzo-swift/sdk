@@ -10,13 +10,13 @@ import Foundation
 public struct Summary: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Calls is how many calls this org has placed or received, over its whole history — a running total, not a window. */
-    public var calls: Int?
+    public var calls: Int64?
     /** Messages is the same running total for messages. */
-    public var messages: Int?
+    public var messages: Int64?
     /** Numbers is how many numbers this org holds right now. */
-    public var numbers: Int?
+    public var numbers: Int64?
 
-    public init(calls: Int? = nil, messages: Int? = nil, numbers: Int? = nil) {
+    public init(calls: Int64? = nil, messages: Int64? = nil, numbers: Int64? = nil) {
         self.calls = calls
         self.messages = messages
         self.numbers = numbers

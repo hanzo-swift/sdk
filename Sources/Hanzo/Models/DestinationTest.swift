@@ -16,9 +16,9 @@ public struct DestinationTest: Sendable, Codable, ParameterConvertible, Hashable
     /** OK is true when the platform accepted the synthetic event. */
     public var ok: Bool?
     /** Sent is how many events the platform accepted, present only on success. */
-    public var sent: Int?
+    public var sent: Int64?
 
-    public init(error: String? = nil, message: String? = nil, ok: Bool? = nil, sent: Int? = nil) {
+    public init(error: String? = nil, message: String? = nil, ok: Bool? = nil, sent: Int64? = nil) {
         self.error = error
         self.message = message
         self.ok = ok

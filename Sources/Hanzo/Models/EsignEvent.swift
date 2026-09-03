@@ -10,7 +10,7 @@ import Foundation
 public struct EsignEvent: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CreatedAt is when it happened, in unix milliseconds. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     public var data: JSONValue?
     /** Email is the email of whoever caused it, null for an event with no actor — the sender's own calls are recorded without one. */
     public var email: String?
@@ -21,7 +21,7 @@ public struct EsignEvent: Sendable, Codable, ParameterConvertible, Hashable {
     /** Type is what happened: DOCUMENT_CREATED, RECIPIENT_CREATED, FIELD_CREATED, DOCUMENT_SENT, DOCUMENT_OPENED, DOCUMENT_FIELD_INSERTED, DOCUMENT_RECIPIENT_COMPLETED, DOCUMENT_RECIPIENT_REJECTED or DOCUMENT_COMPLETED. */
     public var type: String?
 
-    public init(createdAt: Int? = nil, data: JSONValue? = nil, email: String? = nil, id: String? = nil, name: String? = nil, type: String? = nil) {
+    public init(createdAt: Int64? = nil, data: JSONValue? = nil, email: String? = nil, id: String? = nil, name: String? = nil, type: String? = nil) {
         self.createdAt = createdAt
         self.data = data
         self.email = email

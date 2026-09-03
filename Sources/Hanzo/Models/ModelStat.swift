@@ -10,19 +10,19 @@ import Foundation
 public struct ModelStat: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** tokens it answered with */
-    public var completionTokens: Int?
+    public var completionTokens: Int64?
     /** what this model cost, in cents */
-    public var costCents: Int?
+    public var costCents: Int64?
     /** share of total spend, 0..100 */
     public var costPct: Double?
     /** share of its calls that failed, 0..1 */
     public var errorRate: Double?
     /** calls to it that did not succeed */
-    public var errors: Int?
+    public var errors: Int64?
     /** the model this row is about, or \"other\" for the fold */
     public var model: String?
     /** >0 only on the \"other\" fold */
-    public var modelCount: Int?
+    public var modelCount: Int64?
     /** median latency, null when no spans carry it */
     public var p50Ms: Double?
     /** 95th-percentile latency, null when unknown */
@@ -30,15 +30,15 @@ public struct ModelStat: Sendable, Codable, ParameterConvertible, Hashable {
     /** 99th-percentile latency, null when unknown */
     public var p99Ms: Double?
     /** tokens sent to it */
-    public var promptTokens: Int?
+    public var promptTokens: Int64?
     /** who serves it */
     public var provider: String?
     /** calls to this model in the window */
-    public var requests: Int?
+    public var requests: Int64?
     /** prompt plus completion */
-    public var totalTokens: Int?
+    public var totalTokens: Int64?
 
-    public init(completionTokens: Int? = nil, costCents: Int? = nil, costPct: Double? = nil, errorRate: Double? = nil, errors: Int? = nil, model: String? = nil, modelCount: Int? = nil, p50Ms: Double? = nil, p95Ms: Double? = nil, p99Ms: Double? = nil, promptTokens: Int? = nil, provider: String? = nil, requests: Int? = nil, totalTokens: Int? = nil) {
+    public init(completionTokens: Int64? = nil, costCents: Int64? = nil, costPct: Double? = nil, errorRate: Double? = nil, errors: Int64? = nil, model: String? = nil, modelCount: Int64? = nil, p50Ms: Double? = nil, p95Ms: Double? = nil, p99Ms: Double? = nil, promptTokens: Int64? = nil, provider: String? = nil, requests: Int64? = nil, totalTokens: Int64? = nil) {
         self.completionTokens = completionTokens
         self.costCents = costCents
         self.costPct = costPct

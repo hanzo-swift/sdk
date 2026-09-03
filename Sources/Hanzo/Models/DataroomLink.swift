@@ -14,7 +14,7 @@ public struct DataroomLink: Sendable, Codable, ParameterConvertible, Hashable {
     /** AllowList narrows which addresses pass the email gate. An entry may be a full address, an \"@domain.com\" suffix, or a bare \"domain.com\". An EMPTY list admits everyone. */
     public var allowList: [String]?
     /** CreatedAt is when the link was minted, in unix milliseconds. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** DataroomId is the room the link opens, null for a single-document link. */
     public var dataroomId: String?
     /** DenyList rejects addresses, in the same three forms as the allow list, and is checked BEFORE it — so deny always wins. */
@@ -24,7 +24,7 @@ public struct DataroomLink: Sendable, Codable, ParameterConvertible, Hashable {
     /** EmailProtected is whether a visitor must state an address to enter. */
     public var emailProtected: Bool?
     /** ExpiresAt is when the link closes, in unix milliseconds; null never expires. */
-    public var expiresAt: Int?
+    public var expiresAt: Int64?
     /** HasPassword reports THAT a password is set. The stored form is a bcrypt hash and no route returns it. */
     public var hasPassword: Bool?
     /** ID is the link id — the public token a visitor opens the room with. */
@@ -36,9 +36,9 @@ public struct DataroomLink: Sendable, Codable, ParameterConvertible, Hashable {
     /** Name is the link's label, null when none was given. */
     public var name: String?
     /** UpdatedAt is when the link last changed, in unix milliseconds. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
 
-    public init(allowDownload: Bool? = nil, allowList: [String]? = nil, createdAt: Int? = nil, dataroomId: String? = nil, denyList: [String]? = nil, documentId: String? = nil, emailProtected: Bool? = nil, expiresAt: Int? = nil, hasPassword: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, linkType: String? = nil, name: String? = nil, updatedAt: Int? = nil) {
+    public init(allowDownload: Bool? = nil, allowList: [String]? = nil, createdAt: Int64? = nil, dataroomId: String? = nil, denyList: [String]? = nil, documentId: String? = nil, emailProtected: Bool? = nil, expiresAt: Int64? = nil, hasPassword: Bool? = nil, id: String? = nil, isArchived: Bool? = nil, linkType: String? = nil, name: String? = nil, updatedAt: Int64? = nil) {
         self.allowDownload = allowDownload
         self.allowList = allowList
         self.createdAt = createdAt

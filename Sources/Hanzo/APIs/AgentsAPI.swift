@@ -183,7 +183,7 @@ open class AgentsAPI {
      - returns: BuildList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAgentsBuilds(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> BuildList {
+    open class func getAgentsBuilds(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> BuildList {
         return try await getAgentsBuildsWithRequestBuilder(limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -198,7 +198,7 @@ open class AgentsAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<BuildList> 
      */
-    open class func getAgentsBuildsWithRequestBuilder(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<BuildList> {
+    open class func getAgentsBuildsWithRequestBuilder(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<BuildList> {
         let localVariablePath = "/v1/agents/builds"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -321,7 +321,7 @@ open class AgentsAPI {
      - returns: RunList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAgentsByRefRuns(ref: String, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RunList {
+    open class func getAgentsByRefRuns(ref: String, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RunList {
         return try await getAgentsByRefRunsWithRequestBuilder(ref: ref, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -337,7 +337,7 @@ open class AgentsAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<RunList> 
      */
-    open class func getAgentsByRefRunsWithRequestBuilder(ref: String, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RunList> {
+    open class func getAgentsByRefRunsWithRequestBuilder(ref: String, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RunList> {
         var localVariablePath = "/v1/agents/{ref}/runs"
         let refPreEscape = "\(APIHelper.mapValueToPathItem(ref))"
         let refPostEscape = refPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -536,7 +536,7 @@ open class AgentsAPI {
      - returns: RunList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAgentsRuns(limit: Int? = nil, status: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RunList {
+    open class func getAgentsRuns(limit: Int64? = nil, status: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RunList {
         return try await getAgentsRunsWithRequestBuilder(limit: limit, status: status, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -552,7 +552,7 @@ open class AgentsAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<RunList> 
      */
-    open class func getAgentsRunsWithRequestBuilder(limit: Int? = nil, status: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RunList> {
+    open class func getAgentsRunsWithRequestBuilder(limit: Int64? = nil, status: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RunList> {
         let localVariablePath = "/v1/agents/runs"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -587,7 +587,7 @@ open class AgentsAPI {
      - returns: SessionList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAgentsSessions(root: String? = nil, parent: String? = nil, status: String? = nil, project: String? = nil, room: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SessionList {
+    open class func getAgentsSessions(root: String? = nil, parent: String? = nil, status: String? = nil, project: String? = nil, room: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SessionList {
         return try await getAgentsSessionsWithRequestBuilder(root: root, parent: parent, status: status, project: project, room: room, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -607,7 +607,7 @@ open class AgentsAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<SessionList> 
      */
-    open class func getAgentsSessionsWithRequestBuilder(root: String? = nil, parent: String? = nil, status: String? = nil, project: String? = nil, room: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SessionList> {
+    open class func getAgentsSessionsWithRequestBuilder(root: String? = nil, parent: String? = nil, status: String? = nil, project: String? = nil, room: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SessionList> {
         let localVariablePath = "/v1/agents/sessions"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -686,7 +686,7 @@ open class AgentsAPI {
      - returns: ControlDrain
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getAgentsSessionsByIdControl(id: String, after: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ControlDrain {
+    open class func getAgentsSessionsByIdControl(id: String, after: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ControlDrain {
         return try await getAgentsSessionsByIdControlWithRequestBuilder(id: id, after: after, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -702,7 +702,7 @@ open class AgentsAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ControlDrain> 
      */
-    open class func getAgentsSessionsByIdControlWithRequestBuilder(id: String, after: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ControlDrain> {
+    open class func getAgentsSessionsByIdControlWithRequestBuilder(id: String, after: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ControlDrain> {
         var localVariablePath = "/v1/agents/sessions/{id}/control"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -1252,7 +1252,6 @@ open class AgentsAPI {
     /**
      Start one autonomous coding run against a repo in the caller's org
      - POST /v1/agents/coding
-     - Runs a coding task on a repository: clones it into a sandbox, lets a model read and edit the code, run the tests, and push the work to a branch. Say the thing you want done — \"fix the failing auth test in hanzoai/cloud\" — and the run infers the repo, the branch and the plan. No prefix, no ceremony.  It answers 202 with the run's handle the moment the run is ADMITTED — not when it finishes. A coding run takes minutes; holding a request open for one would tie a connection to a model loop and give the caller nothing it cannot get better from the session stream.  The handle is a session id, and that is deliberate: the session is already the run's durable record and its live stream (/v1/agents/sessions/{id}/stream), so this op does not grow a progress endpoint, a status endpoint or a cancel endpoint of its own. One way to watch a run, whoever started it.  It is also how work CONTINUES. Pass an earlier run's session as `after` and this one starts from where that one stopped, so \"now add tests for it\" builds on the branch already pushed instead of a fresh clone. The follow-up still gets its own branch and its own session — one run, one branch, always reviewable on its own.
      - Bearer Token:
        - type: http
        - name: bearer

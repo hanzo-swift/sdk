@@ -12,11 +12,11 @@ public struct CatalogPage: Sendable, Codable, ParameterConvertible, Hashable {
     /** Data is the page of matching entries, most recently updated first. */
     public var data: [Entry]?
     /** Facets counts the whole matching set along every browse axis, so a rail a client renders is a rail that has results behind it. Keyed axis → value → count. */
-    public var facets: [String: [String: Int]]?
+    public var facets: [String: [String: Int64]]?
     /** Total is how many entries matched BEFORE paging — what a pager sizes itself on. */
-    public var total: Int?
+    public var total: Int64?
 
-    public init(data: [Entry]? = nil, facets: [String: [String: Int]]? = nil, total: Int? = nil) {
+    public init(data: [Entry]? = nil, facets: [String: [String: Int64]]? = nil, total: Int64? = nil) {
         self.data = data
         self.facets = facets
         self.total = total

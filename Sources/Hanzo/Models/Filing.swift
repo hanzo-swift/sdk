@@ -10,7 +10,7 @@ import Foundation
 public struct Filing: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** At is the unix second the filing record was written. */
-    public var at: Int?
+    public var at: Int64?
     /** Note explains a filing Hanzo did not perform itself: what remains to be done and by whom. */
     public var note: String?
     /** Provider is the filing partner that performed the filing, or \"manual\" when no partner is wired. */
@@ -20,7 +20,7 @@ public struct Filing: Sendable, Codable, ParameterConvertible, Hashable {
     /** Status is manual (no partner wired — a registered agent files out-of-band), submitted (the partner accepted it, awaiting the state), filed (the state accepted it) or rejected. */
     public var status: String?
 
-    public init(at: Int? = nil, note: String? = nil, provider: String? = nil, ref: String? = nil, status: String? = nil) {
+    public init(at: Int64? = nil, note: String? = nil, provider: String? = nil, ref: String? = nil, status: String? = nil) {
         self.at = at
         self.note = note
         self.provider = provider

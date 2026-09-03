@@ -11,14 +11,16 @@ public struct Sandbox: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Class is what the sandbox is FOR, and it decides the image, the working directory and the isolation: \"exec\" for a code-interpreter call (workdir /mnt/data, no project, bounded per org), \"dev\" for a workspace bound to a project (workdir /work, single-attach), \"desktop\" for one with a screen. */
     public var _class: String?
+    /** Cluster is the attached cluster this sandbox runs on — the fleet-local name the lease named — or empty for the home cluster. Immutable for the life of the lease, like the pod it locates: every later call into the sandbox reads it to reach the right apiserver. */
+    public var cluster: String?
     /** ConnectedAt is when somebody was last known to have this sandbox's project OPEN, Unix seconds. It is a fact with an EXPIRY rather than a flag: a watcher restamps it every beat of its stream, and it goes stale on its own when the stream dies, so nothing has to be turned off by a process that may not be there any more. The reaper reads it to choose WHICH idle allowance applies — see lifecycle.go.  Zero means nobody has said so, which puts the sandbox on the short clock. */
-    public var connectedAt: Int?
+    public var connectedAt: Int64?
     /** CreatedAt is when the lease was first taken, Unix seconds. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** Error is why the sandbox could not come up, in plain words. Present only with status \"error\", and it is the field to read rather than inferring a cause from the absence of a pod. */
     public var error: String?
     /** ExpiresAt is when the lease ends, Unix seconds. Past it the reaper may take the sandbox at any time; it is a deadline, not a guarantee of survival until then, since an idle sandbox goes sooner. */
-    public var expiresAt: Int?
+    public var expiresAt: Int64?
     /** ID is the sandbox's server-minted handle and what every operation addresses it by. The caller does not choose it. */
     public var id: String?
     /** Image is the container image this sandbox is actually running — the one the class chose, or an override the policy admitted. It is what ran, not what was asked for. */
@@ -26,7 +28,7 @@ public struct Sandbox: Sendable, Codable, ParameterConvertible, Hashable {
     /** Kind is the resource family this row belongs to. Always \"sandbox\" here; it exists because the store this shares is keyed across kinds. */
     public var kind: String?
     /** LastUsedAt is when the sandbox last did work, Unix seconds. The reaper reads it: a sandbox idle past the idle window is reclaimed even inside its TTL, because an idle lease is capacity nobody is using. */
-    public var lastUsedAt: Int?
+    public var lastUsedAt: Int64?
     /** Org is the org that holds the lease — the validated caller's, never a value a request supplied. It is also the store's key, so a sandbox is not merely filtered out of another org's answers; it is unreachable from them. */
     public var org: String?
     /** Project is the project this sandbox is bound to. A dev or desktop sandbox has one and is SINGLE-ATTACH under it, so asking twice resumes rather than leasing a second; an exec sandbox has none. */
@@ -38,8 +40,9 @@ public struct Sandbox: Sendable, Codable, ParameterConvertible, Hashable {
     /** Volume is the persistent volume attached to the sandbox, when it has one. A dev sandbox keeps its work across leases through it; an exec sandbox has none and loses everything outside /mnt/data when the lease ends. */
     public var volume: String?
 
-    public init(_class: String? = nil, connectedAt: Int? = nil, createdAt: Int? = nil, error: String? = nil, expiresAt: Int? = nil, id: String? = nil, image: String? = nil, kind: String? = nil, lastUsedAt: Int? = nil, org: String? = nil, project: String? = nil, runtime: String? = nil, status: String? = nil, volume: String? = nil) {
+    public init(_class: String? = nil, cluster: String? = nil, connectedAt: Int64? = nil, createdAt: Int64? = nil, error: String? = nil, expiresAt: Int64? = nil, id: String? = nil, image: String? = nil, kind: String? = nil, lastUsedAt: Int64? = nil, org: String? = nil, project: String? = nil, runtime: String? = nil, status: String? = nil, volume: String? = nil) {
         self._class = _class
+        self.cluster = cluster
         self.connectedAt = connectedAt
         self.createdAt = createdAt
         self.error = error
@@ -57,6 +60,7 @@ public struct Sandbox: Sendable, Codable, ParameterConvertible, Hashable {
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case _class = "class"
+        case cluster
         case connectedAt
         case createdAt
         case error
@@ -77,6 +81,7 @@ public struct Sandbox: Sendable, Codable, ParameterConvertible, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(_class, forKey: ._class)
+        try container.encodeIfPresent(cluster, forKey: .cluster)
         try container.encodeIfPresent(connectedAt, forKey: .connectedAt)
         try container.encodeIfPresent(createdAt, forKey: .createdAt)
         try container.encodeIfPresent(error, forKey: .error)

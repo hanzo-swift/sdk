@@ -20,9 +20,9 @@ public struct LicensingIssueRequest: Sendable, Codable, ParameterConvertible, Ha
     /** Signals binds the device at issue time, as an alternative to a pre-registered fingerprint. The raw signals are never stored or echoed — they are folded immediately into the one-way binding value. */
     public var signals: LicensingDeviceSignals?
     /** TTLSeconds requests a token lifetime in seconds. It is clamped to the deployment maximum AND to the entitlement's own expiry — a token never outlives the subscription that paid for it. */
-    public var ttlSeconds: Int?
+    public var ttlSeconds: Int64?
 
-    public init(fingerprint: String? = nil, holder: String? = nil, product: String, release: String? = nil, signals: LicensingDeviceSignals? = nil, ttlSeconds: Int? = nil) {
+    public init(fingerprint: String? = nil, holder: String? = nil, product: String, release: String? = nil, signals: LicensingDeviceSignals? = nil, ttlSeconds: Int64? = nil) {
         self.fingerprint = fingerprint
         self.holder = holder
         self.product = product

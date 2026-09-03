@@ -12,7 +12,7 @@ public struct O11yO11yErrorIssue: Sendable, Codable, ParameterConvertible, Hasha
     /** Assignee is who the issue is assigned to. */
     public var assignee: String?
     /** Count is how many occurrences have landed on the issue. */
-    public var count: Int?
+    public var count: Int64?
     /** CreatedAt is when the issue was first recorded. */
     public var createdAt: Date?
     /** Culprit is where it came from — the function or route blamed for it. */
@@ -48,7 +48,7 @@ public struct O11yO11yErrorIssue: Sendable, Codable, ParameterConvertible, Hasha
     /** Value is the exception value. */
     public var value: String?
 
-    public init(assignee: String? = nil, count: Int? = nil, createdAt: Date? = nil, culprit: String? = nil, environment: String? = nil, fingerprint: String? = nil, firstSeen: Date? = nil, id: String? = nil, lastSeen: Date? = nil, level: String? = nil, platform: String? = nil, regressed: Bool? = nil, release: String? = nil, resolvedAt: Date? = nil, serviceName: String? = nil, status: String? = nil, type: String? = nil, updatedAt: Date? = nil, value: String? = nil) {
+    public init(assignee: String? = nil, count: Int64? = nil, createdAt: Date? = nil, culprit: String? = nil, environment: String? = nil, fingerprint: String? = nil, firstSeen: Date? = nil, id: String? = nil, lastSeen: Date? = nil, level: String? = nil, platform: String? = nil, regressed: Bool? = nil, release: String? = nil, resolvedAt: Date? = nil, serviceName: String? = nil, status: String? = nil, type: String? = nil, updatedAt: Date? = nil, value: String? = nil) {
         self.assignee = assignee
         self.count = count
         self.createdAt = createdAt

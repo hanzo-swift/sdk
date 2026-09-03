@@ -9,12 +9,12 @@ import Foundation
 
 public struct RollupAllotment: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var consumedCents: Int?
-    public var grantedCents: Int?
-    public var monthlyCents: Int?
-    public var remainingCents: Int?
+    public var consumedCents: Int64?
+    public var grantedCents: Int64?
+    public var monthlyCents: Int64?
+    public var remainingCents: Int64?
 
-    public init(consumedCents: Int? = nil, grantedCents: Int? = nil, monthlyCents: Int? = nil, remainingCents: Int? = nil) {
+    public init(consumedCents: Int64? = nil, grantedCents: Int64? = nil, monthlyCents: Int64? = nil, remainingCents: Int64? = nil) {
         self.consumedCents = consumedCents
         self.grantedCents = grantedCents
         self.monthlyCents = monthlyCents

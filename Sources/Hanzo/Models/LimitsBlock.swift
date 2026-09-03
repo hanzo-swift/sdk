@@ -10,15 +10,15 @@ import Foundation
 public struct LimitsBlock: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** APIRateLimit is requests per minute allowed against the REST /v1/world surface. -1 means unlimited. */
-    public var apiRateLimit: Int?
+    public var apiRateLimit: Int64?
     /** MaxAlerts is how many saved OSINT alert rules the plan allows. -1 means unlimited. */
-    public var maxAlerts: Int?
+    public var maxAlerts: Int64?
     /** MCPRateLimit is requests per minute allowed against the MCP surface. -1 means unlimited. */
-    public var mcpRateLimit: Int?
+    public var mcpRateLimit: Int64?
     /** ModelAPI is whether the plan reaches the World model endpoint and the SSE stream. The free floor is false, and that is what a catalog outage resolves to. */
     public var modelApi: Bool?
 
-    public init(apiRateLimit: Int? = nil, maxAlerts: Int? = nil, mcpRateLimit: Int? = nil, modelApi: Bool? = nil) {
+    public init(apiRateLimit: Int64? = nil, maxAlerts: Int64? = nil, mcpRateLimit: Int64? = nil, modelApi: Bool? = nil) {
         self.apiRateLimit = apiRateLimit
         self.maxAlerts = maxAlerts
         self.mcpRateLimit = mcpRateLimit

@@ -111,7 +111,7 @@ open class CampaignAPI {
      - returns: CampaignPage
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getCampaign(status: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CampaignPage {
+    open class func getCampaign(status: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> CampaignPage {
         return try await getCampaignWithRequestBuilder(status: status, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -127,7 +127,7 @@ open class CampaignAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<CampaignPage> 
      */
-    open class func getCampaignWithRequestBuilder(status: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CampaignPage> {
+    open class func getCampaignWithRequestBuilder(status: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<CampaignPage> {
         let localVariablePath = "/v1/campaign"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil

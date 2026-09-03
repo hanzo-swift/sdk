@@ -22,9 +22,9 @@ public struct TemplateView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Title is the display name, e.g. \"Mutual Non-Disclosure Agreement\". A generated document inherits it. */
     public var title: String?
     /** Version is which version of this template the caller's org resolves to. A built-in is version 1; the org's first override is 2 and each save increments, so an override version never collides with the built-in's. */
-    public var version: Int?
+    public var version: Int64?
 
-    public init(category: String? = nil, counselReview: Bool? = nil, fields: [Field]? = nil, id: String? = nil, origin: String? = nil, title: String? = nil, version: Int? = nil) {
+    public init(category: String? = nil, counselReview: Bool? = nil, fields: [Field]? = nil, id: String? = nil, origin: String? = nil, title: String? = nil, version: Int64? = nil) {
         self.category = category
         self.counselReview = counselReview
         self.fields = fields

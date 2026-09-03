@@ -10,7 +10,7 @@ import Foundation
 public struct WalletAccount: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CreatedAt is when the account was opened, Unix seconds. Listings order by it, newest first. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** ID is the account id, minted by the server as \"acct_\" + 24 hex. Wallets name it as their accountId, and it becomes a segment of each of their key refs — so it addresses key material and cannot be reassigned. */
     public var id: String?
     /** Name is the label given at creation, trimmed and required. It groups wallets: it is not a key, holds no balance, and is not unique in the org. */
@@ -18,7 +18,7 @@ public struct WalletAccount: Sendable, Codable, ParameterConvertible, Hashable {
     /** Org is the tenant that owns the account, stamped from the validated principal rather than taken from the request. Every read is physically scoped to it, so another tenant's accounts are not reachable at all. */
     public var org: String?
 
-    public init(createdAt: Int? = nil, id: String? = nil, name: String? = nil, org: String? = nil) {
+    public init(createdAt: Int64? = nil, id: String? = nil, name: String? = nil, org: String? = nil) {
         self.createdAt = createdAt
         self.id = id
         self.name = name

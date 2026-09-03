@@ -10,7 +10,7 @@ import Foundation
 public struct CoverRow: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Automated is how many clauses have an automated control behind them that something can fail on behalf of. */
-    public var automated: Int?
+    public var automated: Int64?
     /** Edition is which edition the clause list is taken from. */
     public var edition: String?
     /** Framework is the framework id — \"soc2\", \"iso27001\", \"nist80053\". */
@@ -18,23 +18,23 @@ public struct CoverRow: Sendable, Codable, ParameterConvertible, Hashable {
     /** Name is the published standard's name. */
     public var name: String?
     /** None is how many have nothing behind them. It stays visible rather than dropping out of the fraction. */
-    public var _none: Int?
+    public var _none: Int64?
     /** Note is what the clause list itself is scoped to, when the framework's catalog says something a count alone would misrepresent. */
     public var note: String?
     /** Partial is how many are answered in part. */
-    public var partial: Int?
+    public var partial: Int64?
     /** Publisher is who publishes it — AICPA, ISO/IEC, NIST. */
     public var publisher: String?
     /** Statement is the counts as one sentence, carrying the unit. */
     public var statement: String?
     /** Total is the framework's WHOLE published clause list — the denominator. Counting only the clauses some control happened to name would report 100% every time. */
-    public var total: Int?
+    public var total: Int64?
     /** Unit is what ONE clause is — \"criterion\", \"control\", \"family\". A count without its unit is not a fact, so it travels with every number here. */
     public var unit: String?
     /** Units is the plural of Unit, for rendering a sentence. */
     public var units: String?
 
-    public init(automated: Int? = nil, edition: String? = nil, framework: String? = nil, name: String? = nil, _none: Int? = nil, note: String? = nil, partial: Int? = nil, publisher: String? = nil, statement: String? = nil, total: Int? = nil, unit: String? = nil, units: String? = nil) {
+    public init(automated: Int64? = nil, edition: String? = nil, framework: String? = nil, name: String? = nil, _none: Int64? = nil, note: String? = nil, partial: Int64? = nil, publisher: String? = nil, statement: String? = nil, total: Int64? = nil, unit: String? = nil, units: String? = nil) {
         self.automated = automated
         self.edition = edition
         self.framework = framework

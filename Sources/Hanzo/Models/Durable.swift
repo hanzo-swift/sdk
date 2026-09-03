@@ -22,9 +22,9 @@ public struct Durable: Sendable, Codable, ParameterConvertible, Hashable {
     /** Filter delivers only messages on this org-relative subject (wildcards supported). */
     public var filterSubject: String?
     /** MaxAckPending caps unacknowledged messages in flight (default 1000). */
-    public var maxAckPending: Int?
+    public var maxAckPending: Int64?
     /** MaxDeliver caps delivery attempts per message; -1 (default) is unlimited. */
-    public var maxDeliver: Int?
+    public var maxDeliver: Int64?
     /** StartSeq is the starting sequence for deliver_policy by_start_sequence. */
     public var optStartSeq: Int?
     /** StartTime is the starting instant for deliver_policy by_start_time. */
@@ -32,7 +32,7 @@ public struct Durable: Sendable, Codable, ParameterConvertible, Hashable {
     /** Replay is the replay pacing: instant (default) or original. */
     public var replayPolicy: String?
 
-    public init(ackPolicy: String? = nil, ackWait: String? = nil, deliverPolicy: String? = nil, description: String? = nil, durableName: String? = nil, filterSubject: String? = nil, maxAckPending: Int? = nil, maxDeliver: Int? = nil, optStartSeq: Int? = nil, optStartTime: Date? = nil, replayPolicy: String? = nil) {
+    public init(ackPolicy: String? = nil, ackWait: String? = nil, deliverPolicy: String? = nil, description: String? = nil, durableName: String? = nil, filterSubject: String? = nil, maxAckPending: Int64? = nil, maxDeliver: Int64? = nil, optStartSeq: Int? = nil, optStartTime: Date? = nil, replayPolicy: String? = nil) {
         self.ackPolicy = ackPolicy
         self.ackWait = ackWait
         self.deliverPolicy = deliverPolicy

@@ -9,8 +9,8 @@ import Foundation
 
 public struct O11yStatefulSetRecord: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var currentPods: Int?
-    public var desiredPods: Int?
+    public var currentPods: Int64?
+    public var desiredPods: Int64?
     public var meta: [String: String]?
     public var podCountsByPhase: O11yPodCountsByPhase?
     public var statefulSetCPU: Double?
@@ -21,7 +21,7 @@ public struct O11yStatefulSetRecord: Sendable, Codable, ParameterConvertible, Ha
     public var statefulSetMemoryRequest: Double?
     public var statefulSetName: String?
 
-    public init(currentPods: Int? = nil, desiredPods: Int? = nil, meta: [String: String]? = nil, podCountsByPhase: O11yPodCountsByPhase? = nil, statefulSetCPU: Double? = nil, statefulSetCPULimit: Double? = nil, statefulSetCPURequest: Double? = nil, statefulSetMemory: Double? = nil, statefulSetMemoryLimit: Double? = nil, statefulSetMemoryRequest: Double? = nil, statefulSetName: String? = nil) {
+    public init(currentPods: Int64? = nil, desiredPods: Int64? = nil, meta: [String: String]? = nil, podCountsByPhase: O11yPodCountsByPhase? = nil, statefulSetCPU: Double? = nil, statefulSetCPULimit: Double? = nil, statefulSetCPURequest: Double? = nil, statefulSetMemory: Double? = nil, statefulSetMemoryLimit: Double? = nil, statefulSetMemoryRequest: Double? = nil, statefulSetName: String? = nil) {
         self.currentPods = currentPods
         self.desiredPods = desiredPods
         self.meta = meta

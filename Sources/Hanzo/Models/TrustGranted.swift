@@ -12,13 +12,13 @@ public struct TrustGranted: Sendable, Codable, ParameterConvertible, Hashable {
     /** Delivery is empty when the asker was mailed, and otherwise says what happened instead — so an approver is never left believing a mail went out that did not. */
     public var delivery: String?
     /** ExpiresAt is when the grant closes, in unix milliseconds. */
-    public var expiresAt: Int?
+    public var expiresAt: Int64?
     /** Link is the share link's id. The link admits only the address that asked. */
     public var link: String?
     /** State is \"granted\". */
     public var state: String?
 
-    public init(delivery: String? = nil, expiresAt: Int? = nil, link: String? = nil, state: String? = nil) {
+    public init(delivery: String? = nil, expiresAt: Int64? = nil, link: String? = nil, state: String? = nil) {
         self.delivery = delivery
         self.expiresAt = expiresAt
         self.link = link

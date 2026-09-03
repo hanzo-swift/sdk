@@ -12,27 +12,27 @@ public struct LLMOverview: Sendable, Codable, ParameterConvertible, Hashable {
     /** Available is true whenever the ledger answered — including with no usage in the window, which is honest zeros rather than a missing lens. */
     public var available: Bool?
     /** CompletionTokens is the output half of Tokens. */
-    public var completionTokens: Int?
+    public var completionTokens: Int64?
     /** ErrorRate is Errors/Requests, 0..1, rounded to three places. Zero when there were no requests. */
     public var errorRate: Double?
     /** Errors is how many of Requests failed. */
-    public var errors: Int?
+    public var errors: Int64?
     /** Models is how many distinct models the org called. */
-    public var models: Int?
+    public var models: Int64?
     /** PromptTokens is the input half of Tokens. */
-    public var promptTokens: Int?
+    public var promptTokens: Int64?
     /** Providers is how many distinct providers served them. */
-    public var providers: Int?
+    public var providers: Int64?
     /** Requests is how many LLM calls the org made in the window. */
-    public var requests: Int?
+    public var requests: Int64?
     /** Source is the warehouse table the lens read. */
     public var source: String?
     /** SpendCents is what those calls cost, in cents. */
-    public var spendCents: Int?
+    public var spendCents: Int64?
     /** Tokens is prompt plus completion tokens over those calls. */
-    public var tokens: Int?
+    public var tokens: Int64?
 
-    public init(available: Bool? = nil, completionTokens: Int? = nil, errorRate: Double? = nil, errors: Int? = nil, models: Int? = nil, promptTokens: Int? = nil, providers: Int? = nil, requests: Int? = nil, source: String? = nil, spendCents: Int? = nil, tokens: Int? = nil) {
+    public init(available: Bool? = nil, completionTokens: Int64? = nil, errorRate: Double? = nil, errors: Int64? = nil, models: Int64? = nil, promptTokens: Int64? = nil, providers: Int64? = nil, requests: Int64? = nil, source: String? = nil, spendCents: Int64? = nil, tokens: Int64? = nil) {
         self.available = available
         self.completionTokens = completionTokens
         self.errorRate = errorRate

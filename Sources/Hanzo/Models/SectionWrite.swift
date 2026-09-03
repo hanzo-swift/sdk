@@ -15,9 +15,9 @@ public struct SectionWrite: Sendable, Codable, ParameterConvertible, Hashable {
     /** Kind is the section being written. The URL is the authority. */
     public var kind: String?
     /** Ord orders this record within its section, ascending, ties broken by id. It is the organization's own ordering — the page renders in it. */
-    public var ord: Int?
+    public var ord: Int64?
 
-    public init(data: JSONValue? = nil, id: String? = nil, kind: String? = nil, ord: Int? = nil) {
+    public init(data: JSONValue? = nil, id: String? = nil, kind: String? = nil, ord: Int64? = nil) {
         self.data = data
         self.id = id
         self.kind = kind

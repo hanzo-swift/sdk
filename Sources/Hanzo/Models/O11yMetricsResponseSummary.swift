@@ -11,11 +11,11 @@ import Foundation
 public struct O11yMetricsResponseSummary: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var errorRate: Double?
-    public var errors: Int?
+    public var errors: Int64?
     public var p95Ms: Double?
-    public var requests: Int?
+    public var requests: Int64?
 
-    public init(errorRate: Double? = nil, errors: Int? = nil, p95Ms: Double? = nil, requests: Int? = nil) {
+    public init(errorRate: Double? = nil, errors: Int64? = nil, p95Ms: Double? = nil, requests: Int64? = nil) {
         self.errorRate = errorRate
         self.errors = errors
         self.p95Ms = p95Ms

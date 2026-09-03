@@ -10,15 +10,15 @@ import Foundation
 public struct TrustAskView: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CreatedAt is when the ask arrived, in unix milliseconds. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** DecidedAt is when it was answered, in unix milliseconds; 0 while open. */
-    public var decidedAt: Int?
+    public var decidedAt: Int64?
     /** DecidedBy is who answered it. */
     public var decidedBy: String?
     /** Email is the address that asked, as stated and UNVERIFIED — it names a party and proves nothing, which is why the grant is addressed to it rather than trusting it. */
     public var email: String?
     /** ExpiresAt is when a granted ask closes, in unix milliseconds. */
-    public var expiresAt: Int?
+    public var expiresAt: Int64?
     /** ID is the request's id. */
     public var id: String?
     /** Item is the item asked for, empty when the whole released tier was asked for. */
@@ -36,7 +36,7 @@ public struct TrustAskView: Sendable, Codable, ParameterConvertible, Hashable {
     /** State is open, granted or refused. */
     public var state: String?
 
-    public init(createdAt: Int? = nil, decidedAt: Int? = nil, decidedBy: String? = nil, email: String? = nil, expiresAt: Int? = nil, id: String? = nil, item: String? = nil, link: String? = nil, nda: String? = nil, note: String? = nil, party: String? = nil, reason: String? = nil, state: String? = nil) {
+    public init(createdAt: Int64? = nil, decidedAt: Int64? = nil, decidedBy: String? = nil, email: String? = nil, expiresAt: Int64? = nil, id: String? = nil, item: String? = nil, link: String? = nil, nda: String? = nil, note: String? = nil, party: String? = nil, reason: String? = nil, state: String? = nil) {
         self.createdAt = createdAt
         self.decidedAt = decidedAt
         self.decidedBy = decidedBy

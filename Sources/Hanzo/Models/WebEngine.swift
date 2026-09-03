@@ -14,9 +14,9 @@ public struct WebEngine: Sendable, Codable, ParameterConvertible, Hashable {
     /** Outcome is \"answered\", \"blind\" or \"failed\" — see outcome.go. \"blind\" means the page came back and no results could be read out of it. */
     public var outcome: String?
     /** Results is how many hits this engine contributed, before the merge deduplicated them against the others. */
-    public var results: Int?
+    public var results: Int64?
 
-    public init(name: String? = nil, outcome: String? = nil, results: Int? = nil) {
+    public init(name: String? = nil, outcome: String? = nil, results: Int64? = nil) {
         self.name = name
         self.outcome = outcome
         self.results = results

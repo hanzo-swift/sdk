@@ -11,9 +11,9 @@ public struct PrefsView: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var prefs: JSONValue?
     /** UpdatedAt is when the document was last written, unix seconds. Absent when nothing has been saved. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
 
-    public init(prefs: JSONValue? = nil, updatedAt: Int? = nil) {
+    public init(prefs: JSONValue? = nil, updatedAt: Int64? = nil) {
         self.prefs = prefs
         self.updatedAt = updatedAt
     }

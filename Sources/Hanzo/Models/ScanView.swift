@@ -10,25 +10,25 @@ import Foundation
 public struct ScanView: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CreatedAt is when the scan ran, in Unix milliseconds. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** Critical is how many findings carry the highest severity. */
-    public var critical: Int?
+    public var critical: Int64?
     /** Files is how many files the scan read. */
-    public var files: Int?
+    public var files: Int64?
     /** Findings is how many secrets fired across them. */
-    public var findings: Int?
+    public var findings: Int64?
     /** High is how many findings rank high. */
-    public var high: Int?
+    public var high: Int64?
     /** ID addresses this scan and every finding on it. */
     public var id: String?
     /** Low is how many findings rank low. */
-    public var low: Int?
+    public var low: Int64?
     /** Medium is how many findings rank medium. */
-    public var medium: Int?
+    public var medium: Int64?
     /** Project is the sub-scope the scan was filed under. */
     public var project: String?
 
-    public init(createdAt: Int? = nil, critical: Int? = nil, files: Int? = nil, findings: Int? = nil, high: Int? = nil, id: String? = nil, low: Int? = nil, medium: Int? = nil, project: String? = nil) {
+    public init(createdAt: Int64? = nil, critical: Int64? = nil, files: Int64? = nil, findings: Int64? = nil, high: Int64? = nil, id: String? = nil, low: Int64? = nil, medium: Int64? = nil, project: String? = nil) {
         self.createdAt = createdAt
         self.critical = critical
         self.files = files

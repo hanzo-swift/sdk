@@ -12,7 +12,7 @@ public struct MetricRow: Sendable, Codable, ParameterConvertible, Hashable {
     /** CreatedAt is when version 1 was written, RFC 3339 UTC. */
     public var createdAt: String?
     /** CurrentVer is the version number served as current. It always equals `versions`: numbering is dense from 1, and deleting a prompt takes its whole history with it rather than leaving a gap. */
-    public var currentVersion: Int?
+    public var currentVersion: Int64?
     /** LastUpdatedAt is when the newest version was appended, RFC 3339 UTC — the age of the template you would get today. */
     public var lastUpdatedAt: String?
     /** Name is the prompt this row is about — its org-unique handle. */
@@ -20,9 +20,9 @@ public struct MetricRow: Sendable, Codable, ParameterConvertible, Hashable {
     /** Type is the current version's kind. */
     public var type: String?
     /** Versions is how many revisions the prompt has, COUNTED in the store and uncapped — so it can exceed the 100 entries a list row or a detail response carries. Note the type: here `versions` is a number, while on a list row it is the list of version numbers. */
-    public var versions: Int?
+    public var versions: Int64?
 
-    public init(createdAt: String? = nil, currentVersion: Int? = nil, lastUpdatedAt: String? = nil, name: String? = nil, type: String? = nil, versions: Int? = nil) {
+    public init(createdAt: String? = nil, currentVersion: Int64? = nil, lastUpdatedAt: String? = nil, name: String? = nil, type: String? = nil, versions: Int64? = nil) {
         self.createdAt = createdAt
         self.currentVersion = currentVersion
         self.lastUpdatedAt = lastUpdatedAt

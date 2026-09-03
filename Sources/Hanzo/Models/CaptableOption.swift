@@ -10,7 +10,7 @@ import Foundation
 public struct CaptableOption: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CliffYears is how many years before any of the grant vests. */
-    public var cliffYears: Int?
+    public var cliffYears: Int64?
     /** EquityPlanID is the plan the grant draws from. */
     public var equityPlanId: String?
     /** EquityPlanName is that plan's name. */
@@ -26,7 +26,7 @@ public struct CaptableOption: Sendable, Codable, ParameterConvertible, Hashable 
     /** IssueDate is the ISO date the grant was issued. */
     public var issueDate: String?
     /** Quantity is how many shares the grant covers. */
-    public var quantity: Int?
+    public var quantity: Int64?
     /** StakeholderID is the grantee. */
     public var stakeholderId: String?
     /** StakeholderName is that grantee's name. */
@@ -36,9 +36,9 @@ public struct CaptableOption: Sendable, Codable, ParameterConvertible, Hashable 
     /** Type is the grant kind, ISO or NSO. */
     public var type: String?
     /** VestingYears is the total vesting period in years. */
-    public var vestingYears: Int?
+    public var vestingYears: Int64?
 
-    public init(cliffYears: Int? = nil, equityPlanId: String? = nil, equityPlanName: String? = nil, exercisePrice: Double? = nil, expirationDate: String? = nil, grantId: String? = nil, id: String? = nil, issueDate: String? = nil, quantity: Int? = nil, stakeholderId: String? = nil, stakeholderName: String? = nil, status: String? = nil, type: String? = nil, vestingYears: Int? = nil) {
+    public init(cliffYears: Int64? = nil, equityPlanId: String? = nil, equityPlanName: String? = nil, exercisePrice: Double? = nil, expirationDate: String? = nil, grantId: String? = nil, id: String? = nil, issueDate: String? = nil, quantity: Int64? = nil, stakeholderId: String? = nil, stakeholderName: String? = nil, status: String? = nil, type: String? = nil, vestingYears: Int64? = nil) {
         self.cliffYears = cliffYears
         self.equityPlanId = equityPlanId
         self.equityPlanName = equityPlanName

@@ -12,17 +12,17 @@ public struct WebOverview: Sendable, Codable, ParameterConvertible, Hashable {
     /** Available is false when the product-event table could not be read — the lens is reported missing rather than as zeros that look like real traffic. */
     public var available: Bool?
     /** Pageviews is how many $pageview events landed in the window. */
-    public var pageviews: Int?
+    public var pageviews: Int64?
     /** Reason says why the lens is unavailable. Omitted when it is available. */
     public var reason: String?
     /** Sessions is how many distinct visits they span. */
-    public var sessions: Int?
+    public var sessions: Int64?
     /** Source is the warehouse table the lens read. */
     public var source: String?
     /** Visitors is how many distinct people those pageviews came from. */
-    public var visitors: Int?
+    public var visitors: Int64?
 
-    public init(available: Bool? = nil, pageviews: Int? = nil, reason: String? = nil, sessions: Int? = nil, source: String? = nil, visitors: Int? = nil) {
+    public init(available: Bool? = nil, pageviews: Int64? = nil, reason: String? = nil, sessions: Int64? = nil, source: String? = nil, visitors: Int64? = nil) {
         self.available = available
         self.pageviews = pageviews
         self.reason = reason

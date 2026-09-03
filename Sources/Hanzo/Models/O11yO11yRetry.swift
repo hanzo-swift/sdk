@@ -10,9 +10,9 @@ import Foundation
 public struct O11yO11yRetry: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Delay is how long to wait before retrying, in nanoseconds. */
-    public var delay: Int?
+    public var delay: Int64?
 
-    public init(delay: Int? = nil) {
+    public init(delay: Int64? = nil) {
         self.delay = delay
     }
 

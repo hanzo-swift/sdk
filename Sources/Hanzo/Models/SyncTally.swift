@@ -10,11 +10,11 @@ import Foundation
 public struct SyncTally: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Live is the number of vouchers newly posted to the live ledger. */
-    public var live: Int?
+    public var live: Int64?
     /** Sandbox is the number newly posted to the sandbox ledger. */
-    public var sandbox: Int?
+    public var sandbox: Int64?
 
-    public init(live: Int? = nil, sandbox: Int? = nil) {
+    public init(live: Int64? = nil, sandbox: Int64? = nil) {
         self.live = live
         self.sandbox = sandbox
     }

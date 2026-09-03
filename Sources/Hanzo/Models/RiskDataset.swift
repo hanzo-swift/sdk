@@ -20,13 +20,13 @@ public struct RiskDataset: Sendable, Codable, ParameterConvertible, Hashable {
     /** Name identifies the dataset across all of its versions. */
     public var name: String?
     /** Oversize is how many of the window's subjects this version could NOT carry because their subject identity exceeds the plane's per-subject byte bound.  It is on the wire, not only in a log, because it is the one degradation a caller cannot otherwise detect: the rows that are here look complete, and a dataset silently missing a population is a model silently blind to it. Non-zero does not make a version invalid — it makes it a version whose coverage is STATED. Zero is the normal case and omits. */
-    public var oversize: Int?
+    public var oversize: Int64?
     /** Refusal names why there are no bytes, when there are none. */
     public var refusal: String?
     /** Running is true while THIS process is materialising the version. A version that is `materializing` and not running was started by a process that is gone — two states the register cannot tell apart, because a register cannot know which processes are alive. */
     public var running: Bool?
     /** Share is the fraction of the window's subjects admitted, in thousandths. 1000 means the whole window fitted under the cap; anything less means the version is a reproducible sample and says by how much. */
-    public var share: Int?
+    public var share: Int64?
     /** Spec is the bound query this version was built from, exactly as recorded. */
     public var spec: RiskDatasetSpec?
     /** Status is declared, materializing, ready or refused. Only `ready` has bytes, and `ready` is terminal: a published version is never rewritten. */
@@ -34,9 +34,9 @@ public struct RiskDataset: Sendable, Codable, ParameterConvertible, Hashable {
     /** Truncated is true when the row cap bound before the window ran out. The trailing subject is dropped whole when that happens, because half a subject on one side of a split is exactly the leak the grouping prevents. */
     public var truncated: Bool?
     /** Version is which version this is, from 1 and monotone within the dataset. A number is never reused — not even after a disposal, where the next declare continues the count — so \"signups v3\" means one thing forever, which is what makes a model's citation of it checkable. */
-    public var version: Int?
+    public var version: Int64?
 
-    public init(at: String? = nil, by: String? = nil, counts: RiskSplitCounts? = nil, digest: String? = nil, name: String? = nil, oversize: Int? = nil, refusal: String? = nil, running: Bool? = nil, share: Int? = nil, spec: RiskDatasetSpec? = nil, status: String? = nil, truncated: Bool? = nil, version: Int? = nil) {
+    public init(at: String? = nil, by: String? = nil, counts: RiskSplitCounts? = nil, digest: String? = nil, name: String? = nil, oversize: Int64? = nil, refusal: String? = nil, running: Bool? = nil, share: Int64? = nil, spec: RiskDatasetSpec? = nil, status: String? = nil, truncated: Bool? = nil, version: Int64? = nil) {
         self.at = at
         self.by = by
         self.counts = counts

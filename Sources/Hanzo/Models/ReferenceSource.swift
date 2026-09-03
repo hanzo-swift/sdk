@@ -14,7 +14,7 @@ public struct ReferenceSource: Sendable, Codable, ParameterConvertible, Hashable
     /** Basis is the KIND of permission this publisher's data reaches you under: licence (an explicit grant), registry (the registry of record publishing for anyone to consult), operator (an operator's own machine-readable statement about its own network, published for third parties to filter by — not a licence, and not claimed as one), own (computed here), or none (nothing reaches you: the membership is held by the component that screens against it). It is on the wire so the licence position is an audit you can run. */
     public var basis: String?
     /** Keys is how many members this publisher contributed. */
-    public var keys: Int?
+    public var keys: Int64?
     /** Origin is exactly where it was taken from, so it can be taken again. */
     public var origin: String?
     /** Refusal is why this publisher's last take failed, if it did. The set keeps its previous version of this source and ages out visibly rather than silently shrinking. */
@@ -26,7 +26,7 @@ public struct ReferenceSource: Sendable, Codable, ParameterConvertible, Hashable
     /** Version is the content digest of what this publisher last supplied. Two refreshes that agree on it took the same data. */
     public var version: String?
 
-    public init(asOf: String? = nil, basis: String? = nil, keys: Int? = nil, origin: String? = nil, refusal: String? = nil, source: String? = nil, terms: String? = nil, version: String? = nil) {
+    public init(asOf: String? = nil, basis: String? = nil, keys: Int64? = nil, origin: String? = nil, refusal: String? = nil, source: String? = nil, terms: String? = nil, version: String? = nil) {
         self.asOf = asOf
         self.basis = basis
         self.keys = keys

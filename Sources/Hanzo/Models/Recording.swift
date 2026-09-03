@@ -20,11 +20,11 @@ public struct Recording: Sendable, Codable, ParameterConvertible, Hashable {
     /** Room is the room this recording is of. */
     public var room: String?
     /** Started is when the recording began, as the media server reports it: its own `started_at`, verbatim and unconverted. LiveKit's egress service sets that field from UnixNano, and a conversion this side cannot check against the running server would be a number that looks right and is wrong by a factor of a billion. 0 means it has not started. */
-    public var started: Int?
+    public var started: Int64?
     /** Status is the media server's own state name: EGRESS_STARTING, EGRESS_ACTIVE, EGRESS_ENDING, EGRESS_COMPLETE, EGRESS_FAILED, EGRESS_ABORTED or EGRESS_LIMIT_REACHED. It is passed through rather than folded into a vocabulary of ours, so the answer cannot mean something the media server did not say. */
     public var status: String?
 
-    public init(bucket: String? = nil, error: String? = nil, id: String? = nil, object: String? = nil, room: String? = nil, started: Int? = nil, status: String? = nil) {
+    public init(bucket: String? = nil, error: String? = nil, id: String? = nil, object: String? = nil, room: String? = nil, started: Int64? = nil, status: String? = nil) {
         self.bucket = bucket
         self.error = error
         self.id = id

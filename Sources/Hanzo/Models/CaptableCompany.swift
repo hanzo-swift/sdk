@@ -10,7 +10,7 @@ import Foundation
 public struct CaptableCompany: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CreatedAt is when the company row was seeded, in unix milliseconds. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** ID is the company id, which is the tenant's own org id. */
     public var id: String?
     /** IncorporationCountry is the ISO country the entity is incorporated in. */
@@ -24,9 +24,9 @@ public struct CaptableCompany: Sendable, Codable, ParameterConvertible, Hashable
     /** PublicID is the company's shareable public identifier. */
     public var publicId: String?
     /** UpdatedAt is when the company row last changed, in unix milliseconds. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
 
-    public init(createdAt: Int? = nil, id: String? = nil, incorporationCountry: String? = nil, incorporationState: String? = nil, incorporationType: String? = nil, name: String? = nil, publicId: String? = nil, updatedAt: Int? = nil) {
+    public init(createdAt: Int64? = nil, id: String? = nil, incorporationCountry: String? = nil, incorporationState: String? = nil, incorporationType: String? = nil, name: String? = nil, publicId: String? = nil, updatedAt: Int64? = nil) {
         self.createdAt = createdAt
         self.id = id
         self.incorporationCountry = incorporationCountry

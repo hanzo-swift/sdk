@@ -18,11 +18,11 @@ public struct O11yO11ySpanPercentileIn: Sendable, Codable, ParameterConvertible,
     /** ServiceName is the service the span belongs to. Required. */
     public var serviceName: String
     /** SpanDuration is the span's duration in nanoseconds. */
-    public var spanDuration: Int?
+    public var spanDuration: Int64?
     /** Start is the window start, as epoch nanoseconds. */
     public var start: Int?
 
-    public init(end: Int? = nil, name: String, resourceAttributes: [String: String]? = nil, serviceName: String, spanDuration: Int? = nil, start: Int? = nil) {
+    public init(end: Int? = nil, name: String, resourceAttributes: [String: String]? = nil, serviceName: String, spanDuration: Int64? = nil, start: Int? = nil) {
         self.end = end
         self.name = name
         self.resourceAttributes = resourceAttributes

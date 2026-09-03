@@ -14,11 +14,11 @@ public struct SeoRankIn: Sendable, Codable, ParameterConvertible, Hashable {
     /** Language is the ISO code. Defaults to \"en\". */
     public var language: String?
     /** Limit is how many placements to return, 1 to 1000. Defaults to 100. */
-    public var limit: Int?
+    public var limit: Int64?
     /** Location is the market, as the upstream's numeric code. Defaults to 2840. */
-    public var location: Int?
+    public var location: Int64?
 
-    public init(domain: String? = nil, language: String? = nil, limit: Int? = nil, location: Int? = nil) {
+    public init(domain: String? = nil, language: String? = nil, limit: Int64? = nil, location: Int64? = nil) {
         self.domain = domain
         self.language = language
         self.limit = limit

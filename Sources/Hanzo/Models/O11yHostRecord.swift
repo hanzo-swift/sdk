@@ -9,18 +9,18 @@ import Foundation
 
 public struct O11yHostRecord: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var activeHostCount: Int?
+    public var activeHostCount: Int64?
     public var cpu: Double?
     public var diskUsage: Double?
     public var hostName: String?
-    public var inactiveHostCount: Int?
+    public var inactiveHostCount: Int64?
     public var load15: Double?
     public var memory: Double?
     public var meta: [String: String]?
     public var status: JSONValue?
     public var wait: Double?
 
-    public init(activeHostCount: Int? = nil, cpu: Double? = nil, diskUsage: Double? = nil, hostName: String? = nil, inactiveHostCount: Int? = nil, load15: Double? = nil, memory: Double? = nil, meta: [String: String]? = nil, status: JSONValue? = nil, wait: Double? = nil) {
+    public init(activeHostCount: Int64? = nil, cpu: Double? = nil, diskUsage: Double? = nil, hostName: String? = nil, inactiveHostCount: Int64? = nil, load15: Double? = nil, memory: Double? = nil, meta: [String: String]? = nil, status: JSONValue? = nil, wait: Double? = nil) {
         self.activeHostCount = activeHostCount
         self.cpu = cpu
         self.diskUsage = diskUsage

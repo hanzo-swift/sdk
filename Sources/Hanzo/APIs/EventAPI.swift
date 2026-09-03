@@ -17,7 +17,7 @@ open class EventAPI {
      - returns: ErrorList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getEventErrors(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ErrorList {
+    open class func getEventErrors(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ErrorList {
         return try await getEventErrorsWithRequestBuilder(limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -32,7 +32,7 @@ open class EventAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ErrorList> 
      */
-    open class func getEventErrorsWithRequestBuilder(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ErrorList> {
+    open class func getEventErrorsWithRequestBuilder(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ErrorList> {
         let localVariablePath = "/v1/event/errors"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -100,7 +100,7 @@ open class EventAPI {
      - returns: EventList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getEventInsightsEvents(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> EventList {
+    open class func getEventInsightsEvents(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> EventList {
         return try await getEventInsightsEventsWithRequestBuilder(limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -115,7 +115,7 @@ open class EventAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<EventList> 
      */
-    open class func getEventInsightsEventsWithRequestBuilder(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<EventList> {
+    open class func getEventInsightsEventsWithRequestBuilder(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<EventList> {
         let localVariablePath = "/v1/event/insights/events"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -325,7 +325,7 @@ open class EventAPI {
      - returns: Top
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getEventTop(range: String? = nil, start: String? = nil, end: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Top {
+    open class func getEventTop(range: String? = nil, start: String? = nil, end: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> Top {
         return try await getEventTopWithRequestBuilder(range: range, start: start, end: end, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -343,7 +343,7 @@ open class EventAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<Top> 
      */
-    open class func getEventTopWithRequestBuilder(range: String? = nil, start: String? = nil, end: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Top> {
+    open class func getEventTopWithRequestBuilder(range: String? = nil, start: String? = nil, end: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<Top> {
         let localVariablePath = "/v1/event/top"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil

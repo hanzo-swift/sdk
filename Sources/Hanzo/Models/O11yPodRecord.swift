@@ -10,7 +10,7 @@ import Foundation
 public struct O11yPodRecord: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var meta: [String: String]?
-    public var podAge: Int?
+    public var podAge: Int64?
     public var podCPU: Double?
     public var podCPULimit: Double?
     public var podCPURequest: Double?
@@ -21,7 +21,7 @@ public struct O11yPodRecord: Sendable, Codable, ParameterConvertible, Hashable {
     public var podPhase: JSONValue?
     public var podUID: String?
 
-    public init(meta: [String: String]? = nil, podAge: Int? = nil, podCPU: Double? = nil, podCPULimit: Double? = nil, podCPURequest: Double? = nil, podCountsByPhase: O11yPodCountsByPhase? = nil, podMemory: Double? = nil, podMemoryLimit: Double? = nil, podMemoryRequest: Double? = nil, podPhase: JSONValue? = nil, podUID: String? = nil) {
+    public init(meta: [String: String]? = nil, podAge: Int64? = nil, podCPU: Double? = nil, podCPULimit: Double? = nil, podCPURequest: Double? = nil, podCountsByPhase: O11yPodCountsByPhase? = nil, podMemory: Double? = nil, podMemoryLimit: Double? = nil, podMemoryRequest: Double? = nil, podPhase: JSONValue? = nil, podUID: String? = nil) {
         self.meta = meta
         self.podAge = podAge
         self.podCPU = podCPU

@@ -9,17 +9,17 @@ import Foundation
 
 public struct FlowVersion: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var created: Int?
+    public var created: Int64?
     public var displayName: String?
     public var flowId: String?
     public var id: String?
     public var schemaVersion: String?
     public var state: String?
     public var trigger: FlowTrigger?
-    public var updated: Int?
+    public var updated: Int64?
     public var valid: Bool?
 
-    public init(created: Int? = nil, displayName: String? = nil, flowId: String? = nil, id: String? = nil, schemaVersion: String? = nil, state: String? = nil, trigger: FlowTrigger? = nil, updated: Int? = nil, valid: Bool? = nil) {
+    public init(created: Int64? = nil, displayName: String? = nil, flowId: String? = nil, id: String? = nil, schemaVersion: String? = nil, state: String? = nil, trigger: FlowTrigger? = nil, updated: Int64? = nil, valid: Bool? = nil) {
         self.created = created
         self.displayName = displayName
         self.flowId = flowId

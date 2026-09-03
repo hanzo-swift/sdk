@@ -12,13 +12,13 @@ public struct SearchIn: Sendable, Codable, ParameterConvertible, Hashable {
     /** DocTypes restricts retrieval to a subset of the indexed knowledge doctypes (kb.page, kb.memory, kb.source). An empty or foreign list reads all of them. */
     public var doctypes: [String]?
     /** Limit bounds the hits returned. Default 10, maximum 50. */
-    public var limit: Int?
+    public var limit: Int64?
     /** Project narrows retrieval to one project scope. */
     public var project: String?
     /** Query is the natural-language question. Required. */
     public var query: String?
 
-    public init(doctypes: [String]? = nil, limit: Int? = nil, project: String? = nil, query: String? = nil) {
+    public init(doctypes: [String]? = nil, limit: Int64? = nil, project: String? = nil, query: String? = nil) {
         self.doctypes = doctypes
         self.limit = limit
         self.project = project

@@ -16,15 +16,15 @@ public struct PnL: Sendable, Codable, ParameterConvertible, Hashable {
     /** Income is the revenue lines that moved in the period, one per account. Accounts that did not move are omitted rather than listed at zero. */
     public var income: [PnLLine]?
     /** NetIncome is totalIncome minus totalExpense, in cents. Negative is a loss. */
-    public var netIncome: Int?
+    public var netIncome: Int64?
     /** To closes the period and is inclusive. Absent means up to now. */
     public var to: String?
     /** TotalExpense is cost MATCHED to that revenue, in cents, including accrued infrastructure that has not been billed yet. */
-    public var totalExpense: Int?
+    public var totalExpense: Int64?
     /** TotalIncome is revenue RECOGNIZED in the period, in cents — accrual, not cash, so a prepaid top-up is not in it until the credit is consumed. */
-    public var totalIncome: Int?
+    public var totalIncome: Int64?
 
-    public init(expense: [PnLLine]? = nil, from: String? = nil, income: [PnLLine]? = nil, netIncome: Int? = nil, to: String? = nil, totalExpense: Int? = nil, totalIncome: Int? = nil) {
+    public init(expense: [PnLLine]? = nil, from: String? = nil, income: [PnLLine]? = nil, netIncome: Int64? = nil, to: String? = nil, totalExpense: Int64? = nil, totalIncome: Int64? = nil) {
         self.expense = expense
         self.from = from
         self.income = income

@@ -12,7 +12,7 @@ public struct CaptableRound: Sendable, Codable, ParameterConvertible, Hashable {
     /** CloseDate is the ISO date the round closed, once it has. */
     public var closeDate: String?
     /** CreatedAt is when the round was recorded, in unix milliseconds. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** ID is the round id. */
     public var id: String?
     /** Name is the round name, e.g. \"Series A\". */
@@ -32,7 +32,7 @@ public struct CaptableRound: Sendable, Codable, ParameterConvertible, Hashable {
     /** TargetAmount is how much the round set out to raise. */
     public var targetAmount: Double?
 
-    public init(closeDate: String? = nil, createdAt: Int? = nil, id: String? = nil, name: String? = nil, preMoneyValuation: Double? = nil, pricePerShare: Double? = nil, raisedAmount: Double? = nil, roundType: String? = nil, shareClassId: String? = nil, status: String? = nil, targetAmount: Double? = nil) {
+    public init(closeDate: String? = nil, createdAt: Int64? = nil, id: String? = nil, name: String? = nil, preMoneyValuation: Double? = nil, pricePerShare: Double? = nil, raisedAmount: Double? = nil, roundType: String? = nil, shareClassId: String? = nil, status: String? = nil, targetAmount: Double? = nil) {
         self.closeDate = closeDate
         self.createdAt = createdAt
         self.id = id

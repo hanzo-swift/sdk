@@ -10,17 +10,17 @@ import Foundation
 public struct SafeTxIn: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** ChainID is the EVM chain the Safe transaction is bound to. 0 uses the wallet's own chain, or the Hanzo L1 (36963) when it is chain-agnostic. */
-    public var chainId: Int?
+    public var chainId: Int64?
     /** Data is the call data, hex-encoded. */
     public var data: String?
     /** Nonce is the Safe's transaction nonce. */
-    public var nonce: Int?
+    public var nonce: Int64?
     /** To is the transaction's target address. */
     public var to: String?
     /** Value is the native-token amount to send, as a decimal string in wei. */
     public var value: String?
 
-    public init(chainId: Int? = nil, data: String? = nil, nonce: Int? = nil, to: String? = nil, value: String? = nil) {
+    public init(chainId: Int64? = nil, data: String? = nil, nonce: Int64? = nil, to: String? = nil, value: String? = nil) {
         self.chainId = chainId
         self.data = data
         self.nonce = nonce

@@ -20,9 +20,9 @@ public struct IndexTask: Sendable, Codable, ParameterConvertible, Hashable {
     /** Type names the kind of write, for a client that inspects it. */
     public var type: String?
     /** UID echoes the task id that was asked about. */
-    public var uid: Int?
+    public var uid: Int64?
 
-    public init(enqueuedAt: String? = nil, finishedAt: String? = nil, startedAt: String? = nil, status: String? = nil, type: String? = nil, uid: Int? = nil) {
+    public init(enqueuedAt: String? = nil, finishedAt: String? = nil, startedAt: String? = nil, status: String? = nil, type: String? = nil, uid: Int64? = nil) {
         self.enqueuedAt = enqueuedAt
         self.finishedAt = finishedAt
         self.startedAt = startedAt

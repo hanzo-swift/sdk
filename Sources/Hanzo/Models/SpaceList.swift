@@ -12,9 +12,9 @@ public struct SpaceList: Sendable, Codable, ParameterConvertible, Hashable {
     /** Spaces are the caller org's spaces, oldest first as the store returns them. */
     public var spaces: [SpaceItem]?
     /** Total is how many spaces this org has. It equals len(spaces): the listing is not paged, because one bucket per (org, space) keeps an org's count small by construction, which is the whole reason a drive is a prefix and not a bucket. */
-    public var total: Int?
+    public var total: Int64?
 
-    public init(spaces: [SpaceItem]? = nil, total: Int? = nil) {
+    public init(spaces: [SpaceItem]? = nil, total: Int64? = nil) {
         self.spaces = spaces
         self.total = total
     }

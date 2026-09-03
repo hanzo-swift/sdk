@@ -14,23 +14,23 @@ public struct CalendarPost: Sendable, Codable, ParameterConvertible, Hashable {
     /** Channel is the target network: x, facebook, instagram, linkedin, tiktok, youtube or threads. Required — a post must name where it goes. */
     public var channel: String?
     /** CreatedAt is unix seconds when the post was added, server-assigned and never rewritten. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** Error is the exact reason the last publish attempt failed — the honest record behind a \"failed\" status, never a faked success. */
     public var error: String?
     /** ID is the server-assigned post id (\"cal_\" + 128 random bits). */
     public var id: String?
     /** PublishedAt is when the publish succeeded; 0 until it does. */
-    public var publishedAt: Int?
+    public var publishedAt: Int64?
     /** ScheduledAt is the unix publish time; 0 leaves the post a draft, and any value makes it \"scheduled\" for the durable sweep to pick up. */
-    public var scheduledAt: Int?
+    public var scheduledAt: Int64?
     /** Status is draft, scheduled, published, failed or canceled. Server-owned. */
     public var status: String?
     /** Title is the post's internal label, capped at 1024 bytes. */
     public var title: String?
     /** UpdatedAt is unix seconds of the last write, server-assigned. The durable sweep writes too — claiming a due post, publishing it and recording a failure each bump it — so this moves without anyone editing the post. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
 
-    public init(body: String? = nil, channel: String? = nil, createdAt: Int? = nil, error: String? = nil, id: String? = nil, publishedAt: Int? = nil, scheduledAt: Int? = nil, status: String? = nil, title: String? = nil, updatedAt: Int? = nil) {
+    public init(body: String? = nil, channel: String? = nil, createdAt: Int64? = nil, error: String? = nil, id: String? = nil, publishedAt: Int64? = nil, scheduledAt: Int64? = nil, status: String? = nil, title: String? = nil, updatedAt: Int64? = nil) {
         self.body = body
         self.channel = channel
         self.createdAt = createdAt

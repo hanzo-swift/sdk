@@ -10,9 +10,9 @@ import Foundation
 public struct EsignDocument: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CompletedAt is when the document sealed, in unix milliseconds; null until it does. */
-    public var completedAt: Int?
+    public var completedAt: Int64?
     /** CreatedAt is when the document was uploaded, in unix milliseconds. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** ExternalID is the caller's own identifier for this document, echoed back as it was given; null when none was. */
     public var externalId: String?
     /** Fields is every field on the document, ordered by page and then by when it was placed. */
@@ -34,9 +34,9 @@ public struct EsignDocument: Sendable, Codable, ParameterConvertible, Hashable {
     /** Title is the document's name, and the stem of the download filename. */
     public var title: String?
     /** UpdatedAt is when the document last changed, in unix milliseconds. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
 
-    public init(completedAt: Int? = nil, createdAt: Int? = nil, externalId: String? = nil, fields: [EsignField]? = nil, id: String? = nil, message: String? = nil, recipients: [EsignRecipient]? = nil, signingOrder: String? = nil, source: String? = nil, status: String? = nil, subject: String? = nil, title: String? = nil, updatedAt: Int? = nil) {
+    public init(completedAt: Int64? = nil, createdAt: Int64? = nil, externalId: String? = nil, fields: [EsignField]? = nil, id: String? = nil, message: String? = nil, recipients: [EsignRecipient]? = nil, signingOrder: String? = nil, source: String? = nil, status: String? = nil, subject: String? = nil, title: String? = nil, updatedAt: Int64? = nil) {
         self.completedAt = completedAt
         self.createdAt = createdAt
         self.externalId = externalId

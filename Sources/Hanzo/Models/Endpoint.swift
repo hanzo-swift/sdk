@@ -12,13 +12,13 @@ public struct Endpoint: Sendable, Codable, ParameterConvertible, Hashable {
     /** CreatedAt is when the endpoint was registered, RFC3339 in UTC — stored in that spelling because it sorts as a string. */
     public var created: String?
     /** Deliveries7d is how many deliveries SETTLED in the trailing 7 days — the attempts that ended ok or failed, so a delivery still retrying is in neither counter yet. It is counted from the log at read time rather than stored, and it is filled only on a list or a get; a create answers 0 because there is no history, which is why it is never omitted. */
-    public var deliveries7d: Int?
+    public var deliveries7d: Int64?
     /** Description is the operator's own label for the endpoint. Never sent anywhere. */
     public var description: String?
     /** Events are the subject patterns this endpoint subscribes to (\"commerce.order.>\"). An EMPTY list means every event, not none. */
     public var events: [String]?
     /** Failures7d is how many of those settled as failed — the subscriber never accepted it and no further attempt will be made. It is the numerator to Deliveries7d, over the same window. */
-    public var failures7d: Int?
+    public var failures7d: Int64?
     /** ID is the endpoint's handle, server-minted and stable for its life. It is what every other route here addresses. */
     public var id: String?
     /** Org is the tenant that owns the endpoint, taken from the validated principal rather than from any request field. */
@@ -32,7 +32,7 @@ public struct Endpoint: Sendable, Codable, ParameterConvertible, Hashable {
     /** URL is where the POST goes. Changing it is the one edit that redirects an org's events, which is why it is never bindable from a query string. */
     public var url: String?
 
-    public init(created: String? = nil, deliveries7d: Int? = nil, description: String? = nil, events: [String]? = nil, failures7d: Int? = nil, id: String? = nil, org: String? = nil, secret: String? = nil, status: String? = nil, updated: String? = nil, url: String? = nil) {
+    public init(created: String? = nil, deliveries7d: Int64? = nil, description: String? = nil, events: [String]? = nil, failures7d: Int64? = nil, id: String? = nil, org: String? = nil, secret: String? = nil, status: String? = nil, updated: String? = nil, url: String? = nil) {
         self.created = created
         self.deliveries7d = deliveries7d
         self.description = description

@@ -12,9 +12,9 @@ public struct IndexCount: Sendable, Codable, ParameterConvertible, Hashable {
     /** IsIndexing is always false: writes are applied before their response, so there is never a background pass a caller could be waiting on. */
     public var isIndexing: Bool?
     /** NumberOfDocuments is how many documents this org holds in that index. */
-    public var numberOfDocuments: Int?
+    public var numberOfDocuments: Int64?
 
-    public init(isIndexing: Bool? = nil, numberOfDocuments: Int? = nil) {
+    public init(isIndexing: Bool? = nil, numberOfDocuments: Int64? = nil) {
         self.isIndexing = isIndexing
         self.numberOfDocuments = numberOfDocuments
     }

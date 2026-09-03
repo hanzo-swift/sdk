@@ -18,7 +18,7 @@ open class HelpAPI {
      - returns: HelpArticleList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getHelpArticles(category: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> HelpArticleList {
+    open class func getHelpArticles(category: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> HelpArticleList {
         return try await getHelpArticlesWithRequestBuilder(category: category, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -34,7 +34,7 @@ open class HelpAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<HelpArticleList> 
      */
-    open class func getHelpArticlesWithRequestBuilder(category: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<HelpArticleList> {
+    open class func getHelpArticlesWithRequestBuilder(category: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<HelpArticleList> {
         let localVariablePath = "/v1/help/articles"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil

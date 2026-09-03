@@ -10,15 +10,15 @@ import Foundation
 public struct ActivityPoint: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CostCents is the day's spend in whole US cents. A series is only ever returned for a subject the caller is authorized to see, so this is never withheld: 0 means no spend that day. */
-    public var costCents: Int?
+    public var costCents: Int64?
     /** Day is the UTC calendar day this point covers, \"2006-01-02\". */
     public var day: String?
     /** Requests is the subject's request count on this day. 0 is a real, quiet day: the series is gap-filled, so every day in the range is present whether or not anything happened. */
-    public var requests: Int?
+    public var requests: Int64?
     /** Tokens is prompt+completion tokens on this day — normally the heatmap's intensity, scaled against ActivityTotals.MaxTokens. */
-    public var tokens: Int?
+    public var tokens: Int64?
 
-    public init(costCents: Int? = nil, day: String? = nil, requests: Int? = nil, tokens: Int? = nil) {
+    public init(costCents: Int64? = nil, day: String? = nil, requests: Int64? = nil, tokens: Int64? = nil) {
         self.costCents = costCents
         self.day = day
         self.requests = requests

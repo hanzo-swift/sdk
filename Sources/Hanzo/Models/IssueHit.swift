@@ -14,7 +14,7 @@ public struct IssueHit: Sendable, Codable, ParameterConvertible, Hashable {
     /** Kind is what the row IS: issue, pr or epic. */
     public var kind: String?
     /** Number is the issue's number on that board, from 1 and monotonic there. Unique per board, never across the org — so it addresses an issue only together with Project. */
-    public var number: Int?
+    public var number: Int64?
     /** Priority is urgent, high, medium, low or none. Never empty — an unset priority is the value \"none\". */
     public var priority: String?
     /** Project is the board key the issue is on. It and Number are the issue's address in every other route on this surface, which is why a hit carries it. */
@@ -32,7 +32,7 @@ public struct IssueHit: Sendable, Codable, ParameterConvertible, Hashable {
     /** URL is the row's external anchor — its extRef — which is a link only when the feeder sent one. A mirrored GitHub issue carries \"github:owner/repo#123\" and an agent's PR row carries the pushed branch. Empty for a row opened here. */
     public var url: String?
 
-    public init(assignee: String? = nil, kind: String? = nil, number: Int? = nil, priority: String? = nil, project: String? = nil, repo: String? = nil, room: String? = nil, source: String? = nil, status: String? = nil, title: String? = nil, url: String? = nil) {
+    public init(assignee: String? = nil, kind: String? = nil, number: Int64? = nil, priority: String? = nil, project: String? = nil, repo: String? = nil, room: String? = nil, source: String? = nil, status: String? = nil, title: String? = nil, url: String? = nil) {
         self.assignee = assignee
         self.kind = kind
         self.number = number

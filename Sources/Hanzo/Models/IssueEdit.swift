@@ -16,7 +16,7 @@ public struct IssueEdit: Sendable, Codable, ParameterConvertible, Hashable {
     /** Key is the board — the repository name, from the path. */
     public var key: String?
     /** Num is the issue number on that repository, from the path. */
-    public var num: Int?
+    public var num: Int64?
     /** Priority re-prioritises it. */
     public var priority: String?
     /** Status moves the card to another column. */
@@ -24,7 +24,7 @@ public struct IssueEdit: Sendable, Codable, ParameterConvertible, Hashable {
     /** Title renames the work item. */
     public var title: String?
 
-    public init(assignee: String? = nil, description: String? = nil, key: String? = nil, num: Int? = nil, priority: String? = nil, status: String? = nil, title: String? = nil) {
+    public init(assignee: String? = nil, description: String? = nil, key: String? = nil, num: Int64? = nil, priority: String? = nil, status: String? = nil, title: String? = nil) {
         self.assignee = assignee
         self.description = description
         self.key = key

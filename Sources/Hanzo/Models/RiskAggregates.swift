@@ -10,15 +10,15 @@ import Foundation
 public struct RiskAggregates: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Bound is the most they can hold. It is a per-organisation bound: at it, this organisation degrades and no other one notices. */
-    public var bound: Int?
+    public var bound: Int64?
     /** Forgotten is how many of its own subjects have been dropped to stay inside that bound. Each one reads as inactive until it is active again. */
-    public var forgotten: Int?
+    public var forgotten: Int64?
     /** Saturated is whether the bound is binding right now. The two counts are its evidence; this is the state to act on. */
     public var saturated: Bool?
     /** Subjects is how many of this organisation's subjects the aggregates hold. */
-    public var subjects: Int?
+    public var subjects: Int64?
 
-    public init(bound: Int? = nil, forgotten: Int? = nil, saturated: Bool? = nil, subjects: Int? = nil) {
+    public init(bound: Int64? = nil, forgotten: Int64? = nil, saturated: Bool? = nil, subjects: Int64? = nil) {
         self.bound = bound
         self.forgotten = forgotten
         self.saturated = saturated

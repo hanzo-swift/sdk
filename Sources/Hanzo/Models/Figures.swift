@@ -9,12 +9,12 @@ import Foundation
 
 public struct Figures: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var count: Int?
+    public var count: Int64?
     public var locked: String?
-    public var pools: Int?
+    public var pools: Int64?
     public var volume: String?
 
-    public init(count: Int? = nil, locked: String? = nil, pools: Int? = nil, volume: String? = nil) {
+    public init(count: Int64? = nil, locked: String? = nil, pools: Int64? = nil, volume: String? = nil) {
         self.count = count
         self.locked = locked
         self.pools = pools

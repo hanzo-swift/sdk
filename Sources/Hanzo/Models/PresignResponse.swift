@@ -10,7 +10,7 @@ import Foundation
 public struct PresignResponse: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** seconds until the URL expires */
-    public var expiresIn: Int?
+    public var expiresIn: Int64?
     /** Key is the object key the URL was signed for, relative to the bucket root and path-cleaned — so it is what the store will actually read or write, which is not always the string the caller sent. The signature covers this one bucket and this one key: a URL minted here reaches nothing else. */
     public var key: String?
     /** \"PUT\" (upload) or \"GET\" (download) */
@@ -18,7 +18,7 @@ public struct PresignResponse: Sendable, Codable, ParameterConvertible, Hashable
     /** presigned URL the browser follows directly */
     public var url: String?
 
-    public init(expiresIn: Int? = nil, key: String? = nil, method: String? = nil, url: String? = nil) {
+    public init(expiresIn: Int64? = nil, key: String? = nil, method: String? = nil, url: String? = nil) {
         self.expiresIn = expiresIn
         self.key = key
         self.method = method

@@ -10,7 +10,7 @@ import Foundation
 public struct DomainView: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CreatedAt is the unix second the custom claim was made. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** Detail says why a claim is still pending, in the resolver's own words. */
     public var detail: String?
     /** Host is the hostname itself. */
@@ -28,7 +28,7 @@ public struct DomainView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Verified is whether ownership is settled — always true for a host the org structurally owns. */
     public var verified: Bool?
 
-    public init(createdAt: Int? = nil, detail: String? = nil, host: String? = nil, kind: String? = nil, primary: Bool? = nil, records: [Record]? = nil, status: String? = nil, url: String? = nil, verified: Bool? = nil) {
+    public init(createdAt: Int64? = nil, detail: String? = nil, host: String? = nil, kind: String? = nil, primary: Bool? = nil, records: [Record]? = nil, status: String? = nil, url: String? = nil, verified: Bool? = nil) {
         self.createdAt = createdAt
         self.detail = detail
         self.host = host

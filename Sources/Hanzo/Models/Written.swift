@@ -14,9 +14,9 @@ public struct Written: Sendable, Codable, ParameterConvertible, Hashable {
     /** Kind is the section written. */
     public var kind: String?
     /** Updated is when it was written, unix milliseconds. */
-    public var updated: Int?
+    public var updated: Int64?
 
-    public init(id: String? = nil, kind: String? = nil, updated: Int? = nil) {
+    public init(id: String? = nil, kind: String? = nil, updated: Int64? = nil) {
         self.id = id
         self.kind = kind
         self.updated = updated

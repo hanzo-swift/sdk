@@ -9,13 +9,13 @@ import Foundation
 
 public struct LicensingRevocationEntry: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var at: Int?
+    public var at: Int64?
     public var by: String?
     public var reason: String?
     public var scope: String?
     public var value: String?
 
-    public init(at: Int? = nil, by: String? = nil, reason: String? = nil, scope: String? = nil, value: String? = nil) {
+    public init(at: Int64? = nil, by: String? = nil, reason: String? = nil, scope: String? = nil, value: String? = nil) {
         self.at = at
         self.by = by
         self.reason = reason

@@ -11,12 +11,12 @@ public struct Executions: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var fetchedAt: Date?
     public var orgs: [String]?
-    public var repos: Int?
+    public var repos: Int64?
     public var runs: [Execution]?
     public var sourceErr: String?
     public var stale: Bool?
 
-    public init(fetchedAt: Date? = nil, orgs: [String]? = nil, repos: Int? = nil, runs: [Execution]? = nil, sourceErr: String? = nil, stale: Bool? = nil) {
+    public init(fetchedAt: Date? = nil, orgs: [String]? = nil, repos: Int64? = nil, runs: [Execution]? = nil, sourceErr: String? = nil, stale: Bool? = nil) {
         self.fetchedAt = fetchedAt
         self.orgs = orgs
         self.repos = repos

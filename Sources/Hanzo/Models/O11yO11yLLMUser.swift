@@ -10,23 +10,23 @@ import Foundation
 public struct O11yO11yLLMUser: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CompletionTokens is their total output tokens. */
-    public var completionTokens: Int?
+    public var completionTokens: Int64?
     /** ID is the end user's id (user.id). */
     public var id: String?
     /** Observations is how many observations they produced. */
-    public var observations: Int?
+    public var observations: Int64?
     /** PromptTokens is their total input tokens. */
-    public var promptTokens: Int?
+    public var promptTokens: Int64?
     /** Sessions is how many conversations they had. */
-    public var sessions: Int?
+    public var sessions: Int64?
     /** TotalCost is their total cost. */
     public var totalCost: Double?
     /** TotalTokens is their total tokens. */
-    public var totalTokens: Int?
+    public var totalTokens: Int64?
     /** Traces is how many traces they produced. */
-    public var traces: Int?
+    public var traces: Int64?
 
-    public init(completionTokens: Int? = nil, id: String? = nil, observations: Int? = nil, promptTokens: Int? = nil, sessions: Int? = nil, totalCost: Double? = nil, totalTokens: Int? = nil, traces: Int? = nil) {
+    public init(completionTokens: Int64? = nil, id: String? = nil, observations: Int64? = nil, promptTokens: Int64? = nil, sessions: Int64? = nil, totalCost: Double? = nil, totalTokens: Int64? = nil, traces: Int64? = nil) {
         self.completionTokens = completionTokens
         self.id = id
         self.observations = observations

@@ -22,11 +22,11 @@ public struct Extracted: Sendable, Codable, ParameterConvertible, Hashable {
     /** Note is anything else worth carrying from the document that has no field of its own. */
     public var note: String?
     /** TaxCents is how much of that total is tax, in cents. It is part of totalCents, not additional to it. */
-    public var taxCents: Int?
+    public var taxCents: Int64?
     /** TotalCents is the document total in whole cents, tax INCLUDED. */
-    public var totalCents: Int?
+    public var totalCents: Int64?
 
-    public init(category: String? = nil, currency: String? = nil, issuedAt: String? = nil, lineItems: [LineItem]? = nil, merchant: String? = nil, note: String? = nil, taxCents: Int? = nil, totalCents: Int? = nil) {
+    public init(category: String? = nil, currency: String? = nil, issuedAt: String? = nil, lineItems: [LineItem]? = nil, merchant: String? = nil, note: String? = nil, taxCents: Int64? = nil, totalCents: Int64? = nil) {
         self.category = category
         self.currency = currency
         self.issuedAt = issuedAt

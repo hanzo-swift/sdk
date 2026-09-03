@@ -20,13 +20,13 @@ public struct ProvisionedResource: Sendable, Codable, ParameterConvertible, Hash
     /** Name is the org-unique slug the caller provisioned the resource under. */
     public var name: String?
     /** Port is the port a client connects to on Host. */
-    public var port: Int?
+    public var port: Int64?
     /** Status is \"ready\", or \"provisioning\" while a dedicated instance is still being materialized. A dedicated resource's status is reconciled from the operator's live CR before this is answered, so it is never a stale ready. */
     public var status: String?
     /** Username is the credential's user, for the kinds that mint one per resource. Absent for a kind whose backend authenticates with a shared, out-of-band key. */
     public var username: String?
 
-    public init(database: String? = nil, host: String? = nil, id: String? = nil, kind: String? = nil, name: String? = nil, port: Int? = nil, status: String? = nil, username: String? = nil) {
+    public init(database: String? = nil, host: String? = nil, id: String? = nil, kind: String? = nil, name: String? = nil, port: Int64? = nil, status: String? = nil, username: String? = nil) {
         self.database = database
         self.host = host
         self.id = id

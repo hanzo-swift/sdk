@@ -16,9 +16,9 @@ public struct BlueprintView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Counts summarises how many items each collection holds. */
     public var counts: BlueprintCounts?
     /** Version is the active stored version number (1 is the seed). Each edit appends a new one; nothing is ever overwritten. */
-    public var version: Int?
+    public var version: Int64?
 
-    public init(blueprint: Blueprint? = nil, brand: String? = nil, counts: BlueprintCounts? = nil, version: Int? = nil) {
+    public init(blueprint: Blueprint? = nil, brand: String? = nil, counts: BlueprintCounts? = nil, version: Int64? = nil) {
         self.blueprint = blueprint
         self.brand = brand
         self.counts = counts

@@ -30,7 +30,7 @@ public struct StarterKit: Sendable, Codable, ParameterConvertible, Hashable {
     /** the repository the kit is forked from */
     public var source: String?
     /** Tier is public-gallery curation, carried verbatim from the embedded catalog. No request can set it — neither write body has the field and neither builds a kit carrying one — so it is absent on every customer-published kit. */
-    public var tier: Int?
+    public var tier: Int64?
     /** display name */
     public var title: String?
     /** what the kit is for, in a phrase */
@@ -38,7 +38,7 @@ public struct StarterKit: Sendable, Codable, ParameterConvertible, Hashable {
     /** the shapes this template ships in */
     public var variants: [Variant]?
 
-    public init(category: String? = nil, demo: String? = nil, description: String? = nil, features: [String]? = nil, framework: String? = nil, org: String? = nil, preview: String? = nil, rating: Double? = nil, slug: String? = nil, source: String? = nil, tier: Int? = nil, title: String? = nil, useCase: String? = nil, variants: [Variant]? = nil) {
+    public init(category: String? = nil, demo: String? = nil, description: String? = nil, features: [String]? = nil, framework: String? = nil, org: String? = nil, preview: String? = nil, rating: Double? = nil, slug: String? = nil, source: String? = nil, tier: Int64? = nil, title: String? = nil, useCase: String? = nil, variants: [Variant]? = nil) {
         self.category = category
         self.demo = demo
         self.description = description

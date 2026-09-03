@@ -18,8 +18,8 @@ public struct IamApplication: Sendable, Codable, ParameterConvertible, Hashable 
     /** ClientId is the OAuth2/OIDC client identifier and the GLOBAL key every confidential-client resolver authenticates against (store.GetApplicationByClientId, the mint gates, Basic auth). It MUST be globally unique across ALL owners — a collision would let one app shadow another at that key. This store persists each entity as a JSON document in a shared table, so there is no per-field column to carry a DB UNIQUE index; uniqueness is enforced at the write in applications.Create/Update (ensureClientIdUnique), exactly as the (owner,name) natural key is, and store.GetApplicationByClientId resolves admin-preferring as defense-in-depth. */
     public var clientId: String?
     public var clientSecret: String?
-    public var codeResendTimeout: Int?
-    public var cookieExpireInHours: Int?
+    public var codeResendTimeout: Int64?
+    public var cookieExpireInHours: Int64?
     public var createdAt: Date?
     public var createdTime: String?
     public var customScopes: [IamScopeDescription]?
@@ -44,8 +44,8 @@ public struct IamApplication: Sendable, Codable, ParameterConvertible, Hashable 
     public var enableWebAuthn: Bool?
     public var environment: String?
     public var expireInHours: Double?
-    public var failedSigninFrozenTime: Int?
-    public var failedSigninLimit: Int?
+    public var failedSigninFrozenTime: Int64?
+    public var failedSigninLimit: Int64?
     public var favicon: String?
     public var footerHtml: String?
     public var forcedRedirectOrigin: String?
@@ -54,7 +54,7 @@ public struct IamApplication: Sendable, Codable, ParameterConvertible, Hashable 
     public var formBackgroundUrlMobile: String?
     public var formCss: String?
     public var formCssMobile: String?
-    public var formOffset: Int?
+    public var formOffset: Int64?
     public var formSideHtml: String?
     public var grantTypes: [String]?
     public var headerHtml: String?
@@ -65,7 +65,7 @@ public struct IamApplication: Sendable, Codable, ParameterConvertible, Hashable 
     public var isShared: Bool?
     public var logo: String?
     public var name: String?
-    public var order: Int?
+    public var order: Int64?
     public var orgChoiceMode: String?
     public var organization: String?
     public var organizationObj: IamOrganization?
@@ -101,7 +101,7 @@ public struct IamApplication: Sendable, Codable, ParameterConvertible, Hashable 
     public var upstreamHost: String?
     public var useEmailAsSamlNameId: Bool?
 
-    public init(affiliationUrl: String? = nil, category: String? = nil, cert: String? = nil, certObj: IamCert? = nil, certPublicKey: String? = nil, clientCert: String? = nil, clientId: String? = nil, clientSecret: String? = nil, codeResendTimeout: Int? = nil, cookieExpireInHours: Int? = nil, createdAt: Date? = nil, createdTime: String? = nil, customScopes: [IamScopeDescription]? = nil, defaultGroup: String? = nil, deleted: Bool? = nil, description: String? = nil, disableSamlAttributes: Bool? = nil, disableSignin: Bool? = nil, displayName: String? = nil, domain: String? = nil, enableAutoSignin: Bool? = nil, enableCodeSignin: Bool? = nil, enableExclusiveSignin: Bool? = nil, enableLinkWithEmail: Bool? = nil, enablePassword: Bool? = nil, enableSamlAssertionSignature: Bool? = nil, enableSamlC14n10: Bool? = nil, enableSamlCompress: Bool? = nil, enableSamlPostBinding: Bool? = nil, enableSignUp: Bool? = nil, enableSigninSession: Bool? = nil, enableWebAuthn: Bool? = nil, environment: String? = nil, expireInHours: Double? = nil, failedSigninFrozenTime: Int? = nil, failedSigninLimit: Int? = nil, favicon: String? = nil, footerHtml: String? = nil, forcedRedirectOrigin: String? = nil, forgetUrl: String? = nil, formBackgroundUrl: String? = nil, formBackgroundUrlMobile: String? = nil, formCss: String? = nil, formCssMobile: String? = nil, formOffset: Int? = nil, formSideHtml: String? = nil, grantTypes: [String]? = nil, headerHtml: String? = nil, homepageUrl: String? = nil, id: String? = nil, ipRestriction: String? = nil, ipWhitelist: String? = nil, isShared: Bool? = nil, logo: String? = nil, name: String? = nil, order: Int? = nil, orgChoiceMode: String? = nil, organization: String? = nil, organizationObj: IamOrganization? = nil, otherDomains: [String]? = nil, owner: String? = nil, project: String? = nil, providers: [IamProviderItem]? = nil, redirectUris: [String]? = nil, refreshExpireInHours: Double? = nil, samlAttributes: [IamSamlItem]? = nil, samlHashAlgorithm: String? = nil, samlReplyUrl: String? = nil, scopes: [IamScopeItem]? = nil, signinHtml: String? = nil, signinItems: [IamSigninItem]? = nil, signinMethods: [IamSigninMethod]? = nil, signinUrl: String? = nil, signupHtml: String? = nil, signupItems: [IamSignupItem]? = nil, signupUrl: String? = nil, sslCert: String? = nil, sslMode: String? = nil, tags: [String]? = nil, termsOfUse: String? = nil, themeData: IamThemeData? = nil, title: String? = nil, tokenAttributes: [IamJwtItem]? = nil, tokenFields: [String]? = nil, tokenFormat: String? = nil, tokenSigningMethod: String? = nil, type: String? = nil, updatedAt: Date? = nil, upstreamHost: String? = nil, useEmailAsSamlNameId: Bool? = nil) {
+    public init(affiliationUrl: String? = nil, category: String? = nil, cert: String? = nil, certObj: IamCert? = nil, certPublicKey: String? = nil, clientCert: String? = nil, clientId: String? = nil, clientSecret: String? = nil, codeResendTimeout: Int64? = nil, cookieExpireInHours: Int64? = nil, createdAt: Date? = nil, createdTime: String? = nil, customScopes: [IamScopeDescription]? = nil, defaultGroup: String? = nil, deleted: Bool? = nil, description: String? = nil, disableSamlAttributes: Bool? = nil, disableSignin: Bool? = nil, displayName: String? = nil, domain: String? = nil, enableAutoSignin: Bool? = nil, enableCodeSignin: Bool? = nil, enableExclusiveSignin: Bool? = nil, enableLinkWithEmail: Bool? = nil, enablePassword: Bool? = nil, enableSamlAssertionSignature: Bool? = nil, enableSamlC14n10: Bool? = nil, enableSamlCompress: Bool? = nil, enableSamlPostBinding: Bool? = nil, enableSignUp: Bool? = nil, enableSigninSession: Bool? = nil, enableWebAuthn: Bool? = nil, environment: String? = nil, expireInHours: Double? = nil, failedSigninFrozenTime: Int64? = nil, failedSigninLimit: Int64? = nil, favicon: String? = nil, footerHtml: String? = nil, forcedRedirectOrigin: String? = nil, forgetUrl: String? = nil, formBackgroundUrl: String? = nil, formBackgroundUrlMobile: String? = nil, formCss: String? = nil, formCssMobile: String? = nil, formOffset: Int64? = nil, formSideHtml: String? = nil, grantTypes: [String]? = nil, headerHtml: String? = nil, homepageUrl: String? = nil, id: String? = nil, ipRestriction: String? = nil, ipWhitelist: String? = nil, isShared: Bool? = nil, logo: String? = nil, name: String? = nil, order: Int64? = nil, orgChoiceMode: String? = nil, organization: String? = nil, organizationObj: IamOrganization? = nil, otherDomains: [String]? = nil, owner: String? = nil, project: String? = nil, providers: [IamProviderItem]? = nil, redirectUris: [String]? = nil, refreshExpireInHours: Double? = nil, samlAttributes: [IamSamlItem]? = nil, samlHashAlgorithm: String? = nil, samlReplyUrl: String? = nil, scopes: [IamScopeItem]? = nil, signinHtml: String? = nil, signinItems: [IamSigninItem]? = nil, signinMethods: [IamSigninMethod]? = nil, signinUrl: String? = nil, signupHtml: String? = nil, signupItems: [IamSignupItem]? = nil, signupUrl: String? = nil, sslCert: String? = nil, sslMode: String? = nil, tags: [String]? = nil, termsOfUse: String? = nil, themeData: IamThemeData? = nil, title: String? = nil, tokenAttributes: [IamJwtItem]? = nil, tokenFields: [String]? = nil, tokenFormat: String? = nil, tokenSigningMethod: String? = nil, type: String? = nil, updatedAt: Date? = nil, upstreamHost: String? = nil, useEmailAsSamlNameId: Bool? = nil) {
         self.affiliationUrl = affiliationUrl
         self.category = category
         self.cert = cert

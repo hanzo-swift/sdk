@@ -10,9 +10,9 @@ import Foundation
 public struct Policy: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CachePaths overrides CacheTTLSec per path PREFIX (key \"/v1/models\" → seconds). The longest matching prefix wins. */
-    public var cachePaths: [String: Int]?
+    public var cachePaths: [String: Int64]?
     /** CacheTTLSec is the org's default edge-cache TTL for its responses, in seconds; 0 means no caching. Unset inherits the platform default. */
-    public var cacheTtlSec: Int?
+    public var cacheTtlSec: Int64?
     /** CORSOrigins is the PLATFORM-scope CORS allowlist EdgeCORS admits: an exact origin, a bare host, or a \"*.host\" wildcard. Writable only by a SuperAdmin — CORS is evaluated before identity, so it has no tenant to scope to. */
     public var corsOrigins: [String]?
     /** Methods is the allowlist of HTTP methods the edge accepts for this org. Empty means all are accepted. */
@@ -20,17 +20,17 @@ public struct Policy: Sendable, Codable, ParameterConvertible, Hashable {
     /** Mode is the abuse gate's posture for THIS scope: \"shadow\" scores traffic and records the verdict without acting on it, \"live\" enforces it. Unset means shadow.  It is the one per-org field that does NOT inherit. Every other field here layers a platform default under the org's own value, which is right for a default: a tenant that sets no rate ceiling should get the platform's. Mode is not a default, it is an ARMING DECISION — it is what makes a statistical judgement start refusing real traffic — and inheriting it means arming one scope arms every tenant that never asked for it, without a write to their row and without anything in their config changing. So a tenant is live only if that tenant's OWN row says live, and the platform row's mode governs exactly one scope: the anonymous lane, which has no tenant of its own.  It is also not self-service. Writing it requires SuperAdmin (see the /v1/gateway config op): the subject of an abuse control does not get to switch the control off. */
     public var mode: String?
     /** OrgRPM is the org's OWN authenticated rate ceiling, requests per minute, as ScopeRateLimit enforces it. Unset inherits the platform default, then the static boot default. */
-    public var orgRpm: Int?
+    public var orgRpm: Int64?
     /** PerIPRPM is the PLATFORM-scope pre-auth flood cap: requests EdgeRateLimit admits per WindowSec from one client IP. SuperAdmin-only, same reason. */
-    public var perIpRpm: Int?
+    public var perIpRpm: Int64?
     /** UpdatedAt is the unix second this policy row was last written. Server-stamped; a client-supplied value is ignored. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
     /** UpdatedBy is the validated user id that wrote this policy row. Server-stamped; a client-supplied value is ignored. */
     public var updatedBy: String?
     /** WindowSec is the window PerIPRPM is counted over, in seconds. SuperAdmin-only. */
-    public var windowSec: Int?
+    public var windowSec: Int64?
 
-    public init(cachePaths: [String: Int]? = nil, cacheTtlSec: Int? = nil, corsOrigins: [String]? = nil, methods: [String]? = nil, mode: String? = nil, orgRpm: Int? = nil, perIpRpm: Int? = nil, updatedAt: Int? = nil, updatedBy: String? = nil, windowSec: Int? = nil) {
+    public init(cachePaths: [String: Int64]? = nil, cacheTtlSec: Int64? = nil, corsOrigins: [String]? = nil, methods: [String]? = nil, mode: String? = nil, orgRpm: Int64? = nil, perIpRpm: Int64? = nil, updatedAt: Int64? = nil, updatedBy: String? = nil, windowSec: Int64? = nil) {
         self.cachePaths = cachePaths
         self.cacheTtlSec = cacheTtlSec
         self.corsOrigins = corsOrigins

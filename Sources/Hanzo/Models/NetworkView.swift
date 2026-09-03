@@ -14,11 +14,11 @@ public struct NetworkView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Name is the org the overlay belongs to. */
     public var name: String?
     /** Nodes is how many edge-routers the org has on the fabric. */
-    public var nodes: Int?
+    public var nodes: Int64?
     /** Status is \"connected\" once at least one of the org's edge-routers is online, else \"provisioning\" (routers exist but none has dialed home). */
     public var status: String?
 
-    public init(id: String? = nil, name: String? = nil, nodes: Int? = nil, status: String? = nil) {
+    public init(id: String? = nil, name: String? = nil, nodes: Int64? = nil, status: String? = nil) {
         self.id = id
         self.name = name
         self.nodes = nodes

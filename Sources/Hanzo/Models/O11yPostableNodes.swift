@@ -9,15 +9,15 @@ import Foundation
 
 public struct O11yPostableNodes: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var end: Int?
+    public var end: Int64?
     public var filter: O11yFilter?
     public var groupBy: [O11yGroupByKey]?
-    public var limit: Int?
-    public var offset: Int?
+    public var limit: Int64?
+    public var offset: Int64?
     public var orderBy: O11yQuerybuildertypesv5OrderBy?
-    public var start: Int?
+    public var start: Int64?
 
-    public init(end: Int? = nil, filter: O11yFilter? = nil, groupBy: [O11yGroupByKey]? = nil, limit: Int? = nil, offset: Int? = nil, orderBy: O11yQuerybuildertypesv5OrderBy? = nil, start: Int? = nil) {
+    public init(end: Int64? = nil, filter: O11yFilter? = nil, groupBy: [O11yGroupByKey]? = nil, limit: Int64? = nil, offset: Int64? = nil, orderBy: O11yQuerybuildertypesv5OrderBy? = nil, start: Int64? = nil) {
         self.end = end
         self.filter = filter
         self.groupBy = groupBy

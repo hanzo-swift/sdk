@@ -10,11 +10,11 @@ import Foundation
 public struct AffiliateStanding: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** AccruedCents is lifetime commission accrued, in cents. */
-    public var accruedCents: Int?
+    public var accruedCents: Int64?
     /** Code is the minted referral code; empty until staff approve. */
     public var code: String?
     /** DefaultRateBps is the direct rate a new affiliate would get, answered only to a caller that has not applied. */
-    public var defaultRateBps: Int?
+    public var defaultRateBps: Int64?
     /** Handle is the opt-in public leaderboard name; empty means opted out. */
     public var handle: String?
     /** ID is the affiliate's server-minted handle, \"aff_\"-prefixed — what staff approve, suspend, re-rate and pay against. Absent until the org applies. */
@@ -24,23 +24,23 @@ public struct AffiliateStanding: Sendable, Codable, ParameterConvertible, Hashab
     /** Link is the shareable ?aff URL; empty until a code is minted. */
     public var link: String?
     /** MarginBps is the platform gross-margin fraction commission is a rate OF. */
-    public var marginBps: Int?
+    public var marginBps: Int64?
     /** PaidCents is lifetime commission already paid out, in cents. */
-    public var paidCents: Int?
+    public var paidCents: Int64?
     /** Payouts is the payout history, newest rows bounded. */
     public var payouts: [Remittance]?
     /** PendingCents is accrued minus paid — what the platform still owes. */
-    public var pendingCents: Int?
+    public var pendingCents: Int64?
     /** RateBps is the affiliate's own direct commission rate, in basis points. */
-    public var rateBps: Int?
+    public var rateBps: Int64?
     /** ReferredCount is how many orgs this affiliate has referred. */
-    public var referredCount: Int?
+    public var referredCount: Int64?
     /** RequestedCode is the vanity code asked for at apply time — a request, not an allocation. Approval mints `code`, which may be a different slug if this one was already taken. */
     public var requestedCode: String?
     /** Status is \"applied\", \"approved\" or \"suspended\". Only an approved affiliate has a code that resolves for attribution and accrues commission; suspended keeps what it already earned but stops earning more. */
     public var status: String?
 
-    public init(accruedCents: Int? = nil, code: String? = nil, defaultRateBps: Int? = nil, handle: String? = nil, id: String? = nil, isAffiliate: Bool? = nil, link: String? = nil, marginBps: Int? = nil, paidCents: Int? = nil, payouts: [Remittance]? = nil, pendingCents: Int? = nil, rateBps: Int? = nil, referredCount: Int? = nil, requestedCode: String? = nil, status: String? = nil) {
+    public init(accruedCents: Int64? = nil, code: String? = nil, defaultRateBps: Int64? = nil, handle: String? = nil, id: String? = nil, isAffiliate: Bool? = nil, link: String? = nil, marginBps: Int64? = nil, paidCents: Int64? = nil, payouts: [Remittance]? = nil, pendingCents: Int64? = nil, rateBps: Int64? = nil, referredCount: Int64? = nil, requestedCode: String? = nil, status: String? = nil) {
         self.accruedCents = accruedCents
         self.code = code
         self.defaultRateBps = defaultRateBps

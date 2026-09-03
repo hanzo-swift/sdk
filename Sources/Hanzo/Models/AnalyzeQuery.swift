@@ -12,7 +12,7 @@ public struct AnalyzeQuery: Sendable, Codable, ParameterConvertible, Hashable {
     /** Alpha overrides the 0.05 two-tailed significance threshold when it lies strictly between 0 and 1; anything else leaves the default in place. */
     public var alpha: Double?
     /** Days is how far back to read when no start is given: 1 to 365, 30 by default. A value outside that range leaves the default in place. */
-    public var days: Int?
+    public var days: Int64?
     /** End is the window's exclusive end in RFC3339, defaulting to now. */
     public var end: String?
     /** ID is the experiment the URL names. */
@@ -20,7 +20,7 @@ public struct AnalyzeQuery: Sendable, Codable, ParameterConvertible, Hashable {
     /** Start is the window's inclusive start in RFC3339. Given, it wins over days. */
     public var start: String?
 
-    public init(alpha: Double? = nil, days: Int? = nil, end: String? = nil, id: String? = nil, start: String? = nil) {
+    public init(alpha: Double? = nil, days: Int64? = nil, end: String? = nil, id: String? = nil, start: String? = nil) {
         self.alpha = alpha
         self.days = days
         self.end = end

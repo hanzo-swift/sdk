@@ -11,9 +11,9 @@ public struct Day: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var close: String?
     /** Count is transactions in the day, where the table keeps one. */
-    public var count: Int?
+    public var count: Int64?
     /** Date is the day's start, unix seconds. */
-    public var date: Int?
+    public var date: Int64?
     public var high: String?
     public var locked: String?
     public var low: String?
@@ -21,7 +21,7 @@ public struct Day: Sendable, Codable, ParameterConvertible, Hashable {
     public var price: String?
     public var volume: String?
 
-    public init(close: String? = nil, count: Int? = nil, date: Int? = nil, high: String? = nil, locked: String? = nil, low: String? = nil, _open: String? = nil, price: String? = nil, volume: String? = nil) {
+    public init(close: String? = nil, count: Int64? = nil, date: Int64? = nil, high: String? = nil, locked: String? = nil, low: String? = nil, _open: String? = nil, price: String? = nil, volume: String? = nil) {
         self.close = close
         self.count = count
         self.date = date

@@ -22,7 +22,7 @@ public struct PullView: Sendable, Codable, ParameterConvertible, Hashable {
     /** MergedRev is what base points at now that the merge landed. Empty while the proposal is open. */
     public var mergedRev: String?
     /** Number is the proposal's per-repo handle, dense from 1. */
-    public var number: Int?
+    public var number: Int64?
     /** Repo is the repository the proposal belongs to. */
     public var repo: String?
     /** State is \"open\" or \"merged\". */
@@ -32,7 +32,7 @@ public struct PullView: Sendable, Codable, ParameterConvertible, Hashable {
     /** UpdatedAt is RFC 3339 UTC. */
     public var updatedAt: String?
 
-    public init(author: String? = nil, base: String? = nil, body: String? = nil, createdAt: String? = nil, head: String? = nil, mergedRev: String? = nil, number: Int? = nil, repo: String? = nil, state: String? = nil, title: String? = nil, updatedAt: String? = nil) {
+    public init(author: String? = nil, base: String? = nil, body: String? = nil, createdAt: String? = nil, head: String? = nil, mergedRev: String? = nil, number: Int64? = nil, repo: String? = nil, state: String? = nil, title: String? = nil, updatedAt: String? = nil) {
         self.author = author
         self.base = base
         self.body = body

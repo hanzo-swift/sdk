@@ -10,11 +10,11 @@ import Foundation
 public struct ProjectsComplete: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Bytes is their total size in bytes. */
-    public var bytes: Int?
+    public var bytes: Int64?
     /** Commit is the revision that was built, recorded on the deployment. */
     public var commit: String?
     /** Files is how many objects CI published. */
-    public var files: Int?
+    public var files: Int64?
     /** ID is the queued deployment to complete, from the path. */
     public var id: String?
     /** Keys is the manifest CI just uploaded, RELATIVE to the deployment prefix. It is what replaces `aws s3 sync --delete`: an upload grant authorizes writes only, so CI cannot remove a file, and cloud reconciles the prefix against this list instead (grant.go). Omit it and nothing is deleted — the prefix only grows, which is the old pre-grant behaviour and a safe default. */
@@ -28,7 +28,7 @@ public struct ProjectsComplete: Sendable, Codable, ParameterConvertible, Hashabl
     /** Status is how the build ended: `live` if it succeeded, `error` if it did not. Nothing else is accepted. */
     public var status: String?
 
-    public init(bytes: Int? = nil, commit: String? = nil, files: Int? = nil, id: String? = nil, keys: [String]? = nil, liveUrl: String? = nil, message: String? = nil, slug: String? = nil, status: String? = nil) {
+    public init(bytes: Int64? = nil, commit: String? = nil, files: Int64? = nil, id: String? = nil, keys: [String]? = nil, liveUrl: String? = nil, message: String? = nil, slug: String? = nil, status: String? = nil) {
         self.bytes = bytes
         self.commit = commit
         self.files = files

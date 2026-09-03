@@ -12,7 +12,7 @@ public struct ReferenceReceipt: Sendable, Codable, ParameterConvertible, Hashabl
     /** AsOf is when the load happened, RFC 3339. Absent is dated on arrival, which can only make the list look older than it is. */
     public var asOf: String?
     /** Keys is how many designations that load carried. Zero from a publisher who designates somebody is a failed load wearing a successful one's clothes, and belongs in Refusal instead. */
-    public var keys: Int?
+    public var keys: Int64?
     /** Refusal is why the load failed, when it did. */
     public var refusal: String?
     /** Source is the publisher this receipt is for. */
@@ -20,7 +20,7 @@ public struct ReferenceReceipt: Sendable, Codable, ParameterConvertible, Hashabl
     /** Version is the digest of what that publisher supplied, so a refresh that changed nothing can be told from a refresh that did not run. */
     public var version: String?
 
-    public init(asOf: String? = nil, keys: Int? = nil, refusal: String? = nil, source: String? = nil, version: String? = nil) {
+    public init(asOf: String? = nil, keys: Int64? = nil, refusal: String? = nil, source: String? = nil, version: String? = nil) {
         self.asOf = asOf
         self.keys = keys
         self.refusal = refusal

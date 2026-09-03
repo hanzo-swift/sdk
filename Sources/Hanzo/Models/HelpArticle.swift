@@ -20,9 +20,9 @@ public struct HelpArticle: Sendable, Codable, ParameterConvertible, Hashable {
     /** Title is the article's headline. */
     public var title: String?
     /** UpdatedAt is the unix second the article was last written. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
 
-    public init(body: String? = nil, category: String? = nil, excerpt: String? = nil, slug: String? = nil, title: String? = nil, updatedAt: Int? = nil) {
+    public init(body: String? = nil, category: String? = nil, excerpt: String? = nil, slug: String? = nil, title: String? = nil, updatedAt: Int64? = nil) {
         self.body = body
         self.category = category
         self.excerpt = excerpt

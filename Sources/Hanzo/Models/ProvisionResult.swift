@@ -24,13 +24,13 @@ public struct ProvisionResult: Sendable, Codable, ParameterConvertible, Hashable
     /** Password is the minted credential, in plaintext, for the kinds that have one. RETURNED HERE ONCE — where KMS is configured it is sealed there and only a reference is persisted; where it is not, it is stored nowhere at all. It is never held in plaintext on either side. */
     public var password: String?
     /** Port is the port a client connects to on Host. */
-    public var port: Int?
+    public var port: Int64?
     /** Status is \"ready\", or \"provisioning\" while a dedicated instance is still being materialized by the operator. A shared-backend create is \"ready\" here; a dedicated one answers 201 still launching, and reaches ready only when a later read reconciles it against the operator's live CR — never fabricated. */
     public var status: String?
     /** Username is the credential's user, for the kinds that mint one per resource. Absent for a kind whose backend authenticates with a shared, out-of-band key. */
     public var username: String?
 
-    public init(connectionString: String? = nil, database: String? = nil, host: String? = nil, id: String? = nil, kind: String? = nil, name: String? = nil, password: String? = nil, port: Int? = nil, status: String? = nil, username: String? = nil) {
+    public init(connectionString: String? = nil, database: String? = nil, host: String? = nil, id: String? = nil, kind: String? = nil, name: String? = nil, password: String? = nil, port: Int64? = nil, status: String? = nil, username: String? = nil) {
         self.connectionString = connectionString
         self.database = database
         self.host = host

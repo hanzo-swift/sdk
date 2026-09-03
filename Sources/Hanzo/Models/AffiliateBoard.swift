@@ -12,11 +12,11 @@ public struct AffiliateBoard: Sendable, Codable, ParameterConvertible, Hashable 
     /** Leaders are the top opt-in affiliates, by handle and aggregate figures only. */
     public var leaders: [LeaderboardRow]?
     /** Total is the approved population where it is known; omitted where the top page truncated and the caller has no rank to derive it from. */
-    public var total: Int?
+    public var total: Int64?
     /** You is the caller's own row with its exact global rank; only an approved affiliate has one. */
     public var you: LeaderboardRow?
 
-    public init(leaders: [LeaderboardRow]? = nil, total: Int? = nil, you: LeaderboardRow? = nil) {
+    public init(leaders: [LeaderboardRow]? = nil, total: Int64? = nil, you: LeaderboardRow? = nil) {
         self.leaders = leaders
         self.total = total
         self.you = you

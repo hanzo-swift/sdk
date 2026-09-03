@@ -21,10 +21,10 @@ public struct IamInput: Sendable, Codable, ParameterConvertible, Hashable {
     public var owner: String?
     public var requestUri: String?
     public var response: String?
-    public var statusCode: Int?
+    public var statusCode: Int64?
     public var user: String?
 
-    public init(action: String? = nil, clientIp: String? = nil, createdTime: String? = nil, isTriggered: Bool? = nil, language: String? = nil, method: String? = nil, name: String? = nil, object: String? = nil, organization: String? = nil, owner: String? = nil, requestUri: String? = nil, response: String? = nil, statusCode: Int? = nil, user: String? = nil) {
+    public init(action: String? = nil, clientIp: String? = nil, createdTime: String? = nil, isTriggered: Bool? = nil, language: String? = nil, method: String? = nil, name: String? = nil, object: String? = nil, organization: String? = nil, owner: String? = nil, requestUri: String? = nil, response: String? = nil, statusCode: Int64? = nil, user: String? = nil) {
         self.action = action
         self.clientIp = clientIp
         self.createdTime = createdTime

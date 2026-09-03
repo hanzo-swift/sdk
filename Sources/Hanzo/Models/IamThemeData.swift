@@ -9,13 +9,13 @@ import Foundation
 
 public struct IamThemeData: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var borderRadius: Int?
+    public var borderRadius: Int64?
     public var colorPrimary: String?
     public var isCompact: Bool?
     public var isEnabled: Bool?
     public var themeType: String?
 
-    public init(borderRadius: Int? = nil, colorPrimary: String? = nil, isCompact: Bool? = nil, isEnabled: Bool? = nil, themeType: String? = nil) {
+    public init(borderRadius: Int64? = nil, colorPrimary: String? = nil, isCompact: Bool? = nil, isEnabled: Bool? = nil, themeType: String? = nil) {
         self.borderRadius = borderRadius
         self.colorPrimary = colorPrimary
         self.isCompact = isCompact

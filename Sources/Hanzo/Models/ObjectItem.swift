@@ -16,11 +16,11 @@ public struct ObjectItem: Sendable, Codable, ParameterConvertible, Hashable {
     /** key RELATIVE to the requested prefix */
     public var key: String?
     /** unix seconds (0 for a folder) */
-    public var lastModified: Int?
+    public var lastModified: Int64?
     /** bytes (0 for a folder) */
-    public var size: Int?
+    public var size: Int64?
 
-    public init(etag: String? = nil, isDir: Bool? = nil, key: String? = nil, lastModified: Int? = nil, size: Int? = nil) {
+    public init(etag: String? = nil, isDir: Bool? = nil, key: String? = nil, lastModified: Int64? = nil, size: Int64? = nil) {
         self.etag = etag
         self.isDir = isDir
         self.key = key

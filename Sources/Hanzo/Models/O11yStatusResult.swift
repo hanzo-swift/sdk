@@ -14,7 +14,7 @@ public struct O11yStatusResult: Sendable, Codable, ParameterConvertible, Hashabl
     /** Deployments is the per-replica inventory behind the verdict. Empty means the telemetry store reported none, not that the service runs on none. */
     public var deployments: [O11yDeployment]?
     /** LatencyMs is the health probe's round trip in MILLISECONDS, time-boxed at two seconds. It is 0 when no probe answered, which is not a fast service. */
-    public var latencyMs: Int?
+    public var latencyMs: Int64?
     /** Product is the service this answer is about, echoed back. */
     public var product: String?
     /** Source is where the verdict came from: \"probe\" (we asked and it answered), \"datastore\" (the probe did not answer and the replica inventory decided it), \"unreachable\" (neither), or \"unknown-service\" for a well-formed product name nothing backs — which is answered without probing, since dialling an arbitrary host on a caller's say-so is the request forgery this refuses. */
@@ -22,7 +22,7 @@ public struct O11yStatusResult: Sendable, Codable, ParameterConvertible, Hashabl
     /** Up is true when the health probe succeeded OR any replica reports up, so a service reachable by either route reads up. Read Source to know which. */
     public var up: Bool?
 
-    public init(checkedAt: String? = nil, deployments: [O11yDeployment]? = nil, latencyMs: Int? = nil, product: String? = nil, source: String? = nil, up: Bool? = nil) {
+    public init(checkedAt: String? = nil, deployments: [O11yDeployment]? = nil, latencyMs: Int64? = nil, product: String? = nil, source: String? = nil, up: Bool? = nil) {
         self.checkedAt = checkedAt
         self.deployments = deployments
         self.latencyMs = latencyMs

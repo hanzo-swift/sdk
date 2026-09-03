@@ -12,9 +12,9 @@ public struct LegalHealth: Sendable, Codable, ParameterConvertible, Hashable {
     /** Status is \"ok\" when the subsystem is serving. */
     public var status: String?
     /** Templates is how many built-in templates the catalog carries. */
-    public var templates: Int?
+    public var templates: Int64?
 
-    public init(status: String? = nil, templates: Int? = nil) {
+    public init(status: String? = nil, templates: Int64? = nil) {
         self.status = status
         self.templates = templates
     }

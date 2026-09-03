@@ -12,13 +12,13 @@ public struct BucketRecord: Sendable, Codable, ParameterConvertible, Hashable {
     /** Bucket is the bucket's name within the org. */
     public var bucket: String?
     /** History is how many revisions each key keeps. */
-    public var history: Int?
+    public var history: Int64?
     /** TTL is the entry expiry in seconds; 0 means none. */
-    public var ttl: Int?
+    public var ttl: Int64?
     /** Values is how many values the bucket holds right now. */
     public var values: Int?
 
-    public init(bucket: String? = nil, history: Int? = nil, ttl: Int? = nil, values: Int? = nil) {
+    public init(bucket: String? = nil, history: Int64? = nil, ttl: Int64? = nil, values: Int? = nil) {
         self.bucket = bucket
         self.history = history
         self.ttl = ttl

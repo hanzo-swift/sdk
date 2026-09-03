@@ -12,9 +12,9 @@ public struct AudiencePreview: Sendable, Codable, ParameterConvertible, Hashable
     /** Available is false when the roster or the warehouse could not be read; the counts are then zero because nothing was measured, not because the cohort is empty, and Reason says which read failed. */
     public var available: Bool?
     /** Count is the cohort size: distinct warehouse identifiers for an event audience, mailable customers for an event-less (whole-org) one. */
-    public var count: Int?
+    public var count: Int64?
     /** Deliverable is how many de-duplicated mailboxes a send would reach. Two customers sharing an address count once, so it is <= Count. */
-    public var deliverable: Int?
+    public var deliverable: Int64?
     /** Reason is the error text of the read that failed: the org's roster could not be loaded (\"identity store unavailable…\"), or the cohort query had no warehouse to run against (\"analytics warehouse not configured\"). Absent when the evaluation succeeded, so its presence and Available=false are one fact seen twice. */
     public var reason: String?
     /** Sample is up to 1000 cohort IDENTIFIERS — never addresses, which product analytics does not hold. Empty for an event-less (whole-org) audience. */
@@ -22,9 +22,9 @@ public struct AudiencePreview: Sendable, Codable, ParameterConvertible, Hashable
     /** Source names where the cohort was read: the events table for an event audience, \"iam:<org>\" for the whole-org one. */
     public var source: String?
     /** Unmatched is how many cohort identifiers named nobody on the org's roster and so have no address to mail. It is reported rather than hidden: it is the honest explanation for a cohort of 500 that mails 3. Always 0 for an event-less (whole-org) audience, which starts from the roster and has nothing to match. */
-    public var unmatched: Int?
+    public var unmatched: Int64?
 
-    public init(available: Bool? = nil, count: Int? = nil, deliverable: Int? = nil, reason: String? = nil, sample: [String]? = nil, source: String? = nil, unmatched: Int? = nil) {
+    public init(available: Bool? = nil, count: Int64? = nil, deliverable: Int64? = nil, reason: String? = nil, sample: [String]? = nil, source: String? = nil, unmatched: Int64? = nil) {
         self.available = available
         self.count = count
         self.deliverable = deliverable

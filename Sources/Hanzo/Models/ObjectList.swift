@@ -16,9 +16,9 @@ public struct ObjectList: Sendable, Codable, ParameterConvertible, Hashable {
     /** Prefix is the sub-folder the listing was scoped to, cleaned. Empty for the bucket root. */
     public var _prefix: String?
     /** Total is how many entries came back. The listing is BOUNDED, so a bucket with more keys than the cap answers the cap and this says so — it is not a count of what the bucket holds. */
-    public var total: Int?
+    public var total: Int64?
 
-    public init(bucket: String? = nil, objects: [ObjectItem]? = nil, _prefix: String? = nil, total: Int? = nil) {
+    public init(bucket: String? = nil, objects: [ObjectItem]? = nil, _prefix: String? = nil, total: Int64? = nil) {
         self.bucket = bucket
         self.objects = objects
         self._prefix = _prefix

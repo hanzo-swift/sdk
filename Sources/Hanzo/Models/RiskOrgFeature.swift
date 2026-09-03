@@ -12,7 +12,7 @@ public struct RiskOrgFeature: Sendable, Codable, ParameterConvertible, Hashable 
     /** Blind is true when the dimension is present in no bucket at all: this organisation's surface does not carry it, and saying so is the difference between no risk and no data. */
     public var blind: Bool?
     /** Buckets is how many five-minute buckets of this organisation's surface were measured. */
-    public var buckets: Int?
+    public var buckets: Int64?
     /** Max is the largest value it reached in the window. */
     public var max: Double?
     /** Mean is the dimension's average where it was present. */
@@ -20,13 +20,13 @@ public struct RiskOrgFeature: Sendable, Codable, ParameterConvertible, Hashable 
     /** Name is the dimension as this API publishes it. */
     public var name: String?
     /** Present is in how many of them the dimension carried a value at all. */
-    public var present: Int?
+    public var present: Int64?
     /** Source names the plane it is rolled up from, so a dimension that reads zero everywhere traces to a plane the organisation does not use rather than to a defect. */
     public var source: String?
     /** Unit is how to read the numbers below. */
     public var unit: String?
 
-    public init(blind: Bool? = nil, buckets: Int? = nil, max: Double? = nil, mean: Double? = nil, name: String? = nil, present: Int? = nil, source: String? = nil, unit: String? = nil) {
+    public init(blind: Bool? = nil, buckets: Int64? = nil, max: Double? = nil, mean: Double? = nil, name: String? = nil, present: Int64? = nil, source: String? = nil, unit: String? = nil) {
         self.blind = blind
         self.buckets = buckets
         self.max = max

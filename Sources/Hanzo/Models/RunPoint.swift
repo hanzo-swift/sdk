@@ -14,13 +14,13 @@ public struct RunPoint: Sendable, Codable, ParameterConvertible, Hashable {
     /** Delta is the change in score from the previous run for this model, absent on the first. It is the number the whole surface exists to make visible. */
     public var delta: Double?
     /** N is how many items the run covered. Two runs are only comparable at the same n, which is why it travels with every point rather than being assumed. */
-    public var n: Int?
+    public var n: Int64?
     /** Run is the measurement id these attempts were recorded under. */
     public var run: String?
     /** Score is accuracy over the items this run covered, as a percentage. */
     public var score: Double?
 
-    public init(at: Date? = nil, delta: Double? = nil, n: Int? = nil, run: String? = nil, score: Double? = nil) {
+    public init(at: Date? = nil, delta: Double? = nil, n: Int64? = nil, run: String? = nil, score: Double? = nil) {
         self.at = at
         self.delta = delta
         self.n = n

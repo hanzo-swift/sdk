@@ -14,7 +14,7 @@ public struct Formation: Sendable, Codable, ParameterConvertible, Hashable {
     /** CapTableImported reports whether the existing company's cap table has been imported onto the canonical cap table. */
     public var capTableImported: Bool?
     /** CreatedAt is the unix second the formation was opened. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** DocumentIDs are the data room ids of the GENERATED formation documents. */
     public var documentIds: [String]?
     /** EsignRef is the e-signature provider's reference for the signature request. */
@@ -46,9 +46,9 @@ public struct Formation: Sendable, Codable, ParameterConvertible, Hashable {
     /** Structure is the legal entity being formed: c-corp, llc or dao-llc. */
     public var structure: String?
     /** UpdatedAt is the unix second of the most recent write to the formation. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
 
-    public init(alreadyIncorporated: Bool? = nil, capTableImported: Bool? = nil, createdAt: Int? = nil, documentIds: [String]? = nil, esignRef: String? = nil, filing: Filing? = nil, founders: [Founder]? = nil, genesis: Genesis? = nil, imported: Bool? = nil, importedDocs: [String]? = nil, jurisdiction: String? = nil, name: String? = nil, org: String? = nil, paid: Bool? = nil, paymentRef: String? = nil, signed: Bool? = nil, stage: String? = nil, structure: String? = nil, updatedAt: Int? = nil) {
+    public init(alreadyIncorporated: Bool? = nil, capTableImported: Bool? = nil, createdAt: Int64? = nil, documentIds: [String]? = nil, esignRef: String? = nil, filing: Filing? = nil, founders: [Founder]? = nil, genesis: Genesis? = nil, imported: Bool? = nil, importedDocs: [String]? = nil, jurisdiction: String? = nil, name: String? = nil, org: String? = nil, paid: Bool? = nil, paymentRef: String? = nil, signed: Bool? = nil, stage: String? = nil, structure: String? = nil, updatedAt: Int64? = nil) {
         self.alreadyIncorporated = alreadyIncorporated
         self.capTableImported = capTableImported
         self.createdAt = createdAt

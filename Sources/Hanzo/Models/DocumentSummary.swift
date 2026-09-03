@@ -12,25 +12,25 @@ public struct DocumentSummary: Sendable, Codable, ParameterConvertible, Hashable
     /** Category is the template's category: formation, equity, ops or sales. */
     public var category: String?
     /** CreatedAt is when the document was generated, in unix seconds. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** EsignProvider names the e-signature provider handling it, absent until a signature has been requested. */
     public var esignProvider: String?
     /** ID is the document's server-minted handle, \"doc_\"-prefixed. */
     public var id: String?
     /** SignedAt is when the provider reported completion, in unix seconds. Absent until then. */
-    public var signedAt: Int?
+    public var signedAt: Int64?
     /** Status is the lifecycle state: draft, out_for_signature, signed or voided. There is deliberately no \"legally valid\" state — that is counsel's determination, not the platform's. */
     public var status: String?
     /** TemplateID is the template it was rendered from. */
     public var templateId: String?
     /** TemplateVersion is WHICH version of that template rendered it, so the document is reproducible and auditable. */
-    public var templateVersion: Int?
+    public var templateVersion: Int64?
     /** Title is the document's title, inherited from the template. */
     public var title: String?
     /** UpdatedAt is when it last changed, in unix seconds. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
 
-    public init(category: String? = nil, createdAt: Int? = nil, esignProvider: String? = nil, id: String? = nil, signedAt: Int? = nil, status: String? = nil, templateId: String? = nil, templateVersion: Int? = nil, title: String? = nil, updatedAt: Int? = nil) {
+    public init(category: String? = nil, createdAt: Int64? = nil, esignProvider: String? = nil, id: String? = nil, signedAt: Int64? = nil, status: String? = nil, templateId: String? = nil, templateVersion: Int64? = nil, title: String? = nil, updatedAt: Int64? = nil) {
         self.category = category
         self.createdAt = createdAt
         self.esignProvider = esignProvider

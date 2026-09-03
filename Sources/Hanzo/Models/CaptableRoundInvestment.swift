@@ -18,13 +18,13 @@ public struct CaptableRoundInvestment: Sendable, Codable, ParameterConvertible, 
     /** ID is the investment id. */
     public var id: String?
     /** Shares is how many shares the investment bought; 0 when the round issues no equity at the time of investment. */
-    public var shares: Int?
+    public var shares: Int64?
     /** StakeholderID is the investor. */
     public var stakeholderId: String?
     /** StakeholderName is that investor's name. */
     public var stakeholderName: String?
 
-    public init(amount: Double? = nil, comments: String? = nil, date: String? = nil, id: String? = nil, shares: Int? = nil, stakeholderId: String? = nil, stakeholderName: String? = nil) {
+    public init(amount: Double? = nil, comments: String? = nil, date: String? = nil, id: String? = nil, shares: Int64? = nil, stakeholderId: String? = nil, stakeholderName: String? = nil) {
         self.amount = amount
         self.comments = comments
         self.date = date

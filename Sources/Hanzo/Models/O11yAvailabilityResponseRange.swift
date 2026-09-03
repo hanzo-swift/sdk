@@ -10,10 +10,10 @@ import Foundation
 /** Range is the window and bucket width actually used, after clamping — not what was asked for, which is why a caller reads it back rather than assuming. */
 public struct O11yAvailabilityResponseRange: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var sinceSec: Int?
-    public var stepSec: Int?
+    public var sinceSec: Int64?
+    public var stepSec: Int64?
 
-    public init(sinceSec: Int? = nil, stepSec: Int? = nil) {
+    public init(sinceSec: Int64? = nil, stepSec: Int64? = nil) {
         self.sinceSec = sinceSec
         self.stepSec = stepSec
     }

@@ -12,11 +12,11 @@ public struct RateCard: Sendable, Codable, ParameterConvertible, Hashable {
     /** Basis names where the rates come from, so a published price can be explained rather than merely asserted. */
     public var basis: String?
     /** MicroUSDPerGBHour is the price of one GiB of memory for one hour, in millionths of a US dollar. */
-    public var microUsdPerGbHour: Int?
+    public var microUsdPerGbHour: Int64?
     /** MicroUSDPerVCPUHour is the price of one vCPU for one hour, in millionths of a US dollar. */
-    public var microUsdPerVcpuHour: Int?
+    public var microUsdPerVcpuHour: Int64?
 
-    public init(basis: String? = nil, microUsdPerGbHour: Int? = nil, microUsdPerVcpuHour: Int? = nil) {
+    public init(basis: String? = nil, microUsdPerGbHour: Int64? = nil, microUsdPerVcpuHour: Int64? = nil) {
         self.basis = basis
         self.microUsdPerGbHour = microUsdPerGbHour
         self.microUsdPerVcpuHour = microUsdPerVcpuHour

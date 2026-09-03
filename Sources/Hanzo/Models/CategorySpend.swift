@@ -12,11 +12,11 @@ public struct CategorySpend: Sendable, Codable, ParameterConvertible, Hashable {
     /** Category is the bucket the ledger's own tag mapped to. An untagged or unrecognised line gets its own honest bucket rather than being folded away. */
     public var category: String?
     /** Cents is what the org spent in that bucket over the window, in US cents. */
-    public var cents: Int?
+    public var cents: Int64?
     /** Count is how many ledger lines rolled up into it. */
-    public var count: Int?
+    public var count: Int64?
 
-    public init(category: String? = nil, cents: Int? = nil, count: Int? = nil) {
+    public init(category: String? = nil, cents: Int64? = nil, count: Int64? = nil) {
         self.category = category
         self.cents = cents
         self.count = count

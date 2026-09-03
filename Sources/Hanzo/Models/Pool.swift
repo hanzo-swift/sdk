@@ -11,9 +11,9 @@ public struct Pool: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** At is the pool contract's address, lowercase. */
     public var at: String?
-    public var count: Int?
+    public var count: Int64?
     /** Fee is the pool's tier in hundredths of a basis point — 3000 is 0.3%. It is the integer the contract stores, unconverted, so nothing here rounds a rate. */
-    public var fee: Int?
+    public var fee: Int64?
     public var locked: String?
     public var token0: Token?
     /** Token0Price is token1 per token0, and Token1Price its reciprocal, both as the indexer computed them. Neither is a price ON anything: it is the ratio the pool's reserves stand at. */
@@ -22,7 +22,7 @@ public struct Pool: Sendable, Codable, ParameterConvertible, Hashable {
     public var token1Price: String?
     public var volume: String?
 
-    public init(at: String? = nil, count: Int? = nil, fee: Int? = nil, locked: String? = nil, token0: Token? = nil, token0Price: String? = nil, token1: Token? = nil, token1Price: String? = nil, volume: String? = nil) {
+    public init(at: String? = nil, count: Int64? = nil, fee: Int64? = nil, locked: String? = nil, token0: Token? = nil, token0Price: String? = nil, token1: Token? = nil, token1Price: String? = nil, volume: String? = nil) {
         self.at = at
         self.count = count
         self.fee = fee

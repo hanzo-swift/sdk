@@ -18,9 +18,9 @@ public struct HelpArticleCard: Sendable, Codable, ParameterConvertible, Hashable
     /** Title is the article's headline. */
     public var title: String?
     /** UpdatedAt is the unix second the article was last written, in the help center's own store. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
 
-    public init(category: String? = nil, excerpt: String? = nil, slug: String? = nil, title: String? = nil, updatedAt: Int? = nil) {
+    public init(category: String? = nil, excerpt: String? = nil, slug: String? = nil, title: String? = nil, updatedAt: Int64? = nil) {
         self.category = category
         self.excerpt = excerpt
         self.slug = slug

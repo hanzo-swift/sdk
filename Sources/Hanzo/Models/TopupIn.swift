@@ -10,7 +10,7 @@ import Foundation
 public struct TopupIn: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** AmountCents is how much to charge, in cents of Currency. Required. */
-    public var amountCents: Int?
+    public var amountCents: Int64?
     /** Currency is the ISO-4217 code to charge in. Empty takes the deployment's own default. */
     public var currency: String?
     /** MethodID names a card the subject already saved, for the saved-card endpoint. */
@@ -18,7 +18,7 @@ public struct TopupIn: Sendable, Codable, ParameterConvertible, Hashable {
     /** SourceID is a single-use card token from the payment form, for the token endpoint. It is vaulted as part of the charge, so a caller never holds card numbers and this service never sees one. */
     public var sourceId: String?
 
-    public init(amountCents: Int? = nil, currency: String? = nil, paymentMethodId: String? = nil, sourceId: String? = nil) {
+    public init(amountCents: Int64? = nil, currency: String? = nil, paymentMethodId: String? = nil, sourceId: String? = nil) {
         self.amountCents = amountCents
         self.currency = currency
         self.paymentMethodId = paymentMethodId

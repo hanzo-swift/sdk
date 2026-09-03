@@ -10,16 +10,16 @@ import Foundation
 public struct Rollup: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var balance: RollupBalance?
-    public var consumedCents: Int?
+    public var consumedCents: Int64?
     public var currency: String?
     public var included: RollupAllotment?
-    public var overageCents: Int?
+    public var overageCents: Int64?
     public var period: String?
     public var plan: String?
     public var user: String?
     public var windows: [Window]?
 
-    public init(balance: RollupBalance? = nil, consumedCents: Int? = nil, currency: String? = nil, included: RollupAllotment? = nil, overageCents: Int? = nil, period: String? = nil, plan: String? = nil, user: String? = nil, windows: [Window]? = nil) {
+    public init(balance: RollupBalance? = nil, consumedCents: Int64? = nil, currency: String? = nil, included: RollupAllotment? = nil, overageCents: Int64? = nil, period: String? = nil, plan: String? = nil, user: String? = nil, windows: [Window]? = nil) {
         self.balance = balance
         self.consumedCents = consumedCents
         self.currency = currency

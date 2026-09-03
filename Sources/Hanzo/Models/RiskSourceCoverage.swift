@@ -10,13 +10,13 @@ import Foundation
 public struct RiskSourceCoverage: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Facts is how many assertions this source filed; Won is how many judged events it was the assertion in force for. A source with many facts and few wins is one that is being outranked, which is worth knowing before concluding it is wired correctly. */
-    public var facts: Int?
+    public var facts: Int64?
     /** Source is the asserter these two counts are for — chargeoff, dispute, case, refund, review or sample. There is one entry per source that either filed in the window or won in it, in precedence order, strongest first. A source no longer in the vocabulary still has rows and is reported after the known ones rather than dropped out of a total that is supposed to add up. */
     public var source: String?
     /** Won is how many JUDGED events this source's assertion was the one IN FORCE for, at that event's own as-of — it beat every other visible claim under the precedence rule. Summed over the sources it is Judged. Read against Facts it is the ratio that matters: many filed and few won is a source being outranked, not a source that is broken, and one source winning nearly everything is a plane that looks labelled because one noisy filer dominates it. */
-    public var won: Int?
+    public var won: Int64?
 
-    public init(facts: Int? = nil, source: String? = nil, won: Int? = nil) {
+    public init(facts: Int64? = nil, source: String? = nil, won: Int64? = nil) {
         self.facts = facts
         self.source = source
         self.won = won

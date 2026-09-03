@@ -10,13 +10,13 @@ import Foundation
 public struct GraphVocabularyOut: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Bound is the ceiling on one walk. */
-    public var bound: Int?
+    public var bound: Int64?
     /** Relations is what this organization has actually asserted, which is the only vocabulary there is: this plane declares none of its own. */
     public var relations: [String]?
     /** Rule names the terms of the precedence order, in the order they apply. A reader who is told a winner without the rule cannot check it. */
     public var rule: [String]?
 
-    public init(bound: Int? = nil, relations: [String]? = nil, rule: [String]? = nil) {
+    public init(bound: Int64? = nil, relations: [String]? = nil, rule: [String]? = nil) {
         self.bound = bound
         self.relations = relations
         self.rule = rule

@@ -9,19 +9,19 @@ import Foundation
 
 public struct BillingInvoice: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var amountDue: Int?
-    public var amountPaid: Int?
-    public var attemptCount: Int?
+    public var amountDue: Int64?
+    public var amountPaid: Int64?
+    public var attemptCount: Int64?
     public var createdAt: String?
-    public var creditApplied: Int?
+    public var creditApplied: Int64?
     public var currency: String?
     public var customerEmail: String?
-    public var discount: Int?
+    public var discount: Int64?
     public var dueDate: String?
     public var id: String?
     /** LineItems carries no omitempty and is never allocated empty, because the wire it reproduces sends `null` for an invoice with no lines. An empty array there would be a different answer to \"were there lines\". */
     public var lineItems: [InvoiceLineItem]?
-    public var number: Int?
+    public var number: Int64?
     public var numberStr: String?
     public var paidAt: String?
     public var paymentMethod: String?
@@ -30,13 +30,13 @@ public struct BillingInvoice: Sendable, Codable, ParameterConvertible, Hashable 
     public var periodStart: String?
     public var status: String?
     public var subscriptionId: String?
-    public var subtotal: Int?
-    public var tax: Int?
+    public var subtotal: Int64?
+    public var tax: Int64?
     public var updatedAt: String?
     public var userId: String?
     public var voidedAt: String?
 
-    public init(amountDue: Int? = nil, amountPaid: Int? = nil, attemptCount: Int? = nil, createdAt: String? = nil, creditApplied: Int? = nil, currency: String? = nil, customerEmail: String? = nil, discount: Int? = nil, dueDate: String? = nil, id: String? = nil, lineItems: [InvoiceLineItem]? = nil, number: Int? = nil, numberStr: String? = nil, paidAt: String? = nil, paymentMethod: String? = nil, paymentRef: String? = nil, periodEnd: String? = nil, periodStart: String? = nil, status: String? = nil, subscriptionId: String? = nil, subtotal: Int? = nil, tax: Int? = nil, updatedAt: String? = nil, userId: String? = nil, voidedAt: String? = nil) {
+    public init(amountDue: Int64? = nil, amountPaid: Int64? = nil, attemptCount: Int64? = nil, createdAt: String? = nil, creditApplied: Int64? = nil, currency: String? = nil, customerEmail: String? = nil, discount: Int64? = nil, dueDate: String? = nil, id: String? = nil, lineItems: [InvoiceLineItem]? = nil, number: Int64? = nil, numberStr: String? = nil, paidAt: String? = nil, paymentMethod: String? = nil, paymentRef: String? = nil, periodEnd: String? = nil, periodStart: String? = nil, status: String? = nil, subscriptionId: String? = nil, subtotal: Int64? = nil, tax: Int64? = nil, updatedAt: String? = nil, userId: String? = nil, voidedAt: String? = nil) {
         self.amountDue = amountDue
         self.amountPaid = amountPaid
         self.attemptCount = attemptCount

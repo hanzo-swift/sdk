@@ -9,10 +9,10 @@ import Foundation
 
 public struct O11yO11yFunnelWindowIn: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var endTime: Int?
-    public var startTime: Int?
+    public var endTime: Int64?
+    public var startTime: Int64?
 
-    public init(endTime: Int? = nil, startTime: Int? = nil) {
+    public init(endTime: Int64? = nil, startTime: Int64? = nil) {
         self.endTime = endTime
         self.startTime = startTime
     }

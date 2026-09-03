@@ -15,20 +15,20 @@ public struct Alert: Sendable, Codable, ParameterConvertible, Hashable {
     public var id: String?
     public var over: Bool?
     public var period: String?
-    public var periodSpentCents: Int?
+    public var periodSpentCents: Int64?
     public var project: String?
-    public var rateLimitRpm: Int?
+    public var rateLimitRpm: Int64?
     public var resetsAt: String?
     public var service: String?
-    public var softPct: Int?
-    public var threshold: Int?
+    public var softPct: Int64?
+    public var threshold: Int64?
     public var title: String?
     public var triggeredAt: String?
     public var updatedAt: String?
     public var userId: String?
     public var warn: Bool?
 
-    public init(createdAt: String? = nil, currency: String? = nil, enforce: Bool? = nil, id: String? = nil, over: Bool? = nil, period: String? = nil, periodSpentCents: Int? = nil, project: String? = nil, rateLimitRpm: Int? = nil, resetsAt: String? = nil, service: String? = nil, softPct: Int? = nil, threshold: Int? = nil, title: String? = nil, triggeredAt: String? = nil, updatedAt: String? = nil, userId: String? = nil, warn: Bool? = nil) {
+    public init(createdAt: String? = nil, currency: String? = nil, enforce: Bool? = nil, id: String? = nil, over: Bool? = nil, period: String? = nil, periodSpentCents: Int64? = nil, project: String? = nil, rateLimitRpm: Int64? = nil, resetsAt: String? = nil, service: String? = nil, softPct: Int64? = nil, threshold: Int64? = nil, title: String? = nil, triggeredAt: String? = nil, updatedAt: String? = nil, userId: String? = nil, warn: Bool? = nil) {
         self.createdAt = createdAt
         self.currency = currency
         self.enforce = enforce

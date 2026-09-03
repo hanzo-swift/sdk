@@ -10,13 +10,13 @@ import Foundation
 public struct Span: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** EndLine is the last line of the span, inclusive. It equals Line for a one-line span rather than being zero or absent. */
-    public var endLine: Int?
+    public var endLine: Int64?
     /** File is the path inside the repo, relative to its root and never absolute. */
     public var file: String?
     /** Kind is what the indexer decided this chunk IS — \"func\", \"method\", \"type\", \"struct\", \"interface\", \"var\", \"const\", or \"block\" for a run of code that declares nothing. Absent when the chunker could not classify it. */
     public var kind: String?
     /** Line is where the span starts, 1-based, as an editor counts. */
-    public var line: Int?
+    public var line: Int64?
     /** Repo is the indexed repository the span was found in, as it was indexed (\"owner/name\"). A search may be scoped to one repo or run across all of them, so this is how a caller tells the results apart. */
     public var repo: String?
     /** context: match | definition | caller */
@@ -30,7 +30,7 @@ public struct Span: Sendable, Codable, ParameterConvertible, Hashable {
     /** Tier is which retrieval produced the span: \"hybrid\" (the default — all three fused), \"text\" (trigram/FTS), \"regex\", \"semantic\" (vector), or \"symbol\". It is what explains a Score, so the two travel together. */
     public var tier: String?
 
-    public init(endLine: Int? = nil, file: String? = nil, kind: String? = nil, line: Int? = nil, repo: String? = nil, role: String? = nil, score: Double? = nil, snippet: String? = nil, symbol: String? = nil, tier: String? = nil) {
+    public init(endLine: Int64? = nil, file: String? = nil, kind: String? = nil, line: Int64? = nil, repo: String? = nil, role: String? = nil, score: Double? = nil, snippet: String? = nil, symbol: String? = nil, tier: String? = nil) {
         self.endLine = endLine
         self.file = file
         self.kind = kind

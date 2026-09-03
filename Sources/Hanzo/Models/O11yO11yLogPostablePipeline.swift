@@ -24,9 +24,9 @@ public struct O11yO11yLogPostablePipeline: Sendable, Codable, ParameterConvertib
     /** Name is the pipeline's display name. */
     public var name: String?
     /** OrderID is the pipeline's 1-based position in the set. */
-    public var orderId: Int?
+    public var orderId: Int64?
 
-    public init(alias: String? = nil, config: [O11yO11yLogPipelineOperator]? = nil, description: String? = nil, enabled: Bool? = nil, filter: O11yO11yLogFilter? = nil, id: String? = nil, name: String? = nil, orderId: Int? = nil) {
+    public init(alias: String? = nil, config: [O11yO11yLogPipelineOperator]? = nil, description: String? = nil, enabled: Bool? = nil, filter: O11yO11yLogFilter? = nil, id: String? = nil, name: String? = nil, orderId: Int64? = nil) {
         self.alias = alias
         self.config = config
         self.description = description

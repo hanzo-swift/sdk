@@ -14,11 +14,11 @@ public struct AgentRunView: Sendable, Codable, ParameterConvertible, Hashable {
     /** What an operator needs to answer \"what ran, for whom, and what did it do\" — and, through traceId, to leave this record for the waterfall of the very same run rather than a search that hopefully lands near it.  Agent is on the row because the org-wide feed lists runs across agents, and a run that cannot name its agent is an orphan in exactly the view built to make sense of many of them. Every field is omitempty: a run recorded before these columns existed reports absence rather than a zero it never measured. */
     public var agent: String?
     /** CompletionTokens is the same measurement for what the model produced, on the same final completion. It is a count of TOKENS, not of turns and not of money. */
-    public var completionTokens: Int?
+    public var completionTokens: Int64?
     /** CreatedAt is when the run finished, RFC 3339 in UTC to the second — the duration above already says how long it had been going. */
     public var createdAt: String?
     /** DurationMs is wall-clock milliseconds around the completion, including a failover's retries. It is time SPENT, not time billed. */
-    public var durationMs: Int?
+    public var durationMs: Int64?
     /** Error is why an \"ok\"-less run failed, as the failing call reported it. Empty on every successful run. */
     public var error: String?
     /** ID is the run's handle, minted as \"run_\" + 32 hex characters. It is the key the metering ledger records this run's per-round token spend under, so it is how a bill and a run are joined. */
@@ -30,15 +30,15 @@ public struct AgentRunView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Output is what the model produced. Empty on an error run, and empty is also a legitimate answer from a run that succeeded with nothing to say — Status is what separates those. */
     public var output: String?
     /** PromptTokens is what the gateway reported for the run's FINAL completion, and only that one — a tool loop's earlier rounds are the metering ledger's account, joined by this run's id. Reading it as the run's total spend undercounts a loop. */
-    public var promptTokens: Int?
+    public var promptTokens: Int64?
     /** Status is the run's outcome, and there are exactly two: \"ok\" when the model answered, \"error\" when it did not. It is written when the run ends, so no row here is in flight. */
     public var status: String?
     /** ToolCalls is how many tool dispatches the run made — a count of ACTIONS, which is a different measurement from the token counts above and from the turns a build reports. Zero is a run that answered straight from the model. */
-    public var toolCalls: Int?
+    public var toolCalls: Int64?
     /** TraceID is the trace this run IS, so the record and its spans are one thing to move between: it opens the waterfall for THIS run rather than a search that lands near it. Empty when the process had no tracer, never a fabricated id. */
     public var traceId: String?
 
-    public init(actor: String? = nil, agent: String? = nil, completionTokens: Int? = nil, createdAt: String? = nil, durationMs: Int? = nil, error: String? = nil, id: String? = nil, input: String? = nil, model: String? = nil, output: String? = nil, promptTokens: Int? = nil, status: String? = nil, toolCalls: Int? = nil, traceId: String? = nil) {
+    public init(actor: String? = nil, agent: String? = nil, completionTokens: Int64? = nil, createdAt: String? = nil, durationMs: Int64? = nil, error: String? = nil, id: String? = nil, input: String? = nil, model: String? = nil, output: String? = nil, promptTokens: Int64? = nil, status: String? = nil, toolCalls: Int64? = nil, traceId: String? = nil) {
         self.actor = actor
         self.agent = agent
         self.completionTokens = completionTokens

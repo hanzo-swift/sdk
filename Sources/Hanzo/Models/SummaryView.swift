@@ -10,11 +10,11 @@ import Foundation
 public struct SummaryView: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** DocTypes is how many DocTypes the org has defined. */
-    public var doctypes: Int?
+    public var doctypes: Int64?
     /** Documents is how many documents exist across them. */
-    public var documents: Int?
+    public var documents: Int64?
 
-    public init(doctypes: Int? = nil, documents: Int? = nil) {
+    public init(doctypes: Int64? = nil, documents: Int64? = nil) {
         self.doctypes = doctypes
         self.documents = documents
     }

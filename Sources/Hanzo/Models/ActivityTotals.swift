@@ -10,19 +10,19 @@ import Foundation
 public struct ActivityTotals: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** ActiveDays counts the days with any usage at all — the streak/consistency number. Compare it against len(days) for the share of days the subject showed up. */
-    public var activeDays: Int?
+    public var activeDays: Int64?
     /** CostCents is the window's spend in whole US cents, the sum of Days[].CostCents. */
-    public var costCents: Int?
+    public var costCents: Int64?
     /** MaxRequests is the same ceiling for a request-based heatmap — the busiest single day's request count, 0 for an idle window. */
-    public var maxRequests: Int?
+    public var maxRequests: Int64?
     /** MaxTokens is the busiest single day's token count: the ceiling to normalize a token heatmap against, so the darkest cell is that day. 0 for an idle window, which a client must not divide by. */
-    public var maxTokens: Int?
+    public var maxTokens: Int64?
     /** Requests is the sum of Days[].Requests over the whole window. */
-    public var requests: Int?
+    public var requests: Int64?
     /** Tokens is the sum of Days[].Tokens over the whole window. */
-    public var tokens: Int?
+    public var tokens: Int64?
 
-    public init(activeDays: Int? = nil, costCents: Int? = nil, maxRequests: Int? = nil, maxTokens: Int? = nil, requests: Int? = nil, tokens: Int? = nil) {
+    public init(activeDays: Int64? = nil, costCents: Int64? = nil, maxRequests: Int64? = nil, maxTokens: Int64? = nil, requests: Int64? = nil, tokens: Int64? = nil) {
         self.activeDays = activeDays
         self.costCents = costCents
         self.maxRequests = maxRequests

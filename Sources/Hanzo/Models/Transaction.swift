@@ -9,7 +9,7 @@ import Foundation
 
 public struct Transaction: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var amount: Int?
+    public var amount: Int64?
     public var createdAt: String?
     public var currency: String?
     public var expiresAt: String?
@@ -19,7 +19,7 @@ public struct Transaction: Sendable, Codable, ParameterConvertible, Hashable {
     public var tags: String?
     public var type: String?
 
-    public init(amount: Int? = nil, createdAt: String? = nil, currency: String? = nil, expiresAt: String? = nil, id: String? = nil, metadata: JSONValue? = nil, notes: String? = nil, tags: String? = nil, type: String? = nil) {
+    public init(amount: Int64? = nil, createdAt: String? = nil, currency: String? = nil, expiresAt: String? = nil, id: String? = nil, metadata: JSONValue? = nil, notes: String? = nil, tags: String? = nil, type: String? = nil) {
         self.amount = amount
         self.createdAt = createdAt
         self.currency = currency

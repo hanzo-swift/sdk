@@ -14,11 +14,11 @@ public struct DataroomLinkStats: Sendable, Codable, ParameterConvertible, Hashab
     /** Pages is the per-page breakdown, in page order. */
     public var pages: [DataroomPageStat]?
     /** TotalPageViews is how many page views the link received. */
-    public var totalPageViews: Int?
+    public var totalPageViews: Int64?
     /** TotalViews is how many viewing sessions the link opened. */
-    public var totalViews: Int?
+    public var totalViews: Int64?
 
-    public init(linkId: String? = nil, pages: [DataroomPageStat]? = nil, totalPageViews: Int? = nil, totalViews: Int? = nil) {
+    public init(linkId: String? = nil, pages: [DataroomPageStat]? = nil, totalPageViews: Int64? = nil, totalViews: Int64? = nil) {
         self.linkId = linkId
         self.pages = pages
         self.totalPageViews = totalPageViews

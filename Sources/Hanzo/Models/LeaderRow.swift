@@ -14,7 +14,7 @@ public struct LeaderRow: Sendable, Codable, ParameterConvertible, Hashable {
     /** CILow and CIHigh are the 95% Wilson interval on Measured, in percent. They are what makes the score comparable: at n=198 a 98% carries roughly ±2 points, so most differences at the top of a board are not distinguishable and a bare number implies a precision it does not have. Absent when there is no measurement. */
     public var ciLow: Double?
     /** Claims is how many independent claims exist for this model on this benchmark. More than one means several sources reported it. */
-    public var claims: Int?
+    public var claims: Int64?
     /** published − measured (the arena signal) */
     public var gap: Double?
     /** Mean is the unweighted average of every claim, which answers a different question from Published: what the field says on average, rather than what the vendor says about itself. With one claim the two are equal. */
@@ -26,7 +26,7 @@ public struct LeaderRow: Sendable, Codable, ParameterConvertible, Hashable {
     /** the model this row scores */
     public var model: String?
     /** coverage — NEVER compare across different n */
-    public var n: Int?
+    public var n: Int64?
     /** how the vendor scored their claim: single-attempt, pass@k or agentic */
     public var _protocol: String?
     /** provider-claimed % (nil if none) */
@@ -36,7 +36,7 @@ public struct LeaderRow: Sendable, Codable, ParameterConvertible, Hashable {
     /** Spread is the distance between the highest and lowest of them, nil when there is only one. It is the disagreement AMONG sources, which a single Published number cannot show — signal in the same way the published-minus-measured gap is. */
     public var spread: Double?
 
-    public init(ciHigh: Double? = nil, ciLow: Double? = nil, claims: Int? = nil, gap: Double? = nil, mean: Double? = nil, measured: Double? = nil, measuredAt: Date? = nil, model: String? = nil, n: Int? = nil, _protocol: String? = nil, published: Double? = nil, run: String? = nil, spread: Double? = nil) {
+    public init(ciHigh: Double? = nil, ciLow: Double? = nil, claims: Int64? = nil, gap: Double? = nil, mean: Double? = nil, measured: Double? = nil, measuredAt: Date? = nil, model: String? = nil, n: Int64? = nil, _protocol: String? = nil, published: Double? = nil, run: String? = nil, spread: Double? = nil) {
         self.ciHigh = ciHigh
         self.ciLow = ciLow
         self.claims = claims

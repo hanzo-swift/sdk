@@ -9,7 +9,7 @@ import Foundation
 
 public struct InvoiceLineItem: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var amount: Int?
+    public var amount: Int64?
     public var currency: String?
     public var description: String?
     public var id: String?
@@ -19,11 +19,11 @@ public struct InvoiceLineItem: Sendable, Codable, ParameterConvertible, Hashable
     public var periodStart: String?
     public var planId: String?
     public var planName: String?
-    public var quantity: Int?
+    public var quantity: Int64?
     public var type: String?
-    public var unitPrice: Int?
+    public var unitPrice: Int64?
 
-    public init(amount: Int? = nil, currency: String? = nil, description: String? = nil, id: String? = nil, meterId: String? = nil, periodEnd: String? = nil, periodStart: String? = nil, planId: String? = nil, planName: String? = nil, quantity: Int? = nil, type: String? = nil, unitPrice: Int? = nil) {
+    public init(amount: Int64? = nil, currency: String? = nil, description: String? = nil, id: String? = nil, meterId: String? = nil, periodEnd: String? = nil, periodStart: String? = nil, planId: String? = nil, planName: String? = nil, quantity: Int64? = nil, type: String? = nil, unitPrice: Int64? = nil) {
         self.amount = amount
         self.currency = currency
         self.description = description

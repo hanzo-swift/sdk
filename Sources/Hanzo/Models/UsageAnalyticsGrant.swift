@@ -14,9 +14,9 @@ public struct UsageAnalyticsGrant: Sendable, Codable, ParameterConvertible, Hash
     /** Export is whether the plan may export the analytics it can read. */
     public var export: Bool?
     /** RetentionDays is how far back the plan may read. GET /v1/usage/analytics clamps a custom window's start to this, so an older `start` returns the clamped window rather than an error. */
-    public var retentionDays: Int?
+    public var retentionDays: Int64?
 
-    public init(datastore: Bool? = nil, export: Bool? = nil, retentionDays: Int? = nil) {
+    public init(datastore: Bool? = nil, export: Bool? = nil, retentionDays: Int64? = nil) {
         self.datastore = datastore
         self.export = export
         self.retentionDays = retentionDays

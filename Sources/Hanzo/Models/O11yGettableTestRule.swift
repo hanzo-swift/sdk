@@ -9,10 +9,10 @@ import Foundation
 
 public struct O11yGettableTestRule: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var alertCount: Int?
+    public var alertCount: Int64?
     public var message: String?
 
-    public init(alertCount: Int? = nil, message: String? = nil) {
+    public init(alertCount: Int64? = nil, message: String? = nil) {
         self.alertCount = alertCount
         self.message = message
     }

@@ -12,9 +12,9 @@ public struct O11yO11yFunnelCreateIn: Sendable, Codable, ParameterConvertible, H
     /** Name is the funnel's name. */
     public var funnelName: String?
     /** Timestamp is when the funnel was created, as a millisecond epoch. Zero takes the runtime's own clock. */
-    public var timestamp: Int?
+    public var timestamp: Int64?
 
-    public init(funnelName: String? = nil, timestamp: Int? = nil) {
+    public init(funnelName: String? = nil, timestamp: Int64? = nil) {
         self.funnelName = funnelName
         self.timestamp = timestamp
     }

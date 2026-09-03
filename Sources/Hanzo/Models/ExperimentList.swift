@@ -12,9 +12,9 @@ public struct ExperimentList: Sendable, Codable, ParameterConvertible, Hashable 
     /** Data is the org's experiments, ordered by project then id. */
     public var data: [Trial]?
     /** Total is how many rows Data holds. */
-    public var total: Int?
+    public var total: Int64?
 
-    public init(data: [Trial]? = nil, total: Int? = nil) {
+    public init(data: [Trial]? = nil, total: Int64? = nil) {
         self.data = data
         self.total = total
     }

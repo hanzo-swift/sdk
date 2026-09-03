@@ -28,7 +28,7 @@ public struct AgentView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Name is the agent's org-unique handle, matching ^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$. It addresses the agent everywhere ID does, it is what a run row records, and it is the suffix of the `agent_<name>` tool other agents call this one by. Set once at create; no update route moves it, because moving it would orphan that history. */
     public var name: String?
     /** Runs is how many executions the org has recorded against this agent, counted at read time. The list and update reads count the WHOLE history; the detail read reports the size of the RecentRuns page it carries, which stops at 20 — so a detail row saying 20 means \"at least 20\", not \"exactly 20\". */
-    public var runs: Int?
+    public var runs: Int64?
     /** Schedule is the 5-field cron the scheduler fires a long-running agent on, evaluated once a minute. Required for long-running and DROPPED for one-shot — a one-shot agent's schedule is not stored, so absence here is the mode's answer rather than a value nobody set. */
     public var schedule: String?
     /** ServiceAccountID is the IAM agent service account (<org>-<agent>) a scheduled run is billed AS. It is what makes an autonomous run attributable to a principal rather than only to the org; empty means the org itself wears the spend. */
@@ -40,7 +40,7 @@ public struct AgentView: Sendable, Codable, ParameterConvertible, Hashable {
     /** UpdatedAt is the last time any field above was written, same format. It moves on an update to the DEFINITION and never on a run, so a busy agent nobody has edited keeps an old one. */
     public var updatedAt: String?
 
-    public init(avatar: String? = nil, computeRef: String? = nil, createdAt: String? = nil, description: String? = nil, emoji: String? = nil, executionMode: String? = nil, id: String? = nil, model: String? = nil, name: String? = nil, runs: Int? = nil, schedule: String? = nil, serviceAccountId: String? = nil, status: String? = nil, tools: [String]? = nil, updatedAt: String? = nil) {
+    public init(avatar: String? = nil, computeRef: String? = nil, createdAt: String? = nil, description: String? = nil, emoji: String? = nil, executionMode: String? = nil, id: String? = nil, model: String? = nil, name: String? = nil, runs: Int64? = nil, schedule: String? = nil, serviceAccountId: String? = nil, status: String? = nil, tools: [String]? = nil, updatedAt: String? = nil) {
         self.avatar = avatar
         self.computeRef = computeRef
         self.createdAt = createdAt

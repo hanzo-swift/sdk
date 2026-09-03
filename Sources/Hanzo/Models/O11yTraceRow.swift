@@ -14,13 +14,13 @@ public struct O11yTraceRow: Sendable, Codable, ParameterConvertible, Hashable {
     /** End is the latest span end, RFC3339 with nanoseconds, in UTC. */
     public var end: String?
     /** NumSpans is how many spans the trace carries. */
-    public var numSpans: Int?
+    public var numSpans: Int64?
     /** Start is the earliest span start, RFC3339 with nanoseconds, in UTC. */
     public var start: String?
     /** TraceID is the trace's id — the {traceId} of the detail read. */
     public var traceId: String?
 
-    public init(durationMs: Double? = nil, end: String? = nil, numSpans: Int? = nil, start: String? = nil, traceId: String? = nil) {
+    public init(durationMs: Double? = nil, end: String? = nil, numSpans: Int64? = nil, start: String? = nil, traceId: String? = nil) {
         self.durationMs = durationMs
         self.end = end
         self.numSpans = numSpans

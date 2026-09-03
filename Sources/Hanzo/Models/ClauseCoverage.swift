@@ -10,7 +10,7 @@ import Foundation
 public struct ClauseCoverage: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Automated is how many clauses have an automated control behind them that something can fail on behalf of. */
-    public var automated: Int?
+    public var automated: Int64?
     /** Clauses is every clause the standard publishes, with what stands behind it. */
     public var clauses: [ClauseRow]?
     /** Edition is which edition this clause list is taken from. */
@@ -18,21 +18,21 @@ public struct ClauseCoverage: Sendable, Codable, ParameterConvertible, Hashable 
     /** Framework is the framework id — \"soc2\", \"iso27001\", \"nist80053\". */
     public var framework: String?
     /** Generated is when this was computed, unix milliseconds. */
-    public var generated: Int?
+    public var generated: Int64?
     /** Name is the published standard's name. */
     public var name: String?
     /** None is how many have nothing behind them. */
-    public var _none: Int?
+    public var _none: Int64?
     /** Note is what this clause list is scoped to, when a count alone would misrepresent it. */
     public var note: String?
     /** Partial is how many are answered in part. */
-    public var partial: Int?
+    public var partial: Int64?
     /** Publisher is who publishes it — AICPA, ISO/IEC, NIST. */
     public var publisher: String?
     /** Statement is the counts as one sentence, carrying the unit. */
     public var statement: String?
     /** Total is the framework's WHOLE published clause list — the denominator. */
-    public var total: Int?
+    public var total: Int64?
     /** Unit is what ONE clause is — \"criterion\", \"control\", \"family\". */
     public var unit: String?
     /** Units is the plural of Unit, for rendering a sentence. */
@@ -40,7 +40,7 @@ public struct ClauseCoverage: Sendable, Codable, ParameterConvertible, Hashable 
     /** Version is the embedded inventory's version. */
     public var version: String?
 
-    public init(automated: Int? = nil, clauses: [ClauseRow]? = nil, edition: String? = nil, framework: String? = nil, generated: Int? = nil, name: String? = nil, _none: Int? = nil, note: String? = nil, partial: Int? = nil, publisher: String? = nil, statement: String? = nil, total: Int? = nil, unit: String? = nil, units: String? = nil, version: String? = nil) {
+    public init(automated: Int64? = nil, clauses: [ClauseRow]? = nil, edition: String? = nil, framework: String? = nil, generated: Int64? = nil, name: String? = nil, _none: Int64? = nil, note: String? = nil, partial: Int64? = nil, publisher: String? = nil, statement: String? = nil, total: Int64? = nil, unit: String? = nil, units: String? = nil, version: String? = nil) {
         self.automated = automated
         self.clauses = clauses
         self.edition = edition

@@ -10,7 +10,7 @@ import Foundation
 public struct ProjectsDomain: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CreatedAt is when the host was claimed, as Unix seconds — not when it went live. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** Detail is what is holding the claim up, in words a person can act on. */
     public var detail: String?
     /** Host is the custom hostname claimed for this site. */
@@ -24,7 +24,7 @@ public struct ProjectsDomain: Sendable, Codable, ParameterConvertible, Hashable 
     /** Verified is the same fact as a boolean, for a caller that only needs the yes or no. It cannot disagree with status. */
     public var verified: Bool?
 
-    public init(createdAt: Int? = nil, detail: String? = nil, host: String? = nil, records: [Record]? = nil, status: String? = nil, url: String? = nil, verified: Bool? = nil) {
+    public init(createdAt: Int64? = nil, detail: String? = nil, host: String? = nil, records: [Record]? = nil, status: String? = nil, url: String? = nil, verified: Bool? = nil) {
         self.createdAt = createdAt
         self.detail = detail
         self.host = host

@@ -9,10 +9,10 @@ import Foundation
 
 public struct CreditEntry: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var available: Int?
+    public var available: Int64?
     public var currency: String?
 
-    public init(available: Int? = nil, currency: String? = nil) {
+    public init(available: Int64? = nil, currency: String? = nil) {
         self.available = available
         self.currency = currency
     }

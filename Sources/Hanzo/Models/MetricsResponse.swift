@@ -10,41 +10,41 @@ import Foundation
 public struct MetricsResponse: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** ARR is annualized recurring revenue in cents (MRR × 12). */
-    public var arr: Int?
+    public var arr: Int64?
     /** Burn is total expense in cents over the period. */
-    public var burn: Int?
+    public var burn: Int64?
     /** Cash is the bank + processor-clearing balance in cents as of To. */
-    public var cash: Int?
+    public var cash: Int64?
     /** COGS is cost of goods sold in cents over the period. */
-    public var cogs: Int?
+    public var cogs: Int64?
     /** DeferredRevenue is the customer-wallet liability in cents as of To. */
-    public var deferredRevenue: Int?
+    public var deferredRevenue: Int64?
     /** Figures is the same snapshot rendered through books' one money formatter. */
     public var figures: [Figure]?
     /** From is the RFC3339 start of the reporting window, exclusive; absent for all time. */
     public var from: String?
     /** GrossMarginBps is GrossProfit / Revenue in basis points (7000 = 70%). */
-    public var grossMarginBps: Int?
+    public var grossMarginBps: Int64?
     /** GrossProfit is Revenue − COGS, in cents. */
-    public var grossProfit: Int?
+    public var grossProfit: Int64?
     /** MonthlyBurn is net cash burned per month in cents; 0 when not losing cash. */
-    public var monthlyBurn: Int?
+    public var monthlyBurn: Int64?
     /** Months is the window length in whole months used to normalize MRR and burn. */
-    public var months: Int?
+    public var months: Int64?
     /** MRR is monthly recurring revenue in cents. */
-    public var mrr: Int?
+    public var mrr: Int64?
     /** NetIncome is Revenue − Burn, in cents. */
-    public var netIncome: Int?
+    public var netIncome: Int64?
     /** Period is the human window label, e.g. \"2026-07\" or \"all-time\". */
     public var period: String?
     /** Revenue is recognized revenue in cents over the period. */
-    public var revenue: Int?
+    public var revenue: Int64?
     /** RunwayMonths is Cash / MonthlyBurn; -1 means infinite (the org is not burning). */
-    public var runwayMonths: Int?
+    public var runwayMonths: Int64?
     /** To is the RFC3339 end of the reporting window, inclusive; absent for up to now. */
     public var to: String?
 
-    public init(arr: Int? = nil, burn: Int? = nil, cash: Int? = nil, cogs: Int? = nil, deferredRevenue: Int? = nil, figures: [Figure]? = nil, from: String? = nil, grossMarginBps: Int? = nil, grossProfit: Int? = nil, monthlyBurn: Int? = nil, months: Int? = nil, mrr: Int? = nil, netIncome: Int? = nil, period: String? = nil, revenue: Int? = nil, runwayMonths: Int? = nil, to: String? = nil) {
+    public init(arr: Int64? = nil, burn: Int64? = nil, cash: Int64? = nil, cogs: Int64? = nil, deferredRevenue: Int64? = nil, figures: [Figure]? = nil, from: String? = nil, grossMarginBps: Int64? = nil, grossProfit: Int64? = nil, monthlyBurn: Int64? = nil, months: Int64? = nil, mrr: Int64? = nil, netIncome: Int64? = nil, period: String? = nil, revenue: Int64? = nil, runwayMonths: Int64? = nil, to: String? = nil) {
         self.arr = arr
         self.burn = burn
         self.cash = cash

@@ -10,15 +10,15 @@ import Foundation
 public struct AdSummary: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Active is how many of those campaigns are in the active state. */
-    public var active: Int?
+    public var active: Int64?
     /** Budget is the summed budget of every campaign in the org, in cents. */
-    public var budget: Int?
+    public var budget: Int64?
     /** Campaigns is how many campaigns the org has, in every state. */
-    public var campaigns: Int?
+    public var campaigns: Int64?
     /** Spend is the summed spend of every campaign in the org, in cents. */
-    public var spend: Int?
+    public var spend: Int64?
 
-    public init(active: Int? = nil, budget: Int? = nil, campaigns: Int? = nil, spend: Int? = nil) {
+    public init(active: Int64? = nil, budget: Int64? = nil, campaigns: Int64? = nil, spend: Int64? = nil) {
         self.active = active
         self.budget = budget
         self.campaigns = campaigns

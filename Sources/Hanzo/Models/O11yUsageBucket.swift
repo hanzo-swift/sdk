@@ -10,15 +10,15 @@ import Foundation
 public struct O11yUsageBucket: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Calls is how many LLM calls landed in the bucket. */
-    public var calls: Int?
+    public var calls: Int64?
     /** CostCents is what they cost, in cents. */
-    public var costCents: Int?
+    public var costCents: Int64?
     /** T is the bucket start, RFC3339 in UTC. */
     public var t: String?
     /** Tokens is how many tokens they consumed. */
-    public var tokens: Int?
+    public var tokens: Int64?
 
-    public init(calls: Int? = nil, costCents: Int? = nil, t: String? = nil, tokens: Int? = nil) {
+    public init(calls: Int64? = nil, costCents: Int64? = nil, t: String? = nil, tokens: Int64? = nil) {
         self.calls = calls
         self.costCents = costCents
         self.t = t

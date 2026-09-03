@@ -16,15 +16,15 @@ public struct RiskDatasetRows: Sendable, Codable, ParameterConvertible, Hashable
     /** Dims names what each coordinate of Point means, in Point's own order. */
     public var dims: [String]?
     /** Limit is the page size actually served: the one asked for, clamped to the plane's own bound of 5000. Fewer rows than Limit means the version ended. */
-    public var limit: Int?
+    public var limit: Int64?
     /** Offset is where this page starts in the version's own row order, which is by row id and therefore stable forever. */
-    public var offset: Int?
+    public var offset: Int64?
     /** Rows is the page. Never null. */
     public var rows: [RiskDatasetRow]?
     /** Version is which published version it was read from — the one asked for, or the newest published one when the request named none. */
-    public var version: Int?
+    public var version: Int64?
 
-    public init(dataset: String? = nil, digest: String? = nil, dims: [String]? = nil, limit: Int? = nil, offset: Int? = nil, rows: [RiskDatasetRow]? = nil, version: Int? = nil) {
+    public init(dataset: String? = nil, digest: String? = nil, dims: [String]? = nil, limit: Int64? = nil, offset: Int64? = nil, rows: [RiskDatasetRow]? = nil, version: Int64? = nil) {
         self.dataset = dataset
         self.digest = digest
         self.dims = dims

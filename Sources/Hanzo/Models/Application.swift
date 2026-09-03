@@ -16,13 +16,13 @@ public struct Application: Sendable, Codable, ParameterConvertible, Hashable {
     /** ID is the affiliate's server-minted handle, \"aff_\"-prefixed — the id staff approve, suspend, re-rate and pay against. */
     public var id: String?
     /** RateBps is the direct (level 1) commission rate the row carries, in basis points OF Hanzo's margin (2000 = 20% of margin, never of the customer's bill). */
-    public var rateBps: Int?
+    public var rateBps: Int64?
     /** RequestedCode echoes the vanity code asked for, normalized to lower case. It is a request only: approval mints a different slug if this one is taken. */
     public var requestedCode: String?
     /** Status is \"applied\" for a row this call created. A re-apply echoes the existing row's status, which may already be \"approved\" or \"suspended\". */
     public var status: String?
 
-    public init(code: String? = nil, created: Bool? = nil, id: String? = nil, rateBps: Int? = nil, requestedCode: String? = nil, status: String? = nil) {
+    public init(code: String? = nil, created: Bool? = nil, id: String? = nil, rateBps: Int64? = nil, requestedCode: String? = nil, status: String? = nil) {
         self.code = code
         self.created = created
         self.id = id

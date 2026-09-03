@@ -9,13 +9,13 @@ import Foundation
 
 public struct TierBalance: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var creditsRemaining: Int?
+    public var creditsRemaining: Int64?
     public var currency: String?
-    public var dailyRemaining: Int?
-    public var effectiveAvailable: Int?
-    public var prepaidAvailable: Int?
+    public var dailyRemaining: Int64?
+    public var effectiveAvailable: Int64?
+    public var prepaidAvailable: Int64?
 
-    public init(creditsRemaining: Int? = nil, currency: String? = nil, dailyRemaining: Int? = nil, effectiveAvailable: Int? = nil, prepaidAvailable: Int? = nil) {
+    public init(creditsRemaining: Int64? = nil, currency: String? = nil, dailyRemaining: Int64? = nil, effectiveAvailable: Int64? = nil, prepaidAvailable: Int64? = nil) {
         self.creditsRemaining = creditsRemaining
         self.currency = currency
         self.dailyRemaining = dailyRemaining

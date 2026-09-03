@@ -10,23 +10,23 @@ import Foundation
 public struct O11yO11yLLMSession: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CompletionTokens is the conversation's total output tokens. */
-    public var completionTokens: Int?
+    public var completionTokens: Int64?
     /** ID is the session id. */
     public var id: String?
     /** Observations is how many observations the conversation holds. */
-    public var observations: Int?
+    public var observations: Int64?
     /** PromptTokens is the conversation's total input tokens. */
-    public var promptTokens: Int?
+    public var promptTokens: Int64?
     /** TotalCost is the conversation's total cost. */
     public var totalCost: Double?
     /** TotalTokens is the conversation's total tokens. */
-    public var totalTokens: Int?
+    public var totalTokens: Int64?
     /** Traces is how many traces the conversation holds. */
-    public var traces: Int?
+    public var traces: Int64?
     /** UserID is the end user the conversation is attributed to. */
     public var userId: String?
 
-    public init(completionTokens: Int? = nil, id: String? = nil, observations: Int? = nil, promptTokens: Int? = nil, totalCost: Double? = nil, totalTokens: Int? = nil, traces: Int? = nil, userId: String? = nil) {
+    public init(completionTokens: Int64? = nil, id: String? = nil, observations: Int64? = nil, promptTokens: Int64? = nil, totalCost: Double? = nil, totalTokens: Int64? = nil, traces: Int64? = nil, userId: String? = nil) {
         self.completionTokens = completionTokens
         self.id = id
         self.observations = observations

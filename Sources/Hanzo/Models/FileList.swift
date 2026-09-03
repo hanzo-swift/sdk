@@ -18,9 +18,9 @@ public struct FileList: Sendable, Codable, ParameterConvertible, Hashable {
     /** Space is the space that was listed. */
     public var space: String?
     /** Total is how many entries came back. The listing is BOUNDED, so a drive with more files than the cap answers the cap and this says so — it is not a count of what the drive holds. */
-    public var total: Int?
+    public var total: Int64?
 
-    public init(drive: String? = nil, files: [FileItem]? = nil, folder: String? = nil, space: String? = nil, total: Int? = nil) {
+    public init(drive: String? = nil, files: [FileItem]? = nil, folder: String? = nil, space: String? = nil, total: Int64? = nil) {
         self.drive = drive
         self.files = files
         self.folder = folder

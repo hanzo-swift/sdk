@@ -14,9 +14,9 @@ public struct SeoIdeaOut: Sendable, Codable, ParameterConvertible, Hashable {
     /** Keywords is the phrases found, each measured. */
     public var keywords: [SeoMetric]?
     /** Total is how many the upstream holds, which is usually more than Limit returned — it is what raising the limit would reach. */
-    public var total: Int?
+    public var total: Int64?
 
-    public init(cost: String? = nil, keywords: [SeoMetric]? = nil, total: Int? = nil) {
+    public init(cost: String? = nil, keywords: [SeoMetric]? = nil, total: Int64? = nil) {
         self.cost = cost
         self.keywords = keywords
         self.total = total

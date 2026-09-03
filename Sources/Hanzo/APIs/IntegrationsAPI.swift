@@ -2027,6 +2027,45 @@ open class IntegrationsAPI {
     }
 
     /**
+     Joins every public channel in the caller org's workspace.
+     
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: SlackJoinOut
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func postIntegrationsSlackJoin(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> SlackJoinOut {
+        return try await postIntegrationsSlackJoinWithRequestBuilder(apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Joins every public channel in the caller org's workspace.
+     - POST /v1/integrations/slack/join
+     - Joins every public channel in the caller org's workspace.  Org admin, because it changes what the whole workspace sees: after it the agent is a member of every public room and answers in all of them.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<SlackJoinOut> 
+     */
+    open class func postIntegrationsSlackJoinWithRequestBuilder(apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<SlackJoinOut> {
+        let localVariablePath = "/v1/integrations/slack/join"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<SlackJoinOut>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      Microsoft Teams Bot Framework webhook
      
      - parameter apiConfiguration: The configuration for the http request.

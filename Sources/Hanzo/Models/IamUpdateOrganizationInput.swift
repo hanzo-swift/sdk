@@ -27,13 +27,13 @@ public struct IamUpdateOrganizationInput: Sendable, Codable, ParameterConvertibl
     public var emoji: String?
     public var enableSoftDeletion: Bool?
     public var enableTour: Bool?
-    public var failedSigninFrozenTime: Int?
-    public var failedSigninLimit: Int?
+    public var failedSigninFrozenTime: Int64?
+    public var failedSigninLimit: Int64?
     public var favicon: String?
     public var founder: String?
     public var hasPrivilegeConsent: Bool?
     public var id: String?
-    public var initScore: Int?
+    public var initScore: Int64?
     public var ipRestriction: String?
     public var ipWhitelist: String?
     public var isPersonal: Bool?
@@ -49,12 +49,12 @@ public struct IamUpdateOrganizationInput: Sendable, Codable, ParameterConvertibl
     public var masterPassword: String?
     public var masterVerificationCode: String?
     public var mfaItems: [IamMfaItem]?
-    public var mfaRememberInHours: Int?
+    public var mfaRememberInHours: Int64?
     public var name: String?
     public var navItems: [String]?
     public var orgBalance: Double?
     public var owner: String?
-    public var passwordExpireDays: Int?
+    public var passwordExpireDays: Int64?
     public var passwordObfuscatorKey: String?
     public var passwordObfuscatorType: String?
     public var passwordOptions: [String]?
@@ -71,7 +71,7 @@ public struct IamUpdateOrganizationInput: Sendable, Codable, ParameterConvertibl
     public var websiteUrl: String?
     public var widgetItems: [String]?
 
-    public init(accountItems: [IamAccountItem]? = nil, accountMenu: String? = nil, avatar: String? = nil, balanceCredit: Double? = nil, balanceCurrency: String? = nil, countryCodes: [String]? = nil, createdAt: Date? = nil, createdTime: String? = nil, dcrPolicy: String? = nil, defaultApplication: String? = nil, defaultAvatar: String? = nil, defaultPassword: String? = nil, deleted: Bool? = nil, disableSignin: Bool? = nil, displayName: String? = nil, emoji: String? = nil, enableSoftDeletion: Bool? = nil, enableTour: Bool? = nil, failedSigninFrozenTime: Int? = nil, failedSigninLimit: Int? = nil, favicon: String? = nil, founder: String? = nil, hasPrivilegeConsent: Bool? = nil, id: String? = nil, initScore: Int? = nil, ipRestriction: String? = nil, ipWhitelist: String? = nil, isPersonal: Bool? = nil, isProfilePublic: Bool? = nil, kerberosKdcHost: String? = nil, kerberosKeytab: String? = nil, kerberosRealm: String? = nil, kerberosServiceName: String? = nil, languages: [String]? = nil, ldapAttributes: [String]? = nil, logo: String? = nil, logoDark: String? = nil, masterPassword: String? = nil, masterVerificationCode: String? = nil, mfaItems: [IamMfaItem]? = nil, mfaRememberInHours: Int? = nil, name: String? = nil, navItems: [String]? = nil, orgBalance: Double? = nil, owner: String? = nil, passwordExpireDays: Int? = nil, passwordObfuscatorKey: String? = nil, passwordObfuscatorType: String? = nil, passwordOptions: [String]? = nil, passwordSalt: String? = nil, passwordType: String? = nil, tags: [String]? = nil, themeData: IamThemeData? = nil, updatedAt: Date? = nil, useEmailAsUsername: Bool? = nil, usePermanentAvatar: Bool? = nil, userBalance: Double? = nil, userNavItems: [String]? = nil, userTypes: [String]? = nil, websiteUrl: String? = nil, widgetItems: [String]? = nil) {
+    public init(accountItems: [IamAccountItem]? = nil, accountMenu: String? = nil, avatar: String? = nil, balanceCredit: Double? = nil, balanceCurrency: String? = nil, countryCodes: [String]? = nil, createdAt: Date? = nil, createdTime: String? = nil, dcrPolicy: String? = nil, defaultApplication: String? = nil, defaultAvatar: String? = nil, defaultPassword: String? = nil, deleted: Bool? = nil, disableSignin: Bool? = nil, displayName: String? = nil, emoji: String? = nil, enableSoftDeletion: Bool? = nil, enableTour: Bool? = nil, failedSigninFrozenTime: Int64? = nil, failedSigninLimit: Int64? = nil, favicon: String? = nil, founder: String? = nil, hasPrivilegeConsent: Bool? = nil, id: String? = nil, initScore: Int64? = nil, ipRestriction: String? = nil, ipWhitelist: String? = nil, isPersonal: Bool? = nil, isProfilePublic: Bool? = nil, kerberosKdcHost: String? = nil, kerberosKeytab: String? = nil, kerberosRealm: String? = nil, kerberosServiceName: String? = nil, languages: [String]? = nil, ldapAttributes: [String]? = nil, logo: String? = nil, logoDark: String? = nil, masterPassword: String? = nil, masterVerificationCode: String? = nil, mfaItems: [IamMfaItem]? = nil, mfaRememberInHours: Int64? = nil, name: String? = nil, navItems: [String]? = nil, orgBalance: Double? = nil, owner: String? = nil, passwordExpireDays: Int64? = nil, passwordObfuscatorKey: String? = nil, passwordObfuscatorType: String? = nil, passwordOptions: [String]? = nil, passwordSalt: String? = nil, passwordType: String? = nil, tags: [String]? = nil, themeData: IamThemeData? = nil, updatedAt: Date? = nil, useEmailAsUsername: Bool? = nil, usePermanentAvatar: Bool? = nil, userBalance: Double? = nil, userNavItems: [String]? = nil, userTypes: [String]? = nil, websiteUrl: String? = nil, widgetItems: [String]? = nil) {
         self.accountItems = accountItems
         self.accountMenu = accountMenu
         self.avatar = avatar

@@ -146,7 +146,7 @@ open class WebhookAPI {
      - returns: DeliveryList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getWebhookByIdDeliveries(id: String, limit: Int? = nil, status: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> DeliveryList {
+    open class func getWebhookByIdDeliveries(id: String, limit: Int64? = nil, status: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> DeliveryList {
         return try await getWebhookByIdDeliveriesWithRequestBuilder(id: id, limit: limit, status: status, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -163,7 +163,7 @@ open class WebhookAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<DeliveryList> 
      */
-    open class func getWebhookByIdDeliveriesWithRequestBuilder(id: String, limit: Int? = nil, status: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<DeliveryList> {
+    open class func getWebhookByIdDeliveriesWithRequestBuilder(id: String, limit: Int64? = nil, status: String? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<DeliveryList> {
         var localVariablePath = "/v1/webhook/{id}/deliveries"
         let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
         let idPostEscape = idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

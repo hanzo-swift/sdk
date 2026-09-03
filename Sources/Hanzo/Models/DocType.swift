@@ -10,7 +10,7 @@ import Foundation
 public struct DocType: Sendable, Codable, ParameterConvertible, Hashable {
 
     public var autoname: String?
-    public var createdAt: Int?
+    public var createdAt: Int64?
     public var fields: [DocField]?
     public var isSingle: Bool?
     public var isSubmittable: Bool?
@@ -18,9 +18,9 @@ public struct DocType: Sendable, Codable, ParameterConvertible, Hashable {
     public var name: String?
     public var permissions: [DocPerm]?
     public var titleField: String?
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
 
-    public init(autoname: String? = nil, createdAt: Int? = nil, fields: [DocField]? = nil, isSingle: Bool? = nil, isSubmittable: Bool? = nil, module: String? = nil, name: String? = nil, permissions: [DocPerm]? = nil, titleField: String? = nil, updatedAt: Int? = nil) {
+    public init(autoname: String? = nil, createdAt: Int64? = nil, fields: [DocField]? = nil, isSingle: Bool? = nil, isSubmittable: Bool? = nil, module: String? = nil, name: String? = nil, permissions: [DocPerm]? = nil, titleField: String? = nil, updatedAt: Int64? = nil) {
         self.autoname = autoname
         self.createdAt = createdAt
         self.fields = fields

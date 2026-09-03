@@ -14,7 +14,7 @@ public struct DatasetView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Description is free text the org wrote about what this set measures. */
     public var description: String?
     /** Items is how many examples the set holds. It is filled only by the single read — a listing does not count, so it is absent there rather than zero. */
-    public var items: Int?
+    public var items: Int64?
     /** Metadata is the free-form object stored with the set, echoed back verbatim. */
     public var metadata: [String: JSONValue]?
     /** Name is the dataset's org-unique handle and the segment that addresses it. */
@@ -22,7 +22,7 @@ public struct DatasetView: Sendable, Codable, ParameterConvertible, Hashable {
     /** UpdatedAt is when the description or metadata last changed. */
     public var updatedAt: String?
 
-    public init(createdAt: String? = nil, description: String? = nil, items: Int? = nil, metadata: [String: JSONValue]? = nil, name: String? = nil, updatedAt: String? = nil) {
+    public init(createdAt: String? = nil, description: String? = nil, items: Int64? = nil, metadata: [String: JSONValue]? = nil, name: String? = nil, updatedAt: String? = nil) {
         self.createdAt = createdAt
         self.description = description
         self.items = items

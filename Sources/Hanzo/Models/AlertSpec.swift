@@ -12,14 +12,14 @@ public struct AlertSpec: Sendable, Codable, ParameterConvertible, Hashable {
     public var currency: String?
     public var enforce: Bool?
     public var project: String?
-    public var rateLimitRpm: Int?
+    public var rateLimitRpm: Int64?
     public var service: String?
-    public var softPct: Int?
+    public var softPct: Int64?
     public var subject: String?
-    public var threshold: Int?
+    public var threshold: Int64?
     public var title: String?
 
-    public init(currency: String? = nil, enforce: Bool? = nil, project: String? = nil, rateLimitRpm: Int? = nil, service: String? = nil, softPct: Int? = nil, subject: String? = nil, threshold: Int? = nil, title: String? = nil) {
+    public init(currency: String? = nil, enforce: Bool? = nil, project: String? = nil, rateLimitRpm: Int64? = nil, service: String? = nil, softPct: Int64? = nil, subject: String? = nil, threshold: Int64? = nil, title: String? = nil) {
         self.currency = currency
         self.enforce = enforce
         self.project = project

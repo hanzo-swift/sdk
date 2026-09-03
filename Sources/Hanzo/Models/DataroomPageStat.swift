@@ -10,15 +10,15 @@ import Foundation
 public struct DataroomPageStat: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** AvgDuration is totalDuration divided by views, rounded; 0 when unviewed. */
-    public var avgDuration: Int?
+    public var avgDuration: Int64?
     /** PageNumber is the page these counts are for. */
-    public var pageNumber: Int?
+    public var pageNumber: Int64?
     /** TotalDuration is the summed dwell measure reported for the page. */
-    public var totalDuration: Int?
+    public var totalDuration: Int64?
     /** Views is how many times the page was viewed. */
-    public var views: Int?
+    public var views: Int64?
 
-    public init(avgDuration: Int? = nil, pageNumber: Int? = nil, totalDuration: Int? = nil, views: Int? = nil) {
+    public init(avgDuration: Int64? = nil, pageNumber: Int64? = nil, totalDuration: Int64? = nil, views: Int64? = nil) {
         self.avgDuration = avgDuration
         self.pageNumber = pageNumber
         self.totalDuration = totalDuration

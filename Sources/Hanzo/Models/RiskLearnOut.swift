@@ -10,9 +10,9 @@ import Foundation
 public struct RiskLearnOut: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Learned is how many of the events the model actually learned from, and is also what the call is metered at: one screen per event learned from. It is the batch minus the events already in this organisation's record, so a retried batch reports — and is charged — zero. */
-    public var learned: Int?
+    public var learned: Int64?
 
-    public init(learned: Int? = nil) {
+    public init(learned: Int64? = nil) {
         self.learned = learned
     }
 

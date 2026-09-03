@@ -10,15 +10,15 @@ import Foundation
 public struct McpCatalogSync: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Added is how many listings the catalog did not have before. */
-    public var added: Int?
+    public var added: Int64?
     /** Registry is the upstream this pass read. */
     public var registry: String?
     /** Total is how many listings the catalog holds now. */
-    public var total: Int?
+    public var total: Int64?
     /** Updated is how many the publisher has changed since we last looked. */
-    public var updated: Int?
+    public var updated: Int64?
 
-    public init(added: Int? = nil, registry: String? = nil, total: Int? = nil, updated: Int? = nil) {
+    public init(added: Int64? = nil, registry: String? = nil, total: Int64? = nil, updated: Int64? = nil) {
         self.added = added
         self.registry = registry
         self.total = total

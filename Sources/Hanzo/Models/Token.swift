@@ -11,11 +11,11 @@ public struct Token: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** At is the token's contract address, lowercase. */
     public var at: String?
-    public var decimals: Int?
+    public var decimals: Int64?
     public var name: String?
     public var symbol: String?
 
-    public init(at: String? = nil, decimals: Int? = nil, name: String? = nil, symbol: String? = nil) {
+    public init(at: String? = nil, decimals: Int64? = nil, name: String? = nil, symbol: String? = nil) {
         self.at = at
         self.decimals = decimals
         self.name = name

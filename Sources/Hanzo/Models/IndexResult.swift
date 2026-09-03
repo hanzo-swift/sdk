@@ -10,25 +10,25 @@ import Foundation
 public struct IndexResult: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Chunks is how many AST-boundary chunks the repo holds after this pass. */
-    public var chunks: Int?
+    public var chunks: Int64?
     /** Files is how many files the repo holds after this pass. */
-    public var files: Int?
+    public var files: Int64?
     /** Indexed is how many files were parsed and written on this pass. */
-    public var indexed: Int?
+    public var indexed: Int64?
     /** Pruned is how many stored files were deleted because prune was set and they were absent from the request. */
-    public var pruned: Int?
+    public var pruned: Int64?
     /** Repo is the repository that was indexed. */
     public var repo: String?
     /** Semantic reports whether the semantic tier was available for this pass. When false the index is lexical + symbolic only and hybrid search still works. */
     public var semantic: Bool?
     /** Skipped is how many files were unchanged by content hash and left alone. */
-    public var skipped: Int?
+    public var skipped: Int64?
     /** Symbols is how many symbol definitions the repo holds after this pass. */
-    public var symbols: Int?
+    public var symbols: Int64?
     /** Vectors is how many of those chunks carry an embedding. */
-    public var vectors: Int?
+    public var vectors: Int64?
 
-    public init(chunks: Int? = nil, files: Int? = nil, indexed: Int? = nil, pruned: Int? = nil, repo: String? = nil, semantic: Bool? = nil, skipped: Int? = nil, symbols: Int? = nil, vectors: Int? = nil) {
+    public init(chunks: Int64? = nil, files: Int64? = nil, indexed: Int64? = nil, pruned: Int64? = nil, repo: String? = nil, semantic: Bool? = nil, skipped: Int64? = nil, symbols: Int64? = nil, vectors: Int64? = nil) {
         self.chunks = chunks
         self.files = files
         self.indexed = indexed

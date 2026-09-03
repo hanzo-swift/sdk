@@ -18,13 +18,13 @@ public struct Offer: Sendable, Codable, ParameterConvertible, Hashable {
     /** whether the registry prices it above the standard rate */
     public var premium: Bool?
     /** sell (first-term registration) */
-    public var priceCents: Int?
+    public var priceCents: Int64?
     /** sell (renewal) */
-    public var renewalPriceCents: Int?
+    public var renewalPriceCents: Int64?
     /** the top-level domain the name sits under */
     public var tld: String?
 
-    public init(available: Bool? = nil, currency: String? = nil, domain: String? = nil, premium: Bool? = nil, priceCents: Int? = nil, renewalPriceCents: Int? = nil, tld: String? = nil) {
+    public init(available: Bool? = nil, currency: String? = nil, domain: String? = nil, premium: Bool? = nil, priceCents: Int64? = nil, renewalPriceCents: Int64? = nil, tld: String? = nil) {
         self.available = available
         self.currency = currency
         self.domain = domain

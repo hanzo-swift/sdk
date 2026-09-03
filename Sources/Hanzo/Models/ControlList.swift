@@ -10,23 +10,23 @@ import Foundation
 public struct ControlList: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Absent is how many the organization does not have. Each still names the clause it would satisfy, and none of them moves a coverage number. */
-    public var absent: Int?
+    public var absent: Int64?
     /** Automated is how many run with nobody in the loop. */
-    public var automated: Int?
+    public var automated: Int64?
     /** Controls is every control, opaque because the organization owns its shape. */
     public var controls: [JSONValue]?
     /** Partial is how many run but do not cover their whole claim. */
-    public var partial: Int?
+    public var partial: Int64?
     /** Statement is the counts as one sentence, safe to quote. */
     public var statement: String?
     /** Total is how many controls this organization publishes. */
-    public var total: Int?
+    public var total: Int64?
     /** Unverified is how many rest on somebody having read the source rather than on a test or an audit row. */
-    public var unverified: Int?
+    public var unverified: Int64?
     /** Version is the embedded inventory's version. */
     public var version: String?
 
-    public init(absent: Int? = nil, automated: Int? = nil, controls: [JSONValue]? = nil, partial: Int? = nil, statement: String? = nil, total: Int? = nil, unverified: Int? = nil, version: String? = nil) {
+    public init(absent: Int64? = nil, automated: Int64? = nil, controls: [JSONValue]? = nil, partial: Int64? = nil, statement: String? = nil, total: Int64? = nil, unverified: Int64? = nil, version: String? = nil) {
         self.absent = absent
         self.automated = automated
         self.controls = controls

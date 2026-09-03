@@ -11,6 +11,8 @@ public struct LeaseIn: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Class is what the sandbox is FOR: \"exec\" for a code-interpreter call, \"dev\" for a workspace bound to a project, \"desktop\" for one with a screen. It decides the image, the working directory and the isolation. */
     public var _class: String?
+    /** Cluster names one of the org's attached clusters to run the sandbox on — the fleet-local name it was registered under. Empty runs on the home cluster. The named cluster must carry the sandbox namespace and the gvisor runtime class; a name the org has not attached is 404. */
+    public var cluster: String?
     /** Image overrides the image the class would pick. Honoured only for a caller the policy admits, and the sandbox that comes back names the image it GOT. */
     public var image: String?
     /** Project binds the sandbox to one of the org's projects. Required for a dev or desktop class, which are single-attach per project; an exec sandbox carries none. */
@@ -18,10 +20,11 @@ public struct LeaseIn: Sendable, Codable, ParameterConvertible, Hashable {
     /** Runtime asks for an isolation: runc, gvisor, kata-clh or kata-fc. It is a REQUEST, not a guarantee — the sandbox that comes back carries the runtime it was actually given, which is the field to read. */
     public var runtime: String?
     /** TTLSec is how long the lease runs before the reaper may take it, in seconds. Zero takes the class's own default. */
-    public var ttlSec: Int?
+    public var ttlSec: Int64?
 
-    public init(_class: String? = nil, image: String? = nil, project: String? = nil, runtime: String? = nil, ttlSec: Int? = nil) {
+    public init(_class: String? = nil, cluster: String? = nil, image: String? = nil, project: String? = nil, runtime: String? = nil, ttlSec: Int64? = nil) {
         self._class = _class
+        self.cluster = cluster
         self.image = image
         self.project = project
         self.runtime = runtime
@@ -30,6 +33,7 @@ public struct LeaseIn: Sendable, Codable, ParameterConvertible, Hashable {
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case _class = "class"
+        case cluster
         case image
         case project
         case runtime
@@ -41,6 +45,7 @@ public struct LeaseIn: Sendable, Codable, ParameterConvertible, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(_class, forKey: ._class)
+        try container.encodeIfPresent(cluster, forKey: .cluster)
         try container.encodeIfPresent(image, forKey: .image)
         try container.encodeIfPresent(project, forKey: .project)
         try container.encodeIfPresent(runtime, forKey: .runtime)

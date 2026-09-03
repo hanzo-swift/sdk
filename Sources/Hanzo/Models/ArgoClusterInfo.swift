@@ -10,13 +10,13 @@ import Foundation
 public struct ArgoClusterInfo: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** ApplicationsCount is how many of THE CALLER'S applications reconcile into this cluster, so a tenant sees its own count and a SuperAdmin the fleet's. It is zero for the in-cluster destination when the caller owns nothing, since that destination is listed whether or not anything targets it. */
-    public var applicationsCount: Int?
+    public var applicationsCount: Int64?
     /** ConnectionState repeats the cluster's own connection state, which is where ArgoCD's UI reads it from on this object. */
     public var connectionState: ArgoConnectionState?
     /** ServerVersion is the kubernetes version of the destination. Always absent: nothing here queries the API server for it. */
     public var serverVersion: String?
 
-    public init(applicationsCount: Int? = nil, connectionState: ArgoConnectionState? = nil, serverVersion: String? = nil) {
+    public init(applicationsCount: Int64? = nil, connectionState: ArgoConnectionState? = nil, serverVersion: String? = nil) {
         self.applicationsCount = applicationsCount
         self.connectionState = connectionState
         self.serverVersion = serverVersion

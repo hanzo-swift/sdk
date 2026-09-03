@@ -10,13 +10,13 @@ import Foundation
 public struct Recharge: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Charged is how many of them were actually charged. It is at most Orgs, and the difference is orgs whose balance was already above their threshold. */
-    public var charged: Int?
+    public var charged: Int64?
     /** Orgs is how many orgs the sweep considered — every org with auto-recharge armed, whether or not it needed charging. */
-    public var orgs: Int?
+    public var orgs: Int64?
     /** Results is one row per org considered, so a sweep that charged nobody is still explainable. Never null. */
     public var results: [Recharged]?
 
-    public init(charged: Int? = nil, orgs: Int? = nil, results: [Recharged]? = nil) {
+    public init(charged: Int64? = nil, orgs: Int64? = nil, results: [Recharged]? = nil) {
         self.charged = charged
         self.orgs = orgs
         self.results = results

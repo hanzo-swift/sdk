@@ -16,9 +16,9 @@ public struct LegalTemplate: Sendable, Codable, ParameterConvertible, Hashable {
     public var id: String?
     public var origin: String?
     public var title: String?
-    public var version: Int?
+    public var version: Int64?
 
-    public init(body: String? = nil, category: String? = nil, counselReview: Bool? = nil, fields: [Field]? = nil, id: String? = nil, origin: String? = nil, title: String? = nil, version: Int? = nil) {
+    public init(body: String? = nil, category: String? = nil, counselReview: Bool? = nil, fields: [Field]? = nil, id: String? = nil, origin: String? = nil, title: String? = nil, version: Int64? = nil) {
         self.body = body
         self.category = category
         self.counselReview = counselReview

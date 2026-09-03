@@ -14,9 +14,9 @@ public struct DriveList: Sendable, Codable, ParameterConvertible, Hashable {
     /** Space is the space that was listed. */
     public var space: String?
     /** Total is how many drives came back. The listing is BOUNDED, so it is what came back and not a count of what the space holds. */
-    public var total: Int?
+    public var total: Int64?
 
-    public init(drives: [DriveItem]? = nil, space: String? = nil, total: Int? = nil) {
+    public init(drives: [DriveItem]? = nil, space: String? = nil, total: Int64? = nil) {
         self.drives = drives
         self.space = space
         self.total = total

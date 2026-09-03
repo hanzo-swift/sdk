@@ -9,11 +9,11 @@ import Foundation
 
 public struct O11yReleStateItem: Sendable, Codable, ParameterConvertible, Hashable {
 
-    public var end: Int?
-    public var start: Int?
+    public var end: Int64?
+    public var start: Int64?
     public var state: JSONValue?
 
-    public init(end: Int? = nil, start: Int? = nil, state: JSONValue? = nil) {
+    public init(end: Int64? = nil, start: Int64? = nil, state: JSONValue? = nil) {
         self.end = end
         self.start = start
         self.state = state

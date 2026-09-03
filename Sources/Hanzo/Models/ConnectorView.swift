@@ -14,7 +14,7 @@ public struct ConnectorView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Configured is true when this deployment holds OAuth credentials for the provider. */
     public var configured: Bool?
     /** DocCount is the live count of this provider's documents in the org's store. */
-    public var docCount: Int?
+    public var docCount: Int64?
     /** Error is the last sync failure, if any. Absent until the org connects. */
     public var error: String?
     /** Kind is \"native\" for a first-party Go connector, \"piece\" for a long-tail one. */
@@ -26,7 +26,7 @@ public struct ConnectorView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Status is connected, disconnected, syncing or error. */
     public var status: String?
 
-    public init(account: String? = nil, configured: Bool? = nil, docCount: Int? = nil, error: String? = nil, kind: String? = nil, lastSync: String? = nil, provider: String? = nil, status: String? = nil) {
+    public init(account: String? = nil, configured: Bool? = nil, docCount: Int64? = nil, error: String? = nil, kind: String? = nil, lastSync: String? = nil, provider: String? = nil, status: String? = nil) {
         self.account = account
         self.configured = configured
         self.docCount = docCount

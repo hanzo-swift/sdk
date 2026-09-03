@@ -14,7 +14,7 @@ public struct RiskSearchReport: Sendable, Codable, ParameterConvertible, Hashabl
     /** Ended is when it finished, RFC 3339. Absent while it is still going. */
     public var ended: String?
     /** Events is how much of this organisation's history was replayed. */
-    public var events: Int?
+    public var events: Int64?
     /** Fitted is the winning shape FITTED over your own history and published as one of your organisation's own model values. Name its address on PUT /v1/risk/state/model and the winning shape becomes the model you are running.  It is why this op answers something you can act on. A trial keeps counts and not the model that produced them, so a report without this named a shape nobody could install — and the adoption path refused a shape change besides. Fitting the winner once is a sixty-fifth pass over the same history; keeping all sixty-four fitted models resident instead would cost a measured 21 MiB per run for sixty-three shapes nobody adopts.  Two things about it are worth knowing before you adopt it. Its realised rate can differ from the winner's above, because the ranking measures every candidate under one fixed reference geometry so the comparison is a comparison, while this is fitted under YOUR geometry — the one an outsider cannot predict. And it has learned the window this search replayed and nothing older, so adopting it trades history for fit. */
     public var fitted: RiskModelValue?
     /** Gap says why the winning shape could not be fitted into an adoptable value, when it could not. It is separate from Refusal because they are different facts: a refusal means the ranking below proves nothing, a gap means the ranking stands and only the value is missing. */
@@ -30,7 +30,7 @@ public struct RiskSearchReport: Sendable, Codable, ParameterConvertible, Hashabl
     /** Winner is the best-fitting shape, absent when nothing fit. */
     public var winner: RiskTrial?
 
-    public init(done: Bool? = nil, ended: String? = nil, events: Int? = nil, fitted: RiskModelValue? = nil, gap: String? = nil, id: String? = nil, refusal: String? = nil, started: String? = nil, trials: [RiskTrial]? = nil, winner: RiskTrial? = nil) {
+    public init(done: Bool? = nil, ended: String? = nil, events: Int64? = nil, fitted: RiskModelValue? = nil, gap: String? = nil, id: String? = nil, refusal: String? = nil, started: String? = nil, trials: [RiskTrial]? = nil, winner: RiskTrial? = nil) {
         self.done = done
         self.ended = ended
         self.events = events

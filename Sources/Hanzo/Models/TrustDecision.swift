@@ -10,13 +10,13 @@ import Foundation
 public struct TrustDecision: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Days is how long the grant stays open, from now. Optional; 14 by default and 365 at most — a longer release is describing a customer relationship rather than a document. */
-    public var days: Int?
+    public var days: Int64?
     /** ID is the request to answer, taken from the path. */
     public var id: String?
     /** Note is why. Recorded on the request either way, and it is what the record shows a year later. */
     public var note: String?
 
-    public init(days: Int? = nil, id: String? = nil, note: String? = nil) {
+    public init(days: Int64? = nil, id: String? = nil, note: String? = nil) {
         self.days = days
         self.id = id
         self.note = note

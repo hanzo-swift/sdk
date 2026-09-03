@@ -10,11 +10,11 @@ import Foundation
 public struct Position: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Character is a 0-based UTF-16 code-unit offset within Line, per the LSP specification: not a byte offset and not a rune index. An emoji before the cursor counts as one here and as two in Go's arithmetic. */
-    public var character: Int?
+    public var character: Int64?
     /** Line is 0-BASED, per the LSP specification — one less than the line an editor shows a human. */
-    public var line: Int?
+    public var line: Int64?
 
-    public init(character: Int? = nil, line: Int? = nil) {
+    public init(character: Int64? = nil, line: Int64? = nil) {
         self.character = character
         self.line = line
     }

@@ -12,11 +12,11 @@ public struct IamMfaProps: Sendable, Codable, ParameterConvertible, Hashable {
     public var countryCode: String?
     public var enabled: Bool?
     public var isPreferred: Bool?
-    public var mfaRememberInHours: Int?
+    public var mfaRememberInHours: Int64?
     public var mfaType: String?
     public var url: String?
 
-    public init(countryCode: String? = nil, enabled: Bool? = nil, isPreferred: Bool? = nil, mfaRememberInHours: Int? = nil, mfaType: String? = nil, url: String? = nil) {
+    public init(countryCode: String? = nil, enabled: Bool? = nil, isPreferred: Bool? = nil, mfaRememberInHours: Int64? = nil, mfaType: String? = nil, url: String? = nil) {
         self.countryCode = countryCode
         self.enabled = enabled
         self.isPreferred = isPreferred

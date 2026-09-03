@@ -13,9 +13,9 @@ public struct IamCartItem: Sendable, Codable, ParameterConvertible, Hashable {
     public var name: String?
     public var owner: String?
     public var price: Double?
-    public var quantity: Int?
+    public var quantity: Int64?
 
-    public init(displayName: String? = nil, name: String? = nil, owner: String? = nil, price: Double? = nil, quantity: Int? = nil) {
+    public init(displayName: String? = nil, name: String? = nil, owner: String? = nil, price: Double? = nil, quantity: Int64? = nil) {
         self.displayName = displayName
         self.name = name
         self.owner = owner

@@ -10,11 +10,11 @@ import Foundation
 public struct Ruleset: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Rules is how many detection rules the engine holds. */
-    public var rules: Int?
+    public var rules: Int64?
     /** Status is \"ok\" whenever the findings store opened. */
     public var status: String?
 
-    public init(rules: Int? = nil, status: String? = nil) {
+    public init(rules: Int64? = nil, status: String? = nil) {
         self.rules = rules
         self.status = status
     }

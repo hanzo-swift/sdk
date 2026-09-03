@@ -12,13 +12,13 @@ public struct McpCatalog: Sendable, Codable, ParameterConvertible, Hashable {
     /** Catalog is this page of listings, featured first, then by name. */
     public var catalog: [MCPListing]?
     /** Limit is the page size that was actually applied — the default or the clamp, when the request asked for neither or for too much. */
-    public var limit: Int?
+    public var limit: Int64?
     /** Offset is where this page started, so a caller pages from what the server did rather than from what it asked for. */
-    public var offset: Int?
+    public var offset: Int64?
     /** Total is how many listings the filter matched, which is more than this page holds whenever there is a next one. */
-    public var total: Int?
+    public var total: Int64?
 
-    public init(catalog: [MCPListing]? = nil, limit: Int? = nil, offset: Int? = nil, total: Int? = nil) {
+    public init(catalog: [MCPListing]? = nil, limit: Int64? = nil, offset: Int64? = nil, total: Int64? = nil) {
         self.catalog = catalog
         self.limit = limit
         self.offset = offset

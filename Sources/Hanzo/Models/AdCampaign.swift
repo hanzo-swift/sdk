@@ -12,9 +12,9 @@ public struct AdCampaign: Sendable, Codable, ParameterConvertible, Hashable {
     /** Account is the provider ad-account the campaign runs under, in Meta's act_<id> form. Empty until the org supplies one or a launch resolves it. */
     public var account: String?
     /** Budget is the campaign's authorized spend in MINOR units (cents). Negative clamps to 0. It is the org's stored plan: a Meta launch creates the campaign object only, and the delivering budget lives on the ad set. */
-    public var budget: Int?
+    public var budget: Int64?
     /** CreatedAt is when the campaign was first stored, in unix seconds. It never changes, including across a full-replace update. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** ExternalID is the ad network's own campaign id, written by a successful launch and by nothing else — an update never touches it. Empty means this campaign has never reached its network. */
     public var externalId: String?
     /** ID is the campaign's server-minted handle, \"camp_\" + 32 hex. A create body cannot choose it, and it is the id every other route addresses. */
@@ -26,13 +26,13 @@ public struct AdCampaign: Sendable, Codable, ParameterConvertible, Hashable {
     /** Platform is the ad network: meta, google, tiktok or x, and nothing else — a write naming another is 400. Empty stores as meta. Only meta executes today; launching any of the other three is 501. */
     public var platform: String?
     /** Spend is spend-to-date in MINOR units (cents), as last written through create or update. Negative clamps to 0. It is NOT read back from the network — that is a separate insights call — so 0 means nothing was recorded here, not that nothing was spent. */
-    public var spend: Int?
+    public var spend: Int64?
     /** Status is the lifecycle: draft, active, paused or completed, and nothing else — a write naming another is 400. Empty stores as draft; a successful launch sets active. It records what this deployment did, not what the ad network currently reports. */
     public var status: String?
     /** UpdatedAt is when the row was last written, in unix seconds — set by create, update and launch. Listings are ordered by it, newest first. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
 
-    public init(account: String? = nil, budget: Int? = nil, createdAt: Int? = nil, externalId: String? = nil, id: String? = nil, name: String? = nil, objective: String? = nil, platform: String? = nil, spend: Int? = nil, status: String? = nil, updatedAt: Int? = nil) {
+    public init(account: String? = nil, budget: Int64? = nil, createdAt: Int64? = nil, externalId: String? = nil, id: String? = nil, name: String? = nil, objective: String? = nil, platform: String? = nil, spend: Int64? = nil, status: String? = nil, updatedAt: Int64? = nil) {
         self.account = account
         self.budget = budget
         self.createdAt = createdAt

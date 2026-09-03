@@ -239,7 +239,7 @@ open class ToolsAPI {
      - returns: McpCatalog
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getToolsCatalog(q: String? = nil, featured: String? = nil, official: String? = nil, limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> McpCatalog {
+    open class func getToolsCatalog(q: String? = nil, featured: String? = nil, official: String? = nil, limit: Int64? = nil, offset: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> McpCatalog {
         return try await getToolsCatalogWithRequestBuilder(q: q, featured: featured, official: official, limit: limit, offset: offset, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -258,7 +258,7 @@ open class ToolsAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<McpCatalog> 
      */
-    open class func getToolsCatalogWithRequestBuilder(q: String? = nil, featured: String? = nil, official: String? = nil, limit: Int? = nil, offset: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<McpCatalog> {
+    open class func getToolsCatalogWithRequestBuilder(q: String? = nil, featured: String? = nil, official: String? = nil, limit: Int64? = nil, offset: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<McpCatalog> {
         let localVariablePath = "/v1/tools/catalog"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil

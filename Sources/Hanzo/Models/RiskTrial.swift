@@ -10,19 +10,19 @@ import Foundation
 public struct RiskTrial: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Alerted is how many of those it would have raised. */
-    public var alerted: Int?
+    public var alerted: Int64?
     /** Curve is the realised alert rate over successive tenths of the history — the learning curve, which says whether the shape settled or is still moving. */
     public var curve: [Double]?
     /** Fit ranks the shape, smaller being better: the relative miss of the stated appetite, plus flat penalties for never warming and for saturating, plus the share of coordinates that were blind. */
     public var fit: Double?
     /** Learned is how many events the shape learned from during the replay. */
-    public var learned: Int?
+    public var learned: Int64?
     /** Realised is what that appetite actually produced. The distance between the two is what the search is searching over. */
     public var realised: Double?
     /** Saturated is whether the appetite could not be honoured by any threshold, which is a shape that alerts on nothing and reads like a quiet one. */
     public var saturated: Bool?
     /** Scored is how many it was able to score. */
-    public var scored: Int?
+    public var scored: Int64?
     /** Stated is the appetite the shape was tried at. */
     public var stated: Double?
     /** Topology is the shape. */
@@ -30,7 +30,7 @@ public struct RiskTrial: Sendable, Codable, ParameterConvertible, Hashable {
     /** Warm is whether the shape learned enough to have an opinion at all over this organisation's whole history. */
     public var warm: Bool?
 
-    public init(alerted: Int? = nil, curve: [Double]? = nil, fit: Double? = nil, learned: Int? = nil, realised: Double? = nil, saturated: Bool? = nil, scored: Int? = nil, stated: Double? = nil, topology: RiskTopology? = nil, warm: Bool? = nil) {
+    public init(alerted: Int64? = nil, curve: [Double]? = nil, fit: Double? = nil, learned: Int64? = nil, realised: Double? = nil, saturated: Bool? = nil, scored: Int64? = nil, stated: Double? = nil, topology: RiskTopology? = nil, warm: Bool? = nil) {
         self.alerted = alerted
         self.curve = curve
         self.fit = fit

@@ -103,7 +103,7 @@ open class DatasetAPI {
      - returns: RiskLineage
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func riskDatasetLineage(name: String, version: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RiskLineage {
+    open class func riskDatasetLineage(name: String, version: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RiskLineage {
         return try await riskDatasetLineageWithRequestBuilder(name: name, version: version, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -119,7 +119,7 @@ open class DatasetAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<RiskLineage> 
      */
-    open class func riskDatasetLineageWithRequestBuilder(name: String, version: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RiskLineage> {
+    open class func riskDatasetLineageWithRequestBuilder(name: String, version: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RiskLineage> {
         var localVariablePath = "/v1/dataset/{name}/lineage"
         let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -238,7 +238,7 @@ open class DatasetAPI {
      - returns: RiskDatasetRows
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func riskExportDataset(name: String, version: Int? = nil, split: String? = nil, offset: Int? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RiskDatasetRows {
+    open class func riskExportDataset(name: String, version: Int64? = nil, split: String? = nil, offset: Int64? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> RiskDatasetRows {
         return try await riskExportDatasetWithRequestBuilder(name: name, version: version, split: split, offset: offset, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -257,7 +257,7 @@ open class DatasetAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<RiskDatasetRows> 
      */
-    open class func riskExportDatasetWithRequestBuilder(name: String, version: Int? = nil, split: String? = nil, offset: Int? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RiskDatasetRows> {
+    open class func riskExportDatasetWithRequestBuilder(name: String, version: Int64? = nil, split: String? = nil, offset: Int64? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<RiskDatasetRows> {
         var localVariablePath = "/v1/dataset/{name}/export"
         let namePreEscape = "\(APIHelper.mapValueToPathItem(name))"
         let namePostEscape = namePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""

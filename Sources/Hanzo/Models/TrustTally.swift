@@ -10,19 +10,19 @@ import Foundation
 public struct TrustTally: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Absent is how many the organization does not have. An absent control still names the clause it would satisfy — that is a roadmap — but it never moves a coverage number. */
-    public var absent: Int?
+    public var absent: Int64?
     /** Automated is how many run with nobody in the loop. */
-    public var automated: Int?
+    public var automated: Int64?
     /** Partial is how many run but do not cover their whole claim. Each says what is missing. */
-    public var partial: Int?
+    public var partial: Int64?
     /** Statement is the counts as one sentence, safe to quote. */
     public var statement: String?
     /** Total is how many controls this organization publishes. */
-    public var total: Int?
+    public var total: Int64?
     /** Unverified is how many rest on somebody having READ the source rather than on a test or an audit row. Only a check that can FAIL counts as verified, and coverage counts those one rung weaker than they claim to be. */
-    public var unverified: Int?
+    public var unverified: Int64?
 
-    public init(absent: Int? = nil, automated: Int? = nil, partial: Int? = nil, statement: String? = nil, total: Int? = nil, unverified: Int? = nil) {
+    public init(absent: Int64? = nil, automated: Int64? = nil, partial: Int64? = nil, statement: String? = nil, total: Int64? = nil, unverified: Int64? = nil) {
         self.absent = absent
         self.automated = automated
         self.partial = partial

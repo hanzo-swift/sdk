@@ -12,7 +12,7 @@ public struct WebQuestion: Sendable, Codable, ParameterConvertible, Hashable {
     /** Language narrows the search to a locale, BCP-47-ish (\"en\", \"ja\"). Empty means no narrowing. */
     public var language: String?
     /** MaxSources caps how many pages are read. Empty means the mode's own budget. */
-    public var maxSources: Int?
+    public var maxSources: Int64?
     /** Mode is how much work to do: `search` (fast, one pass), `news` (recency biased), `research` (a plan and several rounds) or `deep` (the widest survey). Empty means research. */
     public var mode: String?
     /** Q is the question, in plain language. Required. */
@@ -20,7 +20,7 @@ public struct WebQuestion: Sendable, Codable, ParameterConvertible, Hashable {
     /** Sources narrows where the evidence comes from: any of `web`, `news`, `academic`, `github`, `reddit`, `x`. Each becomes a site-scoped search, so `[\"x\"]` researches X/Twitter posts rather than the open web. */
     public var sources: [String]?
 
-    public init(language: String? = nil, maxSources: Int? = nil, mode: String? = nil, q: String? = nil, sources: [String]? = nil) {
+    public init(language: String? = nil, maxSources: Int64? = nil, mode: String? = nil, q: String? = nil, sources: [String]? = nil) {
         self.language = language
         self.maxSources = maxSources
         self.mode = mode

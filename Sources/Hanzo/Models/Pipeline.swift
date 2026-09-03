@@ -10,7 +10,7 @@ import Foundation
 public struct Pipeline: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Behind counts commits after the one that last produced an image whose own build has FINISHED without producing one, and Since is when the oldest of them landed. A commit still building is not counted, so a push in flight is not drift and a service appears here only once something has actually stopped without shipping. How long that has stood is the number worth acting on; that it is true says nothing about whether anyone should move. */
-    public var behind: Int?
+    public var behind: Int64?
     public var built: Artifact?
     public var declared: Artifact?
     public var drift: [String]?
@@ -24,14 +24,14 @@ public struct Pipeline: Sendable, Codable, ParameterConvertible, Hashable {
     /** Hanzo Git owner; empty when the repo is unresolved */
     public var org: String?
     public var pinnedAt: Date?
-    public var ready: Int?
+    public var ready: Int64?
     /** hanzo-inc/cloud */
     public var repo: String?
     public var running: Artifact?
     public var since: Date?
-    public var want: Int?
+    public var want: Int64?
 
-    public init(behind: Int? = nil, built: Artifact? = nil, declared: Artifact? = nil, drift: [String]? = nil, head: Tip? = nil, image: String? = nil, name: String? = nil, namespace: String? = nil, org: String? = nil, pinnedAt: Date? = nil, ready: Int? = nil, repo: String? = nil, running: Artifact? = nil, since: Date? = nil, want: Int? = nil) {
+    public init(behind: Int64? = nil, built: Artifact? = nil, declared: Artifact? = nil, drift: [String]? = nil, head: Tip? = nil, image: String? = nil, name: String? = nil, namespace: String? = nil, org: String? = nil, pinnedAt: Date? = nil, ready: Int64? = nil, repo: String? = nil, running: Artifact? = nil, since: Date? = nil, want: Int64? = nil) {
         self.behind = behind
         self.built = built
         self.declared = declared

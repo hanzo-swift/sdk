@@ -10,25 +10,25 @@ import Foundation
 public struct BoardTotals: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** tokens the models answered with */
-    public var completionTokens: Int?
+    public var completionTokens: Int64?
     /** what the window cost, in cents */
-    public var costCents: Int?
+    public var costCents: Int64?
     /** calls that did not succeed */
-    public var errors: Int?
+    public var errors: Int64?
     /** how many model calls the window holds */
-    public var generations: Int?
+    public var generations: Int64?
     /** how many distinct models were called */
-    public var models: Int?
+    public var models: Int64?
     /** tokens sent to the models */
-    public var promptTokens: Int?
+    public var promptTokens: Int64?
     /** share of calls that succeeded, 0..1 */
     public var successRate: Double?
     /** prompt plus completion */
-    public var totalTokens: Int?
+    public var totalTokens: Int64?
     /** how many distinct users called them */
-    public var users: Int?
+    public var users: Int64?
 
-    public init(completionTokens: Int? = nil, costCents: Int? = nil, errors: Int? = nil, generations: Int? = nil, models: Int? = nil, promptTokens: Int? = nil, successRate: Double? = nil, totalTokens: Int? = nil, users: Int? = nil) {
+    public init(completionTokens: Int64? = nil, costCents: Int64? = nil, errors: Int64? = nil, generations: Int64? = nil, models: Int64? = nil, promptTokens: Int64? = nil, successRate: Double? = nil, totalTokens: Int64? = nil, users: Int64? = nil) {
         self.completionTokens = completionTokens
         self.costCents = costCents
         self.errors = errors

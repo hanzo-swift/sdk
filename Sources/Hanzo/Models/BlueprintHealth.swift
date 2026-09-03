@@ -10,7 +10,7 @@ import Foundation
 public struct BlueprintHealth: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Blueprints is how many blueprints this build has embedded and priced. */
-    public var blueprints: Int?
+    public var blueprints: Int64?
     /** RateCard is the rate card actually in force after the operator env overlay (CLOUD_BLUEPRINT_UCPU_HR / CLOUD_BLUEPRINT_UGB_HR), not the shipped default. */
     public var rateCard: RateCard?
     /** Service names the subsystem answering — always \"blueprint\". */
@@ -18,7 +18,7 @@ public struct BlueprintHealth: Sendable, Codable, ParameterConvertible, Hashable
     /** Status is \"ok\"; the route answers 200 whenever the subsystem is mounted. */
     public var status: String?
 
-    public init(blueprints: Int? = nil, rateCard: RateCard? = nil, service: String? = nil, status: String? = nil) {
+    public init(blueprints: Int64? = nil, rateCard: RateCard? = nil, service: String? = nil, status: String? = nil) {
         self.blueprints = blueprints
         self.rateCard = rateCard
         self.service = service

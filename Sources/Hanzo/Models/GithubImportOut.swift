@@ -10,11 +10,11 @@ import Foundation
 public struct GithubImportOut: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Queued is how many repositories were handed to the background importer. */
-    public var queued: Int?
+    public var queued: Int64?
     /** Repos names those repositories, in the installation's listing order. */
     public var repos: [String]?
 
-    public init(queued: Int? = nil, repos: [String]? = nil) {
+    public init(queued: Int64? = nil, repos: [String]? = nil) {
         self.queued = queued
         self.repos = repos
     }

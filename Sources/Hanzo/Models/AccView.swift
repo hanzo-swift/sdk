@@ -12,11 +12,11 @@ public struct AccView: Sendable, Codable, ParameterConvertible, Hashable {
     /** Basis is the qualification category: income, net_worth, professional_license, or entity. */
     public var basis: String?
     /** CreatedAt is the unix second the record was created. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** EvidenceDocID references an evidence document in the org's sealed data room. */
     public var evidenceDocId: String?
     /** ExpiresAt is the unix second a confirmation ages out; 0 means none. */
-    public var expiresAt: Int?
+    public var expiresAt: Int64?
     /** ID is the accreditation record's opaque id. */
     public var id: String?
     /** Method is how the state was established: self_attested, third_party_letter, or provider_verified. */
@@ -30,9 +30,9 @@ public struct AccView: Sendable, Codable, ParameterConvertible, Hashable {
     /** SubjectID is the opaque id of the subject the record is about. */
     public var subjectId: String?
     /** UpdatedAt is the unix second the record last changed. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
 
-    public init(basis: String? = nil, createdAt: Int? = nil, evidenceDocId: String? = nil, expiresAt: Int? = nil, id: String? = nil, method: String? = nil, note: String? = nil, reviewerSub: String? = nil, status: String? = nil, subjectId: String? = nil, updatedAt: Int? = nil) {
+    public init(basis: String? = nil, createdAt: Int64? = nil, evidenceDocId: String? = nil, expiresAt: Int64? = nil, id: String? = nil, method: String? = nil, note: String? = nil, reviewerSub: String? = nil, status: String? = nil, subjectId: String? = nil, updatedAt: Int64? = nil) {
         self.basis = basis
         self.createdAt = createdAt
         self.evidenceDocId = evidenceDocId

@@ -10,7 +10,7 @@ import Foundation
 public struct O11yAnnQueueDetailView: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CompletedCount is how many have been reviewed. */
-    public var completedCount: Int?
+    public var completedCount: Int64?
     /** CreatedAt is when it was created, RFC3339 in UTC. */
     public var createdAt: String?
     /** Description is its free text, omitted when empty. */
@@ -22,13 +22,13 @@ public struct O11yAnnQueueDetailView: Sendable, Codable, ParameterConvertible, H
     /** Name is its display handle. */
     public var name: String?
     /** PendingCount is how many of its items are still awaiting review. */
-    public var pendingCount: Int?
+    public var pendingCount: Int64?
     /** ScoreConfigIDs are the eval score-configs reviewers grade against. */
     public var scoreConfigIds: [String]?
     /** UpdatedAt is when it last changed, RFC3339 in UTC. */
     public var updatedAt: String?
 
-    public init(completedCount: Int? = nil, createdAt: String? = nil, description: String? = nil, id: String? = nil, items: [O11yAnnItemView]? = nil, name: String? = nil, pendingCount: Int? = nil, scoreConfigIds: [String]? = nil, updatedAt: String? = nil) {
+    public init(completedCount: Int64? = nil, createdAt: String? = nil, description: String? = nil, id: String? = nil, items: [O11yAnnItemView]? = nil, name: String? = nil, pendingCount: Int64? = nil, scoreConfigIds: [String]? = nil, updatedAt: String? = nil) {
         self.completedCount = completedCount
         self.createdAt = createdAt
         self.description = description

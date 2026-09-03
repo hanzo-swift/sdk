@@ -435,6 +435,56 @@ open class TeamAPI {
     }
 
     /**
+     Lists the rooms orgs have published, across every org.
+     
+     - parameter q: (query) Q matches a room&#39;s name or its topic. (optional)
+     - parameter org: (query) Org narrows to one org&#39;s published rooms. (optional)
+     - parameter limit: (query) Limit caps the page, 50 when unstated and 200 at most. An unparseable value reads as unstated rather than as zero — zero pages is not an answer anybody asked for. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: PublicRooms
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func getTeamPublic(q: String? = nil, org: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> PublicRooms {
+        return try await getTeamPublicWithRequestBuilder(q: q, org: org, limit: limit, apiConfiguration: apiConfiguration).execute().body
+    }
+
+    /**
+     Lists the rooms orgs have published, across every org.
+     - GET /v1/team/public
+     - Lists the rooms orgs have published, across every org.  It is NOT part of GET /rooms, and the separation is the point: that address answers the CALLER'S rooms, so folding these in would put strangers' channels in somebody's own sidebar.  It reads the directory and never a tenant's store. Every field it can answer with is one an org published by making a room public, so there is nothing here to scope by org — a directory only its own org can read is not a directory. An authenticated principal is still required, because an anonymous crawler is not who this is for.
+     - Bearer Token:
+       - type: http
+       - name: bearer
+     - parameter q: (query) Q matches a room&#39;s name or its topic. (optional)
+     - parameter org: (query) Org narrows to one org&#39;s published rooms. (optional)
+     - parameter limit: (query) Limit caps the page, 50 when unstated and 200 at most. An unparseable value reads as unstated rather than as zero — zero pages is not an answer anybody asked for. (optional)
+     - parameter apiConfiguration: The configuration for the http request.
+     - returns: RequestBuilder<PublicRooms> 
+     */
+    open class func getTeamPublicWithRequestBuilder(q: String? = nil, org: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<PublicRooms> {
+        let localVariablePath = "/v1/team/public"
+        let localVariableURLString = apiConfiguration.basePath + localVariablePath
+        let localVariableParameters: [String: any Sendable]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "q": (wrappedValue: q?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "org": (wrappedValue: org?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+            "limit": (wrappedValue: limit?.asParameter(codableHelper: apiConfiguration.codableHelper), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: (any Sendable)?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<PublicRooms>.Type = apiConfiguration.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true, apiConfiguration: apiConfiguration)
+    }
+
+    /**
      Returns every room of the caller's org, across the spaces it owns, with the work facet each carries.
      
      - parameter apiConfiguration: The configuration for the http request.

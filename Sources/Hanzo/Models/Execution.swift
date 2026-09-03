@@ -14,8 +14,8 @@ public struct Execution: Sendable, Codable, ParameterConvertible, Hashable {
     public var conclusion: String?
     public var endedAt: Date?
     public var event: String?
-    public var id: Int?
-    public var number: Int?
+    public var id: Int64?
+    public var number: Int64?
     public var org: String?
     public var repo: String?
     public var sha: String?
@@ -26,7 +26,7 @@ public struct Execution: Sendable, Codable, ParameterConvertible, Hashable {
     public var url: String?
     public var workflow: String?
 
-    public init(actor: String? = nil, branch: String? = nil, conclusion: String? = nil, endedAt: Date? = nil, event: String? = nil, id: Int? = nil, number: Int? = nil, org: String? = nil, repo: String? = nil, sha: String? = nil, startedAt: Date? = nil, status: String? = nil, title: String? = nil, url: String? = nil, workflow: String? = nil) {
+    public init(actor: String? = nil, branch: String? = nil, conclusion: String? = nil, endedAt: Date? = nil, event: String? = nil, id: Int64? = nil, number: Int64? = nil, org: String? = nil, repo: String? = nil, sha: String? = nil, startedAt: Date? = nil, status: String? = nil, title: String? = nil, url: String? = nil, workflow: String? = nil) {
         self.actor = actor
         self.branch = branch
         self.conclusion = conclusion

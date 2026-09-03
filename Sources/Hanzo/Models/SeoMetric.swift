@@ -14,15 +14,15 @@ public struct SeoMetric: Sendable, Codable, ParameterConvertible, Hashable {
     /** CPC is the average cost of one advertising click, in USD. It is a reported statistic about somebody else's auction, not an amount this API moves. */
     public var cpc: Double?
     /** Difficulty is how hard the first page is to reach organically, 0 to 100. Present on seoIdea, which measures it; absent on seoKeyword, which does not. */
-    public var difficulty: Int?
+    public var difficulty: Int64?
     /** Keyword is the phrase. */
     public var keyword: String?
     /** Level is the same fact as a word: low, medium or high. */
     public var level: String?
     /** Volume is the average monthly searches. */
-    public var volume: Int?
+    public var volume: Int64?
 
-    public init(competition: Double? = nil, cpc: Double? = nil, difficulty: Int? = nil, keyword: String? = nil, level: String? = nil, volume: Int? = nil) {
+    public init(competition: Double? = nil, cpc: Double? = nil, difficulty: Int64? = nil, keyword: String? = nil, level: String? = nil, volume: Int64? = nil) {
         self.competition = competition
         self.cpc = cpc
         self.difficulty = difficulty

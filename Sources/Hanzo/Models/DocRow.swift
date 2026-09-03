@@ -28,9 +28,9 @@ public struct DocRow: Sendable, Codable, ParameterConvertible, Hashable {
     /** Title is what the document is called. */
     public var title: String?
     /** Updated is when the record last changed, unix milliseconds. */
-    public var updated: Int?
+    public var updated: Int64?
 
-    public init(attested: Bool? = nil, href: String? = nil, id: String? = nil, kind: String? = nil, label: String? = nil, note: String? = nil, released: Bool? = nil, tier: String? = nil, title: String? = nil, updated: Int? = nil) {
+    public init(attested: Bool? = nil, href: String? = nil, id: String? = nil, kind: String? = nil, label: String? = nil, note: String? = nil, released: Bool? = nil, tier: String? = nil, title: String? = nil, updated: Int64? = nil) {
         self.attested = attested
         self.href = href
         self.id = id

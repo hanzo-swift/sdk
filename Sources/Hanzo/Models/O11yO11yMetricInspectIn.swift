@@ -10,15 +10,15 @@ import Foundation
 public struct O11yO11yMetricInspectIn: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** End is the end of the window as a Unix timestamp in milliseconds, at most thirty minutes after start. Required. */
-    public var end: Int
+    public var end: Int64
     /** Filter narrows the series returned. */
     public var filter: O11yO11yMetricFilter?
     /** MetricName is the metric to inspect. Required. */
     public var metricName: String
     /** Start is the start of the window as a Unix timestamp in milliseconds. Required. */
-    public var start: Int
+    public var start: Int64
 
-    public init(end: Int, filter: O11yO11yMetricFilter? = nil, metricName: String, start: Int) {
+    public init(end: Int64, filter: O11yO11yMetricFilter? = nil, metricName: String, start: Int64) {
         self.end = end
         self.filter = filter
         self.metricName = metricName

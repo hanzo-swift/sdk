@@ -10,11 +10,11 @@ import Foundation
 public struct RenewResult: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** what this renewal cost, in cents */
-    public var paidCents: Int?
+    public var paidCents: Int64?
     /** the ownership row with its new expiry */
     public var record: Holding?
 
-    public init(paidCents: Int? = nil, record: Holding? = nil) {
+    public init(paidCents: Int64? = nil, record: Holding? = nil) {
         self.paidCents = paidCents
         self.record = record
     }

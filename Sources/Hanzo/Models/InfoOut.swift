@@ -12,17 +12,17 @@ public struct InfoOut: Sendable, Codable, ParameterConvertible, Hashable {
     /** JetStream is true when durable streams are enabled. */
     public var jetstream: Bool?
     /** MaxPayload is the broker's message-size ceiling in bytes. */
-    public var maxPayload: Int?
+    public var maxPayload: Int64?
     /** Server is the broker's server id. */
     public var serverId: String?
     /** Name is the broker's server name. */
     public var serverName: String?
     /** Streams is the org's stream count. */
-    public var streams: Int?
+    public var streams: Int64?
     /** Version is the broker's server version. */
     public var version: String?
 
-    public init(jetstream: Bool? = nil, maxPayload: Int? = nil, serverId: String? = nil, serverName: String? = nil, streams: Int? = nil, version: String? = nil) {
+    public init(jetstream: Bool? = nil, maxPayload: Int64? = nil, serverId: String? = nil, serverName: String? = nil, streams: Int64? = nil, version: String? = nil) {
         self.jetstream = jetstream
         self.maxPayload = maxPayload
         self.serverId = serverId

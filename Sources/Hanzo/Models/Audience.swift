@@ -10,7 +10,7 @@ import Foundation
 public struct Audience: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** CreatedAt is unix seconds when the filter was saved, server-assigned. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** Event is the analytics event a member must have fired. EMPTY MEANS NO FILTER: the audience is then every mailable customer in the org, and no warehouse is consulted. */
     public var event: String?
     /** ID is the server-assigned audience id (\"aud_\" + 128 random bits). */
@@ -18,11 +18,11 @@ public struct Audience: Sendable, Codable, ParameterConvertible, Hashable {
     /** Name is the audience's label. Required, trimmed, capped at 1024 bytes. */
     public var name: String?
     /** UpdatedAt is unix seconds of the last write, server-assigned, and the key the audience list is ordered by (newest first). A saved audience has no update route, so in practice it stays equal to CreatedAt: to change a filter you save another one. */
-    public var updatedAt: Int?
+    public var updatedAt: Int64?
     /** WindowDays is how far back the event counts, ending now. 0 means 30 and nothing above 3650 is honoured. Ignored when Event is empty. */
-    public var windowDays: Int?
+    public var windowDays: Int64?
 
-    public init(createdAt: Int? = nil, event: String? = nil, id: String? = nil, name: String? = nil, updatedAt: Int? = nil, windowDays: Int? = nil) {
+    public init(createdAt: Int64? = nil, event: String? = nil, id: String? = nil, name: String? = nil, updatedAt: Int64? = nil, windowDays: Int64? = nil) {
         self.createdAt = createdAt
         self.event = event
         self.id = id

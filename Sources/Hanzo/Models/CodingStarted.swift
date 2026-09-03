@@ -9,15 +9,10 @@ import Foundation
 
 public struct CodingStarted: Sendable, Codable, ParameterConvertible, Hashable {
 
-    /** Branch is the ref the run will push its work to, and the ONLY ref it is permitted to write. It exists before the work does, so it is safe to tell somebody where to look while the run is still going. */
     public var branch: String?
-    /** Repo is the repository the run was admitted against, echoed back as the engine resolved it. */
     public var repo: String?
-    /** Routed says the run went to one of the org's own registered machines rather than to a sandbox in our cluster. False is the ordinary case. */
     public var routed: Bool?
-    /** SessionID is the run's handle: its durable record, and the id its live progress streams under at /v1/agents/sessions/{sessionId}/stream. Every later question about this run is asked with it. */
     public var sessionId: String?
-    /** TargetID names that machine when Routed is true, and is empty otherwise. */
     public var targetId: String?
 
     public init(branch: String? = nil, repo: String? = nil, routed: Bool? = nil, sessionId: String? = nil, targetId: String? = nil) {

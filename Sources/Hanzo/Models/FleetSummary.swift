@@ -12,9 +12,9 @@ public struct FleetSummary: Sendable, Codable, ParameterConvertible, Hashable {
     /** ByDrift counts those rows green, yellow and red. */
     public var byDrift: DriftTally?
     /** Total is how many rows the board returned, after filtering. */
-    public var total: Int?
+    public var total: Int64?
 
-    public init(byDrift: DriftTally? = nil, total: Int? = nil) {
+    public init(byDrift: DriftTally? = nil, total: Int64? = nil) {
         self.byDrift = byDrift
         self.total = total
     }

@@ -28,13 +28,13 @@ public struct Receipt: Sendable, Codable, ParameterConvertible, Hashable {
     /** Resource is what was paid for, in the same spelling the price table and the challenge used: the request path for a priced route, \"tool:<id>\" for a priced tool. */
     public var resource: String?
     /** SettledAt is when this settlement was CLAIMED, in unix seconds — the moment the authorization was accepted, which is also the moment the time window it carried stopped applying. A settlement finished later by reconciliation keeps this instant. */
-    public var settledAt: Int?
+    public var settledAt: Int64?
     /** SettledVia is which rail moved the money: \"ledger\", the live default, or \"chain\" when the authorization is broadcast. Those two values and no others. */
     public var settledVia: String?
     /** TxHash is the chain transaction hash, present only for a \"chain\" settlement. Empty on a ledger settlement — that is the normal case today, and it means the money moved without a chain, not that it failed. The wire's PAYMENT-RESPONSE `transaction` falls back to ID when this is empty. */
     public var txHash: String?
 
-    public init(amount: String? = nil, from: String? = nil, id: String? = nil, network: String? = nil, nonce: String? = nil, payee: String? = nil, payeeOrg: String? = nil, payer: String? = nil, resource: String? = nil, settledAt: Int? = nil, settledVia: String? = nil, txHash: String? = nil) {
+    public init(amount: String? = nil, from: String? = nil, id: String? = nil, network: String? = nil, nonce: String? = nil, payee: String? = nil, payeeOrg: String? = nil, payer: String? = nil, resource: String? = nil, settledAt: Int64? = nil, settledVia: String? = nil, txHash: String? = nil) {
         self.amount = amount
         self.from = from
         self.id = id

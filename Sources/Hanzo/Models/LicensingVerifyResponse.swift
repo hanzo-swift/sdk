@@ -12,7 +12,7 @@ public struct LicensingVerifyResponse: Sendable, Codable, ParameterConvertible, 
     /** AppID is the brand the token runs under. */
     public var appId: String?
     /** Exp is the token's expiry, Unix seconds. */
-    public var exp: Int?
+    public var exp: Int64?
     /** Features are the capability grants the token carries. */
     public var features: [String]?
     /** Bound reports that the token carries a device binding. */
@@ -28,7 +28,7 @@ public struct LicensingVerifyResponse: Sendable, Codable, ParameterConvertible, 
     /** Valid is the single answer: signature, schema, expiry, app and revocation all passed. */
     public var valid: Bool?
 
-    public init(appId: String? = nil, exp: Int? = nil, features: [String]? = nil, fingerprintBound: Bool? = nil, holder: String? = nil, nonce: String? = nil, reason: String? = nil, revoked: Bool? = nil, valid: Bool? = nil) {
+    public init(appId: String? = nil, exp: Int64? = nil, features: [String]? = nil, fingerprintBound: Bool? = nil, holder: String? = nil, nonce: String? = nil, reason: String? = nil, revoked: Bool? = nil, valid: Bool? = nil) {
         self.appId = appId
         self.exp = exp
         self.features = features

@@ -14,13 +14,13 @@ public struct CaptableEquityPlan: Sendable, Codable, ParameterConvertible, Hasha
     /** Comments is free-form notes on the plan. */
     public var comments: String?
     /** CreatedAt is when the plan was recorded, in unix milliseconds. */
-    public var createdAt: Int?
+    public var createdAt: Int64?
     /** DefaultCancellatonBehavior is what happens to cancelled grants, RETIRE or RETURN_TO_POOL. The key is spelled as the cap-table wire spells it. */
     public var defaultCancellatonBehavior: String?
     /** ID is the equity plan id. */
     public var id: String?
     /** InitialSharesReserved is how many shares the plan reserves. */
-    public var initialSharesReserved: Int?
+    public var initialSharesReserved: Int64?
     /** Name is the plan name, e.g. \"2026 Stock Option Plan\". */
     public var name: String?
     /** PlanEffectiveDate is the ISO date the plan takes effect. */
@@ -28,7 +28,7 @@ public struct CaptableEquityPlan: Sendable, Codable, ParameterConvertible, Hasha
     /** ShareClassID is the class the reserved shares come from. */
     public var shareClassId: String?
 
-    public init(boardApprovalDate: String? = nil, comments: String? = nil, createdAt: Int? = nil, defaultCancellatonBehavior: String? = nil, id: String? = nil, initialSharesReserved: Int? = nil, name: String? = nil, planEffectiveDate: String? = nil, shareClassId: String? = nil) {
+    public init(boardApprovalDate: String? = nil, comments: String? = nil, createdAt: Int64? = nil, defaultCancellatonBehavior: String? = nil, id: String? = nil, initialSharesReserved: Int64? = nil, name: String? = nil, planEffectiveDate: String? = nil, shareClassId: String? = nil) {
         self.boardApprovalDate = boardApprovalDate
         self.comments = comments
         self.createdAt = createdAt

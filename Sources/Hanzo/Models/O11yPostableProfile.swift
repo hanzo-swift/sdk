@@ -11,15 +11,15 @@ public struct O11yPostableProfile: Sendable, Codable, ParameterConvertible, Hash
 
     public var existingObservabilityTool: String?
     public var hasExistingObservabilityTool: Bool?
-    public var logsScalePerDayInGb: Int?
-    public var numberOfHosts: Int?
-    public var numberOfServices: Int?
+    public var logsScalePerDayInGb: Int64?
+    public var numberOfHosts: Int64?
+    public var numberOfServices: Int64?
     public var reasonsForInterestInO11y: [String]?
     public var timelineForMigratingToO11y: String?
     public var usesOtel: Bool?
     public var whereDidYouDiscoverO11y: String?
 
-    public init(existingObservabilityTool: String? = nil, hasExistingObservabilityTool: Bool? = nil, logsScalePerDayInGb: Int? = nil, numberOfHosts: Int? = nil, numberOfServices: Int? = nil, reasonsForInterestInO11y: [String]? = nil, timelineForMigratingToO11y: String? = nil, usesOtel: Bool? = nil, whereDidYouDiscoverO11y: String? = nil) {
+    public init(existingObservabilityTool: String? = nil, hasExistingObservabilityTool: Bool? = nil, logsScalePerDayInGb: Int64? = nil, numberOfHosts: Int64? = nil, numberOfServices: Int64? = nil, reasonsForInterestInO11y: [String]? = nil, timelineForMigratingToO11y: String? = nil, usesOtel: Bool? = nil, whereDidYouDiscoverO11y: String? = nil) {
         self.existingObservabilityTool = existingObservabilityTool
         self.hasExistingObservabilityTool = hasExistingObservabilityTool
         self.logsScalePerDayInGb = logsScalePerDayInGb

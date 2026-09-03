@@ -14,9 +14,9 @@ public struct SeoKeywordIn: Sendable, Codable, ParameterConvertible, Hashable {
     /** Language is the ISO code. Defaults to \"en\". */
     public var language: String?
     /** Location is the market, as the upstream's numeric code. Defaults to 2840, the United States. */
-    public var location: Int?
+    public var location: Int64?
 
-    public init(keywords: [String]? = nil, language: String? = nil, location: Int? = nil) {
+    public init(keywords: [String]? = nil, language: String? = nil, location: Int64? = nil) {
         self.keywords = keywords
         self.language = language
         self.location = location

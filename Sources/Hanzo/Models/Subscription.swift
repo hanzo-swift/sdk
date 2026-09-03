@@ -18,18 +18,18 @@ public struct Subscription: Sendable, Codable, ParameterConvertible, Hashable {
     public var endedAt: String?
     public var id: String?
     /** MRRCents is what this subscription contributes per month — commerce's own figure, interval-normalized and multiplied by its seats, so no reader re-derives it from price and interval. */
-    public var mrrCents: Int?
+    public var mrrCents: Int64?
     public var plan: SubscriptionPlan?
     public var planId: String?
     public var providerType: String?
-    public var quantity: Int?
+    public var quantity: Int64?
     public var status: String?
     public var trialEnd: String?
     public var trialStart: String?
     public var updatedAt: String?
     public var userId: String?
 
-    public init(cancelAtPeriodEnd: Bool? = nil, canceledAt: String? = nil, createdAt: String? = nil, currentPeriodEnd: String? = nil, currentPeriodStart: String? = nil, defaultPaymentMethod: String? = nil, endedAt: String? = nil, id: String? = nil, mrrCents: Int? = nil, plan: SubscriptionPlan? = nil, planId: String? = nil, providerType: String? = nil, quantity: Int? = nil, status: String? = nil, trialEnd: String? = nil, trialStart: String? = nil, updatedAt: String? = nil, userId: String? = nil) {
+    public init(cancelAtPeriodEnd: Bool? = nil, canceledAt: String? = nil, createdAt: String? = nil, currentPeriodEnd: String? = nil, currentPeriodStart: String? = nil, defaultPaymentMethod: String? = nil, endedAt: String? = nil, id: String? = nil, mrrCents: Int64? = nil, plan: SubscriptionPlan? = nil, planId: String? = nil, providerType: String? = nil, quantity: Int64? = nil, status: String? = nil, trialEnd: String? = nil, trialStart: String? = nil, updatedAt: String? = nil, userId: String? = nil) {
         self.cancelAtPeriodEnd = cancelAtPeriodEnd
         self.canceledAt = canceledAt
         self.createdAt = createdAt

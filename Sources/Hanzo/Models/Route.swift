@@ -18,13 +18,13 @@ public struct Route: Sendable, Codable, ParameterConvertible, Hashable {
     /** PathPrefix narrows the match to requests under this path; it must start with \"/\". Empty matches every path on the host. */
     public var pathPrefix: String?
     /** Priority orders routes that share a host: higher wins, and equal priorities fall back to the longer PathPrefix. */
-    public var priority: Int?
+    public var priority: Int64?
     /** Service is the id of the backend pool this route dispatches to. A route naming a service that does not exist is skipped at compile, not served. */
     public var service: String?
     /** TLS asks the edge to terminate TLS for Host with an ACME-managed certificate. */
     public var tls: Bool?
 
-    public init(host: String? = nil, id: String? = nil, middlewares: [String]? = nil, pathPrefix: String? = nil, priority: Int? = nil, service: String? = nil, tls: Bool? = nil) {
+    public init(host: String? = nil, id: String? = nil, middlewares: [String]? = nil, pathPrefix: String? = nil, priority: Int64? = nil, service: String? = nil, tls: Bool? = nil) {
         self.host = host
         self.id = id
         self.middlewares = middlewares

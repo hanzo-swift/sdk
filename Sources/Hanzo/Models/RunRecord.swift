@@ -16,7 +16,7 @@ public struct RunRecord: Sendable, Codable, ParameterConvertible, Hashable {
     /** Dataset is the set that was scored. */
     public var dataset: String?
     /** Items is how many examples were attempted. */
-    public var items: Int?
+    public var items: Int64?
     /** JudgeModel is the model that graded. */
     public var judgeModel: String?
     /** Model is the model under test. */
@@ -24,11 +24,11 @@ public struct RunRecord: Sendable, Codable, ParameterConvertible, Hashable {
     /** RunName is the run's label. */
     public var runName: String?
     /** Scored is how many produced a real score. */
-    public var scored: Int?
+    public var scored: Int64?
     /** UpdatedAt is when the record last changed. */
     public var updatedAt: String?
 
-    public init(avgScore: Double? = nil, createdAt: String? = nil, dataset: String? = nil, items: Int? = nil, judgeModel: String? = nil, model: String? = nil, runName: String? = nil, scored: Int? = nil, updatedAt: String? = nil) {
+    public init(avgScore: Double? = nil, createdAt: String? = nil, dataset: String? = nil, items: Int64? = nil, judgeModel: String? = nil, model: String? = nil, runName: String? = nil, scored: Int64? = nil, updatedAt: String? = nil) {
         self.avgScore = avgScore
         self.createdAt = createdAt
         self.dataset = dataset

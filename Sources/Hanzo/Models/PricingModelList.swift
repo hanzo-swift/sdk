@@ -12,11 +12,11 @@ public struct PricingModelList: Sendable, Codable, ParameterConvertible, Hashabl
     /** Models are the catalog entries visible to the caller, each an opaque object exactly as the pricing source emits it, with any admin override merged on top. An admin additionally sees hidden entries, each annotated under \"_overlay\". */
     public var models: [[String: JSONValue]]?
     /** Total is how many models this answer carries — recounted over the visible set, not the catalog's own total. */
-    public var total: Int?
+    public var total: Int64?
     /** Updated is when the catalog was last refreshed, as the pricing source recorded it. */
     public var updated: JSONValue?
 
-    public init(models: [[String: JSONValue]]? = nil, total: Int? = nil, updated: JSONValue? = nil) {
+    public init(models: [[String: JSONValue]]? = nil, total: Int64? = nil, updated: JSONValue? = nil) {
         self.models = models
         self.total = total
         self.updated = updated

@@ -10,11 +10,11 @@ import Foundation
 public struct GithubSearchReq: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Limit caps the answer; 0 takes the default and anything above the ceiling is clamped rather than refused. */
-    public var limit: Int?
+    public var limit: Int64?
     /** Q is GitHub's own search syntax, passed through: \"tetris language:go\", \"org:hanzoai stars:>10\". Passing it through rather than inventing a vocabulary means one thing to learn, and it is theirs. */
     public var q: String?
 
-    public init(limit: Int? = nil, q: String? = nil) {
+    public init(limit: Int64? = nil, q: String? = nil) {
         self.limit = limit
         self.q = q
     }

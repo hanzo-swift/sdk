@@ -10,7 +10,7 @@ import Foundation
 public struct Charged: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** BalanceCents is the subject's balance AFTER the charge settled, in cents, so a caller does not have to re-read to show the new number. */
-    public var balanceCents: Int?
+    public var balanceCents: Int64?
     /** ProcessorRef is the payment processor's own reference. It is the only field that proves money moved at the GATEWAY rather than merely in our ledger, which is why it is answered and not only logged. Absent where the processor returned none. */
     public var processorRef: String?
     /** Status is how the charge ended. Read it rather than inferring success from the HTTP status: the call succeeded whenever this field is present, and what the PROCESSOR did is what this says. */
@@ -20,7 +20,7 @@ public struct Charged: Sendable, Codable, ParameterConvertible, Hashable {
     /** TransactionID is the ledger entry this charge created. It is the handle a later read or a refund names, and it is minted by the ledger rather than by the caller. */
     public var transactionId: String?
 
-    public init(balanceCents: Int? = nil, processorRef: String? = nil, status: String? = nil, test: Bool? = nil, transactionId: String? = nil) {
+    public init(balanceCents: Int64? = nil, processorRef: String? = nil, status: String? = nil, test: Bool? = nil, transactionId: String? = nil) {
         self.balanceCents = balanceCents
         self.processorRef = processorRef
         self.status = status

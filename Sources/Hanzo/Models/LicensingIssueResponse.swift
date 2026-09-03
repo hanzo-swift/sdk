@@ -12,7 +12,7 @@ public struct LicensingIssueResponse: Sendable, Codable, ParameterConvertible, H
     /** AppID is the brand this token runs under (\"hanzo\" | \"lux\" | \"zoo\"). The engine refuses a token whose app_id is not the one it was built for. */
     public var appId: String?
     /** Exp is the token's expiry, Unix seconds. */
-    public var exp: Int?
+    public var exp: Int64?
     /** Features are the capability grants copied verbatim from the plan the org bought. The engine enforces exactly these. */
     public var features: [String]?
     /** Bound reports whether a device fingerprint was folded into the token. An unbound token runs on any machine; a bound one runs only on the machine it was bound to. */
@@ -24,7 +24,7 @@ public struct LicensingIssueResponse: Sendable, Codable, ParameterConvertible, H
     /** Token is the signed license, `base64url(payload).base64url(ed25519_sig)`. It is the credential the engine runs on — treat it as a secret. */
     public var token: String?
 
-    public init(appId: String? = nil, exp: Int? = nil, features: [String]? = nil, fingerprintBound: Bool? = nil, holder: String? = nil, nonce: String? = nil, token: String? = nil) {
+    public init(appId: String? = nil, exp: Int64? = nil, features: [String]? = nil, fingerprintBound: Bool? = nil, holder: String? = nil, nonce: String? = nil, token: String? = nil) {
         self.appId = appId
         self.exp = exp
         self.features = features

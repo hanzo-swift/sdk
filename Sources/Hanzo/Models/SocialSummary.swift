@@ -10,15 +10,15 @@ import Foundation
 public struct SocialSummary: Sendable, Codable, ParameterConvertible, Hashable {
 
     /** Accounts is how many accounts the org has connected, in any status. */
-    public var accounts: Int?
+    public var accounts: Int64?
     /** Posts is how many posts the org has, in any state. */
-    public var posts: Int?
+    public var posts: Int64?
     /** Published is how many of them have published. */
-    public var published: Int?
+    public var published: Int64?
     /** Scheduled is how many of them are waiting for their scheduled time. */
-    public var scheduled: Int?
+    public var scheduled: Int64?
 
-    public init(accounts: Int? = nil, posts: Int? = nil, published: Int? = nil, scheduled: Int? = nil) {
+    public init(accounts: Int64? = nil, posts: Int64? = nil, published: Int64? = nil, scheduled: Int64? = nil) {
         self.accounts = accounts
         self.posts = posts
         self.published = published

@@ -14,9 +14,9 @@ public struct UsageRepo: Sendable, Codable, ParameterConvertible, Hashable {
     /** Project is the sub-scope the repo lives in; absent for the default scope. */
     public var project: String?
     /** SizeBytes is the repo's on-disk size at its last measurement. */
-    public var sizeBytes: Int?
+    public var sizeBytes: Int64?
 
-    public init(name: String? = nil, project: String? = nil, sizeBytes: Int? = nil) {
+    public init(name: String? = nil, project: String? = nil, sizeBytes: Int64? = nil) {
         self.name = name
         self.project = project
         self.sizeBytes = sizeBytes

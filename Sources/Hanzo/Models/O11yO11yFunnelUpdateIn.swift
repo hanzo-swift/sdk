@@ -14,9 +14,9 @@ public struct O11yO11yFunnelUpdateIn: Sendable, Codable, ParameterConvertible, H
     /** Name replaces the funnel's name. Empty leaves it as it was. */
     public var funnelName: String?
     /** Timestamp is when the change was made, as a millisecond epoch. */
-    public var timestamp: Int?
+    public var timestamp: Int64?
 
-    public init(description: String? = nil, funnelName: String? = nil, timestamp: Int? = nil) {
+    public init(description: String? = nil, funnelName: String? = nil, timestamp: Int64? = nil) {
         self.description = description
         self.funnelName = funnelName
         self.timestamp = timestamp

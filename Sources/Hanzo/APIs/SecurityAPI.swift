@@ -19,7 +19,7 @@ open class SecurityAPI {
      - returns: FindingList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getSecurityFindings(scanId: String? = nil, minSeverity: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> FindingList {
+    open class func getSecurityFindings(scanId: String? = nil, minSeverity: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> FindingList {
         return try await getSecurityFindingsWithRequestBuilder(scanId: scanId, minSeverity: minSeverity, limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -36,7 +36,7 @@ open class SecurityAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<FindingList> 
      */
-    open class func getSecurityFindingsWithRequestBuilder(scanId: String? = nil, minSeverity: String? = nil, limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<FindingList> {
+    open class func getSecurityFindingsWithRequestBuilder(scanId: String? = nil, minSeverity: String? = nil, limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<FindingList> {
         let localVariablePath = "/v1/security/findings"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
@@ -189,7 +189,7 @@ open class SecurityAPI {
      - returns: ScanList
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open class func getSecurityScans(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ScanList {
+    open class func getSecurityScans(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) async throws(ErrorResponse) -> ScanList {
         return try await getSecurityScansWithRequestBuilder(limit: limit, apiConfiguration: apiConfiguration).execute().body
     }
 
@@ -204,7 +204,7 @@ open class SecurityAPI {
      - parameter apiConfiguration: The configuration for the http request.
      - returns: RequestBuilder<ScanList> 
      */
-    open class func getSecurityScansWithRequestBuilder(limit: Int? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ScanList> {
+    open class func getSecurityScansWithRequestBuilder(limit: Int64? = nil, apiConfiguration: HanzoAPIConfiguration = HanzoAPIConfiguration.shared) -> RequestBuilder<ScanList> {
         let localVariablePath = "/v1/security/scans"
         let localVariableURLString = apiConfiguration.basePath + localVariablePath
         let localVariableParameters: [String: any Sendable]? = nil
